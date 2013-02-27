@@ -26,6 +26,10 @@
  */
 
 require_once("../config.php");
+//+++ awag: Hookpoint H014: Ersatz local/course/category.php laden
+//Aufruf über local/course/category.php wegen Reverseproxy nicht möglich
+require_once($CFG->dirroot.'/local/course/category.php');
+//--- awag
 require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->libdir.'/textlib.class.php');
 

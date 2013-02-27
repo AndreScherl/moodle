@@ -25,7 +25,10 @@
 
 require('../../config.php');
 require_once($CFG->dirroot.'/report/outline/locallib.php');
-
+//+++ awag DS13 verhindert den direkten Aufruf des personenbezogenen Berichtes im Kontext eines Kurses für Nicht-Admins.
+ require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+ datenschutz::hook_local_report_outline_user_require_access_user_report();
+ //---
 $userid   = required_param('id', PARAM_INT);
 $courseid = required_param('course', PARAM_INT);
 $mode     = optional_param('mode', 'outline', PARAM_ALPHA);

@@ -305,8 +305,14 @@ class course_enrolment_manager {
 
         $fields      = 'SELECT '.$ufields;
         $countfields = 'SELECT COUNT(1)';
+
+        //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
+        //--- awag
+
         $sql = " FROM {user} u
-                WHERE $wherecondition
+                WHERE $wherecondition 
                       AND u.id NOT IN (SELECT ue.userid
                                          FROM {user_enrolments} ue
                                          JOIN {enrol} e ON (e.id = ue.enrolid AND e.id = :enrolid))";

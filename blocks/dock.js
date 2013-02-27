@@ -13,6 +13,11 @@ M.core_dock = {
     preventevent : null,    // Will be an eventtype if there is an eventyoe to prevent
     holdingarea : null
 };
+<<<<<<< HEAD
+=======
+
+//if (typeof(theme_load_dock_images) == "function") theme_load_dock_images();
+>>>>>>> master
 /**
  * Namespace containing the nodes that relate to the dock
  * @namespace
@@ -62,7 +67,10 @@ M.core_dock.init = function(Y) {
     this.initialised = true;
     this.Y = Y;
     this.nodes.body = Y.one(document.body);
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     // Give the dock item class the event properties/methods
     Y.augment(this.item, Y.EventTarget);
     Y.augment(this, Y.EventTarget, true);
@@ -96,7 +104,12 @@ M.core_dock.init = function(Y) {
 
         _keyHandler: function (e, notifier, args) {
             if (!args.actions) {
-                var actObj = {collapse:true, expand:true, toggle:true, enter:true};
+                var actObj = {
+                    collapse:true,
+                    expand:true,
+                    toggle:true,
+                    enter:true
+                };
             } else {
                 var actObj = args.actions;
             }
@@ -110,7 +123,9 @@ M.core_dock.init = function(Y) {
             // subscribe to _event and ask keyHandler to handle with given args[0] (the desired actions).
             if (sub.args == null) {
                 //no actions given
-                sub._detacher = node.on(this._event, this._keyHandler,this, notifier, {actions:false});
+                sub._detacher = node.on(this._event, this._keyHandler,this, notifier, {
+                    actions:false
+                });
             } else {
                 sub._detacher = node.on(this._event, this._keyHandler,this, notifier, sub.args[0]);
             }
@@ -125,7 +140,9 @@ M.core_dock.init = function(Y) {
             // subscribe to _event and ask keyHandler to handle with given args[0] (the desired actions).
             if (sub.args == null) {
                 //no actions given
-                sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, {actions:false});
+                sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, {
+                    actions:false
+                });
             } else {
                 sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, sub.args[0]);
             }
@@ -136,18 +153,44 @@ M.core_dock.init = function(Y) {
         }
     });
     // Publish the events the dock has
-    this.publish('dock:beforedraw', {prefix:'dock'});
-    this.publish('dock:beforeshow', {prefix:'dock'});
-    this.publish('dock:shown', {prefix:'dock'});
-    this.publish('dock:hidden', {prefix:'dock'});
-    this.publish('dock:initialised', {prefix:'dock'});
-    this.publish('dock:itemadded', {prefix:'dock'});
-    this.publish('dock:itemremoved', {prefix:'dock'});
-    this.publish('dock:itemschanged', {prefix:'dock'});
-    this.publish('dock:panelgenerated', {prefix:'dock'});
-    this.publish('dock:panelresizestart', {prefix:'dock'});
-    this.publish('dock:resizepanelcomplete', {prefix:'dock'});
-    this.publish('dock:starting', {prefix: 'dock',broadcast:  2,emitFacade: true});
+    this.publish('dock:beforedraw', {
+        prefix:'dock'
+    });
+    this.publish('dock:beforeshow', {
+        prefix:'dock'
+    });
+    this.publish('dock:shown', {
+        prefix:'dock'
+    });
+    this.publish('dock:hidden', {
+        prefix:'dock'
+    });
+    this.publish('dock:initialised', {
+        prefix:'dock'
+    });
+    this.publish('dock:itemadded', {
+        prefix:'dock'
+    });
+    this.publish('dock:itemremoved', {
+        prefix:'dock'
+    });
+    this.publish('dock:itemschanged', {
+        prefix:'dock'
+    });
+    this.publish('dock:panelgenerated', {
+        prefix:'dock'
+    });
+    this.publish('dock:panelresizestart', {
+        prefix:'dock'
+    });
+    this.publish('dock:resizepanelcomplete', {
+        prefix:'dock'
+    });
+    this.publish('dock:starting', {
+        prefix: 'dock',
+        broadcast:  2,
+        emitFacade: true
+    });
     this.fire('dock:starting');
     // Re-apply early bindings properly now that we can
     this.applyBinds();
@@ -171,7 +214,9 @@ M.core_dock.init = function(Y) {
     } else {
         dock.addClass(css.dock+'_'+this.cfg.position+'_'+this.cfg.orientation);
     }
-    this.holdingarea = Y.Node.create('<div></div>').setStyles({display:'none'});
+    this.holdingarea = Y.Node.create('<div></div>').setStyles({
+        display:'none'
+    });
     this.nodes.body.append(this.holdingarea);
     if (Y.UA.ie > 0 && Y.UA.ie < 7) {
         // Adjust for IE 6 (can't handle fixed pos)
@@ -196,8 +241,12 @@ M.core_dock.init = function(Y) {
     var removeall = Y.Node.create('<img alt="'+M.str.block.undockall+'" title="'+M.str.block.undockall+'" tabindex="0"/>');
     removeall.setAttribute('src',this.cfg.removeallicon);
     removeall.on('removeall|click', this.remove_all, this);
-    removeall.on('dock:actionkey', this.remove_all, this, {actions:{enter:true}});
-    this.nodes.buttons.appendChild(Y.Node.create('<div class="'+css.controls+'"></div>').append(removeall));
+    removeall.on('dock:actionkey', this.remove_all, this, {
+        actions:{
+            enter:true
+        }
+    });
+this.nodes.buttons.appendChild(Y.Node.create('<div class="'+css.controls+'"></div>').append(removeall));
 
     // Create a manager for the height of the tabs. Once set this can be forgotten about
     new (function(Y){
@@ -263,12 +312,28 @@ M.core_dock.init = function(Y) {
     // Attach the required event listeners
     // We use delegate here as that way a handful of events are created for the dock
     // and all items rather than the same number for the dock AND every item individually
-    Y.delegate('click', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {cssselector:'.'+this.css.dockedtitle, delay:0});
-    Y.delegate('mouseenter', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {cssselector:'.'+this.css.dockedtitle, delay:0.5, iscontained:true, preventevent:'click', preventdelay:3});
+    Y.delegate('click', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {
+        cssselector:'.'+this.css.dockedtitle,
+        delay:0
+    });
+    Y.delegate('mouseenter', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {
+        cssselector:'.'+this.css.dockedtitle,
+        delay:0.5,
+        iscontained:true,
+        preventevent:'click',
+        preventdelay:3
+    });
     //Y.delegate('mouseleave', this.handleEvent, this.nodes.body, '#dock', this,  {cssselector:'#dock', delay:0.5, iscontained:false});
-    this.nodes.dock.on('mouseleave', this.handleEvent, this, {cssselector:'#dock', delay:0.5, iscontained:false});
+    this.nodes.dock.on('mouseleave', this.handleEvent, this, {
+        cssselector:'#dock',
+        delay:0.5,
+        iscontained:false
+    });
 
-    this.nodes.body.on('click', this.handleEvent, this,  {cssselector:'body', delay:0});
+    this.nodes.body.on('click', this.handleEvent, this,  {
+        cssselector:'body',
+        delay:0
+    });
     this.on('dock:itemschanged', this.resizeBlockSpace, this);
     this.on('dock:itemschanged', this.checkDockVisibility, this);
     this.on('dock:itemschanged', this.resetFirstItem, this);
@@ -283,15 +348,31 @@ M.core_dock.getPanel = function() {
     if (this.nodes.panel === null) {
         // Initialise the dockpanel .. should only happen once
         this.nodes.panel = (function(Y, parent){
-            var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd"></div></div></div>');
+            //var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd"></div></div></div>');
+            //awag zusätzliche Divs zum Erzeugen von Schatteneffekten...
+            var eckenoben = '<div class="dockeditem-top-middle"><div class="dockeditem-top-right"></div><div class="dockeditem-top-left"></div></div>';
+            var eckenunten = '<div class="dockeditem-bottom-middle"><div class="dockeditem-bottom-left"></div><div class="dockeditem-bottom-right"></div></div>';
+            var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"> ' + eckenoben +
+             '<div class="dockeditempanel_content_right"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd_left"><div class="dockeditempanel_bd"></div></div></div></div>' + eckenunten + '</div>');
+             //awag
             // Give the dockpanel event target properties and methods
             Y.augment(dockpanel, Y.EventTarget);
             // Publish events for the dock panel
-            dockpanel.publish('dockpanel:beforeshow', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:shown', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:beforehide', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:hidden', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:visiblechange', {prefix:'dockpanel'});
+            dockpanel.publish('dockpanel:beforeshow', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:shown', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:beforehide', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:hidden', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:visiblechange', {
+                prefix:'dockpanel'
+            });
             // Cache the content nodes
             dockpanel.contentNode = dockpanel.one('.dockeditempanel_content');
             dockpanel.contentHeader = dockpanel.contentNode.one('.dockeditempanel_hd');
@@ -414,7 +495,9 @@ M.core_dock.handleEvent = function(e, options) {
         if (options.preventevent) {
             this.preventevent = options.preventevent;
             if (options.preventdelay) {
-                setTimeout(function(){M.core_dock.preventevent = null;}, options.preventdelay*1000);
+                setTimeout(function(){
+                    M.core_dock.preventevent = null;
+                }, options.preventdelay*1000);
             }
         }
         if (this.delayedevent && this.delayedevent.timeout) {
@@ -462,7 +545,11 @@ M.core_dock.delayEvent = function(event, options, target) {
         self.delayedevent.timeout = null;
         self.delayedevent.event.detach();
         if (options.iscontained == self.nodes.dock.contains(self.delayedevent.target)) {
-            self.handleEvent(event, {cssselector:options.cssselector, delay:0, iscontained:options.iscontained});
+            self.handleEvent(event, {
+                cssselector:options.cssselector,
+                delay:0,
+                iscontained:options.iscontained
+                });
         }
     }, options.delay*1000);
     return true;
@@ -565,7 +652,10 @@ M.core_dock.resizeBlockSpace = function(node) {
         if (hasblocks) {
             populatedblockregions++;
         }
-        blockregions[region.get('id')] = {hasblocks: hasblocks, bodyclass: region.get('id').replace(/^region\-/, 'side-')+'-only'};
+        blockregions[region.get('id')] = {
+            hasblocks: hasblocks,
+            bodyclass: region.get('id').replace(/^region\-/, 'side-')+'-only'
+            };
     });
     var bodynode = M.core_dock.nodes.body;
     var showregions = false;
@@ -702,7 +792,10 @@ M.core_dock.checkDockVisibility = function() {
  * @param {function} callback
  */
 M.core_dock.on = function(event, callback) {
-    this.earlybinds.push({event:event,callback:callback});
+    this.earlybinds.push({
+        event:event,
+        callback:callback
+    });
 };
 /**
  * This function takes all early binds and attaches them as listeners properly
@@ -850,6 +943,13 @@ M.core_dock.genericblock.prototype = {
      * @param {event}
      */
     move_to_dock : function(e, commands) {
+<<<<<<< HEAD
+=======
+
+        //für die Startseite nicht ins Dock schieben //
+        if (typeof nodock != "undefined") return;
+
+>>>>>>> master
         if (e) {
             e.halt(true);
         }
@@ -919,7 +1019,12 @@ M.core_dock.genericblock.prototype = {
             var closeicon = Y.Node.create('<span class="hidepanelicon" tabindex="0"><img alt="'+M.str.block.hidepanel+'" title="'+M.str.block.hidedockpanel+'" style="width:11px;height:11px;cursor:pointer;"/></span>');
             closeicon.one('img').setAttribute('src', M.util.image_url('t/dockclose', 'moodle'));
             closeicon.on('forceclose|click', this.hide, this);
-            closeicon.on('dock:actionkey',this.hide, this, {actions:{enter:true,toggle:true}});
+            closeicon.on('dock:actionkey',this.hide, this, {
+                actions:{
+                    enter:true,
+                    toggle:true
+                }
+            });
             this.commands.append(closeicon);
         }, dockitem);
         // Register an event so that when it is removed we can put it back as a block
@@ -934,13 +1039,13 @@ M.core_dock.genericblock.prototype = {
         }
 
         this.isdocked = true;
-    },
-    /**
+},
+/**
      * This function removes a block from the dock and puts it back into the page
      * structure.
      * @param {M.core_dock.class.item}
      */
-    return_to_block : function(dockitem) {
+return_to_block : function(dockitem) {
         var placeholder = this.Y.one('#content_placeholder_'+this.id);
 
         // Enable the skip anchor when going back to block mode
@@ -969,7 +1074,7 @@ M.core_dock.genericblock.prototype = {
         M.util.set_user_preference('docked_block_instance_'+this.id, 0);
         this.isdocked = false;
         return true;
-    }
+}
 };
 
 /**
@@ -985,20 +1090,44 @@ M.core_dock.genericblock.prototype = {
  */
 M.core_dock.item = function(Y, uid, title, contents, commands, blockclass){
     this.Y = Y;
-    this.publish('dockeditem:drawstart', {prefix:'dockeditem'});
-    this.publish('dockeditem:drawcomplete', {prefix:'dockeditem'});
-    this.publish('dockeditem:showstart', {prefix:'dockeditem'});
-    this.publish('dockeditem:showcomplete', {prefix:'dockeditem'});
-    this.publish('dockeditem:hidestart', {prefix:'dockeditem'});
-    this.publish('dockeditem:hidecomplete', {prefix:'dockeditem'});
-    this.publish('dockeditem:itemremoved', {prefix:'dockeditem'});
+    this.publish('dockeditem:drawstart', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:drawcomplete', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:showstart', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:showcomplete', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:hidestart', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:hidecomplete', {
+        prefix:'dockeditem'
+    });
+    this.publish('dockeditem:itemremoved', {
+        prefix:'dockeditem'
+    });
     if (uid && this.id==null) {
         this.id = uid;
     }
     if (title && this.title==null) {
         this.titlestring = title.cloneNode(true);
         this.title = document.createElement(title.nodeName);
+        //awag, wenn Icons verwendet werden Text ersetzen.
+        if ((typeof theme_dock_images == "object") && (theme_dock_images[blockclass] != undefined)) {
+            title = Y.one(this.title);
+            var icon = document.createElement("img");
+            this.title.setAttribute("class", "dock_icon");
+            icon.setAttribute('src',theme_dock_images[blockclass]);
+            title.appendChild(icon);
+        } else {
         M.core_dock.fixTitleOrientation(this, this.title, this.titlestring.firstChild.nodeValue);
+    }
+    //awag
     }
     if (contents && this.contents==null) {
         this.contents = contents;
@@ -1010,7 +1139,11 @@ M.core_dock.item = function(Y, uid, title, contents, commands, blockclass){
         this.blockclass = blockclass;
     }
     this.nodes = (function(){
-        return {docktitle : null, dockitem : null, container: null};
+        return {
+            docktitle : null,
+            dockitem : null,
+            container: null
+        };
     })();
 };
 /**
@@ -1032,13 +1165,17 @@ M.core_dock.item.prototype = {
      */
     draw : function() {
         this.fire('dockeditem:drawstart');
-
+        
         var Y = this.Y;
         var css = M.core_dock.css;
 
-        this.nodes.docktitle = Y.Node.create('<div id="dock_item_'+this.id+'_title" role="menu" aria-haspopup="true" class="'+css.dockedtitle+'"></div>');
+        //awag blockclass ergänzt, damit das Dock formatiert werden kann
+        this.nodes.docktitle = Y.Node.create('<div id="dock_item_'+this.id+'_title" role="menu" aria-haspopup="true" class="'+css.dockedtitle+' '+this.blockclass+'"></div>');
         this.nodes.docktitle.append(this.title);
-        this.nodes.dockitem = Y.Node.create('<div id="dock_item_'+this.id+'" class="'+css.dockeditem+'" tabindex="0"></div>');
+        var blockclass = this.blockclass;
+        if ((typeof theme_dock_images == "object") && (theme_dock_images[blockclass] != undefined)) blockclass = 'dock_icon ' + blockclass;
+        this.nodes.dockitem = Y.Node.create('<div id="dock_item_'+this.id+'" class="'+css.dockeditem+' '+blockclass+'" tabindex="0"></div>');
+        //awag
         this.nodes.dockitem.on('dock:actionkey', this.toggle, this);
         if (M.core_dock.count === 1) {
             this.nodes.dockitem.addClass('firstdockitem');

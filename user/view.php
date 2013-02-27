@@ -186,7 +186,8 @@ add_to_log($course->id, "user", "view", "view.php?id=$user->id&course=$course->i
 
 /// Get the hidden field list
 if (has_capability('moodle/user:viewhiddendetails', $coursecontext)) {
-    $hiddenfields = array();
+    //awag: Land nicht anzeigen
+    $hiddenfields = array('country' => '1');
 } else {
     $hiddenfields = array_flip(explode(',', $CFG->hiddenuserfields));
 }

@@ -182,9 +182,20 @@
     }
 
     list($extrasql, $params) = $ufiltering->get_sql_filter();
+
+    //+++ awag DS03, DS04:Sichtbarkeitsregel-Nutzerverwaltung
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    $extrasql = datenschutz::hook_admin_user_get_extrasql($extrasql);
+    $extrasqlusercount = datenschutz::hook_admin_user_get_extrasqlusercount();
+    //--- awag
+
     $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
             $extrasql, $params, $context);
-    $usercount = get_users(false);
+
+    //+++ awag DS04:Gesamtanzahl $usercount = get_users(false);
+    $usercount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasqlusercount);
+    //--- awag
+
     $usersearchcount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasql, $params);
 
     if ($extrasql !== '') {

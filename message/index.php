@@ -54,6 +54,10 @@ $user2id   = optional_param('user2', 0, PARAM_INT);
 //The class send_form supplies the receiving user id as 'id'
 $user2id   = optional_param('id', $user2id, PARAM_INT);
 
+//+++ awag DS17 Sichtbarkeitsregel-Schule für Messaging
+require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+datenschutz::hook_message_index($user2id);
+//--- awag DS17 Sichtbarkeitsregel-Schule für Messaging
 $addcontact     = optional_param('addcontact',     0, PARAM_INT); // adding a contact
 $removecontact  = optional_param('removecontact',  0, PARAM_INT); // removing a contact
 $blockcontact   = optional_param('blockcontact',   0, PARAM_INT); // blocking a contact

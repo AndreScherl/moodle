@@ -59,6 +59,7 @@ class tinymce_texteditor extends texteditor {
 
     public function get_preferred_format() {
         return FORMAT_HTML;
+
     }
 
     public function supports_repositories() {
@@ -81,8 +82,11 @@ class tinymce_texteditor extends texteditor {
         }
     }
 
+
+
     protected function get_init_params($elementid, array $options=null) {
         global $CFG, $PAGE, $OUTPUT;
+
 
         //TODO: we need to implement user preferences that affect the editor setup too
 
@@ -141,7 +145,7 @@ class tinymce_texteditor extends texteditor {
                     'theme_advanced_buttons2_add' => "|,cleanup,removeformat,pastetext,pasteword,|,forecolor,backcolor,|,ltr,rtl",
                     'theme_advanced_buttons3' => "bullist,numlist,outdent,indent,|,link,unlink,moodlenolink,|,image,{$xemoticon}{$xmedia}{$xdragmath}nonbreaking,charmap",
                     'theme_advanced_buttons3_add' => "table,|,code,spellchecker",
-                    'theme_advanced_fonts' => "Trebuchet=Trebuchet MS,Verdana,Arial,Helvetica,sans-serif;Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;Georgia=georgia,times new roman,times,serif;Tahoma=tahoma,arial,helvetica,sans-serif;Times New Roman=times new roman,times,serif;Verdana=verdana,arial,helvetica,sans-serif;Impact=impact;Wingdings=wingdings",
+                    'theme_advanced_fonts' => "Trebuchet=Trebuchet MS,Verdana,Arial,Helvetica,sans-serif;Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;Georgia=georgia,times new roman,times,serif;Tahoma=tahoma,arial,helvetica,sans-serif;Times New Roman=times new roman,times,serif;Verdana=verdana,arial,helvetica,sans-serif;Impact=impact;Wingdings=wingdings;Amaranth=amaranth",
                     'theme_advanced_resize_horizontal' => true,
                     'theme_advanced_resizing' => true,
                     'theme_advanced_resizing_min_height' => 30,
@@ -149,6 +153,8 @@ class tinymce_texteditor extends texteditor {
                     'theme_advanced_statusbar_location' => "bottom",
                     'spellchecker_rpc_url' => $CFG->httpswwwroot."/lib/editor/tinymce/tiny_mce/$this->version/plugins/spellchecker/rpc.php",
                     'spellchecker_languages' => get_config('editor_tinymce', 'spelllanguagelist')
+
+
                   );
 
         if ($xemoticon) {
@@ -183,6 +189,7 @@ class tinymce_texteditor extends texteditor {
         if (!empty($options['required'])) {
             $params['init_instance_callback'] = 'M.editor_tinymce.onblur_event';
         }
+
         return $params;
     }
 }

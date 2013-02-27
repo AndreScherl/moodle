@@ -24,6 +24,10 @@
  */
 
 require_once('../config.php');
+//+++ DS14 awag: prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
+require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+datenschutz::hook_local_course_recent_require_access_recent_activities();
+//---
 require_once('lib.php');
 require_once('recent_form.php');
 

@@ -1,0 +1,65 @@
+
+#region-pre .block, #region-post .block {
+    background: #038ddc url([[pix:theme|blocks/bg-block-top]]) no-repeat scroll 0 top;
+    color: #FFFFFF;
+    padding: 0 7px;
+    width:166px;
+}
+
+#region-pre .block .bottom, #region-post .block .bottom  {
+    background: #038ddc url([[pix:theme|blocks/bg-block-bottom]]) no-repeat scroll 0 bottom;
+    margin: 0 -7px;
+    height: 5px;
+}
+.block .content {
+
+overflow:auto;
+background: #038ddc;
+
+}
+
+/* Block: Navigation */
+
+.block_navigation .header {
+
+   background: #038ddc url([[pix:theme|blocks/block_navigation_title]]) no-repeat scroll 0 7px;
+     padding-left: 20px;
+}
+
+.block_dlbnavi .header {
+     background: #038ddc url([[pix:theme|blocks/block_navigation_title]]) no-repeat scroll 0 7px;
+     padding-left: 20px;
+    
+}
+
+.block_dlbnavi .content{
+
+ background: #038ddc url([[pix:theme|blocks/boyMini]]) no-repeat ; 
+ background-position: bottom right;
+
+}
+
+.block .header h2 {
+    font-size:18px;
+    font-family: "Amaranth";
+    color: #FFFFFF;
+}
+
+.block .content h3.eventskey {
+     font-size: 14px;
+    
+}
+
+.block_tree .tree_item {
+     font-size: 16px;
+}
+
+#region-main .block .header {
+    border-bottom: 0px solid #999999;
+}
+
+#region-main .block .header h2 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #001e2e;
+}

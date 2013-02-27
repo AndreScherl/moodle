@@ -1092,6 +1092,12 @@ class potential_assignees_course_and_above extends role_assign_user_selector_bas
         $fields      = 'SELECT ' . $this->required_fields_sql('');
         $countfields = 'SELECT COUNT(1)';
 
+         //+++ awag DS07:Rollenzuweisung außerhalb des Kurses
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_admin_roles_lib_find_users($wherecondition);
+        //--- awag
+
         $sql = " FROM {user}
                 WHERE $wherecondition
                       AND id NOT IN (

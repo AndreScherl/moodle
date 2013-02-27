@@ -1499,6 +1499,12 @@ function message_search_users($courseid, $searchtext, $sort='', $exceptions='') 
         $except = '';
     }
 
+     //+++ awag DS09:Sichtbarkeitstrennung-Messages
+     require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+     $wherecondition = datenschutz::hook_message_lib_message_search_users();
+     $except = $wherecondition." ".$except;
+     //--- awag
+
     if (!empty($sort)) {
         $order = ' ORDER BY '. $sort;
     } else {

@@ -1,0 +1,484 @@
+<?php
+/*
+ #########################################################################
+ #                       DLB-Bayern
+ # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ #
+ # Copyright 2012 Andreas Wagner. All Rights Reserved.
+ # This file may not be redistributed in whole or significant part.
+ # Content of this file is Protected By International Copyright Laws.
+ #
+ # ~~~~~~~~~~~~~~~~~~ THIS CODE IS NOT FREE SOFTWARE ~~~~~~~~~~~~~~~~~~~~
+ #
+ # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ # @author Andreas Wagner, DLB	andreas.wagner@alp.dillingen.de
+ #########################################################################
+*/
+class datenschutz {
+
+    var $userids_together_in_course;
+
+    /** Singleton: Aus Performancegründen wird eine Instanz der Klasse Datenschutz erzeugt. Damit
+     * wird das Ergebnis der Abfrage in _get_userids_together_in_course gecacht.
+     *
+     * @staticvar datenschutz $datenschutz
+     * @return datenschutz, Instanz der Klasse datenschutz
+     */
+    public function getInstance() {
+        static $datenschutz;
+
+        if (isset($datenschutz)) return $datenschutz;
+
+        $datenschutz = new datenschutz();
+        return $datenschutz;
+    }
+
+    /** bricht das Skript mit einer Fehlermeldung ab, falls der eingeloggte User nicht
+     * das Recht hat User anderer Schulen (Feld Institution) zu sehen und der User zur übergebenen
+     * User-ID nicht den gleichen Wert im Feld Schule (Institution) hat
+     *
+     * @global moodle_database $DB
+     * @global object $USER
+     * @param int $userid
+     * @return none
+     */
+    private function _require_same_institution($userid) {
+        global $DB, $USER;
+
+        //neuer User wird angelegt
+        if ($userid == -1) return;
+
+        //User bearbeitet eigenes Formular
+        if ($userid == $USER->id) return;
+
+        //falls das erforderliche Recht existiert weiter zum original Skript
+        if (has_capability("block/dlb:institutionview", get_system_context())) return;
+
+        //Gültigkeitsprüfung ist bereits erfolgt!
+        $user = $DB->get_record('user', array('id' => $userid));
+
+        if (empty($USER->institution)) {
+            print_error('noinstitutionerror', 'block_dlb');
+        }
+
+        if (($USER->institution != $user->institution) ) {
+            print_error('nopermissiontoedituser', 'block_dlb');
+        }
+    }
+
+    /** bricht das Skript mit einer Fehlermeldung ab, falls der eingeloggte User nicht
+     * das Recht hat User anderer Schulen (Feld Institution) zu sehen und der User zur übergebenen
+     * User-ID nicht den gleichen Wert im Feld Schule (Institution) hat
+     *
+     * @global moodle_database $DB
+     * @global object $USER
+     * @param int $userid
+     * @return none
+     */
+    private function _require_cap_to_view_user($userid) {
+        global $DB, $USER;
+
+        //User bearbeitet eigenes Formular
+        if ($userid == $USER->id) return;
+
+        //falls das erforderliche Recht existiert weiter zum original Skript
+        if (has_capability("block/dlb:institutionview", get_system_context())) return;
+
+        //Gültigkeitsprüfung ist bereits erfolgt!
+        $user = $DB->get_record('user', array('id' => $userid));
+
+        if (empty($USER->institution)) {
+            print_error('noinstitutionerror', 'block_dlb');
+        }
+
+        if ($USER->institution == $user->institution) return;
+
+        //falls $USER und $userid in gleichem Kurs sind, ok
+        $datenschutz = datenschutz::getInstance();
+        $usertogether = $datenschutz->_get_userids_together_in_course($userid);
+        if (in_array($USER->id, array_keys($usertogether))) return;
+
+        print_error('nopermissiontoviewuser', 'block_dlb');
+    }
+
+
+
+    /** gibt alle Ids der User, die mit diesem User gemeinsam in einen Kurs
+     * eingeschrieben sind.
+     *
+     * @global moodle_database $DB
+     * @param int $userid, die ID des Users
+     * @return [object], recordset bestehend aus userids
+     */
+    private function _get_userids_together_in_course($userid) {
+        global $DB;
+
+        if (isset($this->userids_together_in_course)) return $this->userids_together_in_course;
+
+        $sql = "SELECT userid FROM {user_enrolments} ue ".
+                "JOIN {enrol} e ON e.id = ue.enrolid ".
+                "WHERE courseid in (".
+                "SELECT courseid FROM {user_enrolments} ue ".
+                "JOIN {enrol} e ON e.id = ue.enrolid where userid = :userid)";
+
+        $this->userids_together_in_course = $DB->get_records_sql($sql, array("userid" => $userid));
+        return $this->userids_together_in_course;
+    }
+
+
+    /** ändert die $wherecondition so ab, dass die vereinbarte Sichtbarkeitsregel
+     * eingehalten wird.
+     *
+     * @global object $USER, der aktuelle User
+     * @param String $wherecondition, die Bedingung des SQL-Statement zur Usersuche
+     * @return none
+     */
+    private function _addInstitutionFilter($wherecondition = "", $tablealias = "") {
+        global $USER;
+
+        //Wenn $USER über Institutsgrenzen hinaus sehen kann, nichts ändern
+        if (has_capability("block/dlb:institutionview", get_system_context())) return $wherecondition;
+
+        if (empty($USER->institution)) {
+            print_error('noinstitutionerror', 'block_dlb');
+        }
+
+        if (!empty($wherecondition)) $wherecondition .= " AND ";
+
+        //Wenn $USER nicht das Recht hat über Institutsgrenzen hinaus zu sehen
+        //muss das Feld Institution gleich sein oder der die User belegen gemeinsam einen Kurs
+        $datenschutz = datenschutz::getInstance();
+        $userids = $datenschutz->_get_userids_together_in_course($USER->id);
+
+        if ($userids) {
+
+            $userids = array_keys($userids);
+            $wherecondition .= " (({$tablealias}institution = '{$USER->institution}') or {$tablealias}id IN (".implode(",",$userids).")) ";
+            return $wherecondition;
+
+        } else {
+
+            $wherecondition .= " ({$tablealias}institution = '{$USER->institution}')";
+            return $wherecondition;
+        }
+    }
+
+    /****************************************************************************************
+     * nachfolgend sind alle verwendeten Corecode-Hacks gelistet.
+     * Die Funktionsbezeichnung wird nach der Position des Hacks gebildet:
+     *
+     * z. B. für einen Hack in der Datei /enrol/locallib.php beginnt die Funktionsbezeichnung
+     * mit "hook_enrol_locallib_"
+     ****************************************************************************************/
+
+    /** @HOOK DS01: Hook in enrol/locallib.php course_enrolment_manager->get_potential_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (unter Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     */
+    public function hook_enrol_locallib_get_potential_users($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+    }
+
+    /** @HOOK DS02: Hook in enrol/manual/locallib.php enrol_manual_potential_participant->find_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (ohne Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     */
+    public function hook_enrol_manual_locallib_find_users($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+    }
+
+    /** @HOOK DS03: Hook in admin/user.php
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der globalen Nutzerverwaltung sieht
+     *
+     * @param String $wherecondition
+     */
+    public function hook_admin_user_get_extrasql($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition);
+    }
+
+    /** @HOOK DS04: Hook in admin/user.php
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die <b>Gesamtanzahl der User</b> mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der globalen Nutzerverwaltung sieht
+     */
+    public function hook_admin_user_get_extrasqlusercount() {
+        return datenschutz::_addInstitutionFilter();
+    }
+
+    /** DS05: Hook in local/user/editadvanced.php
+     * prüft, ob der eingeloggte User zur Bearbeitung des Users mit der ID $usertoedit
+     * berechtigt ist. Ist dies nicht der Fall, so wird mit einer Fehlermeldung abgebrochen.
+     *
+     * Durch die Verwendung eines "localized Scripts" (local/...) wird diese Prüfung
+     * vor der Verarbeitung des originalen Skripts user/editadvanced.php aufgerufen
+     *
+     * @param int $useridtoedit, die ID des zu bearbeitenden Users
+     */
+    public function hook_local_user_editadvanced_require_same_institution($useridtoedit) {
+        datenschutz::_require_same_institution($useridtoedit);
+    }
+
+    /** DS06: Hook in local/user/edit.php
+     * prüft, ob der eingeloggte User zur Bearbeitung des Users mit der ID $usertoedit
+     * berechtigt ist. Ist dies nicht der Fall, so wird mit einer Fehlermeldung abgebrochen.
+     *
+     * Durch die Verwendung eines "localized Scripts" (local/...) wird diese Prüfung
+     * vor der Verarbeitung des originalen Skripts user/edit.php aufgerufen
+     *
+     * @param int $useridtoedit, die ID des zu bearbeitenden Users
+     */
+    public function hook_local_user_edit_require_same_institution($useridtoedit) {
+        datenschutz::_require_same_institution($useridtoedit);
+    }
+
+    /** @HOOK DS07: Hook in admin/roles/lib.php
+     * potential_assignees_course_and_above->get_potential_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung außerhalb des Kurses
+     *
+     * @param String $wherecondition
+     */
+    public function hook_admin_roles_lib_find_users($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition);
+    }
+
+    /** @HOOK DS08: Hook in cohort/lib.php
+     * cohort_candidate_selector->find_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung zu einer Kohorte sieht
+     *
+     * @param String $wherecondition
+     */
+    public function hook_cohort_lib_find_users($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+    }
+
+
+    /** @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()
+     *
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Suche nach Kontakten sieht
+     *
+     * @param String $wherecondition
+     */
+    public function hook_message_lib_message_search_users() {
+        $wherecondition = datenschutz::_addInstitutionFilter("", "u.");
+        $wherecondition = (!empty($wherecondition))? " AND ".$wherecondition : "";
+        return $wherecondition;
+    }
+
+    /** @HOOK DS10: Hook in user/editlib.php
+     *
+     * blendet das Beschreibungsfeld aus.
+     * deaktiviert die Uploadmöglichkeit für Bilder
+     * =>Verhinderung nach dem Submit siehe DS20
+     *
+     * sperrt die Bearbeitung des Feldes Schule (Institution) für Nicht Admins
+     *
+     * @param moodle_form $mform
+     */
+    public function hook_user_editlib_useredit_shared_definition($mform, $user) {
+        global $CFG;
+
+        //Editor entfernen=>nicht sichtbar
+        $mform->removeElement('description_editor');
+
+        //Hochladefunktionalität für userbearbeitungsberechtige Personen (editadvanced)
+        //deaktivieren.
+        $attr = $mform->getAttributes();
+        if (strpos($attr['action'], "editadvanced") !== false) {
+            //keine Bilder hochladen
+            if (!empty($CFG->gdversion) and !empty($CFG->disableuserimages)) {
+                if ($mform->elementExists('deletepicture')) $mform->removeElement('deletepicture');
+                if ($mform->elementExists('imagefile')) $mform->removeElement('imagefile');
+                if ($mform->elementExists('imagealt')) $mform->removeElement('imagealt');
+            }
+        }
+
+        //Wenn $USER über Institutsgrenzen hinaus sehen kann, nichts ändern
+        if (has_capability("moodle/site:config", get_system_context())) return;
+
+        if ($mform->elementExists('city')) {
+            //ersetzt Inputfeld durch Anzeige
+            $mform->hardFreeze('city');
+            //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
+            //z. B. Einfügen von <input id="id_city" name="city" value="hack" />
+            $mform->setConstants(array('city' => $user->city));
+        }
+        if ($mform->elementExists('institution')) {
+            //ersetzt Inputfeld durch Anzeige
+            $mform->hardFreeze('institution');
+            //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
+            $mform->setConstants(array('institution' => $user->institution));
+        }
+        if ($mform->elementExists('idnumber')) {
+            //ersetzt Inputfeld durch Anzeige
+            $mform->hardFreeze('idnumber');
+            //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
+            $mform->setConstants(array('idnumber' => $user->idnumber));
+        }
+    }
+
+    /** @HOOK DS11: Hook in mod/chat/mod_form.php
+     * entfernt aus der Liste der Optionen für die Löschungfristen die Option "niemals löschen"
+     *
+     * @param array $options, die Optionen der Löschungsfristen von Chatprotokollen
+     */
+    public function hook_mod_chat_mod_form_definition(&$options) {
+        unset($options[0]);
+    }
+
+    /** @HOOK DS12: Hook in report/outline/lib.php
+     * verhindert die Anzeige von Navigationslinks aus personenbezogene Berichte im Kontext des Kurses
+     *
+     * @return bool, muss false zurückgeben, falls die personenbezogenen Berichte nicht angezeigt werden sollen.
+     */
+    public function hook_report_outline_lib_report_outline_can_access_user_report() {
+        return has_capability("moodle/site:config", get_system_context());
+    }
+
+    /** @HOOK DS13: Hook in local/report/outline/user.php
+     * verhindert den direkten Aufruf des personenbezogenen Berichtes im Kontext
+     * eines Kurses für Nicht-Admins
+     */
+    public function hook_local_report_outline_user_require_access_user_report() {
+        if (!has_capability("moodle/site:config", get_system_context())) {
+            print_error('notallowedtoaccessuserreport', 'block_dlb');
+        }
+    }
+
+    /** @HOOK DS14: Hook in local/course/recent.php
+     * verhindert den direkten Aufruf der Austellung vergangener Aktivitäten für Nicht-Admins
+     */
+    public function hook_local_course_recent_require_access_recent_activities() {
+        if (!has_capability("moodle/site:config", get_system_context())) {
+            print_error('notallowedtoaccessrecentactivities', 'block_dlb');
+        }
+    }
+
+    /** @HOOK DS15: Hook in course/lib.php
+     * prüft, ob der User den Link zum Auswertungsformular vergangener Aktivitäten sehen darf
+     *
+     * @return bool, muss false zurückgeben wenn der Link nicht angezeigt werden soll.
+     */
+    public function hook_course_lib_can_access_recent_activities() {
+        return has_capability("moodle/site:config", get_system_context());
+    }
+
+    /** @HOOK DS 16: Hook in admin/settings/user
+     * verbirgt die Bulk verwaltung für User, die nicht das Recht haben über Schulgrenzen hinaus zu sehen
+     */
+
+    public function hook_admin_users_hide_bulk(&$ADMIN) {
+        global $CFG;
+
+        $systemcontext = get_system_context();
+        if (has_capability("moodle/site:config", $systemcontext) or
+                (has_capability("block/dlb:institutionview", $systemcontext))) {
+            $ADMIN->add('accounts', new admin_externalpage('userbulk', get_string('userbulk','admin'), "$CFG->wwwroot/$CFG->admin/user/user_bulk.php", array('moodle/user:update', 'moodle/user:delete')));
+        }
+    }
+
+
+    /** @HOOK DS 17 Hook in message/index.php
+     * bricht das Messaging-Skript ab, falls dieser User nicht das Recht hat den
+     * User mit der ID $user2id zu sehen.
+     *
+     * @param int $user2id, 0 oder eine gültige Userid
+     * @return none
+     */
+    public function  hook_message_index($user2id) {
+        if ($user2id == 0) return;
+        datenschutz::_require_cap_to_view_user($user2id);
+    }
+
+
+    /** @HOOK DS 18 Hook in lib/filelib.php
+     * verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen
+     * Player aufgerufen werden.
+     *
+     * @param stored_file $stored_file
+     */
+    function hook_filelib_send_stored_file($stored_file) {
+        global $FULLME, $OUTPUT;
+
+        //* Debug HTTP_REFERER
+
+        /*$fp = fopen("datei.txt","a+");
+    ob_start();
+    print_r($_REQUEST);
+    print_r($_SERVER);
+    $text = ob_get_contents();
+    ob_clean();
+    fwrite($fp, $text);
+    fclose($fp);*/
+
+        $locked_mimetypes = array('audio/mp3','video/x-flv');
+        //feststellen, ob der Aufruf eine Audio oder Videodatei anfordert.
+        if (!in_array($stored_file->get_mimetype(), $locked_mimetypes)) return;
+
+        $allowed_referer = array('flowplayer');
+        //feststellen ob der Aufruf von einem Player stammt:
+        foreach ($allowed_referer as $referer) {
+            if (strpos($_SERVER['HTTP_REFERER'], $referer) > 0)  return;
+        }
+
+        //HTML der Seite generieren mit Hilfe von Filtern Player einbinden.
+        $text = filter_text("<a href=\"{$FULLME}\" />Multimediafile</a>");
+        echo $OUTPUT->header();
+        echo $text;
+        echo $OUTPUT->footer();
+        die;
+    }
+
+    /** @HOOK DS19, Hook in enrol/instences.php
+     * verhindern, dass sich ein Trainer durch Verbergen bzw. Löschen der Einschreibemethode
+     * selbst aus dem Kurs ausschließt
+     *
+     * @return array, die Einschreibemethoden dieses Users
+     */
+    function hook_enrol_instances_get_user_enrolmentmethods($course) {
+        global $CFG, $PAGE, $USER;
+
+        require_once("$CFG->dirroot/enrol/locallib.php");
+        $manager = new course_enrolment_manager($PAGE, $course);
+        $enrolments = $manager->get_user_enrolments($USER->id);
+
+        $enrolmentmethods = array();
+        foreach ($enrolments as $enrolment) {
+            $enrolmentmethods[] = $enrolment->enrolmentinstance->enrol;
+        }
+        return $enrolmentmethods;
+    }
+
+    /** @ HOOK DS20, Hook in user/editadvanced
+     * wird vor dem Speichern des Profils aufgerufen, verhindert, dass eingegebener
+     * Beschreibungstext für userbearbeitungsberechtigte Personen und ein Bild gespeichert
+     * wird
+     *
+     * @param <type> $usernew, das Objekt des zu speichernden Users...
+     */
+    function hook_user_editadvanced_before_save_user(&$usernew) {
+
+        //Inhalte vor dem Speichern leeren...
+        $usernew->description_editor['text'] = '';
+        $usernew->description_editor['format'] = 0;
+
+        //verhindert einen Fehler bei Zugriff auf imagefile über useredit_update_picture($usernew, $userform);
+        $usernew->deletepicture=1;
+    }
+}
+?>

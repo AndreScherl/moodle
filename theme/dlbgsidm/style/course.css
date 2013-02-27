@@ -1,0 +1,34 @@
+
+
+.path-course h1.page-heading {
+    font-family:"Amaranth";
+    font-size:24px;
+    line-height: 32px;
+    color: #038ddc;
+}
+
+
+.course-content ul.topics li.section .content .summary, .course-content ul.weeks li.section .content .summary {
+    margin-left: 20px;
+    margin-top: 0px;
+}
+
+.path-course-view .section .summary {
+    line-height: 20px;
+}
+
+.course-content ul.topics li.section .left,
+.course-content ul.weeks li.section .left {
+    background: transparent;
+}
+
+.course-content ul.topics li.section,
+.course-content ul.weeks li.section {
+    background: transparent;
+}
+
+
+.course-content ul.topics li.section .right,
+.course-content ul.weeks li.section .right {
+   background: transparent;
+}

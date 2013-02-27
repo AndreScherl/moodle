@@ -1,0 +1,21 @@
+.langmenu select{
+
+   width: 130px;
+   background:#C7ECFF;
+   border: 1px solid #00A0F4;
+}
+
+.headermenu {
+    font-size: 12px;
+}
+
+
+ #toolbar-wrapper {
+    background: url([[pix:theme|toolbar/bg-toolbar]]) repeat-x;
+    position:absolute;
+    top : 120px;
+    height:50px;
+    left:0;
+    right:0;
+    min-width: 960px;
+}

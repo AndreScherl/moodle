@@ -1948,6 +1948,10 @@ function send_file($path, $filename, $lifetime = 'default' , $filter=0, $pathiss
 function send_stored_file($stored_file, $lifetime=86400 , $filter=0, $forcedownload=false, $filename=null, $dontdie=false) {
     global $CFG, $COURSE, $SESSION;
 
+    //prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
+    include($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    datenschutz::hook_filelib_send_stored_file($stored_file);
+    //
     if (!$stored_file or $stored_file->is_directory()) {
         // nothing to serve
         if ($dontdie) {

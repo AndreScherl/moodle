@@ -13,11 +13,8 @@ M.core_dock = {
     preventevent : null,    // Will be an eventtype if there is an eventyoe to prevent
     holdingarea : null
 };
-<<<<<<< HEAD
-=======
 
 //if (typeof(theme_load_dock_images) == "function") theme_load_dock_images();
->>>>>>> master
 /**
  * Namespace containing the nodes that relate to the dock
  * @namespace
@@ -67,10 +64,7 @@ M.core_dock.init = function(Y) {
     this.initialised = true;
     this.Y = Y;
     this.nodes.body = Y.one(document.body);
-<<<<<<< HEAD
 
-=======
->>>>>>> master
     // Give the dock item class the event properties/methods
     Y.augment(this.item, Y.EventTarget);
     Y.augment(this, Y.EventTarget, true);
@@ -943,13 +937,10 @@ M.core_dock.genericblock.prototype = {
      * @param {event}
      */
     move_to_dock : function(e, commands) {
-<<<<<<< HEAD
-=======
 
         //für die Startseite nicht ins Dock schieben //
         if (typeof nodock != "undefined") return;
 
->>>>>>> master
         if (e) {
             e.halt(true);
         }

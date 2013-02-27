@@ -1,0 +1,29 @@
+/*Background Color*/
+
+html {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+
+#general-header-middle {
+    text-align: center;
+    padding: 0px;
+    margin-left: 245px;
+    background:#ABABAB;
+}
+
+#page-content-bg-top-left {
+    background: #FFFFFF url([[pix:theme|page/bg-page-top-left]]) no-repeat scroll right top;
+    
+    
+}
+
+#page-content-bg-bottom-left {
+    background: #FFFFFF url([[pix:theme|page/bg-page-bottom-left]]) no-repeat scroll right top;
+    float:left;
+    width: 61px; 
+}
+
+.loginbox .loginform {
+    background: #292929;
+}

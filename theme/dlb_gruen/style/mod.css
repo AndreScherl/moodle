@@ -1,0 +1,30 @@
+/* 
+    Document   : mod.css
+    Created on : 10.03.2012, 18:56:05
+    Author     : Admin
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.forumpost {
+    background: none repeat scroll 0 0 #EFEFEF;
+    border: 1px solid #EFEFEF;
+    margin: 6px 0;
+    padding: 6px;
+}
+
+.forumpost .author {
+    font-style : italic;
+    border-bottom: 1px solid #cccccc;
+    padding: 3px 0;
+}
+
+.forumpost .subject {
+    font-weight: bold;
+}
+

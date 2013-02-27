@@ -1,0 +1,10 @@
+.langmenu select{
+
+   width: 130px;
+   background:#ffb6ae;
+   border: 1px solid #900f02;
+}
+
+.headermenu {
+    font-size: 12px;
+}

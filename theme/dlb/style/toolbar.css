@@ -1,0 +1,194 @@
+/* 
+    Document   : toolbar
+    Created on : 11.03.2012, 15:52:21
+    Author     : Andreas Wagner
+    Description:
+        Stylesheet für den durchgängigen Toolbar
+*/
+
+/** toolbar Hintergrund */
+#toolbar-wrapper {
+    background: url([[pix:theme|toolbar/bg-toolbar]]) repeat-x;
+    position:absolute;
+    top : 94px;
+    height:50px;
+    left:0;
+    right:0;
+    min-width: 960px;
+}
+
+.no_toolbar #toolbar-wrapper {
+    display:none;
+}
+
+/** Startseitenposition Toolbar*/
+body.path-site #toolbar-wrapper {
+    top : 120px;
+    min-width: 960px;
+}
+
+#toolbar-wrapper a {
+    color:#ffffff;
+}
+/** Für den IE6 ist es nicht möglich die Toolbar außerhalb des Bodies zu strecken*/
+.ie6 #toolbar-wrapper {
+    left: auto;
+    right: auto;
+}
+/** positioniert den Inhaltsbereich auf die Seitenränder */
+#toolbar {
+    margin: auto; color:#ffffff;
+    min-width : 450px;
+}
+/** Icons auf der Toolbar */
+#toolbar-content {
+    margin-left: 52px;
+    padding-top: 6px;
+    font-size: 12px;
+}
+
+.toolbar-content-item {
+    float:left;
+    text-align: center;
+    margin-right:25px;
+}
+
+/* Positionierung der Lesehilfe */
+#toolbar-content-item_10,
+#toolbar-content-item_6,
+#toolbar-content-item_8,
+#toolbar-content-item_7,
+#toolbar-content-item_9 {
+    line-height: 30px;
+    margin: 6px;
+    float:right;
+    margin-top: 4px;
+}
+
+
+
+/**Toolbar Tipp*/
+#block-toolbarcontent  a + div, #block-toolbarcontent a + div,
+#toolbar-content  a + div, #toolbar-login a + div {
+    display: none;
+    position: absolute;
+    z-index: 10000;
+}
+
+#block-toolbarcontent  a:hover + div, #block-toolbarcontent a:hover + div,
+#toolbar-content a:hover + div, #toolbar-login a:hover + div {
+    display: block;
+}
+
+#block-toolbarcontent {
+    margin-top: 10px;
+}
+
+/** Toolbar im Block */
+
+#block-toolbarcontent #toolbar-content-item_6,
+#block-toolbarcontent #toolbar-content-item_8,
+#block-toolbarcontent #toolbar-content-item_7,
+#block-toolbarcontent #toolbar-content-item_9 {
+    margin: 2px;
+}
+
+
+.tooltip-content,.tooltip-left, .tooltip-right  {
+    height:27px;
+    float:left;
+    line-height: 27px;
+}
+
+#toolbar-login {
+    padding-top: 4px;
+    float:right;
+    margin: 0 8px;
+}
+
+#toolbar-login a, #toolbar-content  a {
+    text-decoration: none;
+}
+
+.toolbar-tooltip {
+    white-space: nowrap;
+    margin-left: -30%;
+}
+
+#toolbar-login .toolbar-tooltip {
+    margin-left: -15%;
+    min-width:100px;
+}
+
+.tooltip-content {
+    background: url([[pix:theme|toolbar/tooltip]]) repeat-x;
+}
+
+.tooltip-left {
+    background: url([[pix:theme|toolbar/tooltip-left]]) no-repeat;
+    width:6px;
+}
+
+.tooltip-right {
+    background: url([[pix:theme|toolbar/tooltip-right]]) no-repeat;
+    width:7px;
+}
+
+/*Supportbutton*/
+
+#toolbar-content-item_10{
+
+margin-top: 0px;
+margin-right:10px;
+}
+
+
+/* Logininfo in der Toolbar*/
+.headermenu {
+    font-size: 1em;
+    margin: 5px 10px;
+}
+
+
+.langmenu select{
+
+   width: 130px;
+   background:#C4D8DA;
+   border: 1px solid #356379;
+}
+
+
+.toolbar-toolpop {
+   margin-left: 22%;
+   font-size: 1em;
+   padding-bottom: 0px;
+   margin-top: -17px;
+}
+
+
+.toolpop-content,.toolpop-left, .toolpop-right{
+
+   float:left;
+   line-height: 18px;
+   height: 18px;
+}
+
+
+
+.toolpop-content {
+    background: url([[pix:theme|toolbar/toolpop]]) repeat-x;
+    min-width: 12px;
+    
+}
+
+.toolpop-left {
+    background: url([[pix:theme|toolbar/toolpop-left]]) no-repeat;
+    width:3px;
+    
+}
+
+.toolpop-right {
+    background: url([[pix:theme|toolbar/toolpop-right]]) no-repeat;
+    width:4px;
+    
+}

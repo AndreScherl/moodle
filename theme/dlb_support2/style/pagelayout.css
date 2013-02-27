@@ -1,0 +1,11 @@
+#general-header, #toolbar-wrapper, .navbar .breadcrumb {
+    display:none;
+}
+
+#page {
+    top: 6px;
+}
+#dock {
+    top: 30px;
+}
+

@@ -1,0 +1,185 @@
+/*
+    Document   : frontpage
+    Created on : 09.03.2012, 19:17:38
+    Author     : Andreas Wagner
+*/
+/** Inhalte der Frontpage formatieren*/
+
+/** Kacheln */
+#tile01, #tile02, #tile03, #tile04, #tile05, #tile06 {
+    float:left; width:245px; height:165px; margin-bottom:5px;
+}
+
+#tile01,#tile02 {
+    margin-right: 4px;
+}
+
+#tile05, #tile03 {
+    margin-right:0px;
+}
+
+#tile05 {
+   
+    margin-right: 4px;
+}
+
+#tile01 {
+    background: url([[pix:theme|bg-digitales-lernen]]) no-repeat;
+}
+
+#tile02 {
+    background: url([[pix:theme|bg-offene-kurse]]) no-repeat;
+}
+
+#tile03 {
+    background: url([[pix:theme|bg-hilfe-support]]) no-repeat;
+}
+
+#tile04 {
+    background: url([[pix:theme|kachelBlau]]) no-repeat;
+}
+#tile05 {
+    background: url([[pix:theme|kachelBlau]]) no-repeat;
+}
+#tile06 {
+    background: url([[pix:theme|kachelBlau]]) no-repeat;
+    background-position: -2px 0;
+}
+
+.tilecontent {
+    float:left;
+    position: relative;
+    top: 30px;
+    left: 110px;
+    width: 104px;
+}
+
+.tilecontent h3 {
+    line-height: 18px;
+}
+
+#tile05 .tilecontent {
+    width: auto;
+    left: 280px;
+    top: 15px;
+}
+
+.tilelink {
+    float: right;
+    position: relative;
+    margin-right: 20px;
+    top: 120px;
+}
+
+/** Suchkachel */
+#categorysearch-result {
+    border : 1px solid silver;
+    border-top: 0px solid silver;
+    background: #ffe;
+    position:absolute;
+    z-index: 10000;
+}
+
+#categorysearch-result li {
+    padding : 3px;
+    list-style-type: none;
+}
+
+#coursesearchbox, #categorysearch-input {
+    height: 19px;
+    line-height: 19px;
+}
+
+#coursesearchbox input {
+    line-height: 19px;
+}
+
+/** Logos **/
+.region-content-footer {
+    margin-top: 10px;
+    
+}
+
+.logo_stmuk, .logo_isb, .logo_alp, .logo_nutz, .logo_imp, .logo_dat, .logo_kon, .logo_meb{
+    float: right;
+    margin-right:20px;
+}
+
+.logo_stmuk {
+    background: url([[pix:theme|frontpage/logo_stmuk_g]]) no-repeat;
+    height: 50px;
+    width: 240px;
+}
+
+.logo_stmuk:hover {
+    background: url([[pix:theme|frontpage/logo_stmuk]]) no-repeat;
+}
+
+.logo_isb{
+    background: url([[pix:theme|frontpage/logo_isb_g]]) no-repeat;
+    height: 50px;
+    width: 50px;
+}
+
+.logo_isb:hover {
+    background: url([[pix:theme|frontpage/logo_isb]]) no-repeat;
+}
+
+.logo_alp {
+    background: url([[pix:theme|frontpage/logo_alp_g]]) no-repeat;
+    height: 48px;
+    width: 65px;
+}
+
+.logo_alp:hover {
+    background: url([[pix:theme|frontpage/logo_alp]]) no-repeat;
+}
+
+.logo_nutz{
+    background: url([[pix:theme|frontpage/logo_nutz]]) no-repeat;
+    height: 50px;
+    width: 130px;
+}
+
+.logo_nutz:hover{
+background: url([[pix:theme|frontpage/logo_nutz_hov]]) no-repeat;
+}
+.logo_imp{
+    background: url([[pix:theme|frontpage/logo_imp]]) no-repeat;
+    height: 50px;
+    width: 80px;
+}
+
+.logo_imp:hover{
+background: url([[pix:theme|frontpage/logo_imp_hov]]) no-repeat;
+}
+
+.logo_dat{
+    background: url([[pix:theme|frontpage/logo_dat]]) no-repeat;
+    height: 50px;
+    width: 90px;
+}
+
+.logo_dat:hover{
+background: url([[pix:theme|frontpage/logo_dat_hov]]) no-repeat;
+}
+
+.logo_kon{
+    background: url([[pix:theme|frontpage/logo_kon]]) no-repeat;
+    height: 50px;
+    width: 70px;
+}
+
+.logo_kon:hover{
+background: url([[pix:theme|frontpage/logo_kon_hov]]) no-repeat;
+}
+
+.logo_meb{
+    background: url([[pix:theme|frontpage/logo_meb]]) no-repeat;
+    height: 50px;
+    width: 80px;
+}
+
+.logo_meb:hover{
+background: url([[pix:theme|frontpage/logo_meb_hov]]) no-repeat;
+}

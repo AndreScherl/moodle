@@ -19,7 +19,7 @@
 
     admin_externalpage_setup('editusers');
 
-    $sitecontext = get_context_instance(CONTEXT_SYSTEM);
+    $sitecontext = context_system::instance();
     $site = get_site();
 
     if (!has_capability('moodle/user:update', $sitecontext) and !has_capability('moodle/user:delete', $sitecontext)) {
@@ -167,11 +167,11 @@
         } else {
             $columndir = $dir == "ASC" ? "DESC":"ASC";
             if ($column == "lastaccess") {
-                $columnicon = $dir == "ASC" ? "up":"down";
+                $columnicon = ($dir == "ASC") ? "sort_desc" : "sort_asc";
             } else {
-                $columnicon = $dir == "ASC" ? "down":"up";
+                $columnicon = ($dir == "ASC") ? "sort_asc" : "sort_desc";
             }
-            $columnicon = " <img src=\"" . $OUTPUT->pix_url('t/' . $columnicon) . "\" alt=\"\" />";
+            $columnicon = "<img class='iconsort' src=\"" . $OUTPUT->pix_url('t/' . $columnicon) . "\" alt=\"\" />";
 
         }
         $$column = "<a href=\"user.php?sort=$column&amp;dir=$columndir\">".$string[$column]."</a>$columnicon";
@@ -240,18 +240,6 @@
                 $nusers[] = $users[$key];
             }
             $users = $nusers;
-        }
-
-        $override = new stdClass();
-        $override->firstname = 'firstname';
-        $override->lastname = 'lastname';
-        $fullnamelanguage = get_string('fullnamedisplay', '', $override);
-        if (($CFG->fullnamedisplay == 'firstname lastname') or
-            ($CFG->fullnamedisplay == 'firstname') or
-            ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'firstname lastname' )) {
-            $fullnamedisplay = "$firstname / $lastname";
-        } else { // ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'lastname firstname')
-            $fullnamedisplay = "$lastname / $firstname";
         }
 
         $table = new html_table();

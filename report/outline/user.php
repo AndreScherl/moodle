@@ -25,6 +25,7 @@
 
 require('../../config.php');
 require_once($CFG->dirroot.'/report/outline/locallib.php');
+
 //+++ awag DS13 verhindert den direkten Aufruf des personenbezogenen Berichtes im Kontext eines Kurses für Nicht-Admins.
  require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
  datenschutz::hook_local_report_outline_user_require_access_user_report();
@@ -69,21 +70,15 @@ $PAGE->set_heading($course->fullname);
 echo $OUTPUT->header();
 
 
-get_all_mods($course->id, $mods, $modnames, $modnamesplural, $modnamesused);
-$sections = get_all_sections($course->id);
+$modinfo = get_fast_modinfo($course);
+$sections = $modinfo->get_section_info_all();
 $itemsprinted = false;
 
-for ($i=0; $i<=$course->numsections; $i++) {
+foreach ($sections as $i => $section) {
 
-    if (isset($sections[$i])) {   // should always be true
-
-        $section = $sections[$i];
-        $showsection = (has_capability('moodle/course:viewhiddensections', $coursecontext) or $section->visible or !$course->hiddensections);
-
-        if ($showsection) { // prevent hidden sections in user activity. Thanks to Geoff Wilbert!
-            // Check the section has a sequence. This is the sequence of modules/resources.
-            // If there is no sequence there is nothing to display.
-            if ($section->sequence) {
+        if ($section->uservisible) { // prevent hidden sections in user activity. Thanks to Geoff Wilbert!
+            // Check the section has modules/resources, if not there is nothing to display.
+            if (!empty($modinfo->sections[$i])) {
                 $itemsprinted = true;
                 echo '<div class="section">';
                 echo '<h2>';
@@ -96,14 +91,10 @@ for ($i=0; $i<=$course->numsections; $i++) {
                     echo "<table cellpadding=\"4\" cellspacing=\"0\">";
                 }
 
-                $sectionmods = explode(",", $section->sequence);
-                foreach ($sectionmods as $sectionmod) {
-                    if (empty($mods[$sectionmod])) {
-                        continue;
-                    }
-                    $mod = $mods[$sectionmod];
+                foreach ($modinfo->sections[$i] as $cmid) {
+                    $mod = $modinfo->cms[$cmid];
 
-                    if (empty($mod->visible)) {
+                    if (empty($mod->uservisible)) {
                         continue;
                     }
 
@@ -154,7 +145,6 @@ for ($i=0; $i<=$course->numsections; $i++) {
                 echo '</div>';  // section
             }
         }
-    }
 }
 
 if (!$itemsprinted) {

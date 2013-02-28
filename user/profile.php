@@ -59,7 +59,7 @@ $userid = $userid ? $userid : $USER->id;       // Owner of the page
 $user = $DB->get_record('user', array('id' => $userid));
 
 if ($user->deleted) {
-    $PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
+    $PAGE->set_context(context_system::instance());
     echo $OUTPUT->header();
     echo $OUTPUT->notification(get_string('userdeleted'));
     echo $OUTPUT->footer();
@@ -67,7 +67,7 @@ if ($user->deleted) {
 }
 
 $currentuser = ($user->id == $USER->id);
-$context = $usercontext = get_context_instance(CONTEXT_USER, $userid, MUST_EXIST);
+$context = $usercontext = context_user::instance($userid, MUST_EXIST);
 
 if (!$currentuser &&
     !empty($CFG->forceloginforprofiles) &&
@@ -76,7 +76,7 @@ if (!$currentuser &&
 
     // Course managers can be browsed at site level. If not forceloginforprofiles, allow access (bug #4366)
     $struser = get_string('user');
-    $PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
+    $PAGE->set_context(context_system::instance());
     $PAGE->set_title("$SITE->shortname: $struser");  // Do not leak the name
     $PAGE->set_heading("$SITE->shortname: $struser");
     $PAGE->set_url('/user/profile.php', array('id'=>$userid));
@@ -93,7 +93,7 @@ if (!$currentpage = my_get_page($userid, MY_PAGE_PUBLIC)) {
 }
 
 if (!$currentpage->userid) {
-    $context = get_context_instance(CONTEXT_SYSTEM);  // A trick so that we even see non-sticky blocks
+    $context = context_system::instance();  // A trick so that we even see non-sticky blocks
 }
 
 $PAGE->set_context($context);
@@ -298,9 +298,13 @@ if ($user->icq && !isset($hiddenfields['icqnumber'])) {
 }
 
 if ($user->skype && !isset($hiddenfields['skypeid'])) {
-    print_row(get_string('skypeid').':','<a href="callto:'.urlencode($user->skype).'">'.s($user->skype).
-        ' <img src="http://mystatus.skype.com/smallicon/'.urlencode($user->skype).'" alt="'.get_string('status').'" '.
-        ' /></a>');
+    if (strpos($CFG->httpswwwroot, 'https:') === 0) {
+        // Bad luck, skype devs are lazy to set up SSL on their servers - see MDL-37233.
+        $statusicon = '';
+    } else {
+        $statusicon = ' '.html_writer::empty_tag('img', array('src'=>'http://mystatus.skype.com/smallicon/'.urlencode($user->skype), 'alt'=>get_string('status')));
+    }
+    print_row(get_string('skypeid').':','<a href="skype:'.urlencode($user->skype).'?call">'.s($user->skype).$statusicon.'</a>');
 }
 if ($user->yahoo && !isset($hiddenfields['yahooid'])) {
     print_row(get_string('yahooid').':', '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.urlencode($user->yahoo).'&amp;.src=pg">'.s($user->yahoo)." <img src=\"http://opi.yahoo.com/online?u=".urlencode($user->yahoo)."&m=g&t=0\" alt=\"\"></a>");
@@ -322,15 +326,16 @@ if (!isset($hiddenfields['mycourses'])) {
         $courselisting = '';
         foreach ($mycourses as $mycourse) {
             if ($mycourse->category) {
+                context_helper::preload_from_record($mycourse);
+                $ccontext = context_course::instance($mycourse->id);
                 $class = '';
                 if ($mycourse->visible == 0) {
-                    $ccontext = get_context_instance(CONTEXT_COURSE, $mycourse->id);
                     if (!has_capability('moodle/course:viewhiddencourses', $ccontext)) {
                         continue;
                     }
                     $class = 'class="dimmed"';
                 }
-                $courselisting .= "<a href=\"{$CFG->wwwroot}/user/view.php?id={$user->id}&amp;course={$mycourse->id}\" $class >" . format_string($mycourse->fullname) . "</a>, ";
+                $courselisting .= "<a href=\"{$CFG->wwwroot}/user/view.php?id={$user->id}&amp;course={$mycourse->id}\" $class >" . $ccontext->get_context_name(false) . "</a>, ";
             }
             $shown++;
             if($shown==20) {

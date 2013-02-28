@@ -13,8 +13,6 @@ M.core_dock = {
     preventevent : null,    // Will be an eventtype if there is an eventyoe to prevent
     holdingarea : null
 };
-
-//if (typeof(theme_load_dock_images) == "function") theme_load_dock_images();
 /**
  * Namespace containing the nodes that relate to the dock
  * @namespace
@@ -64,6 +62,7 @@ M.core_dock.init = function(Y) {
     this.initialised = true;
     this.Y = Y;
     this.nodes.body = Y.one(document.body);
+
     // Give the dock item class the event properties/methods
     Y.augment(this.item, Y.EventTarget);
     Y.augment(this, Y.EventTarget, true);
@@ -97,12 +96,7 @@ M.core_dock.init = function(Y) {
 
         _keyHandler: function (e, notifier, args) {
             if (!args.actions) {
-                var actObj = {
-                    collapse:true,
-                    expand:true,
-                    toggle:true,
-                    enter:true
-                };
+                var actObj = {collapse:true, expand:true, toggle:true, enter:true};
             } else {
                 var actObj = args.actions;
             }
@@ -116,9 +110,7 @@ M.core_dock.init = function(Y) {
             // subscribe to _event and ask keyHandler to handle with given args[0] (the desired actions).
             if (sub.args == null) {
                 //no actions given
-                sub._detacher = node.on(this._event, this._keyHandler,this, notifier, {
-                    actions:false
-                });
+                sub._detacher = node.on(this._event, this._keyHandler,this, notifier, {actions:false});
             } else {
                 sub._detacher = node.on(this._event, this._keyHandler,this, notifier, sub.args[0]);
             }
@@ -133,9 +125,7 @@ M.core_dock.init = function(Y) {
             // subscribe to _event and ask keyHandler to handle with given args[0] (the desired actions).
             if (sub.args == null) {
                 //no actions given
-                sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, {
-                    actions:false
-                });
+                sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, {actions:false});
             } else {
                 sub._delegateDetacher = node.delegate(this._event, this._keyHandler,filter, this, notifier, sub.args[0]);
             }
@@ -146,44 +136,18 @@ M.core_dock.init = function(Y) {
         }
     });
     // Publish the events the dock has
-    this.publish('dock:beforedraw', {
-        prefix:'dock'
-    });
-    this.publish('dock:beforeshow', {
-        prefix:'dock'
-    });
-    this.publish('dock:shown', {
-        prefix:'dock'
-    });
-    this.publish('dock:hidden', {
-        prefix:'dock'
-    });
-    this.publish('dock:initialised', {
-        prefix:'dock'
-    });
-    this.publish('dock:itemadded', {
-        prefix:'dock'
-    });
-    this.publish('dock:itemremoved', {
-        prefix:'dock'
-    });
-    this.publish('dock:itemschanged', {
-        prefix:'dock'
-    });
-    this.publish('dock:panelgenerated', {
-        prefix:'dock'
-    });
-    this.publish('dock:panelresizestart', {
-        prefix:'dock'
-    });
-    this.publish('dock:resizepanelcomplete', {
-        prefix:'dock'
-    });
-    this.publish('dock:starting', {
-        prefix: 'dock',
-        broadcast:  2,
-        emitFacade: true
-    });
+    this.publish('dock:beforedraw', {prefix:'dock'});
+    this.publish('dock:beforeshow', {prefix:'dock'});
+    this.publish('dock:shown', {prefix:'dock'});
+    this.publish('dock:hidden', {prefix:'dock'});
+    this.publish('dock:initialised', {prefix:'dock'});
+    this.publish('dock:itemadded', {prefix:'dock'});
+    this.publish('dock:itemremoved', {prefix:'dock'});
+    this.publish('dock:itemschanged', {prefix:'dock'});
+    this.publish('dock:panelgenerated', {prefix:'dock'});
+    this.publish('dock:panelresizestart', {prefix:'dock'});
+    this.publish('dock:resizepanelcomplete', {prefix:'dock'});
+    this.publish('dock:starting', {prefix: 'dock',broadcast:  2,emitFacade: true});
     this.fire('dock:starting');
     // Re-apply early bindings properly now that we can
     this.applyBinds();
@@ -207,9 +171,7 @@ M.core_dock.init = function(Y) {
     } else {
         dock.addClass(css.dock+'_'+this.cfg.position+'_'+this.cfg.orientation);
     }
-    this.holdingarea = Y.Node.create('<div></div>').setStyles({
-        display:'none'
-    });
+    this.holdingarea = Y.Node.create('<div></div>').setStyles({display:'none'});
     this.nodes.body.append(this.holdingarea);
     if (Y.UA.ie > 0 && Y.UA.ie < 7) {
         // Adjust for IE 6 (can't handle fixed pos)
@@ -234,12 +196,8 @@ M.core_dock.init = function(Y) {
     var removeall = Y.Node.create('<img alt="'+M.str.block.undockall+'" title="'+M.str.block.undockall+'" tabindex="0"/>');
     removeall.setAttribute('src',this.cfg.removeallicon);
     removeall.on('removeall|click', this.remove_all, this);
-    removeall.on('dock:actionkey', this.remove_all, this, {
-        actions:{
-            enter:true
-        }
-    });
-this.nodes.buttons.appendChild(Y.Node.create('<div class="'+css.controls+'"></div>').append(removeall));
+    removeall.on('dock:actionkey', this.remove_all, this, {actions:{enter:true}});
+    this.nodes.buttons.appendChild(Y.Node.create('<div class="'+css.controls+'"></div>').append(removeall));
 
     // Create a manager for the height of the tabs. Once set this can be forgotten about
     new (function(Y){
@@ -305,28 +263,12 @@ this.nodes.buttons.appendChild(Y.Node.create('<div class="'+css.controls+'"></di
     // Attach the required event listeners
     // We use delegate here as that way a handful of events are created for the dock
     // and all items rather than the same number for the dock AND every item individually
-    Y.delegate('click', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {
-        cssselector:'.'+this.css.dockedtitle,
-        delay:0
-    });
-    Y.delegate('mouseenter', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {
-        cssselector:'.'+this.css.dockedtitle,
-        delay:0.5,
-        iscontained:true,
-        preventevent:'click',
-        preventdelay:3
-    });
+    Y.delegate('click', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {cssselector:'.'+this.css.dockedtitle, delay:0});
+    Y.delegate('mouseenter', this.handleEvent, this.nodes.dock, '.'+this.css.dockedtitle, this, {cssselector:'.'+this.css.dockedtitle, delay:0.5, iscontained:true, preventevent:'click', preventdelay:3});
     //Y.delegate('mouseleave', this.handleEvent, this.nodes.body, '#dock', this,  {cssselector:'#dock', delay:0.5, iscontained:false});
-    this.nodes.dock.on('mouseleave', this.handleEvent, this, {
-        cssselector:'#dock',
-        delay:0.5,
-        iscontained:false
-    });
+    this.nodes.dock.on('mouseleave', this.handleEvent, this, {cssselector:'#dock', delay:0.5, iscontained:false});
 
-    this.nodes.body.on('click', this.handleEvent, this,  {
-        cssselector:'body',
-        delay:0
-    });
+    this.nodes.body.on('click', this.handleEvent, this,  {cssselector:'body', delay:0});
     this.on('dock:itemschanged', this.resizeBlockSpace, this);
     this.on('dock:itemschanged', this.checkDockVisibility, this);
     this.on('dock:itemschanged', this.resetFirstItem, this);
@@ -488,9 +430,7 @@ M.core_dock.handleEvent = function(e, options) {
         if (options.preventevent) {
             this.preventevent = options.preventevent;
             if (options.preventdelay) {
-                setTimeout(function(){
-                    M.core_dock.preventevent = null;
-                }, options.preventdelay*1000);
+                setTimeout(function(){M.core_dock.preventevent = null;}, options.preventdelay*1000);
             }
         }
         if (this.delayedevent && this.delayedevent.timeout) {
@@ -538,11 +478,7 @@ M.core_dock.delayEvent = function(event, options, target) {
         self.delayedevent.timeout = null;
         self.delayedevent.event.detach();
         if (options.iscontained == self.nodes.dock.contains(self.delayedevent.target)) {
-            self.handleEvent(event, {
-                cssselector:options.cssselector,
-                delay:0,
-                iscontained:options.iscontained
-                });
+            self.handleEvent(event, {cssselector:options.cssselector, delay:0, iscontained:options.iscontained});
         }
     }, options.delay*1000);
     return true;
@@ -586,44 +522,56 @@ M.core_dock.fixTitleOrientation = function(item, title, text) {
     }
 
     if (Y.UA.ie == 8) {
-        // IE8 can flip the text via CSS but not handle SVG
+        // IE8 can flip the text via CSS but not handle transform. IE9+ can handle the CSS3 transform attribute.
         title.setContent(text);
         title.setAttribute('style', 'writing-mode: tb-rl; filter: flipV flipH;display:inline;');
         title.addClass('filterrotate');
         return title;
     }
 
-    // Cool, we can use SVG!
-    var test = Y.Node.create('<h2><span style="font-size:10px;">'+text+'</span></h2>');
-    this.nodes.body.append(test);
-    var height = test.one('span').get('offsetWidth')+4;
-    var width = test.one('span').get('offsetHeight')*2;
-    var qwidth = width/4;
+    // We need to fix a font-size - sorry theme designers.
+    var fontsize = '11px';
+    var transform = (clockwise) ? 'rotate(90deg)' : 'rotate(270deg)';
+    var test = Y.Node.create('<h2><span class="transform-test-node" style="font-size:'+fontsize+';">'+text+'</span></h2>');
+    this.nodes.body.insert(test, 0);
+    var width = test.one('span').get('offsetWidth') * 1.2;
+    var height = test.one('span').get('offsetHeight');
     test.remove();
 
-    // Create the text for the SVG
-    var txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    txt.setAttribute('font-size','10px');
-    if (clockwise) {
-        txt.setAttribute('transform','rotate(90 '+(qwidth/2)+' '+qwidth+')');
+    title.setContent(text);
+    title.addClass('css3transform');
+
+    // Move the title into position
+    title.setStyles({
+        'margin' : '0',
+        'padding' : '0',
+        'position' : 'relative',
+        'fontSize' : fontsize,
+        'width' : width,
+        'top' : width/2
+    });
+
+    // Positioning is different when in RTL mode.
+    if (right_to_left()) {
+        title.setStyle('left', width/2 - height);
     } else {
-        txt.setAttribute('y', height);
-        txt.setAttribute('transform','rotate(270 '+qwidth+' '+(height-qwidth)+')');
+        title.setStyle('right', width/2 - height);
     }
-    txt.appendChild(document.createTextNode(text));
 
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('version', '1.1');
-    svg.setAttribute('height', height);
-    svg.setAttribute('width', width);
-    svg.appendChild(txt);
+    // Rotate the text
+    title.setStyles({
+        'transform' : transform,
+        '-ms-transform' : transform,
+        '-moz-transform' : transform,
+        '-webkit-transform' : transform,
+        '-o-transform' : transform
+    });
 
-    title.append(svg);
-    title.append(Y.Node.create('<span class="accesshide">'+text+'</span>'));
-
-    item.on('dockeditem:drawcomplete', function(txt, title){
-        txt.setAttribute('fill', Y.one(title).getStyle('color'));
-    }, item, txt, title);
+    var container = Y.Node.create('<div></div>');
+    container.append(title);
+    container.setStyle('height', width + (width / 4));
+    container.setStyle('position', 'relative');
+    return container;
 
     return title;
 };
@@ -645,10 +593,7 @@ M.core_dock.resizeBlockSpace = function(node) {
         if (hasblocks) {
             populatedblockregions++;
         }
-        blockregions[region.get('id')] = {
-            hasblocks: hasblocks,
-            bodyclass: region.get('id').replace(/^region\-/, 'side-')+'-only'
-            };
+        blockregions[region.get('id')] = {hasblocks: hasblocks, bodyclass: region.get('id').replace(/^region\-/, 'side-')+'-only'};
     });
     var bodynode = M.core_dock.nodes.body;
     var showregions = false;
@@ -785,10 +730,7 @@ M.core_dock.checkDockVisibility = function() {
  * @param {function} callback
  */
 M.core_dock.on = function(event, callback) {
-    this.earlybinds.push({
-        event:event,
-        callback:callback
-    });
+    this.earlybinds.push({event:event,callback:callback});
 };
 /**
  * This function takes all early binds and attaches them as listeners properly
@@ -911,7 +853,11 @@ M.core_dock.genericblock.prototype = {
 
         // Must set the image src seperatly of we get an error with XML strict headers
         var moveto = Y.Node.create('<input type="image" class="moveto customcommand requiresjs" alt="'+M.str.block.addtodock+'" title="'+M.str.block.addtodock+'" />');
-        moveto.setAttribute('src', M.util.image_url('t/block_to_dock', 'moodle'));
+        var icon = 't/block_to_dock';
+        if (right_to_left()) {
+            icon = 't/block_to_dock_rtl';
+        }
+        moveto.setAttribute('src', M.util.image_url(icon, 'moodle'));
         moveto.on('movetodock|click', this.move_to_dock, this, commands);
 
         var blockaction = node.one('.block_action');
@@ -981,7 +927,11 @@ M.core_dock.genericblock.prototype = {
 
         // Must set the image src seperatly of we get an error with XML strict headers
         var movetoimg = Y.Node.create('<img alt="'+M.str.block.undockitem+'" title="'+M.str.block.undockitem+'" />');
-        movetoimg.setAttribute('src', M.util.image_url('t/dock_to_block', 'moodle'));
+        var icon = 't/dock_to_block';
+        if (right_to_left()) {
+            icon = 't/dock_to_block_rtl';
+        }
+        movetoimg.setAttribute('src', M.util.image_url(icon, 'moodle'));
         var moveto = Y.Node.create('<a class="moveto customcommand requiresjs"></a>').append(movetoimg);
         if (location.href.match(/\?/)) {
             moveto.set('href', location.href+'&dock='+this.id);
@@ -1006,15 +956,10 @@ M.core_dock.genericblock.prototype = {
             }, this);
             // Add a close icon
             // Must set the image src seperatly of we get an error with XML strict headers
-            var closeicon = Y.Node.create('<span class="hidepanelicon" tabindex="0"><img alt="'+M.str.block.hidepanel+'" title="'+M.str.block.hidedockpanel+'" style="width:11px;height:11px;cursor:pointer;"/></span>');
+            var closeicon = Y.Node.create('<span class="hidepanelicon" tabindex="0"><img alt="'+M.str.block.hidepanel+'" title="'+M.str.block.hidedockpanel+'" /></span>');
             closeicon.one('img').setAttribute('src', M.util.image_url('t/dockclose', 'moodle'));
             closeicon.on('forceclose|click', this.hide, this);
-            closeicon.on('dock:actionkey',this.hide, this, {
-                actions:{
-                    enter:true,
-                    toggle:true
-                }
-            });
+            closeicon.on('dock:actionkey',this.hide, this, {actions:{enter:true,toggle:true}});
             this.commands.append(closeicon);
         }, dockitem);
         // Register an event so that when it is removed we can put it back as a block
@@ -1029,13 +974,13 @@ M.core_dock.genericblock.prototype = {
         }
 
         this.isdocked = true;
-},
-/**
+    },
+    /**
      * This function removes a block from the dock and puts it back into the page
      * structure.
      * @param {M.core_dock.class.item}
      */
-return_to_block : function(dockitem) {
+    return_to_block : function(dockitem) {
         var placeholder = this.Y.one('#content_placeholder_'+this.id);
 
         // Enable the skip anchor when going back to block mode
@@ -1064,7 +1009,7 @@ return_to_block : function(dockitem) {
         M.util.set_user_preference('docked_block_instance_'+this.id, 0);
         this.isdocked = false;
         return true;
-}
+    }
 };
 
 /**
@@ -1080,27 +1025,13 @@ return_to_block : function(dockitem) {
  */
 M.core_dock.item = function(Y, uid, title, contents, commands, blockclass){
     this.Y = Y;
-    this.publish('dockeditem:drawstart', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:drawcomplete', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:showstart', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:showcomplete', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:hidestart', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:hidecomplete', {
-        prefix:'dockeditem'
-    });
-    this.publish('dockeditem:itemremoved', {
-        prefix:'dockeditem'
-    });
+    this.publish('dockeditem:drawstart', {prefix:'dockeditem'});
+    this.publish('dockeditem:drawcomplete', {prefix:'dockeditem'});
+    this.publish('dockeditem:showstart', {prefix:'dockeditem'});
+    this.publish('dockeditem:showcomplete', {prefix:'dockeditem'});
+    this.publish('dockeditem:hidestart', {prefix:'dockeditem'});
+    this.publish('dockeditem:hidecomplete', {prefix:'dockeditem'});
+    this.publish('dockeditem:itemremoved', {prefix:'dockeditem'});
     if (uid && this.id==null) {
         this.id = uid;
     }
@@ -1129,11 +1060,7 @@ M.core_dock.item = function(Y, uid, title, contents, commands, blockclass){
         this.blockclass = blockclass;
     }
     this.nodes = (function(){
-        return {
-            docktitle : null,
-            dockitem : null,
-            container: null
-        };
+        return {docktitle : null, dockitem : null, container: null};
     })();
 };
 /**

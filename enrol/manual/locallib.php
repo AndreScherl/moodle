@@ -53,6 +53,7 @@ class enrol_manual_potential_participant extends user_selector_base {
         $fields      = 'SELECT ' . $this->required_fields_sql('u');
         $countfields = 'SELECT COUNT(1)';
 
+<<<<<<< HEAD
         $sql = " FROM {user} u
             LEFT JOIN {user_enrolments} ue ON (ue.userid = u.id AND ue.enrolid = :enrolid)
                 WHERE $wherecondition
@@ -60,6 +61,21 @@ class enrol_manual_potential_participant extends user_selector_base {
 
         list($sort, $sortparams) = users_order_by_sql('u', $search, $this->accesscontext);
         $order = ' ORDER BY ' . $sort;
+=======
+        //+++ awag DS02:Sichtbarkeitstrennung-Einschreibung
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_enrol_manual_locallib_find_users($wherecondition);
+        //--- awag
+
+        $sql = " FROM {user} u
+                WHERE $wherecondition AND
+                      u.id NOT IN (
+                          SELECT ue.userid
+                            FROM {user_enrolments} ue
+                            JOIN {enrol} e ON (e.id = ue.enrolid AND e.id = :enrolid))";
+        $order = ' ORDER BY u.lastname ASC, u.firstname ASC';
+>>>>>>> master
 
         if (!$this->is_validating()) {
             $potentialmemberscount = $DB->count_records_sql($countfields . $sql, $params);

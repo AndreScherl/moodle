@@ -113,7 +113,8 @@ if (isguestuser()) {     // Guests can never edit their profile
 }
 
 if (has_capability('moodle/user:viewhiddendetails', $context)) {
-    $hiddenfields = array();
+    //awag, country nicht anzeigen
+    $hiddenfields = array('country' => '1');
 } else {
     $hiddenfields = array_flip(explode(',', $CFG->hiddenuserfields));
 }

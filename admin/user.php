@@ -177,28 +177,25 @@
         $$column = "<a href=\"user.php?sort=$column&amp;dir=$columndir\">".$string[$column]."</a>$columnicon";
     }
 
-    $override = new stdClass();
-    $override->firstname = 'firstname';
-    $override->lastname = 'lastname';
-    $fullnamelanguage = get_string('fullnamedisplay', '', $override);
-    if (($CFG->fullnamedisplay == 'firstname lastname') or
-        ($CFG->fullnamedisplay == 'firstname') or
-        ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'firstname lastname' )) {
-        $fullnamedisplay = "$firstname / $lastname";
-        if ($sort == "name") { // If sort has already been set to something else then ignore.
-            $sort = "firstname";
-        }
-    } else { // ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'lastname firstname').
-        $fullnamedisplay = "$lastname / $firstname";
-        if ($sort == "name") { // This should give the desired sorting based on fullnamedisplay.
-            $sort = "lastname";
-        }
+    if ($sort == "name") {
+        $sort = "firstname";
     }
 
     list($extrasql, $params) = $ufiltering->get_sql_filter();
+
+    //+++ awag DS03, DS04:Sichtbarkeitsregel-Nutzerverwaltung
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    $extrasql = datenschutz::hook_admin_user_get_extrasql($extrasql);
+    $extrasqlusercount = datenschutz::hook_admin_user_get_extrasqlusercount();
+    //--- awag
+
     $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
             $extrasql, $params, $context);
-    $usercount = get_users(false);
+
+    //+++ awag DS04:Gesamtanzahl $usercount = get_users(false);
+    $usercount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasqlusercount);
+    //--- awag
+
     $usersearchcount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasql, $params);
 
     if ($extrasql !== '') {

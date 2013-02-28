@@ -1,0 +1,10 @@
+<?PHP
+
+////////////////////////////////////////////////////////////////////////////////
+//  Code fragment to define the module version etc.
+//  This fragment is called by /admin/index.php
+////////////////////////////////////////////////////////////////////////////////
+
+$plugin->version   = 2011102006;
+$plugin->requires  = 2010112400;
+$plugin->component = 'assignment_onlineaudio';

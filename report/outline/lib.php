@@ -67,6 +67,12 @@ function report_outline_extend_navigation_user($navigation, $user, $course) {
 function report_outline_can_access_user_report($user, $course) {
     global $USER;
 
+    //+++ awag DS12: Verbergen der Navigationslinks auf personenbezogenen Berichte im Kontext des Kurses
+    global $CFG;
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    return datenschutz::hook_report_outline_lib_report_outline_can_access_user_report();
+    //--- awag
+
     $coursecontext = context_course::instance($course->id);
     $personalcontext = context_user::instance($user->id);
 

@@ -921,11 +921,18 @@ function print_recent_activity($course) {
     echo '<div class="activitydate">';
     echo get_string('activitysince', '', userdate($timestart));
     echo '</div>';
-    echo '<div class="activityhead">';
 
-    echo '<a href="'.$CFG->wwwroot.'/course/recent.php?id='.$course->id.'">'.get_string('recentactivityreport').'</a>';
+    //+++ awag DS15: Link zur Auswertung von vergangenen Aktivitäten zeigen?
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
 
-    echo "</div>\n";
+    if (datenschutz::hook_course_lib_can_access_recent_activities()) {
+
+        echo '<div class="activityhead">';
+
+        echo '<a href="'.$CFG->wwwroot.'/course/recent.php?id='.$course->id.'">'.get_string('recentactivityreport').'</a>';
+
+        echo "</div>\n";
+    }
 
     $content = false;
 

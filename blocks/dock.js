@@ -283,15 +283,31 @@ M.core_dock.getPanel = function() {
     if (this.nodes.panel === null) {
         // Initialise the dockpanel .. should only happen once
         this.nodes.panel = (function(Y, parent){
-            var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd"></div></div></div>');
+            //var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd"></div></div></div>');
+            //awag zusätzliche Divs zum Erzeugen von Schatteneffekten...
+            var eckenoben = '<div class="dockeditem-top-middle"><div class="dockeditem-top-right"></div><div class="dockeditem-top-left"></div></div>';
+            var eckenunten = '<div class="dockeditem-bottom-middle"><div class="dockeditem-bottom-left"></div><div class="dockeditem-bottom-right"></div></div>';
+            var dockpanel = Y.Node.create('<div id="dockeditempanel" class="dockitempanel_hidden"> ' + eckenoben +
+             '<div class="dockeditempanel_content_right"><div class="dockeditempanel_content"><div class="dockeditempanel_hd"></div><div class="dockeditempanel_bd_left"><div class="dockeditempanel_bd"></div></div></div></div>' + eckenunten + '</div>');
+             //awag
             // Give the dockpanel event target properties and methods
             Y.augment(dockpanel, Y.EventTarget);
             // Publish events for the dock panel
-            dockpanel.publish('dockpanel:beforeshow', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:shown', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:beforehide', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:hidden', {prefix:'dockpanel'});
-            dockpanel.publish('dockpanel:visiblechange', {prefix:'dockpanel'});
+            dockpanel.publish('dockpanel:beforeshow', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:shown', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:beforehide', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:hidden', {
+                prefix:'dockpanel'
+            });
+            dockpanel.publish('dockpanel:visiblechange', {
+                prefix:'dockpanel'
+            });
             // Cache the content nodes
             dockpanel.contentNode = dockpanel.one('.dockeditempanel_content');
             dockpanel.contentHeader = dockpanel.contentNode.one('.dockeditempanel_hd');
@@ -866,6 +882,10 @@ M.core_dock.genericblock.prototype = {
      * @param {event}
      */
     move_to_dock : function(e, commands) {
+
+        //für die Startseite nicht ins Dock schieben //
+        if (typeof nodock != "undefined") return;
+
         if (e) {
             e.halt(true);
         }
@@ -1018,7 +1038,17 @@ M.core_dock.item = function(Y, uid, title, contents, commands, blockclass){
     if (title && this.title==null) {
         this.titlestring = title.cloneNode(true);
         this.title = document.createElement(title.nodeName);
-        this.title = M.core_dock.fixTitleOrientation(this, this.title, this.titlestring.firstChild.nodeValue);
+        //awag, wenn Icons verwendet werden Text ersetzen.
+        if ((typeof theme_dock_images == "object") && (theme_dock_images[blockclass] != undefined)) {
+            title = Y.one(this.title);
+            var icon = document.createElement("img");
+            this.title.setAttribute("class", "dock_icon");
+            icon.setAttribute('src',theme_dock_images[blockclass]);
+            title.appendChild(icon);
+        } else {
+        M.core_dock.fixTitleOrientation(this, this.title, this.titlestring.firstChild.nodeValue);
+    }
+    //awag
     }
     if (contents && this.contents==null) {
         this.contents = contents;
@@ -1052,13 +1082,17 @@ M.core_dock.item.prototype = {
      */
     draw : function() {
         this.fire('dockeditem:drawstart');
-
+        
         var Y = this.Y;
         var css = M.core_dock.css;
 
-        this.nodes.docktitle = Y.Node.create('<div id="dock_item_'+this.id+'_title" role="menu" aria-haspopup="true" class="'+css.dockedtitle+'"></div>');
+        //awag blockclass ergänzt, damit das Dock formatiert werden kann
+        this.nodes.docktitle = Y.Node.create('<div id="dock_item_'+this.id+'_title" role="menu" aria-haspopup="true" class="'+css.dockedtitle+' '+this.blockclass+'"></div>');
         this.nodes.docktitle.append(this.title);
-        this.nodes.dockitem = Y.Node.create('<div id="dock_item_'+this.id+'" class="'+css.dockeditem+'" tabindex="0"></div>');
+        var blockclass = this.blockclass;
+        if ((typeof theme_dock_images == "object") && (theme_dock_images[blockclass] != undefined)) blockclass = 'dock_icon ' + blockclass;
+        this.nodes.dockitem = Y.Node.create('<div id="dock_item_'+this.id+'" class="'+css.dockeditem+' '+blockclass+'" tabindex="0"></div>');
+        //awag
         this.nodes.dockitem.on('dock:actionkey', this.toggle, this);
         if (M.core_dock.count === 1) {
             this.nodes.dockitem.addClass('firstdockitem');

@@ -1116,6 +1116,12 @@ class role_check_users_selector extends user_selector_base {
         $fields      = 'SELECT ' . $this->required_fields_sql('u');
         $countfields = 'SELECT COUNT(1)';
 
+         //+++ awag DS07:Rollenzuweisung außerhalb des Kurses
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_admin_roles_lib_find_users($wherecondition);
+        //--- awag
+
         $coursecontext = $this->accesscontext->get_course_context(false);
 
         if ($coursecontext and $coursecontext != SITEID) {
@@ -1725,7 +1731,6 @@ class admins_existing_selector extends user_selector_base {
         }
 
         $mainadmin = array();
-        $mainadminuser = get_admin();
         if ($mainadminuser && isset($availableusers[$mainadminuser->id])) {
             $mainadmin = array($mainadminuser->id => $availableusers[$mainadminuser->id]);
             unset($availableusers[$mainadminuser->id]);

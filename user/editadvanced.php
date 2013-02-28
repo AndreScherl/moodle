@@ -34,6 +34,10 @@ require_once($CFG->dirroot.'/user/profile/lib.php');
 $PAGE->https_required();
 
 $id     = optional_param('id', $USER->id, PARAM_INT);    // user id; -1 if creating new user
+//+++ DS05: awag - prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
+ require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+ datenschutz::hook_local_user_editadvanced_require_same_institution($id);
+ //--- 
 $course = optional_param('course', SITEID, PARAM_INT);   // course id (defaults to Site)
 
 $PAGE->set_url('/user/editadvanced.php', array('course'=>$course, 'id'=>$id));
@@ -151,6 +155,11 @@ $userform = new user_editadvanced_form(null, array(
 $userform->set_data($user);
 
 if ($usernew = $userform->get_data()) {
+
+    //+++ Hook DS20
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    datenschutz::hook_user_editadvanced_before_save_user($usernew);
+    //---DS20
 
     if (empty($usernew->auth)) {
         //user editing self

@@ -33,6 +33,10 @@ require_once($CFG->dirroot.'/user/profile/lib.php');
 $PAGE->https_required();
 
 $userid = optional_param('id', $USER->id, PARAM_INT);    // user id
+//+++ DS06: awag - prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
+ require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+ datenschutz::hook_local_user_edit_require_same_institution($userid);
+ //--- 
 $course = optional_param('course', SITEID, PARAM_INT);   // course id (defaults to Site)
 $cancelemailchange = optional_param('cancelemailchange', 0, PARAM_INT);   // course id (defaults to Site)
 

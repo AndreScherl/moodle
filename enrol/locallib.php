@@ -305,6 +305,7 @@ class course_enrolment_manager {
         $extrafields[] = 'lastaccess';
         $ufields = user_picture::fields('u', $extrafields);
 
+<<<<<<< HEAD
         return array($ufields, $params, $wherecondition);
     }
 
@@ -362,6 +363,26 @@ class course_enrolment_manager {
         $params['enrolid'] = $enrolid;
 
         return $this->execute_search_queries($search, $fields, $countfields, $sql, $params, $page, $perpage, $addedenrollment);
+=======
+        $fields      = 'SELECT '.$ufields;
+        $countfields = 'SELECT COUNT(1)';
+
+        //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
+        //--- awag
+
+        $sql = " FROM {user} u
+                WHERE $wherecondition 
+                      AND u.id NOT IN (SELECT ue.userid
+                                         FROM {user_enrolments} ue
+                                         JOIN {enrol} e ON (e.id = ue.enrolid AND e.id = :enrolid))";
+        $order = ' ORDER BY u.lastname ASC, u.firstname ASC';
+        $params['enrolid'] = $enrolid;
+        $totalusers = $DB->count_records_sql($countfields . $sql, $params);
+        $availableusers = $DB->get_records_sql($fields . $sql . $order, $params, $page*$perpage, $perpage);
+        return array('totalusers'=>$totalusers, 'users'=>$availableusers);
+>>>>>>> master
     }
 
     /**

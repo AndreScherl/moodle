@@ -52,6 +52,12 @@ class cohort_candidate_selector extends user_selector_base {
 
         $fields      = 'SELECT ' . $this->required_fields_sql('u');
         $countfields = 'SELECT COUNT(1)';
+        
+        //+++ awag DS08:Sichtbarkeitstrennung-Zuweisung zu einer Kohorte
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_cohort_lib_find_users($wherecondition);
+        //--- awag
 
         $sql = " FROM {user} u
             LEFT JOIN {cohort_members} cm ON (cm.userid = u.id AND cm.cohortid = :cohortid)

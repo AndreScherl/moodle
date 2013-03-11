@@ -19,7 +19,7 @@ class block_dlb extends block_base {
     function init() {
         $this->title = get_string('pluginname', 'block_dlb');
     }
-
+   function has_config() {return true;}
     function applicable_formats() {
         // Default case: the block can be used in courses and site index, but not in activities
         return array('all' => true);
@@ -62,7 +62,7 @@ class block_dlb extends block_base {
         $pathes = $DB->get_records_sql($sql, array('userid' =>$USER->id, 'contextlevel' => CONTEXT_COURSE));
 
         if (!$pathes) return array();
-        
+
         //oberste Kategorien sammeln
         $maincats = array();
 
@@ -91,7 +91,7 @@ class block_dlb extends block_base {
         }
     }
 
-    
+
     function get_content() {
         global $CFG, $OUTPUT, $COURSE, $DB, $USER;
 
@@ -104,7 +104,7 @@ class block_dlb extends block_base {
         if (!isset($USER->hascourses_in_categories)) {
             $USER->hascourses_in_categories = $this->get_maincats_by_role();
         }
-        
+
         //prüfen, ob Block angezeigt wird...
         if ((count($USER->hascourses_in_categories) > 0) and
                 (count($USER->managed_categories) == 0) and

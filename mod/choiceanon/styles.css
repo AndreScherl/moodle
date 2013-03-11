@@ -1,0 +1,61 @@
+.path-mod-choiceanon .results {border-collapse: separate;}
+.path-mod-choiceanon .results .data {vertical-align:top;white-space: nowrap;}
+.path-mod-choiceanon .button {text-align:center;}
+.path-mod-choiceanon .attemptcell {width:5px;white-space: nowrap;}
+.path-mod-choiceanon .anonymous,
+.path-mod-choiceanon .names {margin-left:auto;margin-right:auto; width:80%;}
+.path-mod-choiceanon .downloadreport {border-width:0;margin-left:10%;}
+.path-mod-choiceanon .choiceanonresponse {width:100%;}
+.path-mod-choiceanon .choiceanonresponse .picture {width:10px;white-space: nowrap;}
+.path-mod-choiceanon .choiceanonresponse .fullname {width:100%;white-space: nowrap;}
+
+.path-mod-choiceanon .responseheader {width: 100%; text-align: center; margin-top: 10px;}
+.path-mod-choiceanon .choiceanons .option label {vertical-align: top;}
+.path-mod-choiceanon .choiceanons .option input {vertical-align: middle;}
+
+.path-mod-choiceanon .horizontal,
+.path-mod-choiceanon .vertical {margin-left: 10%;margin-right: 10%;}
+.path-mod-choiceanon .horizontal .choiceanons .option {padding-right:20px;display:inline; white-space: normal;}
+.path-mod-choiceanon .horizontal .choiceanons .button {margin-top: 10px;}
+.path-mod-choiceanon ul.choiceanons li {list-style:none;}
+.path-mod-choiceanon .results { text-align: center;}
+.path-mod-choiceanon .results.anonymous .graph.horizontal {vertical-align: middle;text-align: left;width:70%;}
+
+.path-mod-choiceanon .results.anonymous .graph.vertical,
+.path-mod-choiceanon .cell {vertical-align: bottom; text-align: center; }
+.path-mod-choiceanon .results.anonymous th.header {border: 1px solid inherit;}
+
+.path-mod-choiceanon .results.names .header{width:10%; white-space: normal;}
+.path-mod-choiceanon .results.names .cell{vertical-align: top; text-align: left;}
+.path-mod-choiceanon .results.names .user,
+.path-mod-choiceanon #yourselection {padding: 5px;}
+.path-mod-choiceanon .results.names .user .attemptaction,
+.path-mod-choiceanon .results.names .user .image,
+.path-mod-choiceanon .results.names .user .fullname{float:left;}
+.path-mod-choiceanon .results.names .user .fullname{padding-left: 5px;}
+.path-mod-choiceanon .results .data.header {width: 10%;}
+.path-mod-choiceanon .responseaction {text-align: center;}
+.path-mod-choiceanon .results .option {white-space: normal;}
+.path-mod-choiceanon .response {overflow: auto;}
+.path-mod-choiceanon .results .option,
+.path-mod-choiceanon .results .numberofuser,
+.path-mod-choiceanon .results .percentage {font-weight: bold; font-size: 108%;}
+
+#page-mod-choiceanon-report .downloadreport ul li {list-style:none;padding: 0 20px; display: inline;float: left; }
+.path-mod-choiceanon .clearfloat {float:none; clear:both;}
+
+/**
+ * Override for RTL layout
+ */
+.path-mod-choiceanon.dir-rtl .horizontal .choiceanons .option {padding-right:0px; padding-left: 20px; float:right;}
+.path-mod-choiceanon.dir-rtl .results.anonymous .graph.horizontal {text-align: right;}
+.path-mod-choiceanon.dir-rtl .results.anonymous { text-align: center; }
+.path-mod-choiceanon.dir-rtl .results.names .cell{text-align: right;}
+.path-mod-choiceanon.dir-rtl .results.names .user .attemptaction,
+.path-mod-choiceanon.dir-rtl .results.names .user .image,
+.path-mod-choiceanon.dir-rtl .results.names .user .fullname,
+.path-mod-choiceanon.dir-rtl .results.names .user .fullname{padding-left: 0px; padding-right: 5px;}
+.path-mod-choiceanon.dir-rtl .downloadreport {margin-left:0;margin-right: 25%;}
+
+#page-mod-choiceanon-report.dir-rtl .downloadreport ul li{float:right;}
+#page-mod-choiceanon-view.dir-rtl .reportlink {text-align: left;}

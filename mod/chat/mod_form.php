@@ -48,12 +48,6 @@ class mod_chat_mod_form extends moodleform_mod {
         $options[14]   = get_string('numdays', '', 14);
         $options[7]    = get_string('numdays', '', 7);
         $options[2]    = get_string('numdays', '', 2);
-
-        //+++ awag DS11 (H003) Löschung von Chatnachrichten erzwingen
-        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
-        datenschutz::hook_mod_chat_mod_form_definition(&$options);
-        //--- awag
-
         $mform->addElement('select', 'keepdays', get_string('savemessages', 'chat'), $options);
 
         $mform->addElement('selectyesno', 'studentlogs', get_string('studentseereports', 'chat'));

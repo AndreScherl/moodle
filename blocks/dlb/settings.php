@@ -56,8 +56,10 @@ if ($ADMIN->fulltree) {
 
     $roles = $DB->get_records('role');
 
+
     foreach($roles as $role) {
         $choices[$role->id] = $role->name;
+
     }
 
     $settings->add(new admin_setting_configmulticheckbox('block_dlb_rolestosupport', get_string('rolestosupport', 'block_dlb'),

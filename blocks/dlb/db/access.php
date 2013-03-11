@@ -16,6 +16,29 @@
 */
 $capabilities = array(
 
+'block/dlb:myaddinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
+    ),
+
+    'block/dlb:addinstance' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
+
     'block/dlb:institutionview' => array(
 
         'captype' => 'read',
@@ -28,7 +51,8 @@ $capabilities = array(
             'editingteacher' => CAP_PREVENT,
             'manager' => CAP_ALLOW
         )
-    )
+    ),
+
 );
 
 

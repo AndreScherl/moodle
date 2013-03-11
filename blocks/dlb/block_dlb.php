@@ -19,7 +19,8 @@ class block_dlb extends block_base {
     function init() {
         $this->title = get_string('pluginname', 'block_dlb');
     }
-   function has_config() {return true;}
+    function has_config() {return true;}
+
     function applicable_formats() {
         // Default case: the block can be used in courses and site index, but not in activities
         return array('all' => true);
@@ -57,9 +58,9 @@ class block_dlb extends block_base {
                 JOIN {context} as  ctx ON ctx.id = ra.contextid
                 JOIN {course} as c ON c.id = ctx.instanceid
                 JOIN {course_categories} cc ON cc.id = c.category
-                WHERE userid = :userid AND ctx.contextlevel = :contextlevel and ra.roleid in (".$CFG->block_dlb_rolesformycategories.")";
+                WHERE userid = :userid AND ctx.contextlevel = :contextlevel AND ra.roleid in (".$CFG->block_dlb_rolesformycategories.")";
 
-        $pathes = $DB->get_records_sql($sql, array('userid' =>$USER->id, 'contextlevel' => CONTEXT_COURSE));
+        $pathes = $DB->get_recordset_sql($sql, array('userid' =>$USER->id, 'contextlevel' => CONTEXT_COURSE));
 
         if (!$pathes) return array();
 
@@ -119,6 +120,7 @@ class block_dlb extends block_base {
         if (empty($this->instance)) {
             return '';
         }
+
 
         $this->content = new stdClass();
         $this->content->text = "";

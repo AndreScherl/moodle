@@ -10,6 +10,8 @@ if ($ADMIN->fulltree) {
     $options['ajax']      = get_string('methodajax', 'chat');
     $options['header_js'] = get_string('methodnormal', 'chat');
     $options['sockets']   = get_string('methoddaemon', 'chat');
+
+
     $settings->add(new admin_setting_configselect('chat_method', get_string('method', 'chat'),
                        get_string('configmethod', 'chat'), 'ajax', $options));
 
@@ -18,7 +20,14 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('chat_old_ping', get_string('oldping', 'chat'),
                        get_string('configoldping', 'chat'), 35, PARAM_INT));
+     //++ atar
+     $chatoptions = array();
 
+     $chatoptions['anony'] = get_string('chat_anonymous','chat');
+     $chatoptions['noanony'] = get_string('chat_notanonymous','chat');
+      $settings->add(new admin_setting_configselect('chat_anon',get_string('anonchat', 'chat'),
+                       get_string('anonexplain', 'chat'), 'anony',$chatoptions));
+    //--atar
 
     $settings->add(new admin_setting_heading('chat_normal_heading', get_string('methodnormal', 'chat'),
                        get_string('explainmethodnormal', 'chat')));

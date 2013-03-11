@@ -16,6 +16,8 @@
 */
 
 $string['pluginname'] = 'Mebis-Verwaltung';
+$string['dlb:addinstance'] = 'Neuen Block \'Mebis-Verwaltung\' hinzufügen';
+$string['dlb:myaddinstance'] = 'Neuen Block \'Mebis-Verwaltung\' für \'Meine Startseite\' hinzufügen';
 $string['dlb:institutionview'] = 'User anderer Institutionen sehen';
 
 /** Konfiguration */

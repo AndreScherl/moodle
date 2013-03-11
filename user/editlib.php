@@ -225,7 +225,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->setDefault('city', $CFG->defaultcity);
     }
 
-   
+
     $choices = get_string_manager()->get_list_of_countries();
     $choices= array(''=>get_string('selectacountry').'...') + $choices;
     $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
@@ -274,8 +274,13 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('checkbox', 'deletepicture', get_string('delete'));
         $mform->setDefault('deletepicture', 0);
 
-        $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
-        $mform->addHelpButton('imagefile', 'newpicture');
+         if (has_capability('moodle/user:update', context_system::instance())) {
+            $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
+            $mform->addHelpButton('imagefile', 'newpicture');
+        } else {
+            require_once($CFG->dirroot.'/local/profilepicture/lib.php');
+            $mform->addElement('profilepicture', 'imagefile', get_string('newpicture'));
+        }
 
         $mform->addElement('text', 'imagealt', get_string('imagealt'), 'maxlength="100" size="30"');
         $mform->setType('imagealt', PARAM_TEXT);

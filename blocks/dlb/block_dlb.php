@@ -60,7 +60,7 @@ class block_dlb extends block_base {
                 JOIN {course_categories} cc ON cc.id = c.category
                 WHERE userid = :userid AND ctx.contextlevel = :contextlevel AND ra.roleid in (".$CFG->block_dlb_rolesformycategories.")";
 
-        $pathes = $DB->get_recordset_sql($sql, array('userid' =>$USER->id, 'contextlevel' => CONTEXT_COURSE));
+        $pathes = $DB->get_records_sql($sql, array('userid' =>$USER->id, 'contextlevel' => CONTEXT_COURSE));
 
         if (!$pathes) return array();
 

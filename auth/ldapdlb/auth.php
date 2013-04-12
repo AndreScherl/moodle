@@ -202,7 +202,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
 		// Try to bind with current username and password
 		$ldap_login = @ldap_bind($ldapconnection, $ldap_user_dn, $extpassword);
         $this->ldap_close();
-		if ($this->config->local_subcontext == $ldap_user_schooltype) {
+		if (!($this->config->local_subcontext) or ($this->config->local_subcontext == $ldap_user_schooltype)) {
         	if ($ldap_login) {
 				$SESSION->isTeacher = (strtolower($this->dn_get_role($ldap_user_dn)) == "lehrer") ? 1 : 0;
         	    return true;

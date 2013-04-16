@@ -66,6 +66,11 @@ class enrol_selfalp_enrol_form extends moodleform {
             // Change the id of selfalp enrolment key input as there can be multiple selfalp enrolment methods.
             $mform->addElement('passwordunmask', 'enrolpassword', get_string('password', 'enrol_selfalp'),
                     array('id' => 'enrolpassword_'.$instance->id));
+
+            if ($instance->customint6) {
+                $mform->addElement('static', 'passworddisplay', get_string('currentpassword', 'enrol_selfalp'),
+                                   $instance->password);
+            }
         } else {
             $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_selfalp'));
         }

@@ -50,6 +50,8 @@ class enrol_selfalp_edit_form extends moodleform {
         if (empty($instance->id) and $plugin->get_config('requirepassword')) {
             $mform->addRule('password', get_string('required'), 'required', null, 'client');
         }
+        $mform->addElement('selectyesno', 'customint6', get_string('passworddisplay', 'enrol_selfalp'));
+        $mform->setDefault('customint6', 1);
 
         $options = array(1 => get_string('yes'),
                          0 => get_string('no'));

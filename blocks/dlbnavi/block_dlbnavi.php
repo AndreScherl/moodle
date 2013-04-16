@@ -58,7 +58,7 @@ class block_dlbnavi extends block_base {
     function init() {
         global $CFG;
         $this->blockname = get_class($this);
-        $this->title = 'Navigation';
+        $this->title = get_string('pluginname', $this->blockname);
     }
 
     /**

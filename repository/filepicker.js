@@ -181,6 +181,11 @@ YUI.add('moodle-core_filepicker', function(Y) {
             var displayname = node.shorttitle ? node.shorttitle : file_get_filename(node);
             return Y.Escape.html(displayname);
         };
+        // SYNERGY LEARNING - function to generate a tooltip
+        var file_get_tooltip = function(node) {
+            return node.tooltip ? '<span class="tooltip">'+node.tooltip+'</span>' : '';
+        };
+        // SYNERGY LEARNING - function to generate a tooltip
         /** return file description (different attributes in FileManager and FilePicker) */
         var file_get_description = function(node) {
             var description = '';
@@ -207,6 +212,7 @@ YUI.add('moodle-core_filepicker', function(Y) {
                 el.one('.fp-icon').appendChild(Y.Node.create('<img/>'));
                 el.one('.fp-icon img').setImgSrc(node.icon, node.realicon, lazyloading);
             }
+            el.one('a').appendChild(file_get_tooltip(node)); // SYNEFGY LEARNING - add tooltip to file icon
             // create node
             tmpnodedata.html = el.getContent();
             var tmpNode = new Y.YUI2.widget.HTMLNode(tmpnodedata, level, false);
@@ -311,6 +317,7 @@ YUI.add('moodle-core_filepicker', function(Y) {
                 el.one('.fp-icon').appendChild(Y.Node.create('<img/>'));
                 el.one('.fp-icon img').setImgSrc(o.data['icon'], o.data['realicon'], lazyloading);
             }
+            el.one('a').appendChild(file_get_tooltip(o.data)); // SYNEFGY LEARNING - add tooltip to file icon
             if (options.rightclickcallback) {
                 el.get('children').addClass('fp-hascontextmenu');
             }
@@ -425,6 +432,7 @@ YUI.add('moodle-core_filepicker', function(Y) {
                 if (options.rightclickcallback) {
                     element.on('contextmenu', options.rightclickcallback, options.callbackcontext, node);
                 }
+                element.appendChild(file_get_tooltip(node)); // SYNEFGY LEARNING - add tooltip to file icon
             }
         }
 
@@ -554,6 +562,7 @@ M.core_filepicker.init = function(Y, options) {
             params['maxbytes'] = this.options.maxbytes?this.options.maxbytes:-1;
             // The unlimited value of areamaxbytes is -1, it is defined by FILE_AREA_MAX_BYTES_UNLIMITED.
             params['areamaxbytes'] = this.options.areamaxbytes ? this.options.areamaxbytes : -1;
+            params['returntypes'] = this.options.return_types; /* SYNERGY LEARNING - include the returntypes in AJAX calls */
             if (this.options.context && this.options.context.id) {
                 params['ctx_id'] = this.options.context.id;
             }
@@ -1081,11 +1090,13 @@ M.core_filepicker.init = function(Y, options) {
             selectnode.one('.fp-thumbnail').setContent('').appendChild(imgnode);
 
             // filelink is the array of file-link-types available for this repository in this env
+            var typesforfile = (args.returntypes ? args.returntypes : 7); // SYNERGY LEARNING - allow per-file restrictions on types
             var filelinktypes = [2/*FILE_INTERNAL*/,1/*FILE_EXTERNAL*/,4/*FILE_REFERENCE*/];
             var filelink = {}, firstfilelink = null, filelinkcount = 0;
             for (var i in filelinktypes) {
                 var allowed = (return_types & filelinktypes[i]) &&
-                    (this.options.return_types & filelinktypes[i]);
+                    (this.options.return_types & filelinktypes[i]) &&
+                    (typesforfile & filelinktypes[i]);  // SYNERGY LEARNING - allow per-file restrictions on types
                 if (filelinktypes[i] == 1/*FILE_EXTERNAL*/ && !this.options.externallink && this.options.env == 'editor') {
                     // special configuration setting 'repositoryallowexternallinks' may prevent
                     // using external links in editor environment

@@ -779,7 +779,7 @@ class block_meinekurse extends block_base {
         $basefields = array('id', 'category', 'sortorder',
             'shortname', 'fullname', 'idnumber',
             'startdate', 'visible', 'showgrades',
-            'groupmode', 'groupmodeforce', 'modinfo');
+            'groupmode', 'groupmodeforce', 'modinfo', 'sectioncache');
 
         if (empty($fields)) {
             $fields = $basefields;

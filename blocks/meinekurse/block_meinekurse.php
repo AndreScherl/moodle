@@ -37,6 +37,18 @@ class block_meinekurse extends block_base {
         $this->title = get_string('pluginname', 'block_meinekurse');
     }
 
+    public function instance_can_be_docked() {
+        return false;
+    }
+
+    public function instance_can_be_hidden() {
+        return false;
+    }
+
+    public function instance_can_be_collapsed() {
+        return false;
+    }
+
     /**
      * block contents
      *

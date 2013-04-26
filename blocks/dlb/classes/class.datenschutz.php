@@ -24,7 +24,7 @@ class datenschutz {
      * @staticvar datenschutz $datenschutz
      * @return datenschutz, Instanz der Klasse datenschutz
      */
-    public function getInstance() {
+    public static function getInstance() {
         static $datenschutz;
 
         if (isset($datenschutz)) return $datenschutz;
@@ -40,9 +40,9 @@ class datenschutz {
      * @global moodle_database $DB
      * @global object $USER
      * @param int $userid
-     * @return none
+     * @return void
      */
-    private function _require_same_institution($userid) {
+    private static function _require_same_institution($userid) {
         global $DB, $USER;
 
         //neuer User wird angelegt
@@ -52,7 +52,7 @@ class datenschutz {
         if ($userid == $USER->id) return;
 
         //falls das erforderliche Recht existiert weiter zum original Skript
-        if (has_capability("block/dlb:institutionview", get_system_context())) return;
+        if (has_capability("block/dlb:institutionview", context_system::instance())) return;
 
         //Gültigkeitsprüfung ist bereits erfolgt!
         $user = $DB->get_record('user', array('id' => $userid));
@@ -73,16 +73,16 @@ class datenschutz {
      * @global moodle_database $DB
      * @global object $USER
      * @param int $userid
-     * @return none
+     * @return void
      */
-    private function _require_cap_to_view_user($userid) {
+    private static function _require_cap_to_view_user($userid) {
         global $DB, $USER;
 
         //User bearbeitet eigenes Formular
         if ($userid == $USER->id) return;
 
         //falls das erforderliche Recht existiert weiter zum original Skript
-        if (has_capability("block/dlb:institutionview", get_system_context())) return;
+        if (has_capability("block/dlb:institutionview", context_system::instance())) return;
 
         //Gültigkeitsprüfung ist bereits erfolgt!
         $user = $DB->get_record('user', array('id' => $userid));
@@ -108,7 +108,7 @@ class datenschutz {
      *
      * @global moodle_database $DB
      * @param int $userid, die ID des Users
-     * @return [object], recordset bestehend aus userids
+     * @return object[], recordset bestehend aus userids
      */
     private function _get_userids_together_in_course($userid) {
         global $DB;
@@ -130,14 +130,15 @@ class datenschutz {
      * eingehalten wird.
      *
      * @global object $USER, der aktuelle User
-     * @param String $wherecondition, die Bedingung des SQL-Statement zur Usersuche
-     * @return none
+     * @param string $wherecondition, die Bedingung des SQL-Statement zur Usersuche
+     * @param string $tablealias
+     * @return string
      */
-    private function _addInstitutionFilter($wherecondition = "", $tablealias = "") {
+    private static function _addInstitutionFilter($wherecondition = "", $tablealias = "") {
         global $USER;
 
         //Wenn $USER über Institutsgrenzen hinaus sehen kann, nichts ändern
-        if (has_capability("block/dlb:institutionview", get_system_context())) return $wherecondition;
+        if (has_capability("block/dlb:institutionview", context_system::instance())) return $wherecondition;
 
         if (empty($USER->institution)) {
             print_error('noinstitutionerror', 'block_dlb');
@@ -178,8 +179,9 @@ class datenschutz {
      * (unter Verwendung von AJAX) sieht
      *
      * @param String $wherecondition
+     * @return string
      */
-    public function hook_enrol_locallib_get_potential_users($wherecondition) {
+    public static function hook_enrol_locallib_get_potential_users($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
@@ -190,8 +192,9 @@ class datenschutz {
      * (ohne Verwendung von AJAX) sieht
      *
      * @param String $wherecondition
+     * @return string
      */
-    public function hook_enrol_manual_locallib_find_users($wherecondition) {
+    public static function hook_enrol_manual_locallib_find_users($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
@@ -201,8 +204,9 @@ class datenschutz {
      * in einen Kurs eingeschrieben sind, bei der globalen Nutzerverwaltung sieht
      *
      * @param String $wherecondition
+     * @return string
      */
-    public function hook_admin_user_get_extrasql($wherecondition) {
+    public static function hook_admin_user_get_extrasql($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition);
     }
 
@@ -211,7 +215,7 @@ class datenschutz {
      * die <b>Gesamtanzahl der User</b> mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
      * in einen Kurs eingeschrieben sind, bei der globalen Nutzerverwaltung sieht
      */
-    public function hook_admin_user_get_extrasqlusercount() {
+    public static function hook_admin_user_get_extrasqlusercount() {
         return datenschutz::_addInstitutionFilter();
     }
 
@@ -224,7 +228,7 @@ class datenschutz {
      *
      * @param int $useridtoedit, die ID des zu bearbeitenden Users
      */
-    public function hook_local_user_editadvanced_require_same_institution($useridtoedit) {
+    public static function hook_local_user_editadvanced_require_same_institution($useridtoedit) {
         datenschutz::_require_same_institution($useridtoedit);
     }
 
@@ -237,7 +241,7 @@ class datenschutz {
      *
      * @param int $useridtoedit, die ID des zu bearbeitenden Users
      */
-    public function hook_local_user_edit_require_same_institution($useridtoedit) {
+    public static function hook_local_user_edit_require_same_institution($useridtoedit) {
         datenschutz::_require_same_institution($useridtoedit);
     }
 
@@ -248,8 +252,9 @@ class datenschutz {
      * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung außerhalb des Kurses
      *
      * @param String $wherecondition
+     * @return string
      */
-    public function hook_admin_roles_lib_find_users($wherecondition) {
+    public static function hook_admin_roles_lib_find_users($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition);
     }
 
@@ -260,11 +265,11 @@ class datenschutz {
      * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung zu einer Kohorte sieht
      *
      * @param String $wherecondition
+     * @return string
      */
-    public function hook_cohort_lib_find_users($wherecondition) {
+    public static function hook_cohort_lib_find_users($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
-
 
     /** @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()
      *
@@ -272,9 +277,9 @@ class datenschutz {
      * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
      * in einen Kurs eingeschrieben sind, bei der Suche nach Kontakten sieht
      *
-     * @param String $wherecondition
+     * @return string
      */
-    public function hook_message_lib_message_search_users() {
+    public static function hook_message_lib_message_search_users() {
         $wherecondition = datenschutz::_addInstitutionFilter("", "u.");
         $wherecondition = (!empty($wherecondition))? " AND ".$wherecondition : "";
         return $wherecondition;
@@ -288,9 +293,10 @@ class datenschutz {
      *
      * sperrt die Bearbeitung des Feldes Schule (Institution) für Nicht Admins
      *
-     * @param moodle_form $mform
+     * @param MoodleQuickForm $mform
+     * @param $user
      */
-    public function hook_user_editlib_useredit_shared_definition($mform, $user) {
+    public static function hook_user_editlib_useredit_shared_definition($mform, $user) {
         global $CFG;
 
         //Editor entfernen=>nicht sichtbar
@@ -309,7 +315,7 @@ class datenschutz {
         }
 
         //Wenn $USER über Institutsgrenzen hinaus sehen kann, nichts ändern
-        if (has_capability("moodle/site:config", get_system_context())) return;
+        if (has_capability("moodle/site:config", context_system::instance())) return;
 
         if ($mform->elementExists('city')) {
             //ersetzt Inputfeld durch Anzeige
@@ -337,7 +343,7 @@ class datenschutz {
      *
      * @param array $options, die Optionen der Löschungsfristen von Chatprotokollen
      */
-    public function hook_mod_chat_mod_form_definition(&$options) {
+    public static function hook_mod_chat_mod_form_definition(&$options) {
         unset($options[0]);
     }
 
@@ -346,16 +352,16 @@ class datenschutz {
      *
      * @return bool, muss false zurückgeben, falls die personenbezogenen Berichte nicht angezeigt werden sollen.
      */
-    public function hook_report_outline_lib_report_outline_can_access_user_report() {
-        return has_capability("moodle/site:config", get_system_context());
+    public static function hook_report_outline_lib_report_outline_can_access_user_report() {
+        return has_capability("moodle/site:config", context_system::instance());
     }
 
     /** @HOOK DS13: Hook in local/report/outline/user.php
      * verhindert den direkten Aufruf des personenbezogenen Berichtes im Kontext
      * eines Kurses für Nicht-Admins
      */
-    public function hook_local_report_outline_user_require_access_user_report() {
-        if (!has_capability("moodle/site:config", get_system_context())) {
+    public static function hook_local_report_outline_user_require_access_user_report() {
+        if (!has_capability("moodle/site:config", context_system::instance())) {
             print_error('notallowedtoaccessuserreport', 'block_dlb');
         }
     }
@@ -363,8 +369,8 @@ class datenschutz {
     /** @HOOK DS14: Hook in local/course/recent.php
      * verhindert den direkten Aufruf der Austellung vergangener Aktivitäten für Nicht-Admins
      */
-    public function hook_local_course_recent_require_access_recent_activities() {
-        if (!has_capability("moodle/site:config", get_system_context())) {
+    public static function hook_local_course_recent_require_access_recent_activities() {
+        if (!has_capability("moodle/site:config", context_system::instance())) {
             print_error('notallowedtoaccessrecentactivities', 'block_dlb');
         }
     }
@@ -374,18 +380,18 @@ class datenschutz {
      *
      * @return bool, muss false zurückgeben wenn der Link nicht angezeigt werden soll.
      */
-    public function hook_course_lib_can_access_recent_activities() {
-        return has_capability("moodle/site:config", get_system_context());
+    public static function hook_course_lib_can_access_recent_activities() {
+        return has_capability("moodle/site:config", context_system::instance());
     }
 
     /** @HOOK DS 16: Hook in admin/settings/user
      * verbirgt die Bulk verwaltung für User, die nicht das Recht haben über Schulgrenzen hinaus zu sehen
      */
 
-    public function hook_admin_users_hide_bulk(&$ADMIN) {
+    public static function hook_admin_users_hide_bulk(&$ADMIN) {
         global $CFG;
 
-        $systemcontext = get_system_context();
+        $systemcontext = context_system::instance();
         if (has_capability("moodle/site:config", $systemcontext) or
                 (has_capability("block/dlb:institutionview", $systemcontext))) {
             $ADMIN->add('accounts', new admin_externalpage('userbulk', get_string('userbulk','admin'), "$CFG->wwwroot/$CFG->admin/user/user_bulk.php", array('moodle/user:update', 'moodle/user:delete')));
@@ -398,9 +404,9 @@ class datenschutz {
      * User mit der ID $user2id zu sehen.
      *
      * @param int $user2id, 0 oder eine gültige Userid
-     * @return none
+     * @return void
      */
-    public function  hook_message_index($user2id) {
+    public static function  hook_message_index($user2id) {
         if ($user2id == 0) return;
         datenschutz::_require_cap_to_view_user($user2id);
     }
@@ -412,7 +418,7 @@ class datenschutz {
      *
      * @param stored_file $stored_file
      */
-    function hook_filelib_send_stored_file($stored_file) {
+    public static function hook_filelib_send_stored_file($stored_file) {
         global $FULLME, $OUTPUT;
 
         //* Debug HTTP_REFERER
@@ -448,9 +454,10 @@ class datenschutz {
      * verhindern, dass sich ein Trainer durch Verbergen bzw. Löschen der Einschreibemethode
      * selbst aus dem Kurs ausschließt
      *
+     * @param $course
      * @return array, die Einschreibemethoden dieses Users
      */
-    function hook_enrol_instances_get_user_enrolmentmethods($course) {
+    public static function hook_enrol_instances_get_user_enrolmentmethods($course) {
         global $CFG, $PAGE, $USER;
 
         require_once("$CFG->dirroot/enrol/locallib.php");
@@ -471,7 +478,7 @@ class datenschutz {
      *
      * @param <type> $usernew, das Objekt des zu speichernden Users...
      */
-    function hook_user_editadvanced_before_save_user(&$usernew) {
+    public static function hook_user_editadvanced_before_save_user(&$usernew) {
 
         //Inhalte vor dem Speichern leeren...
         $usernew->description_editor['text'] = '';
@@ -485,7 +492,7 @@ class datenschutz {
      * anonymisiert das Chat-Protokoll
      * author: Andrea Taras
      */
-    function hook_mod_chat_format_message_anon($message, $courseid, $sender, $currentuser, $chat_lastrow=NULL) {
+    public static function hook_mod_chat_format_message_anon($message, $courseid, $sender, $currentuser, $chat_lastrow=NULL) {
     global $CFG, $USER, $OUTPUT;
 
     $output = new stdClass();
@@ -620,4 +627,3 @@ class datenschutz {
     return $output;
 }
 }
-?>

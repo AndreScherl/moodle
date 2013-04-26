@@ -14,32 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * Defines the block/quickcourselist:use capability for the Quick Course List block
+ * Capability definitions for the meinekurse module.
  *
- * @package    block_quickcourselist
- * @author      Mark Johnson <mark.johnson@tauntons.ac.uk>
- * @copyright   2010 Tauntons College, UK
+ * @package    block_dlbnavi
+ * @copyright  2013 Davo Smith, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $capabilities = array(
-
-    'block/quickcourselist:use' => array(
-
-        'captype' => 'view',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'legacy' => array(
-            'user' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/quickcourselist:myaddinstance' => array(
+    'block/dlbnavi:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -47,5 +33,6 @@ $capabilities = array(
         ),
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
-
 );
+
+

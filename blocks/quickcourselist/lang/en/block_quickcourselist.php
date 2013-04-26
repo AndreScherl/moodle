@@ -31,6 +31,6 @@ $string['pluginname']   =   'Quick Course List';
 $string['pluginnameplural']   =   'Quick Course Lists';
 $string['quickcourselist:use']         = 'Use Quickcourse List';
 $string['quickcourselist']         = 'Quick Course List';
-
+$string['quickcourselist:myaddinstance'] = 'Add a new Quick course list block to My home';
 $string['search_courses']  = 'Kurse finden';
 $string['search_categories'] = 'Schulen finden';

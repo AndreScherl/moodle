@@ -3,6 +3,7 @@ $string['pluginname'] = 'My Courses';
 
 //Capabilities
 $string['meinekurse:viewtrainertab'] = 'View Trainer Tab';
+$string['meinekurse:myaddinstance'] = 'Add a new My courses block to My home';
 
 //Settings forms
 $string['sortby'] = 'Sort By';

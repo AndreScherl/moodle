@@ -333,6 +333,8 @@ class theme_dlb_core_renderer extends core_renderer {
     function toolbar_calendarcount() {
         global $CFG;
 
+        require_once($CFG->dirroot.'/calendar/lib.php');
+
         // Code copied from block_calendar_upcoming
         $defaultlookahead = CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD;
         if (isset($CFG->calendar_lookahead)) {

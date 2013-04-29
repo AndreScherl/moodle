@@ -96,7 +96,7 @@ class block_meinekurse extends block_base {
         }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
 
-        $pagenum = optional_param('meinekurse_page', 1, PARAM_INT);
+        $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
         //Get courses:
         $mycourses = $this->get_my_courses($prefs->sortby, $prefs->numcourses, $prefs->school, $pagenum);
@@ -104,11 +104,11 @@ class block_meinekurse extends block_base {
         $starttab = 0;
         $tabnum = 0;
         foreach ($mycourses as $school) {
-            $tabnum++;
             if ($prefs->school == $school->id) {
                 $starttab = $tabnum;
                 break;
             }
+            $tabnum++;
         }
 
         $content .= '<script type="text/javascript">var starttab = '.$starttab.';</script>';
@@ -127,8 +127,7 @@ class block_meinekurse extends block_base {
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $pagecount = $school->coursecount / $prefs->numcourses;
-            $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $pagecount, $school->page);
+            $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 
@@ -150,8 +149,8 @@ class block_meinekurse extends block_base {
      * @param int $thispage - current page number
      */
 
-    private function one_tab($user, $prefs, $courses, $schoolid, $totalpages = 1, $thispage = 1) {
-        global $CFG, $OUTPUT, $DB;
+    private function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
+        global $CFG, $OUTPUT, $DB, $PAGE;
 
         $content = '';
         //Settings form
@@ -177,27 +176,8 @@ class block_meinekurse extends block_base {
         }
 
         //Pagination
-        $paginghtml = '';
-        if ($totalpages > 1) {
-            $schoolparam = '&amp;meinekurse_school='.$schoolid;
-            $paginghtml .= '<div class="paging">' . get_string('page') . ': ';
-            if ($thispage > 1) {
-                $paginghtml .= '<a class="previous" href="?page=' . ($thispage - 1) . $schoolparam . '">(' . get_string('previous') . ')</a>';
-            }
-            for ($pg = 1; $pg <= $totalpages; $pg++) {
-                $paginghtml .= ' ';
-                if ($thispage == $pg) {
-                    $paginghtml .= $pg;
-                } else {
-                    $paginghtml .= '<a href="?page=' . $pg . $schoolparam . '">' . $pg . '</a>';
-                }
-                $paginghtml .= ' ';
-            }
-            if ($thispage < $totalpages) {
-                $paginghtml .= '<a class="previous" href="?page=' . ($thispage + 1) . $schoolparam . '">(' . get_string('next') . ')</a>';
-            }
-            $paginghtml .= '</div>';
-        }
+        $baseurl = new moodle_url($PAGE->url, array('meinekurse_school' => $schoolid));
+        $paginghtml = $OUTPUT->paging_bar($totalcourses, $thispage - 1, $prefs->numcourses, $baseurl, 'meinekurse_page');
         $content .= $paginghtml;
 
         //Query results
@@ -775,7 +755,7 @@ class block_meinekurse extends block_base {
         $wheres = implode(" AND ", $wheres);
 
         //note: we can not use DISTINCT + text fields due to Oracle and MS limitations, that is why we have the subselect there
-        $sql = "SELECT $coursefields $ccselect, ca.name AS catname, ca.depth AS catdepth
+        $sql = "SELECT $coursefields $ccselect, ca.name AS catname, ca.depth AS catdepth, ca.path AS catpath
                   FROM {course} c
                   JOIN (SELECT DISTINCT e.courseid
                           FROM {enrol} e
@@ -813,10 +793,13 @@ class block_meinekurse extends block_base {
                 }
             }
             $course->istrainer = $context && has_capability('block/meinekurse:viewtrainertab', $context);
-            if ($course->catdepth != 3) {
+            if ($course->catdepth < 3) {
                 // Course does not appear to be within a school - gather all such courses together into a 'misc' category.
                 $course->category = -1;
+            } else if ($course->catdepth > 3) {
+                // TODO davo - cope with subcategories within schools
             }
+
             if (empty($schools[$course->category])) {
                 $school = new stdClass();
                 $school->id = $course->category;
@@ -840,15 +823,18 @@ class block_meinekurse extends block_base {
         }
 
         // Now deal with the paging of the currently selected school
-        if (!empty($schools[$myschool->id])) {
+        if (!empty($schools[$schoolid])) {
             $firstcourse = $perpage * ($page - 1);
-            if ($firstcourse > $schools[$myschool->id]->coursecount) {
+            if ($firstcourse > $schools[$schoolid]->coursecount) {
                 $page = 1;
                 $firstcourse = 0;
             }
-            $schools[$myschool->id]->courses = array_slice($schools[$myschool->id]->courses, $firstcourse, $perpage, true);
-            $schools[$myschool->id]->page = $page;
-        } else {
+            $schools[$schoolid]->courses = array_slice($schools[$schoolid]->courses, $firstcourse, $perpage, true);
+            $schools[$schoolid]->page = $page;
+        }
+
+        // Fill in the details for 'my school' if there are no courses present.
+        if (empty($schools[$myschool->id])) {
             $schools[$myschool->id] = (object)array(
                 'id' => $myschool->id,
                 'name' => $myschool->name,

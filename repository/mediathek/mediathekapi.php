@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('MEDIATHEK_LOG_QUERIES', 1);
+//define('MEDIATHEK_LOG_QUERIES', 1);
 
 class repository_mediathek_api {
 

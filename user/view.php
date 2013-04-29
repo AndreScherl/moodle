@@ -238,7 +238,7 @@ echo '</div>';
 
 // Print all the little details in a list
 
-echo '<table class="list" summary="">';
+echo '<table class="list">';
 
 // Show email if any of the following conditions match.
 // 1. User is viewing his own profile.

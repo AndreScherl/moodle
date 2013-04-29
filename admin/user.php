@@ -198,6 +198,16 @@
 
     $usersearchcount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasql, $params);
 
+    // Exclude guest user from list.
+    $noguestsql = '';
+    if (!empty($extrasql)) {
+        $noguestsql .= ' AND';
+    }
+    $noguestsql .= " id <> :guestid";
+    $params['guestid'] = $CFG->siteguest;
+    $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
+            $extrasql.$noguestsql, $params, $context);
+
     if ($extrasql !== '') {
         echo $OUTPUT->heading("$usersearchcount / $usercount ".get_string('users'));
         $usercount = $usersearchcount;

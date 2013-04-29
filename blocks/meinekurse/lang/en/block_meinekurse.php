@@ -19,6 +19,7 @@ $string['name'] = 'Name';
 $string['new'] = 'new';
 $string['nocourses'] = 'No courses to display';
 $string['nonewitemssincelastlogin'] = 'There are no new items since your last login';
+$string['notinschool'] = 'Not in a school';
 $string['numcourses'] = 'Number of Courses';
 $string['numgradedsubmissions'] = 'Number of graded submissions';
 $string['numposts'] = 'Number of posts';

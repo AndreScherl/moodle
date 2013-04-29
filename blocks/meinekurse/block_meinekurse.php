@@ -55,7 +55,9 @@ class block_meinekurse extends block_base {
      * @return object
      */
     public function get_content() {
-        global $USER, $CFG, $OUTPUT, $DB, $PAGE;
+        global $USER, $PAGE, $CFG;
+
+        require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
 
         $PAGE->requires->js('/blocks/meinekurse/javascript/jquery.js');
         $PAGE->requires->js('/blocks/meinekurse/javascript/jqueryui.js');
@@ -72,88 +74,66 @@ class block_meinekurse extends block_base {
         $content = '';
 
         //Handle submitted / saved data
-        $tabnames = array('mycourses', 'astrainer');
-        if (!$prefs = get_user_preferences('block_meinekurse_prefs', false)) {
-            $defaults = (object) array(
-                        'sortby' => 'name',
-                        'coursevisited' => 'allcourses',
-                        'numcourses' => 5,
-            );
-            $prefs = array();
-            foreach ($tabnames as $tabname) {
-                $prefs[$tabname] = clone($defaults);
-            }
-        } else {
+        $prefs = get_user_preferences('block_meinekurse_prefs', false);
+        if ($prefs) {
             $prefs = unserialize($prefs);
         }
-        foreach ($tabnames as $tabname) {
-            $newsetting = optional_param('meinekurse_'.$tabname.'_sortby', '', PARAM_TEXT);
-            if ($newsetting != '') {
-                $prefs[$tabname]->sortby = $newsetting;
-            }
-            $newsetting = optional_param('meinekurse_'.$tabname.'_coursevisited', '', PARAM_TEXT);
-            if ($newsetting != '') {
-                $prefs[$tabname]->coursevisited = $newsetting;
-            }
-            $newsetting = optional_param('meinekurse_'.$tabname.'_numcourses', '', PARAM_INT);
-            if ($newsetting != '') {
-                $prefs[$tabname]->numcourses = $newsetting;
-            }
+        if (!$prefs || !is_object($prefs)) {
+            $prefs = (object) array(
+                'sortby' => 'name',
+                'numcourses' => 5,
+                'school' => null,
+            );
         }
-        $initialtab = optional_param('tabname', 'mycourses', PARAM_TEXT);
+        if ($upd = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
+            $prefs->sortby = $upd;
+        }
+        if ($upd = optional_param('meinekurse_numcourses', null, PARAM_INT)) {
+            $prefs->numcourses = $upd;
+        }
+        if ($upd = optional_param('meinekurse_school', null, PARAM_INT)) {
+            $prefs->school = $upd;
+        }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
 
-        if ($initialtab == 'astrainer') {
-            $content .= '<script type="text/javascript">var starttab = 1</script>';
-        } else {
-            $content .= '<script type="text/javascript">var starttab = 0</script>';
+        $pagenum = optional_param('meinekurse_page', 1, PARAM_INT);
+
+        //Get courses:
+        $mycourses = $this->get_my_courses($prefs->sortby, $prefs->numcourses, $prefs->school, $pagenum);
+
+        $starttab = 0;
+        $tabnum = 0;
+        foreach ($mycourses as $school) {
+            $tabnum++;
+            if ($prefs->school == $school->id) {
+                $starttab = $tabnum;
+                break;
+            }
         }
 
-        //Page from url
-        $pagenum = optional_param('page', 1, PARAM_INT);
-        if ($initialtab == 'astrainer') {
-            $studentpagenum = 1;
-            $trainerpagenum = $pagenum;
-        } else {
-            $studentpagenum = $pagenum;
-            $trainerpagenum = 1;
-        }
+        $content .= '<script type="text/javascript">var starttab = '.$starttab.';</script>';
 
         //Tabs
         $content .= '<div class="mycoursestabs">';
 
-        //Get courses:
-        $allmycourses = $this->get_my_courses($prefs['mycourses'], false, null, $studentpagenum);
-        $alltrainercourses = $this->get_my_courses($prefs['astrainer'], true, null, $trainerpagenum);
-
-        //If the page is empty for some reason, send us back to page 1
-        if (empty($allmycourses->courses)) {
-            $studentpagenum = 1;
-        }
-        if (empty($alltrainercourses->courses)) {
-            $trainerpagenum = 1;
-        }
-
+        // Tab headings.
         $content .= '<ul>';
-        $content .= '<li class="block"><a href="#mycoursestab">' . get_string('mycourses', 'block_meinekurse') . '</a></li>';
-        if (!empty($alltrainercourses->courses)) {
-            $content .= '<li class="block"><a href="#astrainertab">' . get_string('coursesastrainer', 'block_meinekurse') . '</a></li>';
+        foreach ($mycourses as $school) {
+            $tab = html_writer::link("#school{$school->id}tab", format_string($school->name));
+            $tab = html_writer::tag('li', $tab, array('class' => 'block'));
+            $content .= $tab;
         }
         $content .= '</ul>';
 
-        //MY COURSES TAB
-        $content .= '<div id="mycoursestab">';
-        $content .= $this->one_tab($USER, $prefs['mycourses'], $allmycourses->courses, false, 'mycourses', $allmycourses->pages, $studentpagenum);
-        $content .= '</div>';
-
-        //Courses as Trainer tab
-        if ($alltrainercourses->pages) {
-            $content .= '<div id="astrainertab">';
-            $content .= $this->one_tab($USER, $prefs['astrainer'], $alltrainercourses->courses, true, 'astrainer', $alltrainercourses->pages, $trainerpagenum);
-            $content .= '</div>';
+        // Tab contents.
+        foreach ($mycourses as $school) {
+            $pagecount = $school->coursecount / $prefs->numcourses;
+            $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $pagecount, $school->page);
+            $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 
         $content .= '</div>';
+
         $this->content->text = $content;
 
         return $this->content;
@@ -170,13 +150,13 @@ class block_meinekurse extends block_base {
      * @param int $thispage - current page number
      */
 
-    private function one_tab($user, $prefs, $courses, $istrainer = false, $tabname, $totalpages = 1, $thispage = 1) {
+    private function one_tab($user, $prefs, $courses, $schoolid, $totalpages = 1, $thispage = 1) {
         global $CFG, $OUTPUT, $DB;
 
         $content = '';
         //Settings form
         $content .= '<form method="post">';
-        $content .= '<input type="hidden" name="tabname" value="'.$tabname.'" />';
+        $content .= '<input type="hidden" name="meinekurse_school" value="'.$schoolid.'" />';
         $table = new html_table();
         $table->head = array(
             get_string('sortby', 'block_meinekurse'),
@@ -185,9 +165,9 @@ class block_meinekurse extends block_base {
         $table->align = array('center', 'center', 'center');
         $table->data = array();
         $row = array();
-        $row[] = $this->html_select($tabname, 'sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
-        $row[] = $this->html_select($tabname, 'coursevisited', array('lastweek', 'lastmonth', 'last6months', 'allcourses'), true, $prefs);
-        $row[] = $this->html_select($tabname, 'numcourses', array(5, 10, 20, 50, 100), false, $prefs);
+        $row[] = $this->html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
+        $row[] = $this->html_select('coursevisited', array('lastweek', 'lastmonth', 'last6months', 'allcourses'), true, $prefs);
+        $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
         $table->data[] = $row;
         $content .= html_writer::table($table);
         $content .= '</form>';
@@ -199,22 +179,22 @@ class block_meinekurse extends block_base {
         //Pagination
         $paginghtml = '';
         if ($totalpages > 1) {
-            $trainerparam = $istrainer ? '&amp;tabname=astrainer' : '';
+            $schoolparam = '&amp;meinekurse_school='.$schoolid;
             $paginghtml .= '<div class="paging">' . get_string('page') . ': ';
             if ($thispage > 1) {
-                $paginghtml .= '<a class="previous" href="?page=' . ($thispage - 1) . $trainerparam . '">(' . get_string('previous') . ')</a>';
+                $paginghtml .= '<a class="previous" href="?page=' . ($thispage - 1) . $schoolparam . '">(' . get_string('previous') . ')</a>';
             }
             for ($pg = 1; $pg <= $totalpages; $pg++) {
                 $paginghtml .= ' ';
                 if ($thispage == $pg) {
                     $paginghtml .= $pg;
                 } else {
-                    $paginghtml .= '<a href="?page=' . $pg . $trainerparam . '">' . $pg . '</a>';
+                    $paginghtml .= '<a href="?page=' . $pg . $schoolparam . '">' . $pg . '</a>';
                 }
                 $paginghtml .= ' ';
             }
             if ($thispage < $totalpages) {
-                $paginghtml .= '<a class="previous" href="?page=' . ($thispage + 1) . $trainerparam . '">(' . get_string('next') . ')</a>';
+                $paginghtml .= '<a class="previous" href="?page=' . ($thispage + 1) . $schoolparam . '">(' . get_string('next') . ')</a>';
             }
             $paginghtml .= '</div>';
         }
@@ -253,7 +233,7 @@ class block_meinekurse extends block_base {
             foreach ($mods as $mod) {
                 $assignmentids[] = $mod->instance;
             }
-            if ($assignmentids && $istrainer) {
+            if ($assignmentids && $course->istrainer) {
                 // Gather submission data for all assignments
                 list($asql, $params) = $DB->get_in_or_equal($assignmentids, SQL_PARAMS_NAMED);
                 $sql = "SELECT s.assignment, COUNT(s.id) AS c
@@ -281,7 +261,7 @@ class block_meinekurse extends block_base {
                 $title = '<a href="' . $CFG->wwwroot . '/mod/assignment/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
                 $desc = array();
                 $count = 0;
-                if ($istrainer) {
+                if ($course->istrainer) {
                     //Count submissions:
                     $submissions = isset($totalsubmissions[$mod->instance]) ? $totalsubmissions[$mod->instance]->c : 0;
                     $desc[] = get_string('numsubmissions', 'block_meinekurse') . ': ' . $submissions;
@@ -432,7 +412,7 @@ class block_meinekurse extends block_base {
                 $url = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $mod->id;
                 $desc = array();
                 $count = 0;
-                if ($istrainer) {
+                if ($course->istrainer) {
                     $sql = "
                         SELECT COUNT(DISTINCT qa.id)
                         FROM {quiz_attempts} qa
@@ -709,11 +689,11 @@ class block_meinekurse extends block_base {
      * @param object $data - preset data
      */
 
-    private function html_select($tabname, $selectname, $options, $usegetstring = true, $data = null) {
+    private function html_select($selectname, $options, $usegetstring = true, $data = null) {
         if (is_null($data)) {
             $data = new stdClass();
         }
-        $select = '<select name="meinekurse_' .$tabname .'_' . $selectname . '" onchange="this.form.submit();">';
+        $select = '<select name="meinekurse_'. $selectname . '" onchange="this.form.submit();">';
         foreach ($options as $option) {
             $selected = '';
             if (isset($data->{$selectname}) && $data->{$selectname} == $option) {
@@ -745,62 +725,44 @@ class block_meinekurse extends block_base {
     }
 
     /**
-     * Modified copy of enrol_get_my_courses() in lib/enrollib.php
-     * To allow additional filtering
-     * And pagination
+     * Get a list of all the courses the user is in, grouped by school
      *
-     * - $fields is an array of field names to ADD
-     *   so name the fields you really need, which will
-     *   be added and uniq'd
-     *
-     * @param object $prefs - search preferences
-     * @param bool $istrainer
-     * @param string|array $fields
-     * @param int page
-     * @return object with results array and page count
+     * @param string $sortby the field to sort by (timecreated, timevisited, name)
+     * @param int $perpage the number of courses per page
+     * @param int $schoolid the currently selected school
+     * @param int $page the current page (in the selected school), may be updated
+     * @return array
      */
-    private function get_my_courses($prefs, $istrainer = false, $fields = NULL, $page = 1) {
-        global $DB, $USER;
+    protected function get_my_courses($sortby, $perpage, $schoolid, $page) {
+        global $USER, $DB;
+        // Get all courses, grouped by school (3rd-level category)
 
-        //Sorting:
-        if ($prefs->sortby == 'timecreated') {
+        // Guest account does not have any courses.
+        if (isguestuser() or !isloggedin()) {
+            return array();
+        }
+
+        $params = array();
+
+        // Sorting.
+        if ($sortby == 'timecreated') {
             $sort = 'c.timecreated ASC';
-        } else if ($prefs->sortby == 'timevisited') {
+        } else if ($sortby == 'timevisited') {
             $sort = "(SELECT MAX(time) FROM {log} lg WHERE lg.course = c.id AND lg.action = 'view' AND lg.userid = :userid2)";
+            $params['userid2'] = $USER->id;
         } else {
             $sort = 'c.fullname ASC';
         }
+        $sort = 'ORDER BY '.$sort;
 
-        // Guest account does not have any courses
-        if (isguestuser() or !isloggedin()) {
-            return(array());
-        }
+        $fields = array('id', 'category', 'sortorder',
+                        'shortname', 'fullname', 'idnumber',
+                        'startdate', 'visible', 'showgrades',
+                        'groupmode', 'groupmodeforce', 'modinfo', 'sectioncache');
 
-        $basefields = array('id', 'category', 'sortorder',
-            'shortname', 'fullname', 'idnumber',
-            'startdate', 'visible', 'showgrades',
-            'groupmode', 'groupmodeforce', 'modinfo', 'sectioncache');
-
-        if (empty($fields)) {
-            $fields = $basefields;
-        } else if (is_string($fields)) {
-            // turn the fields from a string to an array
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-            $fields = array_unique(array_merge($basefields, $fields));
-        } else if (is_array($fields)) {
-            $fields = array_unique(array_merge($basefields, $fields));
-        } else {
-            throw new coding_exception('Invalid $fileds parameter in enrol_get_my_courses()');
-        }
-        if (in_array('*', $fields)) {
-            $fields = array('*');
-        }
-
-        $orderby = "ORDER BY $sort";
-
-        $wheres = array("c.id <> :siteid");
-        $params = array('siteid' => SITEID);
+        // Exclude the front page from the courses list.
+        $wheres = array('c.id <> :siteid');
+        $params['siteid'] = SITEID;
 
         if (isset($USER->loginascontext) and $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
             // list _only_ this course - anything else is asking for trouble...
@@ -808,43 +770,24 @@ class block_meinekurse extends block_base {
             $params['loginas'] = $USER->loginascontext->instanceid;
         }
 
-        //Course visit filtering
-        if ($prefs->coursevisited != 'allcourses') {
-            switch ($prefs->coursevisited) {
-                case 'lastweek':
-                    $visitedfrom = time() - (7 * 24 * 60 * 60);
-                    break;
-                case 'lastmonth':
-                    $visitedfrom = time() - (30 * 24 * 60 * 60);
-                    break;
-                case 'last6months':
-                    $visitedfrom = time() - (182 * 24 * 60 * 60);
-                    break;
-            }
-            $wheres[] = "EXISTS (
-                SELECT * FROM {log} lgwhr
-                WHERE lgwhr.course = c.id AND lgwhr.action = 'view' AND lgwhr.userid = :userid3 AND lgwhr.time > $visitedfrom
-                )";
-        }
-
         $coursefields = 'c.' . join(',c.', $fields);
         list($ccselect, $ccjoin) = context_instance_preload_sql('c.id', CONTEXT_COURSE, 'ctx');
         $wheres = implode(" AND ", $wheres);
 
         //note: we can not use DISTINCT + text fields due to Oracle and MS limitations, that is why we have the subselect there
-        $sql = "SELECT $coursefields $ccselect
+        $sql = "SELECT $coursefields $ccselect, ca.name AS catname, ca.depth AS catdepth
                   FROM {course} c
                   JOIN (SELECT DISTINCT e.courseid
                           FROM {enrol} e
                           JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = :userid)
                          WHERE ue.status = :active AND e.status = :enabled AND ue.timestart < :now1 AND (ue.timeend = 0 OR ue.timeend > :now2)
                        ) en ON (en.courseid = c.id)
+                  JOIN {course_categories} ca ON ca.id = c.category
                $ccjoin
                  WHERE $wheres
-              $orderby";
+              $sort";
         $params['userid'] = $USER->id;
-        $params['userid2'] = $USER->id;
-        $params['userid3'] = $USER->id;
+        $params['userid3'] = $params['userid'];
         $params['active'] = ENROL_USER_ACTIVE;
         $params['enabled'] = ENROL_INSTANCE_ENABLED;
         $params['now1'] = time();
@@ -852,11 +795,15 @@ class block_meinekurse extends block_base {
 
         $courses = $DB->get_records_sql($sql, $params);
 
+        $myschool = meinekurse_get_main_school($USER);
+        $schools = array($myschool->id => null); // Make sure the user's own school is first in the list.
+
         // preload contexts and check visibility
         foreach ($courses as $id => $course) {
             context_instance_preload($course);
+            $context = context_course::instance($id);
             if (!$course->visible) {
-                if (!$context = context_course::instance($id)) {
+                if (!$context) {
                     unset($courses[$id]);
                     continue;
                 }
@@ -865,31 +812,60 @@ class block_meinekurse extends block_base {
                     continue;
                 }
             }
-            $courses[$id] = $course;
-        }
-
-        //Add to array depending on capability
-        $results = array();
-        foreach ($courses as $course) {
-            $context = context_course::instance($course->id);
-            if (has_capability('block/meinekurse:viewtrainertab', $context)) {
-                if ($istrainer) {
-                    $results[] = $course;
+            $course->istrainer = $context && has_capability('block/meinekurse:viewtrainertab', $context);
+            if ($course->catdepth != 3) {
+                // Course does not appear to be within a school - gather all such courses together into a 'misc' category.
+                $course->category = -1;
+            }
+            if (empty($schools[$course->category])) {
+                $school = new stdClass();
+                $school->id = $course->category;
+                if ($course->category > 0) {
+                    $school->name = $course->catname;
+                } else {
+                    $school->name = get_string('notinschool', 'block_meinekurse');
                 }
-            } else {
-                if (!$istrainer) {
-                    $results[] = $course;
+                $school->courses = array();
+                $school->coursecount = 0;
+                $school->page = 1;
+                $schools[$course->category] = $school;
+            }
+            $schools[$course->category]->coursecount++;
+            if ($schoolid != $course->category) {
+                if ($schools[$course->category]->coursecount > $perpage) {
+                    continue; // Other than the currently selected school, only keep the first 'perpage'
                 }
             }
+            $schools[$course->category]->courses[] = $course;
         }
-        $toreturn = new stdClass();
-        $toreturn->pages = ceil(count($results) / $prefs->numcourses);
-        $toreturn->courses = array_slice($results, ($page - 1) * $prefs->numcourses, $prefs->numcourses);
-        //If for some reason page is empty, send to Page 1.
-        if (!count($toreturn->courses)) {
-            $toreturn->courses = array_slice($results, 0, $prefs->numcourses);
+
+        // Now deal with the paging of the currently selected school
+        if (!empty($schools[$myschool->id])) {
+            $firstcourse = $perpage * ($page - 1);
+            if ($firstcourse > $schools[$myschool->id]->coursecount) {
+                $page = 1;
+                $firstcourse = 0;
+            }
+            $schools[$myschool->id]->courses = array_slice($schools[$myschool->id]->courses, $firstcourse, $perpage, true);
+            $schools[$myschool->id]->page = $page;
+        } else {
+            $schools[$myschool->id] = (object)array(
+                'id' => $myschool->id,
+                'name' => $myschool->name,
+                'courses' => array(),
+                'coursecount' => 0,
+                'page' => 1,
+            );
         }
-        return $toreturn;
+
+        // Move the 'Not in a school' list to the end of the schools
+        if (array_key_exists(-1, $schools)) {
+            $noschool = $schools[-1];
+            unset($schools[-1]);
+            $schools[-1] = $noschool;
+        }
+
+        return $schools;
     }
 
     /*
@@ -917,5 +893,3 @@ class block_meinekurse extends block_base {
     }
 
 }
-
-?>

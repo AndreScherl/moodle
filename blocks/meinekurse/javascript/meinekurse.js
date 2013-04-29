@@ -2,7 +2,7 @@ $(document).ready(function() {
     $("td[id$=moddesc]").css('display', 'none');
 
     $('.mycoursestabs').tabs({
-        selected: starttab,
+        selected: starttab
     });
 
     //Mouseover event hook for table rows

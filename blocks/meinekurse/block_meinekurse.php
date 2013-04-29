@@ -210,108 +210,7 @@ class block_meinekurse extends block_base {
             );
 
             //Get assignments
-            $mods = get_coursemodules_in_course('assignment', $course->id, 'm.timedue');
-            $assignmentids = array();
-            foreach ($mods as $mod) {
-                $assignmentids[] = $mod->instance;
-            }
-            if ($assignmentids && $course->istrainer) {
-                // Gather submission data for all assignments
-                list($asql, $params) = $DB->get_in_or_equal($assignmentids, SQL_PARAMS_NAMED);
-                $sql = "SELECT s.assignment, COUNT(s.id) AS c
-                          FROM {assignment_submissions} s
-                          JOIN {user_enrolments} ue ON ue.userid = s.userid
-                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
-                         WHERE s.assignment $asql
-                         GROUP BY s.assignment";
-                $params['courseid'] = $course->id;
-                $totalsubmissions = $DB->get_records_sql($sql, $params);
-                $sql = "SELECT s.assignment, COUNT(s.id) AS c
-                          FROM {assignment_submissions} s
-                          JOIN {user_enrolments} ue ON ue.userid = s.userid
-                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
-                         WHERE s.assignment $asql AND s.grade = -1
-                         GROUP BY s.assignment";
-                $ungradedsubmissions = $DB->get_records_sql($sql, $params);
-            }
-            foreach ($mods as $mod) {
-                $isnew = false;
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-                $title = '<a href="' . $CFG->wwwroot . '/mod/assignment/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                $desc = array();
-                $count = 0;
-                if ($course->istrainer) {
-                    //Count submissions:
-                    $submissions = isset($totalsubmissions[$mod->instance]) ? $totalsubmissions[$mod->instance]->c : 0;
-                    $desc[] = get_string('numsubmissions', 'block_meinekurse') . ': ' . $submissions;
-
-                    //Count ungraded submissions:
-                    $ungradeds = isset($ungradedsubmissions[$mod->instance]) ? $ungradedsubmissions[$mod->instance]->c : 0;
-                    $gradeds = $submissions - $ungradeds;
-                    $desc[] = '<a href="' . $CFG->wwwroot . '/mod/assignment/submissions.php?id=' . $mod->id . '">' .
-                            get_string('numgradedsubmissions', 'block_meinekurse') . ': ' . $gradeds . '</a>';
-                    if($ungradeds) {
-                        $isnew = true;
-                    }
-                    if($mod->timedue > time()) {
-                        $isnew = true;
-                    }
-                    $count = $ungradeds;
-                } else {
-                    $submissions = $DB->get_records('assignment_submissions', array('assignment' => $mod->instance, 'userid' => $user->id));
-                    $gradetimepercent = $this->grade_timepercent($course, 'mod', 'assignment', $mod->instance, $user->id);
-                    $submitted = count($submissions);
-                    if (!$submitted) {
-                        if ($mod->timedue > 0) {
-                            $isnew = true;
-                            if ($mod->timedue < time()) {
-                                $modslist['assignments']->red = true;
-                            }
-                        }
-                    }
-
-                    //If I haven't seen the (latest) grade, mark as new:
-                    if ($gradetimepercent && $gradetimepercent->date) {
-                        //Get the date I viewed the module
-                        $latestviewrecs = $DB->get_records('log', array('userid' => $user->id, 'cmid' => $mod->id, 'action' => 'view'), 'time DESC', 'time', 0, 1);
-                        if (count($latestviewrecs)) {
-                            $lastviewrec = array_shift($latestviewrecs);
-                            $lastview = $lastviewrec->time;
-                            if ($lastview < $gradetimepercent->date) {
-                                $isnew = true;
-                            }
-                        }
-                    }
-
-                    if ($mod->timedue > 0) {
-                        $desc[] = get_string('deadline', 'block_meinekurse') . ': ' . userdate($mod->timedue);
-                    }
-
-                    if ($submitted) {
-                        $submission = array_shift($submissions);
-                        $desc[] = get_string('submitted', 'block_meinekurse') . ': ' . userdate($submission->timecreated);
-                    }
-
-                    if ($gradetimepercent) {
-                        $desc[] = get_string('grade', 'block_meinekurse') . ': ' . $gradetimepercent->grade;
-                    }
-
-                    if ($isnew) {
-                        $count = 1;
-                    }
-                }
-
-                if ($isnew) {
-                    $modslist['assignments']->list[] = array(
-                        'title' => $title,
-                        'desc' => $desc,
-                    );
-                    $modslist['assignments']->count += $count;
-                }
-            }
+            $modslist = $this->assignment_details($user, $course, $modinfo, $modslist);
 
             //Get forums
             $mods = get_coursemodules_in_course('forum', $course->id);
@@ -627,6 +526,119 @@ class block_meinekurse extends block_base {
         $content .= $paginghtml;
 
         return $content;
+    }
+
+    /**
+     * @param object $course
+     * @param course_modinfo $modinfo
+     */
+    protected function assignment_details($user, $course, $modinfo, $modslist) {
+        global $DB, $CFG;
+
+        $mods = get_coursemodules_in_course('assignment', $course->id, 'm.timedue');
+        $assignmentids = array();
+        foreach ($mods as $mod) {
+            $assignmentids[] = $mod->instance;
+        }
+        if ($assignmentids && $course->istrainer) {
+            // Gather submission data for all assignments
+            list($asql, $params) = $DB->get_in_or_equal($assignmentids, SQL_PARAMS_NAMED);
+            $sql = "SELECT s.assignment, COUNT(s.id) AS c
+                          FROM {assignment_submissions} s
+                          JOIN {user_enrolments} ue ON ue.userid = s.userid
+                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                         WHERE s.assignment $asql
+                         GROUP BY s.assignment";
+            $params['courseid'] = $course->id;
+            $totalsubmissions = $DB->get_records_sql($sql, $params);
+            $sql = "SELECT s.assignment, COUNT(s.id) AS c
+                          FROM {assignment_submissions} s
+                          JOIN {user_enrolments} ue ON ue.userid = s.userid
+                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                         WHERE s.assignment $asql AND s.grade = -1
+                         GROUP BY s.assignment";
+            $ungradedsubmissions = $DB->get_records_sql($sql, $params);
+        }
+        foreach ($mods as $mod) {
+            $isnew = false;
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+            $title = '<a href="' . $CFG->wwwroot . '/mod/assignment/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
+            $desc = array();
+            $count = 0;
+            if ($course->istrainer) {
+                //Count submissions:
+                $submissions = isset($totalsubmissions[$mod->instance]) ? $totalsubmissions[$mod->instance]->c : 0;
+                $desc[] = get_string('numsubmissions', 'block_meinekurse') . ': ' . $submissions;
+
+                //Count ungraded submissions:
+                $ungradeds = isset($ungradedsubmissions[$mod->instance]) ? $ungradedsubmissions[$mod->instance]->c : 0;
+                $gradeds = $submissions - $ungradeds;
+                $desc[] = '<a href="' . $CFG->wwwroot . '/mod/assignment/submissions.php?id=' . $mod->id . '">' .
+                    get_string('numgradedsubmissions', 'block_meinekurse') . ': ' . $gradeds . '</a>';
+                if($ungradeds) {
+                    $isnew = true;
+                }
+                if($mod->timedue > time()) {
+                    $isnew = true;
+                }
+                $count = $ungradeds;
+            } else {
+                $submissions = $DB->get_records('assignment_submissions', array('assignment' => $mod->instance, 'userid' => $user->id));
+                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'assignment', $mod->instance, $user->id);
+                $submitted = count($submissions);
+                if (!$submitted) {
+                    if ($mod->timedue > 0) {
+                        $isnew = true;
+                        if ($mod->timedue < time()) {
+                            $modslist['assignments']->red = true;
+                        }
+                    }
+                }
+
+                //If I haven't seen the (latest) grade, mark as new:
+                if ($gradetimepercent && $gradetimepercent->date) {
+                    //Get the date I viewed the module
+                    $latestviewrecs = $DB->get_records('log', array('userid' => $user->id, 'cmid' => $mod->id, 'action' => 'view'), 'time DESC', 'time', 0, 1);
+                    if (count($latestviewrecs)) {
+                        $lastviewrec = array_shift($latestviewrecs);
+                        $lastview = $lastviewrec->time;
+                        if ($lastview < $gradetimepercent->date) {
+                            $isnew = true;
+                        }
+                    }
+                }
+
+                if ($mod->timedue > 0) {
+                    $desc[] = get_string('deadline', 'block_meinekurse') . ': ' . userdate($mod->timedue);
+                }
+
+                if ($submitted) {
+                    $submission = array_shift($submissions);
+                    $desc[] = get_string('submitted', 'block_meinekurse') . ': ' . userdate($submission->timecreated);
+                }
+
+                if ($gradetimepercent) {
+                    $desc[] = get_string('grade', 'block_meinekurse') . ': ' . $gradetimepercent->grade;
+                }
+
+                if ($isnew) {
+                    $count = 1;
+                }
+            }
+
+            if ($isnew) {
+                $modslist['assignments']->list[] = array(
+                    'title' => $title,
+                    'desc' => $desc,
+                );
+                $modslist['assignments']->count += $count;
+            }
+        }
+
+        return $modslist;
     }
 
     /**

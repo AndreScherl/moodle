@@ -82,3 +82,39 @@ table.mycourses{
 .mycoursestabs .red .newtext{
     background: red;
 }
+
+.meinekurse_sorticons {
+    float: right;
+}
+
+.meinekurse_sorticons a {
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    border: solid black 1px;
+}
+
+.meinekurse_sorticons a span {
+    display: none;
+}
+
+.meinekurse_sorticons a#meinekurse_sortname {
+    background-image: url([[pix:block_meinekurse|name]]);
+}
+.meinekurse_sorticons a#meinekurse_sortname.selected {
+    background-image: url([[pix:block_meinekurse|name_sel]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimecreated {
+    background-image: url([[pix:block_meinekurse|timecreated]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimecreated.selected {
+    background-image: url([[pix:block_meinekurse|timecreated_sel]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimevisited {
+    background-image: url([[pix:block_meinekurse|timevisited]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimevisited.selected {
+    background-image: url([[pix:block_meinekurse|timevisited_sel]]);
+}

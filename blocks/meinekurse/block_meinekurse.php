@@ -30,6 +30,8 @@ require_once($CFG->dirroot . '/lib/formslib.php');
 
 class block_meinekurse extends block_base {
 
+    protected static $validsort = array('name', 'timecreated', 'timevisited');
+
     /**
      * block initializations
      */
@@ -83,23 +85,36 @@ class block_meinekurse extends block_base {
                 'sortby' => 'name',
                 'numcourses' => 5,
                 'school' => null,
+                'sortdir' => 'asc',
             );
         }
-        if ($upd = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
-            $prefs->sortby = $upd;
+        if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
+            if ($prefs->sortby == $sortby) {
+                $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
+            } else {
+                $prefs->sortby = $sortby;
+                if ($sortby == 'name') {
+                    $prefs->sortdir = 'asc';
+                } else {
+                    $prefs->sortdir = 'desc';
+                }
+            }
         }
-        if ($upd = optional_param('meinekurse_numcourses', null, PARAM_INT)) {
-            $prefs->numcourses = $upd;
+        if ($numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT)) {
+            $prefs->numcourses = $numcourses;
         }
-        if ($upd = optional_param('meinekurse_school', null, PARAM_INT)) {
-            $prefs->school = $upd;
+        if (!is_null($school = optional_param('meinekurse_school', null, PARAM_INT))) {
+            $prefs->school = $school;
+        }
+        if (!in_array($prefs->sortby, self::$validsort)) {
+            $prefs->sortby = 'name';
         }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
 
         $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
         //Get courses:
-        $mycourses = $this->get_my_courses($prefs->sortby, $prefs->numcourses, $prefs->school, $pagenum);
+        $mycourses = $this->get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $pagenum);
 
         $starttab = 0;
         $tabnum = 0;
@@ -125,6 +140,10 @@ class block_meinekurse extends block_base {
         }
         $content .= '</ul>';
 
+        // Sorting icons.
+        $baseurl = new moodle_url($PAGE->url, array('meinekurse_school' => $prefs->school));
+        $content .= $this->sorting_icons($baseurl, $prefs->sortby);
+
         // Tab contents.
         foreach ($mycourses as $school) {
             $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
@@ -148,28 +167,11 @@ class block_meinekurse extends block_base {
      * @param int $totalpages - total pages for this tab
      * @param int $thispage - current page number
      */
-
     private function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
         global $CFG, $OUTPUT, $DB, $PAGE;
 
         $content = '';
-        //Settings form
-        $content .= '<form method="post">';
-        $content .= '<input type="hidden" name="meinekurse_school" value="'.$schoolid.'" />';
-        $table = new html_table();
-        $table->head = array(
-            get_string('sortby', 'block_meinekurse'),
-            get_string('lastvisited', 'block_meinekurse'),
-            get_string('numcourses', 'block_meinekurse'));
-        $table->align = array('center', 'center', 'center');
-        $table->data = array();
-        $row = array();
-        $row[] = $this->html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
-        $row[] = $this->html_select('coursevisited', array('lastweek', 'lastmonth', 'last6months', 'allcourses'), true, $prefs);
-        $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
-        $table->data[] = $row;
-        $content .= html_writer::table($table);
-        $content .= '</form>';
+        $content .= '<br style="clear: both;" />';
 
         if (empty($courses)) {
             $content .= get_string('nocourses', 'block_meinekurse');
@@ -627,6 +629,30 @@ class block_meinekurse extends block_base {
         return $content;
     }
 
+    /**
+     * Output the HTML for the icons to sort the courses.
+     *
+     * @param moodle_url $baseurl the URL to base the links on
+     * @return string html snipet for the icons
+     */
+    protected function sorting_icons($baseurl, $selectedtype) {
+
+        $out = '';
+
+        foreach (self::$validsort as $sorttype) {
+            $str = get_string("sort{$sorttype}", 'block_meinekurse');
+            $text = html_writer::tag('span', $str);
+            $attr = array('id' => "meinekurse_sort{$sorttype}", 'title' => $str);
+            if ($sorttype == $selectedtype) {
+                $attr['class'] = 'selected';
+            }
+            $url = new moodle_url($baseurl, array('meinekurse_sortby' => $sorttype));
+            $out .= html_writer::link($url, $text, $attr);
+        }
+
+        return html_writer::tag('div', $out, array('class' => 'meinekurse_sorticons'));
+    }
+
     /*
      * Returns an object with grade time and grade in percentage form for a module a given user
      * @param obj $course, a course object containing id and showgrades
@@ -636,7 +662,6 @@ class block_meinekurse extends block_base {
      * @param int $userid
      * @param bool showhidden
      */
-
     private function grade_timepercent($course, $itemtype, $itemmodule, $iteminstance, $userid, $showhidden=false) {
         global $USER, $CFG;
         require_once($CFG->dirroot . '/lib/gradelib.php');
@@ -708,12 +733,13 @@ class block_meinekurse extends block_base {
      * Get a list of all the courses the user is in, grouped by school
      *
      * @param string $sortby the field to sort by (timecreated, timevisited, name)
+     * @param string $sortdir direction for sorting (asc, desc)
      * @param int $perpage the number of courses per page
      * @param int $schoolid the currently selected school
      * @param int $page the current page (in the selected school), may be updated
      * @return array
      */
-    protected function get_my_courses($sortby, $perpage, $schoolid, $page) {
+    protected function get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page) {
         global $USER, $DB;
         // Get all courses, grouped by school (3rd-level category)
 
@@ -725,13 +751,19 @@ class block_meinekurse extends block_base {
         $params = array();
 
         // Sorting.
+        if ($sortdir != 'desc') {
+            $sortdir = ' ASC';
+        } else {
+            $sortdir = ' DESC';
+        }
+
         if ($sortby == 'timecreated') {
-            $sort = 'c.timecreated ASC';
+            $sort = 'c.timecreated'.$sortdir;
         } else if ($sortby == 'timevisited') {
-            $sort = "(SELECT MAX(time) FROM {log} lg WHERE lg.course = c.id AND lg.action = 'view' AND lg.userid = :userid2)";
+            $sort = "(SELECT MAX(time) FROM {log} lg WHERE lg.course = c.id AND lg.action = 'view' AND lg.userid = :userid2)".$sortdir;
             $params['userid2'] = $USER->id;
         } else {
-            $sort = 'c.fullname ASC';
+            $sort = 'c.fullname'.$sortdir;
         }
         $sort = 'ORDER BY '.$sort;
 

@@ -412,6 +412,10 @@ if (!$courses) {
     $lastcourseid = 0; //letzte Kursid merken für Zielmarkierungen
     $lastcourselinkid = 0;
 
+    if (empty($CFG->custom_category_coursenamelength)) {
+        $CFG->custom_category_coursenamelength = 30;
+    }
+
     //bei Verlinkungen besteht $courses aus Kurslinks und Kursen!
     foreach ($courses as $acourse) {
 
@@ -549,7 +553,7 @@ if (!$courses) {
                     new pix_icon('t/move', get_string('move')));
                     $abletomovecourses = true;
 
-                    if ($CFG->custom_category_usecourselinks) {
+                    if (!empty($CFG->custom_category_usecourselinks)) {
                         echo $OUTPUT->action_icon(new moodle_url('/course/category.php',
                         array('id' => $category->id, 'coursetolink' => $acourse->id)),
                         new pix_icon('category/icon-addcourselink', get_string('create_courselink', 'block_custom_category'), 'theme'));

@@ -343,7 +343,7 @@ class directorylisting {
         $visiblecourses = array();
 
         //+++ awag: Hier mit Kurslinks?
-        if ($CFG->custom_category_usecourselinks) {
+        if (!empty($CFG->custom_category_usecourselinks)) {
 
             directorylisting::_fix_courselink_sortorder($categoryid);
 

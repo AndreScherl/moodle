@@ -213,6 +213,7 @@ class block_meinekurse extends block_base {
 
             //Get assignments
             $modslist = $this->assignment_details($user, $course, $modinfo, $modslist);
+            $modslist = $this->assign_details($user, $course, $modinfo, $modslist);
 
             //Get forums
             $mods = get_coursemodules_in_course('forum', $course->id);
@@ -531,8 +532,13 @@ class block_meinekurse extends block_base {
     }
 
     /**
+     * Gather the details for the old assignment module
+     *
+     * @param object $user
      * @param object $course
      * @param course_modinfo $modinfo
+     * @param object[] $modslist
+     * @return object[] the updated $modslist
      */
     protected function assignment_details($user, $course, $modinfo, $modslist) {
         global $DB, $CFG;
@@ -644,6 +650,131 @@ class block_meinekurse extends block_base {
     }
 
     /**
+     * Gather the details for the old assignment module
+     *
+     * @param object $user
+     * @param object $course
+     * @param course_modinfo $modinfo
+     * @param object[] $modslist
+     * @return object[] the updated $modslist
+     */
+    protected function assign_details($user, $course, $modinfo, $modslist) {
+        global $DB, $CFG;
+
+        $mods = get_coursemodules_in_course('assign', $course->id, 'm.duedate');
+        $assignids = array();
+        foreach ($mods as $mod) {
+            $assignids[] = $mod->instance;
+        }
+        if ($assignids && $course->istrainer) {
+            // Gather submission data for all assignments
+
+            if ($CFG->version > 2012120400) {
+                debugging("Warning: assign_details does not take into account Moodle 2.5 resubmissions - the code should be updated");
+            }
+
+            list($asql, $params) = $DB->get_in_or_equal($assignids, SQL_PARAMS_NAMED);
+            $sql = "SELECT s.assignment, COUNT(s.id) AS c
+                          FROM {assign_submission} s
+                          JOIN {user_enrolments} ue ON ue.userid = s.userid
+                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                         WHERE s.assignment $asql
+                         GROUP BY s.assignment";
+            $params['courseid'] = $course->id;
+            $totalsubmissions = $DB->get_records_sql($sql, $params);
+            $sql = "SELECT s.assignment, COUNT(s.id) AS c
+                          FROM {assign_submission} s
+                          LEFT JOIN {assign_grades} g ON g.assignment = s.assignment AND g.userid = s.userid
+                          JOIN {user_enrolments} ue ON ue.userid = s.userid
+                          JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                         WHERE s.assignment $asql AND g.grade IS NULL
+                         GROUP BY s.assignment";
+            $ungradedsubmissions = $DB->get_records_sql($sql, $params);
+        }
+        foreach ($mods as $mod) {
+            $isnew = false;
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            $desc = array();
+            $count = 0;
+            if ($course->istrainer) {
+                //Count submissions:
+                $submissions = isset($totalsubmissions[$mod->instance]) ? $totalsubmissions[$mod->instance]->c : 0;
+                $desc[] = get_string('numsubmissions', 'block_meinekurse') . ': ' . $submissions;
+
+                //Count ungraded submissions:
+                $ungradeds = isset($ungradedsubmissions[$mod->instance]) ? $ungradedsubmissions[$mod->instance]->c : 0;
+                $gradeds = $submissions - $ungradeds;
+                $submissionurl = new moodle_url('/mod/assign/view.php', array('id' => $mod->id, 'action' => 'grading'));
+                $desc[] = html_writer::link($submissionurl,
+                                            get_string('numgradedsubmissions', 'block_meinekurse') . ': ' . $gradeds);
+                if($ungradeds) {
+                    $isnew = true;
+                }
+                if($mod->duedate > time()) {
+                    $isnew = true;
+                }
+                $count = $ungradeds;
+            } else {
+                $submissions = $DB->get_records('assign_submission', array('assignment' => $mod->instance, 'userid' => $user->id));
+                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'assign', $mod->instance, $user->id);
+                $submitted = count($submissions);
+                if (!$submitted) {
+                    if ($mod->duedate > 0) {
+                        $isnew = true;
+                        if ($mod->duedate < time()) {
+                            $modslist['assignments']->red = true;
+                        }
+                    }
+                }
+
+                //If I haven't seen the (latest) grade, mark as new:
+                if ($gradetimepercent && $gradetimepercent->date) {
+                    //Get the date I viewed the module
+                    $latestviewrecs = $DB->get_records('log', array('userid' => $user->id, 'cmid' => $mod->id, 'action' => 'view'), 'time DESC', 'time', 0, 1);
+                    if (count($latestviewrecs)) {
+                        $lastviewrec = array_shift($latestviewrecs);
+                        $lastview = $lastviewrec->time;
+                        if ($lastview < $gradetimepercent->date) {
+                            $isnew = true;
+                        }
+                    }
+                }
+
+                if ($mod->duedate > 0) {
+                    $desc[] = get_string('deadline', 'block_meinekurse') . ': ' . userdate($mod->duedate);
+                }
+
+                if ($submitted) {
+                    $submission = array_shift($submissions);
+                    $desc[] = get_string('submitted', 'block_meinekurse') . ': ' . userdate($submission->timecreated);
+                }
+
+                if ($gradetimepercent) {
+                    $desc[] = get_string('grade', 'block_meinekurse') . ': ' . $gradetimepercent->grade;
+                }
+
+                if ($isnew) {
+                    $count = 1;
+                }
+            }
+
+            if ($isnew) {
+                $modslist['assignments']->list[] = array(
+                    'title' => $title,
+                    'desc' => $desc,
+                );
+                $modslist['assignments']->count += $count;
+            }
+        }
+
+        return $modslist;
+    }
+
+    /**
      * Output the HTML for the icons to sort the courses.
      *
      * @param moodle_url $baseurl the URL to base the links on
@@ -678,7 +809,7 @@ class block_meinekurse extends block_base {
      * @param bool showhidden
      */
     private function grade_timepercent($course, $itemtype, $itemmodule, $iteminstance, $userid, $showhidden=false) {
-        global $USER, $CFG;
+        global $CFG;
         require_once($CFG->dirroot . '/lib/gradelib.php');
 
         $grade = grade_get_grades($course->id, $itemtype, $itemmodule, $iteminstance, $userid);

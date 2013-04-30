@@ -49,7 +49,7 @@ table.mycourses{
 
 .mycoursestabs .coursecontent{
     background: #d6ebf5;
-    width: 65%;
+    width: 55%;
 }
 
 .mycoursestabs .coursecontent p{
@@ -117,4 +117,24 @@ table.mycourses{
 }
 .meinekurse_sorticons a#meinekurse_sorttimevisited.selected {
     background-image: url([[pix:block_meinekurse|timevisited_sel]]);
+}
+
+.mycoursestabs .moddesc-hidden {
+    display: none;
+    width: 0;
+}
+
+.meinekursetable {
+    display: block;
+    width: 300px;
+    float: left;
+}
+
+.meinekursetable td {
+    width: 300px;
+}
+
+.meinekurse_content {
+    margin: 5%;
+    width: 80%;
 }

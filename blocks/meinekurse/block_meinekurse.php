@@ -182,24 +182,31 @@ class block_meinekurse extends block_base {
         //Pagination
         $baseurl = new moodle_url($PAGE->url, array('meinekurse_school' => $schoolid));
         $paginghtml = $OUTPUT->paging_bar($totalcourses, $thispage - 1, $prefs->numcourses, $baseurl, 'meinekurse_page');
-        $content .= $paginghtml;
 
         //Query results
+        $modpattern = (object)array(
+            'red' => false,
+            'list' => array(),
+            'count' => 0
+        );
+
+        $coursetable = new html_table();
+        $coursetable->attributes = array('class' => 'generaltable meinekursetable');
+        $coursetable->colclasses = array('', 'moddesc-hidden');
+        $coursetable->data = array();
+
         foreach ($courses as $course) {
             $modinfo = get_fast_modinfo($course);
 
-            $content .= "<div class='meinekurse_course' style='clear: both' id='meinekurse_{$course->id}'>";
-            $content .= $OUTPUT->pix_icon('c/course', 'course', 'moodle');
+            $coursename = '';
+
+            $coursename .= $OUTPUT->pix_icon('c/course', 'course', 'moodle');
             $classes = '';
             if (!$course->visible) {
                 $classes .= ' class="dimmed" ';
             }
-            $content .= $OUTPUT->heading('<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" '.$classes.'>'.$course->fullname.'</a>');
-            $content .= html_writer::tag('div', '', array('class' => "clearer"));
-            $modpattern = new stdClass();
-            $modpattern->red = false;
-            $modpattern->list = array();
-            $modpattern->count = 0;
+            $coursename .= $OUTPUT->heading('<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" '.$classes.'>'.$course->fullname.'</a>');
+
             $modslist = array(
                 'assignments' => clone($modpattern),
                 'forums' => clone($modpattern),
@@ -218,8 +225,6 @@ class block_meinekurse extends block_base {
             $modslist = $this->quiz_details($user, $course, $modinfo, $modslist);
 
             //Get resources
-
-            //'resource' type resource
             $modslist = $this->resource_details($user, $course, $modinfo, $modslist);
 
             $modslist['quizes']->type = 'quiz';
@@ -227,10 +232,12 @@ class block_meinekurse extends block_base {
             $modslist['assignments']->type = 'assignment';
             $modslist['resources']->type = 'resource';
 
-            $table = new html_table();
-            $table->colnames = array('modtype', 'totalnew', 'icon', 'moddesc');
-            $table->data = array();
+            $modtable = new html_table();
+            $modtable->colnames = array('modtype', 'totalnew', 'icon');
+            $modtable->attributes = array('class' => 'generaltable meinekurse_content');
+            $modtable->data = array();
             foreach ($modslist as $modtype => $typedata) {
+                // First row - heading for the activity type.
                 $row = array();
                 $tmp = $OUTPUT->pix_icon('icon', $modtype, 'mod_' . $typedata->type);
                 $tmp .= ' ' . get_string($modtype, 'block_meinekurse');
@@ -245,6 +252,9 @@ class block_meinekurse extends block_base {
                     $row[] = '&nbsp;';
                 }
                 $row[] = $OUTPUT->pix_icon('i/info', 'info');
+                $modtable->data[] = $row;
+
+                // Second row - the details for the activity type.
                 $listhtml = '';
                 if (count($typedata->list)) {
                     foreach ($typedata->list as $listitem) {
@@ -259,20 +269,23 @@ class block_meinekurse extends block_base {
                 } else {
                     $listhtml = '<p>'.get_string('nonewitemssincelastlogin', 'block_meinekurse').'</p>';
                 }
-                $row[] = $listhtml;
-
-                $table->data[] = $row;
+                $cell = new html_table_cell($listhtml);
+                $cell->colspan = 3;
+                $row = new html_table_row(array($cell));
+                $modtable->data[] = $row;
             }
 
+            $moddetails = html_writer::table($modtable);
 
-            $container = $this->table($table);
-            $container .= html_writer::tag('div', '', array('class' => "coursecontent meinekurse_{$course->id}", 'style' => 'float:left;'));
-            $container .= html_writer::tag('div', '', array('class' => "clearer"));
-            $content .= html_writer::tag('div', $container, array('class' => "coursecontainer container_{$course->id}"));
-            $content .= '<div class="clearer"></div>';
-            $content .= '</div>';
-            $content .= '<hr>';
+            $coursetable->data[] = array($coursename, $moddetails);
         }
+
+        $tblcontent = html_writer::table($coursetable);
+        $tblcontent .= html_writer::tag('div', '', array('class' => "coursecontent meinekurse_content{$schoolid}",
+                                                'style' => 'float:left;'));
+        $tblcontent .= html_writer::tag('div', '', array('class' => 'clearer'));
+
+        $content .= html_writer::tag('div', $tblcontent, array('class' => 'coursecontainer'));
 
         $content .= $paginghtml;
 
@@ -587,7 +600,7 @@ class block_meinekurse extends block_base {
      * @return object[] updated $modslist
      */
     protected function forum_details($user, $course, $modinfo, $modslist) {
-        global $CFG, $DB;
+        global $DB;
 
         $mods = get_coursemodules_in_course('forum', $course->id);
         foreach ($mods as $mod) {
@@ -781,7 +794,7 @@ class block_meinekurse extends block_base {
      * @return object[] updated $modslist
      */
     protected function resource_details($user, $course, $modinfo, $modslist) {
-        global $CFG, $OUTPUT, $DB;
+        global $OUTPUT, $DB;
 
         static $strfile = null, $urlicon = null, $pageicon = null, $foldericon = null;
         if (is_null($strfile)) {

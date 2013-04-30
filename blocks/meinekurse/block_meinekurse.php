@@ -185,10 +185,6 @@ class block_meinekurse extends block_base {
         $content .= $paginghtml;
 
         //Query results
-        $urlicon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_url'), 'mod_url');
-        $pageicon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_page'), 'mod_page');
-        $foldericon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_folder'), 'mod_folder');
-        $strfile = get_string('pluginname', 'mod_resource');
         foreach ($courses as $course) {
             $modinfo = get_fast_modinfo($course);
 
@@ -216,263 +212,15 @@ class block_meinekurse extends block_base {
             $modslist = $this->assign_details($user, $course, $modinfo, $modslist);
 
             //Get forums
-            $mods = get_coursemodules_in_course('forum', $course->id);
-            foreach ($mods as $mod) {
-                $isnew = false;
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-                $title = '<a href="' . $CFG->wwwroot . '/mod/forum/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                $desc = array();
-
-                //Depending on group mode, add group condition:
-                $andgroup = '';
-                $groupmode = groups_get_activity_groupmode($mod);
-                $context = context_module::instance($mod->id);
-                if ($groupmode == SEPARATEGROUPS && !has_capability('moodle/site:accessallgroups', $context)) {
-                    $andgroup = "
-                    AND EXISTS (
-                        SELECT * FROM {groups_members} gm WHERE gm.groupid = fd.groupid AND gm.userid = :userid2
-                    )
-                    ";
-                }
-
-                $sql = "
-                    SELECT fp.id, fp.discussion, fp.subject FROM {forum} f
-                    JOIN {forum_discussions} fd ON (fd.forum = f.id)
-                    JOIN {forum_posts} fp ON (fp.discussion = fd.id AND fp.created > :lastlogin AND fp.userid != :userid)
-                    WHERE f.id = :forumid
-                    $andgroup
-                    ORDER BY fp.modified DESC
-                    ";
-                $params = array('forumid' => $mod->instance, 'lastlogin' => $user->lastlogin, 'userid' => $user->id, 'userid2' => $user->id);
-                $posts = $DB->get_records_sql($sql, $params);
-                $posted = count($posts);
-                if ($posted) {
-                    $isnew = true;
-
-                    //Get latest post:
-                    $desc[] = $posted . ' ' . get_string('posts', 'block_meinekurse') . ' ' . get_string('sincelastlogin', 'block_meinekurse');
-                    $link = new moodle_url('/mod/forum/discuss.php');
-                    foreach ($posts as $post) {
-                        $link->param('d', $post->discussion);
-                        $link->set_anchor('p'.$post->id);
-                        $msg = format_string($post->subject);
-                        if (strlen($msg) > 40) {
-                            $msg = substr($msg, 0, 40).'&hellip;';
-                        }
-                        $desc[] = html_writer::link($link, $msg);
-                    }
-
-                } else {
-                    $desc[] = $posted . ' ' . get_string('posts', 'block_meinekurse') . ' '
-                            . get_string('sincelastlogin', 'block_meinekurse');
-                }
-
-                if ($isnew) {
-                    $modslist['forums']->list[] = array(
-                        'title' => $title,
-                        'desc' => $desc,
-                    );
-                    $modslist['forums']->count += $posted;
-                }
-            }
+            $modslist = $this->forum_details($user, $course, $modinfo, $modslist);
 
             //Get quizes
-            $mods = get_coursemodules_in_course('quiz', $course->id, 'm.timeclose');
-            $sql = "SELECT q.id
-                      FROM {quiz} q
-                      JOIN {quiz_question_instances} qi ON qi.quiz = q.id
-                      JOIN {question} qs ON qi.question = qs.id
-                     WHERE q.course = ? AND qs.qtype = 'essay'";
-            $essayquizzes = $DB->get_fieldset_sql($sql, array($course->id));
-            foreach ($mods as $mod) {
-                $isnew = false;
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-                $url = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $mod->id;
-                $desc = array();
-                $count = 0;
-                if ($course->istrainer) {
-                    $sql = "
-                        SELECT COUNT(DISTINCT qa.id)
-                        FROM {quiz_attempts} qa
-                        JOIN {user_enrolments} ue ON ue.userid = qa.userid
-                        JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
-                        WHERE qa.quiz = :quiz
-                        AND timefinish > 0
-                        ";
-                    $params = array('courseid' => $course->id, 'quiz' => $mod->instance);
-                    $attempts = $DB->count_records_sql($sql, $params);
-                    $desc[] = get_string('numtests', 'block_meinekurse') . ': ' . $attempts;
-                    if ($attempts) {
-                        $isnew = ($mod->timeclose > time());
-                        $isnew = $isnew || ($mod->timeclose == 0 && in_array($mod->instance, $essayquizzes));
-                    }
-                    $count = $attempts;
-                } else {
-                    $gradetimepercent = $this->grade_timepercent($course, 'mod', 'quiz', $mod->instance, $user->id);
-                    if ($gradetimepercent) {
-                        $url = $CFG->wwwroot . '/grade/report/user/index.php?id=' . $course->id;
-                    }
-                    $attempted = $DB->count_records('quiz_attempts', array('quiz' => $mod->instance, 'userid' => $user->id));
-                    if (!$attempted) {
-                        $isnew = true;
-                        $count = 1;
-                        if ($mod->timeclose > 0) {
-                            if ($mod->timeclose < time()) {
-                                $modslist['quizes']->red = true;
-                            }
-                        }
-                    }
-
-                    //If the quiz has been marked since last visit, and the grade is visible to the user, also mark as new
-                    if($gradetimepercent && !$isnew) {
-                        $sql = "
-                            SELECT qa.timemodified
-                            FROM {quiz_attempts} qa
-                            WHERE qa.quiz = :quiz
-                            AND qa.userid = :userid
-                            AND qa.sumgrades IS NOT NULL
-                            ORDER BY qa.timemodified DESC
-                            LIMIT 1
-                            ";
-                        $params = array('quiz' => $mod->instance, 'userid' => $user->id);
-                        $markedtime = $DB->get_field_sql($sql, $params);                        
-                        if ($markedtime && $markedtime > $user->lastlogin) {
-                            $isnew = true;
-                            $count = 1;
-                        }
-                    }
-
-                    if ($mod->timeclose > 0) {
-                        $desc[] = get_string('deadline', 'block_meinekurse') . ': ' . userdate($mod->timeclose);
-                    }
-
-                    //Get last attempt date
-                    $sql = "
-                        SELECT qa.timefinish
-                        FROM {quiz_attempts} qa
-                        WHERE qa.quiz = :quiz
-                        AND qa.userid = :userid
-                        ORDER BY qa.timemodified DESC
-                        LIMIT 1
-                        ";
-                    $params = array('quiz' => $mod->instance, 'userid' => $user->id);
-                    if ($timefinish = $DB->get_field_sql($sql, $params)) {
-                        $desc[] = get_string('submitted', 'block_meinekurse') . ': ' . userdate($timefinish);
-                    }
-
-
-                    if ($gradetimepercent) {
-                        $desc[] = get_string('grade', 'block_meinekurse') . ': ' . $gradetimepercent->grade;
-                    }
-                }
-                $title = '<a href="' . $url . '">' . s($mod->name) . '</a>';
-
-                if ($isnew) {
-                    $modslist['quizes']->list[] = array(
-                        'title' => $title,
-                        'desc' => $desc,
-                    );
-                    $modslist['quizes']->count += $count;
-                }
-            }
+            $modslist = $this->quiz_details($user, $course, $modinfo, $modslist);
 
             //Get resources
 
             //'resource' type resource
-            $mods = get_coursemodules_in_course('resource', $course->id, 'm.timemodified');
-            foreach ($mods as $mod) {
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-
-                $title = '<a href="' . $CFG->wwwroot . '/mod/resource/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                if ($mod->timemodified > $user->lastlogin) {
-                    $modslist['resources']->list[] = array(
-                        'title' => $title,
-                        'desc' => array(),
-                        'icon' => $OUTPUT->pix_icon($cms->icon, $strfile, $cms->iconcomponent)
-                    );
-                    $modslist['resources']->count++;
-                }
-            }
-
-            //'folder' type resource
-            // Get a list of all the 'folder' resources in this course, with their 'lastmodified' time and the
-            // largest 'timemodified' field for their included files - note this will skip folders with not files in them
-            $sql = "SELECT cm.id, i.name, i.timemodified, MAX(f.timemodified) AS filemodified
-                      FROM {folder} i
-                      JOIN {course_modules} cm ON cm.instance = i.id
-                      JOIN {modules} m ON m.id = cm.module AND m.name = 'folder'
-                      JOIN {context} cx ON cx.instanceid = cm.id AND cx.contextlevel = :contextmodule
-                      JOIN {files} f ON f.contextid = cx.id AND f.component = 'mod_folder' AND f.filearea = 'content'
-                                     AND f.filename <> '.' AND f.itemid = 0
-                     WHERE i.course = :course
-                     GROUP BY i.id, i.name, i.timemodified";
-            $params = array('course' => $course->id, 'contextmodule' => CONTEXT_MODULE);
-            $mods = $DB->get_records_sql($sql, $params);
-            foreach ($mods as $mod) {
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-
-                $title = '<a href="' . $CFG->wwwroot . '/mod/folder/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                $modified = ($mod->timemodified > $user->lastlogin);
-                $modified = $modified || ($mod->filemodified > $user->lastlogin);
-                if ($modified) {
-                    $modslist['resources']->list[] = array(
-                        'title' => $title,
-                        'desc' => array(),
-                        'icon' => $foldericon
-                    );
-                    $modslist['resources']->count++;
-                }
-            }
-
-            //'page' type resource
-            $mods = get_coursemodules_in_course('page', $course->id, 'm.timemodified');
-            foreach ($mods as $mod) {
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-
-                $title = '<a href="' . $CFG->wwwroot . '/mod/page/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                if ($mod->timemodified > $user->lastlogin) {
-                    $modslist['resources']->list[] = array(
-                        'title' => $title,
-                        'desc' => array(),
-                        'icon' => $pageicon
-                    );
-                    $modslist['resources']->count++;
-                }
-            }
-
-            //'url' type resource
-            $mods = get_coursemodules_in_course('url', $course->id, 'm.timemodified');
-            foreach ($mods as $mod) {
-                $cms = $modinfo->get_cm($mod->id);
-                if (!$cms->uservisible) {
-                    continue;
-                }
-
-                $title = '<a href="' . $CFG->wwwroot . '/mod/url/view.php?id=' . $mod->id . '">' . s($mod->name) . '</a>';
-                if ($mod->timemodified > $user->lastlogin) {
-                    $modslist['resources']->list[] = array(
-                        'title' => $title,
-                        'desc' => array(),
-                        'icon' => $urlicon
-                    );
-                    $modslist['resources']->count++;
-                }
-            }
+            $modslist = $this->resource_details($user, $course, $modinfo, $modslist);
 
             $modslist['quizes']->type = 'quiz';
             $modslist['forums']->type = 'forum';
@@ -829,6 +577,310 @@ class block_meinekurse extends block_base {
             return (object) array('grade' => $returngrade, 'date' => $returndate);
         }
         return false;
+    }
+
+    /**
+     * @param object $user
+     * @param object $course
+     * @param course_modinfo $modinfo
+     * @param object[] $modslist
+     * @return object[] updated $modslist
+     */
+    protected function forum_details($user, $course, $modinfo, $modslist) {
+        global $CFG, $DB;
+
+        $mods = get_coursemodules_in_course('forum', $course->id);
+        foreach ($mods as $mod) {
+            $isnew = false;
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            $desc = array();
+
+            //Depending on group mode, add group condition:
+            $andgroup = '';
+            $groupmode = groups_get_activity_groupmode($mod);
+            $context = context_module::instance($mod->id);
+            if ($groupmode == SEPARATEGROUPS && !has_capability('moodle/site:accessallgroups', $context)) {
+                $andgroup = "
+                    AND EXISTS (
+                        SELECT * FROM {groups_members} gm WHERE gm.groupid = fd.groupid AND gm.userid = :userid2
+                    )
+                    ";
+            }
+
+            $sql = "
+                    SELECT fp.id, fp.discussion, fp.subject FROM {forum} f
+                    JOIN {forum_discussions} fd ON (fd.forum = f.id)
+                    JOIN {forum_posts} fp ON (fp.discussion = fd.id AND fp.created > :lastlogin AND fp.userid != :userid)
+                    WHERE f.id = :forumid
+                    $andgroup
+                    ORDER BY fp.modified DESC
+                    ";
+            $params = array(
+                'forumid' => $mod->instance, 'lastlogin' => $user->lastlogin, 'userid' => $user->id,
+                'userid2' => $user->id
+            );
+            $posts = $DB->get_records_sql($sql, $params);
+            $posted = count($posts);
+            if ($posted) {
+                $isnew = true;
+
+                //Get latest post:
+                $desc[] = $posted.' '.get_string('posts', 'block_meinekurse').' '.get_string('sincelastlogin', 'block_meinekurse');
+                $link = new moodle_url('/mod/forum/discuss.php');
+                foreach ($posts as $post) {
+                    $link->param('d', $post->discussion);
+                    $link->set_anchor('p'.$post->id);
+                    $msg = format_string($post->subject);
+                    if (strlen($msg)>40) {
+                        $msg = substr($msg, 0, 40).'&hellip;';
+                    }
+                    $desc[] = html_writer::link($link, $msg);
+                }
+
+            } else {
+                $desc[] = $posted.' '.get_string('posts', 'block_meinekurse').' '
+                    .get_string('sincelastlogin', 'block_meinekurse');
+            }
+
+            if ($isnew) {
+                $modslist['forums']->list[] = array(
+                    'title' => $title,
+                    'desc' => $desc,
+                );
+                $modslist['forums']->count += $posted;
+            }
+        }
+
+        return $modslist;
+    }
+
+    /**
+     * @param object $user
+     * @param object $course
+     * @param course_modinfo $modinfo
+     * @param object[] $modslist
+     * @return object[] updated $modslist
+     */
+    protected function quiz_details($user, $course, $modinfo, $modslist) {
+        global $CFG, $DB;
+
+        $mods = get_coursemodules_in_course('quiz', $course->id, 'm.timeclose');
+        $sql = "SELECT q.id
+                      FROM {quiz} q
+                      JOIN {quiz_question_instances} qi ON qi.quiz = q.id
+                      JOIN {question} qs ON qi.question = qs.id
+                     WHERE q.course = ? AND qs.qtype = 'essay'";
+        $essayquizzes = $DB->get_fieldset_sql($sql, array($course->id));
+        foreach ($mods as $mod) {
+            $isnew = false;
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+            $url = $CFG->wwwroot.'/mod/quiz/view.php?id='.$mod->id;
+            $desc = array();
+            $count = 0;
+            if ($course->istrainer) {
+                $sql = "
+                        SELECT COUNT(DISTINCT qa.id)
+                        FROM {quiz_attempts} qa
+                        JOIN {user_enrolments} ue ON ue.userid = qa.userid
+                        JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                        WHERE qa.quiz = :quiz
+                        AND timefinish > 0
+                        ";
+                $params = array('courseid' => $course->id, 'quiz' => $mod->instance);
+                $attempts = $DB->count_records_sql($sql, $params);
+                $desc[] = get_string('numtests', 'block_meinekurse').': '.$attempts;
+                if ($attempts) {
+                    $isnew = ($mod->timeclose>time());
+                    $isnew = $isnew || ($mod->timeclose == 0 && in_array($mod->instance, $essayquizzes));
+                }
+                $count = $attempts;
+            } else {
+                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'quiz', $mod->instance, $user->id);
+                if ($gradetimepercent) {
+                    $url = $CFG->wwwroot.'/grade/report/user/index.php?id='.$course->id;
+                }
+                $attempted = $DB->count_records('quiz_attempts', array(
+                                                                      'quiz' => $mod->instance, 'userid' => $user->id
+                                                                 ));
+                if (!$attempted) {
+                    $isnew = true;
+                    $count = 1;
+                    if ($mod->timeclose>0) {
+                        if ($mod->timeclose<time()) {
+                            $modslist['quizes']->red = true;
+                        }
+                    }
+                }
+
+                //If the quiz has been marked since last visit, and the grade is visible to the user, also mark as new
+                if ($gradetimepercent && !$isnew) {
+                    $sql = "
+                            SELECT qa.timemodified
+                            FROM {quiz_attempts} qa
+                            WHERE qa.quiz = :quiz
+                            AND qa.userid = :userid
+                            AND qa.sumgrades IS NOT NULL
+                            ORDER BY qa.timemodified DESC
+                            LIMIT 1
+                            ";
+                    $params = array('quiz' => $mod->instance, 'userid' => $user->id);
+                    $markedtime = $DB->get_field_sql($sql, $params);
+                    if ($markedtime && $markedtime>$user->lastlogin) {
+                        $isnew = true;
+                        $count = 1;
+                    }
+                }
+
+                if ($mod->timeclose>0) {
+                    $desc[] = get_string('deadline', 'block_meinekurse').': '.userdate($mod->timeclose);
+                }
+
+                //Get last attempt date
+                $sql = "
+                        SELECT qa.timefinish
+                        FROM {quiz_attempts} qa
+                        WHERE qa.quiz = :quiz
+                        AND qa.userid = :userid
+                        ORDER BY qa.timemodified DESC
+                        LIMIT 1
+                        ";
+                $params = array('quiz' => $mod->instance, 'userid' => $user->id);
+                if ($timefinish = $DB->get_field_sql($sql, $params)) {
+                    $desc[] = get_string('submitted', 'block_meinekurse').': '.userdate($timefinish);
+                }
+
+                if ($gradetimepercent) {
+                    $desc[] = get_string('grade', 'block_meinekurse').': '.$gradetimepercent->grade;
+                }
+            }
+            $title = '<a href="'.$url.'">'.s($mod->name).'</a>';
+
+            if ($isnew) {
+                $modslist['quizes']->list[] = array(
+                    'title' => $title,
+                    'desc' => $desc,
+                );
+                $modslist['quizes']->count += $count;
+            }
+        }
+        return $modslist;
+    }
+
+    /**
+     * @param object $user
+     * @param object $course
+     * @param course_modinfo $modinfo
+     * @param object[] $modslist
+     * @return object[] updated $modslist
+     */
+    protected function resource_details($user, $course, $modinfo, $modslist) {
+        global $CFG, $OUTPUT, $DB;
+
+        static $strfile = null, $urlicon = null, $pageicon = null, $foldericon = null;
+        if (is_null($strfile)) {
+            $urlicon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_url'), 'mod_url');
+            $pageicon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_page'), 'mod_page');
+            $foldericon = $OUTPUT->pix_icon('icon', get_string('pluginname', 'mod_folder'), 'mod_folder');
+            $strfile = get_string('pluginname', 'mod_resource');
+        }
+
+        $mods = get_coursemodules_in_course('resource', $course->id, 'm.timemodified');
+        foreach ($mods as $mod) {
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            if ($mod->timemodified>$user->lastlogin) {
+                $modslist['resources']->list[] = array(
+                    'title' => $title,
+                    'desc' => array(),
+                    'icon' => $OUTPUT->pix_icon($cms->icon, $strfile, $cms->iconcomponent)
+                );
+                $modslist['resources']->count++;
+            }
+        }
+
+        //'folder' type resource
+        // Get a list of all the 'folder' resources in this course, with their 'lastmodified' time and the
+        // largest 'timemodified' field for their included files - note this will skip folders with not files in them
+        $sql = "SELECT cm.id, i.name, i.timemodified, MAX(f.timemodified) AS filemodified
+                      FROM {folder} i
+                      JOIN {course_modules} cm ON cm.instance = i.id
+                      JOIN {modules} m ON m.id = cm.module AND m.name = 'folder'
+                      JOIN {context} cx ON cx.instanceid = cm.id AND cx.contextlevel = :contextmodule
+                      JOIN {files} f ON f.contextid = cx.id AND f.component = 'mod_folder' AND f.filearea = 'content'
+                                     AND f.filename <> '.' AND f.itemid = 0
+                     WHERE i.course = :course
+                     GROUP BY i.id, i.name, i.timemodified";
+        $params = array('course' => $course->id, 'contextmodule' => CONTEXT_MODULE);
+        $mods = $DB->get_records_sql($sql, $params);
+        foreach ($mods as $mod) {
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            $modified = ($mod->timemodified>$user->lastlogin);
+            $modified = $modified || ($mod->filemodified>$user->lastlogin);
+            if ($modified) {
+                $modslist['resources']->list[] = array(
+                    'title' => $title,
+                    'desc' => array(),
+                    'icon' => $foldericon
+                );
+                $modslist['resources']->count++;
+            }
+        }
+
+        //'page' type resource
+        $mods = get_coursemodules_in_course('page', $course->id, 'm.timemodified');
+        foreach ($mods as $mod) {
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            if ($mod->timemodified>$user->lastlogin) {
+                $modslist['resources']->list[] = array(
+                    'title' => $title,
+                    'desc' => array(),
+                    'icon' => $pageicon
+                );
+                $modslist['resources']->count++;
+            }
+        }
+
+        //'url' type resource
+        $mods = get_coursemodules_in_course('url', $course->id, 'm.timemodified');
+        foreach ($mods as $mod) {
+            $cms = $modinfo->get_cm($mod->id);
+            if (!$cms->uservisible) {
+                continue;
+            }
+
+            $title = html_writer::link($cms->get_url(), format_string($mod->name));
+            if ($mod->timemodified>$user->lastlogin) {
+                $modslist['resources']->list[] = array(
+                    'title' => $title,
+                    'desc' => array(),
+                    'icon' => $urlicon
+                );
+                $modslist['resources']->count++;
+            }
+        }
+
+        return $modslist;
     }
 
     /*

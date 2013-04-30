@@ -30,6 +30,8 @@ require_once($CFG->dirroot . '/lib/formslib.php');
 
 class block_meinekurse extends block_base {
 
+    const SCHOOL_CAT_DEPTH = 3;
+
     protected static $validsort = array('name', 'timecreated', 'timevisited');
 
     /**
@@ -645,6 +647,7 @@ class block_meinekurse extends block_base {
      * Output the HTML for the icons to sort the courses.
      *
      * @param moodle_url $baseurl the URL to base the links on
+     * @param string $selectedtype the sort currently selected
      * @return string html snipet for the icons
      */
     protected function sorting_icons($baseurl, $selectedtype) {
@@ -820,7 +823,17 @@ class block_meinekurse extends block_base {
         $courses = $DB->get_records_sql($sql, $params);
 
         $myschool = meinekurse_get_main_school($USER);
-        $schools = array($myschool->id => null); // Make sure the user's own school is first in the list.
+        $schools = array();
+        if ($myschool) {
+            // Make sure the user's own school is first in the list.
+            $schools[$myschool->id] = (object) array(
+                'id' => $myschool->id,
+                'name' => $myschool->name,
+                'courses' => array(),
+                'coursecount' => 0,
+                'page' => 1,
+            );
+        }
 
         // preload contexts and check visibility
         foreach ($courses as $id => $course) {
@@ -837,14 +850,23 @@ class block_meinekurse extends block_base {
                 }
             }
             $course->istrainer = $context && has_capability('block/meinekurse:viewtrainertab', $context);
-            if ($course->catdepth < 3) {
+            if ($course->catdepth < self::SCHOOL_CAT_DEPTH) {
                 // Course does not appear to be within a school - gather all such courses together into a 'misc' category.
                 $course->category = -1;
-            } else if ($course->catdepth > 3) {
-                // TODO davo - cope with subcategories within schools
+            } else if ($course->catdepth > self::SCHOOL_CAT_DEPTH) {
+                // Course is within a subcategory of a school - find the school category.
+                $path = explode('/', $course->catpath);
+                if (count($path) < (self::SCHOOL_CAT_DEPTH + 1)) {
+                    $course->category = -1;
+                    debugging("Found bad category information - id: {$course->category}; depth: {$course->catdepth}; path: {$course->catpath}; name: {$course->catname}");
+                } else {
+                    $course->category = $path[self::SCHOOL_CAT_DEPTH];
+                    $course->catname = null; // As this was the name of the direct category, not of the school.
+                }
             }
 
             if (empty($schools[$course->category])) {
+                // First course we've found in this school - set up the school details.
                 $school = new stdClass();
                 $school->id = $course->category;
                 if ($course->category > 0) {
@@ -857,13 +879,16 @@ class block_meinekurse extends block_base {
                 $school->page = 1;
                 $schools[$course->category] = $school;
             }
+            if (is_null($schools[$course->category]->name) && !is_null($course->catname)) {
+                $schools[$course->category]->name = $course->catname; // Fill in the school name if we now know it.
+            }
             $schools[$course->category]->coursecount++;
             if ($schoolid != $course->category) {
                 if ($schools[$course->category]->coursecount > $perpage) {
                     continue; // Other than the currently selected school, only keep the first 'perpage'
                 }
             }
-            $schools[$course->category]->courses[] = $course;
+            $schools[$course->category]->courses[] = $course; // Add the course to the list for the school.
         }
 
         // Now deal with the paging of the currently selected school
@@ -873,19 +898,23 @@ class block_meinekurse extends block_base {
                 $page = 1;
                 $firstcourse = 0;
             }
+            // Only include the courses for the current page.
             $schools[$schoolid]->courses = array_slice($schools[$schoolid]->courses, $firstcourse, $perpage, true);
             $schools[$schoolid]->page = $page;
         }
 
-        // Fill in the details for 'my school' if there are no courses present.
-        if (empty($schools[$myschool->id])) {
-            $schools[$myschool->id] = (object)array(
-                'id' => $myschool->id,
-                'name' => $myschool->name,
-                'courses' => array(),
-                'coursecount' => 0,
-                'page' => 1,
-            );
+        // Gather any missing school names (for courses that were in subcategories).
+        $catids = array();
+        foreach ($schools as $school) {
+            if (is_null($school->name)) {
+                $catids[] = $school->id;
+            }
+        }
+        if (!empty($catids)) {
+            $catnames = $DB->get_records_list('course_categories', 'id', $catids, '', 'id, name');
+            foreach ($catnames as $cat) {
+                $schools[$cat->id]->name = $cat->name;
+            }
         }
 
         // Move the 'Not in a school' list to the end of the schools

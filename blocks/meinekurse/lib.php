@@ -25,9 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 function meinekurse_get_main_school($user) {
-    // TODO davo - figure out how to map the user 'institution' field onto a Moodle category
-    return (object)array(
-        'id' => 0,
-        'name' => 'TODO: Main school mapping',
-    );
+    global $DB;
+
+    $schoolid = $user->institution;
+    return $DB->get_record('course_categories', array('idnumber' => $schoolid), 'id, name');
 }

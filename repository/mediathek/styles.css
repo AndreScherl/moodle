@@ -1,0 +1,68 @@
+body.repository-mediathek-browse,
+body.repository-mediathek-browse #page,
+body.repository-mediathek-browse #page #region-main-box,
+body.repository-mediathek-browse #page #region-main-box #region-main-wrap,
+body.repository-mediathek-browse #page #region-main-box #region-main-wrap .region-content
+{
+    margin: 0;
+    padding: 0;
+}
+
+body.repository-mediathek-browse .file-picker .fp-content {
+    width: 664px;
+    overflow: visible;
+    height: inherit;
+    min-height: 466px;
+}
+
+body.repository-mediathek-browse .noresults {
+    padding: 2em 0;
+    font-size: 200%;
+    text-align: center;
+}
+
+body.repository-mediathek-browse .fp-iconview .paging {
+    margin: 0 0 15px 0;
+    padding: 10px 0 0 0;
+    clear: both;
+}
+
+.repository_mediathek a.fp-file span.tooltip,
+.repository_mediathek .fp-filename-icon a span.tooltip {
+    display: inline;
+    z-index: 100;
+    width: 110px;
+    background-color: #FFFBD8;
+    background-color: rgba(255, 251, 216, 0.80);
+    padding: 5px 2px;
+    border-radius: 5px 5px;
+    border: 1px solid #888;
+    box-shadow: 2px 2px 7px 0 #888;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    text-align: left;
+    opacity: 0; /* Opacity is used to hide tooltips - so the transition can fade them in/out */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* Workarounds for IE7/8 opacity support */
+    filter: alpha(opacity=0);
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.repository_mediathek .fp-filename-icon a span.tooltip {
+    width: 350px;
+    left: 25px;
+    top: 0;
+}
+
+
+.repository_mediathek a.fp-file:hover span.tooltip,
+.repository_mediathek .fp-filename-icon a:hover span.tooltip {
+    opacity: 1;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    -webkit-transition: all .1s ease-out;
+    -moz-transition: all .1s ease-out;
+    transition: all .1s ease-out;
+}

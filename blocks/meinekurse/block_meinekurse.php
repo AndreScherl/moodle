@@ -130,7 +130,7 @@ class block_meinekurse extends block_base {
         $content .= '</ul>';
 
         // Sorting icons.
-        $baseurl = new moodle_url($PAGE->url, array('meinekurse_school' => $prefs->school));
+        $baseurl = new moodle_url($PAGE->url);
         $content .= $this->sorting_icons($baseurl, $prefs->sortby);
 
         // Tab contents.

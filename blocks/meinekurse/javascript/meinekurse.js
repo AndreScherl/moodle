@@ -8,11 +8,6 @@ $(document).ready(function() {
             tabnum = tabnum.match(/#school(.*)tab/);
             if (tabnum.length >= 2) {
                 tabnum = parseInt(tabnum[1], 10);
-                $('.meinekurse_sorticons a').each(function (idx, el) {
-                    var url = $(el).attr('href');
-                    url = url.replace(/meinekurse_school=[-\d]+/, 'meinekurse_school=' + tabnum);
-                    $(el).attr('href', url);
-                });
                 var params = {
                     'action': 'setschool',
                     'schoolid': tabnum,

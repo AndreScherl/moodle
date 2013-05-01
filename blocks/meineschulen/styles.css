@@ -1,0 +1,76 @@
+.meineschulen_content .meineschulen_courses {
+    display: block;
+    width: 44%;
+    margin: 5px 2.5%;
+    float: left;
+}
+.meineschulen_content .meineschulen_courses .meineschulen_courses_inner {
+    border: solid black 1px;
+    min-height: 200px;
+}
+
+.meineschulen_content .meineschulen_courses.fullwidth {
+    width: 95%;
+}
+
+.meineschulen_content .meineschulen_coordinators {
+    display: block;
+    width: 44%;
+    margin: 5px 2.5%;
+    float: left;
+    overflow-y: auto;
+}
+
+.meineschulen_content .meineschulen_coordinators .meineschulen_coordinators_inner {
+    border: solid black 1px;
+    height: 120px;
+}
+
+.meineschulen_content .meineschulen_newcourse {
+    display: block;
+    width: 44%;
+    margin: 5px 2.5%;
+    float: left;
+}
+
+.meineschulen_content .meineschulen_newcourse .meineschulen_newcourse_inner {
+    border: solid black 1px;
+    min-height: 68px;
+}
+
+.meineschulen_content .meineschulen_createcourse_link,
+.meineschulen_content .meineschulen_requestcourse_link {
+    display: inline-block;
+    position: relative;
+    left: -5px;
+    margin-left: 8px;
+    width: 24px;
+    height: 24px;
+    background-color: #038ddc;
+    background-image: url([[pix:block_meineschulen|add]]);
+    background-repeat: no-repeat;
+    border: solid black 1px;
+    box-shadow: 4px 4px 2px #888;
+    float: right;
+}
+.meineschulen_content a.meineschulen_createcourse_link span,
+.meineschulen_content a.meineschulen_requestcourse_link span {
+    display: none;
+}
+
+.meineschulen_content .meineschulen_createcourse,
+.meineschulen_content .meineschulen_requestcourse {
+    border: solid black 1px;
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+    width: 90%;
+}
+
+.meineschulen_content .meineschulen_search {
+    display: block;
+    width: 95%;
+    margin: 5px 2.5%;
+    float: left;
+    border: solid black 1px;
+}

@@ -13,6 +13,15 @@ $(document).ready(function() {
                     url = url.replace(/meinekurse_school=[-\d]+/, 'meinekurse_school=' + tabnum);
                     $(el).attr('href', url);
                 });
+                var params = {
+                    'action': 'setschool',
+                    'schoolid': tabnum,
+                    'sesskey': M.cfg.sesskey
+                };
+                $.ajax({
+                    url: M.cfg.wwwroot+'/blocks/meinekurse/ajax.php',
+                    data: params
+                });
             }
         }
     });

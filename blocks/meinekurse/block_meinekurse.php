@@ -25,12 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
 require_once($CFG->dirroot . '/lib/weblib.php');
 require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/blocks/meinekurse/lib.php');
 
 class block_meinekurse extends block_base {
-
-    const SCHOOL_CAT_DEPTH = 3;
 
     protected static $validsort = array('name', 'timecreated', 'timevisited');
 
@@ -59,9 +59,7 @@ class block_meinekurse extends block_base {
      * @return object
      */
     public function get_content() {
-        global $USER, $PAGE, $CFG;
-
-        require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
+        global $USER, $PAGE;
 
         $PAGE->requires->js('/blocks/meinekurse/javascript/jquery.js');
         $PAGE->requires->js('/blocks/meinekurse/javascript/jqueryui.js');
@@ -78,18 +76,7 @@ class block_meinekurse extends block_base {
         $content = '';
 
         //Handle submitted / saved data
-        $prefs = get_user_preferences('block_meinekurse_prefs', false);
-        if ($prefs) {
-            $prefs = unserialize($prefs);
-        }
-        if (!$prefs || !is_object($prefs)) {
-            $prefs = (object) array(
-                'sortby' => 'name',
-                'numcourses' => 5,
-                'school' => null,
-                'sortdir' => 'asc',
-            );
-        }
+        $prefs = meinekurse_get_prefs();
         if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
             if ($prefs->sortby == $sortby) {
                 $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
@@ -111,7 +98,7 @@ class block_meinekurse extends block_base {
         if (!in_array($prefs->sortby, self::$validsort)) {
             $prefs->sortby = 'name';
         }
-        set_user_preference('block_meinekurse_prefs', serialize($prefs));
+        meinekurse_set_prefs($prefs);
 
         $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
@@ -1046,17 +1033,17 @@ class block_meinekurse extends block_base {
                 }
             }
             $course->istrainer = $context && has_capability('block/meinekurse:viewtrainertab', $context);
-            if ($course->catdepth < self::SCHOOL_CAT_DEPTH) {
+            if ($course->catdepth < MEINEKURSE_SCHOOL_CAT_DEPTH) {
                 // Course does not appear to be within a school - gather all such courses together into a 'misc' category.
                 $course->category = -1;
-            } else if ($course->catdepth > self::SCHOOL_CAT_DEPTH) {
+            } else if ($course->catdepth > MEINEKURSE_SCHOOL_CAT_DEPTH) {
                 // Course is within a subcategory of a school - find the school category.
                 $path = explode('/', $course->catpath);
-                if (count($path) < (self::SCHOOL_CAT_DEPTH + 1)) {
+                if (count($path) < (MEINEKURSE_SCHOOL_CAT_DEPTH + 1)) {
                     $course->category = -1;
                     debugging("Found bad category information - id: {$course->category}; depth: {$course->catdepth}; path: {$course->catpath}; name: {$course->catname}");
                 } else {
-                    $course->category = $path[self::SCHOOL_CAT_DEPTH];
+                    $course->category = $path[MEINEKURSE_SCHOOL_CAT_DEPTH];
                     $course->catname = null; // As this was the name of the direct category, not of the school.
                 }
             }

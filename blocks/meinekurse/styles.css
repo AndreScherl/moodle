@@ -41,6 +41,7 @@
     clear: both;
     float: left;
     width: 100%;
+    min-height: 400px;
 }
 
 table.mycourses{
@@ -49,7 +50,6 @@ table.mycourses{
 
 .mycoursestabs .coursecontent{
     background: #d6ebf5;
-    width: 55%;
 }
 
 .mycoursestabs .coursecontent p{
@@ -136,5 +136,4 @@ table.mycourses{
 
 .meinekurse_content {
     margin: 5%;
-    width: 80%;
 }

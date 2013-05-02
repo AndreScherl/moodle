@@ -72,5 +72,25 @@
     width: 95%;
     margin: 5px 2.5%;
     float: left;
+}
+
+.meineschulen_content .meineschulen_search .meineschulen_search_inner {
     border: solid black 1px;
+}
+
+.meineschulen_content #meineschulen_search_results table {
+    width: 90%;
+    margin: 10px 5%;
+}
+
+.meineschulen_content #meineschulen_search_results .highlight {
+    background-color: #ffff00;
+}
+
+.meineschulen_content .meineschulen_search form {
+    margin: 5px 5%;
+}
+
+.meineschulen_content .meineschulen_search form input {
+    margin-right: 5px;
 }

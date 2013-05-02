@@ -32,6 +32,8 @@ require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
  */
 class meineschulen {
 
+    const TRUNCATE_COURSE_SUMMARY = 50;
+
     /** @var object $schoolcat the course_categories record for the school we are viewing */
     protected $schoolcat = null;
     /** @var context_coursecat $context the context for the school */
@@ -366,7 +368,110 @@ class meineschulen {
      * @return string
      */
     protected function output_course_search() {
-        $out = 'Search';
+        global $PAGE;
+
+        $searchtext = trim(optional_param('search', '', PARAM_TEXT));
+
+        $out = '';
+
+        $forminner = '';
+        $forminner .= html_writer::input_hidden_params($PAGE->url);
+        $forminner .= html_writer::empty_tag('input', array('type' => 'text', 'size' => '60', 'name' => 'search',
+                                                           'value' => $searchtext));
+        $forminner .= html_writer::empty_tag('input', arraY('type' => 'submit', 'name' => 'dosearch',
+                                                           'value' => get_string('search')));
+        $out .= html_writer::tag('form', $forminner, array('action' => $PAGE->url->out_omit_querystring(), 'method' => 'get'));
+
+        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext),
+                                 array('id' => 'meineschulen_search_results'));
+
+        $out = html_writer::tag('div', $out, array('class' => 'meineschulen_search_inner'));
+        $out = get_string('coursesearch', 'block_meineschulen').$out;
+
         return html_writer::tag('div', $out, array('class' => 'meineschulen_search'));
+    }
+
+    public function output_course_search_results($searchtext) {
+        global $DB;
+
+        $table = new html_table;
+        $table->head = array(get_string('name'), get_string('description'));
+        $table->size = array('40%', '60%');
+
+        if (empty($searchtext)) {
+            $cell = new html_table_cell('');
+            $cell->colspan = 2;
+            $table->data = array(new html_table_row(array($cell)));
+        } else {
+            $sql = "SELECT c.id, c.fullname, c.summary
+                      FROM {course} c
+                      JOIN {course_categories} ca ON ca.id = c.category
+                     WHERE (".$DB->sql_like('c.fullname', ':searchtext1', false, false)."
+                        OR ".$DB->sql_like('c.summary', ':searchtext2', false, false).")
+                       AND (ca.id = :catid OR ".$DB->sql_like('ca.path', ':catpath').")
+                     ORDER BY c.fullname, c.id";
+            $params = array(
+                'searchtext1' => "%$searchtext%",
+                'searchtext2' => "%$searchtext%",
+                'catid' => $this->schoolcat->id,
+                'catpath' => "{$this->schoolcat->path}/%"
+            );
+            $results = $DB->get_records_sql($sql, $params);
+
+            if ($results) {
+                $table->data = array();
+                foreach ($results as $result) {
+                    $name = $result->fullname;
+                    $summary = $result->summary;
+                    $summary = format_string($summary);
+                    $name = $this->highlight_text($searchtext, $name);
+                    $summary = $this->highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
+
+                    $table->data[] = array($name, $summary);
+                }
+
+            } else {
+                $cell = new html_table_cell(get_string('nocoursesfound', 'block_meineschulen'));
+                $cell->colspan = 2;
+                $table->data = array(new html_table_row(array($cell)));
+            }
+
+        }
+
+        return html_writer::table($table);
+    }
+
+    protected function highlight_text($searchterm, $result, $truncateto = null) {
+        $firstinsert = '<span class="highlight">';
+        $lastinsert = '</span>';
+
+        $resultlen = strlen($result);
+        if (!is_null($truncateto) && $resultlen > $truncateto) {
+            $firstpos = stripos($result, $searchterm);
+            $truncateto -= 1;
+            $start = 0;
+            if ($firstpos !== false) {
+                $firstendpos = $firstpos + strlen($searchterm);
+                if ($firstendpos > $truncateto) {
+                    $start = ($firstendpos + 1) - $truncateto;
+                }
+            }
+            $result = substr($result, $start, $truncateto);
+            if ($start > 0) {
+                $result = '&hellip;'.$result;
+            }
+            if ($start + $truncateto < $resultlen) {
+                $result .= '&hellip;';
+            }
+        }
+
+        $pos = 0;
+        while (($pos = stripos($result, $searchterm, $pos)) !== false) {
+            $result = substr_replace($result, $firstinsert, $pos, 0);
+            $pos += strlen($firstinsert) + strlen($searchterm);
+            $result = substr_replace($result, $lastinsert, $pos, 0);
+            $pos += strlen($lastinsert);
+        }
+        return $result;
     }
 }

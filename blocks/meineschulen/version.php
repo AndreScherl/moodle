@@ -24,12 +24,12 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013050101;
+$plugin->version   = 2013050102;
 $plugin->requires  = 2012120300; // 2.4
 $plugin->cron      = 0;
 $plugin->component = 'block_meineschulen';
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '2.4 (Build: 2013050101)';
+$plugin->release   = '2.4 (Build: 2013050102)';
 $plugin->dependencies = array(
     'block_meinekurse' => ANY_VERSION,
 );

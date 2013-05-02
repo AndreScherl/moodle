@@ -26,11 +26,13 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['coordinators'] = 'School coordinators';
 $string['courselist'] = 'Course list';
+$string['coursesearch'] = 'Search courses';
 $string['createcourse'] = 'Create course';
 $string['meineschulen:addinstance'] = 'Add Meine schulen block';
 $string['meineschulen:myaddinstance'] = 'Add Meine schulen block to My home';
 $string['meineschulen:viewcoordinators'] = 'View school coordinators list';
 $string['newcourse'] = 'New course';
+$string['nocoursesfound'] = 'No courses found';
 $string['otherschools'] = 'Other schools';
 $string['pluginname'] = 'Meine schulen';
 $string['requestcourse'] = 'Request course';

@@ -370,6 +370,14 @@ class meineschulen {
     protected function output_course_search() {
         global $PAGE;
 
+        $jsmodule = array(
+            'name' => 'block_meineschulen_search',
+            'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
+            'requires' => array('node', 'io-base', 'json', 'lang'),
+        );
+        $opts = array('schoolid' => $this->schoolcat->id);
+        $PAGE->requires->js_init_call('M.block_meineschulen_search.init', array($opts), true, $jsmodule);
+
         $searchtext = trim(optional_param('search', '', PARAM_TEXT));
 
         $out = '';
@@ -377,10 +385,12 @@ class meineschulen {
         $forminner = '';
         $forminner .= html_writer::input_hidden_params($PAGE->url);
         $forminner .= html_writer::empty_tag('input', array('type' => 'text', 'size' => '60', 'name' => 'search',
-                                                           'value' => $searchtext));
+                                                           'value' => $searchtext, 'id' => 'meineschulen_search_text'));
         $forminner .= html_writer::empty_tag('input', arraY('type' => 'submit', 'name' => 'dosearch',
                                                            'value' => get_string('search')));
-        $out .= html_writer::tag('form', $forminner, array('action' => $PAGE->url->out_omit_querystring(), 'method' => 'get'));
+        $out .= html_writer::tag('form', $forminner, array('action' => $PAGE->url->out_omit_querystring(),
+                                                          'method' => 'get',
+                                                          'id' => 'meineschulen_search_form'));
 
         $out .= html_writer::tag('div', $this->output_course_search_results($searchtext),
                                  array('id' => 'meineschulen_search_results'));

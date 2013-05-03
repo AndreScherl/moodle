@@ -32,6 +32,7 @@ require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
  */
 class meineschulen {
 
+    /** Number of characters to truncate results to */
     const TRUNCATE_COURSE_SUMMARY = 50;
 
     /** @var object $schoolcat the course_categories record for the school we are viewing */
@@ -401,6 +402,12 @@ class meineschulen {
         return html_writer::tag('div', $out, array('class' => 'meineschulen_search'));
     }
 
+    /**
+     * Generate the results of searching for courses containing the given string
+     *
+     * @param string $searchtext
+     * @return string HTML snipet to output
+     */
     public function output_course_search_results($searchtext) {
         global $DB;
 
@@ -451,6 +458,16 @@ class meineschulen {
         return html_writer::table($table);
     }
 
+    /**
+     * Highlights all occurances of the search term within the given text and, optionally, truncates the text
+     * to the given number of characters. Ensures that the truncated section of the text includes the search term
+     * (by mising off characters from the start of the result string)
+     *
+     * @param string $searchterm the text that was searched for
+     * @param string $result the text that was found
+     * @param int $truncateto optional the number of characters to truncate the result to
+     * @return string the truncated result, with the search term highlighted within it
+     */
     protected function highlight_text($searchterm, $result, $truncateto = null) {
         $firstinsert = '<span class="highlight">';
         $lastinsert = '</span>';

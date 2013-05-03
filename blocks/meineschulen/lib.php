@@ -376,7 +376,7 @@ class meineschulen {
             'requires' => array('node', 'io-base', 'json', 'lang'),
         );
         $opts = array('schoolid' => $this->schoolcat->id);
-        $PAGE->requires->js_init_call('M.block_meineschulen_search.init', array($opts), true, $jsmodule);
+        $PAGE->requires->js_init_call('M.block_meineschulen_search.init_course_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('search', '', PARAM_TEXT));
 

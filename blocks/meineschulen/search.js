@@ -1,5 +1,5 @@
 M.block_meineschulen_search = {
-    init: function(Y, opts) {
+    init_course_search: function(Y, opts) {
         var searchform, waitimg;
 
         waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
@@ -35,5 +35,8 @@ M.block_meineschulen_search = {
             }
             return false;
         });
+    },
+
+    init_school_search: function(Y) {
     }
 };

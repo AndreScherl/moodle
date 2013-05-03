@@ -268,6 +268,8 @@ class repository_mediathek_api {
         curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($c, CURLOPT_USERPWD, $this->username.':'.$this->password);
 
+        $this->add_proxy_settings($c, $url);
+
         if (($res = curl_exec($c)) == false) {
             throw new moodle_exception('errorconnecting', 'repository_mediathek', '', curl_error($c));
         }
@@ -305,6 +307,39 @@ class repository_mediathek_api {
         }
 
         return $response->items;
+    }
+
+    protected function add_proxy_settings($c, $url) {
+        global $CFG;
+
+        $proxybypass = is_proxybypass($url);
+        if (!empty($CFG->proxyhost) and !$proxybypass) {
+            // SOCKS supported in PHP5 only
+            if (!empty($CFG->proxytype) and ($CFG->proxytype == 'SOCKS5')) {
+                if (defined('CURLPROXY_SOCKS5')) {
+                    curl_setopt($c, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+                } else {
+                    debugging("SOCKS5 proxy is not supported in PHP4.", DEBUG_ALL);
+                    return;
+                }
+            }
+
+            curl_setopt($c, CURLOPT_HTTPPROXYTUNNEL, false);
+
+            if (empty($CFG->proxyport)) {
+                curl_setopt($c, CURLOPT_PROXY, $CFG->proxyhost);
+            } else {
+                curl_setopt($c, CURLOPT_PROXY, $CFG->proxyhost.':'.$CFG->proxyport);
+            }
+
+            if (!empty($CFG->proxyuser) and !empty($CFG->proxypassword)) {
+                curl_setopt($c, CURLOPT_PROXYUSERPWD, $CFG->proxyuser.':'.$CFG->proxypassword);
+                if (defined('CURLOPT_PROXYAUTH')) {
+                    // any proxy authentication if PHP 5.1
+                    curl_setopt($c, CURLOPT_PROXYAUTH, CURLAUTH_BASIC | CURLAUTH_NTLM);
+                }
+            }
+        }
     }
 
     protected function parse_response_list(SimpleXMLElement $items) {

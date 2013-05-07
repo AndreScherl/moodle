@@ -438,11 +438,12 @@ class meineschulen {
             if ($results) {
                 $table->data = array();
                 foreach ($results as $result) {
-                    $name = $result->fullname;
-                    $summary = $result->summary;
-                    $summary = format_string($summary);
-                    $name = $this->highlight_text($searchtext, $name);
-                    $summary = $this->highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
+                    $name = format_string($result->fullname);
+                    $summary = format_string($result->summary);
+                    $name = self::highlight_text($searchtext, $name);
+                    $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
+
+                    // TODO davo - add hyperlinks
 
                     $table->data[] = array($name, $summary);
                 }
@@ -468,7 +469,7 @@ class meineschulen {
      * @param int $truncateto optional the number of characters to truncate the result to
      * @return string the truncated result, with the search term highlighted within it
      */
-    protected function highlight_text($searchterm, $result, $truncateto = null) {
+    protected static function highlight_text($searchterm, $result, $truncateto = null) {
         $firstinsert = '<span class="highlight">';
         $lastinsert = '</span>';
 
@@ -500,5 +501,115 @@ class meineschulen {
             $pos += strlen($lastinsert);
         }
         return $result;
+    }
+
+    public static function output_school_search() {
+        $out = '';
+
+        // TODO add ajax
+
+        $searchtext = trim(optional_param('schoolname', '', PARAM_TEXT));
+        $schooltype = optional_param('schooltype', -1, PARAM_INT);
+
+        $form = get_string('searchcriteria', 'block_meineschulen');
+        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype),
+                                 array('class' => 'meineschulen_school_form_inner'));
+        $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
+
+
+        $results = get_string('searchresults', 'block_meineschulen');
+        $results .= html_writer::tag('div', self::output_school_search_results($searchtext, $schooltype),
+                                 array('id' => 'meineschulen_school_results'));
+        $out .= html_writer::tag('div', $results, array('class' => 'meineschulen_school_results'));
+
+        return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
+    }
+
+    protected static function output_search_form($searchtext, $schooltype) {
+        global $PAGE;
+
+        $form = '';
+        $form .= html_writer::tag('label', get_string('schoolname', 'block_meineschulen'), array('for' => 'schoolname'));
+        $form .= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
+                                                      'value' => $searchtext, 'size' => 80));
+        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+
+        $opts = self::get_school_types();
+        $form .= html_writer::tag('label', get_string('schooltype', 'block_meineschulen'), array('for' => 'schooltype'));
+        $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
+        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+
+        $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',
+                                                      'value' => get_string('search')));
+        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+
+        return html_writer::tag('form', $form, array('action' => $PAGE->url, 'method' => 'get',
+                                                    'id' => 'meineschulen_school_form'));
+    }
+
+    protected static function get_school_types() {
+        global $DB;
+
+        static $types = null;
+        if (is_null($types)) {
+            $types = $DB->get_records_menu('course_categories', array('depth' => 1), 'name', 'id, name');
+            $types = array(-1 => get_string('alltypes', 'block_meineschulen')) + $types;
+        }
+
+        return $types;
+    }
+
+    public static function output_school_search_results($searchtext, $schooltype) {
+        global $DB;
+
+        $table = new html_table;
+        $table->head = array(get_string('name'), get_string('schooltype', 'block_meineschulen'));
+        $table->size = array('60%', '40%');
+
+        if (empty($searchtext)) {
+            $cell = new html_table_cell('');
+            $cell->colspan = 2;
+            $table->data = array(new html_table_row(array($cell)));
+        } else {
+            $typecriteria = '';
+            $params = array(
+                'searchtext1' => "%$searchtext%",
+                'searchtext2' => "%$searchtext%",
+                'schooldepth' => MEINEKURSE_SCHOOL_CAT_DEPTH,
+            );
+            if ($schooltype > 0) {
+                $typecriteria = 'AND t.id = :schooltype';
+                $params['schooltype'] = $schooltype;
+            }
+            $sql = "SELECT sch.id, sch.name, t.name AS type
+                      FROM {course_categories} sch
+                      JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
+                     WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
+                       AND sch.depth = :schooldepth
+                           $typecriteria
+                     ORDER BY t.name, sch.name, sch.id";
+            $results = $DB->get_records_sql($sql, $params);
+
+            if ($results) {
+                $table->data = array();
+                foreach ($results as $result) {
+                    $name = format_string($result->name);
+                    $type = format_string($result->type);
+                    $name = self::highlight_text($searchtext, $name);
+
+                    // TODO davo - add hyperlinks
+
+                    $table->data[] = array($name, $type);
+                }
+
+            } else {
+                $cell = new html_table_cell(get_string('noschoolsfound', 'block_meineschulen'));
+                $cell->colspan = 2;
+                $table->data = array(new html_table_row(array($cell)));
+            }
+
+        }
+
+        return html_writer::table($table);
     }
 }

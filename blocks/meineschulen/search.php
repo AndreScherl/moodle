@@ -21,7 +21,22 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
-require_once(dirname(__FILE__).'/../../config.php');
 
-echo "Search for a school";
+require_once(dirname(__FILE__).'/../../config.php');
+global $DB, $CFG, $PAGE, $OUTPUT;
+require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+
+$url = new moodle_url('/blocks/meineschulen/search.php');
+$PAGE->set_url($url);
+require_login();
+
+$context = context_system::instance();
+$PAGE->set_context($context);
+
+$strtitle = get_string('schoolsearch', 'block_meineschulen');
+$PAGE->set_title($strtitle);
+$PAGE->set_heading($strtitle);
+
+echo $OUTPUT->header();
+echo meineschulen::output_school_search();
+echo $OUTPUT->footer();

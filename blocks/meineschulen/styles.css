@@ -94,3 +94,51 @@
 .meineschulen_content .meineschulen_search form input {
     margin-right: 5px;
 }
+
+.meineschulen_content .meineschulen_school_form {
+    display: block;
+    width: 95%;
+    margin: 5px 2.5%;
+}
+
+.meineschulen_content .meineschulen_school_form .meineschulen_school_form_inner {
+    border: solid black 1px;
+}
+
+.meineschulen_content .meineschulen_school_form label {
+    float: left;
+    margin: 5px;
+    display: inline-block;
+    width: 20%;
+    text-align: right;
+}
+
+.meineschulen_content .meineschulen_school_form input {
+    float: left;
+    display: inline-block;
+    margin: 5px;
+}
+
+.meineschulen_content .meineschulen_school_form input.submitbutton {
+    float: none;
+    margin: 5px 40%;
+}
+
+.meineschulen_content .meineschulen_school_results {
+    display: block;
+    width: 95%;
+    margin: 5px 2.5%;
+}
+
+.meineschulen_content .meineschulen_school_results #meineschulen_school_results {
+    border: solid black 1px;
+}
+
+.meineschulen_content #meineschulen_school_results table {
+    width: 90%;
+    margin: 10px 5%;
+}
+
+.meineschulen_content #meineschulen_school_results .highlight {
+    background-color: #ffff00;
+}

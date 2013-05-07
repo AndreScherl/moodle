@@ -30,6 +30,9 @@ function meinekurse_get_main_school($user) {
     global $DB;
 
     $schoolid = $user->institution;
+    if (!$schoolid) {
+        return false;
+    }
     return $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH), 'id, name');
 }
 

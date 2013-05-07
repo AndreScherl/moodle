@@ -443,7 +443,8 @@ class meineschulen {
                     $name = self::highlight_text($searchtext, $name);
                     $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
 
-                    // TODO davo - add hyperlinks
+                    $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
+                    $name = html_writer::link($courselink, $name);
 
                     $table->data[] = array($name, $summary);
                 }
@@ -504,9 +505,17 @@ class meineschulen {
     }
 
     public static function output_school_search() {
+        global $PAGE;
+
         $out = '';
 
-        // TODO add ajax
+        $jsmodule = array(
+            'name' => 'block_meineschulen_search',
+            'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
+            'requires' => array('node', 'io-base', 'json', 'lang'),
+        );
+        $opts = array();
+        $PAGE->requires->js_init_call('M.block_meineschulen_search.init_school_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('schoolname', '', PARAM_TEXT));
         $schooltype = optional_param('schooltype', -1, PARAM_INT);
@@ -597,7 +606,8 @@ class meineschulen {
                     $type = format_string($result->type);
                     $name = self::highlight_text($searchtext, $name);
 
-                    // TODO davo - add hyperlinks
+                    $schoolurl = new moodle_url('/course/category.php', array('id' => $result->id));
+                    $name = html_writer::link($schoolurl, $name);
 
                     $table->data[] = array($name, $type);
                 }

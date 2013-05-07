@@ -29,25 +29,41 @@ global $DB, $CFG, $PAGE, $OUTPUT;
 require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
 
 $action = required_param('action', PARAM_ALPHA);
-$schoolid = required_param('id', PARAM_INT);
-$schoolcat = $DB->get_record('course_categories', array('id' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH),
-                             '*', MUST_EXIST);
+$schoolid = optional_param('id', null, PARAM_INT);
 
-$url = new moodle_url('/blocks/meineschulen/ajax.php', array('id' => $schoolcat->id));
+$url = new moodle_url('/blocks/meineschulen/ajax.php');
 $PAGE->set_url($url);
 require_login();
 
-$context = context_coursecat::instance($schoolcat->id);
+$meineschulen = null;
+if ($schoolid) {
+    $schoolcat = $DB->get_record('course_categories', array('id' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH),
+                                 '*', MUST_EXIST);
+    $context = context_coursecat::instance($schoolcat->id);
+    $meineschulen = new meineschulen($schoolcat);
+} else {
+    $context = context_system::instance();
+}
 $PAGE->set_context($context);
-
-$meineschulen = new meineschulen($schoolcat);
 
 switch ($action) {
 case 'search':
+    if (is_null($meineschulen)) {
+        print_error('missingschoolid', 'block_meineschulen');
+    }
     $searchtext = required_param('search', PARAM_TEXT);
     $resp = (object)array(
         'error' => 0,
         'results' => $meineschulen->output_course_search_results($searchtext),
+    );
+    break;
+
+case 'schoolsearch':
+    $searchtext = required_param('search', PARAM_TEXT);
+    $schooltype = required_param('schooltype', PARAM_INT);
+    $resp = (object)array(
+        'error' => 0,
+        'results' => meineschulen::output_school_search_results($searchtext, $schooltype),
     );
     break;
 default:

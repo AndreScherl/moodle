@@ -429,9 +429,7 @@ class meineschulen {
         $table->size = array('40%', '60%');
 
         if (empty($searchtext)) {
-            $cell = new html_table_cell('');
-            $cell->colspan = 2;
-            $table->data = array(new html_table_row(array($cell)));
+            return '';
         } else {
             $sql = "SELECT c.id, c.fullname, c.summary
                       FROM {course} c
@@ -589,9 +587,7 @@ class meineschulen {
         $table->size = array('60%', '40%');
 
         if (empty($searchtext)) {
-            $cell = new html_table_cell('');
-            $cell->colspan = 2;
-            $table->data = array(new html_table_row(array($cell)));
+            return '';
         } else {
             $typecriteria = '';
             $params = array(

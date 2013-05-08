@@ -165,6 +165,19 @@ class meineschulen {
      * @return bool
      */
     protected function can_request_course() {
+        global $DB, $USER;
+        static $resp = null;
+
+        if (is_null($resp)) {
+            $resp = false;
+            $roles = get_roles_with_capability('moodle/course:request');
+            if ($roles) {
+                list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+                $params['userid'] = $USER->id;
+                $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
+            }
+        }
+
         return has_capability('moodle/course:request', $this->context);
     }
 

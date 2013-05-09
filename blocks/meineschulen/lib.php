@@ -178,7 +178,7 @@ class meineschulen {
             }
         }
 
-        return has_capability('moodle/course:request', $this->context);
+        return $resp;
     }
 
     /**

@@ -223,11 +223,18 @@ class meineschulen {
         $categories = get_categories($this->schoolcat->id, null, false);
         $catids = array_keys($categories);
         $catids[] = $this->schoolcat->id;
-        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder', 'id, category, fullname');
+        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder', 'id, category, fullname, visible');
 
         // Add the courses to the categories.
         $toplevelcourses = array();
         foreach ($courses as $course) {
+            if (!$course->visible) {
+                $coursectx = context_course::instance($course->id);
+                if (!has_capability('moodle/course:viewhiddencourses', $coursectx)) {
+                    continue;
+                }
+            }
+
             if (!isset($categories[$course->category])) {
                 $toplevelcourses[] = $course;
             } else {
@@ -431,7 +438,7 @@ class meineschulen {
         if (empty($searchtext)) {
             return '';
         } else {
-            $sql = "SELECT c.id, c.fullname, c.summary
+            $sql = "SELECT c.id, c.fullname, c.summary, c.visible
                       FROM {course} c
                       JOIN {course_categories} ca ON ca.id = c.category
                      WHERE (".$DB->sql_like('c.fullname', ':searchtext1', false, false)."
@@ -446,9 +453,15 @@ class meineschulen {
             );
             $results = $DB->get_records_sql($sql, $params);
 
+            $table->data = array();
             if ($results) {
-                $table->data = array();
                 foreach ($results as $result) {
+                    if (!$result->visible) {
+                        $coursectx = context_course::instance($result->id);
+                        if (!has_capability('moodle/course:viewhiddencourses', $coursectx)) {
+                            continue;
+                        }
+                    }
                     $name = format_string($result->fullname);
                     $summary = format_string($result->summary);
                     $name = self::highlight_text($searchtext, $name);
@@ -459,8 +472,8 @@ class meineschulen {
 
                     $table->data[] = array($name, $summary);
                 }
-
-            } else {
+            }
+            if (empty($table->data)) {
                 $cell = new html_table_cell(get_string('nocoursesfound', 'block_meineschulen'));
                 $cell->colspan = 2;
                 $table->data = array(new html_table_row(array($cell)));

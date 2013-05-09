@@ -687,7 +687,7 @@ class meineschulen {
             $typecriteria = 'AND t.id = :schooltype';
             $params['schooltype'] = $schooltype;
         }
-        $sql = "SELECT sch.id, sch.name, t.name AS type
+        $sql = "SELECT sch.id, sch.name, t.name AS type, sch.visible
                       FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
                      WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
@@ -708,6 +708,12 @@ class meineschulen {
         if ($results) {
             $table->data = array();
             foreach ($results as $result) {
+                if (!$result->visible) {
+                    $catcontext = context_coursecat::instance($result->id);
+                    if (!has_capability('moodle/category:viewhiddencategories', $catcontext)) {
+                        continue;
+                    }
+                }
                 $name = format_string($result->name);
                 $type = format_string($result->type);
                 $name = self::highlight_text($searchtext, $name);
@@ -717,8 +723,8 @@ class meineschulen {
 
                 $table->data[] = array($name, $type);
             }
-
-        } else {
+        }
+        if (empty($table->data)) {
             $cell = new html_table_cell(get_string('noschoolsfound', 'block_meineschulen'));
             $cell->colspan = 2;
             $table->data = array(new html_table_row(array($cell)));

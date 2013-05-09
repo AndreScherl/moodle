@@ -52,9 +52,11 @@ case 'search':
         print_error('missingschoolid', 'block_meineschulen');
     }
     $searchtext = required_param('search', PARAM_TEXT);
+    $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
+    $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
     $resp = (object)array(
         'error' => 0,
-        'results' => $meineschulen->output_course_search_results($searchtext),
+        'results' => $meineschulen->output_course_search_results($searchtext, $sortby, $sortdir),
     );
     break;
 

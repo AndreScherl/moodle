@@ -394,12 +394,14 @@ class meineschulen {
         $jsmodule = array(
             'name' => 'block_meineschulen_search',
             'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
-            'requires' => array('node', 'io-base', 'json', 'lang'),
+            'requires' => array('node', 'io-base', 'json', 'lang', 'querystring'),
         );
         $opts = array('schoolid' => $this->schoolcat->id);
         $PAGE->requires->js_init_call('M.block_meineschulen_search.init_course_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('search', '', PARAM_TEXT));
+        $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
+        $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
 
         $out = '';
 
@@ -413,7 +415,7 @@ class meineschulen {
                                                           'method' => 'get',
                                                           'id' => 'meineschulen_search_form'));
 
-        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext),
+        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext, $sortby, $sortdir),
                                  array('id' => 'meineschulen_search_results'));
 
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_search_inner'));
@@ -426,60 +428,99 @@ class meineschulen {
      * Generate the results of searching for courses containing the given string
      *
      * @param string $searchtext
+     * @param string $sortby - name, summary
+     * @param string $sortorder - asc, desc
      * @return string HTML snipet to output
      */
-    public function output_course_search_results($searchtext) {
-        global $DB;
-
-        $table = new html_table;
-        $table->head = array(get_string('name'), get_string('description'));
-        $table->size = array('40%', '60%');
+    public function output_course_search_results($searchtext, $sortby, $sortdir) {
+        global $DB, $OUTPUT, $PAGE;
 
         if (empty($searchtext)) {
             return '';
+        }
+
+        // Handle sorting.
+        $baseurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $this->schoolcat->id));
+        /** @var moodle_url[] $urls */
+        $urls = array(
+            'name' => new moodle_url($baseurl, array('search' => $searchtext, 'sortby' => 'name')),
+            'summary' => new moodle_url($baseurl, array('search' => $searchtext, 'sortby' => 'summary')),
+        );
+        $nosorticon = ' '.$OUTPUT->pix_icon('t/sort', '');
+        $icons = array(
+            'name' => $nosorticon,
+            'summary' => $nosorticon,
+        );
+        if ($sortdir == 'desc') {
+            $order = ' DESC';
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_desc', '');
+            $changedir = 'asc';
         } else {
-            $sql = "SELECT c.id, c.fullname, c.summary, c.visible
+            $order = ' ASC';
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_asc', '');
+            $changedir = 'desc';
+        }
+        if ($sortby == 'summary') {
+            $order = 'c.summary'.$order;
+        } else {
+            $order = 'c.fullname'.$order;
+            $sortby = 'name';
+        }
+        $order .= ', c.id ASC';
+        $urls[$sortby]->param('sortdir', $changedir);
+        $icons[$sortby] = $sorticon;
+
+        // Do the search.
+        $sql = "SELECT c.id, c.fullname, c.summary, c.visible
                       FROM {course} c
                       JOIN {course_categories} ca ON ca.id = c.category
                      WHERE (".$DB->sql_like('c.fullname', ':searchtext1', false, false)."
                         OR ".$DB->sql_like('c.summary', ':searchtext2', false, false).")
                        AND (ca.id = :catid OR ".$DB->sql_like('ca.path', ':catpath').")
-                     ORDER BY c.fullname, c.id";
-            $params = array(
-                'searchtext1' => "%$searchtext%",
-                'searchtext2' => "%$searchtext%",
-                'catid' => $this->schoolcat->id,
-                'catpath' => "{$this->schoolcat->path}/%"
-            );
-            $results = $DB->get_records_sql($sql, $params);
+                     ORDER BY $order";
+        $params = array(
+            'searchtext1' => "%$searchtext%",
+            'searchtext2' => "%$searchtext%",
+            'catid' => $this->schoolcat->id,
+            'catpath' => "{$this->schoolcat->path}/%"
+        );
+        $results = $DB->get_records_sql($sql, $params);
 
-            $table->data = array();
-            if ($results) {
-                foreach ($results as $result) {
-                    if (!$result->visible) {
-                        $coursectx = context_course::instance($result->id);
-                        if (!has_capability('moodle/course:viewhiddencourses', $coursectx)) {
-                            continue;
-                        }
+        // Start the table.
+        $table = new html_table;
+        $table->head = array(
+            html_writer::link($urls['name'], get_string('name').$icons['name']),
+            html_writer::link($urls['summary'], get_string('description').$icons['summary']),
+        );
+        $table->size = array('40%', '60%');
+
+        // Output the results.
+        $table->data = array();
+        if ($results) {
+            foreach ($results as $result) {
+                if (!$result->visible) {
+                    $coursectx = context_course::instance($result->id);
+                    if (!has_capability('moodle/course:viewhiddencourses', $coursectx)) {
+                        continue;
                     }
-                    $name = format_string($result->fullname);
-                    $summary = format_string($result->summary);
-                    $name = self::highlight_text($searchtext, $name);
-                    $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
-
-                    $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
-                    $name = html_writer::link($courselink, $name);
-
-                    $table->data[] = array($name, $summary);
                 }
-            }
-            if (empty($table->data)) {
-                $cell = new html_table_cell(get_string('nocoursesfound', 'block_meineschulen'));
-                $cell->colspan = 2;
-                $table->data = array(new html_table_row(array($cell)));
-            }
+                $name = format_string($result->fullname);
+                $summary = format_string($result->summary);
+                $name = self::highlight_text($searchtext, $name);
+                $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
 
+                $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
+                $name = html_writer::link($courselink, $name);
+
+                $table->data[] = array($name, $summary);
+            }
         }
+        if (empty($table->data)) {
+            $cell = new html_table_cell(get_string('nocoursesfound', 'block_meineschulen'));
+            $cell->colspan = 2;
+            $table->data = array(new html_table_row(array($cell)));
+        }
+
 
         return html_writer::table($table);
     }

@@ -429,11 +429,11 @@ class meineschulen {
      *
      * @param string $searchtext
      * @param string $sortby - name, summary
-     * @param string $sortorder - asc, desc
+     * @param string $sortdir - asc, desc
      * @return string HTML snipet to output
      */
     public function output_course_search_results($searchtext, $sortby, $sortdir) {
-        global $DB, $OUTPUT, $PAGE;
+        global $DB, $OUTPUT;
 
         if (empty($searchtext)) {
             return '';
@@ -577,13 +577,15 @@ class meineschulen {
         $jsmodule = array(
             'name' => 'block_meineschulen_search',
             'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
-            'requires' => array('node', 'io-base', 'json', 'lang'),
+            'requires' => array('node', 'io-base', 'json', 'lang', 'querystring'),
         );
         $opts = array();
         $PAGE->requires->js_init_call('M.block_meineschulen_search.init_school_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('schoolname', '', PARAM_TEXT));
         $schooltype = optional_param('schooltype', -1, PARAM_INT);
+        $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
+        $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
 
         $form = get_string('searchcriteria', 'block_meineschulen');
         $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype),
@@ -592,7 +594,7 @@ class meineschulen {
 
 
         $results = get_string('searchresults', 'block_meineschulen');
-        $results .= html_writer::tag('div', self::output_school_search_results($searchtext, $schooltype),
+        $results .= html_writer::tag('div', self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir),
                                  array('id' => 'meineschulen_school_results'));
         $out .= html_writer::tag('div', $results, array('class' => 'meineschulen_school_results'));
 
@@ -633,54 +635,93 @@ class meineschulen {
         return $types;
     }
 
-    public static function output_school_search_results($searchtext, $schooltype) {
-        global $DB;
-
-        $table = new html_table;
-        $table->head = array(get_string('name'), get_string('schooltype', 'block_meineschulen'));
-        $table->size = array('60%', '40%');
+    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir) {
+        global $DB, $OUTPUT;
 
         if (empty($searchtext)) {
             return '';
+        }
+
+        // Handle sorting.
+        $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
+                                                                          'schoolname' => $searchtext,
+                                                                          'schooltype' => $schooltype,
+                                                                     ));
+        /** @var moodle_url[] $urls */
+        $urls = array(
+            'name' => new moodle_url($baseurl, array('sortby' => 'name')),
+            'type' => new moodle_url($baseurl, array('sortby' => 'type')),
+        );
+        $nosorticon = ' '.$OUTPUT->pix_icon('t/sort', '');
+        $icons = array(
+            'name' => $nosorticon,
+            'type' => $nosorticon,
+        );
+        if ($sortdir == 'desc') {
+            $order = ' DESC';
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_desc', '');
+            $changedir = 'asc';
         } else {
-            $typecriteria = '';
-            $params = array(
-                'searchtext1' => "%$searchtext%",
-                'searchtext2' => "%$searchtext%",
-                'schooldepth' => MEINEKURSE_SCHOOL_CAT_DEPTH,
-            );
-            if ($schooltype > 0) {
-                $typecriteria = 'AND t.id = :schooltype';
-                $params['schooltype'] = $schooltype;
-            }
-            $sql = "SELECT sch.id, sch.name, t.name AS type
+            $order = ' ASC';
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_asc', '');
+            $changedir = 'desc';
+        }
+        if ($sortby == 'type') {
+            $order = 't.name'.$order.', sch.name ASC';
+        } else {
+            $order = 'sch.name'.$order;
+            $sortby = 'name';
+        }
+        $order .= ', sch.id ASC';
+        $urls[$sortby]->param('sortdir', $changedir);
+        $icons[$sortby] = $sorticon;
+
+        // Do the search.
+        $typecriteria = '';
+        $params = array(
+            'searchtext1' => "%$searchtext%",
+            'searchtext2' => "%$searchtext%",
+            'schooldepth' => MEINEKURSE_SCHOOL_CAT_DEPTH,
+        );
+        if ($schooltype > 0) {
+            $typecriteria = 'AND t.id = :schooltype';
+            $params['schooltype'] = $schooltype;
+        }
+        $sql = "SELECT sch.id, sch.name, t.name AS type
                       FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
                      WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
                        AND sch.depth = :schooldepth
                            $typecriteria
-                     ORDER BY t.name, sch.name, sch.id";
-            $results = $DB->get_records_sql($sql, $params);
+                     ORDER BY $order";
+        $results = $DB->get_records_sql($sql, $params);
 
-            if ($results) {
-                $table->data = array();
-                foreach ($results as $result) {
-                    $name = format_string($result->name);
-                    $type = format_string($result->type);
-                    $name = self::highlight_text($searchtext, $name);
+        // Start the table.
+        $table = new html_table;
+        $table->head = array(
+            html_writer::link($urls['name'], get_string('name').$icons['name']),
+            html_writer::link($urls['type'], get_string('schooltype', 'block_meineschulen').$icons['type']),
+        );
+        $table->size = array('60%', '40%');
 
-                    $schoolurl = new moodle_url('/course/category.php', array('id' => $result->id));
-                    $name = html_writer::link($schoolurl, $name);
+        // Output the results.
+        if ($results) {
+            $table->data = array();
+            foreach ($results as $result) {
+                $name = format_string($result->name);
+                $type = format_string($result->type);
+                $name = self::highlight_text($searchtext, $name);
 
-                    $table->data[] = array($name, $type);
-                }
+                $schoolurl = new moodle_url('/course/category.php', array('id' => $result->id));
+                $name = html_writer::link($schoolurl, $name);
 
-            } else {
-                $cell = new html_table_cell(get_string('noschoolsfound', 'block_meineschulen'));
-                $cell->colspan = 2;
-                $table->data = array(new html_table_row(array($cell)));
+                $table->data[] = array($name, $type);
             }
 
+        } else {
+            $cell = new html_table_cell(get_string('noschoolsfound', 'block_meineschulen'));
+            $cell->colspan = 2;
+            $table->data = array(new html_table_row(array($cell)));
         }
 
         return html_writer::table($table);

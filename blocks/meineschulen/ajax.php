@@ -63,9 +63,11 @@ case 'search':
 case 'schoolsearch':
     $searchtext = required_param('search', PARAM_TEXT);
     $schooltype = required_param('schooltype', PARAM_INT);
+    $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
+    $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
     $resp = (object)array(
         'error' => 0,
-        'results' => meineschulen::output_school_search_results($searchtext, $schooltype),
+        'results' => meineschulen::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir),
     );
     break;
 default:

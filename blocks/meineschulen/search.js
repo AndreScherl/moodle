@@ -111,7 +111,13 @@ M.block_meineschulen_search = {
         }
 
         function send_school_search(searchtext, schooltype, sortby, sortdir) {
-            var resultel, url, data;
+            var searchouter, resultel, url, data;
+
+            searchouter = Y.one('.meineschulen_content .meineschulen_school_results');
+            if (searchouter.hasClass('hidden')) {
+                searchouter.removeClass('hidden');
+            }
+
             resultel = Y.one('#meineschulen_school_results');
             resultel.setContent(waitimg);
 

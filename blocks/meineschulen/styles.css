@@ -130,6 +130,10 @@
     margin: 5px 2.5%;
 }
 
+.meineschulen_content .meineschulen_school_results.hidden {
+    display: none;
+}
+
 .meineschulen_content .meineschulen_school_results #meineschulen_school_results {
     border: solid black 1px;
 }

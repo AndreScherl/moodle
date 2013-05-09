@@ -593,10 +593,15 @@ class meineschulen {
         $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
 
 
+        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir);
         $results = get_string('searchresults', 'block_meineschulen');
-        $results .= html_writer::tag('div', self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir),
+        $results .= html_writer::tag('div', $resultsinner,
                                  array('id' => 'meineschulen_school_results'));
-        $out .= html_writer::tag('div', $results, array('class' => 'meineschulen_school_results'));
+        $attrib = array('class' => 'meineschulen_school_results');
+        if (empty($resultsinner)) {
+            $attrib['class'] .= ' hidden';
+        }
+        $out .= html_writer::tag('div', $results, $attrib);
 
         return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
     }

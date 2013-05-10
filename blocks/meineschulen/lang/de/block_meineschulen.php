@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Language strings for the Meine Schulen block
  *
@@ -21,25 +21,26 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['alltypes'] = 'All types';
-$string['coordinators'] = 'School coordinators';
-$string['courselist'] = 'Course list';
-$string['coursesearch'] = 'Search courses';
-$string['createcourse'] = 'Create course';
-$string['meineschulen:addinstance'] = 'Add Meine schulen block';
-$string['meineschulen:myaddinstance'] = 'Add Meine schulen block to My home';
-$string['meineschulen:viewcoordinators'] = 'View school coordinators list';
-$string['newcourse'] = 'New course';
-$string['nocoursesfound'] = 'No courses found';
-$string['noschoolsfound'] = 'No schools found';
-$string['otherschools'] = 'Other schools';
+$string['alltypes'] = 'Alle Typen';
+$string['coordinators'] = 'Schulkoordinatoren';
+$string['courselist'] = 'Kursliste';
+$string['coursesearch'] = 'Kurse suchen';
+$string['createcourse'] = 'Kurs erstellen';
+$string['meineschulen:addinstance'] = 'Meine Schulen Block hinzufügen';
+$string['meineschulen:myaddinstance'] = 'Meine Schulen Block zu Meine Startseite hinzufügen';
+$string['meineschulen:viewcoordinators'] = 'Liste der Schulkoordinatoren ansehen';
+$string['newcourse'] = 'Neuer Kurs';
+$string['nocoursesfound'] = 'Keine Kurse gefunden';
+$string['noschoolsfound'] = 'Keine Schulen gefunden';
+$string['otherschools'] = 'Andere Schulen';
 $string['pluginname'] = 'Meine schulen';
-$string['requestcourse'] = 'Request course';
-$string['schoolname'] = 'School name';
-$string['schoolsearch'] = 'School search';
-$string['schooltype'] = 'School type';
-$string['searchcriteria'] = 'Search criteria';
-$string['searchresults'] = 'Search results';
+$string['requestcourse'] = 'Kurs anfordern';
+$string['schoolname'] = 'Name der Schule';
+$string['schoolsearch'] = 'Schule suchen';
+$string['schooltype'] = 'Schultyp';
+$string['searchcriteria'] = 'Suchkriterien';
+$string['searchresults'] = 'Suchergebnisse';
+

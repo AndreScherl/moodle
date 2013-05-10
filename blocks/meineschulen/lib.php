@@ -723,7 +723,7 @@ class meineschulen {
                 $type = format_string($result->type);
                 $name = self::highlight_text($searchtext, $name);
 
-                $schoolurl = new moodle_url('/course/category.php', array('id' => $result->id));
+                $schoolurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $result->id));
                 $name = html_writer::link($schoolurl, $name);
 
                 $table->data[] = array($name, $type);

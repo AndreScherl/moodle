@@ -34,4 +34,4 @@ if (!$linkurl) {
     die();
 }
 
-readfile($linkurl);
+header("Location: $linkurl");

@@ -317,7 +317,14 @@ class block_meinekurse extends block_base {
         }
         foreach ($mods as $mod) {
             $isnew = false;
-            $cms = $modinfo->get_cm($mod->id);
+            try {
+                $cms = $modinfo->get_cm($mod->id);
+            } catch (moodle_exception $e) {
+                var_dump($mod);
+                var_dump($modinfo->get_cms());
+                var_dump($mods);
+                die($e->getMessage());
+            }
             if (!$cms->uservisible) {
                 continue;
             }

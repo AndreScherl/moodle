@@ -78,9 +78,9 @@ class block_meinekurse extends block_base {
         //Handle submitted / saved data
         $prefs = meinekurse_get_prefs();
         if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
-            if ($prefs->sortby == $sortby) {
+            /*if ($prefs->sortby == $sortby) {
                 $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
-            } else {
+            } else*/ {
                 $prefs->sortby = $sortby;
                 if ($sortby == 'name') {
                     $prefs->sortdir = 'asc';
@@ -131,11 +131,12 @@ class block_meinekurse extends block_base {
 
         // Sorting icons.
         $baseurl = new moodle_url($PAGE->url);
-        $content .= $this->sorting_icons($baseurl, $prefs->sortby);
+        //$content .= $this->sorting_icons($baseurl, $prefs->sortby);
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+            $tab = $this->sorting_form($baseurl, $prefs->sortby, $numcourses);
+            $tab .= $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 
@@ -157,10 +158,9 @@ class block_meinekurse extends block_base {
      * @param int $thispage - current page number
      */
     private function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
-        global $CFG, $OUTPUT, $DB, $PAGE;
+        global $CFG, $OUTPUT, $PAGE;
 
         $content = '';
-        $content .= '<br style="clear: both;" />';
 
         if (empty($courses)) {
             $content .= get_string('nocourses', 'block_meinekurse');
@@ -555,6 +555,37 @@ class block_meinekurse extends block_base {
         return html_writer::tag('div', $out, array('class' => 'meinekurse_sorticons'));
     }
 
+    /**
+     * Output the HTML for the form to sort the courses.
+     *
+     * @param moodle_url $baseurl the URL to base the links on
+     * @param string $selectedtype the sort currently selected
+     * @param $numcourses
+     * @return string html snipet for the icons
+     */
+    protected function sorting_form($baseurl, $selectedtype, $numcourses) {
+
+        $prefs = new stdClass();
+        $prefs->meinekurse_sortby = $selectedtype;
+        $prefs->numcourses = $numcourses;
+
+        $out = '';
+        $out .= html_writer::input_hidden_params($baseurl);
+        $table = new html_table();
+        $table->head = array(
+            get_string('sortby', 'block_meinekurse'),
+            get_string('numcourses', 'block_meinekurse'));
+        $table->align = array('center', 'center', 'center');
+        $table->data = array();
+        $row = array();
+        $row[] = $this->html_select('meinekurse_sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
+        $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
+        $table->data[] = $row;
+        $out .= html_writer::table($table);
+
+        return html_writer::tag('form', $out, array('method' => 'get', 'action' => $baseurl->out_omit_querystring()));
+    }
+
     /*
      * Returns an object with grade time and grade in percentage form for a module a given user
      * @param obj $course, a course object containing id and showgrades
@@ -922,7 +953,7 @@ class block_meinekurse extends block_base {
         if (is_null($data)) {
             $data = new stdClass();
         }
-        $select = '<select name="meinekurse_'. $selectname . '" onchange="this.form.submit();">';
+        $select = '<select name="'. $selectname . '" onchange="this.form.submit();">';
         foreach ($options as $option) {
             $selected = '';
             if (isset($data->{$selectname}) && $data->{$selectname} == $option) {

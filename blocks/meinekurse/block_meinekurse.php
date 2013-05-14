@@ -179,8 +179,11 @@ class block_meinekurse extends block_base {
 
         $coursetable = new html_table();
         $coursetable->attributes = array('class' => 'generaltable meinekursetable');
-        $coursetable->colclasses = array('', 'moddesc-hidden');
+        $coursetable->colclasses = array('', 'moreinfo', 'moddesc-hidden');
         $coursetable->data = array();
+
+        $infoicon = $OUTPUT->pix_icon('i/info', 'info');
+        $newspan = ' <span class="newtext">' . get_string('new', 'block_meinekurse').'</span>';
 
         foreach ($courses as $course) {
             $modinfo = get_fast_modinfo($course);
@@ -223,6 +226,7 @@ class block_meinekurse extends block_base {
             $modtable->colnames = array('modtype', 'totalnew', 'icon');
             $modtable->attributes = array('class' => 'generaltable meinekurse_content');
             $modtable->data = array();
+            $coursenew = '';
             foreach ($modslist as $modtype => $typedata) {
                 // First row - heading for the activity type.
                 $row = array();
@@ -230,15 +234,16 @@ class block_meinekurse extends block_base {
                 $tmp .= ' ' . get_string($modtype, 'block_meinekurse');
                 $row[] = $tmp;
                 if ($typedata->count) {
-                    $new = $typedata->count . ' <span class="newtext">' . get_string('new', 'block_meinekurse').'</span>';
+                    $new = $typedata->count.$newspan;
                     if ($typedata->red) {
                         $new = '<span class="red">' . $new . '</span>';
                     }
                     $row[] = $new;
+                    $coursenew = $newspan;
                 } else {
                     $row[] = '&nbsp;';
                 }
-                $row[] = $OUTPUT->pix_icon('i/info', 'info');
+                $row[] = '';
                 $modtable->data[] = $row;
 
                 // Second row - the details for the activity type.
@@ -264,7 +269,7 @@ class block_meinekurse extends block_base {
 
             $moddetails = html_writer::table($modtable);
 
-            $coursetable->data[] = array($coursename, $moddetails);
+            $coursetable->data[] = array($coursename.$coursenew, $infoicon, $moddetails);
         }
 
         $tblcontent = html_writer::table($coursetable);

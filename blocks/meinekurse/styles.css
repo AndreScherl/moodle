@@ -133,6 +133,10 @@ table.mycourses{
     width: 300px;
 }
 
+.meinekursetable td.moreinfo {
+    width: 20px;
+}
+
 .meinekurse_content {
     margin: 5%;
 }

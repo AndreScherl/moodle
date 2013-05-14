@@ -324,6 +324,8 @@ class categorybackup {
             print_error('invaliddir', 'local_categorybackup');
         }
 
+        $CFG->categorybackup_restore = true;
+
         if ($dir = opendir($srcdir)) {
             while (false !== ($file = readdir($dir))) {
                 if (substr_compare($file, '.mbz', -4) == 0) {
@@ -332,6 +334,8 @@ class categorybackup {
             }
             closedir($dir);
         }
+
+        $CFG->categorybackup_restore = false;
     }
 
     protected static function restore_course($unpackdir, $file, $categorymapping) {

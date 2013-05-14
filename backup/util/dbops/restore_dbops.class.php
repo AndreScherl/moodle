@@ -1265,6 +1265,14 @@ abstract class restore_dbops {
                 return $rec; // Matching user found, return it
             }
 
+            // SYNERGY LEARNING - when doing categorybackup restore, be a bit more relaxed about matching users
+            if (!empty($CFG->categorybackup_restore)) {
+                if ($rec = $DB->get_record('user', array('username' => $user->username, 'mnethostid' => $user->mnethostid))) {
+                    return $rec; // Matching user found, return it
+                }
+            }
+            // SYNERGY LEARNING - when doing categorybackup restore, be a bit more relaxed about matching users
+
             // 2B - Handle users deleted in DB and "alive" in backup file
             // Note: for DB deleted users email is stored in username field, hence we
             //       are looking there for emails. See delete_user()

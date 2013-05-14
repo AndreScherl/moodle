@@ -571,7 +571,7 @@ class block_meinekurse extends block_base {
     protected function sorting_form($baseurl, $selectedtype, $numcourses) {
 
         $prefs = new stdClass();
-        $prefs->meinekurse_sortby = $selectedtype;
+        $prefs->sortby = $selectedtype;
         $prefs->numcourses = $numcourses;
 
         $out = '';
@@ -583,7 +583,7 @@ class block_meinekurse extends block_base {
         $table->align = array('center', 'center', 'center');
         $table->data = array();
         $row = array();
-        $row[] = $this->html_select('meinekurse_sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
+        $row[] = $this->html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
         $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
         $table->data[] = $row;
         $out .= html_writer::table($table);
@@ -958,7 +958,7 @@ class block_meinekurse extends block_base {
         if (is_null($data)) {
             $data = new stdClass();
         }
-        $select = '<select name="'. $selectname . '" onchange="this.form.submit();">';
+        $select = '<select name="meinekurse_'. $selectname . '" onchange="this.form.submit();">';
         foreach ($options as $option) {
             $selected = '';
             if (isset($data->{$selectname}) && $data->{$selectname} == $option) {

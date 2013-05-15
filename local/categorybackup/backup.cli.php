@@ -40,9 +40,16 @@ $categoryid = $argv[1];
 cron_setup_user();
 
 // Get a list of all the courses & categories in the selected category
-$category = $DB->get_record('course_categories', array('id' => $categoryid));
-if (!$category) {
-    throw new moodle_exception('invalidcategory', 'local_categorybackup');
+if ($categoryid == 0) { // Backup all categories
+    $category = (object)array(
+        'id' => 0,
+        'name' => get_string('allcategories', 'local_categorybackup'),
+    );
+} else {
+    $category = $DB->get_record('course_categories', array('id' => $categoryid));
+    if (!$category) {
+        throw new moodle_exception('invalidcategory', 'local_categorybackup');
+    }
 }
 $catinfo = categorybackup::get_courses_and_categories($category);
 

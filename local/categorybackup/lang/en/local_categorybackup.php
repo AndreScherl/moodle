@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allcategories'] = 'All categories';
 $string['backupcategory'] = 'Backup category';
 $string['backupcourse'] = 'Backup course: {$a}';
 $string['backuppath'] = 'Backup path';

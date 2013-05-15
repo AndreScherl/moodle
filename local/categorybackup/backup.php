@@ -42,9 +42,16 @@ require_capability('local/categorybackup:manage', $context);
 require_sesskey();
 
 // Get a list of all the courses & categories in the selected category
-$category = $DB->get_record('course_categories', array('id' => $categoryid));
-if (!$category) {
-    throw new moodle_exception('invalidcategory', 'local_categorybackup');
+if ($categoryid == 0) { // Backup all categories
+    $category = (object)array(
+        'id' => 0,
+        'name' => get_string('allcategories', 'local_categorybackup'),
+    );
+} else {
+    $category = $DB->get_record('course_categories', array('id' => $categoryid));
+    if (!$category) {
+        throw new moodle_exception('invalidcategory', 'local_categorybackup');
+    }
 }
 $catinfo = categorybackup::get_courses_and_categories($category);
 
@@ -84,8 +91,8 @@ echo $OUTPUT->heading(get_string('pluginname', 'local_categorybackup'));
 echo html_writer::tag('p', get_string('startingbackup', 'local_categorybackup', $category->name));
 
 echo html_writer::start_tag('ul');
-foreach ($catinfo as $category) {
-    foreach ($category->courses as $course) {
+foreach ($catinfo as $cat) {
+    foreach ($cat->courses as $course) {
         echo html_writer::tag('li', get_string('backupcourse', 'local_categorybackup', $course->shortname));
         flush();
         backup_cron_automated_helper::launch_automated_backup($course, time(), $USER->id);

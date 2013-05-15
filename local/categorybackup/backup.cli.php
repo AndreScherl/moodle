@@ -89,9 +89,13 @@ echo $OUTPUT->heading(get_string('pluginname', 'local_categorybackup'));
 
 echo get_string('startingbackup', 'local_categorybackup', $category->name)."\n";
 
+$coursecount = categorybackup::count_courses($catinfo);
+echo get_string('coursestobackup', 'local_categorybackup', $coursecount)."\n";
+$coursenum = 1;
 foreach ($catinfo as $category) {
     foreach ($category->courses as $course) {
-        echo "* ".get_string('backupcourse', 'local_categorybackup', $course->shortname)."\n";
+        $count = ' ('.($coursenum++).'/'.$coursecount.')';
+        echo "* ".get_string('backupcourse', 'local_categorybackup', $course->shortname).$count."\n";
         flush();
         backup_cron_automated_helper::launch_automated_backup($course, time(), $USER->id);
     }

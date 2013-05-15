@@ -69,6 +69,14 @@ class categorybackup {
         return $categoryids;
     }
 
+    public static function count_courses($catinfo) {
+        $coursecount = 0;
+        foreach ($catinfo as $category) {
+            $coursecount += count($category->courses);
+        }
+        return $coursecount;
+    }
+
     public static function export_categories($catinfo, $startingid, $fp, $depth = 0) {
         // Save a list of categories (with contained courses) to the filepointer
         $cat = $catinfo[$startingid];

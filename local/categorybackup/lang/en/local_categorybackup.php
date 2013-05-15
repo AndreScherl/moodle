@@ -34,6 +34,7 @@ $string['category'] = 'Backup category';
 $string['category_help'] = 'The selected category (including sub-categories and courses) will be backed up to a single zip file';
 $string['categorybackup:manage'] = 'Manage backup and restore of categories';
 $string['coursealreadyexists'] = 'A course called \'{$a->shortname}\' already exists in \'{$a->category}\' - restore skipped';
+$string['coursestobackup'] = 'Number of courses to backup: {$a}';
 $string['createdbackup'] = 'Finished creating backup: \'{$a}\'';
 $string['createdcategory'] = 'Created category \'{$a}\'';
 $string['destcategory'] = 'Parent category';

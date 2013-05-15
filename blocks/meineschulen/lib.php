@@ -223,7 +223,8 @@ class meineschulen {
         $categories = get_categories($this->schoolcat->id, null, false);
         $catids = array_keys($categories);
         $catids[] = $this->schoolcat->id;
-        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder', 'id, category, fullname, visible');
+        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder',
+                                         'id, category, fullname, visible, summary, summaryformat');
 
         // Add the courses to the categories.
         $toplevelcourses = array();
@@ -314,7 +315,13 @@ class meineschulen {
         global $OUTPUT;
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
         $courseicon = $OUTPUT->pix_icon('c/course', '').' ';
-        $courselink = html_writer::link($courseurl, $courseicon.format_string($course->fullname));
+        $context = context_course::instance($course->id);
+        $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
+                                                'summary', null);
+        $summary = format_text($summary, $course->summaryformat);
+        $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
+        $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
+        $courselink = html_writer::link($courseurl, $courseicon.format_string($course->fullname).$tooltip);
         return html_writer::tag('li', $courselink);
     }
 

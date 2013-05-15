@@ -1,6 +1,6 @@
 .meineschulen_content .meineschulen_courses {
     display: block;
-    width: 44%;
+    width: 60%;
     margin: 5px 2.5%;
     float: left;
 }
@@ -15,7 +15,7 @@
 
 .meineschulen_content .meineschulen_coordinators {
     display: block;
-    width: 44%;
+    width: 30%;
     margin: 5px 2.5%;
     float: left;
     overflow-y: auto;
@@ -28,7 +28,7 @@
 
 .meineschulen_content .meineschulen_newcourse {
     display: block;
-    width: 44%;
+    width: 30%;
     margin: 5px 2.5%;
     float: left;
 }
@@ -113,15 +113,11 @@
     text-align: right;
 }
 
-.meineschulen_content .meineschulen_school_form input {
+.meineschulen_content .meineschulen_school_form input,
+.meineschulen_content .meineschulen_school_form select {
     float: left;
     display: inline-block;
     margin: 5px;
-}
-
-.meineschulen_content .meineschulen_school_form input.submitbutton {
-    float: none;
-    margin: 5px 40%;
 }
 
 .meineschulen_content .meineschulen_school_results {
@@ -138,6 +134,10 @@
     border: solid black 1px;
 }
 
+.meineschulen_content .meineschulen_school_results th {
+    text-align: left;
+}
+
 .meineschulen_content #meineschulen_school_results table {
     width: 90%;
     margin: 10px 5%;
@@ -145,4 +145,34 @@
 
 .meineschulen_content #meineschulen_school_results .highlight {
     background-color: #ffff00;
+}
+
+.meineschulen_content .meineschulen_courses a {
+    position: relative;
+}
+
+.meineschulen_content .meineschulen_courses a span.tooltip {
+    overflow: hidden;
+    display: none;
+    z-index: 100;
+    width: 600px;
+    background-color: #FFFBD8;
+    background-color: rgba(255, 251, 216, 0.80);
+    padding: 5px 2px;
+    border-radius: 5px 5px;
+    border: 1px solid #888;
+    box-shadow: 2px 2px 7px 0 #888;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    text-align: left;
+}
+
+.meineschulen_content .meineschulen_courses a:hover span.tooltip {
+    display: inline;
+}
+
+#page-blocks-meineschulen-viewschool #page-content #region-main,
+#page-blocks-meineschulen-viewschool #page-content .region-content {
+    overflow: visible;
 }

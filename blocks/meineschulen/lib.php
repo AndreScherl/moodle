@@ -223,7 +223,8 @@ class meineschulen {
         $categories = get_categories($this->schoolcat->id, null, false);
         $catids = array_keys($categories);
         $catids[] = $this->schoolcat->id;
-        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder', 'id, category, fullname, visible');
+        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder',
+                                         'id, category, fullname, visible, summary, summaryformat');
 
         // Add the courses to the categories.
         $toplevelcourses = array();
@@ -266,7 +267,7 @@ class meineschulen {
             $out .= $this->output_category($cat);
         }
         foreach ($toplevelcourses as $course) {
-            $out .= $this->output_course($course);
+            $out .= html_writer::tag('li', $this->output_course_link($course, true));
         }
         // Wrap the tree within a div.
         $out = html_writer::tag('ul', $out);
@@ -298,7 +299,7 @@ class meineschulen {
             }
         }
         foreach ($category->courses as $course) {
-            $children .= $this->output_course($course);
+            $children .= html_writer::tag('li', $this->output_course_link($course, true));
         }
         $out .= html_writer::nonempty_tag('ul', $children);
         return html_writer::tag('li', $out);
@@ -307,15 +308,29 @@ class meineschulen {
     /**
      * Return a single course formatted for the courses tree.
      *
-     * @param $course
+     * @param object $course
+     * @param bool $showtooltip true to include the tooltip
      * @return string
      */
-    protected function output_course($course) {
-        global $OUTPUT;
+    protected function output_course_link($course, $showtooltip) {
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-        $courseicon = $OUTPUT->pix_icon('c/course', '').' ';
-        $courselink = html_writer::link($courseurl, $courseicon.format_string($course->fullname));
-        return html_writer::tag('li', $courselink);
+        $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($course));
+        $icons = array_map(function ($icon) {
+            global $OUTPUT;
+            return $OUTPUT->render($icon);
+        }, $icons);
+        $courseicons = implode(' ', $icons).' ';
+        $tooltip = '';
+        if ($showtooltip) {
+            $context = context_course::instance($course->id);
+            $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
+                                                    'summary', null);
+            $summary = format_text($summary, $course->summaryformat);
+            $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
+            $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
+        }
+        $courselink = html_writer::link($courseurl, $courseicons.format_string($course->fullname).$tooltip);
+        return $courselink;
     }
 
     /**
@@ -328,7 +343,7 @@ class meineschulen {
 
         $coordinators = $this->get_coordinators();
         foreach ($coordinators as $coordinator) {
-            $coordurl = new moodle_url('/user/view.php', array('id' => $coordinator->id));
+            $coordurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
             $coordlink = html_writer::link($coordurl, fullname($coordinator));
             $out .= html_writer::tag('li', $coordlink);
         }
@@ -509,10 +524,17 @@ class meineschulen {
                 $name = self::highlight_text($searchtext, $name);
                 $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
 
+                $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($result));
+                $icons = array_map(function ($icon) {
+                    global $OUTPUT;
+                    return $OUTPUT->render($icon);
+                }, $icons);
+                $courseicons = implode(' ', $icons).' ';
+
                 $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
                 $name = html_writer::link($courselink, $name);
 
-                $table->data[] = array($name, $summary);
+                $table->data[] = array($courseicons.$name, $summary);
             }
         }
         if (empty($table->data)) {
@@ -586,14 +608,16 @@ class meineschulen {
         $schooltype = optional_param('schooltype', -1, PARAM_INT);
         $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
         $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
+        $numberofresults = optional_param('numberofresults', 20, PARAM_INT);
+        $page = optional_param('page', 0, PARAM_INT);
 
         $form = get_string('searchcriteria', 'block_meineschulen');
-        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype),
+        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults),
                                  array('class' => 'meineschulen_school_form_inner'));
         $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
 
 
-        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir);
+        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page);
         $results = get_string('searchresults', 'block_meineschulen');
         $results .= html_writer::tag('div', $resultsinner,
                                  array('id' => 'meineschulen_school_results'));
@@ -606,7 +630,7 @@ class meineschulen {
         return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
     }
 
-    protected static function output_search_form($searchtext, $schooltype) {
+    protected static function output_search_form($searchtext, $schooltype, $numberofresults) {
         global $PAGE;
 
         $form = '';
@@ -620,8 +644,16 @@ class meineschulen {
         $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
+        $opts = array(10, 20, 50, 100);
+        $opts = array_combine($opts, $opts);
+        $opts[-1] = get_string('allresults', 'block_meineschulen');
+        $form .= html_writer::tag('label', get_string('numberofresults', 'block_meineschulen'), array('for' => 'numberofresults'));
+        $form .= html_writer::select($opts, 'numberofresults', $numberofresults, false, array('id' => 'numberofresults'));
+        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+
+        $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
         $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',
-                                                      'value' => get_string('search')));
+                                                      'id' => 'submitbutton', 'value' => get_string('search')));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         return html_writer::tag('form', $form, array('action' => $PAGE->url, 'method' => 'get',
@@ -640,8 +672,8 @@ class meineschulen {
         return $types;
     }
 
-    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir) {
-        global $DB, $OUTPUT;
+    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page) {
+        global $DB, $OUTPUT, $PAGE;
 
         if (empty($searchtext)) {
             return '';
@@ -651,6 +683,7 @@ class meineschulen {
         $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
                                                                           'schoolname' => $searchtext,
                                                                           'schooltype' => $schooltype,
+                                                                          'numberofresults' => $numberofresults,
                                                                      ));
         /** @var moodle_url[] $urls */
         $urls = array(
@@ -692,14 +725,28 @@ class meineschulen {
             $typecriteria = 'AND t.id = :schooltype';
             $params['schooltype'] = $schooltype;
         }
-        $sql = "SELECT sch.id, sch.name, t.name AS type, sch.visible
-                      FROM {course_categories} sch
+        $fields = " SELECT sch.id, sch.name, t.name AS type, sch.visible";
+        $select = "   FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
                      WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
                        AND sch.depth = :schooldepth
                            $typecriteria
                      ORDER BY $order";
-        $results = $DB->get_records_sql($sql, $params);
+        $totalcount = $DB->count_records_sql("SELECT COUNT(*)".$select, $params);
+        $limitnum = $numberofresults;
+        if ($limitnum <= 0) {
+            // Show all results.
+            $limitnum = 0;
+            $start = 0;
+        } else {
+            $start = $numberofresults * $page;
+            if ($start > $totalcount) {
+                // Page does not exist - go to first page.
+                $start = 0;
+                $page = 0;
+            }
+        }
+        $results = $DB->get_records_sql($fields.$select, $params, $start, $limitnum);
 
         // Start the table.
         $table = new html_table;
@@ -735,6 +782,15 @@ class meineschulen {
             $table->data = array(new html_table_row(array($cell)));
         }
 
-        return html_writer::table($table);
+        $baseurl = new moodle_url($PAGE->url, array('schoolname' => $searchtext, 'schooltype' => $schooltype,
+                                                   'sortby' => $sortby, 'sortdir' => $sortdir,
+                                                   'numberofresults' => $numberofresults));
+
+        $out = html_writer::table($table);
+        if ($numberofresults > 0) { // No paging bar for 'All results'.
+            $out .= $OUTPUT->paging_bar($totalcount, $page, $numberofresults, $baseurl);
+        }
+
+        return $out;
     }
 }

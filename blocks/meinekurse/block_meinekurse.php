@@ -78,9 +78,9 @@ class block_meinekurse extends block_base {
         //Handle submitted / saved data
         $prefs = meinekurse_get_prefs();
         if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
-            if ($prefs->sortby == $sortby) {
+            /*if ($prefs->sortby == $sortby) {
                 $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
-            } else {
+            } else*/ {
                 $prefs->sortby = $sortby;
                 if ($sortby == 'name') {
                     $prefs->sortdir = 'asc';
@@ -131,11 +131,12 @@ class block_meinekurse extends block_base {
 
         // Sorting icons.
         $baseurl = new moodle_url($PAGE->url);
-        $content .= $this->sorting_icons($baseurl, $prefs->sortby);
+        //$content .= $this->sorting_icons($baseurl, $prefs->sortby);
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+            $tab = $this->sorting_form($baseurl, $prefs->sortby, $numcourses);
+            $tab .= $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 
@@ -157,10 +158,9 @@ class block_meinekurse extends block_base {
      * @param int $thispage - current page number
      */
     private function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
-        global $CFG, $OUTPUT, $DB, $PAGE;
+        global $CFG, $OUTPUT, $PAGE;
 
         $content = '';
-        $content .= '<br style="clear: both;" />';
 
         if (empty($courses)) {
             $content .= get_string('nocourses', 'block_meinekurse');
@@ -179,8 +179,11 @@ class block_meinekurse extends block_base {
 
         $coursetable = new html_table();
         $coursetable->attributes = array('class' => 'generaltable meinekursetable');
-        $coursetable->colclasses = array('', 'moddesc-hidden');
+        $coursetable->colclasses = array('', 'moreinfo', 'moddesc-hidden');
         $coursetable->data = array();
+
+        $infoicon = $OUTPUT->pix_icon('i/info', 'info');
+        $newspan = ' <span class="newtext">' . get_string('new', 'block_meinekurse').'</span>';
 
         foreach ($courses as $course) {
             $modinfo = get_fast_modinfo($course);
@@ -223,6 +226,7 @@ class block_meinekurse extends block_base {
             $modtable->colnames = array('modtype', 'totalnew', 'icon');
             $modtable->attributes = array('class' => 'generaltable meinekurse_content');
             $modtable->data = array();
+            $coursenew = '';
             foreach ($modslist as $modtype => $typedata) {
                 // First row - heading for the activity type.
                 $row = array();
@@ -230,15 +234,16 @@ class block_meinekurse extends block_base {
                 $tmp .= ' ' . get_string($modtype, 'block_meinekurse');
                 $row[] = $tmp;
                 if ($typedata->count) {
-                    $new = $typedata->count . ' <span class="newtext">' . get_string('new', 'block_meinekurse').'</span>';
+                    $new = $typedata->count.$newspan;
                     if ($typedata->red) {
                         $new = '<span class="red">' . $new . '</span>';
                     }
                     $row[] = $new;
+                    $coursenew = $newspan;
                 } else {
                     $row[] = '&nbsp;';
                 }
-                $row[] = $OUTPUT->pix_icon('i/info', 'info');
+                $row[] = '';
                 $modtable->data[] = $row;
 
                 // Second row - the details for the activity type.
@@ -264,7 +269,7 @@ class block_meinekurse extends block_base {
 
             $moddetails = html_writer::table($modtable);
 
-            $coursetable->data[] = array($coursename, $moddetails);
+            $coursetable->data[] = array($coursename.$coursenew, $infoicon, $moddetails);
         }
 
         $tblcontent = html_writer::table($coursetable);
@@ -273,8 +278,9 @@ class block_meinekurse extends block_base {
         $tblcontent .= html_writer::tag('div', '', array('class' => 'clearer'));
 
         $content .= html_writer::tag('div', $tblcontent, array('class' => 'coursecontainer'));
-
         $content .= $paginghtml;
+
+        $content = html_writer::tag('div', $content, array('class' => 'courseandpaging'));
 
         return $content;
     }
@@ -290,6 +296,10 @@ class block_meinekurse extends block_base {
      */
     protected function assignment_details($user, $course, $modinfo, $modslist) {
         global $DB, $CFG;
+
+        if (!$DB->get_field('modules', 'visible', array('name' => 'assignment'))) {
+            return $modslist; // Assignment module is disabled - nothing to add here.
+        }
 
         $mods = get_coursemodules_in_course('assignment', $course->id, 'm.timedue');
         $assignmentids = array();
@@ -408,6 +418,10 @@ class block_meinekurse extends block_base {
      */
     protected function assign_details($user, $course, $modinfo, $modslist) {
         global $DB, $CFG;
+
+        if (!$DB->get_field('modules', 'visible', array('name' => 'assign'))) {
+            return $modslist; // Assignment module is disabled - nothing to add here.
+        }
 
         $mods = get_coursemodules_in_course('assign', $course->id, 'm.duedate');
         $assignids = array();
@@ -547,6 +561,37 @@ class block_meinekurse extends block_base {
         return html_writer::tag('div', $out, array('class' => 'meinekurse_sorticons'));
     }
 
+    /**
+     * Output the HTML for the form to sort the courses.
+     *
+     * @param moodle_url $baseurl the URL to base the links on
+     * @param string $selectedtype the sort currently selected
+     * @param $numcourses
+     * @return string html snipet for the icons
+     */
+    protected function sorting_form($baseurl, $selectedtype, $numcourses) {
+
+        $prefs = new stdClass();
+        $prefs->sortby = $selectedtype;
+        $prefs->numcourses = $numcourses;
+
+        $out = '';
+        $out .= html_writer::input_hidden_params($baseurl);
+        $table = new html_table();
+        $table->head = array(
+            get_string('sortby', 'block_meinekurse'),
+            get_string('numcourses', 'block_meinekurse'));
+        $table->align = array('center', 'center', 'center');
+        $table->data = array();
+        $row = array();
+        $row[] = $this->html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
+        $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
+        $table->data[] = $row;
+        $out .= html_writer::table($table);
+
+        return html_writer::tag('form', $out, array('method' => 'get', 'action' => $baseurl->out_omit_querystring()));
+    }
+
     /*
      * Returns an object with grade time and grade in percentage form for a module a given user
      * @param obj $course, a course object containing id and showgrades
@@ -588,6 +633,10 @@ class block_meinekurse extends block_base {
      */
     protected function forum_details($user, $course, $modinfo, $modslist) {
         global $DB;
+
+        if (!$DB->get_field('modules', 'visible', array('name' => 'forum'))) {
+            return $modslist; // Forum module is disabled - nothing to add here.
+        }
 
         $mods = get_coursemodules_in_course('forum', $course->id);
         foreach ($mods as $mod) {
@@ -667,6 +716,10 @@ class block_meinekurse extends block_base {
      */
     protected function quiz_details($user, $course, $modinfo, $modslist) {
         global $CFG, $DB;
+
+        if (!$DB->get_field('modules', 'visible', array('name' => 'quiz'))) {
+            return $modslist; // Quiz module is disabled - nothing to add here.
+        }
 
         $mods = get_coursemodules_in_course('quiz', $course->id, 'm.timeclose');
         $sql = "SELECT q.id
@@ -791,28 +844,33 @@ class block_meinekurse extends block_base {
             $strfile = get_string('pluginname', 'mod_resource');
         }
 
-        $mods = get_coursemodules_in_course('resource', $course->id, 'm.timemodified');
-        foreach ($mods as $mod) {
-            $cms = $modinfo->get_cm($mod->id);
-            if (!$cms->uservisible) {
-                continue;
-            }
+        $enabled = $DB->get_records_menu('modules', array(), '', 'name, visible');
 
-            $title = html_writer::link($cms->get_url(), format_string($mod->name));
-            if ($mod->timemodified>$user->lastlogin) {
-                $modslist['resources']->list[] = array(
-                    'title' => $title,
-                    'desc' => array(),
-                    'icon' => $OUTPUT->pix_icon($cms->icon, $strfile, $cms->iconcomponent)
-                );
-                $modslist['resources']->count++;
+        if ($enabled['resource']) {
+            $mods = get_coursemodules_in_course('resource', $course->id, 'm.timemodified');
+            foreach ($mods as $mod) {
+                $cms = $modinfo->get_cm($mod->id);
+                if (!$cms->uservisible) {
+                    continue;
+                }
+
+                $title = html_writer::link($cms->get_url(), format_string($mod->name));
+                if ($mod->timemodified>$user->lastlogin) {
+                    $modslist['resources']->list[] = array(
+                        'title' => $title,
+                        'desc' => array(),
+                        'icon' => $OUTPUT->pix_icon($cms->icon, $strfile, $cms->iconcomponent)
+                    );
+                    $modslist['resources']->count++;
+                }
             }
         }
 
-        //'folder' type resource
-        // Get a list of all the 'folder' resources in this course, with their 'lastmodified' time and the
-        // largest 'timemodified' field for their included files - note this will skip folders with not files in them
-        $sql = "SELECT cm.id, i.name, i.timemodified, MAX(f.timemodified) AS filemodified
+        if ($enabled['folder']) {
+            //'folder' type resource
+            // Get a list of all the 'folder' resources in this course, with their 'lastmodified' time and the
+            // largest 'timemodified' field for their included files - note this will skip folders with not files in them
+            $sql = "SELECT cm.id, i.name, i.timemodified, MAX(f.timemodified) AS filemodified
                       FROM {folder} i
                       JOIN {course_modules} cm ON cm.instance = i.id
                       JOIN {modules} m ON m.id = cm.module AND m.name = 'folder'
@@ -821,62 +879,67 @@ class block_meinekurse extends block_base {
                                      AND f.filename <> '.' AND f.itemid = 0
                      WHERE i.course = :course
                      GROUP BY i.id, i.name, i.timemodified";
-        $params = array('course' => $course->id, 'contextmodule' => CONTEXT_MODULE);
-        $mods = $DB->get_records_sql($sql, $params);
-        foreach ($mods as $mod) {
-            $cms = $modinfo->get_cm($mod->id);
-            if (!$cms->uservisible) {
-                continue;
-            }
+            $params = array('course' => $course->id, 'contextmodule' => CONTEXT_MODULE);
+            $mods = $DB->get_records_sql($sql, $params);
+            foreach ($mods as $mod) {
+                $cms = $modinfo->get_cm($mod->id);
+                if (!$cms->uservisible) {
+                    continue;
+                }
 
-            $title = html_writer::link($cms->get_url(), format_string($mod->name));
-            $modified = ($mod->timemodified>$user->lastlogin);
-            $modified = $modified || ($mod->filemodified>$user->lastlogin);
-            if ($modified) {
-                $modslist['resources']->list[] = array(
-                    'title' => $title,
-                    'desc' => array(),
-                    'icon' => $foldericon
-                );
-                $modslist['resources']->count++;
+                $title = html_writer::link($cms->get_url(), format_string($mod->name));
+                $modified = ($mod->timemodified>$user->lastlogin);
+                $modified = $modified || ($mod->filemodified>$user->lastlogin);
+                if ($modified) {
+                    $modslist['resources']->list[] = array(
+                        'title' => $title,
+                        'desc' => array(),
+                        'icon' => $foldericon
+                    );
+                    $modslist['resources']->count++;
+                }
             }
         }
 
         //'page' type resource
-        $mods = get_coursemodules_in_course('page', $course->id, 'm.timemodified');
-        foreach ($mods as $mod) {
-            $cms = $modinfo->get_cm($mod->id);
-            if (!$cms->uservisible) {
-                continue;
-            }
+        if ($enabled['page']) {
+            $mods = get_coursemodules_in_course('page', $course->id, 'm.timemodified');
+            foreach ($mods as $mod) {
+                $cms = $modinfo->get_cm($mod->id);
+                if (!$cms->uservisible) {
+                    continue;
+                }
 
-            $title = html_writer::link($cms->get_url(), format_string($mod->name));
-            if ($mod->timemodified>$user->lastlogin) {
-                $modslist['resources']->list[] = array(
-                    'title' => $title,
-                    'desc' => array(),
-                    'icon' => $pageicon
-                );
-                $modslist['resources']->count++;
+                $title = html_writer::link($cms->get_url(), format_string($mod->name));
+                if ($mod->timemodified>$user->lastlogin) {
+                    $modslist['resources']->list[] = array(
+                        'title' => $title,
+                        'desc' => array(),
+                        'icon' => $pageicon
+                    );
+                    $modslist['resources']->count++;
+                }
             }
         }
 
         //'url' type resource
-        $mods = get_coursemodules_in_course('url', $course->id, 'm.timemodified');
-        foreach ($mods as $mod) {
-            $cms = $modinfo->get_cm($mod->id);
-            if (!$cms->uservisible) {
-                continue;
-            }
+        if ($enabled['url']) {
+            $mods = get_coursemodules_in_course('url', $course->id, 'm.timemodified');
+            foreach ($mods as $mod) {
+                $cms = $modinfo->get_cm($mod->id);
+                if (!$cms->uservisible) {
+                    continue;
+                }
 
-            $title = html_writer::link($cms->get_url(), format_string($mod->name));
-            if ($mod->timemodified>$user->lastlogin) {
-                $modslist['resources']->list[] = array(
-                    'title' => $title,
-                    'desc' => array(),
-                    'icon' => $urlicon
-                );
-                $modslist['resources']->count++;
+                $title = html_writer::link($cms->get_url(), format_string($mod->name));
+                if ($mod->timemodified>$user->lastlogin) {
+                    $modslist['resources']->list[] = array(
+                        'title' => $title,
+                        'desc' => array(),
+                        'icon' => $urlicon
+                    );
+                    $modslist['resources']->count++;
+                }
             }
         }
 

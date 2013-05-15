@@ -86,14 +86,17 @@ M.block_meineschulen_search = {
         });
 
         update_sort_links();
+        update_paging_links();
         check_send_school_search(true); // Catch situations where the back button has been pressed and the search needs repeating.
 
         function check_send_school_search(onload) {
-            var searchtext, schooltype, pagequery;
+            var searchtext, schooltype, pagequery, numberofresults;
 
             searchtext = Y.Lang.trim(Y.one('#meineschulen_school_form #schoolname').get('value'));
             schooltype = Y.one('#meineschulen_school_form #schooltype').get('selectedIndex');
             schooltype = Y.one('#meineschulen_school_form #schooltype').get('options').item(schooltype).get('value');
+            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
+            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
             if (searchtext) {
                 if (onload) {
                     pagequery = window.location.href;
@@ -106,11 +109,11 @@ M.block_meineschulen_search = {
                         }
                     }
                 }
-                send_school_search(searchtext, schooltype);
+                send_school_search(searchtext, schooltype, numberofresults);
             }
         }
 
-        function send_school_search(searchtext, schooltype, sortby, sortdir) {
+        function send_school_search(searchtext, schooltype, numberofresults, sortby, sortdir, page) {
             var searchouter, resultel, url, data;
 
             searchouter = Y.one('.meineschulen_content .meineschulen_school_results');
@@ -126,11 +129,17 @@ M.block_meineschulen_search = {
                 search: searchtext,
                 schooltype: schooltype
             };
+            if (numberofresults !== undefined) {
+                data.numberofresults = numberofresults;
+            }
             if (sortby !== undefined) {
                 data.sortby = sortby;
             }
             if (sortdir !== undefined) {
                 data.sortdir = sortdir;
+            }
+            if (page !== undefined) {
+                data.page = page;
             }
 
             url = M.cfg.wwwroot + '/blocks/meineschulen/ajax.php';
@@ -143,6 +152,7 @@ M.block_meineschulen_search = {
                         if (details && details.error === 0 && details.results) {
                             resultel.setContent(details.results);
                             update_sort_links();
+                            update_paging_links();
                         }
                     }
                 }
@@ -161,7 +171,27 @@ M.block_meineschulen_search = {
                 link = link.substring(link.indexOf('?') + 1);
                 linkparams = Y.QueryString.parse(link);
 
-                send_school_search(linkparams.schoolname, linkparams.schooltype, linkparams.sortby, linkparams.sortdir);
+                send_school_search(linkparams.schoolname, linkparams.schooltype, linkparams.numberofresults,
+                    linkparams.sortby, linkparams.sortdir);
+
+                return false;
+            });
+        }
+
+        function update_paging_links() {
+            // Adjust the paging links to submit via AJAX
+            Y.all('#meineschulen_school_results .paging a').on('click', function (e) {
+                var link, linkparams;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                link = e.currentTarget.get('href');
+                link = link.substring(link.indexOf('?') + 1);
+                linkparams = Y.QueryString.parse(link);
+
+                send_school_search(linkparams.schoolname, linkparams.schooltype, linkparams.numberofresults,
+                    linkparams.sortby, linkparams.sortdir, linkparams.page);
 
                 return false;
             });

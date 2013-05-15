@@ -32,7 +32,7 @@ class block_meineschulen extends block_list {
 
 
     public function get_content() {
-        global $CFG;
+        global $CFG, $OUTPUT;
         require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
 
         if ($this->content !== null) {
@@ -44,12 +44,20 @@ class block_meineschulen extends block_list {
         $this->content->icons = array();
 
         $searchurl = meineschulen::get_search_url();
-        $this->content->footer = html_writer::link($searchurl, get_string('otherschools', 'block_meineschulen').'&hellip;');
+        $this->content->footer = html_writer::link($searchurl, get_string('schoolsearch', 'block_meineschulen'));
 
+        $arrowicon = $OUTPUT->pix_icon('t/collapsed', '');
         $schools = meineschulen::get_my_schools();
+        if (!empty($schools)) {
+            $this->content->items[] = get_string('myschools', 'block_meineschulen');
+            $this->content->icons[] = '';
+        }
         foreach ($schools as $school) {
             $this->content->items[] = html_writer::link($school->viewurl, format_string($school->name));
+            $this->content->icons[] = $arrowicon;
         }
+        $this->content->items[] = '';
+        $this->content->icons[] = '';
 
         return $this->content;
     }

@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allresults'] = 'Alle';
 $string['alltypes'] = 'Alle Typen';
 $string['coordinators'] = 'Schulkoordinatoren';
 $string['courselist'] = 'Kursliste';
@@ -32,11 +33,12 @@ $string['createcourse'] = 'Kurs erstellen';
 $string['meineschulen:addinstance'] = 'Meine Schulen Block hinzufügen';
 $string['meineschulen:myaddinstance'] = 'Meine Schulen Block zu Meine Startseite hinzufügen';
 $string['meineschulen:viewcoordinators'] = 'Liste der Schulkoordinatoren ansehen';
+$string['myschools'] = 'Meine schulen';
 $string['newcourse'] = 'Neuer Kurs';
 $string['nocoursesfound'] = 'Keine Kurse gefunden';
 $string['noschoolsfound'] = 'Keine Schulen gefunden';
 $string['otherschools'] = 'Andere Schulen';
-$string['pluginname'] = 'Meine schulen';
+$string['pluginname'] = 'Schulen';
 $string['requestcourse'] = 'Kurs anfordern';
 $string['schoolname'] = 'Name der Schule';
 $string['schoolsearch'] = 'Schule suchen';

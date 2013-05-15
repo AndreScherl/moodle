@@ -36,6 +36,8 @@ $PAGE->set_context($context);
 $strtitle = get_string('schoolsearch', 'block_meineschulen');
 $PAGE->set_title($strtitle);
 $PAGE->set_heading($strtitle);
+$PAGE->set_pagelayout('standard');
+$PAGE->navbar->add($strtitle, $PAGE->url);
 
 echo $OUTPUT->header();
 echo meineschulen::output_school_search();

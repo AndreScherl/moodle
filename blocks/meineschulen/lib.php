@@ -267,7 +267,7 @@ class meineschulen {
             $out .= $this->output_category($cat);
         }
         foreach ($toplevelcourses as $course) {
-            $out .= $this->output_course($course);
+            $out .= html_writer::tag('li', $this->output_course_link($course, true));
         }
         // Wrap the tree within a div.
         $out = html_writer::tag('ul', $out);
@@ -299,7 +299,7 @@ class meineschulen {
             }
         }
         foreach ($category->courses as $course) {
-            $children .= $this->output_course($course);
+            $children .= html_writer::tag('li', $this->output_course_link($course, true));
         }
         $out .= html_writer::nonempty_tag('ul', $children);
         return html_writer::tag('li', $out);
@@ -308,10 +308,11 @@ class meineschulen {
     /**
      * Return a single course formatted for the courses tree.
      *
-     * @param $course
+     * @param object $course
+     * @param bool $showtooltip true to include the tooltip
      * @return string
      */
-    protected function output_course($course) {
+    protected function output_course_link($course, $showtooltip) {
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
         $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($course));
         $icons = array_map(function ($icon) {
@@ -319,14 +320,17 @@ class meineschulen {
             return $OUTPUT->render($icon);
         }, $icons);
         $courseicons = implode(' ', $icons).' ';
-        $context = context_course::instance($course->id);
-        $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
-                                                'summary', null);
-        $summary = format_text($summary, $course->summaryformat);
-        $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
-        $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
+        $tooltip = '';
+        if ($showtooltip) {
+            $context = context_course::instance($course->id);
+            $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
+                                                    'summary', null);
+            $summary = format_text($summary, $course->summaryformat);
+            $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
+            $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
+        }
         $courselink = html_writer::link($courseurl, $courseicons.format_string($course->fullname).$tooltip);
-        return html_writer::tag('li', $courselink);
+        return $courselink;
     }
 
     /**
@@ -520,10 +524,17 @@ class meineschulen {
                 $name = self::highlight_text($searchtext, $name);
                 $summary = self::highlight_text($searchtext, $summary, self::TRUNCATE_COURSE_SUMMARY);
 
+                $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($result));
+                $icons = array_map(function ($icon) {
+                    global $OUTPUT;
+                    return $OUTPUT->render($icon);
+                }, $icons);
+                $courseicons = implode(' ', $icons).' ';
+
                 $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
                 $name = html_writer::link($courselink, $name);
 
-                $table->data[] = array($name, $summary);
+                $table->data[] = array($courseicons.$name, $summary);
             }
         }
         if (empty($table->data)) {

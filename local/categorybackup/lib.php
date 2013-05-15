@@ -32,6 +32,9 @@ class categorybackup {
     protected static $categoryfields = array('id', 'name', 'idnumber', 'description', 'descriptionformat', 'sortorder', 'theme');
     protected static $delimiter = ',';
 
+    protected static $restorecoursetotal = 0;
+    protected static $restorecoursecount = 0;
+
     // Heavily based on 'get_course_category_tree' in course/lib.php
     // but fixed to work when starting below the top-level category (and
     // does not ignore 'hidden' categories)
@@ -320,6 +323,19 @@ class categorybackup {
         return $categorymapping;
     }
 
+    protected static function count_restore_courses($srcdir) {
+        self::$restorecoursecount = 1;
+        self::$restorecoursetotal = 0;
+        if ($dir = opendir($srcdir)) {
+            while (false !== ($file = readdir($dir))) {
+                if (substr_compare($file, '.mbz', -4) == 0) {
+                    self::$restorecoursetotal++;
+                }
+            }
+            closedir($dir);
+        }
+    }
+
     public static function restore_courses($srcdir, $categorymapping) {
         global $CFG, $USER;
 
@@ -330,6 +346,13 @@ class categorybackup {
             mkdir($unpackpath, 0777, true);
         } else if (!is_dir($unpackpath)) {
             print_error('invaliddir', 'local_categorybackup');
+        }
+
+        self::count_restore_courses($srcdir);
+        if (defined('CLI_SCRIPT')) {
+            echo get_string('coursestorestore', 'local_categorybackup', self::$restorecoursetotal)."\n";
+        } else {
+            echo html_writer::tag('p', get_string('coursestorestore', 'local_categorybackup', self::$restorecoursetotal));
         }
 
         $CFG->categorybackup_restore = true;
@@ -391,6 +414,7 @@ class categorybackup {
         $msg = get_string('restorecourse', 'local_categorybackup', (object)array(
             'fullname' => $fullname, 'shortname' => $shortname
         ));
+        $msg .= ' ('.(self::$restorecoursecount++).'/'.self::$restorecoursetotal.')';
         if (!defined('CLI_SCRIPT')) {
             echo html_writer::tag('li', $msg);
         } else {

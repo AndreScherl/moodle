@@ -586,14 +586,16 @@ class meineschulen {
         $schooltype = optional_param('schooltype', -1, PARAM_INT);
         $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
         $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
+        $numberofresults = optional_param('numberofresults', 20, PARAM_INT);
+        $page = optional_param('page', 0, PARAM_INT);
 
         $form = get_string('searchcriteria', 'block_meineschulen');
-        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype),
+        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults),
                                  array('class' => 'meineschulen_school_form_inner'));
         $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
 
 
-        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir);
+        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page);
         $results = get_string('searchresults', 'block_meineschulen');
         $results .= html_writer::tag('div', $resultsinner,
                                  array('id' => 'meineschulen_school_results'));
@@ -606,7 +608,7 @@ class meineschulen {
         return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
     }
 
-    protected static function output_search_form($searchtext, $schooltype) {
+    protected static function output_search_form($searchtext, $schooltype, $numberofresults) {
         global $PAGE;
 
         $form = '';
@@ -620,8 +622,16 @@ class meineschulen {
         $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
+        $opts = array(10, 20, 50, 100);
+        $opts = array_combine($opts, $opts);
+        $opts[-1] = get_string('allresults', 'block_meineschulen');
+        $form .= html_writer::tag('label', get_string('numberofresults', 'block_meineschulen'), array('for' => 'numberofresults'));
+        $form .= html_writer::select($opts, 'numberofresults', $numberofresults, false, array('id' => 'numberofresults'));
+        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+
+        $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
         $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',
-                                                      'value' => get_string('search')));
+                                                      'id' => 'submitbutton', 'value' => get_string('search')));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         return html_writer::tag('form', $form, array('action' => $PAGE->url, 'method' => 'get',
@@ -640,8 +650,8 @@ class meineschulen {
         return $types;
     }
 
-    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir) {
-        global $DB, $OUTPUT;
+    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page) {
+        global $DB, $OUTPUT, $PAGE;
 
         if (empty($searchtext)) {
             return '';
@@ -651,6 +661,7 @@ class meineschulen {
         $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
                                                                           'schoolname' => $searchtext,
                                                                           'schooltype' => $schooltype,
+                                                                          'numberofresults' => $numberofresults,
                                                                      ));
         /** @var moodle_url[] $urls */
         $urls = array(
@@ -692,14 +703,28 @@ class meineschulen {
             $typecriteria = 'AND t.id = :schooltype';
             $params['schooltype'] = $schooltype;
         }
-        $sql = "SELECT sch.id, sch.name, t.name AS type, sch.visible
-                      FROM {course_categories} sch
+        $fields = " SELECT sch.id, sch.name, t.name AS type, sch.visible";
+        $select = "   FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
                      WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
                        AND sch.depth = :schooldepth
                            $typecriteria
                      ORDER BY $order";
-        $results = $DB->get_records_sql($sql, $params);
+        $totalcount = $DB->count_records_sql("SELECT COUNT(*)".$select, $params);
+        $limitnum = $numberofresults;
+        if ($limitnum <= 0) {
+            // Show all results.
+            $limitnum = 0;
+            $start = 0;
+        } else {
+            $start = $numberofresults * $page;
+            if ($start > $totalcount) {
+                // Page does not exist - go to first page.
+                $start = 0;
+                $page = 0;
+            }
+        }
+        $results = $DB->get_records_sql($fields.$select, $params, $start, $limitnum);
 
         // Start the table.
         $table = new html_table;
@@ -735,6 +760,15 @@ class meineschulen {
             $table->data = array(new html_table_row(array($cell)));
         }
 
-        return html_writer::table($table);
+        $baseurl = new moodle_url($PAGE->url, array('schoolname' => $searchtext, 'schooltype' => $schooltype,
+                                                   'sortby' => $sortby, 'sortdir' => $sortdir,
+                                                   'numberofresults' => $numberofresults));
+
+        $out = html_writer::table($table);
+        if ($numberofresults > 0) { // No paging bar for 'All results'.
+            $out .= $OUTPUT->paging_bar($totalcount, $page, $numberofresults, $baseurl);
+        }
+
+        return $out;
     }
 }

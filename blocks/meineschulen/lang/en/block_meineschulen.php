@@ -24,6 +24,7 @@
  
 defined('MOODLE_INTERNAL') || die();
 
+$string['allresults'] = 'All';
 $string['alltypes'] = 'All types';
 $string['coordinators'] = 'School coordinators';
 $string['courselist'] = 'Course list';
@@ -36,6 +37,7 @@ $string['myschools'] = 'My schools';
 $string['newcourse'] = 'New course';
 $string['nocoursesfound'] = 'No courses found';
 $string['noschoolsfound'] = 'No schools found';
+$string['numberofresults'] = 'Number of results';
 $string['otherschools'] = 'Other schools';
 $string['pluginname'] = 'Schulen';
 $string['requestcourse'] = 'Request course';

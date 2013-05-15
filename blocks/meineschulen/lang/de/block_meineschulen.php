@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allresults'] = 'Alle';
 $string['alltypes'] = 'Alle Typen';
 $string['coordinators'] = 'Schulkoordinatoren';
 $string['courselist'] = 'Kursliste';

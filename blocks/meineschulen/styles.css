@@ -113,15 +113,11 @@
     text-align: right;
 }
 
-.meineschulen_content .meineschulen_school_form input {
+.meineschulen_content .meineschulen_school_form input,
+.meineschulen_content .meineschulen_school_form select {
     float: left;
     display: inline-block;
     margin: 5px;
-}
-
-.meineschulen_content .meineschulen_school_form input.submitbutton {
-    float: none;
-    margin: 5px 40%;
 }
 
 .meineschulen_content .meineschulen_school_results {
@@ -136,6 +132,10 @@
 
 .meineschulen_content .meineschulen_school_results #meineschulen_school_results {
     border: solid black 1px;
+}
+
+.meineschulen_content .meineschulen_school_results th {
+    text-align: left;
 }
 
 .meineschulen_content #meineschulen_school_results table {

@@ -14,54 +14,48 @@
 #page-my-index .mycoursestabs .ui-tabs{margin:0; padding:0;}
 #page-my-index .mycoursestabs table{margin-bottom:0px;}
 
-#page-my-index #region-main .block.ui-state-default{background:#acc0ca; height:30px; 
+#page-my-index #region-main .block.ui-state-default{background:#dce8ee; height:30px; 
     margin-bottom: 0!important;
     padding-bottom: 0!important;
-      -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-    -khtml-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-    -moz-box-shadow: 0px -1px 3px #a5b8bb;
-    -webkit-box-shadow: 0px -1px 3px #a5b8bb;
-    box-shadow: 0px -1px 3px #a5b8bb;
+      -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -khtml-border-radius: 0;
+    border-radius: 0;
+    border-top:1px solid #333;
+    color:#1b6a9c;
     
-/* For IE 8 */
--ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#a5b8bb')";
-/* For IE 5.5 - 7 */
-filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#a5b8bb');}
+    }
 
-#page-my-index #region-main .block.ui-state-default a{color:#fff!important;}
+#page-my-index #region-main .block.ui-state-default a{color:#1b6a9c;
+!important;}
 
 
-#page-my-index #region-main .block.ui-state-active{background:#6c94a3; height:30px;   
+#page-my-index #region-main .block.ui-state-active{background:#bbced4; height:30px;   
     margin-bottom: 0!important;
     padding-bottom: 0!important;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-    -khtml-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-    -moz-box-shadow: 0px -1px 3px #a5b8bb;
-    -webkit-box-shadow: 0px -1px 3px #a5b8bb;
-    box-shadow: 0px -1px 3px #a5b8bb;
+    -moz-border-radius:0;
+    -webkit-border-radius: 0;
+    -khtml-border-radius:  0;
+    border-radius: 0;
+    border-top:1px solid #333;
+    color:#1b6a9c;
 
     border-bottom:1px solid #6c94a3;
- 
-/* For IE 8 */
--ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#a5b8bb')";
-/* For IE 5.5 - 7 */
-filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#a5b8bb');}
-#page-my-index #region-main .block.ui-state-active a{color:#fff!important;}
+ }
+#page-my-index #region-main .block.ui-state-active a{olor:#1b6a9c;
+!important;}
 
 #page-my-index .mycoursestabs .coursecontainer{margin-top:-2px;}
-#page-my-index .mycoursestabs table tr{background:#6c94a3; color:#fff;}
-#page-my-index .mycoursestabs table tr a{color:#fff;}
+#page-my-index .mycoursestabs table tr{background:#fff; color:#333;}
+#page-my-index .mycoursestabs table tr a{color:#1b6a9c;}
 
-#page-my-index .mycoursestabs table tr:hover{background:#4e7e90; color:#fff;}
-#page-my-index .mycoursestabs table tr:active{background:#4e7e90; color:#fff;}
+#page-my-index .mycoursestabs table tr:hover{background:#d3ecf6; color:#1b6a9c;}
+#page-my-index .mycoursestabs table tr:active{background:#d3ecf6; color:#1b6a9c;}
 
-#page-my-index .mycoursestabs .coursecontent{background:#4e7e90;}
-#page-my-index .mycoursestabs .coursecontent .r0{background:#d0dce1!important; color:#2a647a;}
-#page-my-index .mycoursestabs .coursecontent .r1{background:#d0dce1!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontent{background:#d3ecf6; color:#333;}
+#page-my-index .mycoursestabs .coursecontent a{background:#d3ecf6; color:#1b6a9c;}
+#page-my-index .mycoursestabs .coursecontent .r0{background:#d3ecf6!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontent .r1{background:#d3ecf6!important; color:#2a647a;}
 
 
 

@@ -1,6 +1,6 @@
 .meineschulen_content .meineschulen_courses {
     display: block;
-    width: 44%;
+    width: 60%;
     margin: 5px 2.5%;
     float: left;
 }
@@ -15,7 +15,7 @@
 
 .meineschulen_content .meineschulen_coordinators {
     display: block;
-    width: 44%;
+    width: 30%;
     margin: 5px 2.5%;
     float: left;
     overflow-y: auto;
@@ -28,7 +28,7 @@
 
 .meineschulen_content .meineschulen_newcourse {
     display: block;
-    width: 44%;
+    width: 30%;
     margin: 5px 2.5%;
     float: left;
 }

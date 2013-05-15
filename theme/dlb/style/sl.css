@@ -14,7 +14,7 @@
 #page-my-index .mycoursestabs .ui-tabs{margin:0; padding:0;}
 #page-my-index .mycoursestabs table{margin-bottom:0px;}
 
-#page-my-index #region-main .block.ui-state-default{background:#dce8ee; height:30px; 
+#page-my-index #region-main .block.ui-state-default{background:#dce8ee; height:29px; 
     margin-bottom: 0!important;
     padding-bottom: 0!important;
       -moz-border-radius: 0;
@@ -30,7 +30,7 @@
 !important;}
 
 
-#page-my-index #region-main .block.ui-state-active{background:#bbced4; height:30px;   
+#page-my-index #region-main .block.ui-state-active{background:#c2d6dc; height:30px;   
     margin-bottom: 0!important;
     padding-bottom: 0!important;
     -moz-border-radius:0;
@@ -45,20 +45,33 @@
 #page-my-index #region-main .block.ui-state-active a{olor:#1b6a9c;
 !important;}
 
-#page-my-index .mycoursestabs .coursecontainer{margin-top:-2px;}
-#page-my-index .mycoursestabs table tr{background:#fff; color:#333;}
+#page-my-index .mycoursestabs .header{padding-left: 15px!important;
+margin-left: 0px!important;
+text-align: left!important;}
+
+#page-my-index .mycoursestabs .coursecontainer{margin-top:0; background:#fff; border:1px solid #333; padding:10px; width:97%;}
+
+#page-my-index .mycoursestabs .header{background:#c2d6dc; border-bottom:1px solid #333;}
+.mycoursestabs form{background:#c2d6dc;}
+#page-my-index .mycoursestabs table tr{background:#c2d6dc; color:#333;}
 #page-my-index .mycoursestabs table tr a{color:#1b6a9c;}
 
-#page-my-index .mycoursestabs table tr:hover{background:#d3ecf6; color:#1b6a9c;}
-#page-my-index .mycoursestabs table tr:active{background:#d3ecf6; color:#1b6a9c;}
+.meinekursetable{width:40%;}
 
-#page-my-index .mycoursestabs .coursecontent{background:#d3ecf6; color:#333;}
+#page-my-index .mycoursestabs .coursecontent{background:#d3ecf6; color:#333; width:60%!important;}
 #page-my-index .mycoursestabs .coursecontent a{background:#d3ecf6; color:#1b6a9c;}
-#page-my-index .mycoursestabs .coursecontent .r0{background:#d3ecf6!important; color:#2a647a;}
-#page-my-index .mycoursestabs .coursecontent .r1{background:#d3ecf6!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontainer .r0{background:#fff!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontainer .r1{background:#fff!important; color:#2a647a;}
 
+#page-my-index .mycoursestabs .coursecontainer .r1:hover{background:#d3ecf6!important; color:#1b6a9c;}
 
+#page-my-index .mycoursestabs .coursecontainer .r0:hover{background:#d3ecf6!important; color:#1b6a9c;}
+#page-my-index .mycoursestabs table tr:active{background:#d3ecf6!important; color:#1b6a9c;}
 
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0{background:#d3ecf6!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1{background:#d3ecf6!important; color:#2a647a;}
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1:hover{background:#d3ecf6!important;}
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0:hover{background:#d3ecf6!important;}
 
 
 /* meineschulen-viewschool*/

@@ -328,7 +328,7 @@ class meineschulen {
 
         $coordinators = $this->get_coordinators();
         foreach ($coordinators as $coordinator) {
-            $coordurl = new moodle_url('/user/view.php', array('id' => $coordinator->id));
+            $coordurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
             $coordlink = html_writer::link($coordurl, fullname($coordinator));
             $out .= html_writer::tag('li', $coordlink);
         }

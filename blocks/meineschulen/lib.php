@@ -312,16 +312,20 @@ class meineschulen {
      * @return string
      */
     protected function output_course($course) {
-        global $OUTPUT;
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-        $courseicon = $OUTPUT->pix_icon('c/course', '').' ';
+        $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($course));
+        $icons = array_map(function ($icon) {
+            global $OUTPUT;
+            return $OUTPUT->render($icon);
+        }, $icons);
+        $courseicons = implode(' ', $icons).' ';
         $context = context_course::instance($course->id);
         $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
                                                 'summary', null);
         $summary = format_text($summary, $course->summaryformat);
         $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
         $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
-        $courselink = html_writer::link($courseurl, $courseicon.format_string($course->fullname).$tooltip);
+        $courselink = html_writer::link($courseurl, $courseicons.format_string($course->fullname).$tooltip);
         return html_writer::tag('li', $courselink);
     }
 

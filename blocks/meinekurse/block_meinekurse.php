@@ -278,8 +278,9 @@ class block_meinekurse extends block_base {
         $tblcontent .= html_writer::tag('div', '', array('class' => 'clearer'));
 
         $content .= html_writer::tag('div', $tblcontent, array('class' => 'coursecontainer'));
-
         $content .= $paginghtml;
+
+        $content = html_writer::tag('div', $content, array('class' => 'courseandpaging'));
 
         return $content;
     }

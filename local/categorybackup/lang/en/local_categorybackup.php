@@ -54,6 +54,7 @@ $string['restorecategory'] = 'Restore category';
 $string['restorecomplete'] = 'Restore complete';
 $string['restorecourse'] = 'Restoring course \'{$a->fullname} ({$a->shortname})\'';
 $string['restoringcourses'] = 'Restoring courses';
+$string['skippingcategory'] = 'Skipping top-level category: {$a}';
 $string['startingbackup'] = 'Backing up all courses in \'{$a}\'';
 $string['startingrestore'] = 'Restoring courses and categories into \'{$a}\'';
 $string['unziperror'] = 'An error occurred whilst extracting files from \'{$a}\'';

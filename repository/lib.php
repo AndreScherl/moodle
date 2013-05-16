@@ -641,25 +641,50 @@ abstract class repository {
     public final function check_capability() {
         global $USER;
 
+        // The context we are on.
+        $currentcontext = $this->context;
+
         // Ensure that the user can view the repository in the current context.
-        $can = has_capability('repository/'.$this->type.':view', $this->context);
+        $can = has_capability('repository/'.$this->type.':view', $currentcontext);
 
         // Context in which the repository has been created.
         $repocontext = context::instance_by_id($this->instance->contextid);
 
         // Prevent access to private repositories when logged in as.
         if (session_is_loggedinas()) {
-            $can = false;
+            $allowed = array('coursefiles', 'equella', 'filesystem', 'flickr_public', 'local', 'merlot', 'recent',
+                's3', 'upload', 'url', 'user', 'webdav', 'wikimedia', 'youtube');
+            // Are only accessible the repositories which do not contain private data (any data
+            // that is not part of Moodle, "Private files" is not considered "Pivate"). And if they
+            // do not contain private data, then it should not be a user instance, which is private by definition.
+            if (!in_array($this->type, $allowed) || $repocontext->contextlevel == CONTEXT_USER) {
+                $can = false;
+            }
         }
 
-        // Ensure that the user can view the repository in the context of the repository.
-        // Ne need to perform the check when already disallowed.
+        // We are going to ensure that the current context was legit, and reliable to check
+        // the capability against. (No need to do that if we already cannot).
         if ($can) {
-            if ($repocontext->contextlevel == CONTEXT_USER && $repocontext->instanceid != $USER->id) {
-                // Prevent URL hijack to access someone else's repository.
-                $can = false;
+            if ($repocontext->contextlevel == CONTEXT_USER) {
+                // The repository is a user instance, ensure we're the right user to access it!
+                if ($repocontext->instanceid != $USER->id) {
+                    $can = false;
+                }
+            } else if ($repocontext->contextlevel == CONTEXT_COURSE) {
+                // The repository is a course one. Let's check that we are on the right course.
+                if (in_array($currentcontext->contextlevel, array(CONTEXT_COURSE, CONTEXT_MODULE, CONTEXT_BLOCK))) {
+                    $coursecontext = $currentcontext->get_course_context();
+                    if ($coursecontext->instanceid != $repocontext->instanceid) {
+                        $can = false;
+                    }
+                } else {
+                    // We are on a parent context, therefore it's legit to check the permissions
+                    // in the current context.
+                }
             } else {
-                $can = has_capability('repository/'.$this->type.':view', $repocontext);
+                // Nothing to check here, system instances can have different permissions on different
+                // levels. We do not want to prevent URL hack here, because it does not make sense to
+                // prevent a user to access a repository in a context if it's accessible in another one.
             }
         }
 
@@ -1116,11 +1141,17 @@ abstract class repository {
             return;
         }
 
-        // do NOT mess with permissions here, the calling party is responsible for making
-        // sure the scanner engine can access the files!
-
+        $clamparam = ' --stdout ';
+        // If we are dealing with clamdscan, clamd is likely run as a different user
+        // that might not have permissions to access your file.
+        // To make clamdscan work, we use --fdpass parameter that passes the file
+        // descriptor permissions to clamd, which allows it to scan given file
+        // irrespective of directory and file permissions.
+        if (basename($CFG->pathtoclam) == 'clamdscan') {
+            $clamparam .= '--fdpass ';
+        }
         // execute test
-        $cmd = escapeshellcmd($CFG->pathtoclam).' --stdout '.escapeshellarg($thefile);
+        $cmd = escapeshellcmd($CFG->pathtoclam).$clamparam.escapeshellarg($thefile);
         exec($cmd, $output, $return);
 
         if ($return == 0) {
@@ -2667,8 +2698,9 @@ final class repository_instance_form extends moodleform {
 
         $sql = "SELECT count('x')
                   FROM {repository_instances} i, {repository} r
-                 WHERE r.type=:plugin AND r.id=i.typeid AND i.name=:name";
-        if ($DB->count_records_sql($sql, array('name' => $data['name'], 'plugin' => $data['plugin'])) > 1) {
+                 WHERE r.type=:plugin AND r.id=i.typeid AND i.name=:name AND i.contextid=:contextid";
+        $params = array('name' => $data['name'], 'plugin' => $this->plugin, 'contextid' => $this->contextid);
+        if ($DB->count_records_sql($sql, $params) > 0) {
             $errors['name'] = get_string('erroruniquename', 'repository');
         }
 

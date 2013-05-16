@@ -10,7 +10,7 @@
 #page-my-index #region-main .block .header-wrapper{height:70px;}
 
 #page-my-index .content{clear:both; margin:0; padding:0;}
-#page-my-index #region-main .block .content{margin:0; padding:20px; background:#f7fafb;}
+#page-my-index #region-main .block .content{margin:-10px 0 0 0; padding:0px 20px 20px 20px; background:#edf4f6;}
 #page-my-index .mycoursestabs .ui-tabs{margin:0; padding:0;}
 #page-my-index .mycoursestabs table{margin-bottom:0px;}
 
@@ -54,7 +54,9 @@ text-align: left!important;}
 #page-my-index .mycoursestabs .header{background:#c2d6dc; border-bottom:1px solid #333;}
 .mycoursestabs form{background:#c2d6dc;}
 #page-my-index .mycoursestabs table tr{background:#c2d6dc; color:#333;}
+#page-my-index .mycoursestabs table tr:focus{background:#c2d6dc!important; color:#333;}
 #page-my-index .mycoursestabs table tr a{color:#1b6a9c;}
+#page-my-index .mycoursestabs table tr:focus{background:#c2d6dc!important; color:#333;}
 
 .meinekursetable{width:40%;}
 
@@ -73,6 +75,11 @@ text-align: left!important;}
 #page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1:hover{background:#d3ecf6!important;}
 #page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0:hover{background:#d3ecf6!important;}
 
+
+
+#page-my-index .block_meineschulen.list_block .unlist > li.r1 > .column.c1{float:left; width:140px;}
+#page-my-index .block_meineschulen.list_block .unlist > li.r1 > .column.c0{width:20px; float:left; clear:left;}
+#page-my-index .block_meineschulen .footer{clear:both; padding-top:10px;}
 
 /* meineschulen-viewschool*/
 #page-blocks-meineschulen-viewschool h1.page-heading{padding-left: 20px!important;}
@@ -130,17 +137,16 @@ text-align: left!important;}
 .meineschulen_content .meineschulen_search form{margin:10px 0;}
 .meineschulen_content .meineschulen_search form input{padding:5px;}
 
-.meineschulen_content .generaltable th{background:#cddfe1;}
+.meineschulen_content .generaltable th{background:#c2d6dc;}
 
-.meineschulen_content .generaltable td{background:f7f7f7;}
+.meineschulen_content .generaltable td{background:#fff;}
 
 
 /* meineschulen-search*/
 
 #page-blocks-meineschulen-search h1.page-heading{padding-left: 10px!important;}
 
-.meineschulen_content .meineschulen_school_form,
-.meineschulen_content .meineschulen_school_results{background: url([[pix:theme|blocks/bg-course-section]])  top left repeat-x; -moz-border-radius: 5px 5px 0 0;
+.meineschulen_content .meineschulen_school_form{background: url([[pix:theme|blocks/bg-course-section]])  top left repeat-x; -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
     -khtml-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
@@ -148,10 +154,16 @@ text-align: left!important;}
 width: 97%;
 }
 
+
+.meineschulen_content .meineschulen_school_results{background: #fff; border:1px solid #000;
+    margin: 0 auto 5px;
+width: 93%;}
+
 .meineschulen_school_form, .meineschulen_school_results{padding:10px; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
 .meineschulen_content .meineschulen_school_form .meineschulen_school_form_inner, .meineschulen_content .meineschulen_school_results #meineschulen_school_results{border:none; font-size:0.9em; font-weight:normal; margin-top:10px;}
-.meineschulen_content .meineschulen_school_form input.submitbutton{padding:5px;}
-
+.meineschulen_content .meineschulen_school_form input.submitbutton{padding:5px; width:80px; margin-top:-5px;}
+.meineschulen_content .meineschulen_school_form input{width:150px; margin-right:20px;}
+.meineschulen_content .meineschulen_school_form select{margin-right:20px;}
 .meineschulen_content .meineschulen_school_form label {
 float: left;
 margin: 5px;

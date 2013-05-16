@@ -42,7 +42,7 @@ $(document).ready(function() {
         var content = $(this).find('div.coursecontent');
         $(content).html('');
         $(content).css('height', 'auto');
-        $('.mycoursestabs table.mycourses tr').removeClass('hover');
+        $('.mycoursestabs table.meinekursetable tr').removeClass('hover');
     });
 
 });

@@ -65,15 +65,15 @@ text-align: left!important;}
 #page-my-index .mycoursestabs .coursecontainer .r0{background:#fff!important; color:#2a647a;}
 #page-my-index .mycoursestabs .coursecontainer .r1{background:#fff!important; color:#2a647a;}
 
-#page-my-index .mycoursestabs .coursecontainer .r1:hover{background:#d3ecf6!important; color:#1b6a9c;}
+#page-my-index .mycoursestabs .coursecontainer .r1.hover{background:#d3ecf6!important; color:#1b6a9c;}
 
-#page-my-index .mycoursestabs .coursecontainer .r0:hover{background:#d3ecf6!important; color:#1b6a9c;}
+#page-my-index .mycoursestabs .coursecontainer .r0.hover{background:#d3ecf6!important; color:#1b6a9c;}
 #page-my-index .mycoursestabs table tr:active{background:#d3ecf6!important; color:#1b6a9c;}
 
 #page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0{background:#d3ecf6!important; color:#2a647a;}
 #page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1{background:#d3ecf6!important; color:#2a647a;}
-#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1:hover{background:#d3ecf6!important;}
-#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0:hover{background:#d3ecf6!important;}
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1.hover{background:#d3ecf6!important;}
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0.hover{background:#d3ecf6!important;}
 
 
 

@@ -26,32 +26,35 @@ defined('MOODLE_INTERNAL') || die();
 
 define('MEINEKURSE_SCHOOL_CAT_DEPTH', 3);
 
-function meinekurse_get_main_school($user) {
-    global $DB;
+class meinekurse {
+    public static function get_main_school($user) {
+        global $DB;
 
-    $schoolid = $user->institution;
-    if (!$schoolid) {
-        return false;
+        $schoolid = $user->institution;
+        if (!$schoolid) {
+            return false;
+        }
+        return $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH), 'id, name');
     }
-    return $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH), 'id, name');
+
+    public static function get_prefs() {
+        $prefs = get_user_preferences('block_meinekurse_prefs', false);
+        if ($prefs) {
+            $prefs = unserialize($prefs);
+        }
+        if (!$prefs || !is_object($prefs)) {
+            $prefs = (object) array(
+                'sortby' => 'name',
+                'numcourses' => 5,
+                'school' => null,
+                'sortdir' => 'asc',
+            );
+        }
+        return $prefs;
+    }
+
+    public static function set_prefs($prefs) {
+        set_user_preference('block_meinekurse_prefs', serialize($prefs));
+    }
 }
 
-function meinekurse_get_prefs() {
-    $prefs = get_user_preferences('block_meinekurse_prefs', false);
-    if ($prefs) {
-        $prefs = unserialize($prefs);
-    }
-    if (!$prefs || !is_object($prefs)) {
-        $prefs = (object) array(
-            'sortby' => 'name',
-            'numcourses' => 5,
-            'school' => null,
-            'sortdir' => 'asc',
-        );
-    }
-    return $prefs;
-}
-
-function meinekurse_set_prefs($prefs) {
-    set_user_preference('block_meinekurse_prefs', serialize($prefs));
-}

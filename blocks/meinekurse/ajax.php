@@ -35,9 +35,15 @@ $action = required_param('action', PARAM_ALPHA);
 switch ($action) {
 case 'setschool':
     $schoolid = required_param('schoolid', PARAM_INT);
-    $prefs = meinekurse_get_prefs();
+    $prefs = meinekurse::get_prefs();
     $prefs->school = $schoolid;
-    meinekurse_set_prefs($prefs);
+    meinekurse::set_prefs($prefs);
+    break;
+case 'getcourses':
+    $page = optional_param('meinekurse_page', 0, PARAM_INT);
+    $sortby = optional_param('meinekurse_sortby', null, PARAM_ALPHA);
+    $numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT);
+
     break;
 default:
     print_error('invalidaction', 'block_meinekurse');

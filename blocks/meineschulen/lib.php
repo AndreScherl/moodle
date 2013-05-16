@@ -60,7 +60,7 @@ class meineschulen {
         global $USER, $DB;
 
         $schools = array();
-        if ($mainschool = meinekurse_get_main_school($USER)) {
+        if ($mainschool = meinekurse::get_main_school($USER)) {
             // Make sure the 'main school' is always the first one listed.
             $schools[] = (object)array(
                 'id' => $mainschool->id,

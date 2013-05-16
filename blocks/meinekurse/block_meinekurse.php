@@ -76,7 +76,7 @@ class block_meinekurse extends block_base {
         $content = '';
 
         //Handle submitted / saved data
-        $prefs = meinekurse_get_prefs();
+        $prefs = meinekurse::get_prefs();
         if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
             /*if ($prefs->sortby == $sortby) {
                 $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
@@ -98,12 +98,12 @@ class block_meinekurse extends block_base {
         if (!in_array($prefs->sortby, self::$validsort)) {
             $prefs->sortby = 'name';
         }
-        meinekurse_set_prefs($prefs);
+        meinekurse::set_prefs($prefs);
 
         $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
         //Get courses:
-        $mycourses = $this->get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $pagenum);
+        $mycourses = self::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $pagenum);
 
         $starttab = 0;
         $tabnum = 0;
@@ -131,12 +131,12 @@ class block_meinekurse extends block_base {
 
         // Sorting icons.
         $baseurl = new moodle_url($PAGE->url);
-        //$content .= $this->sorting_icons($baseurl, $prefs->sortby);
+        //$content .= self::sorting_icons($baseurl, $prefs->sortby);
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = $this->sorting_form($baseurl, $prefs->sortby, $numcourses);
-            $tab .= $this->one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+            $tab = self::sorting_form($baseurl, $prefs->sortby, $numcourses);
+            $tab .= self::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 
@@ -157,7 +157,7 @@ class block_meinekurse extends block_base {
      * @param int $totalpages - total pages for this tab
      * @param int $thispage - current page number
      */
-    private function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
+    private static function one_tab($user, $prefs, $courses, $schoolid, $totalcourses, $thispage = 1) {
         global $CFG, $OUTPUT, $PAGE;
 
         $content = '';
@@ -201,17 +201,17 @@ class block_meinekurse extends block_base {
             );
 
             //Get assignments
-            $modslist = $this->assignment_details($user, $course, $modinfo, $modslist);
-            $modslist = $this->assign_details($user, $course, $modinfo, $modslist);
+            $modslist = self::assignment_details($user, $course, $modinfo, $modslist);
+            $modslist = self::assign_details($user, $course, $modinfo, $modslist);
 
             //Get forums
-            $modslist = $this->forum_details($user, $course, $modinfo, $modslist);
+            $modslist = self::forum_details($user, $course, $modinfo, $modslist);
 
             //Get quizes
-            $modslist = $this->quiz_details($user, $course, $modinfo, $modslist);
+            $modslist = self::quiz_details($user, $course, $modinfo, $modslist);
 
             //Get resources
-            $modslist = $this->resource_details($user, $course, $modinfo, $modslist);
+            $modslist = self::resource_details($user, $course, $modinfo, $modslist);
 
             $modslist['quizes']->type = 'quiz';
             $modslist['forums']->type = 'forum';
@@ -294,7 +294,7 @@ class block_meinekurse extends block_base {
      * @param object[] $modslist
      * @return object[] the updated $modslist
      */
-    protected function assignment_details($user, $course, $modinfo, $modslist) {
+    protected static function assignment_details($user, $course, $modinfo, $modslist) {
         global $DB, $CFG;
 
         if (!$DB->get_field('modules', 'visible', array('name' => 'assignment'))) {
@@ -353,7 +353,7 @@ class block_meinekurse extends block_base {
                 $count = $ungradeds;
             } else {
                 $submissions = $DB->get_records('assignment_submissions', array('assignment' => $mod->instance, 'userid' => $user->id));
-                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'assignment', $mod->instance, $user->id);
+                $gradetimepercent = self::grade_timepercent($course, 'mod', 'assignment', $mod->instance, $user->id);
                 $submitted = count($submissions);
                 if (!$submitted) {
                     if ($mod->timedue > 0) {
@@ -416,7 +416,7 @@ class block_meinekurse extends block_base {
      * @param object[] $modslist
      * @return object[] the updated $modslist
      */
-    protected function assign_details($user, $course, $modinfo, $modslist) {
+    protected static function assign_details($user, $course, $modinfo, $modslist) {
         global $DB, $CFG;
 
         if (!$DB->get_field('modules', 'visible', array('name' => 'assign'))) {
@@ -482,7 +482,7 @@ class block_meinekurse extends block_base {
                 $count = $ungradeds;
             } else {
                 $submissions = $DB->get_records('assign_submission', array('assignment' => $mod->instance, 'userid' => $user->id));
-                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'assign', $mod->instance, $user->id);
+                $gradetimepercent = self::grade_timepercent($course, 'mod', 'assign', $mod->instance, $user->id);
                 $submitted = count($submissions);
                 if (!$submitted) {
                     if ($mod->duedate > 0) {
@@ -543,7 +543,7 @@ class block_meinekurse extends block_base {
      * @param string $selectedtype the sort currently selected
      * @return string html snipet for the icons
      */
-    protected function sorting_icons($baseurl, $selectedtype) {
+    protected static function sorting_icons($baseurl, $selectedtype) {
 
         $out = '';
 
@@ -569,7 +569,7 @@ class block_meinekurse extends block_base {
      * @param $numcourses
      * @return string html snipet for the icons
      */
-    protected function sorting_form($baseurl, $selectedtype, $numcourses) {
+    protected static function sorting_form($baseurl, $selectedtype, $numcourses) {
 
         $prefs = new stdClass();
         $prefs->sortby = $selectedtype;
@@ -584,8 +584,8 @@ class block_meinekurse extends block_base {
         $table->align = array('center', 'center', 'center');
         $table->data = array();
         $row = array();
-        $row[] = $this->html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
-        $row[] = $this->html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
+        $row[] = self::html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
+        $row[] = self::html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
         $table->data[] = $row;
         $out .= html_writer::table($table);
 
@@ -601,7 +601,7 @@ class block_meinekurse extends block_base {
      * @param int $userid
      * @param bool showhidden
      */
-    private function grade_timepercent($course, $itemtype, $itemmodule, $iteminstance, $userid, $showhidden=false) {
+    private static function grade_timepercent($course, $itemtype, $itemmodule, $iteminstance, $userid, $showhidden=false) {
         global $CFG;
         require_once($CFG->dirroot . '/lib/gradelib.php');
 
@@ -631,7 +631,7 @@ class block_meinekurse extends block_base {
      * @param object[] $modslist
      * @return object[] updated $modslist
      */
-    protected function forum_details($user, $course, $modinfo, $modslist) {
+    protected static function forum_details($user, $course, $modinfo, $modslist) {
         global $DB;
 
         if (!$DB->get_field('modules', 'visible', array('name' => 'forum'))) {
@@ -714,7 +714,7 @@ class block_meinekurse extends block_base {
      * @param object[] $modslist
      * @return object[] updated $modslist
      */
-    protected function quiz_details($user, $course, $modinfo, $modslist) {
+    protected static function quiz_details($user, $course, $modinfo, $modslist) {
         global $CFG, $DB;
 
         if (!$DB->get_field('modules', 'visible', array('name' => 'quiz'))) {
@@ -755,7 +755,7 @@ class block_meinekurse extends block_base {
                 }
                 $count = $attempts;
             } else {
-                $gradetimepercent = $this->grade_timepercent($course, 'mod', 'quiz', $mod->instance, $user->id);
+                $gradetimepercent = self::grade_timepercent($course, 'mod', 'quiz', $mod->instance, $user->id);
                 if ($gradetimepercent) {
                     $url = $CFG->wwwroot.'/grade/report/user/index.php?id='.$course->id;
                 }
@@ -833,7 +833,7 @@ class block_meinekurse extends block_base {
      * @param object[] $modslist
      * @return object[] updated $modslist
      */
-    protected function resource_details($user, $course, $modinfo, $modslist) {
+    protected static function resource_details($user, $course, $modinfo, $modslist) {
         global $OUTPUT, $DB;
 
         static $strfile = null, $urlicon = null, $pageicon = null, $foldericon = null;
@@ -955,7 +955,7 @@ class block_meinekurse extends block_base {
      * @param object $data - preset data
      */
 
-    private function html_select($selectname, $options, $usegetstring = true, $data = null) {
+    private static function html_select($selectname, $options, $usegetstring = true, $data = null) {
         if (is_null($data)) {
             $data = new stdClass();
         }
@@ -1000,7 +1000,7 @@ class block_meinekurse extends block_base {
      * @param int $page the current page (in the selected school), may be updated
      * @return array
      */
-    protected function get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page) {
+    protected static function get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page) {
         global $USER, $DB;
         // Get all courses, grouped by school (3rd-level category)
 
@@ -1068,7 +1068,7 @@ class block_meinekurse extends block_base {
 
         $courses = $DB->get_records_sql($sql, $params);
 
-        $myschool = meinekurse_get_main_school($USER);
+        $myschool = meinekurse::get_main_school($USER);
         $schools = array();
         if ($myschool) {
             // Make sure the user's own school is first in the list.
@@ -1180,7 +1180,7 @@ class block_meinekurse extends block_base {
      *                        also with 'colnames' - an array of column names to be used as part of the ID
      */
 
-    private function table($table) {
+    private static function table($table) {
         $html = '';
         $html .= '<table style="float: left;" class="generaltable mycourses"><tbody>';
         $rowid = 0;

@@ -77,8 +77,8 @@ text-align: left!important;}
 
 
 
-#page-my-index .block_meineschulen.list_block .unlist > li.r1 > .column.c1{float:left; width:140px;}
-#page-my-index .block_meineschulen.list_block .unlist > li.r1 > .column.c0{width:20px; float:left; clear:left;}
+#page-my-index .block_meineschulen.list_block .unlist > li > .column.c1{float:left; width:140px;}
+#page-my-index .block_meineschulen.list_block .unlist > li > .column.c0{width:20px; float:left; clear:left;}
 #page-my-index .block_meineschulen .footer{clear:both; padding-top:10px;}
 
 /* meineschulen-viewschool*/

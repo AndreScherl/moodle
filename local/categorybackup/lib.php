@@ -260,7 +260,7 @@ class categorybackup {
         $categorymapping = array();
         $categoryfields = array_merge(array('depth'), self::$categoryfields, array('courses'));
 
-        $lastcategoryid = 0;
+        $lastcategoryid = $parentid;
         foreach ($newcats as $newcat) {
             $info = explode(self::$delimiter, $newcat);
             foreach ($info as $key => $item) {
@@ -288,27 +288,27 @@ class categorybackup {
             $inscat->idnumber = empty($details['theme']) ? '' : $details['theme'];
             $inscat->parent = $parentid;
 
-            if ($prevcat = $DB->get_record('course_categories', array('parent' => $inscat->parent,
-                                                                      'name' => $inscat->name))) {
+            if (isset($details['id']) && $details['id'] == 0) {
+                // This was the 'top-level' category for the old site - skip it in the new hierarchy
+                $msg = get_string('skippingcategory', 'local_categorybackup', $inscat->name);
+
+            } else if ($prevcat = $DB->get_record('course_categories', array('parent' => $inscat->parent,
+                                                                            'name' => $inscat->name))) {
                 // Category with that name already exists in the right place in the hierarchy - use instead of creating a new one
                 $lastcategoryid = $prevcat->id;
                 $msg = get_string('existingcategory', 'local_categorybackup', $inscat->name);
-                if (!defined('CLI_SCRIPT')) {
-                    echo html_writer::tag('li', $msg);
-                } else {
-                    echo '* '.$msg."\n";
-                }
+
             } else {
                 // Create a new category
                 if (!$lastcategoryid = $DB->insert_record('course_categories', $inscat)) {
                     print_error('cannotcreatecategory', 'local_categorybackup');
                 }
                 $msg = get_string('createdcategory', 'local_categorybackup', $inscat->name);
-                if (!defined('CLI_SCRIPT')) {
-                    echo html_writer::tag('li', $msg);
-                } else {
-                    echo '* '.$msg."\n";
-                }
+            }
+            if (!defined('CLI_SCRIPT')) {
+                echo html_writer::tag('li', $msg);
+            } else {
+                echo '* '.$msg."\n";
             }
 
             if (!empty($details['courses'])) {

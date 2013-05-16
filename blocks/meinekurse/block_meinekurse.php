@@ -162,10 +162,6 @@ class block_meinekurse extends block_base {
 
         $content = '';
 
-        if (empty($courses)) {
-            $content .= get_string('nocourses', 'block_meinekurse');
-        }
-
         //Pagination
         $baseurl = new moodle_url($PAGE->url, array('meinekurse_school' => $schoolid));
         $paginghtml = $OUTPUT->paging_bar($totalcourses, $thispage - 1, $prefs->numcourses, $baseurl, 'meinekurse_page');
@@ -272,10 +268,14 @@ class block_meinekurse extends block_base {
             $coursetable->data[] = array($coursename.$coursenew, $infoicon, $moddetails);
         }
 
-        $tblcontent = html_writer::table($coursetable);
-        $tblcontent .= html_writer::tag('div', '', array('class' => "coursecontent meinekurse_content{$schoolid}",
-                                                'style' => 'float:left;'));
-        $tblcontent .= html_writer::tag('div', '', array('class' => 'clearer'));
+        if (empty($courses)) {
+            $tblcontent = get_string('nocourses', 'block_meinekurse');
+        } else {
+            $tblcontent = html_writer::table($coursetable);
+            $tblcontent .= html_writer::tag('div', '', array('class' => "coursecontent meinekurse_content{$schoolid}",
+                                                            'style' => 'float:left;'));
+            $tblcontent .= html_writer::tag('div', '', array('class' => 'clearer'));
+        }
 
         $content .= html_writer::tag('div', $tblcontent, array('class' => 'coursecontainer'));
         $content .= $paginghtml;

@@ -635,21 +635,21 @@ class meineschulen {
 
         $form = '';
         $form .= html_writer::tag('label', get_string('schoolname', 'block_meineschulen'), array('for' => 'schoolname'));
-        $form .= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
+        $form .= html_writer::empty_tag('input', array('class'=>'test', 'type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
                                                       'value' => $searchtext, 'size' => 80));
-        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $opts = self::get_school_types();
         $form .= html_writer::tag('label', get_string('schooltype', 'block_meineschulen'), array('for' => 'schooltype'));
         $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
-        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $opts = array(10, 20, 50, 100);
         $opts = array_combine($opts, $opts);
         $opts[-1] = get_string('allresults', 'block_meineschulen');
         $form .= html_writer::tag('label', get_string('numberofresults', 'block_meineschulen'), array('for' => 'numberofresults'));
         $form .= html_writer::select($opts, 'numberofresults', $numberofresults, false, array('id' => 'numberofresults'));
-        $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
         $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',

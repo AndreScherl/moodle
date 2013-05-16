@@ -44,6 +44,11 @@ if ($categoryid == 0) { // Backup all categories
     $category = (object)array(
         'id' => 0,
         'name' => get_string('allcategories', 'local_categorybackup'),
+        'idnumber' => '',
+        'description' => '',
+        'descriptionformat' => FORMAT_HTML,
+        'sortorder' => 0,
+        'theme' => '',
     );
 } else {
     $category = $DB->get_record('course_categories', array('id' => $categoryid));

@@ -164,7 +164,7 @@ class meineschulen {
      *
      * @return bool
      */
-    protected function can_request_course() {
+    public static function can_request_course() {
         global $DB, $USER;
         static $resp = null;
 
@@ -194,7 +194,7 @@ class meineschulen {
         if ($this->can_see_coordinators()) {
             $out .= $this->output_coordinators();
         }
-        if ($this->can_create_course() || $this->can_request_course()) {
+        if ($this->can_create_course() || self::can_request_course()) {
             $out .= $this->output_new_course();
         }
         $out .= $this->output_course_search();
@@ -277,7 +277,7 @@ class meineschulen {
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_courses_inner'));
         $out = get_string('courselist', 'block_meineschulen').$out;
         $fullwidth = '';
-        if (!$this->can_see_coordinators() && !$this->can_create_course() && !$this->can_request_course()) {
+        if (!$this->can_see_coordinators() && !$this->can_create_course() && !self::can_request_course()) {
             $fullwidth = 'fullwidth';
         }
         return html_writer::tag('div', $out, array('class' => "meineschulen_courses {$fullwidth}"));
@@ -382,8 +382,8 @@ class meineschulen {
                                      array('class' => 'meineschulen_createcourse'));
             $out .= html_writer::empty_tag('br');
         }
-        if ($this->can_request_course()) {
-            $requesturl = new moodle_url('/course/request.php');
+        if (self::can_request_course()) {
+            $requesturl = new moodle_url('/blocks/meineschulen/request.php', array('category' => $this->schoolcat->id));
             $createtext = html_writer::tag('span', get_string('requestcourse', 'block_meineschulen'));
             $createlink = html_writer::link($requesturl, $createtext,
                                             array('class' => 'meineschulen_requestcourse_link'));

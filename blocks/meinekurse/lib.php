@@ -213,8 +213,6 @@ class meinekurse {
         $content .= html_writer::tag('div', $tblcontent, array('class' => 'coursecontainer'));
         $content .= $paginghtml;
 
-        $content = html_writer::tag('div', $content, array('class' => 'courseandpaging'));
-
         return $content;
     }
 

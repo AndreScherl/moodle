@@ -128,7 +128,8 @@ class block_meinekurse extends block_base {
         // Tab contents.
         foreach ($mycourses as $school) {
             $tab = self::sorting_form($baseurl, $prefs->sortby, $numcourses);
-            $tab .= meinekurse::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+            $tabcontent = meinekurse::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+            $tab .=  html_writer::tag('div', $tabcontent, array('class' => 'courseandpaging'));
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
         }
 

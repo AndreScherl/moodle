@@ -16,16 +16,33 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                 meinekurse_sortby = form.one('.meinekurse_sortby').get('value');
                 meinekurse_numcourses = form.one('.meinekurse_numcourses').get('value');
 
+                do_course_search(resultel, meinekurse_sortby, meinekurse_numcourses);
+
+                return false;
+            });
+
+            function do_course_search(resultel, sortby, numcourses, page) {
+                var url, data;
+
                 resultel.setContent(waitimg);
+
+                data = {
+                    action: 'getcourses',
+                    pageurl: opts.pageurl
+                };
+                if (sortby !== undefined) {
+                    data.meinekurse_sortby = sortby;
+                }
+                if (numcourses !== undefined) {
+                    data.meinekurse_numcourses = numcourses;
+                }
+                if (page !== undefined) {
+                    data.meinekurse_page = page;
+                }
 
                 url = M.cfg.wwwroot + '/blocks/meinekurse/ajax.php';
                 Y.io(url, {
-                    data: {
-                        action: 'getcourses',
-                        meinekurse_sortby: meinekurse_sortby,
-                        meinekurse_numcourses: meinekurse_numcourses,
-                        pageurl: opts.pageurl
-                    },
+                    data: data,
                     on: {
                         complete: function (id, resp) {
                             var details;
@@ -36,10 +53,8 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                         }
                     }
                 });
-
-                return false;
-            });
-        },
+            }
+        }
     }
 }, '@VERSION@', {
     requires: ['node', 'event', 'io', 'json']

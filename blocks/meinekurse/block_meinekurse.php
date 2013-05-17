@@ -82,11 +82,6 @@ class block_meinekurse extends block_base {
                 $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
             } else*/ {
                 $prefs->sortby = $sortby;
-                if ($sortby == 'name') {
-                    $prefs->sortdir = 'asc';
-                } else {
-                    $prefs->sortdir = 'desc';
-                }
             }
         }
         if ($numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT)) {

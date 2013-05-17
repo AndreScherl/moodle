@@ -69,6 +69,11 @@ class meinekurse {
         if (!in_array($prefs->sortby, self::$validsort)) {
             $prefs->sortby = 'name';
         }
+        if ($prefs->sortby == 'name') {
+            $prefs->sortdir = 'asc';
+        } else {
+            $prefs->sortdir = 'desc';
+        }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
     }
 

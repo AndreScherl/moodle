@@ -3,9 +3,11 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
     M.block_meinekurse.paging = {
         opts: null,
         waitimg: null,
+        lastsortby: null,
+        lastnumcourses: null,
 
         init: function(opts) {
-            var selects, waitimg;
+            var selects, tablinks;
 
             this.opts = opts;
             this.waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
@@ -18,8 +20,12 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
 
                 form = e.currentTarget.ancestor('form');
                 resultel = form.ancestor().one('.courseandpaging');
+
                 meinekurse_sortby = form.one('.meinekurse_sortby').get('value');
                 meinekurse_numcourses = form.one('.meinekurse_numcourses').get('value');
+
+                this.lastsortby = meinekurse_sortby;
+                this.lastnumcourses = meinekurse_numcourses;
 
                 this.do_course_search(resultel, meinekurse_sortby, meinekurse_numcourses);
 
@@ -28,6 +34,43 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
 
             this.setup_hover();
             this.setup_paging();
+
+            // Set up the tabs to notify the server when the tab has changed.
+            tablinks = Y.all('.block_meinekurse .mycoursestabs ul.ui-tabs-nav li a');
+            tablinks.on('click', function(e) {
+                var tabnum, tabid, form, resultel, meinekurse_sortby, meinekurse_numcourses, needsresend;
+                tabnum = e.currentTarget.get('href');
+                tabnum = tabnum.match(/#school(.*)tab/);
+                if (tabnum.length >= 2) {
+                    // Let the server know the currently-selected school.
+                    tabnum = parseInt(tabnum[1], 10);
+                    var params = {
+                        action: 'setschool',
+                        schoolid: tabnum,
+                        sesskey: M.cfg.sesskey
+                    };
+                    Y.io(M.cfg.wwwroot+'/blocks/meinekurse/ajax.php', {
+                        data: params
+                    });
+
+                    // Check if the sort criteria was changed on another tab and update the course list for this tab, if needed.
+                    tabid = 'school' + tabnum + 'tab';
+                    form  = Y.one('.block_meinekurse #' + tabid + ' form');
+                    meinekurse_sortby = form.one('.meinekurse_sortby').get('value');
+                    meinekurse_numcourses = form.one('.meinekurse_numcourses').get('value');
+
+                    needsresend = (this.lastsortby !== null && this.lastsortby !== meinekurse_sortby);
+                    needsresend = needsresend || (this.lastnumcourses !== null && this.lastnumcourses !== meinekurse_numcourses);
+                    if (needsresend) {
+                        resultel = form.ancestor().one('.courseandpaging');
+                        this.do_course_search(resultel, this.lastsortby, this.lastnumcourses);
+
+                        form.one('.meinekurse_sortby').set('value', this.lastsortby);
+                        form.one('.meinekurse_numcourses').set('value', this.lastnumcourses);
+                    }
+                }
+
+            }, this);
         },
 
         do_course_search: function(resultel, sortby, numcourses, page) {

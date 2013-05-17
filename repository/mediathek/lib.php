@@ -343,6 +343,9 @@ class repository_mediathek extends repository {
             $embed = true;
             $url = substr($url, strlen(self::EMBED_PREFIX));
         }
+        if (!$embed) {
+            return $url;
+        }
         $hash = sha1($url);
         if (!$DB->record_exists('repository_mediathek_link', array('hash' => $hash))) {
             $ins = (object)array(

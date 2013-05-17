@@ -24,26 +24,34 @@
 
 define('AJAX_SCRIPT', 1);
 require_once(dirname(__FILE__).'/../../config.php');
-global $CFG;
+global $CFG, $PAGE;
 require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
 
-require_login();
-require_sesskey();
-
 $action = required_param('action', PARAM_ALPHA);
+$url = optional_param('pageurl', new moodle_url('/blocks/meinekurse/ajax.php'), PARAM_URL);
+$PAGE->set_url($url);
+
+require_login();
+$PAGE->set_context(context_system::instance());
 
 switch ($action) {
 case 'setschool':
+    require_sesskey();
     $schoolid = required_param('schoolid', PARAM_INT);
     $prefs = meinekurse::get_prefs();
     $prefs->school = $schoolid;
     meinekurse::set_prefs($prefs);
     break;
 case 'getcourses':
-    $page = optional_param('meinekurse_page', 0, PARAM_INT);
+    $page = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
     $sortby = optional_param('meinekurse_sortby', null, PARAM_ALPHA);
     $numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT);
-
+    $out = meinekurse::output_course_list($page, $sortby, $numcourses);
+    $ret = (object)array(
+        'error' => 0,
+        'content' => $out,
+    );
+    echo json_encode($ret);
     break;
 default:
     print_error('invalidaction', 'block_meinekurse');

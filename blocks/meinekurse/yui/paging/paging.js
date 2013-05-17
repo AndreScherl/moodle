@@ -27,12 +27,13 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             }, this);
 
             this.setup_hover();
+            this.setup_paging();
         },
 
         do_course_search: function(resultel, sortby, numcourses, page) {
             var url, data, self;
 
-            resultel.setContent(this.waitimg);
+            resultel.one('.coursecontainer').setContent(this.waitimg);
 
             data = {
                 action: 'getcourses',
@@ -59,19 +60,20 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                         if (details && details.error == 0 && details.content) {
                             resultel.setContent(details.content);
                             self.setup_hover(resultel);
+                            self.setup_paging(resultel);
                         }
                     }
                 }
             });
         },
 
-        setup_hover: function(resultel) {
+        setup_hover: function(parentel) {
             var rows, containers;
             //Mouseover event hook for table rows
-            if (resultel === undefined) {
+            if (parentel === undefined) {
                 rows = Y.all('.mycoursestabs table.meinekursetable tr');
             } else {
-                rows = resultel.all('table.meinekursetable tr');
+                rows = parentel.all('table.meinekursetable tr');
             }
             rows.on('mouseenter', function(e) {
                 var row, rowcontent, containerdiv, detailsdiv;
@@ -91,10 +93,10 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             });
 
             //Mouseout event hook for table rows
-            if (resultel === undefined) {
+            if (parentel === undefined) {
                 containers = Y.all('.mycoursestabs .coursecontainer');
             } else {
-                containers = resultel.all('.coursecontainer');
+                containers = parentel.all('.coursecontainer');
             }
             containers.on('mouseleave', function(e) {
                 var div, content;
@@ -105,8 +107,33 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                 content.setStyle('height', 'auto');
                 div.all('table.meinekursetable tr').removeClass('hover');
             });
+        },
+
+        setup_paging: function(parentel) {
+            var paginglinks;
+            if (parentel === undefined) {
+                paginglinks = Y.all('.mycoursestabs .courseandpaging .paging a');
+            } else {
+                paginglinks = parentel.all('.paging a');
+            }
+
+            paginglinks.on('click', function(e) {
+                var link, linkparams, resultel;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                link = e.currentTarget.get('href');
+                link = link.substring(link.indexOf('?') + 1);
+                linkparams = Y.QueryString.parse(link);
+
+                resultel = e.currentTarget.ancestor('.courseandpaging');
+                this.do_course_search(resultel, undefined, undefined, linkparams.meinekurse_page);
+
+                return false;
+            }, this);
         }
     }
 }, '@VERSION@', {
-    requires: ['node', 'event', 'io', 'json']
+    requires: ['node', 'event', 'io', 'json', 'querystring']
 });

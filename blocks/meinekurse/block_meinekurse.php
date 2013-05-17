@@ -190,7 +190,7 @@ class block_meinekurse extends block_base {
         $table->data = array();
         $row = array();
         $row[] = self::html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
-        $row[] = self::html_select('numcourses', array(2, 5, 10, 20, 50, 100), false, $prefs);
+        $row[] = self::html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
         $table->data[] = $row;
         $out .= html_writer::table($table);
 

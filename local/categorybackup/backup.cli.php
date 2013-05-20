@@ -117,7 +117,6 @@ if (!$zipfilename) {
 } else {
     echo get_string('createdbackup', 'local_categorybackup', $zipfilename)."\n";
 }
-categorybackup::delete_files($destdir);
 
 // Restore the original 'auto backup' settings
 foreach ($overridesettings as $setting => $value) {
@@ -125,3 +124,5 @@ foreach ($overridesettings as $setting => $value) {
         set_config($setting, $saveconfig->$setting, 'backup');
     }
 }
+
+categorybackup::delete_files($destdir);

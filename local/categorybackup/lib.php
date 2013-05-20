@@ -84,15 +84,13 @@ class categorybackup {
         // Save a list of categories (with contained courses) to the filepointer
         $cat = $catinfo[$startingid];
 
-        $encdelim = '&#'.ord(self::$delimiter);
-
         $line = array($depth);
         foreach (self::$categoryfields as $field) {
-            $line[] = str_replace(self::$delimiter, $encdelim, $cat->$field);
+            $line[] = $cat->$field;
         }
         $line[] = implode(':', array_keys($cat->courses));
 
-        fwrite($fp, implode(self::$delimiter, $line)."\n");
+        fputcsv($fp, $line, self::$delimiter);
 
         foreach($cat->categories as $subcat) {
             self::export_categories($catinfo, $subcat->id, $fp, $depth+1);
@@ -249,11 +247,10 @@ class categorybackup {
         }
     }
 
-    public static function create_categories($newcats, $parentcategory) {
+    public static function create_categories($fp, $parentcategory) {
         global $DB;
 
         // Loop through each line in the 'categories.lst' file and create categories as needed
-        $encdelim = '&#'.ord(self::$delimiter);
         $depth = 0;
         $parents = array();
         $parentid = $parentcategory->id;
@@ -261,10 +258,10 @@ class categorybackup {
         $categoryfields = array_merge(array('depth'), self::$categoryfields, array('courses'));
 
         $lastcategoryid = $parentid;
-        foreach ($newcats as $newcat) {
-            $info = explode(self::$delimiter, $newcat);
-            foreach ($info as $key => $item) {
-                $info[$key] = str_replace($encdelim, self::$delimiter, $item);
+        while (($info = fgetcsv($fp, 0, self::$delimiter)) !== false) {
+            $firstitem = reset($info);
+            if ($firstitem == null) {
+                continue; // Blank linke
             }
             $details = array_combine($categoryfields, $info);
             if ($details['depth'] > $depth) {

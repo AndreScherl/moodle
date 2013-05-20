@@ -85,9 +85,9 @@ $catfile = $srcdir.'/categories.lst';
 if (!file_exists($catfile)) {
     print_error('missingcatfile', 'local_categorybackup');
 }
-$newcats = file($catfile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+$fp = fopen($catfile, 'r');
 echo html_writer::start_tag('ul');
-$categorymapping = categorybackup::create_categories($newcats, $category);
+$categorymapping = categorybackup::create_categories($fp, $category);
 echo html_writer::end_tag('ul');
 
 echo '<p>'.get_string('restoringcourses', 'local_categorybackup').'</p>';

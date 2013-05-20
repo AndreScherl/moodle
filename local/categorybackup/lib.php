@@ -282,10 +282,10 @@ class categorybackup {
             $inscat = new stdClass();
             $inscat->name = $details['name'];
             $inscat->idnumber = empty($details['idnumber']) ? '' : $details['idnumber'];
-            $inscat->idnumber = empty($details['description']) ? '' : $details['description'];
-            $inscat->idnumber = empty($details['descriptionformat']) ? FORMAT_HTML : $details['descriptionformat'];
-            $inscat->idnumber = empty($details['sortorder']) ? '' : $details['sortorder'];
-            $inscat->idnumber = empty($details['theme']) ? '' : $details['theme'];
+            $inscat->description = empty($details['description']) ? '' : $details['description'];
+            $inscat->descriptionformat = empty($details['descriptionformat']) ? FORMAT_HTML : $details['descriptionformat'];
+            $inscat->sortorder = empty($details['sortorder']) ? '' : $details['sortorder'];
+            $inscat->theme = empty($details['theme']) ? '' : $details['theme'];
             $inscat->parent = $parentid;
 
             if (isset($details['id']) && $details['id'] == 0) {

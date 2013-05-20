@@ -46,9 +46,12 @@ case 'getcourses':
     $page = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
     $sortby = optional_param('meinekurse_sortby', null, PARAM_ALPHA);
     $numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT);
-    $out = meinekurse::output_course_list($page, $sortby, $numcourses);
+    $schoolid = optional_param('meinekurse_schoolid', null, PARAM_INT);
+    $out = meinekurse::output_course_list($page, $sortby, $numcourses, $schoolid);
+    $prefs = meinekurse::get_prefs();
     $ret = (object)array(
         'error' => 0,
+        'schoolid' => $prefs->school,
         'content' => $out,
     );
     echo json_encode($ret);

@@ -14,7 +14,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
 
             selects = Y.all('.block_meinekurse .content form select');
             selects.on('change', function (e) {
-                var form, meinekurse_sortby, meinekurse_numcourses, url, resultel;
+                var form, meinekurse_sortby, meinekurse_numcourses, resultel;
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -63,7 +63,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                     needsresend = needsresend || (this.lastnumcourses !== null && this.lastnumcourses !== meinekurse_numcourses);
                     if (needsresend) {
                         resultel = form.ancestor().one('.courseandpaging');
-                        this.do_course_search(resultel, this.lastsortby, this.lastnumcourses);
+                        this.do_course_search(resultel, this.lastsortby, this.lastnumcourses, undefined, tabnum);
 
                         form.one('.meinekurse_sortby').set('value', this.lastsortby);
                         form.one('.meinekurse_numcourses').set('value', this.lastnumcourses);
@@ -73,7 +73,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             }, this);
         },
 
-        do_course_search: function(resultel, sortby, numcourses, page) {
+        do_course_search: function(resultel, sortby, numcourses, page, schoolid) {
             var url, data, self;
 
             resultel.one('.coursecontainer').setContent(this.waitimg);
@@ -91,6 +91,9 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             if (page !== undefined) {
                 data.meinekurse_page = page;
             }
+            if (schoolid !== undefined) {
+                data.meinekurse_schoolid = schoolid;
+            }
 
             self = this;
             url = M.cfg.wwwroot + '/blocks/meinekurse/ajax.php';
@@ -98,12 +101,21 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                 data: data,
                 on: {
                     complete: function (id, resp) {
-                        var details;
+                        var details, updateel;
+                        if (resp == null) {
+                            return;
+                        }
                         details = Y.JSON.parse(resp.responseText);
                         if (details && details.error == 0 && details.content) {
-                            resultel.setContent(details.content);
-                            self.setup_hover(resultel);
-                            self.setup_paging(resultel);
+                            updateel = resultel;
+                            if (schoolid !== undefined && details.schoolid != schoolid) {
+                                // Result is for the wrong schoolid - update that tab, then send this query again.
+                                updateel = Y.one('.block_meinekurse #' + details.schoolid + ' .courseandpaging');
+                                self.do_course_search(resultel, sortby, numcourses, page, schoolid);
+                            }
+                            updateel.setContent(details.content);
+                            self.setup_hover(updateel);
+                            self.setup_paging(updateel);
                         }
                     }
                 }
@@ -171,7 +183,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                 linkparams = Y.QueryString.parse(link);
 
                 resultel = e.currentTarget.ancestor('.courseandpaging');
-                this.do_course_search(resultel, undefined, undefined, linkparams.meinekurse_page);
+                this.do_course_search(resultel, undefined, undefined, linkparams.meinekurse_page, linkparams.meinekurse_school);
 
                 return false;
             }, this);

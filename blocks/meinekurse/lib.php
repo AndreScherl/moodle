@@ -222,16 +222,19 @@ class meinekurse {
      * @param null $numcourses
      * @return string
      */
-    public static function output_course_list($page = 1, $sortby = null, $numcourses = null) {
+    public static function output_course_list($page = 1, $sortby = null, $numcourses = null, $schoolid = null) {
         global $USER;
 
         $prefs = self::get_prefs();
-        if (!is_null($sortby) || !is_null($numcourses)) {
+        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid)) {
             if (!is_null($sortby)) {
                 $prefs->sortby = $sortby;
             }
             if (!is_null($numcourses)) {
                 $prefs->numcourses = $numcourses;
+            }
+            if (!is_null($schoolid)) {
+                $prefs->school = $schoolid;
             }
             self::set_prefs($prefs);
         }

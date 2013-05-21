@@ -358,6 +358,7 @@ class categorybackup {
             while (false !== ($file = readdir($dir))) {
                 if (substr_compare($file, '.mbz', -4) == 0) {
                     self::restore_course($unpackdir, $srcdir.'/'.$file, $categorymapping);
+                    @unlink($srcdir.'/'.$file); // Try to delete the files as we go along (to make it easier to continue).
                 }
             }
             closedir($dir);

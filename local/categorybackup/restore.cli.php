@@ -33,8 +33,11 @@ require_once($CFG->libdir.'/cronlib.php');
 
 cron_setup_user();
 
-if (empty($argv[1])) {
-    throw new moodle_exception('nobackuppath', 'local_categorybackup');
+if (count($argv) < 3) {
+    echo "Usage:\nphp restore.cli.php [path to backup] [parent categoryid]\n";
+    echo "Alternative usage:\nphp restore.cli.php continue [parent categoryid]\n";
+    echo "- for use when the files have been unpacked already to the [moodledata]/categorybackup directory";
+    die();
 }
 $backuppath = $argv[1];
 $categoryid = 0;
@@ -62,18 +65,19 @@ if ($categoryid != 0) {
     $category->name = get_string('top');
 }
 
-if (!file_exists($backuppath) || is_dir($backuppath)) {
-    print_error('invalidpath', 'local_categorybackup', $url, $backuppath);
-}
-
-// Ensure the folder to restore from exists and is empty
+// Ensure the folder to restore from exists and is empty (if not continuing a previous restore).
 $srcdir = $CFG->dataroot.'/categorybackup';
 
 if (!file_exists($srcdir)) {
     mkdir($srcdir, 0777, true);
 }
 
-categorybackup::delete_files($srcdir);
+if ($backuppath != 'continue') {
+    if (!file_exists($backuppath) || is_dir($backuppath)) {
+        print_error('invalidpath', 'local_categorybackup', $url, $backuppath);
+    }
+    categorybackup::delete_files($srcdir);
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'local_categorybackup'));
@@ -81,16 +85,18 @@ echo $OUTPUT->heading(get_string('pluginname', 'local_categorybackup'));
 echo get_string('startingrestore', 'local_categorybackup', $category->name)."\n";
 
 // Extract the files to the dest folder
-if (strtolower(substr($backuppath, -4)) == '.zip') {
-    if (!categorybackup::unzip_files($backuppath, $srcdir)) {
-        print_error('unziperror', 'local_categorybackup', $backuppath, $url);
+if ($backuppath != 'continue') {
+    if (strtolower(substr($backuppath, -4)) == '.zip') {
+        if (!categorybackup::unzip_files($backuppath, $srcdir)) {
+            print_error('unziperror', 'local_categorybackup', $backuppath, $url);
+        }
+    } else if (strtolower(substr($backuppath, -4)) == '.tgz') {
+        if (!categorybackup::untgz_files($backuppath, $srcdir)) {
+            print_error('unziperror', 'local_categorybackup', $backuppath, $url);
+        }
+    } else {
+        print_error('invalidextension', 'local_categorybackup');
     }
-} else if (strtolower(substr($backuppath, -4)) == '.tgz') {
-    if (!categorybackup::untgz_files($backuppath, $srcdir)) {
-        print_error('unziperror', 'local_categorybackup', $backuppath, $url);
-    }
-} else {
-    print_error('invalidextension', 'local_categorybackup');
 }
 
 // Create the categories

@@ -850,7 +850,6 @@ function chat_format_message_manually($message, $courseid, $sender, $currentuser
     return $output;
 }
 
-
 /**
  * @global object
  * @param object $message
@@ -859,7 +858,6 @@ function chat_format_message_manually($message, $courseid, $sender, $currentuser
  * @param string $chat_lastrow
  * @return bool|string Returns HTML or false
  */
-
 function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NULL) {
 /// Given a message object full of information, this function
 /// formats it appropriately into text and html, then

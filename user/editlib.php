@@ -281,7 +281,6 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
             //+++ synergy: Profilepicture
             require_once($CFG->dirroot.'/local/profilepicture/lib.php');
             $mform->addElement('profilepicture', 'imagefile', get_string('newpicture'));
-            echo "profile";
         }
 
         $mform->addElement('text', 'imagealt', get_string('imagealt'), 'maxlength="100" size="30"');

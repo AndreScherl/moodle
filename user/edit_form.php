@@ -135,7 +135,7 @@ class user_edit_form extends moodleform {
         $usernew = (object)$usernew;
         $user    = $DB->get_record('user', array('id'=>$usernew->id));
 
-        //+++ awag DS22: leere E-Mail nicht überprüfen
+        //+++ awag H019: leere E-Mail nicht überprüfen
         if (!empty($usernew->email)) {
             //---awag
 
@@ -158,7 +158,7 @@ class user_edit_form extends moodleform {
                     $errors['email'] = $errorstr;
                 }
             }
-        //+++ awag DS22    
+        //+++ awag H019    
         }
         //--- awag
 

@@ -504,7 +504,7 @@ class datenschutz {
      * anonymisiert das Chat-Protokoll
      * author: Andrea Taras
      */
-    function hook_mod_chat_format_message_anon($message, $courseid, $sender, $currentuser, $chat_lastrow = NULL) {
+    public static function hook_mod_chat_format_message_anon($message, $courseid, $sender, $currentuser, $chat_lastrow = NULL) {
         global $CFG, $USER, $OUTPUT;
 
         $output = new stdClass();

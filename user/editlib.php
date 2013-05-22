@@ -154,7 +154,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('static', 'emailpending', get_string('email'), $notice);
     } else {
         $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
-        //+++ awag DS21 E-Mailadresse ist nicht verpflichtend!
+        //+++ awag H015 E-Mailadresse ist nicht verpflichtend!
         //$mform->addRule('email', $strrequired, 'required', null, 'client');
         //--- awag 
     }
@@ -229,7 +229,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
     $choices = get_string_manager()->get_list_of_countries();
     $choices= array(''=>get_string('selectacountry').'...') + $choices;
     $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
-    //+++ awag DS21 Land nicht verflichtend $mform->addRule('country', $strrequired, 'required', null, 'client');
+    //+++ awag H015 Land nicht verflichtend $mform->addRule('country', $strrequired, 'required', null, 'client');
     if (!empty($CFG->country)) {
         $mform->setDefault('country', $CFG->country);
     }

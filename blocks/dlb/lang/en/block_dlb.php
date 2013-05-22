@@ -69,6 +69,7 @@ $string['invalidredirect'] = 'Diese Weiterleitung ist nicht gestattet.';
 
 //Blockinhalte
 $string['managed_categories'] = "betreute Kursbereiche";
+$string['managed_headers'] = "Kursbereichs-Header bearbeiten";
 $string['upload_users'] = "DLB-Upload Users";
 $string['category_of_course'] = 'Aktueller Kursbereich';
 $string['allcourses'] = 'Alle Kurse';

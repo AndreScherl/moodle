@@ -411,6 +411,11 @@ function profile_definition_after_data($mform, $userid) {
             $formfield->edit_after_data($mform);
         }
     }
+        
+    //+++ awag DS10 (H003) Sichtbarkeitsregel-Schule nur nicht bearbeitbar
+    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    datenschutz::hook_profile_definition_after_data($mform, $userid);
+    //---
 }
 
 function profile_validation($usernew, $files) {

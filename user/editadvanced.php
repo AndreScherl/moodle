@@ -156,11 +156,6 @@ $userform->set_data($user);
 
 if ($usernew = $userform->get_data()) {
 
-    //+++ Hook DS20
-    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
-    datenschutz::hook_user_editadvanced_before_save_user($usernew);
-    //---DS20
-
     if (empty($usernew->auth)) {
         //user editing self
         $authplugin = get_auth_plugin($user->auth);

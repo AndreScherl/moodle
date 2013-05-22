@@ -864,9 +864,8 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
 /// Given a message object full of information, this function
 /// formats it appropriately into text and html, then
 /// returns the formatted data.
-    //+++ Hook DS21 $CFG hinzufügen
-    global $DB, $CFG;
-     //---DS21
+    global $DB;
+    
     static $users;     // Cache user lookups
 
     if (isset($users[$message->userid])) {
@@ -877,19 +876,17 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
         return NULL;
     }
 
-    //+++ Hook DS21
+    //+++ ataras DS21 anonymer Chat
+    global $CFG;
+    
+    if ($CFG->chat_anon==='anony')
 
-     $strchat = $CFG->chat_anon;
-
-
-     if ($strchat==='anony')
-
-    return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
+        return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
 
     else
 
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);
-    //---DS21
+    //--- DS21
 
 }
 

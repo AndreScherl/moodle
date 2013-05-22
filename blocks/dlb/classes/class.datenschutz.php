@@ -1,19 +1,22 @@
 <?php
+
 /*
- #########################################################################
- #                       DLB-Bayern
- # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- #
- # Copyright 2012 Andreas Wagner. All Rights Reserved.
- # This file may not be redistributed in whole or significant part.
- # Content of this file is Protected By International Copyright Laws.
- #
- # ~~~~~~~~~~~~~~~~~~ THIS CODE IS NOT FREE SOFTWARE ~~~~~~~~~~~~~~~~~~~~
- #
- # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- # @author Andreas Wagner, DLB	andreas.wagner@alp.dillingen.de
- #########################################################################
-*/
+  #########################################################################
+  #                       DLB-Bayern
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #
+  # Copyright 2012 Andreas Wagner. All Rights Reserved.
+  # This file may not be redistributed in whole or significant part.
+  # Content of this file is Protected By International Copyright Laws.
+  #
+  # ~~~~~~~~~~~~~~~~~~ THIS CODE IS NOT FREE SOFTWARE ~~~~~~~~~~~~~~~~~~~~
+  #
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # @author Andreas Wagner, DLB	andreas.wagner@alp.dillingen.de
+  # @author Andrea Taras, DLB andrea.taras@alp.dillingen.de
+  #########################################################################
+ */
+
 class datenschutz {
 
     var $userids_together_in_course;
@@ -312,7 +315,8 @@ class datenschutz {
         }
 
         //admin hat Zugriff auf alle Felder...
-        if (has_capability("moodle/site:config", get_system_context())) return;
+        if (has_capability("moodle/site:config", get_system_context()))
+            return;
 
         //Profilfeld schule für bestehende User sperren.
         $user = $DB->get_record('user', array('id' => $userid)); //$user ist der bearbeitete User (!= $USER)
@@ -336,7 +340,7 @@ class datenschutz {
 
         //weitere gesperrte Felder für bereits angelegte User....
         if ($user) {
-            
+
             if ($mform->elementExists('city')) {
                 //ersetzt Inputfeld durch Anzeige
                 $mform->hardFreeze('city');
@@ -344,14 +348,14 @@ class datenschutz {
                 //z. B. Einfügen von <input id="id_city" name="city" value="hack" />
                 $mform->setConstants(array('city' => $user->city));
             }
-            
+
             if ($mform->elementExists('institution')) {
                 //ersetzt Inputfeld durch Anzeige
                 $mform->hardFreeze('institution');
                 //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
                 $mform->setConstants(array('institution' => $user->institution));
             }
-            
+
             if ($mform->elementExists('idnumber')) {
                 //ersetzt Inputfeld durch Anzeige
                 $mform->hardFreeze('idnumber');
@@ -444,7 +448,7 @@ class datenschutz {
 
 //* Debug HTTP_REFERER
 
-          /*$fp = fopen("datei.txt","a+");
+        /* $fp = fopen("datei.txt","a+");
           ob_start();
           print_r($_REQUEST);
           print_r($_SERVER);
@@ -493,4 +497,143 @@ class datenschutz {
         }
         return $enrolmentmethods;
     }
+
+    /** @HOOK DS20: entfällt seit ProfilePicture-Picker von Synergy */
+
+    /** @HOOK DS21, Hook in mod/chat/lib.php
+     * anonymisiert das Chat-Protokoll
+     * author: Andrea Taras
+     */
+    function hook_mod_chat_format_message_anon($message, $courseid, $sender, $currentuser, $chat_lastrow = NULL) {
+        global $CFG, $USER, $OUTPUT;
+
+        $output = new stdClass();
+        $output->beep = false;       // by default
+        $output->refreshusers = false; // by default
+        // Use get_user_timezone() to find the correct timezone for displaying this message:
+        // It's either the current user's timezone or else decided by some Moodle config setting
+        // First, "reset" $USER->timezone (which could have been set by a previous call to here)
+        // because otherwise the value for the previous $currentuser will take precedence over $CFG->timezone
+        $USER->timezone = 99;
+        $tz = get_user_timezone($currentuser->timezone);
+
+        // Before formatting the message time string, set $USER->timezone to the above.
+        // This will allow dst_offset_on (called by userdate) to work correctly, otherwise the
+        // message times appear off because DST is not taken into account when it should be.
+        $USER->timezone = $tz;
+        $message->strtime = userdate($message->timestamp, get_string('strftimemessage', 'chat'), $tz);
+
+        //$message->picture = $OUTPUT->user_picture($sender, array('size'=>false, 'courseid'=>$courseid, 'link'=>false));
+        $message->picture = '';
+        $hashy = substr(md5($sender->id), 0, 4);
+        $myanon = get_string('chatuser', 'chat') . ' ' . $hashy;
+        if ($courseid) {
+            //$message->picture = "<a onclick=\"window.open('$CFG->wwwroot/user/view.php?id=$sender->id&amp;course=$courseid')\" href=\"$CFG->wwwroot/user/view.php?id=$sender->id&amp;course=$courseid\">$message->picture</a>";
+            $message->picture = '';
+        }
+
+        //Calculate the row class
+        if ($chat_lastrow !== NULL) {
+            $rowclass = ' class="r' . $chat_lastrow . '" ';
+        } else {
+            $rowclass = '';
+        }
+
+        // Start processing the message
+
+        if (!empty($message->system)) {
+            // System event
+
+            $output->text = $message->strtime . ': ' . get_string('message' . $message->message, 'chat', $myanon);
+            $output->html = '<table class="chat-event"><tr' . $rowclass . '><td class="picture">' . $message->picture . '</td><td class="text">';
+            $output->html .= '<span class="event">' . $output->text . '</span></td></tr></table>';
+            $output->basic = '<dl><dt class="event">' . $message->strtime . ': ' . get_string('message' . $message->message, 'chat', $myanon) . '</dt></dl>';
+
+            if ($message->message == 'exit' or $message->message == 'enter') {
+
+                $output->refreshusers = true; //force user panel refresh ASAP
+            }
+
+            return $output;
+        }
+
+        // It's not a system event
+        $text = trim($message->message);
+
+        /// Parse the text to clean and filter it
+        $options = new stdClass();
+        $options->para = false;
+        $text = format_text($text, FORMAT_MOODLE, $options, $courseid);
+
+        // And now check for special cases
+        $patternTo = '#^\s*To\s([^:]+):(.*)#';
+        $special = false;
+
+        if (substr($text, 0, 5) == 'beep ') {
+            /// It's a beep!
+            $special = true;
+            $beepwho = trim(substr($text, 5));
+
+            if ($beepwho == 'all') {   // everyone
+                $outinfo = $message->strtime . ': ' . get_string('messagebeepseveryone', 'chat', $myanon);
+                $outmain = '';
+                $output->beep = true;  // (eventually this should be set to
+                //  to a filename uploaded by the user)
+            } else if ($beepwho == $currentuser->id) {  // current user
+                $outinfo = $message->strtime . ': ' . get_string('messagebeepsyou', 'chat', $myanon);
+                $outmain = '';
+                $output->beep = true;
+            } else {  //something is not caught?
+                return false;
+            }
+        } else if (substr($text, 0, 1) == '/') {     /// It's a user command
+            $special = true;
+            $pattern = '#(^\/)(\w+).*#';
+            preg_match($pattern, $text, $matches);
+            $command = isset($matches[2]) ? $matches[2] : false;
+            // Support some IRC commands.
+            switch ($command) {
+                case 'me':
+                    $outinfo = $message->strtime;
+                    $outmain = '*** <b>' . $myanon . ' ' . substr($text, 4) . '</b>';
+                    break;
+                default:
+                    // Error, we set special back to false to use the classic message output.
+                    $special = false;
+                    break;
+            }
+        } else if (preg_match($patternTo, $text)) {
+            $special = true;
+            $matches = array();
+            preg_match($patternTo, $text, $matches);
+            if (isset($matches[1]) && isset($matches[2])) {
+                $outinfo = $message->strtime;
+                $outmain = $myanon . ' ' . get_string('saidto', 'chat') . ' <i>' . $matches[1] . '</i>: ' . $matches[2];
+            } else {
+                // Error, we set special back to false to use the classic message output.
+                $special = false;
+            }
+        }
+
+        if (!$special) {
+            $outinfo = $message->strtime . ' ' . $myanon;
+            $outmain = $text;
+        }
+
+        /// Format the message as a small table
+
+        $output->text = strip_tags($outinfo . ': ' . $outmain);
+
+        $output->html = "<table class=\"chat-message\"><tr$rowclass><td class=\"picture\" valign=\"top\">$message->picture</td><td class=\"text\">";
+        $output->html .= "<span class=\"title\">$outinfo</span>";
+        if ($outmain) {
+            $output->html .= ": $outmain";
+            $output->basic = '<dl><dt class="title">' . $outinfo . ':</dt><dd class="text">' . $outmain . '</dd></dl>';
+        } else {
+            $output->basic = '<dl><dt class="title">' . $outinfo . '</dt></dl>';
+        }
+        $output->html .= "</td></tr></table>";
+        return $output;
+    }
 }
+    

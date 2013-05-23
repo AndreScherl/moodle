@@ -203,7 +203,7 @@ class block_meinekurse extends block_base {
         $row = array();
         $sortopts = array('name', 'timecreated', 'timevisited');
         $row[] = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs);
-        $numopts = array(3, 5, 10, 20, 50, 100);
+        $numopts = array(5, 10, 20, 50, 100);
         $row[] = self::html_select('numcourses', array_combine($numopts, $numopts), false, $prefs);
         if (count($otherschools) > 2) {
             $row[] = self::html_select('otherschoolid', $otherschools, false, $prefs);

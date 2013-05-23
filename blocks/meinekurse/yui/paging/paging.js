@@ -132,7 +132,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                                 self.setup_hover(updateel);
                                 self.setup_paging(updateel);
                             }
-                            if (details.schoolid == -2) {
+                            if (details.schoolid === -2) {
                                 if (details.name) {
                                     Y.one('#school-2tablink').setContent(details.name);
                                 }

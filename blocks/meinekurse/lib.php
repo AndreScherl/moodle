@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 define('MEINEKURSE_SCHOOL_CAT_DEPTH', 3);
 
+define('MEINEKURSE_OTHER_SCHOOLS', -2);
+define('MEINEKURSE_NOT_SCHOOL', -1);
+
 class meinekurse {
     public static $validsort = array('name', 'timecreated', 'timevisited');
 
@@ -35,30 +38,46 @@ class meinekurse {
      */
     public static function get_main_school($user) {
         global $DB;
+        static $myschool = null;
 
-        $schoolid = $user->institution;
-        if (!$schoolid) {
-            return false;
+        if (is_null($myschool)) {
+            $schoolid = $user->institution;
+            if (!$schoolid) {
+                $myschool = false;
+            } else {
+                $myschool = $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH),
+                                            'id, name');
+            }
         }
-        return $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH), 'id, name');
+
+        return $myschool;
     }
 
     /**
      * @return object
      */
     public static function get_prefs() {
+        $defaultprefs = (object) array(
+            'sortby' => 'name',
+            'numcourses' => 5,
+            'school' => null,
+            'sortdir' => 'asc',
+            'otherschool' => 0,
+        );
+
         $prefs = get_user_preferences('block_meinekurse_prefs', false);
         if ($prefs) {
             $prefs = unserialize($prefs);
         }
         if (!$prefs || !is_object($prefs)) {
-            $prefs = (object) array(
-                'sortby' => 'name',
-                'numcourses' => 5,
-                'school' => null,
-                'sortdir' => 'asc',
-            );
+            $prefs = new stdClass();
         }
+        foreach ($defaultprefs as $name => $value) {
+            if (!isset($prefs->$name)) {
+                $prefs->$name = $value;
+            }
+        }
+
         return $prefs;
     }
 
@@ -218,15 +237,17 @@ class meinekurse {
 
     /**
      * @param int $page
-     * @param null $sortby
-     * @param null $numcourses
+     * @param string $sortby optional
+     * @param int $numcourses
+     * @param int $schoolid
+     * @param int $otherschoolid
      * @return string
      */
-    public static function output_course_list($page = 1, $sortby = null, $numcourses = null, $schoolid = null) {
+    public static function output_course_list($page = 1, $sortby = null, $numcourses = null, $schoolid = null, $otherschoolid = null) {
         global $USER;
 
         $prefs = self::get_prefs();
-        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid)) {
+        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid) || !is_null($otherschoolid)) {
             if (!is_null($sortby)) {
                 $prefs->sortby = $sortby;
             }
@@ -236,17 +257,21 @@ class meinekurse {
             if (!is_null($schoolid)) {
                 $prefs->school = $schoolid;
             }
+            if (!is_null($otherschoolid)) {
+                $prefs->otherschool = $otherschoolid;
+            }
             self::set_prefs($prefs);
         }
 
-        $mycourses = self::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $page);
+        $mycourses = self::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $page,
+                                          $prefs->otherschool);
 
         if (!isset($mycourses[$prefs->school])) {
             return '';
         }
 
         $school = $mycourses[$prefs->school];
-        return self::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
+        return array($school->name, self::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page));
     }
 
     /**
@@ -863,9 +888,10 @@ class meinekurse {
      * @param int $perpage the number of courses per page
      * @param int $schoolid the currently selected school
      * @param int $page the current page (in the selected school), may be updated
+     * @param int $otherschoolid
      * @return array
      */
-    public static function get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page) {
+    public static function get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page, $otherschoolid) {
         global $USER, $DB;
         // Get all courses, grouped by school (3rd-level category)
 
@@ -943,7 +969,19 @@ class meinekurse {
                 'courses' => array(),
                 'coursecount' => 0,
                 'page' => 1,
+                'schools' => array(),
             );
+        }
+        $schools[MEINEKURSE_OTHER_SCHOOLS] = (object) array(
+            'id' => MEINEKURSE_OTHER_SCHOOLS,
+            'name' => null,
+            'courses' => array(),
+            'coursecount' => 0,
+            'page' => 1,
+            'schools' => array(0 => get_string('allotherschools', 'block_meinekurse')),
+        );
+        if (!$otherschoolid) {
+            $schools[MEINEKURSE_OTHER_SCHOOLS]->name = get_string('otherschools', 'block_meinekurse');
         }
 
         // preload contexts and check visibility
@@ -963,28 +1001,41 @@ class meinekurse {
             $course->istrainer = $context && has_capability('block/meinekurse:viewtrainertab', $context);
             if ($course->catdepth < MEINEKURSE_SCHOOL_CAT_DEPTH) {
                 // Course does not appear to be within a school - gather all such courses together into a 'misc' category.
-                $course->category = -1;
-            } else if ($course->catdepth > MEINEKURSE_SCHOOL_CAT_DEPTH) {
-                // Course is within a subcategory of a school - find the school category.
-                $path = explode('/', $course->catpath);
-                if (count($path) < (MEINEKURSE_SCHOOL_CAT_DEPTH + 1)) {
-                    $course->category = -1;
-                    debugging("Found bad category information - id: {$course->category}; depth: {$course->catdepth}; path: {$course->catpath}; name: {$course->catname}");
-                } else {
-                    $course->category = $path[MEINEKURSE_SCHOOL_CAT_DEPTH];
-                    $course->catname = null; // As this was the name of the direct category, not of the school.
+                $course->category = MEINEKURSE_NOT_SCHOOL;
+            } else {
+                if ($course->catdepth > MEINEKURSE_SCHOOL_CAT_DEPTH) {
+                    // Course is within a subcategory of a school - find the school category.
+                    $path = explode('/', $course->catpath);
+                    if (count($path) < (MEINEKURSE_SCHOOL_CAT_DEPTH + 1)) {
+                        $course->category = MEINEKURSE_NOT_SCHOOL;
+                        debugging("Found bad category information - id: {$course->category}; depth: {$course->catdepth}; path: {$course->catpath}; name: {$course->catname}");
+                    } else {
+                        $course->category = $path[MEINEKURSE_SCHOOL_CAT_DEPTH];
+                        $course->catname = null; // As this was the name of the direct category, not of the school.
+                    }
                 }
+            }
+
+            if ($course->category != MEINEKURSE_NOT_SCHOOL && (!$myschool || $course->category != $myschool->id)) {
+                $schools[MEINEKURSE_OTHER_SCHOOLS]->schools[$course->category] = $course->catname; // For drop-down list.
+                if (!$otherschoolid) {
+                    $course->catname = null; // We already know the name, so don't need it here.
+                } else if ($otherschoolid != $course->category) {
+                    continue; // Skip this course, as it isn't in the selected school.
+                }
+                $course->category = MEINEKURSE_OTHER_SCHOOLS;
             }
 
             if (empty($schools[$course->category])) {
                 // First course we've found in this school - set up the school details.
                 $school = new stdClass();
                 $school->id = $course->category;
-                if ($course->category > 0) {
-                    $school->name = $course->catname;
-                } else {
+                if ($course->category == MEINEKURSE_NOT_SCHOOL) {
                     $school->name = get_string('notinschool', 'block_meinekurse');
+                } else {
+                    $school->name = $course->catname;
                 }
+                $school->schools = array();
                 $school->courses = array();
                 $school->coursecount = 0;
                 $school->page = 1;
@@ -1018,21 +1069,57 @@ class meinekurse {
         $catids = array();
         foreach ($schools as $school) {
             if (is_null($school->name)) {
-                $catids[] = $school->id;
+                $catids[$school->id] = $school->id;
+            }
+        }
+        unset($catids[MEINEKURSE_OTHER_SCHOOLS]);
+        if (is_null($schools[MEINEKURSE_OTHER_SCHOOLS]->name)) {
+            $catids[$otherschoolid] = $otherschoolid;
+        }
+        foreach ($schools[MEINEKURSE_OTHER_SCHOOLS]->schools as $id => $name) {
+            if (is_null($name)) {
+                $catids[$id] = $id;
             }
         }
         if (!empty($catids)) {
             $catnames = $DB->get_records_list('course_categories', 'id', $catids, '', 'id, name');
-            foreach ($catnames as $cat) {
-                $schools[$cat->id]->name = $cat->name;
+            foreach ($schools as $school) {
+                if (isset($catnames[$school->id])) {
+                    $school->name = $catnames[$school->id]->name;
+                }
+            }
+            if (isset($catnames[$otherschoolid])) {
+                $schools[MEINEKURSE_OTHER_SCHOOLS]->name = $catnames[$otherschoolid]->name;
+            }
+            foreach ($schools[MEINEKURSE_OTHER_SCHOOLS]->schools as $id => $name) {
+                if (isset($catnames[$id])) {
+                    $schools[MEINEKURSE_OTHER_SCHOOLS]->schools[$id] = $catnames[$id]->name;
+                }
             }
         }
 
+        // Tidy up the 'other schools' tab if there are 0 or 1 other schools to display
+        $numotherschools = count($schools[MEINEKURSE_OTHER_SCHOOLS]->schools) - 1;
+        if ($numotherschools == 0) {
+            unset($schools[MEINEKURSE_OTHER_SCHOOLS]);
+        } else if ($numotherschools == 1) {
+            $onlyotherschool = array_pop($schools[MEINEKURSE_OTHER_SCHOOLS]->schools);
+            $schools[MEINEKURSE_OTHER_SCHOOLS]->name = $onlyotherschool;
+        }
+
+        // Clear the 'otherschool' preference if it is invalid (e.g. if the user has been unenroled from all courses in that school)
+        if ($otherschoolid && empty($schools[MEINEKURSE_OTHER_SCHOOLS]->courses)) {
+            $prefs = self::get_prefs();
+            $prefs->otherschool = 0;
+            self::set_prefs($prefs);
+            return self::get_my_courses($sortby, $sortdir, $perpage, $schoolid, $page, 0);
+        }
+
         // Move the 'Not in a school' list to the end of the schools
-        if (array_key_exists(-1, $schools)) {
-            $noschool = $schools[-1];
-            unset($schools[-1]);
-            $schools[-1] = $noschool;
+        if (array_key_exists(MEINEKURSE_NOT_SCHOOL, $schools)) {
+            $noschool = $schools[MEINEKURSE_NOT_SCHOOL];
+            unset($schools[MEINEKURSE_NOT_SCHOOL]);
+            $schools[MEINEKURSE_NOT_SCHOOL] = $noschool;
         }
 
         return $schools;

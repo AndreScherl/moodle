@@ -1,40 +1,39 @@
 <?php
-$string['pluginname'] = 'Meine Kurse';
 
-//Capabilities
-$string['meinekurse:viewtrainertab'] = 'Trainer Tab ansehen';
+defined('MOODLE_INTERNAL') || die();
 
-//Settings forms
-$string['sortby'] = 'Sortieren nach';
-$string['lastvisited'] = 'Letzter Kursbesuch';
-$string['numcourses'] = 'Anzahl der Kurse';
-$string['name'] = 'Name';
-$string['timecreated'] = 'Kurserstellung';
-$string['timevisited'] = 'Kursbesuch';
-$string['lastweek'] = 'Letzte Woche besucht';
-$string['lastmonth'] = 'Letzten Monat besucht';
-$string['last6months'] = 'Letztes halbes Jahr besucht';
 $string['allcourses'] = 'Alle Kurse';
-$string[''] = '';
-
-//Results:
-$string['nonewitemssincelastlogin'] = 'Es gibt keine Neuigkeiten seit Ihrem letzten Login';
 $string['assignments'] = 'Aufgaben';
+$string['coursesastrainer'] = 'Kurse als Trainer/in';
+$string['deadline'] = 'Einsendeschluss';
 $string['forums'] = 'Foren';
-$string['quizes'] = 'Tests';
-$string['resources'] = 'Resourcen';
-$string['deadline'] = 'Termin';
 $string['grade'] = 'Bewertung';
-$string['posts'] = 'Beiträge';
-$string['sincelastlogin'] = 'seit der letzten Anmeldung';
+$string['last6months'] = 'Besucht in den letzten 6 Monaten';
+$string['lastmonth'] = 'Letzten Monat besucht';
+$string['lastvisited'] = 'Zuletzt besucht';
+$string['lastweek'] = 'Besucht in der letzten Woche';
+$string['meinekurse:myaddinstance'] = 'Einen neuen meine Kurse Block zu Meine Startseite hinzufügen';
+$string['meinekurse:viewtrainertab'] = 'Trainer Tab ansehen';
+$string['mycourses'] = 'Kurse als Teilnehmer/in';
+$string['name'] = 'Name';
 $string['new'] = 'Neu';
-$string['mycourses'] = 'Kurse als Schüler/in';
-$string['coursesastrainer'] = 'Kurse als Lehrer/in';
-$string['nocourses'] = 'Keine Kurse vorhanden';
-$string['submitted'] = 'Eingereicht';
-
-//Trainer tab
-$string['numsubmissions'] = 'Anzahl der Einreichungen';
-$string['numgradedsubmissions'] = 'Anzahl der Bewertungen';
-$string['numposts'] = 'Anzahl der Beiträge';
-$string['numtests'] = 'Anzahl der vollständigen Tests';
+$string['nocourses'] = 'Keine Kurse anzeigbar';
+$string['nonewitemssincelastlogin'] = 'Es gibt keine neuen Items seit Ihrem letzten Login';
+$string['notinschool'] = 'Ohne Zuordnung';
+$string['numcourses'] = 'Zahl der Kurse';
+$string['numgradedsubmissions'] = 'Zahl der bewerteten Abgaben';
+$string['numposts'] = 'Zahl der Einträge';
+$string['numsubmissions'] = 'Zahl der Abgaben';
+$string['numtests'] = 'Zahl der fertiggestellten Tests';
+$string['pluginname'] = 'Meine Kurse';
+$string['posts'] = 'Einträge';
+$string['quizes'] = 'Tests';
+$string['resources'] = 'Arbeitsmaterialien';
+$string['sincelastlogin'] = 'seit dem letzten Login';
+$string['sortby'] = 'Sortiert nach';
+$string['sortname'] = 'Sortiert nach Namen';
+$string['sorttimecreated'] = 'Sortiert nach Zeit der Erstellung';
+$string['sorttimevisited'] = 'Sortiert nach Zeit des Besuchs';
+$string['submitted'] = 'Abgegeben';
+$string['timecreated'] = 'Zeit der Erstellung';
+$string['timevisited'] = 'Zeit des Besuchs';

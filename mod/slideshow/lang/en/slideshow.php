@@ -7,6 +7,8 @@ $string['modulenameplural'] = 'Slideshows';
 $string['pluginadministration'] = 'Admin';
 $string['slideshowsfound'] = 'Slideshows in course {$a}';
 
+$string['slideshow:addinstance'] = 'Add instance of slideshow';
+
 // for mod.html
 $string['chooseapacket'] = 'Choose or change dir';
 $string['coursepacket'] = 'Slideshow directory';
@@ -52,4 +54,4 @@ $string['configmaxwidth'] = 'Maximum width for images (pixels)';
 $string['configmaxheight'] = 'Maximum height for images (pixels)';
 $string['keeporiginals'] = 'Keep originals?<br />If yes, the original image will be shown for printing. If no, only the resized version of the image is kept and server space is maximised.';
 $string['securepix'] = 'This will include javascript to prevent easy saving of the image and remove the direct link.';
-?>
+

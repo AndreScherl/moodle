@@ -41,6 +41,7 @@
     clear: both;
     float: left;
     width: 100%;
+    min-height: 400px;
 }
 
 table.mycourses{
@@ -49,7 +50,6 @@ table.mycourses{
 
 .mycoursestabs .coursecontent{
     background: #d6ebf5;
-    width: 65%;
 }
 
 .mycoursestabs .coursecontent p{
@@ -81,4 +81,62 @@ table.mycourses{
 
 .mycoursestabs .red .newtext{
     background: red;
+}
+
+.meinekurse_sorticons {
+    float: right;
+}
+
+.meinekurse_sorticons a {
+    width: 25px;
+    height: 24px;
+    margin: 2px;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.meinekurse_sorticons a span {
+    display: none;
+}
+
+.meinekurse_sorticons a#meinekurse_sortname {
+    background-image: url([[pix:block_meinekurse|name]]);
+}
+.meinekurse_sorticons a#meinekurse_sortname.selected {
+    background-image: url([[pix:block_meinekurse|name_sel]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimecreated {
+    background-image: url([[pix:block_meinekurse|timecreated]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimecreated.selected {
+    background-image: url([[pix:block_meinekurse|timecreated_sel]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimevisited {
+    background-image: url([[pix:block_meinekurse|timevisited]]);
+}
+.meinekurse_sorticons a#meinekurse_sorttimevisited.selected {
+    background-image: url([[pix:block_meinekurse|timevisited_sel]]);
+}
+
+.mycoursestabs .moddesc-hidden {
+    display: none;
+    width: 0;
+}
+
+.meinekursetable {
+    display: block;
+    width: 300px;
+    float: left;
+}
+
+.meinekursetable td {
+    width: 300px;
+}
+
+.meinekursetable td.moreinfo {
+    width: 20px;
+}
+
+.meinekurse_content {
+    margin: 5%;
 }

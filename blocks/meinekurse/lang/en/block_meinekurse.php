@@ -1,40 +1,39 @@
 <?php
-$string['pluginname'] = 'My Courses';
 
-//Capabilities
-$string['meinekurse:viewtrainertab'] = 'View Trainer Tab';
+defined('MOODLE_INTERNAL') || die();
 
-//Settings forms
-$string['sortby'] = 'Sort By';
-$string['lastvisited'] = 'Last Visited';
-$string['numcourses'] = 'Number of Courses';
-$string['name'] = 'Name';
-$string['timecreated'] = 'Time Created';
-$string['timevisited'] = 'Time Visited';
-$string['lastweek'] = 'Visited within last week';
-$string['lastmonth'] = 'Visited last month';
-$string['last6months'] = 'Visited last 6 months';
 $string['allcourses'] = 'All courses';
-$string[''] = '';
-
-//Results:
-$string['nonewitemssincelastlogin'] = 'There are no new items since your last login';
 $string['assignments'] = 'Assignments';
-$string['forums'] = 'Forums';
-$string['quizes'] = 'Quizes';
-$string['resources'] = 'Resources';
-$string['deadline'] = 'Deadline';
-$string['grade'] = 'Grade';
-$string['posts'] = 'posts';
-$string['sincelastlogin'] = 'since last login';
-$string['new'] = 'new';
-$string['mycourses'] = 'Courses As Student';
 $string['coursesastrainer'] = 'Courses As Teacher';
+$string['deadline'] = 'Deadline';
+$string['forums'] = 'Forums';
+$string['grade'] = 'Grade';
+$string['last6months'] = 'Visited last 6 months';
+$string['lastmonth'] = 'Visited last month';
+$string['lastvisited'] = 'Last Visited';
+$string['lastweek'] = 'Visited within last week';
+$string['meinekurse:myaddinstance'] = 'Add a new My courses block to My home';
+$string['meinekurse:viewtrainertab'] = 'View Trainer Tab';
+$string['mycourses'] = 'Courses As Student';
+$string['name'] = 'Name';
+$string['new'] = 'new';
 $string['nocourses'] = 'No courses to display';
-$string['submitted'] = 'Submitted';
-
-//Trainer tab
-$string['numsubmissions'] = 'Number of submissions';
+$string['nonewitemssincelastlogin'] = 'There are no new items since your last login';
+$string['notinschool'] = 'Not in a school';
+$string['numcourses'] = 'Number of Courses';
 $string['numgradedsubmissions'] = 'Number of graded submissions';
 $string['numposts'] = 'Number of posts';
+$string['numsubmissions'] = 'Number of submissions';
 $string['numtests'] = 'Number of completed tests';
+$string['pluginname'] = 'My Courses';
+$string['posts'] = 'posts';
+$string['quizes'] = 'Quizes';
+$string['resources'] = 'Resources';
+$string['sincelastlogin'] = 'since last login';
+$string['sortby'] = 'Sort By';
+$string['sortname'] = 'Sort by name';
+$string['sorttimecreated'] = 'Sort by time created';
+$string['sorttimevisited'] = 'Sort by time visited';
+$string['submitted'] = 'Submitted';
+$string['timecreated'] = 'Time Created';
+$string['timevisited'] = 'Time Visited';

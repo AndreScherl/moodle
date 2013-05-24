@@ -30,7 +30,7 @@ class plugin_fuserfield extends plugin_base{
 		$this->form = true;
 		$this->unique = true;
 		$this->fullname = get_string('fuserfield','block_configurable_reports');
-		$this->reporttypes = array('users');
+		$this->reporttypes = array('users', 'sql');
 	}
 	
 	function summary($data){
@@ -38,6 +38,29 @@ class plugin_fuserfield extends plugin_base{
 	}
 	
 	function execute($finalelements,$data){
+		if($this->report->type == 'sql') {
+			return $this->execute_sql($finalelements, $data);
+		}
+
+		return $this->execute_users($finalelements, $data);
+
+
+	}
+	
+	private function execute_sql($finalelements, $data) {
+		$filter_fuserfield = optional_param('filter_fuserfield_'.$data->field,0,PARAM_RAW);
+		$filter = clean_param(base64_decode($filter_fuserfield),PARAM_CLEAN);
+
+		if($filter_fuserfield &&
+		   preg_match("/%%FILTER_USERS:([^%]+)%%/i",$finalelements, $output)){
+			$replace = ' AND '.$output[1].' = '. "'$filter'";
+			return str_replace('%%FILTER_USERS:'.$output[1].'%%',$replace,$finalelements);
+		}
+
+		return $finalelements;
+	}
+
+	private function execute_users($finalelements, $data) {
 		global $DB, $CFG;
 		
 		$filter_fuserfield = optional_param('filter_fuserfield_'.$data->field,0,PARAM_RAW);		
@@ -70,7 +93,7 @@ class plugin_fuserfield extends plugin_base{
 				}
 			}
 		}
-		return $finalelements;
+		return $finalelements;		
 	}
 	
 	function print_filter(&$mform, $data){
@@ -78,7 +101,7 @@ class plugin_fuserfield extends plugin_base{
 		
 		$columns = $DB->get_columns('user');
 		$filteroptions = array();
-		$filteroptions[''] = get_string('choose');
+		$filteroptions[''] = get_string('filter_all', 'block_configurable_reports');
 		
 		$usercolumns = array();
 		foreach($columns as $c)
@@ -93,10 +116,16 @@ class plugin_fuserfield extends plugin_base{
 			
 		$reportclassname = 'report_'.$this->report->type;	
 		$reportclass = new $reportclassname($this->report);
-				
-		$components = cr_unserialize($this->report->components);		
-		$conditions = $components['conditions'];
-		$userlist = $reportclass->elements_by_conditions($conditions);
+
+		if($this->report->type == 'sql'){	
+			$userlist = array_keys($DB->get_records('user'));
+		} else {
+			$components = cr_unserialize($this->report->components);		
+			$conditions = array_key_exists('conditions', $components) ?
+				$components['conditions'] :
+				null;
+			$userlist = $reportclass->elements_by_conditions($conditions);
+		}
 						
 		if(!empty($userlist)){
 			if(strpos($data->field,'profile_') === 0){	
@@ -135,4 +164,3 @@ class plugin_fuserfield extends plugin_base{
 	}	
 }
 
-?>

@@ -95,7 +95,7 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
     /** überschreibt die originale Funktion, um einen Zeilenumbruch einzufügen  */
-    public function login_info() {
+    public function login_info($withlinks = NULL) {
         global $USER, $CFG, $DB, $SESSION;
 
         if (during_initial_install()) {
@@ -326,6 +326,40 @@ class theme_dlb_core_renderer extends core_renderer {
         return "<div><div class='toolbar-tooltip'><div class='tooltip-left'></div><div class='tooltip-content'>{$text}</div><div class='tooltip-right'></div></div><div style='clear:both'></div></div>";
     }
 
+    /**
+     * Return a formatted count of the number of upcoming calendar events, for displaying on the toolbar
+     * @return string
+     */
+    function toolbar_calendarcount() {
+        global $CFG;
+
+        require_once($CFG->dirroot.'/calendar/lib.php');
+
+        // Code copied from block_calendar_upcoming
+        $defaultlookahead = CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD;
+        if (isset($CFG->calendar_lookahead)) {
+            $defaultlookahead = intval($CFG->calendar_lookahead);
+        }
+        $lookahead = get_user_preferences('calendar_lookahead', $defaultlookahead);
+
+        $defaultmaxevents = CALENDAR_DEFAULT_UPCOMING_MAXEVENTS;
+        if (isset($CFG->calendar_maxevents)) {
+            $defaultmaxevents = intval($CFG->calendar_maxevents);
+        }
+        $maxevents = get_user_preferences('calendar_maxevents', $defaultmaxevents);
+
+        $filtercourse = calendar_get_default_courses();
+        list($courses, $group, $user) = calendar_set_filters($filtercourse);
+        $events = calendar_get_upcoming($courses, $group, $user, $lookahead, $maxevents);
+
+        $upcoming = count($events);
+        if ($upcoming == 0) {
+            return "";
+        }
+
+        return "<div><div class='toolbar-toolpop'><div class='toolpop-left'></div><div class='toolpop-content'>{$upcoming}</div><div class='toolpop-right'></div></div><div style='clear:both'></div></div>";
+    }
+
     /** ermittelt die Anzahl der ungelesenen Mitteilungen des aktuell eingeloggte Users und erzeugt den
      * HTML-Code zur Ausgabe in der Toolbar
      * @global object $USER
@@ -435,7 +469,7 @@ vrweb_brhandling = '0';
         $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Portfolio'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_1"));
             */
 
-            $href = html_writer::link($CFG->wwwroot."/calendar/view.php?view=month",  $this->pix_icon('toolbar/toolbar-calendar', 'Kalender', 'theme', array('title'=>'')));
+            $href = html_writer::link($CFG->wwwroot."/calendar/view.php?view=month",  $this->toolbar_calendarcount().$this->pix_icon('toolbar/toolbar-calendar', 'Kalender', 'theme', array('title'=>'')));
             $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Kalender'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_3"));
 
             $href = html_writer::link($CFG->wwwroot."/message/index.php",  $this->toolbar_mymessage().$this->pix_icon('toolbar/toolbar-mitteilungen', 'Mitteilungen', 'theme', array('title'=>'')));

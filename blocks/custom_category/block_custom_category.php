@@ -47,7 +47,7 @@ class block_custom_category extends block_base {
         return $this->content;
     }
 
-    function get_headerdata() {
+    public static function get_headerdata() {
         global $CFG, $DB, $PAGE;
 
         $headerdata = new stdClass();
@@ -95,4 +95,3 @@ class block_custom_category extends block_base {
         return $headerdata;
     }
 }
-?>

@@ -51,6 +51,7 @@ $saveas_path   = optional_param('savepath', '/', PARAM_PATH);   // save as file 
 $search_text   = optional_param('s', '', PARAM_CLEANHTML);
 $linkexternal  = optional_param('linkexternal', '', PARAM_ALPHA);
 $usefilereference  = optional_param('usefilereference', false, PARAM_BOOL);
+$returntypes = optional_param('returntypes', null, PARAM_INT);  // SYNERGY LEARNING - list of returntypes currently accepted
 
 list($context, $course, $cm) = get_context_info_array($contextid);
 require_login($course, false, $cm);
@@ -73,7 +74,8 @@ if (!confirm_sesskey()) {
 // Get repository instance information
 $repooptions = array(
     'ajax' => true,
-    'mimetypes' => $accepted_types
+    'mimetypes' => $accepted_types,
+    'returntypes' => $returntypes   // SYNERGY LEARNING - list of returntypes currently accepted
 );
 $repo = repository::get_repository_by_id($repo_id, $contextid, $repooptions);
 

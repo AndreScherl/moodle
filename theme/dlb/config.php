@@ -30,7 +30,8 @@ $THEME->sheets = array(
     'category',
     'mod',
     'tabs',
-    'user'
+    'user',
+    'sl'
     );/*
     'admin',
     'blocks',

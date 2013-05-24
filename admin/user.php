@@ -189,9 +189,6 @@
     $extrasqlusercount = datenschutz::hook_admin_user_get_extrasqlusercount();
     //--- awag
 
-    $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
-            $extrasql, $params, $context);
-
     //+++ awag DS04:Gesamtanzahl $usercount = get_users(false);
     $usercount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasqlusercount);
     //--- awag

@@ -1,0 +1,201 @@
+M.block_meineschulen_search = {
+    init_course_search: function(Y, opts) {
+        var searchform, waitimg;
+
+        waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
+
+        searchform = Y.one('#meineschulen_search_form');
+        searchform.on('submit', function (e) {
+            var searchtext;
+            e.preventDefault();
+            e.stopPropagation();
+
+            searchtext = Y.Lang.trim(this.one('#meineschulen_search_text').get('value'));
+            if (searchtext) {
+                send_course_search(searchtext);
+            }
+            return false;
+        });
+
+        update_sort_links();
+
+        function send_course_search(searchtext, sortby, sortdir) {
+            var url, resultel, data;
+
+            resultel = Y.one('#meineschulen_search_results');
+            resultel.setContent(waitimg);
+
+            data = {
+                id: opts.schoolid,
+                action: 'search',
+                search: searchtext
+            };
+            if (sortby !== undefined) {
+                data.sortby = sortby;
+            }
+            if (sortdir !== undefined) {
+                data.sortdir = sortdir;
+            }
+
+            url = M.cfg.wwwroot + '/blocks/meineschulen/ajax.php';
+            Y.io(url, {
+                data: data,
+                on: {
+                    success: function (id, resp) {
+                        var details;
+                        details = Y.JSON.parse(resp.responseText);
+                        if (details && details.error === 0 && details.results) {
+                            resultel.setContent(details.results);
+                            update_sort_links();
+                        }
+                    }
+                }
+            });
+        }
+
+        function update_sort_links() {
+            // Adjust the sortorder links to submit via AJAX
+            Y.all('#meineschulen_search_results table th a').on('click', function (e) {
+                var link, linkparams;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                link = e.currentTarget.get('href');
+                link = link.substring(link.indexOf('?') + 1);
+                linkparams = Y.QueryString.parse(link);
+
+                send_course_search(linkparams.search, linkparams.sortby, linkparams.sortdir);
+
+                return false;
+            });
+        }
+    },
+
+    init_school_search: function(Y) {
+        var searchform, waitimg;
+
+        waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
+
+        searchform = Y.one('#meineschulen_school_form');
+        searchform.on('submit', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            check_send_school_search(false);
+            return false;
+        });
+
+        update_sort_links();
+        update_paging_links();
+        check_send_school_search(true); // Catch situations where the back button has been pressed and the search needs repeating.
+
+        function check_send_school_search(onload) {
+            var searchtext, schooltype, pagequery, numberofresults;
+
+            searchtext = Y.Lang.trim(Y.one('#meineschulen_school_form #schoolname').get('value'));
+            schooltype = Y.one('#meineschulen_school_form #schooltype').get('selectedIndex');
+            schooltype = Y.one('#meineschulen_school_form #schooltype').get('options').item(schooltype).get('value');
+            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
+            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
+            if (searchtext) {
+                if (onload) {
+                    pagequery = window.location.href;
+                    pagequery = pagequery.substring(pagequery.indexOf('?') + 1);
+                    if (pagequery) {
+                        pagequery = Y.QueryString.parse(pagequery);
+                        if (pagequery.schoolname === searchtext) {
+                            // Don't repeat the search if the search has already been performed via the page params.
+                            return;
+                        }
+                    }
+                }
+                send_school_search(searchtext, schooltype, numberofresults);
+            }
+        }
+
+        function send_school_search(searchtext, schooltype, numberofresults, sortby, sortdir, page) {
+            var searchouter, resultel, url, data;
+
+            searchouter = Y.one('.meineschulen_content .meineschulen_school_results');
+            if (searchouter.hasClass('hidden')) {
+                searchouter.removeClass('hidden');
+            }
+
+            resultel = Y.one('#meineschulen_school_results');
+            resultel.setContent(waitimg);
+
+            data = {
+                action: 'schoolsearch',
+                search: searchtext,
+                schooltype: schooltype
+            };
+            if (numberofresults !== undefined) {
+                data.numberofresults = numberofresults;
+            }
+            if (sortby !== undefined) {
+                data.sortby = sortby;
+            }
+            if (sortdir !== undefined) {
+                data.sortdir = sortdir;
+            }
+            if (page !== undefined) {
+                data.page = page;
+            }
+
+            url = M.cfg.wwwroot + '/blocks/meineschulen/ajax.php';
+            Y.io(url, {
+                data: data,
+                on: {
+                    success: function (id, resp) {
+                        var details;
+                        details = Y.JSON.parse(resp.responseText);
+                        if (details && details.error === 0 && details.results) {
+                            resultel.setContent(details.results);
+                            update_sort_links();
+                            update_paging_links();
+                        }
+                    }
+                }
+            });
+        }
+
+        function update_sort_links() {
+            // Adjust the sortorder links to submit via AJAX
+            Y.all('#meineschulen_school_results table th a').on('click', function (e) {
+                var link, linkparams;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                link = e.currentTarget.get('href');
+                link = link.substring(link.indexOf('?') + 1);
+                linkparams = Y.QueryString.parse(link);
+
+                send_school_search(linkparams.schoolname, linkparams.schooltype, linkparams.numberofresults,
+                    linkparams.sortby, linkparams.sortdir);
+
+                return false;
+            });
+        }
+
+        function update_paging_links() {
+            // Adjust the paging links to submit via AJAX
+            Y.all('#meineschulen_school_results .paging a').on('click', function (e) {
+                var link, linkparams;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                link = e.currentTarget.get('href');
+                link = link.substring(link.indexOf('?') + 1);
+                linkparams = Y.QueryString.parse(link);
+
+                send_school_search(linkparams.schoolname, linkparams.schooltype, linkparams.numberofresults,
+                    linkparams.sortby, linkparams.sortdir, linkparams.page);
+
+                return false;
+            });
+        }
+
+    }
+};

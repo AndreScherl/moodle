@@ -47,6 +47,7 @@ $string['framesize'] = 'Frame height';
 $string['invalidstoredurl'] = 'Cannot display this resource, URL is invalid.';
 $string['chooseavariable'] = 'Choose a variable...';
 $string['invalidurl'] = 'Entered URL is invalid';
+$string['mediathek:addinstance'] = 'Add Mediathek instance';
 $string['modulename'] = 'Mediathek Medienobjekt';
 $string['modulenameplural'] = 'Mediathek Medienobjekt';
 $string['neverseen'] = 'Never seen';

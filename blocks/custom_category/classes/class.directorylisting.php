@@ -50,7 +50,7 @@ class directorylisting {
      * @param context $context, der aktuelle Kontext
      * @return directorylisting
      */
-    function getInstance($category, $context) {
+    public static function getInstance($category, $context) {
         static $dirlisting;
 
         if (!isset($dirlisting)) {
@@ -65,17 +65,16 @@ class directorylisting {
      * @param object $category
      * @param context $context
      */
-    function directorylisting($category, $context) {
+    public function directorylisting($category, $context) {
         $this->_category = $category;
         $this->_context = $context;
     }
 
     /** Eventhandler für eigene Aktionen
      *
-     * @param Object $category, der aktuell aufgerufene Kursbereich.
-     * @return none
+     * @return void
      */
-    function doActions() {
+    public function doActions() {
         global $OUTPUT, $DB, $PAGE;
 
         $category = $this->_category;
@@ -158,7 +157,7 @@ class directorylisting {
 
     /** ermittelt nach durchgeführten Aktionen, ob gültige Kurslinks, Kurse oder
      * Kursbereiche zum Bearbeiten gewählt sind*/
-    function displayState() {
+    public function displayState() {
         global $DB, $OUTPUT;
 
         //SESSION: StatusChecks für die Statusanzeige...
@@ -184,10 +183,10 @@ class directorylisting {
      *
      * @param int $categoryid, die Kategorie-ID, in denen der Kurs liegt (wird benötigt
      *                         falls eine der coursecontact-Rollen im Kategoriekontext vergeben ist.
-     * @param ObjectList $courses, die Liste der Kurse, deren Informationen ergänzt werden sollen
-     * @return none
+     * @param object[] $courses, die Liste der Kurse, deren Informationen ergänzt werden sollen
+     * @return void
      */
-    protected function _add_courses_wmanagers($categoryid, &$courses) {
+    protected static function _add_courses_wmanagers($categoryid, &$courses) {
         global $CFG, $DB;
 
         $catpath  = NULL;
@@ -196,9 +195,10 @@ class directorylisting {
         $params['catid'] = $categoryid;
 
         //1. Teil aus get_courses_wmanager..
+        $catpaths = array();
         foreach ($courses as $k => $course) {
-            context_instance_preload($course);
-            $coursecontext = get_context_instance(CONTEXT_COURSE, $course->id);
+            context_helper::preload_from_record($course);
+            $coursecontext = context_course::instance($course->id);
             $courses[$k] = $course;
             $courses[$k]->managers = array();
             if ($allcats === false) {
@@ -216,7 +216,7 @@ class directorylisting {
         //2. (unveränderter) Teil aus get_courses_wmanager..
         $CFG->coursecontact = trim($CFG->coursecontact);
         if (empty($CFG->coursecontact)) {
-            return $courses;
+            return;
         }
 
         $managerroles = explode(',', $CFG->coursecontact);
@@ -296,7 +296,7 @@ class directorylisting {
                         }
                     } else {
                         foreach ($courses as $k => $course) {
-                            $coursecontext = get_context_instance(CONTEXT_COURSE, $course->id);
+                            $coursecontext = context_course::instance($course->id);
                             // Note that strpos() returns 0 as "matched at pos 0"
                             if (strpos($coursecontext->path, $ra->path.'/') === 0) {
                                 // Only add it to subpaths
@@ -330,7 +330,7 @@ class directorylisting {
      * @param string $limitnum The number of courses to limit to
      * @return array Array of courses
      */
-    function get_courses_page($categoryid, $sort="sortorder ASC", $fields="c.*", &$totalcount, $limitfrom="", $limitnum="") {
+    public static function get_courses_page($categoryid, $sort="sortorder ASC", $fields="c.*", &$totalcount, $limitfrom="", $limitnum="") {
         global $USER, $CFG, $DB;
 
         //den Kontext bereits mit dem SQL-Statment holen und dafür die SQL-Teile holen.
@@ -343,7 +343,7 @@ class directorylisting {
         $visiblecourses = array();
 
         //+++ awag: Hier mit Kurslinks?
-        if ($CFG->custom_category_usecourselinks) {
+        if (!empty($CFG->custom_category_usecourselinks)) {
 
             directorylisting::_fix_courselink_sortorder($categoryid);
 
@@ -379,10 +379,10 @@ class directorylisting {
         foreach($rs as $course) {
 
             //Kontext wurde bereits aus den Datenbank geholt, nur noch eine gültige Instanz draus machen.
-            context_instance_preload($course);
+            context_helper::preload_from_record($course);
             if ($course->visible <= 0) {
                 // for hidden courses, require visibility check
-                if (has_capability('moodle/course:viewhiddencourses', get_context_instance(CONTEXT_COURSE, $course->id))) {
+                if (has_capability('moodle/course:viewhiddencourses', context_course::instance($course->id))) {
                     $totalcount++;
                     if ($totalcount > $limitfrom && (!$limitnum or count($visiblecourses) < $limitnum)) {
                         $visiblecourses [$course->id] = $course;
@@ -408,7 +408,7 @@ class directorylisting {
      * @param String $messagetype, CSS-Klasse der Box
      * @param String $message, Text der Box
      */
-    protected function _displayMessage($messagetype, $message) {
+    protected static function _displayMessage($messagetype, $message) {
         global $OUTPUT;
 
         echo $OUTPUT->box_start($messagetype);
@@ -416,7 +416,7 @@ class directorylisting {
         echo $OUTPUT->box_end();
     }
 
-    function isSortEditMode() {
+    public function isSortEditMode() {
         return ($this->_coursetomove || $this->_coursetolink);
     }
 
@@ -481,17 +481,15 @@ class directorylisting {
         return false;
     }
 
-
     /** verschiebt die Kategorie mit der ID $movecatid in der Kategorie $currentcategory vor
      * die Kategorie $beforecatid;
-
      * @param int $movecatid, ID der zu verschiebenden Kategorie
-     * @param int $parentid, ID der Zielkategorie
+     * @param $currentcategory
      * @param int $beforecatid, ID der künftig nachfolgenden Kategorie oder 0, wenn an
      *            das Ende der Liste verschoben wird.
      * @return bool, wenn verschoben werden konnte
      */
-    protected function _doMoveCategory($movecatid, $currentcategory, $beforecatid) {
+    protected static function _doMoveCategory($movecatid, $currentcategory, $beforecatid) {
         global $DB, $SESSION;
 
         if (!confirm_sesskey()) return false;
@@ -544,7 +542,7 @@ class directorylisting {
      *                        0 = Kategorie wird versteckt)
      * @return bool, true bei Erfolg
      */
-    protected function _doShowHideCategory($catid, $showcat) {
+    protected static function _doShowHideCategory($catid, $showcat) {
         global $DB;
 
         if (!confirm_sesskey()) return false;
@@ -552,7 +550,7 @@ class directorylisting {
         //checken, ob eine Gültige Kategorie-ID vorliegt:
         $category = $DB->get_record('course_categories', array('id' => $catid));
 
-        if (!$category) return;
+        if (!$category) return false;
 
         if ($showcat == 1) {
 
@@ -568,8 +566,8 @@ class directorylisting {
     /** erstellt eine Zielmarke zu der die Kategorie $category hin verschoben werden kann
      *
      * @param int $categoryid, die aktuelle ID der Kursbereichsseite
-     * @param int $cattomove, die ID der zu verschiebenden Kategorie
      * @param int $beforecatid, die ID der nachfolgenden Kategorie
+     * @internal param int $cattomove , die ID der zu verschiebenden Kategorie
      */
     protected function _printMoveCategoryMarker($categoryid, $beforecatid = 0) {
 
@@ -587,7 +585,7 @@ class directorylisting {
      
      * @param Object $category die aktuelle Kategorie
      * @param bool $editingon, true, falls Bearbeiten eingeschalten
-     * @param String $sort, Art der Sortierung.
+     * @param string $sort, Art der Sortierung.
      */
     protected function _printSubCategories($category, $editingon, $sort = "sortorder ASC") {
         global $CFG, $DB, $OUTPUT, $PAGE;
@@ -613,30 +611,30 @@ class directorylisting {
             foreach ($subcategories as $subcategory) {
 
                 //den Movelink nicht im Bereich davor und danach ausgeben...
-                directorylisting::_printMoveCategoryMarker($category->id, $subcategory->id);
-                directorylisting::_printKategorie($subcategory, $editingon, "subcategory", true);
+                $this->_printMoveCategoryMarker($category->id, $subcategory->id);
+                self::_printKategorie($subcategory, $editingon, "subcategory", true);
 
                 $lastcatid = $subcategory->id; //letzte Kategorie merken
             }
 
-            directorylisting::_printMoveCategoryMarker($category->id, $lastcategory->id);
-            directorylisting::_printKategorie($lastcategory, $editingon, "subcategory-last", true);
+            $this->_printMoveCategoryMarker($category->id, $lastcategory->id);
+            self::_printKategorie($lastcategory, $editingon, "subcategory-last", true);
 
         }
 
-        directorylisting::_printMoveCategoryMarker($category->id);
+        $this->_printMoveCategoryMarker($category->id);
 
         echo "</div>\n";
     }
 
     /** gibt eine Kategorie mit Bearbeitungslinks aus
-     * @param Array $category, auszugebende Kategorie
+     * @param object $category, auszugebende Kategorie
      * @param bool $editingon, true, falls Bearbeiten eingeschalten
      * @param String $class, CSS-Klasse des Containers um die Kategorie
      * @param bool $isSubcategory, true, falls es nicht die aktuelle Kategorie ist.
-     * @return none
+     * @return void
      */
-    protected function _printKategorie($category, $editingon, $class, $isSubcategory = false) {
+    protected static function _printKategorie($category, $editingon, $class, $isSubcategory = false) {
         global $CFG, $OUTPUT, $PAGE;
 
         //falls nicht sichtbar und nicht das Recht unsichtbare zu sehen exit
@@ -651,8 +649,8 @@ class directorylisting {
             //falls der User in der übergeordneten Kategorie die erforderlichen Rechte nicht hat, löschen und verbergen nicht zulassen.
 
             //Parentkontext ermitteln.
-            if ($category->parent == 0) $parentcontext = get_context_instance(CONTEXT_SYSTEM);
-            else $parentcontext = get_context_instance(CONTEXT_COURSECAT, $category->parent);
+            if ($category->parent == 0) $parentcontext = context_system::instance();
+            else $parentcontext = context_coursecat::instance($category->parent);
 
             //verbergen und sichtbar schalten
             if (has_capability('moodle/category:viewhiddencategories', $parentcontext)) {
@@ -717,10 +715,9 @@ class directorylisting {
      * des aktuelle Kursbereichs
      *
      * @global moodle_database $DB
-     * @param object $category, die Kategorie, deren Hauptkategorie gsucht wird.
      * @return object, die Hauptkategorie
      */
-    function get_rootCategory() {
+    public function get_rootCategory() {
         global $DB;
 
         //ermittle Rootkategorie:
@@ -738,29 +735,26 @@ class directorylisting {
 
     /** stellt die Kategorieliste der aktuellen Kategorie dar
      *
-     * @param Object $category die aktuelle Kategorie
-     *  @param bool $editingon, true, falls Bearbeiten eingeschalten
+     * @param bool $editingon, true, falls Bearbeiten eingeschalten
      */
-    function print_CategoriesList($editingon) {
+    public function print_CategoriesList($editingon) {
         global $OUTPUT;
 
-        $hauptbereich = directorylisting::get_rootCategory();
+        $hauptbereich = $this->get_rootCategory();
         echo "<h1>".get_string('catheading', 'block_custom_category', $hauptbereich->name)."</h1>";
 
         echo $OUTPUT->box_start('','categories');
         //aktuelle Kategorie ausgeben
-        directorylisting::_printKategorie($this->_category, $editingon, "category-open");
-        directorylisting::_printSubCategories($this->_category, $editingon);
+        self::_printKategorie($this->_category, $editingon, "category-open");
+        $this->_printSubCategories($this->_category, $editingon);
 
         echo $OUTPUT->box_end();
     }
 
     /** gibt den Beschreibungstext der Kategorie aus
      *
-     * @param Object $category, die momentane Kategorie
-     * @param Object $context, der Kontext der momentanen Kategorie
      */
-    function print_CategoriesDescription() {
+    public function print_CategoriesDescription() {
         global $OUTPUT;
 
         $category = $this->_category;
@@ -847,11 +841,11 @@ class directorylisting {
      *
      * @param int $movecourseid, die ID des zu verschiebenden Kurses
      * @param int $categoryid, die ID des Zielkursbereiches
-     * @param int $beforecourseid, die ID des nachfolgenden Kurses oder 0, wenn an
-     *              das Ende der Liste verschoben werden soll.
-     * @return true, falls das Verschieben erfolgreich war
+     * @param $aftercourseid
+     * @param $afterlinkid
+     * @return bool true, falls das Verschieben erfolgreich war
      */
-    protected function _doMoveCourse($movecourseid, $categoryid, $aftercourseid, $afterlinkid) {
+    protected static function _doMoveCourse($movecourseid, $categoryid, $aftercourseid, $afterlinkid) {
         global $DB, $SESSION;
 
         if (!confirm_sesskey()) return false;
@@ -952,11 +946,9 @@ class directorylisting {
 
     /** erstellt eine Zielmarke zu der der Kurs $coursetomove hin verschoben werden kann
      *
-     * @param int $categoryid, die aktuelle ID der Kursbereichsseite
-     * @param int $coursetomove, die ID des zu verschiebenden Kurses
-     * @param int $beforecourseid, die ID des nachfolgenden Kurses
+     * @param $position
      */
-    function _printMoveCourseMarker($position) {
+    public function _printMoveCourseMarker($position) {
 
         if (!$this->_coursetomove) return;
 
@@ -984,10 +976,10 @@ class directorylisting {
      * @param object $course the course object.
      * @param string $highlightterms (optional) some search terms that should be highlighted in the display.
      */
-    function _print_course($course, $highlightterms = '') {
+    public static function _print_course($course, $highlightterms = '') {
         global $CFG, $USER, $DB, $OUTPUT;
 
-        $context = get_context_instance(CONTEXT_COURSE, $course->id);
+        $context = context_course::instance($course->id);
 
         // Rewrite file URLs so that they are correct
         $course->summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course', 'summary', NULL);
@@ -1096,7 +1088,7 @@ class directorylisting {
      * @param Array $highlightterms, hervorzuhebende Textteile
      * @return String, die Kursinformation
      */
-    function render_CourseInformation($course, $highlightterms = array()) {
+    public static function render_CourseInformation($course, $highlightterms = array()) {
         global $CFG;
 
         //Ecken abrunden und schön darstellen...
@@ -1180,7 +1172,7 @@ class directorylisting {
 
     /** ermittelt, ob eine Verlinkung im aktuellen Kursbereich möglich ist
      *
-     * @global moodl_database $DB
+     * @global moodle_database $DB
      * @global object $OUTPUT
      * @return mixed false, wenn keine Verlinkung möglich ist sonst das Objekt des zu verlinkenden Kurses
      */
@@ -1245,7 +1237,7 @@ class directorylisting {
      * @global <type> $DB
      * @param <type> $categoryid
      */
-    protected function _fix_courselink_sortorder($categoryid) {
+    protected static function _fix_courselink_sortorder($categoryid) {
         global $DB;
 
         //hole ein Array mit courseid => sortorder aus mdl_course
@@ -1284,7 +1276,7 @@ class directorylisting {
      * @param int $categoryid, die ID des Kursbereiches
      * @return bool true, falls ein solcher Link existiert
      */
-    protected function _linkExists($courseid, $categoryid) {
+    protected static function _linkExists($courseid, $categoryid) {
         global $DB;
         static $links_incategory = array();
 
@@ -1299,17 +1291,16 @@ class directorylisting {
         return in_array($courseid, $links_incategory[$categoryid]);
     }
 
-
     /** verschiebt den Kurs mit der ID $movecourseid in die Kategorie ($categoryid)
      * vor den Kurs $beforecourseid
      *
-     * @param int $movecourseid, die ID des zu verschiebenden Kurses
+     * @param $movelinkid
      * @param int $categoryid, die ID des Zielkursbereiches
-     * @param int $beforecourseid, die ID des nachfolgenden Kurses oder 0, wenn an
-     *              das Ende der Liste verschoben werden soll.
-     * @return true, falls das Verschieben erfolgreich war
+     * @param $aftercourseid
+     * @param $afterlinkid
+     * @return bool true, falls das Verschieben erfolgreich war
      */
-    protected function _doMoveLink($movelinkid, $categoryid, $aftercourseid, $afterlinkid) {
+    protected static function _doMoveLink($movelinkid, $categoryid, $aftercourseid, $afterlinkid) {
         global $DB, $SESSION;
 
         //Prüfen, ob Parameter sinnvoll
@@ -1430,12 +1421,12 @@ class directorylisting {
      * @param int $categoryid, die ID des Kursbereiches
      * @param int $aftercourseid, 0 oder die ID des vorangegangen Kurses
      * @param int $aftercourselinkid, 0 oder die ID des letzten vorangeganenen Kurslinks
-     * @return none
+     * @return void
      */
-    protected function _doCreateCourseLink($courseid, $categoryid, $aftercourseid, $aftercourselinkid) {
+    protected static function _doCreateCourseLink($courseid, $categoryid, $aftercourseid, $aftercourselinkid) {
         global $DB, $SESSION;
 
-        if (!confirm_sesskey()) return false;
+        if (!confirm_sesskey()) return;
 
         if (directorylisting::_linkExists($courseid, $categoryid)) return;
 
@@ -1444,7 +1435,7 @@ class directorylisting {
         $courses = $DB->get_records_sql($sql, array('courseid' => $courseid, 'aftercourseid' => $aftercourseid));
 
         //zu verlinkender Kurs ist ungültig
-        if (!isset($courses[$courseid])) return false;
+        if (!isset($courses[$courseid])) return;
 
         //Liste aller Links zur gleichen $aftercourseid holen
         $sql = "SELECT * FROM {category_course_link} WHERE aftercourseid = :aftercourseid ".
@@ -1519,12 +1510,12 @@ class directorylisting {
      *
      * @global moodle_database $DB
      * @param int $courselinkid, die ID der zu löschenden Kurslinks
-     * @return none
+     * @return void
      */
-    protected function _doDeleteCourseLink($courselinkid) {
+    protected static function _doDeleteCourseLink($courselinkid) {
         global $DB;
 
-        if (!confirm_sesskey()) return false;
+        if (!confirm_sesskey()) return;
 
         $sql = "DELETE FROM {category_course_link} WHERE id= :courselinkid";
         $DB->execute($sql, array('courselinkid' => $courselinkid));
@@ -1534,12 +1525,10 @@ class directorylisting {
 
     /** erstellt eine Zielmarke zu der der Kurs $coursetomove hin verschoben werden kann
      *
-     * @param int $categoryid, die aktuelle ID der Kursbereichsseite
-     * @param int $coursetomove, die ID des zu verschiebenden Kurses
      * @param array $position, enthält die IDs der unmittelbar vorangegangenen
      * Kurslinks und Kurse
      */
-    function _printCreateCourseLinkMarker($position) {
+    public function _printCreateCourseLinkMarker($position) {
 
         if (!$this->_coursetolink) return;
 
@@ -1561,7 +1550,7 @@ class directorylisting {
         echo '</td></tr>';
     }
 
-    function _printMoveCourseLinkMarker($position) {
+    public function _printMoveCourseLinkMarker($position) {
 
         if (!$this->_linktomove) return;
 
@@ -1587,7 +1576,7 @@ class directorylisting {
     //--- Kursliste ----------------------------------------------------------------
 
     /** Adminhilfe: gibt alle zugewiesenen Rollen im aktuellen Kontext aus */
-    function print_RolesInfo($context) {
+    public function print_RolesInfo($context) {
         global $CFG, $DB, $OUTPUT, $PAGE;
         // Show UI for choosing a role to assign.
 
@@ -1665,4 +1654,3 @@ class directorylisting {
         echo "</div>";
     }
 }
-?>

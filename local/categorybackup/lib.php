@@ -397,7 +397,11 @@ class categorybackup {
             $msgdetails = new stdClass();
             $msgdetails->shortname = $shortname;
             $msgdetails->category = $category->name;
-            echo html_writer::tag('li', get_string('coursealreadyexists', 'local_categorybackup', $msgdetails));
+            if (!defined('CLI_SCRIPT')) {
+                echo html_writer::tag('li', get_string('coursealreadyexists', 'local_categorybackup', $msgdetails));
+            } else {
+                echo '* '.get_string('coursealreadyexists', 'local_categorybackup', $msgdetails)."\n";
+            }
             categorybackup::delete_files($unpackpath);
             @rmdir($unpackpath);
             return;

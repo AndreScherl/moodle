@@ -95,7 +95,8 @@ class block_meinekurse extends block_base {
         $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
         //Get courses:
-        $mycourses = meinekurse::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $pagenum);
+        $mycourses = meinekurse::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school,
+                                                $pagenum, $prefs->otherschool);
 
         $starttab = 0;
         $tabnum = 0;
@@ -115,7 +116,8 @@ class block_meinekurse extends block_base {
         // Tab headings.
         $content .= '<ul>';
         foreach ($mycourses as $school) {
-            $tab = html_writer::link("#school{$school->id}tab", format_string($school->name));
+            $tab = html_writer::link("#school{$school->id}tab", format_string($school->name),
+                                     array('id' => "school{$school->id}tablink"));
             $tab = html_writer::tag('li', $tab, array('class' => 'block'));
             $content .= $tab;
         }
@@ -127,10 +129,14 @@ class block_meinekurse extends block_base {
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = self::sorting_form($baseurl, $prefs->sortby, $numcourses);
+            $tab = self::sorting_form($baseurl, $prefs->sortby, $numcourses, $school->schools, $prefs->otherschool);
             $tabcontent = meinekurse::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $tab .=  html_writer::tag('div', $tabcontent, array('class' => 'courseandpaging'));
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
+        }
+
+        if (empty($mycourses)) {
+            $content .= html_writer::tag('p', get_string('nocourses', 'block_meinekurse'));
         }
 
         $content .= '</div>';
@@ -172,13 +178,16 @@ class block_meinekurse extends block_base {
      * @param moodle_url $baseurl the URL to base the links on
      * @param string $selectedtype the sort currently selected
      * @param $numcourses
+     * @param array $otherschools
+     * @param int $otherschoolid
      * @return string html snipet for the icons
      */
-    protected static function sorting_form($baseurl, $selectedtype, $numcourses) {
+    protected static function sorting_form($baseurl, $selectedtype, $numcourses, $otherschools, $otherschoolid) {
 
         $prefs = new stdClass();
         $prefs->sortby = $selectedtype;
         $prefs->numcourses = $numcourses;
+        $prefs->otherschoolid = $otherschoolid;
 
         $out = '';
         $out .= html_writer::input_hidden_params($baseurl);
@@ -186,11 +195,19 @@ class block_meinekurse extends block_base {
         $table->head = array(
             get_string('sortby', 'block_meinekurse'),
             get_string('numcourses', 'block_meinekurse'));
+        if (count($otherschools) > 2) {
+            $table->head[] = get_string('school', 'block_meinekurse');
+        }
         $table->align = array('center', 'center', 'center');
         $table->data = array();
         $row = array();
-        $row[] = self::html_select('sortby', array('name', 'timecreated', 'timevisited'), true, $prefs);
-        $row[] = self::html_select('numcourses', array(5, 10, 20, 50, 100), false, $prefs);
+        $sortopts = array('name', 'timecreated', 'timevisited');
+        $row[] = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs);
+        $numopts = array(5, 10, 20, 50, 100);
+        $row[] = self::html_select('numcourses', array_combine($numopts, $numopts), false, $prefs);
+        if (count($otherschools) > 2) {
+            $row[] = self::html_select('otherschoolid', $otherschools, false, $prefs);
+        }
         $table->data[] = $row;
         $out .= html_writer::table($table);
 
@@ -211,13 +228,13 @@ class block_meinekurse extends block_base {
         }
         $fullname = "meinekurse_{$selectname}";
         $select = '<select name="'. $fullname . '" class="'.$fullname.'">';
-        foreach ($options as $option) {
+        foreach ($options as $key => $option) {
             $selected = '';
-            if (isset($data->{$selectname}) && $data->{$selectname} == $option) {
+            if (isset($data->{$selectname}) && $data->{$selectname} == $key) {
                 $selected = ' selected="selected"';
             }
             $display = $usegetstring ? get_string($option, 'block_meinekurse') : $option;
-            $select .= '<option value="' . $option . '"' . $selected . '>' . $display . '</option>';
+            $select .= '<option value="' . $key . '"' . $selected . '>' . $display . '</option>';
         }
         $select .= '</select>';
         return $select;

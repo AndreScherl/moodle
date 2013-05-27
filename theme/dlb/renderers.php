@@ -15,6 +15,8 @@
  #########################################################################
 */
 
+global $CFG;
+
 class theme_dlb_core_renderer extends core_renderer {
 
     /** im Konstruktor wird geprüft, ob ein zusätzliches Stylesheet geladen werden muss,
@@ -588,5 +590,45 @@ vrweb_brhandling = '0';
 <?php
 
 
+    }
+}
+
+// The following code embeds the mediathek player in the 'preview' page when inserting video/audion
+require_once($CFG->libdir.'/medialib.php');
+class core_media_player_mediathek extends core_media_player_external {
+    protected function embed_external(moodle_url $url, $name, $width, $height, $options) {
+        global $DB;
+        $hash = $this->matches[1];
+        if ($desturl = $DB->get_field('repository_mediathek_link', 'url', array('hash' => $hash))) {
+            return '<iframe style="height:300px;width:400px;" src="'.$desturl.'"></iframe>';
+        }
+
+        return core_media_player::PLACEHOLDER;
+    }
+
+    protected function get_regex() {
+        global $CFG;
+        $basepath = preg_quote("{$CFG->wwwroot}/repository/mediathek/link.php?hash=");
+        $regex = "%{$basepath}([a-z0-9]*)(&|&amp;)embed=1%";
+        return $regex;
+    }
+
+    public function get_rank() {
+        return 1020;
+    }
+
+    public function get_embeddable_markers() {
+        return array('repository/mediathek/link.php');
+    }
+
+    public function is_enabled() {
+        return true;
+    }
+}
+class theme_dlb_core_media_renderer extends core_media_renderer {
+    protected function get_players_raw() {
+        $ret = parent::get_players_raw();
+        $ret += array('mediathek' => new core_media_player_mediathek());
+        return $ret;
     }
 }

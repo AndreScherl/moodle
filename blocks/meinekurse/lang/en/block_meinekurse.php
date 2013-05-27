@@ -3,6 +3,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['allcourses'] = 'All courses';
+$string['allotherschools'] = 'All other schools';
 $string['assignments'] = 'Assignments';
 $string['coursesastrainer'] = 'Courses As Teacher';
 $string['deadline'] = 'Deadline';
@@ -25,10 +26,12 @@ $string['numgradedsubmissions'] = 'Number of graded submissions';
 $string['numposts'] = 'Number of posts';
 $string['numsubmissions'] = 'Number of submissions';
 $string['numtests'] = 'Number of completed tests';
+$string['otherschools'] = 'Other schools';
 $string['pluginname'] = 'My Courses';
 $string['posts'] = 'posts';
 $string['quizes'] = 'Quizes';
 $string['resources'] = 'Resources';
+$string['school'] = 'School';
 $string['sincelastlogin'] = 'since last login';
 $string['sortby'] = 'Sort By';
 $string['sortname'] = 'Sort by name';

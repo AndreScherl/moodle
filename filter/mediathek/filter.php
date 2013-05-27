@@ -39,7 +39,7 @@ class filter_mediathek extends moodle_text_filter {
             //$desturl = $match[1].$match[2];
             $hash = $match[2];
             if ($desturl = $DB->get_field('repository_mediathek_link', 'url', array('hash' => $hash))) {
-                $replace = '<iframe style="height:300px;width:400px;border:1px solid red;" src="'.$desturl.'"></iframe>';
+                $replace = '<iframe style="height:300px;width:400px;" src="'.$desturl.'"></iframe>';
                 $text = str_replace($find, $replace, $text);
             }
         }

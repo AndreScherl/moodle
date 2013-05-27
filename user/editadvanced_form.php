@@ -193,7 +193,7 @@ class user_editadvanced_form extends moodleform {
             }
         }
 
-        //HACK: awag leere E-Mail nicht überprüfen
+        //+++ awag H019: leere E-Mail nicht überprüfen
         if (!empty($usernew->email) and (!$user or $user->email !== $usernew->email)) {
         //if (!$user or $user->email !== $usernew->email) {
             if (!validate_email($usernew->email)) {

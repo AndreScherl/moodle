@@ -2354,7 +2354,7 @@ function send_file($path, $filename, $lifetime = 'default' , $filter=0, $pathiss
  */
 function send_stored_file($stored_file, $lifetime=86400 , $filter=0, $forcedownload=false, array $options=array()) {
     global $CFG, $COURSE;
-
+    
     if (empty($options['filename'])) {
         $filename = null;
     } else {
@@ -2424,6 +2424,12 @@ function send_stored_file($stored_file, $lifetime=86400 , $filter=0, $forcedownl
     if (check_browser_version('MSIE')) {
         $filename = rawurlencode($filename);
     }
+    
+     //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
+    include($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+    datenschutz::hook_filelib_send_stored_file($stored_file);
+    //--- awag
+    
 
     if ($forcedownload) {
         header('Content-Disposition: attachment; filename="'.$filename.'"');

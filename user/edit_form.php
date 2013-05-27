@@ -135,9 +135,9 @@ class user_edit_form extends moodleform {
         $usernew = (object)$usernew;
         $user    = $DB->get_record('user', array('id'=>$usernew->id));
 
-        //HACK: awag leere E-Mail zulassen
+        //+++ awag H019: leere E-Mail nicht überprüfen
         if (!empty($usernew->email)) {
-            //awag
+            //---awag
 
             // validate email
             if (!isset($usernew->email)) {
@@ -158,7 +158,9 @@ class user_edit_form extends moodleform {
                     $errors['email'] = $errorstr;
                 }
             }
+        //+++ awag H019    
         }
+        //--- awag
 
         /// Next the customisable profile fields
         $errors += profile_validation($usernew, $files);

@@ -154,9 +154,9 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('static', 'emailpending', get_string('email'), $notice);
     } else {
         $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
-        //+++ awag Hack: E-Mailadresse ist nicht verpflichtend!
+        //+++ awag H015 E-Mailadresse ist nicht verpflichtend!
         //$mform->addRule('email', $strrequired, 'required', null, 'client');
-        //--- awag Hack: E-Mailadresse ist nicht verpflichtend!
+        //--- awag 
     }
 
     $choices = array();
@@ -229,7 +229,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
     $choices = get_string_manager()->get_list_of_countries();
     $choices= array(''=>get_string('selectacountry').'...') + $choices;
     $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
-    //awag Land nicht verflichtend $mform->addRule('country', $strrequired, 'required', null, 'client');
+    //+++ awag H015 Land nicht verflichtend $mform->addRule('country', $strrequired, 'required', null, 'client');
     if (!empty($CFG->country)) {
         $mform->setDefault('country', $CFG->country);
     }
@@ -278,6 +278,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
             $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
             $mform->addHelpButton('imagefile', 'newpicture');
         } else {
+            //+++ synergy: Profilepicture
             require_once($CFG->dirroot.'/local/profilepicture/lib.php');
             $mform->addElement('profilepicture', 'imagefile', get_string('newpicture'));
         }
@@ -331,12 +332,6 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
 
     $mform->addElement('text', 'address', get_string('address'), 'maxlength="70" size="25"');
     $mform->setType('address', PARAM_TEXT);
-
-    //+++ awag DS10 (H003) Sichtbarkeitsregel-Schule nur nicht bearbeitbar
-    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
-    datenschutz::hook_user_editlib_useredit_shared_definition($mform, $user);
-    //---
-
 }
 
 

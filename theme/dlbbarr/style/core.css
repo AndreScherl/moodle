@@ -50,3 +50,24 @@ input.disabled {
     background: url([[pix:theme|breadcrumb/bg-breadcrumb-end]]) no-repeat;
 }
 
+
+.mform fieldset legend {
+    color: #000;
+}
+
+.mform fieldset {
+    border: 1px solid #000;
+}
+
+/** wegen Hotpot-Styledeklarationen */
+#region-main .breadcrumb a {
+    color: #000 !important;
+}
+
+#region-main .breadcrumb a:hover {
+    color: #000 !important;
+}
+
+input:focus,select:focus, textarea:focus {
+    background-color: #fff;
+}

@@ -3,93 +3,20 @@ html {
     background: #FFFFFF;
 }
 
-/* ..fuer Startseite*/
-html#frontpage {
-    background: url([[pix:theme|bg-frontpage]]) no-repeat;
-}
 
-/* mebis-header fuer Startseite*/
-#mebis-header {
-    height: 112px;
-    width : 100%;
-    background-position: right;
-}
-
-/* für IE6 */
-.path-site.ie6 #mebis-header {
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='theme/dlb/pix/mebis-header.png');
-}
-
-/* Header sonstige Seiten */
-#general-header-left {
-    background: url([[pix:theme|bg-header-links]]) no-repeat;
-    display:block;
-    width: 188px;
-    height: 88px;
-    margin-left: 50px;
-    float:left;
-    box-shadow: 4px 4px 8px #666666;
-}
 
 #general-header-middle h1 {
-    font-size:20px;
-    color: #336699;
-    line-height: 23px;
-}
-
-#general-header-right {
-    background: url([[pix:theme|bg-header-rechts]]) no-repeat;
-}
-
-/* Hintergruende Starseite */
-.path-site #page-content-bg-top {
-    background: url([[pix:theme|page/bg-frontpage-content-top]]) no-repeat scroll right top;
-}
-
-.path-site #page-content-bg-topfade {
-    background: url([[pix:theme|page/bg-frontpage-content-topfade]]) no-repeat scroll right top;
-}
-
-.path-site #page-content-bg-bottomfade {
-    background: url([[pix:theme|page/bg-frontpage-content-bottomfade]]) no-repeat scroll right bottom;
-}
-
-.path-site #page-content-bg {
-    background: url([[pix:theme|page/bg-frontpage-content]]) repeat-y right top;
-}
-
-.path-site #page-content-bg-bottom {
-    background: url([[pix:theme|page/bg-frontpage-content-bottom]]) no-repeat scroll right top;
+    
+    color: #000;
+    
 }
 
 #page-content-bg-top-left {
-    background: #FFFFFF url([[pix:theme|page/bg-page-top-left]]) no-repeat scroll right top;
-}
-
-#page-content-bg-top-right {
-    background: url([[pix:theme|page/bg-page-top-right]]) no-repeat;
-}
-
-#page-content-bg {
-    background: #ffffff url([[pix:theme|page/bg-page-content-left]]) repeat-y scroll left top;
-}
-
-#page-bg-content-left, #page-header {
-    background:  url([[pix:theme|page/bg-page-content-right]]) repeat-y scroll right top;
-}
-
-#page-content-bg-bottom {
-    background: url([[pix:theme|page/bg-page-bottom-middle]]) repeat-x;
-}
-
-#page-content-bg-bottom-right {
-    background: url([[pix:theme|page/bg-page-bottom-right]]) no-repeat;
+    background: url([[pix:theme|page/bg-page-top-left]]) no-repeat scroll right top #FFF;
+    
 }
 
 #page-content-bg-bottom-left {
-    background: #FFFFFF url([[pix:theme|page/bg-page-bottom-left]]) no-repeat scroll right top;
-}
-
-.pagelayout-popup #page-content-bg {
-    background: #ffffff url([[pix:theme|page/bg-page-content-left]]) repeat-y scroll -46px top;
+    background: url([[pix:theme|page/bg-page-bottom-left]]) no-repeat scroll right top #FFF;
+   
 }

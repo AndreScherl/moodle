@@ -27,3 +27,6 @@ $string['pluginname'] = 'DLB-Theme';
 $string['region-side-post'] = 'Right';
 $string['region-side-pre'] = 'Left';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';
+$string['loggedinas'] = 'Welcome,{$a}';
+$string['loggedinnot'] = '';
+$string['login'] = '';

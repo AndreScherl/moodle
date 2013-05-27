@@ -10,8 +10,8 @@
 #toolbar-wrapper {
     background: url([[pix:theme|toolbar/bg-toolbar]]) repeat-x;
     position:absolute;
-    top : 94px;
-    height:50px;
+    top : 0px;
+    height:35px;
     left:0;
     right:0;
     min-width: 960px;
@@ -23,7 +23,7 @@
 
 /** Startseitenposition Toolbar*/
 body.path-site #toolbar-wrapper {
-    top : 120px;
+    top : 0px;
     min-width: 960px;
 }
 
@@ -41,20 +41,31 @@ body.path-site #toolbar-wrapper {
     min-width : 450px;
 }
 /** Icons auf der Toolbar */
-#toolbar-content {
+
+#toolbar-content
+{
     margin-left: 52px;
-    padding-top: 6px;
-    font-size: 12px;
+    padding-top: 0px;
+    font-size: 13px;
 }
 
-.toolbar-content-item {
+.toolbar-content-item
+ {
     float:left;
     text-align: center;
-    margin-right:25px;
+    margin-right:20px;
+}
+
+#toolbar-content-left{
+	min-height:1px;
+	float:left;
+	width:345px;
 }
 
 /* Positionierung der Lesehilfe */
-#toolbar-content-item_10,
+
+
+
 #toolbar-content-item_6,
 #toolbar-content-item_8,
 #toolbar-content-item_7,
@@ -62,22 +73,52 @@ body.path-site #toolbar-wrapper {
     line-height: 30px;
     margin: 6px;
     float:right;
-    margin-top: 4px;
+    margin-top: 2px;
+    margin-right:4px;
 }
 
+#toolbar-login{
+	margin: 30px;
+    float:left;
+    margin-top: 8px;
+    margin-right: 10px;
+    
+}
+#logininfo{
+	margin: 2px;
+    float:left;
+    margin-top: 0px;
+    
+}
 
+#toolbar-content-item_10{
+	line-height: 30px;
+    
+    float:right;
+    margin-top: 2px;
+	margin-right:6px;
+	
+}
+
+#toolbar-content-item_10 .toolbar-tooltip {
+    margin-left: 10%;
+    min-width:100px;
+    margin-top: 3px;
+}
 
 /**Toolbar Tipp*/
 #block-toolbarcontent  a + div, #block-toolbarcontent a + div,
-#toolbar-content  a + div, #toolbar-login a + div {
+#toolbar-content  a + div, #toolbar-login a + div, #toolbar-content-item_10 a + div {
     display: none;
     position: absolute;
     z-index: 10000;
+    
 }
 
 #block-toolbarcontent  a:hover + div, #block-toolbarcontent a:hover + div,
-#toolbar-content a:hover + div, #toolbar-login a:hover + div {
+#toolbar-content a:hover + div, #toolbar-login a:hover + div, #toolbar-content-item_10 a:hover + div{
     display: block;
+    margin-top: 0px;
 }
 
 #block-toolbarcontent {
@@ -85,6 +126,7 @@ body.path-site #toolbar-wrapper {
 }
 
 /** Toolbar im Block */
+
 
 #block-toolbarcontent #toolbar-content-item_6,
 #block-toolbarcontent #toolbar-content-item_8,
@@ -100,11 +142,7 @@ body.path-site #toolbar-wrapper {
     line-height: 27px;
 }
 
-#toolbar-login {
-    padding-top: 4px;
-    float:right;
-    margin: 0 8px;
-}
+
 
 #toolbar-login a, #toolbar-content  a {
     text-decoration: none;
@@ -113,10 +151,22 @@ body.path-site #toolbar-wrapper {
 .toolbar-tooltip {
     white-space: nowrap;
     margin-left: -30%;
+    
+}
+
+
+#toolbar-content-item_6 .toolbar-tooltip,
+#toolbar-content-item_7 .toolbar-tooltip, 
+#toolbar-content-item_8 .toolbar-tooltip,
+#toolbar-content-item_9 .toolbar-tooltip{
+    white-space: nowrap;
+    margin-left: -30%;
+    margin-top:3px;
 }
 
 #toolbar-login .toolbar-tooltip {
-    margin-left: -15%;
+    margin-left: 10%;
+    margin-top: 7px;
     min-width:100px;
 }
 
@@ -134,19 +184,13 @@ body.path-site #toolbar-wrapper {
     width:7px;
 }
 
-/*Supportbutton*/
-
-#toolbar-content-item_10{
-
-margin-top: 0px;
-margin-right:10px;
-}
 
 
 /* Logininfo in der Toolbar*/
 .headermenu {
     font-size: 1em;
-    margin: 5px 10px;
+    margin: 5px 6px;
+    
 }
 
 
@@ -159,10 +203,12 @@ margin-right:10px;
 
 
 .toolbar-toolpop {
-   margin-left: 22%;
+   margin-left: 0.5%;
    font-size: 1em;
    padding-bottom: 0px;
-   margin-top: -17px;
+   position:absolute;
+   margin-top: 4px;
+   
 }
 
 
@@ -171,6 +217,7 @@ margin-right:10px;
    float:left;
    line-height: 18px;
    height: 18px;
+   
 }
 
 
@@ -192,3 +239,4 @@ margin-right:10px;
     width:4px;
     
 }
+

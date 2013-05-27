@@ -52,20 +52,23 @@ echo $OUTPUT->doctype() ?>
     <body id="<?php p($PAGE->bodyid) ?>" class="<?php p($PAGE->bodyclasses.' '.join(' ', $bodyclasses)) ?>">
 
         <?php echo $OUTPUT->generalheader(); ?>
-        
+
         <div id="toolbar-wrapper">
             <div id="toolbar">
-               
+
+                <?php echo $OUTPUT->toolbar_content(); ?>
                 <?php echo $OUTPUT->toolbar_loginbutton(); ?>
+                <?php echo $OUTPUT->login_info(); ?>
+                <?php echo $OUTPUT->support_button(); ?>
+                <?php echo $OUTPUT->lang_menu();?>
+
                 <div class="headermenu"><?php
-                    echo $OUTPUT->login_info();
-                    echo $OUTPUT->lang_menu();
                     echo $PAGE->headingmenu;
                     ?></div>
-                 <?php echo $OUTPUT->toolbar_content(); ?>
-                <div><?php echo $OUTPUT->support_button(); ?></div>
+                 </div>
             </div>
         </div>
+
         <div id="page-wrapper">
             <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
@@ -149,7 +152,7 @@ echo $OUTPUT->doctype() ?>
                         </p>
 
                         <?php
-                        echo $OUTPUT->login_info();
+
                         echo $OUTPUT->home_link();
                         echo $OUTPUT->standard_footer_html();
                         ?>

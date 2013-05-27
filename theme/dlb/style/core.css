@@ -7,7 +7,7 @@
 /* Typographie */
 body {
     font-family: Arial, Helvetica, sans-serif;
-    font-size:12px;
+    font-size:13px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -15,31 +15,31 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-    font-size:16px;
+    font-size:17px;
     color: #336699;
     line-height: 32px;
 }
 
 h2, h3.sectionname, .course-content ul.topics li.section .left {
-    font-size : 15px;
+    font-size : 16px;
     font-weight:normal;
     line-height: 30px;
 }
 
 h3 {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 26px;
 }
 
 h4, h5 {
-    font-size: 12px;
+    font-size: 14px;
     color: #336699;
     line-height: 24px;
 }
 
 h5, h6 {
     font-style: italic;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 24px;
 }
 
@@ -81,7 +81,7 @@ blockquote, ul, ol, dl {
 }
 
 input, select, textarea, button {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 input:focus,select:focus, textarea:focus {

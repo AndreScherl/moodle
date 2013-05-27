@@ -97,7 +97,7 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
     /** überschreibt die originale Funktion, um einen Zeilenumbruch einzufügen  */
-    public function login_info($withlinks = NULL) {
+    public function login_info() {
         global $USER, $CFG, $DB, $SESSION;
 
         if (during_initial_install()) {
@@ -144,20 +144,25 @@ class theme_dlb_core_renderer extends core_renderer {
                 if ($role = $DB->get_record('role', array('id'=>$USER->access['rsw'][$context->path]))) {
                     $rolename = ': '.format_string($role->name);
                 }
-                $loggedinas = get_string('loggedinas', 'moodle', $username).$rolename.
+                //+++ atar: String loggedinas aus Theme-Languagefile geladen
+                $loggedinas = get_string('loggedinas', 'theme_dlb', $username).$rolename.
                         " (<a href=\"$CFG->wwwroot/course/view.php?id=$course->id&amp;switchrole=0&amp;sesskey=".sesskey()."\">".get_string('switchrolereturn').'</a>)';
-            } else {
-                $loggedinas = $realuserinfo.get_string('loggedinas', 'moodle', $username).' '.
-                        " (<a href=\"$CFG->wwwroot/login/logout.php?sesskey=".sesskey()."\">".get_string('logout').'</a>)';
             }
-        } else {
-            $loggedinas = get_string('loggedinnot', 'moodle');
+            //+++ atar: Logout-Link entfernt
+            else {
+                $loggedinas = $realuserinfo.get_string('loggedinas', 'theme_dlb', $username).'</a>';
+            }
+ $loggedinas = '<div class="logininfo"  id="logininfo">'.$loggedinas.'</div>';
+        }
+        //+++ atar: String loggedinnot und login aus Theme-Languagefile geladen
+        else {
+            $loggedinas = get_string('loggedinnot', 'theme_dlb');
             if (!$loginapge) {
-                $loggedinas .= " (<a href=\"$loginurl\">".get_string('login').'</a>)';
+                $loggedinas .= " <a href=\"$loginurl\">".get_string('login', 'theme_dlb').'</a>';
             }
         }
 
-        $loggedinas = '<div class="logininfo">'.$loggedinas.'</div>';
+
 
         if (isset($SESSION->justloggedin)) {
             unset($SESSION->justloggedin);
@@ -328,40 +333,6 @@ class theme_dlb_core_renderer extends core_renderer {
         return "<div><div class='toolbar-tooltip'><div class='tooltip-left'></div><div class='tooltip-content'>{$text}</div><div class='tooltip-right'></div></div><div style='clear:both'></div></div>";
     }
 
-    /**
-     * Return a formatted count of the number of upcoming calendar events, for displaying on the toolbar
-     * @return string
-     */
-    function toolbar_calendarcount() {
-        global $CFG;
-
-        require_once($CFG->dirroot.'/calendar/lib.php');
-
-        // Code copied from block_calendar_upcoming
-        $defaultlookahead = CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD;
-        if (isset($CFG->calendar_lookahead)) {
-            $defaultlookahead = intval($CFG->calendar_lookahead);
-        }
-        $lookahead = get_user_preferences('calendar_lookahead', $defaultlookahead);
-
-        $defaultmaxevents = CALENDAR_DEFAULT_UPCOMING_MAXEVENTS;
-        if (isset($CFG->calendar_maxevents)) {
-            $defaultmaxevents = intval($CFG->calendar_maxevents);
-        }
-        $maxevents = get_user_preferences('calendar_maxevents', $defaultmaxevents);
-
-        $filtercourse = calendar_get_default_courses();
-        list($courses, $group, $user) = calendar_set_filters($filtercourse);
-        $events = calendar_get_upcoming($courses, $group, $user, $lookahead, $maxevents);
-
-        $upcoming = count($events);
-        if ($upcoming == 0) {
-            return "";
-        }
-
-        return "<div><div class='toolbar-toolpop'><div class='toolpop-left'></div><div class='toolpop-content'>{$upcoming}</div><div class='toolpop-right'></div></div><div style='clear:both'></div></div>";
-    }
-
     /** ermittelt die Anzahl der ungelesenen Mitteilungen des aktuell eingeloggte Users und erzeugt den
      * HTML-Code zur Ausgabe in der Toolbar
      * @global object $USER
@@ -384,13 +355,20 @@ class theme_dlb_core_renderer extends core_renderer {
         if (isloggedin() and !isguestuser()) {
             $text = get_string('logout');
             $url = "{$CFG->wwwroot}/login/logout.php?sesskey=".sesskey();
+
+        $href = html_writer::link($url, $this->pix_icon('toolbar/logout', $text, 'theme', array('title'=>'')));
+        $content = html_writer::tag('div', $href.$this->toolbar_tooltip($text), array("class" => "toolbar-login-item", "id" => "toolbar-login"));
+
         } else {
             $text = get_string('login');
             $url = $CFG->wwwroot."/login/index.php";
+
+        $href = html_writer::link($url, $this->pix_icon('toolbar/login', $text, 'theme', array('title'=>'')));
+        $content = html_writer::tag('div', $href.$this->toolbar_tooltip($text), array("class" => "toolbar-login-item", "id" => "toolbar-login"));
+
         }
 
-        $href = html_writer::link($url, $this->pix_icon('toolbar/toolbar-login', $text, 'theme', array('title'=>'')));
-        $content = html_writer::tag('div', $href.$this->toolbar_tooltip($text), array("class" => "toolbar-login-item", "id" => "toolbar-login"));
+
         return $content;
     }
 
@@ -413,41 +391,8 @@ class theme_dlb_core_renderer extends core_renderer {
         $href = html_writer::link($CFG->wwwroot.$fontswitchurl."&value=-1",  $this->pix_icon('toolbar/toolbar-groesse3', 'Text kleiner', 'theme', array('title'=>'')));
         $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Text kleiner'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_9"));
 
-        /*$mylink =$CFG->wwwroot."/theme/dlb/help/help.php";
 
-        $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/toolbar-hilfe','Hilfe', 'theme', array('title'=>'')),new popup_action('click', $mylink,  'Help',array('height' => '400','width' => '500','top' => 0,'left' => 0,'menubar' => false,'location' => false,'scrollbars' => true,'resizable' => false,'toolbar' => false,'status' => false,'directories' => false,'fullscreen' => false,'dependent' => true)) );
 
-        $content .= html_writer::tag('div', $actionlink.$this->toolbar_tooltip('Hilfe'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-
-$contentreader ="<script type='text/javascript'><!--
-vrweb_icon = '01';
-vrweb_iconcolor = 'grey';
-vrweb_guilang = 'de';
-vrweb_lang = 'de-de';
-vrweb_srctype = 'html';
-vrweb_readcontent = 'text';
-vrweb_srccharset = 'utf8';
-vrweb_sitetopic = '';
-vrweb_simpleparse = '0';
-vrweb_readelementsname = '';
-vrweb_readelementsclass = '';
-vrweb_readelementsid = '';
-vrweb_exclelementsname = '';
-vrweb_exclelementsclass = '';
-vrweb_exclelementsid = '';
-vrweb_customerid = '11384';
-vrweb_cache = '0';
-vrweb_sndtype = '1';
-vrweb_sndquality = '4';
-vrweb_sndspeed = '100';
-vrweb_sndpitch = '100';
-vrweb_sndgender = 'W';
-vrweb_brhandling = '0';
-//--></script>
-<script type='text/javascript' src='http://vrweb.linguatec.net/javascripts/services/vrweb/readpremium2.js'></script>";
-        $content .= html_writer::tag('div', $contentreader, array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));*/
-
-        $content .= "<div style=\"clear:both\"></div>";
 
         return $content;
     }
@@ -463,6 +408,9 @@ vrweb_brhandling = '0';
             $href = html_writer::link($CFG->wwwroot."/my",  $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title'=>'')));
             $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
 
+            $href = html_writer::link($CFG->wwwroot."/course/index.php",  $this->pix_icon('toolbar/toolbar-kursbereich', 'Mein Schulbereich', 'theme', array('title'=>'')));
+            $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Mein Schulbereich'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
+
             $href = html_writer::link($CFG->wwwroot."/user/profile.php?id={$USER->id}",  $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title'=>'')));
             $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
 
@@ -471,7 +419,7 @@ vrweb_brhandling = '0';
         $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Portfolio'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_1"));
             */
 
-            $href = html_writer::link($CFG->wwwroot."/calendar/view.php?view=month",  $this->toolbar_calendarcount().$this->pix_icon('toolbar/toolbar-calendar', 'Kalender', 'theme', array('title'=>'')));
+            $href = html_writer::link($CFG->wwwroot."/calendar/view.php?view=month",  $this->pix_icon('toolbar/toolbar-calendar', 'Kalender', 'theme', array('title'=>'')));
             $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Kalender'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_3"));
 
             $href = html_writer::link($CFG->wwwroot."/message/index.php",  $this->toolbar_mymessage().$this->pix_icon('toolbar/toolbar-mitteilungen', 'Mitteilungen', 'theme', array('title'=>'')));
@@ -483,27 +431,37 @@ vrweb_brhandling = '0';
                 $href = html_writer::link($CFG->wwwroot."/user/files.php",  $this->pix_icon('toolbar/toolbar-dateien', 'Dateien', 'theme', array('title'=>'')));
                 $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Eigene Dateien'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_5"));
             }
+
+
         }
 
         //Themeumschalter
+        $content = html_writer::tag('div', $content, array("id"=>"toolbar-content-left"));
+
         $content .= $this->toolbar_themecontent();
 
         $content = html_writer::tag('div', $content, array("id"=>"toolbar-content"));
         return $content;
     }
 
-    function support_button() {
-        global $USER, $DB, $CFG, $SESSION;
+        function support_button() {
+        global $USER, $DB, $CFG;
+
 
         if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)) return "";
 
-	if (isset($SESSION->isTeacher)) {
-	    $USER->isTeacher = $SESSION->isTeacher;
-	    unset($SESSION->isTeacher);
+
+        if (!isset($USER->isTeacher) and (!empty($CFG->block_dlb_rolestosupport))) {
+
+            $sql = "SELECT count(*) as count FROM {role_assignments} Where roleid in ({$CFG->block_dlb_rolestosupport}) and userid = '{$USER->id}'";
+            $count = $DB->count_records_sql($sql);
+
+            //wird für die Dauer der SESSION gecacht.
+            $USER->isTeacher = ($count > 0);
         }
 
         $content = "";
-        if (isset($USER->isTeacher) and ($USER->isTeacher)) {
+        if ($USER->isTeacher) {
 
             /*$content .= html_writer::link($CFG->block_dlb_supporturl,  get_string('support', 'block_dlb'), array('target' => '_blank'));
             $content = "<div id='supportbutton'><div class='toolbar-bsupport'><div class='bsupport-left'></div><div class='bsupport-content'>{$content}</div><div class='bsupport-right'></div></div><div style='clear:both'></div></div>";
@@ -511,9 +469,9 @@ vrweb_brhandling = '0';
 
             $mylink =$CFG->block_dlb_supporturl;
 
-            $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support','Support', 'theme', array('title'=>'')),new popup_action('click', $mylink,  'Help',array('height' => '400','width' => '960','top' => 0,'left' => 0,'menubar' => false,'location' => false,'scrollbars' => true,'resizable' => false,'toolbar' => false,'status' => false,'directories' => false,'fullscreen' => false,'dependent' => true)) );
+            $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support','Support', 'theme', array('title'=>'')),new popup_action('click', $mylink,  'Help',array('height' => '400','width' => '500','top' => 0,'left' => 0,'menubar' => false,'location' => false,'scrollbars' => true,'resizable' => false,'toolbar' => false,'status' => false,'directories' => false,'fullscreen' => false,'dependent' => true)) );
 
-            $content .= html_writer::tag('div', $actionlink, array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
+            $content .= html_writer::tag('div', $actionlink.$this->toolbar_tooltip('Support'),array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
             $content .= "<div style=\"clear:both\"></div>";
 
 
@@ -534,7 +492,7 @@ vrweb_brhandling = '0';
         $dock_images = array("activity_modules", "admin_bookmarks", "blog_menu", "blog_recent",
                 "blog_tags", "calendar_month", "calendar_upcoming", "comments", "community",
                 "completionstatus",  "course_list", "course_overview", "course_summary", "dlb",
-                "feedback", "glossary_random", "html", "login", "meinekurse","mentees", "messages", "mnet_hosts",
+                "feedback", "glossary_random", "html", "login", "meinekurse","meineschulen","mentees", "messages", "mnet_hosts",
                 "myprofile", "navigation", "news_items" , "online_users", "participants",
                 "private_files", "quiz_results", "quickcourselist", "recent_activity", "rss_client",
                 "search_forums", "section_links", "selfcompletion" , "settings", "tags");
@@ -564,10 +522,12 @@ vrweb_brhandling = '0';
         return parent::standard_head_html().$this->_load_dock_images();
     }
 
+
+
     public function pagecontent_footer () {
         global $CFG;
-        
-        ?>
+    ?>
+
 <div class="page-content-footer">
     <div id="page-content-footer-right">
         <a href="http://alp.dillingen.de/" target="_blank">
@@ -587,6 +547,9 @@ vrweb_brhandling = '0';
         <?php echo $CFG->block_dlb_contentfooterleft; ?>
     </div>
 </div>
+
+
+
 <?php
 
 

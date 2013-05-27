@@ -26,6 +26,7 @@ body {
 /** allgemeiner Header */
 #general-header {
     height:95px;
+    padding-top: 45px;
 }
 
 #general-header-left {
@@ -44,7 +45,7 @@ body {
 }
 
 #general-header-middle h1 {
-    font-size:20px;
+    font-size:21px;
     color: #336699;
     line-height: 23px;
 }
@@ -63,7 +64,7 @@ body {
 }
 
 /* Inhaltsbereich  */
-#page {top:68px}
+#page {top:0px}
 
 .pagelayout-popup #page {
     top: 10px;
@@ -231,7 +232,7 @@ body.pagelayout-frontpage,
 .pagelayout-frontpage #page-content-bg-topfade,
 .pagelayout-frontpage #page-content-bg-bottomfade {
     /** Breite für IE7 nötig*/
-    width: 950px;
+    width: 960px;
 }
 
 /* mebis-header fuer Startseite*/
@@ -239,9 +240,11 @@ body.pagelayout-frontpage,
     height: 112px;
     width : 100%;
     background-position: right;
+    padding-top: 45px;
 }
 
 .mainMenuMebis,
+.mainMenuArchive,
 .mainMenuLMSActive,
 .mainMenuMediathek {
     height: 103px;
@@ -250,18 +253,29 @@ body.pagelayout-frontpage,
 }
 
 .mainMenuMebis,
+.mainMenuArchive,
 .mainMenuLMSActive {
     margin-right: 10px;
 }
 
 .mainMenuMebis {
     background: url([[pix:theme|head_mebis_inactive]]) no-repeat scroll 0 0 transparent;
-    width: 620px;
+    width: 455px;
 }
 
 .mainMenuMebis:hover {
     background: url([[pix:theme|head_mebis_active]]) no-repeat scroll 0 0 transparent;
 }
+
+.mainMenuArchive {
+    background:  url([[pix:theme|head_arc_inactive]]) no-repeat scroll 0 0 transparent;
+    width: 155px;
+}
+
+.mainMenuArchive:hover {
+    background:  url([[pix:theme|head_arc_active]]) no-repeat scroll 0 0 transparent;
+}
+
 
 .mainMenuLMSActive {
     background:  url([[pix:theme|head_lms_active]]) no-repeat scroll 0 0 transparent;
@@ -292,7 +306,7 @@ body.pagelayout-frontpage,
 /** Inhaltsbereich Startseite */
 /*andere Positionierung für Startseite*/
 body.pagelayout-frontpage #page {
-    top:78px;
+    top:0px;
 }
 
 body.pagelayout-frontpage.no_toolbar #page {
@@ -410,9 +424,9 @@ body.pagelayout-frontpage.no_toolbar #page {
 }
 
 .pagelayout-frontpage #toolbar-content {
-    font-size: 12px;
+    font-size: 13px;
     margin-left: auto;
-    padding-top: 6px;
+    padding-top: 0px;
 }
 .pagelayout-frontpage #dock{
     margin-left: -52px;
@@ -483,3 +497,14 @@ body.pagelayout-frontpage.no_toolbar #page {
 .user-enroller-panel {
     z-index: 10;
 }
+
+.pagelayout-report .no-overflow {
+    overflow: auto;
+}
+
+.que .content {
+    overflow: auto;
+}
+
+
+

@@ -7,90 +7,57 @@
 
 /** Kacheln */
 #tile01, #tile02, #tile03, #tile04, #tile05, #tile06 {
-    float:left; width:245px; height:165px; margin-bottom:5px;
-}
-#tile01,#tile02, #tile04, #tile05 {
-    margin-right: 4px;
+    float:left; width:200px; height:220px; margin-bottom:5px; margin-left:26px;
 }
 
-#tile06, #tile03 {
-    margin-right:0px;
-}
+
+
 #tile01 {
-    background: url([[pix:theme|bg-digitales-lernen]]) no-repeat;
+    background: url([[pix:theme|aktuelles]]) no-repeat;
 }
 
 #tile02 {
-    background: url([[pix:theme|bg-aktuelles]]) no-repeat;
+    background: url([[pix:theme|beispiel]]) no-repeat;
 }
 
 #tile03 {
-    background: url([[pix:theme|bg-hilfe-support]]) no-repeat;
+    background: url([[pix:theme|fortbildung]]) no-repeat;
 }
 
 #tile04 {
-    background: url([[pix:theme|bg-kooperation]]) no-repeat;
-}
-#tile05 {
-    background: url([[pix:theme|bg-offene-kurse]]) no-repeat;
-}
-#tile06 {
-    background: url([[pix:theme|bg-fortbildung]]) no-repeat;
-    background-position: -2px 0;
+    background: url([[pix:theme|support]]) no-repeat;
 }
 
-#tilebuecher {
-    background: url([[pix:theme|bg-schule-finden]]) no-repeat;
-    height:165px;
-    width:490px;
-}
+
+
 
 .tilecontent {
     float:left;
     position: relative;
-    top: 30px;
-    left: 110px;
-    width: 104px;
+    top: 80px;
+    left: 20px;
+    right:20px;
+    width: 170px;
 }
 
 .tilecontent h3 {
     line-height: 18px;
+    
+    
 }
+
 
 
 .tilelink {
+	url([[pix:theme|img-weiterlesen]])
     float: right;
-    position: relative;
+    margin-left: 150px;
     margin-right: 20px;
-    top: 120px;
+    margin-top: 180px;
+    position: absolute;
 }
 
-#tilebuecher .tilecontent {
-    left: 300px;
-}
 
-/** Suchkachel */
-#categorysearch-result {
-    border : 1px solid silver;
-    border-top: 0px solid silver;
-    background: #ffe;
-    position:absolute;
-    z-index: 10000;
-}
-
-#categorysearch-result li {
-    padding : 3px;
-    list-style-type: none;
-}
-
-#coursesearchbox, #categorysearch-input {
-    height: 19px;
-    line-height: 19px;
-}
-
-#coursesearchbox input {
-    line-height: 19px;
-}
 
 /** Logos **/
 .region-content-footer {
@@ -202,3 +169,6 @@ background: url([[pix:theme|frontpage/logo_meb_hov]]) no-repeat;
     color: #336699;
 }
 
+.sitetopic .section li.activity, .course-content .section li.activity {
+    padding: 0;
+}

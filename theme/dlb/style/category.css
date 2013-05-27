@@ -39,14 +39,14 @@
 .category-open,
 .category-up, .category-up-last,
 .subcategory, .subcategory-last {
-    height: 20px;
-    line-height: 20px;
+    height: 24px;
+    line-height: 24px;
     padding-left: 46px;
 }
 
 .category-open {
     background : url([[pix:theme|category/bg-category-open]]) no-repeat;
-    padding-left: 23px;
+    padding-left: 33px;
 }
 
 .category-up {
@@ -243,26 +243,28 @@
 
 .categorylist .course .indentation {
     padding-left: 25px;
-    height: 20px;
+    height: 24px;
 }
 
 .categorylist .course .name {
-    padding-left: 25px;
+    padding-left: 28px;
     margin-left: -25px;
     background: url([[pix:theme|course/course]]) no-repeat;
     background-position: 2px center;
-     height: 20px;
+     height: 28px;
 }
 
 .categorylist .category {
-    height: 15px;
+    height: 20px;
 }
 
 .categorylist .category .name {
-    padding-left: 25px;
+    padding-left: 35px;
     background: url([[pix:theme|category/bg-category-open]]) no-repeat;
     background-position: 0 center;
-
+    padding-top: 5px;
+    line-height: 1.2em;
+    height:24px;
 }
 
 .categorybox {
@@ -273,6 +275,7 @@
 
 .categorybox .course:hover, .categorybox .category:hover {
     background: #ffffff;
+    
 }
 
 .settingsform h3 {
@@ -343,4 +346,8 @@
     border:2px solid red; background: #ffdddd; padding:10px
 }
 
-  
+  .categorylist .course {
+    line-height: 2.8em;
+    margin-bottom: 0.5em;
+    padding-left: 24px;
+}

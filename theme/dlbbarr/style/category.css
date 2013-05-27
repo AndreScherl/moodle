@@ -43,7 +43,7 @@
 }
 
 .infodock-oben-rechts {
-    background: #FFFFFF url([[pix:theme|category/bg-infodock-oben-rechts]]) no-repeat right top;
+    background: #FFFFFF url([[pix:theme|category/bg-infodock-oben-rechts]]) repeat-x right top;
     
     
 }
@@ -52,7 +52,7 @@
     
 }
 .infodock-unten-rechts {
-    background: #FFFFFF url([[pix:theme|category/bg-infodock-unten-rechts]]) no-repeat right bottom;
+    background: #FFFFFF url([[pix:theme|category/bg-infodock-unten-rechts]]) repeat-x right bottom;
     
 }
 
@@ -60,4 +60,24 @@
     clear: both;
     background: #E4E4E4;
     border-top: 1px solid #9f9f9f;
+}
+
+#infodock {
+    background: none repeat scroll 0 0 #dadada;
+    
+}
+
+#courselist-table .row-highlight {
+    background: none repeat scroll 0 0 #dadada;
+}
+
+
+.infodock-courseinfo {
+    background: none repeat scroll 0 0 #dadada;
+    
+}
+
+.categorybox {
+    background: none repeat scroll 0 0 #f1f1f1;
+    border: 1px solid #9f9f9f;
 }

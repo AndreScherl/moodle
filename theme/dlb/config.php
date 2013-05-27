@@ -157,6 +157,7 @@ $THEME->layouts = array(
     ),
 );
 
+
 // We don't want the base theme to be shown on the theme selection screen, by setting
 // this to true it will only be shown if theme designer mode is switched on.
 //$THEME->hidefromselector = false;

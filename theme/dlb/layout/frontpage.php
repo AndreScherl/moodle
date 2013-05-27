@@ -61,6 +61,9 @@ echo $OUTPUT->doctype(); ?>
                 <a href="http://mebis.bayern.de">
                     <div id="menuItemMebis" class="mainMenuMebis"> </div>
                 </a>
+                <a href="http://mebis.bayern.de">
+                    <div id="menuItemArch" class="mainMenuArchive"> </div>
+                </a>
                 <a href="http://lernplattform.mebis.bayern.de">
                     <div id="menuItemMoodle" class="mainMenuLMSActive"> </div>
                 </a>
@@ -70,13 +73,15 @@ echo $OUTPUT->doctype(); ?>
             </div>
             <div id="toolbar-wrapper">
                 <div id="toolbar">
-                    <?php echo $OUTPUT->toolbar_loginbutton(); ?>
+
                     <div class="headermenu"><?php
-                        echo $OUTPUT->login_info();
+
                         echo $OUTPUT->lang_menu();
                         echo $PAGE->headingmenu;
                         ?></div>
                     <?php echo $OUTPUT->toolbar_content(); ?>
+                     <?php echo $OUTPUT->toolbar_loginbutton(); ?>
+                <?php echo $OUTPUT->login_info(); ?>
                     <div><?php echo $OUTPUT->support_button(); ?></div>
                 </div>
             </div>
@@ -152,7 +157,7 @@ echo $OUTPUT->doctype(); ?>
                     </p>
 
                     <?php
-                    echo $OUTPUT->login_info();
+
                     echo $OUTPUT->home_link();
                     echo $OUTPUT->standard_footer_html();
                     ?>

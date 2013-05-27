@@ -328,7 +328,7 @@ if ($formdata = $mform2->is_cancelled()) {
 		/************ CHECK USER **************/
 		if ($existinguser_ldap = uu_search_user($user->username)) {
 			$upt->track('username', $existinguser_ldap->username, 'normal', false);
-			$existinguser_ldap->auth = 'ldapdlb';
+			$existinguser_ldap->auth = 'shibboleth';
 		}
 		
 		$existinguser_moodle = $DB->get_record('user', array('username'=>$user->username, 'mnethostid'=>$CFG->mnet_localhost_id));
@@ -518,7 +518,7 @@ if ($formdata = $mform2->is_cancelled()) {
 			$user->lang			= 'de';
 			$user->country 		= 'DE';
 
-			$user->auth = 'ldapdlb';
+			$user->auth = 'shibboleth';
 				
 			if (!empty($user->email)) {
            		if (!validate_email($user->email)) {

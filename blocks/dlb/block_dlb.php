@@ -19,7 +19,7 @@ class block_dlb extends block_base {
     function init() {
         $this->title = get_string('pluginname', 'block_dlb');
     }
-    
+
     function has_config() {return true;}
 
     function applicable_formats() {
@@ -160,10 +160,10 @@ class block_dlb extends block_base {
         foreach ($USER->managed_categories as $category) {
             $managecats .= "<li><a href=\"{$CFG->wwwroot}/course/category.php?id={$category->id} \">".$category->name."</a></li>";
             $link_createcourse = "<li><a href=\"{$CFG->wwwroot}/course/edit.php?category={$category->id}\">". get_string('addnewcourse')."</a></li>";
-            
+
             if (has_capability('block/custom_category:editheader', context_coursecat::instance($category->id))) {
-                
-                $link_editcategoryheader .= "<li><a href=\"{$CFG->wwwroot}/local/course/header/index.php?categoryid={$category->id}\" >".$category->name." - "
+
+                $link_editcategoryheader .= "<li><a href=\"{$CFG->wwwroot}/blocks/custom_category/header/index.php?categoryid={$category->id}\" >".$category->name." - "
                     . get_string('editcategoryheader', 'block_dlb')."</a></li>";
             }
         }
@@ -173,7 +173,7 @@ class block_dlb extends block_base {
         if (!empty($link_editcategoryheader)) {
             $str .= "<b>".get_string('managed_headers','block_dlb').":</b><ul>".$link_editcategoryheader."</ul>";
         }
-        
+
         $managecourses = "<b>".get_string('courses').":</b><ul>";
         $managecourses .= $link_createcourse;
         $managecourses .= "<li><a href=\"{$CFG->wwwroot}/course/index.php \">".get_string('allcourses', 'block_dlb')."</a></li></ul>";

@@ -316,8 +316,12 @@ class datenschutz {
 
         //Editor für alle entfernen => nicht sichtbar
         if ($mform->elementExists('description_editor')) {
+
             $mform->hardFreeze('description_editor');
-            $mform->setConstants('description_editor', array('description_editor' => ""));
+            $mform->addElement('hidden', 'description_editor[text]', '');
+            $mform->addElement('hidden', 'description_editor[format]', '0');
+            $mform->setConstants('description_editor[text]');
+            $mform->setConstants('description_editor[format]');
         }
 
         //admin hat Zugriff auf alle Felder...
@@ -642,4 +646,5 @@ class datenschutz {
         $output->html .= "</td></tr></table>";
         return $output;
     }
+
 }

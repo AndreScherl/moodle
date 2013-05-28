@@ -1,0 +1,111 @@
+#page-my-index #region-main .block.ui-state-default {
+	background: #dfe9f5;
+	border-top: 1px solid #9caabf;
+	color: #1b6a9c;
+}
+
+
+
+#page-my-index #region-main .block.ui-state-active {
+	background: #c2d4f4;
+	border-top: 1px solid #9caabf;
+	color: #1b6a9c;
+	border-bottom: 1px solid #6c8ba3;
+}
+
+#page-my-index #region-main .block .content {
+    background: none repeat scroll 0 0 ;
+}
+
+#page-my-index .mycoursestabs .header {
+	background: #c2d4f4;
+	
+}
+
+.mycoursestabs form {
+	background: #c2d4f4;
+	border-top: 1px solid #9caabf;
+}
+
+#page-my-index .mycoursestabs table tr {
+	background: #c2d4f4;
+	
+}
+
+#page-my-index .mycoursestabs table tr:focus {
+	background: #c2d4f4 !important;
+	
+}
+
+#page-my-index .mycoursestabs table tr:focus {
+	background: #c2d4f4 !important;
+	
+}
+
+
+#page-my-index .mycoursestabs .coursecontent {
+	background: #d1e6f4;
+}
+
+#page-my-index .mycoursestabs .coursecontent a {
+	background: #d1e6f4;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .r0 {
+
+	color: #295278;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .r1 {
+	
+	color: #295278;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .r1.hover {
+	background: #d1e6f4 !important;
+	color: #1b6a9c;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .r0.hover {
+	background: #d1e6f4 !important;
+	color: #1b6a9c;
+}
+
+#page-my-index .mycoursestabs table tr:active {
+	background: #d1e6f4 !important;
+	color: #1b6a9c;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0 {
+	background: #d1e6f4 !important;
+	color: #295278;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1 {
+	background: #d1e6f4 !important;
+	color: #295278;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r1.hover
+	{
+	background: #d1e6f4 !important;
+}
+
+#page-my-index .mycoursestabs .coursecontainer .meinekurse_content .r0.hover
+	{
+	background: #d1e6f4 !important;
+}
+
+
+.meineschulen_content .generaltable th {
+	background: #c2d4f4;
+}
+
+
+.meineschulen_content .meineschulen_school_form .meineschulen_school_form_inner
+	{
+	background: #dae3ee;
+	
+}
+
+

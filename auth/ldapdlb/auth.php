@@ -711,6 +711,68 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
         $this->ldap_close();
         return true;
     }
+	
+	/**
+     * Changes userpassword in LDAP
+     *
+     * Called when the user password is updated. It assumes it is
+     * called by an admin or that you've otherwise checked the user's
+     * credentials
+     *
+     * @param  object  $user        User table object
+     * @param  string  $newpassword Plaintext password (not crypted/md5'ed)
+     * @return boolean result
+     *
+     */
+    function user_update_password($user, $newpassword) {
+        global $USER, $DB;
+
+        $result = false;
+        $username = $user->username;
+
+        $extusername = textlib::convert($username, 'utf-8', $this->config->ldapencoding);
+        $extpassword = textlib::convert($newpassword, 'utf-8', $this->config->ldapencoding);
+
+        switch ($this->config->passtype) {
+            case 'md5':
+                $extpassword = '{MD5}' . base64_encode(pack('H*', md5($extpassword)));
+                break;
+            case 'sha1':
+                $extpassword = '{SHA}' . base64_encode(pack('H*', sha1($extpassword)));
+                break;
+            case 'plaintext':
+            default:
+                break; // plaintext
+        }
+
+        $ldapconnection = $this->ldap_connect();
+
+        $user_dn = $this->ldap_find_userdn($ldapconnection, $extusername);
+
+        if (!$user_dn) {
+            error_log($this->errorlogtag.get_string ('nodnforusername', 'auth_ldap', $user->username));
+            return false;
+        }
+
+        // Send LDAP the password in cleartext, it will md5 it itself
+        $result = ldap_modify($ldapconnection, $user_dn, array('userPassword' => $extpassword));
+        if (!$result) {
+            error_log($this->errorlogtag.get_string ('updatepasserror', 'auth_ldap',
+                                                     array('errno'=>ldap_errno($ldapconnection),
+                                                           'errstring'=>ldap_err2str(ldap_errno($ldapconnection)))));
+        }
+
+        $this->ldap_close();
+		
+		// change authentication-type from ldap to shibboleth
+		if ($user->auth == "ldapdlb") {
+			$user->auth = "shibboleth";
+			$DB->update_record('user', $user);	
+		}
+		
+        return $result;
+    }
+
 
     /**
      * Will get called before the login page is shownr. Ff NTLM SSO

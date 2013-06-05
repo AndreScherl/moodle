@@ -461,10 +461,12 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
 						
 				$dnArr = array_reverse(explode(",", ldap_dn2ufn($schooldn)));
 				$ldap_school = trim($dnArr[2]);
+				$ldap_schooltype = trim($dnArr[1]);
 							
 				$userdn = $this->config->user_attribute . '=' . ldap_addslashes($extusername).
 						  ',ou='. ldap_addslashes($role) . 
 						  ',ou='. ldap_addslashes($ldap_school) . 
+						  ',ou='. ldap_addslashes($ldap_schooltype) .
 						  ',' . $this->config->create_context;
 								
                 $uadd = ldap_add($ldapconnection, $userdn, $newuser);

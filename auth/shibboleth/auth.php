@@ -28,6 +28,7 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once($CFG->libdir.'/authlib.php');
+require_once($CFG->dirroot.'/auth/ldapdlb/auth.php');
 
 /**
  * Shibboleth authentication plugin.
@@ -129,6 +130,16 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             // modify the variable $moodleattributes
             include($this->config->convert_data);
         }
+		
+		$textlib = textlib_get_instance();
+        $extusername = $textlib->convert($username, 'utf-8', $ldapdlb->config->ldapencoding);
+        $ldapconnection = $ldapdlb->ldap_connect();
+        if(!($user_dn = $ldapdlb->ldap_find_userdn($ldapconnection, $extusername))) {
+            return false;
+        }
+		$ldapconnection = $ldapdlb->ldap_connect();
+		$result['institution'] = $ldapdlb->ldap_find_user_schoolid($ldapconnection, $user_dn);
+		$ldapdlb->ldap_close();
 
         return $result;
     }
@@ -319,8 +330,6 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
         return $clean_string;
     }
-}
-
 
     /**
      * Sets the standard SAML domain cookie that is also used to preselect
@@ -441,6 +450,14 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
         return $CookieArray;
     }
+	
+	function user_update_password($user, $newpassword) {
+		$ldapdlb = new auth_plugin_ldapdlb();
+        $result = $ldapdlb->user_update_password($user, $newpassword);
+		
+        return $result;
+    }
+}
 
 
 

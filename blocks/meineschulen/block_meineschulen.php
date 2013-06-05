@@ -59,6 +59,14 @@ class block_meineschulen extends block_list {
         $this->content->items[] = '';
         $this->content->icons[] = '';
 
+        $requests = meineschulen::get_course_requests();
+        foreach ($requests as $request) {
+            $info = (object)array('name' => format_string($request->name), 'count' => $request->count);
+            $str = get_string('viewcourserequests', 'block_meineschulen', $info);
+            $this->content->items[] = html_writer::link($request->viewurl, $str);
+            $this->content->icons[] = $arrowicon;
+        }
+
         return $this->content;
     }
 }

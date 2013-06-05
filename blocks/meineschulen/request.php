@@ -25,7 +25,7 @@
 
 require_once(dirname(__FILE__) . '/../../config.php');
 global $CFG, $DB, $PAGE, $OUTPUT;
-require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot.'/blocks/meineschulen/requestlib.php');
 require_once($CFG->dirroot.'/blocks/meineschulen/request_form.php');
 require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
 
@@ -53,7 +53,7 @@ if (!meineschulen::can_request_course()) {
 }
 
 /// Set up the form.
-$data = course_request::prepare();
+$data = meineschulen_course_request::prepare();
 $data->category = $category->id;
 $requestform = new meineschulen_course_request_form(null, compact('editoroptions'));
 $requestform->set_data($data);
@@ -67,7 +67,7 @@ if ($requestform->is_cancelled()){
     redirect($returnurl);
 
 } else if ($data = $requestform->get_data()) {
-    $request = course_request::create($data);
+    $request = meineschulen_course_request::create($data);
 
     // and redirect back to the course listing.
     notice(get_string('courserequestsuccess'), $returnurl);

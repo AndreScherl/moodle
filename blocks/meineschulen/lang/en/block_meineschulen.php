@@ -26,8 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['allresults'] = 'All';
 $string['alltypes'] = 'All types';
+$string['backschool'] = 'Back to the school page';
+$string['categorynotinschool'] = 'The category for course request is not within the current school';
 $string['coordinators'] = 'School coordinators';
 $string['courselist'] = 'Course list';
+$string['courserequests'] = 'Course requests';
 $string['coursesearch'] = 'Search courses';
 $string['createcourse'] = 'Create course';
 $string['meineschulen:addinstance'] = 'Add Meine schulen block';
@@ -46,3 +49,4 @@ $string['schoolsearch'] = 'School search';
 $string['schooltype'] = 'School type';
 $string['searchcriteria'] = 'Search criteria';
 $string['searchresults'] = 'Search results';
+$string['viewcourserequests'] = 'View {$a->count} course request(s) for {$a->name}';

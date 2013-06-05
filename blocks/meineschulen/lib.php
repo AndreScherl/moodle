@@ -637,19 +637,16 @@ class meineschulen {
         $form .= html_writer::tag('label', get_string('schoolname', 'block_meineschulen'), array('for' => 'schoolname'));
         $form .= html_writer::empty_tag('input', array('class'=>'test', 'type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
                                                       'value' => $searchtext, 'size' => 80));
-        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $opts = self::get_school_types();
         $form .= html_writer::tag('label', get_string('schooltype', 'block_meineschulen'), array('for' => 'schooltype'));
         $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
-        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $opts = array(10, 20, 50, 100);
         $opts = array_combine($opts, $opts);
         $opts[-1] = get_string('allresults', 'block_meineschulen');
         $form .= html_writer::tag('label', get_string('numberofresults', 'block_meineschulen'), array('for' => 'numberofresults'));
         $form .= html_writer::select($opts, 'numberofresults', $numberofresults, false, array('id' => 'numberofresults'));
-        //$form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
         $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',
@@ -790,6 +787,224 @@ class meineschulen {
         if ($numberofresults > 0) { // No paging bar for 'All results'.
             $out .= $OUTPUT->paging_bar($totalcount, $page, $numberofresults, $baseurl);
         }
+
+        return $out;
+    }
+
+    public static function get_course_requests() {
+        global $DB, $USER;
+
+        // Find all the roles that can approve courses.
+        if (!$roles = get_roles_with_capability('moodle/site:approvecourse', CAP_ALLOW)) {
+            return array();
+        }
+        $roleids = array_keys($roles);
+
+        // Find all the categories where the user has been assigned one of these roles.
+        list($rsql, $params) = $DB->get_in_or_equal($roleids, SQL_PARAMS_NAMED);
+        $params['contextcoursecat'] = CONTEXT_COURSECAT;
+        $params['userid'] = $USER->id;
+        $sql = "SELECT cx.instanceid
+                  FROM {role_assignments} ra
+                  JOIN {context} cx ON cx.id = ra.contextid AND cx.contextlevel = :contextcoursecat
+                 WHERE roleid $rsql AND ra.userid = :userid";
+        $catids = $DB->get_fieldset_sql($sql, $params);
+        if (!$catids) {
+            return array();
+        }
+
+        // Find all the course requests that are within one of these categories.
+        list($csql, $params) = $DB->get_in_or_equal($catids, SQL_PARAMS_NAMED);
+        $matchpath = $DB->sql_concat('c2.path', "'/%'");
+        $sql = "SELECT cr.id, c.name, c.path
+                  FROM {course_request} cr
+                  JOIN {course_categories} c ON c.id = cr.category
+                  JOIN {course_categories} c2 ON c2.id {$csql} AND (c2.id = c.id OR c.path LIKE {$matchpath})
+                  ";
+        $requests = $DB->get_records_sql($sql, $params);
+
+        $ret = array();
+        foreach ($requests as $request) {
+            $path = explode('/', $request->path);
+            if ((count($path) - 1) < MEINEKURSE_SCHOOL_CAT_DEPTH) {
+                continue; // Request not within a school.
+            }
+            $schoolid = $path[3];
+            if (!isset($ret[$schoolid])) {
+                $ret[$schoolid] = (object)array(
+                    'id' => $schoolid,
+                    'name' => null,
+                    'count' => 0,
+                    'viewurl' => new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $schoolid))
+                );
+            }
+            if ((count($path) - 1) == MEINEKURSE_SCHOOL_CAT_DEPTH) {
+                $ret[$schoolid]->name = $request->name; // This category is the top-level school category => store the name.
+            }
+            $ret[$schoolid]->count++;
+        }
+
+        // Look up the names for any schools that we haven't already retrieved the names for.
+        $neednames = array();
+        foreach ($ret as $school) {
+            if (!$school->name) {
+                $neednames[$school->id] = $school->id;
+            }
+        }
+        if (!empty($neednames)) {
+            $names = $DB->get_records_list('course_categories', 'id', $neednames, '', 'id, name');
+            foreach ($names as $name) {
+                $ret[$name->id]->name = $name->name;
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Process the approval / rejection of course requests.
+     * Heavily based on course/pending.php
+     */
+    public function process_requests() {
+        global $DB, $CFG, $PAGE, $OUTPUT;
+
+        require_once($CFG->dirroot.'/blocks/meineschulen/requestlib.php');
+        require_once($CFG->dirroot.'/course/request_form.php');
+
+        $approve = optional_param('approve', 0, PARAM_INT);
+        $reject = optional_param('reject', 0, PARAM_INT);
+
+        /// Process approval of a course.
+        if (!empty($approve) and confirm_sesskey()) {
+            /// Load the request.
+            $course = new meineschulen_course_request($approve);
+            if ($course->category != $this->schoolcat->id) {
+                $select = 'id = :id AND '.$DB->sql_like('path', ':path');
+                $params = array(
+                    'id' => $course->category,
+                    'path' => "{$this->schoolcat->path}/%"
+                );
+                if (!$DB->record_exists_select('course_categories', $select, $params, '*', MUST_EXIST)) {
+                    print_error('categorynotinschool', 'block_meineschulen');
+                }
+            }
+            $courseid = $course->approve();
+
+            if ($courseid !== false) {
+                redirect($CFG->wwwroot.'/course/edit.php?id=' . $courseid);
+            } else {
+                print_error('courseapprovedfailed');
+            }
+        }
+
+        /// Process rejection of a course.
+        if (!empty($reject)) {
+            // Load the request.
+            $course = new course_request($reject);
+
+            // Prepare the form.
+            $rejectform = new reject_request_form($PAGE->url);
+            $default = new stdClass();
+            $default->reject = $course->id;
+            $rejectform->set_data($default);
+
+            /// Standard form processing if statement.
+            if ($rejectform->is_cancelled()){
+                redirect($PAGE->url);
+
+            } else if ($data = $rejectform->get_data()) {
+
+                /// Reject the request
+                $course->reject($data->rejectnotice);
+
+                /// Redirect back to the course listing.
+                redirect($PAGE->url, get_string('courserejected'));
+            }
+
+            /// Display the form for giving a reason for rejecting the request.
+            echo $OUTPUT->header();
+            $rejectform->display();
+            echo $OUTPUT->footer();
+            die();
+        }
+    }
+
+    /**
+     * Output a list of the course requests for this school - heavily based on course/pending.php
+     * @return string - html snippet with list of courses
+     */
+    public function output_requests() {
+        global $DB, $OUTPUT, $CFG, $PAGE;
+
+        $out = '';
+
+        // SYNERGY LEARNING - restrict list to requests within the current school
+        $select = 'id = :schoolid OR '.$DB->sql_like('path', ':path');
+        $params = array(
+            'schoolid' => $this->schoolcat->id,
+            'path' => "{$this->schoolcat->path}/%"
+        );
+        $catids = $DB->get_fieldset_select('course_categories', 'id', $select, $params);
+        $pending = $DB->get_records_list('course_request', 'category', $catids);
+        // SYNERGY LEARNING - restrict list to requests within the current school
+        if (empty($pending)) {
+            $out .= $OUTPUT->heading(get_string('nopendingcourses'));
+        } else {
+            $out .= $OUTPUT->heading(get_string('coursespending'));
+
+            /// Build a table of all the requests.
+            $table = new html_table();
+            $table->attributes['class'] = 'pendingcourserequests generaltable';
+            $table->align = array('center', 'center', 'center', 'center', 'center', 'center');
+            $table->head = array(get_string('shortnamecourse'), get_string('fullnamecourse'), get_string('requestedby'),
+                                 get_string('summary'), get_string('category'), get_string('requestreason'), get_string('action'));
+
+            foreach ($pending as $course) {
+                $course = new course_request($course);
+
+                // Check here for shortname collisions and warn about them.
+                $course->check_shortname_collision();
+
+                // Retreiving category name.
+                // If the category was not set (can happen after upgrade) or if the user does not have the capability
+                // to change the category, we fallback on the default one.
+                // Else, the category proposed is fetched, but we fallback on the default one if we can't find it.
+                // It is just a matter of displaying the right information because the logic when approving the category
+                // proceeds the same way. The system context level is used as moodle/site:approvecourse uses it.
+
+                // SYNERGY LEARNING - check for 'changecategory' capability at the category level, not site level.
+                $context = context_coursecat::instance($this->schoolcat->id);
+                if (empty($course->category) || !has_capability('moodle/course:changecategory', $context) ||
+                    (!$category = get_course_category($course->category))) {
+                    $category = get_course_category($CFG->defaultrequestcategory);
+                }
+
+                $row = array();
+                $row[] = format_string($course->shortname);
+                $row[] = format_string($course->fullname);
+                $row[] = fullname($course->get_requester());
+                $row[] = $course->summary;
+                $row[] = format_string($category->name);
+                $row[] = format_string($course->reason);
+                $row[] = $OUTPUT->single_button(new moodle_url($PAGE->url, array('approve' => $course->id, 'sesskey' => sesskey())), get_string('approve'), 'get') .
+                    $OUTPUT->single_button(new moodle_url($PAGE->url, array('reject' => $course->id)), get_string('rejectdots'), 'get');
+
+                /// Add the row to the table.
+                $table->data[] = $row;
+            }
+
+            /// Display the table.
+            $out .= html_writer::table($table);
+
+            /// Message about name collisions, if necessary.
+            if (!empty($collision)) {
+                $out .= get_string('shortnamecollisionwarning');
+            }
+        }
+
+        // Button to leave the page.
+        $backurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $this->schoolcat->id));
+        $out .= $OUTPUT->single_button($backurl, get_string('backschool', 'block_meineschulen'));
 
         return $out;
     }

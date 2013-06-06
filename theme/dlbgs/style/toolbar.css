@@ -8,3 +8,21 @@
 .headermenu {
     font-size: 12px;
 }
+
+#toolbar-wrapper {
+   height:40px;
+    
+}
+
+
+#toolbar-content-left {
+    float: left;
+    min-height: 1px;
+    width: 380px;
+}
+
+#block-toolbarcontent  a:hover + div, #block-toolbarcontent a:hover + div,
+#toolbar-content a:hover + div, #toolbar-login a:hover + div, #toolbar-content-item_10 a:hover + div{
+    display: block;
+    margin-top: 5px;
+}

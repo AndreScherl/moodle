@@ -46,7 +46,9 @@ $THEME->sheets = array(
     'blocks',
     'course',
     'category',
-    'mod'
+    'mod',
+    'user',
+    'sl'
     );/*
     'admin',
     'blocks',

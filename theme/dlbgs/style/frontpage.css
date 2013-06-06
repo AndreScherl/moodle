@@ -1,55 +1,54 @@
 #tile01, #tile02, #tile03, #tile04, #tile05, #tile06 {
-    float:left; width:245px; height:165px; margin-bottom:5px;
-}
-#tile01,#tile02, #tile04, #tile05 {
-    margin-right: 4px;
+    float:left; width:200px; height:220px; margin-bottom:5px; margin-left:26px;
 }
 
-#tile06, #tile03 {
-    margin-right:0px;
-}
+
+
 #tile01 {
-    background: url([[pix:theme|bg-digitales-lernen]]) no-repeat;
+    background: url([[pix:theme|aktuelles]]) no-repeat;
 }
 
 #tile02 {
-    background: url([[pix:theme|bg-aktuelles]]) no-repeat;
+    background: url([[pix:theme|beispiel]]) no-repeat;
 }
 
 #tile03 {
-    background: url([[pix:theme|bg-hilfe-support]]) no-repeat;
+    background: url([[pix:theme|fortbildung]]) no-repeat;
 }
 
 #tile04 {
-    background: url([[pix:theme|bg-kooperation]]) no-repeat;
+    background: url([[pix:theme|support]]) no-repeat;
 }
-#tile05 {
-    background: url([[pix:theme|bg-offene-kurse]]) no-repeat;
-}
-#tile06 {
-    background: url([[pix:theme|bg-fortbildung]]) no-repeat;
-    background-position: -2px 0;
-}
+
+
+
 
 .tilecontent {
     float:left;
     position: relative;
-    top: 30px;
-    left: 110px;
-    width: 104px;
+    top: 80px;
+    left: 20px;
+    right:20px;
+    width: 170px;
 }
+
 .tilecontent h3 {
     line-height: 18px;
+    
+    
 }
 
 
 
 .tilelink {
+	url([[pix:theme|img-weiterlesen]])
     float: right;
-    position: relative;
+    margin-left: 150px;
     margin-right: 20px;
-    top: 120px;
+    margin-top: 180px;
+    position: absolute;
 }
+
 body {
 font-family:"Amaranth";
     font-size:16px;

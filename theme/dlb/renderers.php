@@ -97,7 +97,7 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
     /** überschreibt die originale Funktion, um einen Zeilenumbruch einzufügen  */
-    public function login_info() {
+    public function login_info($withlinks = null) {
         global $USER, $CFG, $DB, $SESSION;
 
         if (during_initial_install()) {

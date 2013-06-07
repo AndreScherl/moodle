@@ -111,7 +111,7 @@ if ($user !== false or $frm !== false or $errormsg !== '') {
 /// Check if the user has actually submitted login data to us
 if ($frm and isset($frm->username)) {                             // Login WITH cookies
 
-    $frm->username = trim(moodle_strtolower($frm->username));
+    $frm->username = trim(textlib::strtolower($frm->username));
 
     if (is_enabled_auth('none') ) {
         if ($frm->username !== clean_param($frm->username, PARAM_USERNAME)) {

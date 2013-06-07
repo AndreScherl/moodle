@@ -39,6 +39,8 @@ class meineschulen {
     protected $schoolcat = null;
     /** @var context_coursecat $context the context for the school */
     protected $context = null;
+    /** @var bool $seecoordinators true if they can see the school coordinators list */
+    protected $seecoordinators = null;
 
     /**
      * @param object $schoolcat
@@ -147,7 +149,34 @@ class meineschulen {
      * @return bool
      */
     protected function can_see_coordinators() {
-        return has_capability('block/meineschulen:viewcoordinators', $this->context);
+        global $DB, $USER;
+
+        if (is_null($this->seecoordinators)) {
+            $this->seecoordinators = false;
+            if (has_capability('block/meineschulen:viewcoordinators', $this->context)) {
+                // Has the capability in the current context.
+                $this->seecoordinators = true;
+            } else {
+                // Find the roles that can see the coordinators list.
+                $roles = get_roles_with_capability('block/meineschulen:viewcoordinators');
+                if ($roles) {
+                    // See if the user has one of those roles in a child of the current context.
+                    list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+                    $likesql = $DB->sql_like('cx.path', ':likecontextpath');
+                    $params['userid'] = $USER->id;
+                    $params['likecontextpath'] = "{$this->context->path}/%";
+                    $sql = "SELECT ra.id
+                              FROM {role_assignments} ra
+                              JOIN {context} cx ON cx.id = ra.contextid
+                             WHERE ra.roleid $rsql
+                               AND $likesql
+                               AND ra.userid = :userid";
+                    $this->seecoordinators = $DB->record_exists_sql($sql, $params);
+                }
+            }
+        }
+
+        return $this->seecoordinators;
     }
 
     /**
@@ -170,11 +199,15 @@ class meineschulen {
 
         if (is_null($resp)) {
             $resp = false;
-            $roles = get_roles_with_capability('moodle/course:request');
-            if ($roles) {
-                list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
-                $params['userid'] = $USER->id;
-                $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
+            if (has_capability('moodle/course:request', context_system::instance())) {
+                $resp = true;
+            } else {
+                $roles = get_roles_with_capability('moodle/course:request');
+                if ($roles) {
+                    list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+                    $params['userid'] = $USER->id;
+                    $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
+                }
             }
         }
 
@@ -973,9 +1006,7 @@ class meineschulen {
                 // proceeds the same way. The system context level is used as moodle/site:approvecourse uses it.
 
                 // SYNERGY LEARNING - check for 'changecategory' capability at the category level, not site level.
-                $context = context_coursecat::instance($this->schoolcat->id);
-                if (empty($course->category) || !has_capability('moodle/course:changecategory', $context) ||
-                    (!$category = get_course_category($course->category))) {
+                if (empty($course->category) || (!$category = get_course_category($course->category))) {
                     $category = get_course_category($CFG->defaultrequestcategory);
                 }
 

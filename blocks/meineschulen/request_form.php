@@ -42,7 +42,7 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class meineschulen_course_request_form extends moodleform {
     function definition() {
-        global $CFG, $DB, $USER;
+        global $DB, $USER;
 
         $mform =& $this->_form;
 
@@ -103,6 +103,7 @@ class meineschulen_course_request_form extends moodleform {
         }
 
         if (!empty($foundcourses)) {
+            $foundcoursenames = array();
             foreach ($foundcourses as $foundcourse) {
                 if (!empty($foundcourse->requester)) {
                     $pending = 1;

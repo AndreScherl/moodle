@@ -104,10 +104,8 @@ class meineschulen_course_request extends course_request {
         // category does not exist, we set the default category to the course to be approved.
         // The system level is used because the capability moodle/site:approvecourse is based on a system level.
 
-        // SYNERGY LEARNING - check for 'changecategory' capability at the category level, not site level.
-        $catcontext = context_coursecat::instance($data->category);
-        if (empty($data->category) || !has_capability('moodle/course:changecategory', $catcontext) ||
-            (!$category = get_course_category($data->category))) {
+        // SYNERGY LEARNING - remove the check for 'changecategory'.
+        if (empty($data->category) || (!$category = get_course_category($data->category))) {
             $category = get_course_category($CFG->defaultrequestcategory);
         }
 

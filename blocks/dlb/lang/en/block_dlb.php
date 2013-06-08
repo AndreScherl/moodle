@@ -68,7 +68,7 @@ $string['nopermissiontoviewuser'] = 'Sie dürfen diesen User nicht sehen.'.
 $string['invalidredirect'] = 'Diese Weiterleitung ist nicht gestattet.';
 
 //Blockinhalte
-$string['managed_categories'] = "betreute Kursbereiche";
+$string['managed_categories'] = "mebis-Koordinator für:";
 $string['managed_headers'] = "Kursbereichs-Header bearbeiten";
 $string['upload_users'] = "DLB-Upload Users";
 $string['category_of_course'] = 'Aktueller Kursbereich';

@@ -68,4 +68,3 @@ function block_dlb_on_user_deleted($user) {
 function block_dlb_has_capability_anywhere() {
     
 }
-?>

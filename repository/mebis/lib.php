@@ -179,7 +179,7 @@ class repository_mebis extends repository {
 	}
 
 	
-    public function search() {
+    public function search($search_text, $page = 0) {
 		//global $USER;
 		
 			$client = new mebis;

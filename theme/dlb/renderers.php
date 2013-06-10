@@ -120,7 +120,7 @@ class theme_dlb_core_renderer extends core_renderer {
                               FROM {role_assignments} ra
                              WHERE ra.roleid $rsql
                                AND ra.userid = :userid";
-        $USER->isTeacher = $istlehrer = $DB->record_exists_sql($sql, $params);
+        $USER->isTeacher = $DB->record_exists_sql($sql, $params);
         return $USER->isTeacher;
     }
 

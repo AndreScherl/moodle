@@ -138,7 +138,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         if(!($user_dn = $ldapdlb->ldap_find_userdn($ldapconnection, $extusername))) {
             return false;
         }
-		$ldapconnection = $ldapdlb->ldap_connect();
+		$SESSION->isTeacher = (strtolower($_SERVER["mebisRole"]) == "lehrer") ? 1 : 0;
 		$result['institution'] = $ldapdlb->ldap_find_user_schoolid($ldapconnection, $user_dn);
 		$ldapdlb->ldap_close();
 		/**************************************/

@@ -107,11 +107,11 @@ class block_dlb extends block_base {
             $USER->hascourses_in_categories = $this->get_maincats_by_role();
         }
 
-        //prüfen, ob Block angezeigt wird...
-        if ((count($USER->hascourses_in_categories) > 0) and
-                (count($USER->managed_categories) == 0) and
-                !has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM)) and
-                !has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) return "";
+        //Block wird nicht angezeigt, falls
+        if ((count($USER->managed_categories) == 0) //keine Kursbereiche zu betreuen.
+           and !has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM))  //keine Nutzungverwalterfunktionen
+           and !has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) //keine Uploadfunktion
+        return "";
 
 
         if($this->content !== NULL) {
@@ -176,7 +176,6 @@ class block_dlb extends block_base {
 
         $managecourses = "<b>".get_string('courses').":</b><ul>";
         $managecourses .= $link_createcourse;
-        $managecourses .= "<li><a href=\"{$CFG->wwwroot}/course/index.php \">".get_string('allcourses', 'block_dlb')."</a></li></ul>";
         $str .= $managecourses;
 
         //Nutzerverwaltung

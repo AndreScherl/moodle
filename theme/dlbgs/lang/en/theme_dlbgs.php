@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'DLBGS-Theme';
+$string['pluginname'] = 'Mebis-Grundschul-Design';
 $string['region-side-post'] = 'Right';
 $string['region-side-pre'] = 'Left';
 $string['choosereadme'] = 'Designvorlage fuer DLB Grundschule';

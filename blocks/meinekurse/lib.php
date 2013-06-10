@@ -267,7 +267,7 @@ class meinekurse {
                                           $prefs->otherschool);
 
         if (!isset($mycourses[$prefs->school])) {
-            return '';
+            return array(null, '');
         }
 
         $school = $mycourses[$prefs->school];

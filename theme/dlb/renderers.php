@@ -236,10 +236,10 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
-
+           /*atar: Kursbereichsicon vorerst deaktiviert
             $href = html_writer::link($CFG->wwwroot . "/course/index.php", $this->pix_icon('toolbar/toolbar-kursbereich', 'Mein Schulbereich', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Mein Schulbereich'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
-
+            */
             $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
 
@@ -327,11 +327,6 @@ class theme_dlb_core_renderer extends core_renderer {
     /** gibt die Links auf die Institutionen zurück */
     public function pagecontent_footer() {
         global $CFG;
-       if (isloggedin()){
-
-        $content = "";
-       }
-       else{
         ?>
 
         <div class="page-content-footer">
@@ -353,9 +348,7 @@ class theme_dlb_core_renderer extends core_renderer {
                 <?php echo $CFG->block_dlb_contentfooterleft; ?>
             </div>
         </div>
-
         <?php
-       }
     }
 
  //++++ Overriden Methods from core_renderer

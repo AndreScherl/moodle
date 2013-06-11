@@ -12,7 +12,7 @@
   #
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # @author Andreas Wagner (awag), DLB	andreas.wagner@alp.dillingen.de
-  # @author Andrea Taras (atar), DLB	andrea.taras@alp.dillingen.de 
+  # @author Andrea Taras (atar), DLB	andrea.taras@alp.dillingen.de
   #########################################################################
  */
 
@@ -33,7 +33,7 @@ class theme_dlb_core_renderer extends core_renderer {
         //Popup-Notifications nicht erlaubt
         $page->set_popup_notification_allowed(false);
     }
-    
+
     /** es wird geprüft, ob ein zusätzliches Stylesheet geladen werden muss,
      * um die Schriftgröße zu steuern, der Index des Stylesheet wird in der Sessionvariable
      * $_SESSION['MOODLECSSINDEX'] aufgehoben. Welches STylesheet geladen wird kann im
@@ -42,7 +42,7 @@ class theme_dlb_core_renderer extends core_renderer {
      */
     protected function load_additional_stylesheets(moodle_page $page) {
         global $CFG;
-        
+
         //1. falls Head-Tag bereits geschlossen wurde, ist Sheet bereits geladen....
         if ($page->requires->is_head_done())
             return;
@@ -331,6 +331,11 @@ class theme_dlb_core_renderer extends core_renderer {
     /** gibt die Links auf die Institutionen zurück */
     public function pagecontent_footer() {
         global $CFG;
+       if (isloggedin()){
+
+        $content = "";
+       }
+       else{
         ?>
 
         <div class="page-content-footer">
@@ -353,9 +358,10 @@ class theme_dlb_core_renderer extends core_renderer {
             </div>
         </div>
         <?php
+       }
     }
-    
- //++++ Overriden Methods from core_renderer     
+
+ //++++ Overriden Methods from core_renderer
 
     /** überschreibt die originale Funktion, um den Blockcode mit zusätzlichen DIVS
      * zu versehen, die für die Abrundungen an den Ecken erforderlich sind
@@ -401,7 +407,7 @@ class theme_dlb_core_renderer extends core_renderer {
         $this->init_block_hider_js($bc);
         return $output;
     }
-    
+
     /** überschreibt die originale Funktion, um einen Zeilenumbruch einzufügen  */
     public function login_info($withlinks = null) {
         global $USER, $CFG, $DB, $SESSION;
@@ -584,7 +590,7 @@ class theme_dlb_core_renderer extends core_renderer {
         </script>
         <?php
     }
-    
+
     /** überschreibt die originale Funktion, um die dock-Symbole zu laden */
     public function standard_head_html() {
         return parent::standard_head_html() . $this->_load_dock_images();

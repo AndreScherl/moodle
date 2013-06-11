@@ -142,6 +142,11 @@ class meineschulen_course_request extends course_request {
         if (!empty($CFG->creatornewroleid) and !is_viewing($context, $user, 'moodle/role:assign') and !is_enrolled($context, $user, 'moodle/role:assign')) {
             enrol_try_internal_enrol($course->id, $user->id, $CFG->creatornewroleid);
         }
+        
+        //awag: enrol the approver as teacher if necassary
+        if (!empty($CFG->creatornewroleid) and !is_viewing($context, $USER, 'moodle/role:assign') and !is_enrolled($context, $USER, 'moodle/role:assign')) {
+            enrol_try_internal_enrol($course->id, $USER->id, $CFG->creatornewroleid);
+        }
 
         $this->delete();
 

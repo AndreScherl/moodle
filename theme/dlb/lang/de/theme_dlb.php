@@ -23,9 +23,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'DLB-Theme';
-$string['region-side-post'] = 'Right';
-$string['region-side-pre'] = 'Left';
+$string['pluginname'] = 'Mebis-Design';
+$string['region-side-post'] = 'Rechts';
+$string['region-side-pre'] = 'Links';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';
 $string['loggedinas'] = 'Herzlich willkommen,{$a}';
 $string['loggedinnot'] = '';

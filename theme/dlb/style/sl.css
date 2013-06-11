@@ -213,9 +213,9 @@
 }
 
 .meineschulen_content .meineschulen_courses {
-	background: url([[pix:theme|blocks/bg-course-section]]) top left
+/*	background: url([[pix:theme|blocks/bg-course-section]]) top left
 		repeat-x;
-	-moz-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;*/
 	-webkit-border-radius: 5px 5px 0 0;
 	-khtml-border-radius: 5px 5px 0 0;
 	border-radius: 5px 5px 0 0;

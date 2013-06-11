@@ -260,7 +260,7 @@ body.pagelayout-frontpage,
 
 .mainMenuMebis {
     background: url([[pix:theme|head_mebis_inactive]]) no-repeat scroll 0 0 transparent;
-    width: 455px;
+    width: 470px;
 }
 
 .mainMenuMebis:hover {
@@ -269,7 +269,7 @@ body.pagelayout-frontpage,
 
 .mainMenuArchive {
     background:  url([[pix:theme|head_arc_inactive]]) no-repeat scroll 0 0 transparent;
-    width: 155px;
+    width: 150px;
 }
 
 .mainMenuArchive:hover {
@@ -279,12 +279,12 @@ body.pagelayout-frontpage,
 
 .mainMenuLMSActive {
     background:  url([[pix:theme|head_lms_active]]) no-repeat scroll 0 0 transparent;
-    width: 155px;
+    width: 150px;
 }
 
 .mainMenuMediathek {
     background:  url([[pix:theme|head_mediathek_inactive]]) no-repeat scroll 0 0 transparent;
-    width: 155px;
+    width: 150px;
 }
 
 .mainMenuMediathek:hover {

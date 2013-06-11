@@ -73,7 +73,7 @@
 }
 
 #dockeditempanel a {
-	color:#7C9BD3;
+	color: #ffffff;
 }
 
 #dockeditempanel.dockitempanel_hidden {
@@ -88,7 +88,7 @@
 #dockeditempanel .dockeditempanel_hd h2 {
 	margin: 0;
 	padding-right: 1em;
-	font-size: 13px
+	font-size: 12px
 }
 
 #dockeditempanel .dockeditempanel_hd .commands {
@@ -134,3 +134,66 @@
 	margin: 0 8px;
 }
 
+.dockeditem-top-right {
+	background: url([[pix:theme|blocks/bg-block-top-right]]) no-repeat
+		scroll right top;
+	width: 8px;
+	height: 5px;
+	margin-right: -8px;
+	float: right;
+}
+
+.dockeditem-top-left {
+	background: url([[pix:theme|blocks/bg-block-top-left]]) no-repeat scroll
+		left top;
+	width: 8px;
+	height: 5px;
+	margin-left: -8px;
+	float: left;
+}
+
+/* dockpopup unterer Rand */
+.dockeditem-bottom-left,.dockeditem-bottom-middle,.dockeditem-bottom-right
+	{
+	height: 8px;
+}
+
+.dockeditem-bottom-right {
+	float: right;
+	width: 8px;
+	margin-right: -8px;
+	background: url([[pix:theme|blocks/bg-block-bottom-right]]) no-repeat;
+}
+
+.dockeditem-bottom-left {
+	float: left;
+	width: 8px;
+	margin-left: -8px;
+	background: url([[pix:theme|blocks/bg-block-bottom-left]]) no-repeat;
+}
+
+.dockeditem-bottom-middle {
+	margin: 0 8px;
+	background: url([[pix:theme|blocks/bg-block-bottom-middle]]) repeat-x;
+}
+
+.ie7 #dockeditempanel {
+	margin-top: 6px
+}
+/** IE 6 doesn't support fixed pos elements **/
+.ie6 #dockeditempanel {
+	position: absolute;
+}
+/** Overide for RTL layout **/
+.dir-rtl #dockeditempanel {
+	left: 670%;
+}
+
+.dockedtitle {
+	width: 54px;
+	overflow: hidden;
+}
+
+.activeitem {
+	width: 58px;
+}

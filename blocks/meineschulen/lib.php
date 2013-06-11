@@ -153,7 +153,9 @@ class meineschulen {
 
         if (is_null($this->seecoordinators)) {
             $this->seecoordinators = false;
-            if (has_capability('block/meineschulen:viewcoordinators', $this->context)) {
+            if (!empty($USER->isTeacher)) {
+                $this->seecoordinators = true;
+            } else if (has_capability('block/meineschulen:viewcoordinators', $this->context)) {
                 // Has the capability in the current context.
                 $this->seecoordinators = true;
             } else {
@@ -199,7 +201,9 @@ class meineschulen {
 
         if (is_null($resp)) {
             $resp = false;
-            if (has_capability('moodle/course:request', context_system::instance())) {
+            if (!empty($USER->isTeacher)) {
+                $resp = true;
+            } else if (has_capability('moodle/course:request', context_system::instance())) {
                 $resp = true;
             } else {
                 $roles = get_roles_with_capability('moodle/course:request');
@@ -596,15 +600,18 @@ class meineschulen {
 
         $resultlen = strlen($result);
         if (!is_null($truncateto) && $resultlen > $truncateto) {
+            $start = 0;
+            // Remove comments below to re-enable returning the part of the description that includes the search term.
+            /*
             $firstpos = stripos($result, $searchterm);
             $truncateto -= 1;
-            $start = 0;
             if ($firstpos !== false) {
                 $firstendpos = $firstpos + strlen($searchterm);
                 if ($firstendpos > $truncateto) {
                     $start = ($firstendpos + 1) - $truncateto;
                 }
             }
+            */
             $result = substr($result, $start, $truncateto);
             if ($start > 0) {
                 $result = '&hellip;'.$result;
@@ -924,7 +931,8 @@ class meineschulen {
             $courseid = $course->approve();
 
             if ($courseid !== false) {
-                redirect($CFG->wwwroot.'/course/edit.php?id=' . $courseid);
+                $redir = new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $this->schoolcat->id));
+                redirect($redir, get_string('courseapproved', 'block_meineschulen'), 5);
             } else {
                 print_error('courseapprovedfailed');
             }
@@ -983,7 +991,7 @@ class meineschulen {
         if (empty($pending)) {
             $out .= $OUTPUT->heading(get_string('nopendingcourses'));
         } else {
-            $out .= $OUTPUT->heading(get_string('coursespending'));
+            $out .= $OUTPUT->heading(get_string('coursespending', 'block_meineschulen'));
 
             /// Build a table of all the requests.
             $table = new html_table();

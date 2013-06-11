@@ -46,7 +46,7 @@ class block_meineschulen extends block_list {
         $searchurl = meineschulen::get_search_url();
         $this->content->footer = html_writer::link($searchurl, get_string('schoolsearch', 'block_meineschulen'));
 
-        $arrowicon = $OUTPUT->pix_icon('t/collapsed', '');
+        $arrowicon = $OUTPUT->pix_icon('i/navigationitem', '');
         $schools = meineschulen::get_my_schools();
         if (!empty($schools)) {
             $this->content->items[] = get_string('myschools', 'block_meineschulen');

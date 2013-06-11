@@ -47,7 +47,7 @@ class meineschulen_course_request_form extends moodleform {
         $mform =& $this->_form;
 
         if ($pending = $DB->get_records('course_request', array('requester' => $USER->id))) {
-            $mform->addElement('header', 'pendinglist', get_string('coursespending'));
+            $mform->addElement('header', 'pendinglist', get_string('coursespending', 'block_meineschulen'));
             $list = array();
             foreach ($pending as $cp) {
                 $list[] = format_string($cp->fullname);

@@ -91,7 +91,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      */
     function get_userinfo($username) {
     // reads user information from shibboleth attributes and return it in array()
-        global $CFG;
+        global $CFG, $SESSION;
 
         // Check whether we have got all the essential attributes
         if ( empty($_SERVER[$this->config->user_attribute]) ) {

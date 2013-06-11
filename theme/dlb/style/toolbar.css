@@ -71,16 +71,16 @@ body.path-site #toolbar-wrapper {
 #toolbar-content-item_7,
 #toolbar-content-item_9 {
     line-height: 30px;
-    margin: 6px;
+    margin: 12px;
     float:right;
-    margin-top: 2px;
-    margin-right:4px;
+    margin-top: 0px;
+    margin-right:-2px;
 }
 
 #toolbar-login{
-	margin: 30px;
+	margin: 45px;
     float:left;
-    margin-top: 8px;
+    margin-top: 7px;
     margin-right: 10px;
     
 }
@@ -95,15 +95,15 @@ body.path-site #toolbar-wrapper {
 	line-height: 30px;
     
     float:right;
-    margin-top: 2px;
-	margin-right:6px;
+    margin-top: 0px;
+	margin-right:11px;
 	
 }
 
 #toolbar-content-item_10 .toolbar-tooltip {
     margin-left: 10%;
     min-width:100px;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 /**Toolbar Tipp*/
@@ -161,7 +161,7 @@ body.path-site #toolbar-wrapper {
 #toolbar-content-item_9 .toolbar-tooltip{
     white-space: nowrap;
     margin-left: -30%;
-    margin-top:3px;
+    margin-top:5px;
 }
 
 #toolbar-login .toolbar-tooltip {

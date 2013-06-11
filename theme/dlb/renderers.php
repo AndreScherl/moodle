@@ -21,7 +21,7 @@ global $CFG;
 class theme_dlb_core_renderer extends core_renderer {
 
     public function __construct(moodle_page $page, $target) {
-        
+
         parent::__construct($page, $target);
 
         //überprüft, ob das Attribut $USER->isTeacher gesetzt ist, falls nicht wird der Wert gesetzt.
@@ -55,7 +55,7 @@ class theme_dlb_core_renderer extends core_renderer {
         }
 
         if ($CFG->theme == 'iwb') {
-            
+
             if (($cssindex > -1) and isset($CFG->block_dlb_addacss)) {
 
                 $ADDCSS = explode(",", $CFG->block_dlb_addacss);
@@ -69,7 +69,7 @@ class theme_dlb_core_renderer extends core_renderer {
                     }
                 }
             }
-            
+
         } else if ($CFG->theme != 'iwb') {
             //falls zusätzliche Stylesheets geladen werden sollen, hier tun
             if (($cssindex > -1) and isset($CFG->block_dlb_addcss)) {
@@ -87,10 +87,10 @@ class theme_dlb_core_renderer extends core_renderer {
             }
         }
     }
-    
+
     /** überprüfen, ob der User ein Lehrer ist, speichern des Ergebnisses für die
      * Dauer der Session im Attribut $USER->isTeacher
-     *  
+     *
      * @global object $USER
      * @global type $SESSION
      * @global type $DB
@@ -120,7 +120,9 @@ class theme_dlb_core_renderer extends core_renderer {
                               FROM {role_assignments} ra
                              WHERE ra.roleid $rsql
                                AND ra.userid = :userid";
+
         $USER->isTeacher = $DB->record_exists_sql($sql, $params);
+
         return $USER->isTeacher;
     }
 
@@ -158,8 +160,8 @@ class theme_dlb_core_renderer extends core_renderer {
 
         return html_writer::tag('div', $content, array("id" => "general-header"));
     }
-    
-//++++++++ Toolbarfunctions    
+
+//++++++++ Toolbarfunctions
 
     /** erzeugt den HTML-Code für einen Tooltip in der Toolbar */
     protected function toolbar_tooltip($text) {
@@ -181,7 +183,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
         return "<div><div class='toolbar-toolpop'><div class='toolpop-left'></div><div class='toolpop-content'>{$mymess}</div><div class='toolpop-right'></div></div><div style='clear:both'></div></div>";
     }
-    
+
     /** erzeugt alle Toolbarelemente zur Steuerung des Themes */
     protected function toolbar_themecontent() {
         global $USER, $CFG, $PAGE, $SESSION;
@@ -237,8 +239,10 @@ class theme_dlb_core_renderer extends core_renderer {
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
 
+           /*atar: Kursbereichsicon vorerst deaktiviert
             $href = html_writer::link($CFG->wwwroot . "/course/index.php", $this->pix_icon('toolbar/toolbar-kursbereich', 'Mein Schulbereich', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Mein Schulbereich'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
+            */
 
             $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
@@ -270,12 +274,12 @@ class theme_dlb_core_renderer extends core_renderer {
         $content = html_writer::tag('div', $content, array("id" => "toolbar-content"));
         return $content;
     }
-    
-// +++ Support Button    
+
+// +++ Support Button
 
     /** prüft, ob der User den Support-Button sehen darf und merkt sich das Ergebnis
      *  im Attribut $USER->canseesupportbutton
-     * 
+     *
      * @global object $USER
      * @global type $DB
      * @global object $CFG
@@ -487,7 +491,7 @@ class theme_dlb_core_renderer extends core_renderer {
         }
         return $loggedinas;
     }
-    
+
     /** überschreibt die originale Funktion, um DIVS für das Layout einzufügen */
     public function navbar() {
         $items = $this->page->navbar->get_items();
@@ -544,7 +548,7 @@ class theme_dlb_core_renderer extends core_renderer {
         // XHTML
         return $navbarcontent;
     }
-    
+
     /** lädt die verfügbaren Symbole für die Blöcke im Dock in die globale JS-Variable theme_dock_images,
      * auf die das Skript blocks/dock.js zugreift.
      *

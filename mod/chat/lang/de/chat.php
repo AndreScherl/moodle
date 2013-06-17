@@ -47,11 +47,13 @@ $string['configmethod'] = 'Die Methode \'Ajax-Chat\'  bietet eine ajaxbasierte O
 <br />Die Verwendung eines speziellen Chat-Server-Daemons erfordert eine zusätzliche Installation auf dem Server, aber liefert eine schnelle skalierbare Chat-Umgebung.';
 $string['confignormalupdatemode'] = 'Chat-Aktualisierungen arbeiten normalerweise mit dem Modus <em>KeepAlive</em> von HTTP 1.1, was aber den Server sehr stark beansprucht. Eine andere Variante nutzt den Modus <em>Stream</em> zur Aktualisierung der Anzeige. <em>Stream</em> arbeitet wesentlich besser (ähnlich wie chatd), aber eventuell unterstützt Ihr Server diese Methode nicht.';
 $string['configoldping'] = 'Nach welcher Zeit (in Sekunden) kann jemand aus der Nutzerliste gelöscht werden, wenn die Kommunikation abgebrochen scheint? Dieser Wert legt die maximale Zeit dafür fest, denn normalerweise werden Kommunikationsabbrüche schnell erkannt. Zu kleine Werte führen zu einer sehr hohen Serverbelastung! Setzen Sie den Wert für den "Standard-Chat"  <strong>niemals</strong> kleiner als 2 * chat_refresh_room!!';
+//+++ Hook DS21
 $string['anonchat']='Anonymes Chatprotokoll';
 $string['anonexplain']='Wenn das Chatprotokoll auf anonym gesetzt ist, werden Nutzernamen und Profilbilder nicht angezeigt. Wird das Chatprotokoll auf nicht anonym gesetzt, sind diese Details wieder sichtbar.';
 $string['chatuser']='Chatnutzer';
 $string['chat_anonymous']= 'Chatprotokoll anonym';
 $string['chat_notanonymous'] = 'Chatprotokoll nicht anonym';
+//---DS21
 $string['configrefreshroom'] = 'Nach welcher Zeit (in Sekunden) soll der Chat aktualisiert werden? Ein niedriger Wert lässt den Chat schneller erscheinen, führt aber bei hohen Nutzerzahlen zu einer wesentlich höheren Serverbelastung. Falls Sie den Modus <em>Stream</em> verwenden, können Sie kleinere Werte wählen (probieren Sie es mit 2 Sekunden).';
 $string['configrefreshuserlist'] = 'Nach welcher Zeit (in Sekunden) soll die Nutzerliste aktualisiert werden?';
 $string['configserverhost'] = 'Hostname des Chat-Servers';

@@ -305,11 +305,21 @@ class meineschulen {
             $out .= $this->output_category($cat);
         }
         foreach ($toplevelcourses as $course) {
-            $out .= html_writer::tag('li', $this->output_course_link($course, true));
+             $infourl = new moodle_url("/course/info.php?id=$course->id");
+
+          $courseinfo = $OUTPUT->action_link($infourl, '<img alt="'.get_string('info').'" class="icon" src="'.$OUTPUT->pix_url('i/info') . '" />',
+                        new popup_action('click', $infourl, 'courseinfo'), array('title'=>get_string('summary')));
+
+          $courseinfo = html_writer::tag('div',$courseinfo, array('class' =>'mycourseinfo'));
+
+           $courselink = html_writer::tag('div', $this->output_course_link($course, true).$courseinfo,array('class' =>'mycourselink'));
+
+
+           $out .=html_writer::tag('li',$courselink,array('class' =>'mycourselist'));
         }
         // Wrap the tree within a div.
         $out = html_writer::tag('ul', $out);
-        $out = html_writer::tag('div', $out, array('id' => 'meineschulen_coursetree'));
+        //$out = html_writer::tag('div', $out, array('id' => 'meineschulen_coursetree'));
 
         // Wrap within an outer box.
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_courses_inner'));
@@ -923,13 +933,13 @@ class meineschulen {
             $courseid = $course->approve();
 
             if ($courseid !== false) {
-                
+
                 //awag: redirect to edit_form, if $USER has the capability to update course
                 if (has_capability('moodle/course:update', context_course::instance($courseid))) {
-                    
+
                     $redir = new moodle_url('/course/edit.php', array("id" => $courseid));
                     redirect($redir);
-                    
+
                 } else {
 
                     $redir = new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $this->schoolcat->id));

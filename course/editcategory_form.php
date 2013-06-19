@@ -1,15 +1,17 @@
 <?php
+
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    ///  It must be included from a Moodle page
 }
 
-require_once ($CFG->dirroot.'/course/moodleform_mod.php');
+require_once ($CFG->dirroot . '/course/moodleform_mod.php');
+
 class editcategory_form extends moodleform {
 
     // form definition
     function definition() {
         global $CFG, $DB;
-        $mform =& $this->_form;
+        $mform = & $this->_form;
         $category = $this->_customdata['category'];
         $editoroptions = $this->_customdata['editoroptions'];
 
@@ -23,7 +25,7 @@ class editcategory_form extends moodleform {
             // Editing an existing category.
             make_categories_list($options, $parents, 'moodle/category:manage', $category->id);
             if (empty($options[$category->parent])) {
-                $options[$category->parent] = $DB->get_field('course_categories', 'name', array('id'=>$category->parent));
+                $options[$category->parent] = $DB->get_field('course_categories', 'name', array('id' => $category->parent));
             }
             $strsubmit = get_string('savechanges');
         } else {
@@ -33,18 +35,18 @@ class editcategory_form extends moodleform {
         }
 
         $mform->addElement('select', 'parent', get_string('parentcategory'), $options);
-        $mform->addElement('text', 'name', get_string('categoryname'), array('size'=>'30'));
+        $mform->addElement('text', 'name', get_string('categoryname'), array('size' => '30'));
         $mform->addRule('name', get_string('required'), 'required', null);
-        $mform->addElement('text', 'idnumber', get_string('idnumbercoursecategory'),'maxlength="100"  size="10"');
+        $mform->addElement('text', 'idnumber', get_string('idnumbercoursecategory'), 'maxlength="100"  size="10"');
         $mform->addHelpButton('idnumber', 'idnumbercoursecategory');
         $mform->addElement('editor', 'description_editor', get_string('description'), null, $editoroptions);
         $mform->setType('description_editor', PARAM_RAW);
         if (!empty($CFG->allowcategorythemes)) {
-            $themes = array(''=>get_string('forceno'));
+            $themes = array('' => get_string('forceno'));
             $allthemes = get_list_of_themes();
-            foreach ($allthemes as $key=>$theme) {
+            foreach ($allthemes as $key => $theme) {
                 if (empty($theme->hidefromselector)) {
-                    $themes[$key] = get_string('pluginname', 'theme_'.$theme->name);
+                    $themes[$key] = get_string('pluginname', 'theme_' . $theme->name);
                 }
             }
             $mform->addElement('select', 'theme', get_string('forcetheme'), $themes);
@@ -55,6 +57,13 @@ class editcategory_form extends moodleform {
         $mform->setDefault('id', $category->id);
 
         $this->add_action_buttons(true, $strsubmit);
+
+        //+++ awag: freeze the 'ID number' field, to prevent school coordinators changing the school id.
+        require_once($CFG->dirroot . '/local/dlb/category.php');
+        if (!local_dlb::can_edit_idnumber($category)) {
+            $mform->hardFreeze('idnumber');
+        }
+        //--- awag
     }
 
     function validation($data, $files) {
@@ -63,7 +72,7 @@ class editcategory_form extends moodleform {
         if (!empty($data['idnumber'])) {
             if ($existing = $DB->get_record('course_categories', array('idnumber' => $data['idnumber']))) {
                 if (!$data['id'] || $existing->id != $data['id']) {
-                    $errors['idnumber']= get_string('idnumbertaken');
+                    $errors['idnumber'] = get_string('idnumbertaken');
                 }
             }
         }

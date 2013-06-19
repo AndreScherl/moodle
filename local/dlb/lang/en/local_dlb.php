@@ -8,7 +8,9 @@
  * @package   local_dlb
  * @copyright 2013 Andreas Wagner. All Rights reserved.
  */
-$string['pluginname'] = 'dlb';
+$string['pluginname'] = 'dlb - Anpassungen';
+$string['dlb:editschoolid'] = 'ID-Number der Schule bearbeiten';
+
 $string['local_dlb_home'] = 'Rootknotenbezeichnung';
 $string['local_dlb_home_expl'] = 'Im Navigationsblock ersetzt diese Bezeichnung die Bezeichnung der Lernplattform';
 $string['local_dlb_home_default'] = 'Mebisangebote';
@@ -21,3 +23,5 @@ $string['local_dlb_mebis_sites_default'] =
         'Mediathek,https://mediathek.mebis.bayern.de/;'.
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php';
  
+
+

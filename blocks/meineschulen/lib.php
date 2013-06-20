@@ -152,7 +152,7 @@ class meineschulen {
      */
     protected function can_see_coordinators() {
         global $DB, $USER;
-
+        
         if (is_null($this->seecoordinators)) {
             $this->seecoordinators = false;
             if (!empty($USER->isTeacher)) {
@@ -186,18 +186,17 @@ class meineschulen {
     /** if this user is a "lehrer" in LDAP assign a course-creator role in the context
      *  of his "Heimatschule"
      * 
-     * @return boolean, true if role has been assigned, and user has the capability to 
+     * @return boolean, true if role has been assigned, so user has the capability to 
      * create a course.
      */
-    protected function teacher_role_assign_check() {
-
+    protected function check_teacher_role_assign() {
         global $USER, $CFG;
         
         //check if User is Teacher in LDAP
-        if ($USER->isTeacher != 1) return false;
+        if (!isset($USER->isTeacher) or ($USER->isTeacher != 1)) return false;
         
         //User is Teacher in LDAP, so check whether User is in his "Heimatschule"
-        if (empty($USER->institution) or empty($this->schoolcat) or (empty($CFG->ms_coursecreatorrole))) return false;
+        if (empty($USER->institution) or empty($this->schoolcat->idnumber) or (empty($CFG->ms_coursecreatorrole))) return false;
         
         //check whether role to assign is ok
         $roles = get_roles_with_capability('moodle/course:create');
@@ -207,7 +206,6 @@ class meineschulen {
             
         //User is LDAP-Teacher and in his "Heimatschule", so do the role-assignment.    
         role_assign($CFG->ms_coursecreatorrole, $USER->id, $this->context);   
-        
         return true;
     }
 
@@ -219,7 +217,7 @@ class meineschulen {
     protected function can_create_course() {
         
         if (has_capability('moodle/course:create', $this->context)) return true;
-        return $this->teacher_role_assign_check();
+        return $this->check_teacher_role_assign();
     }
 
     /**

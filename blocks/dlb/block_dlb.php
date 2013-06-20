@@ -54,7 +54,7 @@ class block_dlb extends block_base {
         if (empty($CFG->block_dlb_rolesformycategories)) return array();
 
         //Pfade zu den Kursen als Trainer holen
-        $sql = "SELECT cc.id, cc.path as path
+        $sql = "SELECT DISTINCT cc.id, cc.path as path
                 FROM {role_assignments} as ra
                 JOIN {context} as  ctx ON ctx.id = ra.contextid
                 JOIN {course} as c ON c.id = ctx.instanceid

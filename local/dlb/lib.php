@@ -11,6 +11,8 @@
 function local_dlb_extends_navigation($navigation) {
     global $CFG;
     
+    if (empty($CFG->local_dlb_mebis_sites)) return;
+    
     $node = $navigation->get('home');
     
     if ($node) {

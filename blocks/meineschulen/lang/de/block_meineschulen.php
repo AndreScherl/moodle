@@ -47,3 +47,7 @@ $string['schooltype'] = 'Schultyp';
 $string['searchcriteria'] = 'Suchkriterien';
 $string['searchresults'] = 'Suchergebnisse';
 
+$string['no_choice'] = 'nicht gewählt';
+$string['ms_coursecreatorrole'] = 'Kursersteller-Rolle für Lehrer in der Heimatschule';
+$string['ms_coursecreatorrole_expl'] = '<b>Vorsicht:</b> Diese Rolle wird dem Lehrer in seiner Heimatschule <b>automatisch</b> zugewiesen, wenn er die Hauptseite der Schule betritt. '.
+                                      'Damit kann der Lehrer Kurse erstellen.';

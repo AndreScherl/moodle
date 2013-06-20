@@ -15,22 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  
 /**
- * Version information for Meine Schulen block
+ * Category-related customisations for ALP
  *
- * @package   block_meineschulen
+ * @package   local_alp
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
  
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013060602;
-$plugin->requires  = 2012120300; // 2.4
-$plugin->cron      = 0;
-$plugin->component = 'block_meineschulen';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '2.4 (Build: 2013060600)';
-$plugin->dependencies = array(
-    'block_meinekurse' => ANY_VERSION,
-);
-
+class local_dlb {
+    public static function can_edit_idnumber($category) {
+        if ($category->depth > 3) {
+            return true;
+        }
+        $context = context_coursecat::instance($category->id);
+        return has_capability('local/dlb:editschoolid', $context);
+    }
+}

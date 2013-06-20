@@ -69,4 +69,6 @@ class block_meineschulen extends block_list {
 
         return $this->content;
     }
+    
+    function has_config() {return true;}
 }

@@ -52,3 +52,7 @@ $string['schooltype'] = 'School type';
 $string['searchcriteria'] = 'Search criteria';
 $string['searchresults'] = 'Search results';
 $string['viewcourserequests'] = 'View {$a->count} course request(s) for {$a->name}';
+
+$string['no_choice'] = 'no choice';
+$string['ms_coursecreatorrole'] = 'Role for LDAP-Teacher in own School';
+$string['ms_coursecreatorrole_expl'] = 'This role is assigned automaticly, if an LDAP-Teacher views the main page of his own school';

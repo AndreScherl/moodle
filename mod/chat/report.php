@@ -99,11 +99,9 @@
                 if (!isset($participates[$message->userid])) {
                     $participates[$message->userid] = true;
                 }
-
                 $formatmessage = chat_format_message($message, $course->id, $USER);
                 if (isset($formatmessage->html)) {
                     echo $formatmessage->html;
-
                 }
             }
             $participatedcap = array_key_exists($USER->id, $participates) && has_capability('mod/chat:exportparticipatedsession', $context);
@@ -171,7 +169,6 @@
     if (empty($messages)) {   /// May have already got them above
         if (!$messages = $DB->get_records_select('chat_messages', "chatid = :chatid $groupselect", $params, "timestamp DESC")) {
             echo $OUTPUT->heading(get_string('nomessages', 'chat'));
-
             echo $OUTPUT->footer();
             exit;
         }
@@ -226,17 +223,16 @@
                 foreach ($sessionusers as $sessionuser => $usermessagecount) {
                     if ($user = $DB->get_record('user', array('id'=>$sessionuser))) {
                         $OUTPUT->user_picture($user, array('courseid'=>$course->id));
-                          //+++ Hook DS21
-                          global $CFG;
-                          $strchat = $CFG->chat_anon;
-
-                          if ($strchat==='anony'){
-                          $hashy = substr(md5($user->id),0,4);
-                          echo  '&nbsp;'.get_string('chatuser','chat').' '.$hashy;
-                          }
-                          else
-                          echo '&nbsp;'.fullname($user, true); // XXX TODO  use capability instead of true
+                         // atar +++ Hook DS21
+                        global $CFG;
+                        $strchat = $CFG->chat_anon;
+                        if ($strchat==='anony'){
+                            $hashy = substr(md5($user->id),0,4);
+                             echo  '&nbsp;'.get_string('chatuser','chat').' '.$hashy;
+                         }
+                        else
                         //---DS21
+                        echo '&nbsp;'.fullname($user, true); // XXX TODO  use capability instead of true
                         echo "&nbsp;($usermessagecount)<br />";
                     }
                 }

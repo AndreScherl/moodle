@@ -24,9 +24,8 @@
  */
 
 require_once($CFG->dirroot.'/calendar/lib.php');
-//+++ Hook DS21
+// atar +++ Hook DS21
 require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
-
 //---DS21
 // The HTML head for the message window to start with (<!-- nix --> is used to get some browsers starting with output
 global $CHAT_HTMLHEAD;
@@ -862,8 +861,8 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
 /// Given a message object full of information, this function
 /// formats it appropriately into text and html, then
 /// returns the formatted data.
-    global $DB;
-    
+    global $DB, $CFG;
+
     static $users;     // Cache user lookups
 
     if (isset($users[$message->userid])) {
@@ -874,18 +873,17 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
         return NULL;
     }
 
-    //+++ ataras DS21 anonymer Chat
-    global $CFG;
-    
-    if ($CFG->chat_anon==='anony')
+     // atar +++ Hook DS21
+     $strchat = $CFG->chat_anon;
 
-        return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
 
-    else
+     if ($strchat==='anony')
 
+          return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
+
+     else
+     //---DS21
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);
-    //--- DS21
-
 }
 
 /**

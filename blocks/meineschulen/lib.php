@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,27 +21,24 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/blocks/meinekurse/lib.php');
+require_once($CFG->dirroot.'/blocks/meinekurse/lib.php');
 
 /**
  * Class meineschulen
  */
 class meineschulen {
-    /** Number of characters to truncate results to */
 
+    /** Number of characters to truncate results to */
     const TRUNCATE_COURSE_SUMMARY = 50;
 
     /** @var object $schoolcat the course_categories record for the school we are viewing */
     protected $schoolcat = null;
-
     /** @var context_coursecat $context the context for the school */
     protected $context = null;
-
-    /** @var bool $seecoordinators true if they can see the school coordinators list */
-    protected $seecoordinators = null;
 
     /**
      * @param object $schoolcat
@@ -66,15 +62,15 @@ class meineschulen {
         $schools = array();
         if ($mainschool = meinekurse::get_main_school($USER)) {
             // Make sure the 'main school' is always the first one listed.
-            $schools[] = (object) array(
-                        'id' => $mainschool->id,
-                        'name' => $mainschool->name,
-                        'viewurl' => self::get_school_view_url($mainschool->id),
+            $schools[] = (object)array(
+                'id' => $mainschool->id,
+                'name' => $mainschool->name,
+                'viewurl' => self::get_school_view_url($mainschool->id),
             );
         }
 
         // Get a list of all the categories within which the user is enroled in a course.
-        $sql = "SELECT DISTINCT ca.id, ca.path, ca.depth
+        $sql =  "SELECT DISTINCT ca.id, ca.path, ca.depth
                    FROM {course_categories} ca
                    JOIN {course} c ON c.category = ca.id
                    JOIN {enrol} e ON e.courseid = c.id
@@ -115,10 +111,10 @@ class meineschulen {
         if (!empty($schoolids)) {
             $categories = $DB->get_records_list('course_categories', 'id', $schoolids, 'name', 'id, name');
             foreach ($categories as $category) {
-                $schools[] = (object) array(
-                            'id' => $category->id,
-                            'name' => $category->name,
-                            'viewurl' => self::get_school_view_url($category->id),
+                $schools[] = (object)array(
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'viewurl' => self::get_school_view_url($category->id),
                 );
             }
         }
@@ -151,36 +147,7 @@ class meineschulen {
      * @return bool
      */
     protected function can_see_coordinators() {
-        global $DB, $USER;
-
-        if (is_null($this->seecoordinators)) {
-            $this->seecoordinators = false;
-            if (!empty($USER->isTeacher)) {
-                $this->seecoordinators = true;
-            } else if (has_capability('block/meineschulen:viewcoordinators', $this->context)) {
-                // Has the capability in the current context.
-                $this->seecoordinators = true;
-            } else {
-                // Find the roles that can see the coordinators list.
-                $roles = get_roles_with_capability('block/meineschulen:viewcoordinators');
-                if ($roles) {
-                    // See if the user has one of those roles in a child of the current context.
-                    list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
-                    $likesql = $DB->sql_like('cx.path', ':likecontextpath');
-                    $params['userid'] = $USER->id;
-                    $params['likecontextpath'] = "{$this->context->path}/%";
-                    $sql = "SELECT ra.id
-                              FROM {role_assignments} ra
-                              JOIN {context} cx ON cx.id = ra.contextid
-                             WHERE ra.roleid $rsql
-                               AND $likesql
-                               AND ra.userid = :userid";
-                    $this->seecoordinators = $DB->record_exists_sql($sql, $params);
-                }
-            }
-        }
-
-        return $this->seecoordinators;
+        return has_capability('block/meineschulen:viewcoordinators', $this->context);
     }
 
     /**
@@ -203,17 +170,11 @@ class meineschulen {
 
         if (is_null($resp)) {
             $resp = false;
-            if (!empty($USER->isTeacher)) {
-                $resp = true;
-            } else if (has_capability('moodle/course:request', context_system::instance())) {
-                $resp = true;
-            } else {
-                $roles = get_roles_with_capability('moodle/course:request');
-                if ($roles) {
-                    list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
-                    $params['userid'] = $USER->id;
-                    $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
-                }
+            $roles = get_roles_with_capability('moodle/course:request');
+            if ($roles) {
+                list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+                $params['userid'] = $USER->id;
+                $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
             }
         }
 
@@ -247,7 +208,7 @@ class meineschulen {
      * @return string html snipet
      */
     protected function output_courses() {
-        global $DB, $PAGE;
+        global $DB, $OUTPUT,$PAGE;
         $out = '';
 
         // Javascript for the tree view.
@@ -262,7 +223,8 @@ class meineschulen {
         $categories = get_categories($this->schoolcat->id, null, false);
         $catids = array_keys($categories);
         $catids[] = $this->schoolcat->id;
-        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder', 'id, category, fullname, visible, summary, summaryformat');
+        $courses = $DB->get_records_list('course', 'category', $catids, 'sortorder',
+                                         'id, category, fullname, visible, summary, summaryformat');
 
         // Add the courses to the categories.
         $toplevelcourses = array();
@@ -300,12 +262,18 @@ class meineschulen {
             }
         }
 
+
+
         // Output the categories + courses.
         foreach ($toplevelcats as $cat) {
             $out .= $this->output_category($cat);
         }
         foreach ($toplevelcourses as $course) {
-             $infourl = new moodle_url("/course/info.php?id=$course->id");
+
+
+
+
+          $infourl = new moodle_url("/course/info.php?id=$course->id");
 
           $courseinfo = $OUTPUT->action_link($infourl, '<img alt="'.get_string('info').'" class="icon" src="'.$OUTPUT->pix_url('i/info') . '" />',
                         new popup_action('click', $infourl, 'courseinfo'), array('title'=>get_string('summary')));
@@ -316,14 +284,18 @@ class meineschulen {
 
 
            $out .=html_writer::tag('li',$courselink,array('class' =>'mycourselist'));
+
         }
+
+
         // Wrap the tree within a div.
+
         $out = html_writer::tag('ul', $out);
         //$out = html_writer::tag('div', $out, array('id' => 'meineschulen_coursetree'));
 
         // Wrap within an outer box.
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_courses_inner'));
-        $out = get_string('courselist', 'block_meineschulen') . $out;
+        $out = get_string('courselist', 'block_meineschulen').$out;
         $fullwidth = '';
         if (!$this->can_see_coordinators() && !$this->can_create_course() && !self::can_request_course()) {
             $fullwidth = 'fullwidth';
@@ -364,19 +336,20 @@ class meineschulen {
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
         $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($course));
         $icons = array_map(function ($icon) {
-                    global $OUTPUT;
-                    return $OUTPUT->render($icon);
-                }, $icons);
-        $courseicons = implode(' ', $icons) . ' ';
+            global $OUTPUT;
+            return $OUTPUT->render($icon);
+        }, $icons);
+        $courseicons = implode(' ', $icons).' ';
         $tooltip = '';
         if ($showtooltip) {
             $context = context_course::instance($course->id);
-            $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course', 'summary', null);
+            $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course',
+                                                    'summary', null);
             $summary = format_text($summary, $course->summaryformat);
             $summary = preg_replace('|</*a[^>]*>|i', '', $summary);
             $tooltip = html_writer::nonempty_tag('span', $summary, array('class' => 'tooltip'));
         }
-        $courselink = html_writer::link($courseurl, $courseicons . format_string($course->fullname) . $tooltip);
+        $courselink = html_writer::link($courseurl, $courseicons.format_string($course->fullname).$tooltip);
         return $courselink;
     }
 
@@ -397,7 +370,7 @@ class meineschulen {
         $out = html_writer::nonempty_tag('ul', $out);
 
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_coordinators_inner'));
-        $out = get_string('coordinators', 'block_meineschulen') . $out;
+        $out = get_string('coordinators', 'block_meineschulen').$out;
 
         return html_writer::tag('div', $out, array('class' => 'meineschulen_coordinators'));
     }
@@ -408,7 +381,8 @@ class meineschulen {
      * @return object[]
      */
     protected function get_coordinators() {
-        return get_users_by_capability($this->context, 'moodle/category:manage', 'u.id, u.firstname, u.lastname', 'lastname ASC, firstname ASC');
+        return get_users_by_capability($this->context, 'moodle/category:manage', 'u.id, u.firstname, u.lastname',
+                                       'lastname ASC, firstname ASC');
     }
 
     /**
@@ -420,22 +394,26 @@ class meineschulen {
         $out = '';
         if ($this->can_create_course()) {
             $createurl = new moodle_url('/course/edit.php', array('category' => $this->schoolcat->id,
-                        'returnto' => 'category'));
+                                                                 'returnto' => 'category'));
             $createtext = html_writer::tag('span', get_string('createcourse', 'block_meineschulen'));
-            $createlink = html_writer::link($createurl, $createtext, array('class' => 'meineschulen_createcourse_link'));
-            $out .= html_writer::tag('span', get_string('createcourse', 'block_meineschulen') . $createlink, array('class' => 'meineschulen_createcourse'));
+            $createlink = html_writer::link($createurl, $createtext,
+                                            array('class' => 'meineschulen_createcourse_link'));
+            $out .= html_writer::tag('span', get_string('createcourse', 'block_meineschulen').$createlink,
+                                     array('class' => 'meineschulen_createcourse'));
             $out .= html_writer::empty_tag('br');
         }
         if (self::can_request_course()) {
             $requesturl = new moodle_url('/blocks/meineschulen/request.php', array('category' => $this->schoolcat->id));
             $createtext = html_writer::tag('span', get_string('requestcourse', 'block_meineschulen'));
-            $createlink = html_writer::link($requesturl, $createtext, array('class' => 'meineschulen_requestcourse_link'));
-            $out .= html_writer::tag('span', get_string('requestcourse', 'block_meineschulen') . $createlink, array('class' => 'meineschulen_requestcourse'));
+            $createlink = html_writer::link($requesturl, $createtext,
+                                            array('class' => 'meineschulen_requestcourse_link'));
+            $out .= html_writer::tag('span', get_string('requestcourse', 'block_meineschulen').$createlink,
+                                     array('class' => 'meineschulen_requestcourse'));
             $out .= html_writer::empty_tag('br');
         }
 
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_newcourse_inner'));
-        $out = get_string('newcourse', 'block_meineschulen') . $out;
+        $out = get_string('newcourse', 'block_meineschulen').$out;
 
         return html_writer::tag('div', $out, array('class' => 'meineschulen_newcourse'));
     }
@@ -465,17 +443,18 @@ class meineschulen {
         $forminner = '';
         $forminner .= html_writer::input_hidden_params($PAGE->url);
         $forminner .= html_writer::empty_tag('input', array('type' => 'text', 'size' => '60', 'name' => 'search',
-                    'value' => $searchtext, 'id' => 'meineschulen_search_text'));
+                                                           'value' => $searchtext, 'id' => 'meineschulen_search_text'));
         $forminner .= html_writer::empty_tag('input', arraY('type' => 'submit', 'name' => 'dosearch',
-                    'value' => get_string('search')));
+                                                           'value' => get_string('search')));
         $out .= html_writer::tag('form', $forminner, array('action' => $PAGE->url->out_omit_querystring(),
-                    'method' => 'get',
-                    'id' => 'meineschulen_search_form'));
+                                                          'method' => 'get',
+                                                          'id' => 'meineschulen_search_form'));
 
-        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext, $sortby, $sortdir), array('id' => 'meineschulen_search_results'));
+        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext, $sortby, $sortdir),
+                                 array('id' => 'meineschulen_search_results'));
 
         $out = html_writer::tag('div', $out, array('class' => 'meineschulen_search_inner'));
-        $out = get_string('coursesearch', 'block_meineschulen') . $out;
+        $out = get_string('coursesearch', 'block_meineschulen').$out;
 
         return html_writer::tag('div', $out, array('class' => 'meineschulen_search'));
     }
@@ -502,24 +481,24 @@ class meineschulen {
             'name' => new moodle_url($baseurl, array('search' => $searchtext, 'sortby' => 'name')),
             'summary' => new moodle_url($baseurl, array('search' => $searchtext, 'sortby' => 'summary')),
         );
-        $nosorticon = ' ' . $OUTPUT->pix_icon('t/sort', '');
+        $nosorticon = ' '.$OUTPUT->pix_icon('t/sort', '');
         $icons = array(
             'name' => $nosorticon,
             'summary' => $nosorticon,
         );
         if ($sortdir == 'desc') {
             $order = ' DESC';
-            $sorticon = ' ' . $OUTPUT->pix_icon('t/sort_desc', '');
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_desc', '');
             $changedir = 'asc';
         } else {
             $order = ' ASC';
-            $sorticon = ' ' . $OUTPUT->pix_icon('t/sort_asc', '');
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_asc', '');
             $changedir = 'desc';
         }
         if ($sortby == 'summary') {
-            $order = 'c.summary' . $order;
+            $order = 'c.summary'.$order;
         } else {
-            $order = 'c.fullname' . $order;
+            $order = 'c.fullname'.$order;
             $sortby = 'name';
         }
         $order .= ', c.id ASC';
@@ -530,9 +509,9 @@ class meineschulen {
         $sql = "SELECT c.id, c.fullname, c.summary, c.visible
                       FROM {course} c
                       JOIN {course_categories} ca ON ca.id = c.category
-                     WHERE (" . $DB->sql_like('c.fullname', ':searchtext1', false, false) . "
-                        OR " . $DB->sql_like('c.summary', ':searchtext2', false, false) . ")
-                       AND (ca.id = :catid OR " . $DB->sql_like('ca.path', ':catpath') . ")
+                     WHERE (".$DB->sql_like('c.fullname', ':searchtext1', false, false)."
+                        OR ".$DB->sql_like('c.summary', ':searchtext2', false, false).")
+                       AND (ca.id = :catid OR ".$DB->sql_like('ca.path', ':catpath').")
                      ORDER BY $order";
         $params = array(
             'searchtext1' => "%$searchtext%",
@@ -545,9 +524,10 @@ class meineschulen {
         // Start the table.
         $table = new html_table;
         $table->head = array(
-            html_writer::link($urls['name'], get_string('name') . $icons['name']),
-            html_writer::link($urls['summary'], get_string('description') . $icons['summary']),
+            html_writer::link($urls['name'], get_string('name').$icons['name']),
+            html_writer::link($urls['summary'], get_string('description').$icons['summary']),
         );
+
         $table->size = array('40%', '60%');
 
         // Output the results.
@@ -567,15 +547,15 @@ class meineschulen {
 
                 $icons = array_merge(array(new pix_icon('c/course', '')), enrol_get_course_info_icons($result));
                 $icons = array_map(function ($icon) {
-                            global $OUTPUT;
-                            return $OUTPUT->render($icon);
-                        }, $icons);
-                $courseicons = implode(' ', $icons) . ' ';
+                    global $OUTPUT;
+                    return $OUTPUT->render($icon);
+                }, $icons);
+                $courseicons = implode(' ', $icons).' ';
 
                 $courselink = new moodle_url('/course/view.php', array('id' => $result->id));
                 $name = html_writer::link($courselink, $name);
 
-                $table->data[] = array($courseicons . $name, $summary);
+                $table->data[] = array($courseicons.$name, $summary);
             }
         }
         if (empty($table->data)) {
@@ -604,21 +584,18 @@ class meineschulen {
 
         $resultlen = strlen($result);
         if (!is_null($truncateto) && $resultlen > $truncateto) {
+            $firstpos = stripos($result, $searchterm);
+            $truncateto -= 1;
             $start = 0;
-            // Remove comments below to re-enable returning the part of the description that includes the search term.
-            /*
-              $firstpos = stripos($result, $searchterm);
-              $truncateto -= 1;
-              if ($firstpos !== false) {
-              $firstendpos = $firstpos + strlen($searchterm);
-              if ($firstendpos > $truncateto) {
-              $start = ($firstendpos + 1) - $truncateto;
-              }
-              }
-             */
+            if ($firstpos !== false) {
+                $firstendpos = $firstpos + strlen($searchterm);
+                if ($firstendpos > $truncateto) {
+                    $start = ($firstendpos + 1) - $truncateto;
+                }
+            }
             $result = substr($result, $start, $truncateto);
             if ($start > 0) {
-                $result = '&hellip;' . $result;
+                $result = '&hellip;'.$result;
             }
             if ($start + $truncateto < $resultlen) {
                 $result .= '&hellip;';
@@ -656,13 +633,15 @@ class meineschulen {
         $page = optional_param('page', 0, PARAM_INT);
 
         $form = get_string('searchcriteria', 'block_meineschulen');
-        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults), array('class' => 'meineschulen_school_form_inner'));
+        $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults),
+                                 array('class' => 'meineschulen_school_form_inner'));
         $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
 
 
         $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page);
         $results = get_string('searchresults', 'block_meineschulen');
-        $results .= html_writer::tag('div', $resultsinner, array('id' => 'meineschulen_school_results'));
+        $results .= html_writer::tag('div', $resultsinner,
+                                 array('id' => 'meineschulen_school_results'));
         $attrib = array('class' => 'meineschulen_school_results');
         if (empty($resultsinner)) {
             $attrib['class'] .= ' hidden';
@@ -677,8 +656,8 @@ class meineschulen {
 
         $form = '';
         $form .= html_writer::tag('label', get_string('schoolname', 'block_meineschulen'), array('for' => 'schoolname'));
-        $form .= html_writer::empty_tag('input', array('class' => 'test', 'type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
-                    'value' => $searchtext, 'size' => 80));
+        $form .= html_writer::empty_tag('input', array('class'=>'test', 'type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
+                                                      'value' => $searchtext, 'size' => 80));
 
         $opts = self::get_school_types();
         $form .= html_writer::tag('label', get_string('schooltype', 'block_meineschulen'), array('for' => 'schooltype'));
@@ -692,11 +671,11 @@ class meineschulen {
 
         $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
         $form .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'search', 'class' => 'submitbutton',
-                    'id' => 'submitbutton', 'value' => get_string('search')));
+                                                      'id' => 'submitbutton', 'value' => get_string('search')));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         return html_writer::tag('form', $form, array('action' => $PAGE->url, 'method' => 'get',
-                    'id' => 'meineschulen_school_form'));
+                                                    'id' => 'meineschulen_school_form'));
     }
 
     protected static function get_school_types() {
@@ -720,33 +699,33 @@ class meineschulen {
 
         // Handle sorting.
         $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
-                    'schoolname' => $searchtext,
-                    'schooltype' => $schooltype,
-                    'numberofresults' => $numberofresults,
-                ));
+                                                                          'schoolname' => $searchtext,
+                                                                          'schooltype' => $schooltype,
+                                                                          'numberofresults' => $numberofresults,
+                                                                     ));
         /** @var moodle_url[] $urls */
         $urls = array(
             'name' => new moodle_url($baseurl, array('sortby' => 'name')),
             'type' => new moodle_url($baseurl, array('sortby' => 'type')),
         );
-        $nosorticon = ' ' . $OUTPUT->pix_icon('t/sort', '');
+        $nosorticon = ' '.$OUTPUT->pix_icon('t/sort', '');
         $icons = array(
             'name' => $nosorticon,
             'type' => $nosorticon,
         );
         if ($sortdir == 'desc') {
             $order = ' DESC';
-            $sorticon = ' ' . $OUTPUT->pix_icon('t/sort_desc', '');
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_desc', '');
             $changedir = 'asc';
         } else {
             $order = ' ASC';
-            $sorticon = ' ' . $OUTPUT->pix_icon('t/sort_asc', '');
+            $sorticon = ' '.$OUTPUT->pix_icon('t/sort_asc', '');
             $changedir = 'desc';
         }
         if ($sortby == 'type') {
-            $order = 't.name' . $order . ', sch.name ASC';
+            $order = 't.name'.$order.', sch.name ASC';
         } else {
-            $order = 'sch.name' . $order;
+            $order = 'sch.name'.$order;
             $sortby = 'name';
         }
         $order .= ', sch.id ASC';
@@ -767,11 +746,11 @@ class meineschulen {
         $fields = " SELECT sch.id, sch.name, t.name AS type, sch.visible";
         $select = "   FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
-                     WHERE " . $DB->sql_like('sch.name', ':searchtext1', false, false) . "
+                     WHERE ".$DB->sql_like('sch.name', ':searchtext1', false, false)."
                        AND sch.depth = :schooldepth
                            $typecriteria
                      ORDER BY $order";
-        $totalcount = $DB->count_records_sql("SELECT COUNT(*)" . $select, $params);
+        $totalcount = $DB->count_records_sql("SELECT COUNT(*)".$select, $params);
         $limitnum = $numberofresults;
         if ($limitnum <= 0) {
             // Show all results.
@@ -785,13 +764,13 @@ class meineschulen {
                 $page = 0;
             }
         }
-        $results = $DB->get_records_sql($fields . $select, $params, $start, $limitnum);
+        $results = $DB->get_records_sql($fields.$select, $params, $start, $limitnum);
 
         // Start the table.
         $table = new html_table;
         $table->head = array(
-            html_writer::link($urls['name'], get_string('name') . $icons['name']),
-            html_writer::link($urls['type'], get_string('schooltype', 'block_meineschulen') . $icons['type']),
+            html_writer::link($urls['name'], get_string('name').$icons['name']),
+            html_writer::link($urls['type'], get_string('schooltype', 'block_meineschulen').$icons['type']),
         );
         $table->size = array('60%', '40%');
 
@@ -822,8 +801,8 @@ class meineschulen {
         }
 
         $baseurl = new moodle_url($PAGE->url, array('schoolname' => $searchtext, 'schooltype' => $schooltype,
-                    'sortby' => $sortby, 'sortdir' => $sortdir,
-                    'numberofresults' => $numberofresults));
+                                                   'sortby' => $sortby, 'sortdir' => $sortdir,
+                                                   'numberofresults' => $numberofresults));
 
         $out = html_writer::table($table);
         if ($numberofresults > 0) { // No paging bar for 'All results'.
@@ -873,11 +852,11 @@ class meineschulen {
             }
             $schoolid = $path[3];
             if (!isset($ret[$schoolid])) {
-                $ret[$schoolid] = (object) array(
-                            'id' => $schoolid,
-                            'name' => null,
-                            'count' => 0,
-                            'viewurl' => new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $schoolid))
+                $ret[$schoolid] = (object)array(
+                    'id' => $schoolid,
+                    'name' => null,
+                    'count' => 0,
+                    'viewurl' => new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $schoolid))
                 );
             }
             if ((count($path) - 1) == MEINEKURSE_SCHOOL_CAT_DEPTH) {
@@ -908,10 +887,10 @@ class meineschulen {
      * Heavily based on course/pending.php
      */
     public function process_requests() {
-        global $DB, $CFG, $PAGE, $OUTPUT, $USER;
+        global $DB, $CFG, $PAGE, $OUTPUT;
 
-        require_once($CFG->dirroot . '/blocks/meineschulen/requestlib.php');
-        require_once($CFG->dirroot . '/course/request_form.php');
+        require_once($CFG->dirroot.'/blocks/meineschulen/requestlib.php');
+        require_once($CFG->dirroot.'/course/request_form.php');
 
         $approve = optional_param('approve', 0, PARAM_INT);
         $reject = optional_param('reject', 0, PARAM_INT);
@@ -921,7 +900,7 @@ class meineschulen {
             /// Load the request.
             $course = new meineschulen_course_request($approve);
             if ($course->category != $this->schoolcat->id) {
-                $select = 'id = :id AND ' . $DB->sql_like('path', ':path');
+                $select = 'id = :id AND '.$DB->sql_like('path', ':path');
                 $params = array(
                     'id' => $course->category,
                     'path' => "{$this->schoolcat->path}/%"
@@ -933,18 +912,7 @@ class meineschulen {
             $courseid = $course->approve();
 
             if ($courseid !== false) {
-
-                //awag: redirect to edit_form, if $USER has the capability to update course
-                if (has_capability('moodle/course:update', context_course::instance($courseid))) {
-
-                    $redir = new moodle_url('/course/edit.php', array("id" => $courseid));
-                    redirect($redir);
-
-                } else {
-
-                    $redir = new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $this->schoolcat->id));
-                    redirect($redir, get_string('courseapproved', 'block_meineschulen'), 5);
-                }
+                redirect($CFG->wwwroot.'/course/edit.php?id=' . $courseid);
             } else {
                 print_error('courseapprovedfailed');
             }
@@ -962,8 +930,9 @@ class meineschulen {
             $rejectform->set_data($default);
 
             /// Standard form processing if statement.
-            if ($rejectform->is_cancelled()) {
+            if ($rejectform->is_cancelled()){
                 redirect($PAGE->url);
+
             } else if ($data = $rejectform->get_data()) {
 
                 /// Reject the request
@@ -991,7 +960,7 @@ class meineschulen {
         $out = '';
 
         // SYNERGY LEARNING - restrict list to requests within the current school
-        $select = 'id = :schoolid OR ' . $DB->sql_like('path', ':path');
+        $select = 'id = :schoolid OR '.$DB->sql_like('path', ':path');
         $params = array(
             'schoolid' => $this->schoolcat->id,
             'path' => "{$this->schoolcat->path}/%"
@@ -1002,14 +971,14 @@ class meineschulen {
         if (empty($pending)) {
             $out .= $OUTPUT->heading(get_string('nopendingcourses'));
         } else {
-            $out .= $OUTPUT->heading(get_string('coursespending', 'block_meineschulen'));
+            $out .= $OUTPUT->heading(get_string('coursespending'));
 
             /// Build a table of all the requests.
             $table = new html_table();
             $table->attributes['class'] = 'pendingcourserequests generaltable';
             $table->align = array('center', 'center', 'center', 'center', 'center', 'center');
             $table->head = array(get_string('shortnamecourse'), get_string('fullnamecourse'), get_string('requestedby'),
-                get_string('summary'), get_string('category'), get_string('requestreason'), get_string('action'));
+                                 get_string('summary'), get_string('category'), get_string('requestreason'), get_string('action'));
 
             foreach ($pending as $course) {
                 $course = new course_request($course);
@@ -1023,8 +992,11 @@ class meineschulen {
                 // Else, the category proposed is fetched, but we fallback on the default one if we can't find it.
                 // It is just a matter of displaying the right information because the logic when approving the category
                 // proceeds the same way. The system context level is used as moodle/site:approvecourse uses it.
+
                 // SYNERGY LEARNING - check for 'changecategory' capability at the category level, not site level.
-                if (empty($course->category) || (!$category = get_course_category($course->category))) {
+                $context = context_coursecat::instance($this->schoolcat->id);
+                if (empty($course->category) || !has_capability('moodle/course:changecategory', $context) ||
+                    (!$category = get_course_category($course->category))) {
                     $category = get_course_category($CFG->defaultrequestcategory);
                 }
 
@@ -1036,7 +1008,7 @@ class meineschulen {
                 $row[] = format_string($category->name);
                 $row[] = format_string($course->reason);
                 $row[] = $OUTPUT->single_button(new moodle_url($PAGE->url, array('approve' => $course->id, 'sesskey' => sesskey())), get_string('approve'), 'get') .
-                        $OUTPUT->single_button(new moodle_url($PAGE->url, array('reject' => $course->id)), get_string('rejectdots'), 'get');
+                    $OUTPUT->single_button(new moodle_url($PAGE->url, array('reject' => $course->id)), get_string('rejectdots'), 'get');
 
                 /// Add the row to the table.
                 $table->data[] = $row;
@@ -1057,5 +1029,4 @@ class meineschulen {
 
         return $out;
     }
-
 }

@@ -187,13 +187,11 @@ function uu_validate_user_upload_columns(csv_import_reader $cir, $stdfields, $pr
         print_error('csvfewcolumns', 'error', $returnurl);
     }
 
-    $textlib = textlib_get_instance(); // profile fields may contain unicode chars
-
     // test columns
     $processed = array();
     foreach ($columns as $key=>$unused) {
         $field = $columns[$key];
-        $lcfield = $textlib->strtolower($field);
+        $lcfield = textlib::strtolower($field);
         if (in_array($field, $stdfields) or in_array($lcfield, $stdfields)) {
             // standard fields are only lowercase
             $newfield = $lcfield;
@@ -291,8 +289,6 @@ function uu_process_template($template, $user) {
  * Internal callback function.
  */
 function uu_process_template_callback($username, $firstname, $lastname, $block) {
-    $textlib = textlib_get_instance();
-
     switch ($block[3]) {
         case 'u':
             $repl = $username;
@@ -309,18 +305,18 @@ function uu_process_template_callback($username, $firstname, $lastname, $block) 
 
     switch ($block[1]) {
         case '+':
-            $repl = $textlib->strtoupper($repl);
+            $repl = textlib::strtoupper($repl);
             break;
         case '-':
-            $repl = $textlib->strtolower($repl);
+            $repl = textlib::strtolower($repl);
             break;
         case '~':
-            $repl = $textlib->strtotitle($repl);
+            $repl = textlib::strtotitle($repl);
             break;
     }
 
     if (!empty($block[2])) {
-        $repl = $textlib->substr($repl, 0 , $block[2]);
+        $repl = textlib::substr($repl, 0 , $block[2]);
     }
 
     return $repl;

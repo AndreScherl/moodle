@@ -151,9 +151,8 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
             return false;
         }
 
-        $textlib = textlib_get_instance();
-        $extusername = $textlib->convert($username, 'utf-8', $this->config->ldapencoding);
-        $extpassword = $textlib->convert($password, 'utf-8', $this->config->ldapencoding);
+        $extusername = textlib::convert($username, 'utf-8', $this->config->ldapencoding);
+        $extpassword = textlib::convert($password, 'utf-8', $this->config->ldapencoding);
 
         // Before we connect to LDAP, check if this is an AD SSO login
         // if we succeed in this block, we'll return success early.
@@ -229,8 +228,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
      * @return mixed array with no magic quotes or false on error
      */
     function get_userinfo($username) {
-        $textlib = textlib_get_instance();
-        $extusername = $textlib->convert($username, 'utf-8', $this->config->ldapencoding);
+        $extusername = textlib::convert($username, 'utf-8', $this->config->ldapencoding);
 
         $ldapconnection = $this->ldap_connect();
         if(!($user_dn = $this->ldap_find_userdn($ldapconnection, $extusername))) {
@@ -275,9 +273,9 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
                     continue; // wrong data mapping!
                 }
                 if (is_array($entry[$value])) {
-                    $newval = $textlib->convert($entry[$value][0], $this->config->ldapencoding, 'utf-8');
+                    $newval = textlib::convert($entry[$value][0], $this->config->ldapencoding, 'utf-8');
                 } else {
-                    $newval = $textlib->convert($entry[$value], $this->config->ldapencoding, 'utf-8');
+                    $newval = textlib::convert($entry[$value], $this->config->ldapencoding, 'utf-8');
                 }
                 if (!empty($newval)) { // favour ldap entries that are set
                     $ldapval = $newval;
@@ -304,9 +302,8 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
      * @param mixed $plainpass   Plaintext password
      */
     function user_create($userobject, $plainpass, $schoolid='', $role='Schüler', $printerror=1) {
-        $textlib = textlib_get_instance();
-        $extusername = $textlib->convert($userobject->username, 'utf-8', $this->config->ldapencoding);
-        $extpassword = $textlib->convert($plainpass, 'utf-8', $this->config->ldapencoding);
+        $extusername = textlib::convert($userobject->username, 'utf-8', $this->config->ldapencoding);
+        $extpassword = textlib::convert($plainpass, 'utf-8', $this->config->ldapencoding);
 
         switch ($this->config->passtype) {
             case 'md5':
@@ -331,7 +328,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
             }
             foreach ($values as $value) {
                 if (!empty($userobject->$key) ) {
-                    $newuser[$value] = $textlib->convert($userobject->$key, 'utf-8', $this->config->ldapencoding);
+                    $newuser[$value] = textlib::convert($userobject->$key, 'utf-8', $this->config->ldapencoding);
                 }
             }
         }
@@ -575,8 +572,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
             return true;
         }
 
-        $textlib = textlib_get_instance();
-        $extoldusername = $textlib->convert($olduser->username, 'utf-8', $this->config->ldapencoding);
+        $extoldusername = textlib::convert($olduser->username, 'utf-8', $this->config->ldapencoding);
 
         $ldapconnection = $this->ldap_connect();
 
@@ -634,9 +630,9 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
                         $ambiguous = false;
                     }
 
-                    $nuvalue = $textlib->convert($newuser->$key, 'utf-8', $this->config->ldapencoding);
+                    $nuvalue = textlib::convert($newuser->$key, 'utf-8', $this->config->ldapencoding);
                     empty($nuvalue) ? $nuvalue = array() : $nuvalue;
-                    $ouvalue = $textlib->convert($olduser->$key, 'utf-8', $this->config->ldapencoding);
+                    $ouvalue = textlib::convert($olduser->$key, 'utf-8', $this->config->ldapencoding);
 
                     foreach ($ldapkeys as $ldapkey) {
                         $ldapkey   = $ldapkey;
@@ -1149,14 +1145,13 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
 	* @return username
 	*/
 	function ldap_create_username($firstname, $lastname) {
-		$textlib = textlib_get_instance();
-		$username = $textlib->convert($firstname . "." . $lastname, $this->config->ldapencoding);
+		$username = textlib::convert($firstname . "." . $lastname, $this->config->ldapencoding);
 		$ldapconnection = $this->ldap_connect();
 		$ldap_context = array($this->config->contexts);
 		
 		// create needle
-		$strFn = $textlib->convert($firstname, 'utf-8', $this->config->ldapencoding);
-		$strLn = $textlib->convert($lastname, 'utf-8', $this->config->ldapencoding);
+		$strFn = textlib::convert($firstname, 'utf-8', $this->config->ldapencoding);
+		$strLn = textlib::convert($lastname, 'utf-8', $this->config->ldapencoding);
 		$ldap_username = $strFn . "." . $strLn;
 		
 		// normalize username 

@@ -331,7 +331,7 @@ class datenschutz {
         //Profilfeld schule für bestehende User sperren.
         $user = $DB->get_record('user', array('id' => $userid)); //$user ist der bearbeitete User (!= $USER)
 
-        if (($CFG->bm_school_field) && ($user)) {// für bestehenden User das Schulfeld nicht ändern.
+        if (!empty($CFG->bm_school_field) && ($user)) {// für bestehenden User das Schulfeld nicht ändern.
             //Falls das Recht nicht besteht über Institutsgrenzen hinauszusehen, darf Profilfeld schule nicht verändert werden.
             $schulfeldname = "profile_field_" . $CFG->bm_school_field;
 

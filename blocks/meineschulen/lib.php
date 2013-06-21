@@ -333,10 +333,6 @@ class meineschulen {
             $out .= $this->output_category($cat);
         }
         foreach ($toplevelcourses as $course) {
-
-
-
-
           $infourl = new moodle_url("/course/info.php?id=$course->id");
 
           $courseinfo = $OUTPUT->action_link($infourl, '<img alt="'.get_string('info').'" class="icon" src="'.$OUTPUT->pix_url('i/info') . '" />',
@@ -346,9 +342,7 @@ class meineschulen {
 
            $courselink = html_writer::tag('div', $this->output_course_link($course, true).$courseinfo,array('class' =>'mycourselink'));
 
-
            $out .=html_writer::tag('li',$courselink,array('class' =>'mycourselist'));
-
         }
         // Wrap the tree within a div.
         $out = html_writer::tag('ul', $out);

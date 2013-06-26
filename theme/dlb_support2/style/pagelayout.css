@@ -9,3 +9,8 @@
     top: 30px;
 }
 
+#page-footer .homelink a {
+    padding-left: 1em;
+    padding-right: 1em;
+    visibilty:hidden;
+}

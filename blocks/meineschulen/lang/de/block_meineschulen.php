@@ -26,15 +26,17 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['allresults'] = 'Alle';
 $string['alltypes'] = 'Alle Typen';
+$string['backschool'] = 'Zurück zur Schulbereichsübersicht';
 $string['coordinators'] = 'Schulkoordinatoren';
 $string['courselist'] = 'Kursliste';
 $string['coursespending'] = 'offene Kursanträge';
 $string['coursesearch'] = 'Kurse suchen';
 $string['createcourse'] = 'Kurs erstellen';
+$string['courserequestsupport']='Informationen für den mebis-Koordinator, um diese Kursanfrage zu prüfen';
 $string['meineschulen:addinstance'] = 'Meine Schulen Block hinzufügen';
 $string['meineschulen:myaddinstance'] = 'Meine Schulen Block zu Meine Startseite hinzufügen';
 $string['meineschulen:viewcoordinators'] = 'Liste der Schulkoordinatoren ansehen';
-$string['myschools'] = 'Meine weiteren Schulen';
+$string['myschools'] = 'Meine Schulen';
 $string['newcourse'] = 'Neuer Kurs';
 $string['nocoursesfound'] = 'Keine Kurse gefunden';
 $string['noschoolsfound'] = 'Keine Schulen gefunden';
@@ -46,6 +48,7 @@ $string['schoolsearch'] = 'Schule suchen';
 $string['schooltype'] = 'Schultyp';
 $string['searchcriteria'] = 'Suchkriterien';
 $string['searchresults'] = 'Suchergebnisse';
+$string['viewcourserequests'] = 'Sie haben {$a->count} Kursantrag/-anträge: {$a->name}';
 
 $string['no_choice'] = 'nicht gewählt';
 $string['ms_coursecreatorrole'] = 'Kursersteller-Rolle für Lehrer in der Heimatschule';

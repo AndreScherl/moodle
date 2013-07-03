@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Language strings for the Meine Schulen block
  *
@@ -21,7 +21,7 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
 $string['allresults'] = 'All';
@@ -35,8 +35,9 @@ $string['coursespending'] = 'Open course requests';
 $string['courserequests'] = 'Course requests';
 $string['coursesearch'] = 'Search courses';
 $string['createcourse'] = 'Create course';
-$string['meineschulen:addinstance'] = 'Add Meine schulen block';
-$string['meineschulen:myaddinstance'] = 'Add Meine schulen block to My home';
+$string['courserequestsupport']='Add a reason for your request';
+$string['meineschulen:addinstance'] = 'Add Meine Schulen block';
+$string['meineschulen:myaddinstance'] = 'Add Meine Schulen block to My home';
 $string['meineschulen:viewcoordinators'] = 'View school coordinators list';
 $string['myschools'] = 'My schools';
 $string['newcourse'] = 'New course';

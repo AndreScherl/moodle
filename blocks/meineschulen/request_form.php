@@ -76,7 +76,7 @@ class meineschulen_course_request_form extends moodleform {
 
         $mform->addElement('header','requestreason', get_string('courserequestreason'));
 
-        $mform->addElement('textarea', 'reason', get_string('courserequestsupport'), array('rows'=>'15', 'cols'=>'50'));
+        $mform->addElement('textarea', 'reason', get_string('courserequestsupport','block_meineschulen'), array('rows'=>'15', 'cols'=>'50'));
         $mform->addRule('reason', get_string('missingreqreason'), 'required', null, 'client');
         $mform->setType('reason', PARAM_TEXT);
 

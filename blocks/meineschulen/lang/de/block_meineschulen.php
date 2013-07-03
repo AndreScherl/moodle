@@ -40,6 +40,7 @@ $string['myschools'] = 'Meine Schulen';
 $string['newcourse'] = 'Neuer Kurs';
 $string['nocoursesfound'] = 'Keine Kurse gefunden';
 $string['noschoolsfound'] = 'Keine Schulen gefunden';
+$string['numberofresults'] = 'Ergebnisse pro Seite';
 $string['otherschools'] = 'Andere Schulen';
 $string['pluginname'] = 'Schulen';
 $string['requestcourse'] = 'Kurs anfordern';

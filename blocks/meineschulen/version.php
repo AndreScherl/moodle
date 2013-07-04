@@ -24,7 +24,7 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013060602;
+$plugin->version   = 2013060603;
 $plugin->requires  = 2012120300; // 2.4
 $plugin->cron      = 0;
 $plugin->component = 'block_meineschulen';

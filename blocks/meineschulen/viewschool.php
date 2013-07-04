@@ -30,12 +30,14 @@ $schoolid = required_param('id', PARAM_INT);
 $schoolcat = $DB->get_record('course_categories', array('id' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH),
                              '*', MUST_EXIST);
 
+//awag: need to set $PAGE->category for displaying the customized header
+$PAGE->set_category_by_id($schoolcat->id);
+
 $url = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $schoolcat->id));
 $PAGE->set_url($url);
 require_login();
 
 $context = context_coursecat::instance($schoolcat->id);
-$PAGE->set_context($context);
 
 $strtitle = format_string($schoolcat->name);
 $PAGE->set_title($strtitle);

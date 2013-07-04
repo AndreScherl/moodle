@@ -15,7 +15,7 @@
  #########################################################################
 */
 
-$string['pluginname'] = 'Mebis-Verwaltung';
+$string['pluginname'] = 'mebis-Verwaltung';
 $string['dlb:addinstance'] = 'Neuen Block \'Mebis-Verwaltung\' hinzufügen';
 $string['dlb:myaddinstance'] = 'Neuen Block \'Mebis-Verwaltung\' für \'Meine Startseite\' hinzufügen';
 $string['dlb:institutionview'] = 'User anderer Institutionen sehen';
@@ -67,12 +67,12 @@ $string['nopermissiontoviewuser'] = 'Sie dürfen diesen User nicht sehen.'.
 $string['invalidredirect'] = 'Diese Weiterleitung ist nicht gestattet.';
 
 //Blockinhalte
-$string['managed_categories'] = "mebis-Koordinator für:";
+$string['managed_categories'] = "Kursbereiche bearbeiten";
 $string['managed_headers'] = "Kursbereichs-Header bearbeiten";
+$string['manage_users'] = 'Nutzer verwalten';
 $string['upload_users'] = "DLB-Upload Users";
 $string['category_of_course'] = 'Aktueller Kursbereich';
 $string['allcourses'] = 'Alle Kurse';
 $string['editcategoryheader'] = 'Kursbereichsheader bearbeiten';
-$string['mycategories'] = 'Meine Kursbereiche';
+$string['mycategories'] = 'meine Kursbereiche';
 $string['myschool'] = 'Kursbereich meiner Schule';
-?>

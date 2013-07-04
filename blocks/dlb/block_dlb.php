@@ -34,7 +34,7 @@ class block_dlb extends block_base {
     function get_contexts_by_capability($capability, $contextlevel) {
         global $CFG, $DB, $USER;
 
-        $sql = "SELECT cc.*
+        $sql = "SELECT DISTINCT cc.*
                 FROM {role_capabilities} as rc
                 JOIN {role_assignments} as ra ON rc.roleid = ra.roleid
                 JOIN {context} as ctx ON ctx.id = ra.contextid

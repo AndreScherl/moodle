@@ -74,9 +74,9 @@ class meineschulen_course_request_form extends moodleform {
         $mform->addHelpButton('summary_editor', 'coursesummary');
         $mform->setType('summary_editor', PARAM_RAW);
 
-        $mform->addElement('header','requestreason', get_string('courserequestreason'));
+        $mform->addElement('header','requestreason', get_string('courserequestreason','block_meineschulen'));
 
-        $mform->addElement('textarea', 'reason', get_string('courserequestsupport'), array('rows'=>'15', 'cols'=>'50'));
+        $mform->addElement('textarea', 'reason', get_string('courserequestsupport','block_meineschulen'), array('rows'=>'15', 'cols'=>'50'));
         $mform->addRule('reason', get_string('missingreqreason'), 'required', null, 'client');
         $mform->setType('reason', PARAM_TEXT);
 

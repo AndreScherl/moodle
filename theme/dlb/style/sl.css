@@ -9,12 +9,7 @@
 	height: 70px;
 }
 
-.paging {
-	border-top: 1px solid #999;
-	height: 30px;
-	padding-top: 10px;
-	clear: both;
-}
+
 
 #page-my-index .content {
 	clear: both;
@@ -303,8 +298,8 @@
 .meineschulen_content .meineschulen_createcourse_link,.meineschulen_content .meineschulen_requestcourse_link
 	{
 	background: url([[pix:theme|plus]]) top right repeat-x;
-	width: 32px;
-	height: 32px;
+	width: 24px;
+	height: 24px;
 	border: none;
 	box-shadow: none;
 }

@@ -315,8 +315,19 @@ class theme_dlb_core_renderer extends core_renderer {
     public function support_button() {
         global $USER, $DB, $CFG;
 
-        $content = "";
-        if ($this->can_see_supportbutton()) {
+       $content = "";
+                if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)){
+
+
+             $outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
+
+            $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
+
+            $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
+            $content .= "<div style=\"clear:both\"></div>";
+
+
+        }elseif (isloggedin()&&$this->can_see_supportbutton()) {
 
             $mylink = $CFG->block_dlb_supporturl;
 

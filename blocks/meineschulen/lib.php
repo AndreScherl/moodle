@@ -724,6 +724,7 @@ class meineschulen {
         if (is_null($types)) {
             $types = $DB->get_records_menu('course_categories', array('depth' => 1), 'name', 'id, name');
             $types = array(-1 => get_string('alltypes', 'block_meineschulen')) + $types;
+            $types = array_diff($types, array('Miscellaneous'));
         }
 
         return $types;

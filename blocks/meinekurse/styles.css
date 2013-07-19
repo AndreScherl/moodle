@@ -140,3 +140,7 @@ table.mycourses{
 .meinekurse_content {
     margin: 5%;
 }
+
+.block_meinekurse .courseandpaging .paging {
+    border-top: 0
+}

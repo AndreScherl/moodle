@@ -53,6 +53,7 @@ $string['schoolsearch'] = 'School search';
 $string['schooltype'] = 'School type';
 $string['searchcriteria'] = 'Search criteria';
 $string['searchresults'] = 'Search results';
+$string['sendmessage'] = 'Send a message to the coordinator';
 $string['viewcourserequests'] = 'View {$a->count} course request(s) for {$a->name}';
 
 $string['no_choice'] = 'no choice';

@@ -404,12 +404,17 @@ class meineschulen {
      * @return string
      */
     protected function output_coordinators() {
+        global $OUTPUT;
+
         $out = '';
 
         $coordinators = $this->get_coordinators();
         foreach ($coordinators as $coordinator) {
-            $coordurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
-            $coordlink = html_writer::link($coordurl, fullname($coordinator));
+            $messageurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
+            $messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_meineschulen'));
+            $messagelink = html_writer::link($messageurl, $messageicon);
+            $profileurl = new moodle_url('/user/profile.php', array('id' => $coordinator->id));
+            $coordlink = $messagelink.' '.html_writer::link($profileurl, fullname($coordinator));
             $out .= html_writer::tag('li', $coordlink);
         }
         $out = html_writer::nonempty_tag('ul', $out);

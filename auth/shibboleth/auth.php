@@ -453,6 +453,16 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         return $CookieArray;
     }
 	
+	
+    function user_update($olduser, $newuser) {
+        $ldapdlb = new auth_plugin_ldapdlb();
+        $result = true;
+        if ($olduser->email != $newuser->email) {
+          $result = $ldapdlb->user_update_mail($olduser, $newuser->email);
+        }
+        return $result;
+    }
+	
 	function user_update_password($user, $newpassword) {
 		$ldapdlb = new auth_plugin_ldapdlb();
         $result = $ldapdlb->user_update_password($user, $newpassword);

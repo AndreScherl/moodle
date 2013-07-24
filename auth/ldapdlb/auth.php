@@ -772,6 +772,46 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
     }
 
 
+     /**
+     * Changes user-mail in LDAP
+     *
+     * Called when the user mail is updated.
+     *
+     * @param  object  $user        User table object
+     * @param  string  $newmail New Mail string
+     * @return boolean result
+     *
+     */
+    function user_update_mail($user, $newmail) {
+       global $USER, $DB;
+
+        $result = false;
+        $username = $user->username;
+
+        $extusername = textlib::convert($username, 'utf-8', $this->config->ldapencoding);
+        $extmail = textlib::convert($newmail, 'utf-8', $this->config->ldapencoding);
+
+        $ldapconnection = $this->ldap_connect();
+
+        $user_dn = $this->ldap_find_userdn($ldapconnection, $extusername);
+
+        if (!$user_dn) {
+            error_log($this->errorlogtag.get_string ('nodnforusername', 'auth_ldap', $user->username));
+            return false;
+        }
+
+        // Send LDAP the mail
+        $result = ldap_modify($ldapconnection, $user_dn, array('mail' => $extmail));
+        if (!$result) {
+            error_log($this->errorlogtag.get_string ('updatepasserror', 'auth_ldap',
+                                                     array('errno'=>ldap_errno($ldapconnection),
+                                                           'errstring'=>ldap_err2str(ldap_errno($ldapconnection)))));
+        }
+
+        $this->ldap_close();
+        return $result;
+    }
+
     /**
      * Will get called before the login page is shownr. Ff NTLM SSO
      * is enabled, and the user is in the right network, we'll redirect

@@ -50,6 +50,7 @@ $string['schoolsearch'] = 'Schule suchen';
 $string['schooltype'] = 'Schultyp';
 $string['searchcriteria'] = 'Suchkriterien';
 $string['searchresults'] = 'Suchergebnisse';
+$string['sendmessage'] = 'Nachricht senden';
 $string['viewcourserequests'] = 'Sie haben {$a->count} Kursantrag/-anträge: {$a->name}';
 
 $string['no_choice'] = 'nicht gewählt';

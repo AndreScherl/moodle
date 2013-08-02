@@ -1,0 +1,41 @@
+body {
+    
+    font-size:18px;
+}
+
+
+h1 {
+    
+    font-size:24px;
+    line-height: 44px;
+}
+
+h2, h3.sectionname, .course-content ul.topics li.section .left {
+    font-size : 22px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h4, h5 {
+    font-size: 18px;
+}
+
+h5, h6 {
+    
+    font-size: 18px;
+    
+}
+
+
+
+input, select, textarea, button {
+    font-size: 19px;
+}
+
+.chooserdialogue .moodle-dialogue-wrap .moodle-dialogue-bd {
+  
+    font-size: 13px;
+    font-weight: bold;
+}

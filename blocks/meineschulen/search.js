@@ -98,10 +98,6 @@ M.block_meineschulen_search = {
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
 
-            if (!searchtext && schooltype == -1) {
-                return;
-            }
-
             if (onload) {
                 pagequery = window.location.href;
                 pagequery = pagequery.substring(pagequery.indexOf('?') + 1);

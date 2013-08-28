@@ -738,10 +738,6 @@ class meineschulen {
     public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page) {
         global $DB, $OUTPUT, $PAGE;
 
-        if (empty($searchtext) && $schooltype == -1) {
-            return '';
-        }
-
         // Handle sorting.
         $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
                     'schoolname' => $searchtext,

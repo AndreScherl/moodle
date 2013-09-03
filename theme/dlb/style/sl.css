@@ -57,9 +57,7 @@
 }
 
 #page-my-index #region-main .block.ui-state-default a {
-	color: #1b6a9c;
-	!
-	important;
+	color: #1b6a9c ; ! important;
 }
 
 #page-my-index #region-main .block.ui-state-active {
@@ -91,10 +89,15 @@
 #page-my-index .mycoursestabs .coursecontainer {
 	margin-top: 0;
 	background: #fff;
-	border: 1px solid #999;
-	padding: 10px;
-	width: 97%;
+	border: 1px solid #C2D6DC;
+	padding: 0px;
+	width: 100%;
 	margin-bottom: 10px;
+	
+	-moz-box-sizing:    border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing:         border-box;
+	
 }
 
 #page-my-index .mycoursestabs .header {

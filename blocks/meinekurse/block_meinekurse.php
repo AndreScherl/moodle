@@ -50,6 +50,7 @@ class block_meinekurse extends block_base {
         return false;
     }
 
+
     /**
      * block contents
      *
@@ -97,7 +98,20 @@ class block_meinekurse extends block_base {
         //Get courses:
         $mycourses = meinekurse::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school,
                                                 $pagenum, $prefs->otherschool);
-
+ //+++atar: abbreviate course names
+            foreach ($mycourses as $school) {
+                  $schools =$school->courses;
+                  foreach ($schools as $subschool){
+                      $max =33;
+                      if (textlib::strlen($subschool->fullname) <= $max) {
+                             $subschool->fullname = $subschool->fullname ;
+                            }
+                       else {
+                               $subschool->fullname = textlib::substr($subschool->fullname,0,$max-3).'...';
+                            }
+                     }
+             }
+      //---
         $starttab = 0;
         $tabnum = 0;
         foreach ($mycourses as $school) {
@@ -116,7 +130,7 @@ class block_meinekurse extends block_base {
         // Tab headings.
         $content .= '<ul>';
         foreach ($mycourses as $school) {
-            $tab = html_writer::link("#school{$school->id}tab", format_string($school->name),
+            $tab = html_writer::link("#school{$school->id}tab",format_string($school->name),
                                      array('id' => "school{$school->id}tablink"));
             $tab = html_writer::tag('li', $tab, array('class' => 'block'));
             $content .= $tab;
@@ -129,7 +143,7 @@ class block_meinekurse extends block_base {
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = self::sorting_form($baseurl, $prefs->sortby, $prefs->numcourses, $school->schools, $prefs->otherschool);
+            $tab = self::sorting_form($baseurl, $prefs->sortby, $numcourses, $school->schools, $prefs->otherschool);
             $tabcontent = meinekurse::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $tab .=  html_writer::tag('div', $tabcontent, array('class' => 'courseandpaging'));
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
@@ -183,7 +197,7 @@ class block_meinekurse extends block_base {
      * @return string html snipet for the icons
      */
     protected static function sorting_form($baseurl, $selectedtype, $numcourses, $otherschools, $otherschoolid) {
-
+global $OUTPUT;
         $prefs = new stdClass();
         $prefs->sortby = $selectedtype;
         $prefs->numcourses = $numcourses;
@@ -191,10 +205,12 @@ class block_meinekurse extends block_base {
 
         $out = '';
         $out .= html_writer::input_hidden_params($baseurl);
+
         $table = new html_table();
         $table->head = array(
             get_string('sortby', 'block_meinekurse'),
             get_string('numcourses', 'block_meinekurse'));
+
         if (count($otherschools) > 2) {
             $table->head[] = get_string('school', 'block_meinekurse');
         }
@@ -202,13 +218,15 @@ class block_meinekurse extends block_base {
         $table->data = array();
         $row = array();
         $sortopts = array('name', 'timecreated', 'timevisited');
-        $row[] = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs);
+
+        $row[] = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs). html_writer::tag('div',$OUTPUT->pix_icon('t/sort', ''),array('class'=>'mysorter'));
         $numopts = array(5, 10, 20, 50, 100);
         $row[] = self::html_select('numcourses', array_combine($numopts, $numopts), false, $prefs);
         if (count($otherschools) > 2) {
             $row[] = self::html_select('otherschoolid', $otherschools, false, $prefs);
         }
         $table->data[] = $row;
+
         $out .= html_writer::table($table);
 
         return html_writer::tag('form', $out, array('method' => 'get', 'action' => $baseurl->out_omit_querystring()));

@@ -99,6 +99,11 @@ class block_meinekurse extends block_base {
         //Get courses:
         $mycourses = meinekurse::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school,
                                                 $pagenum, $prefs->otherschool);
+        if (is_null($prefs->school) || !isset($mycourses[$prefs->school])) {
+            $schoolids = array_keys($mycourses);
+            $prefs->school = reset($schoolids);
+            meinekurse::set_prefs($prefs);
+        }
 
         $starttab = 0;
         $tabnum = 0;

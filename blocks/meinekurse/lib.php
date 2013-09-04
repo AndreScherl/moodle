@@ -83,15 +83,21 @@ class meinekurse {
 
     /**
      * @param object $prefs
+     * @param $defaultdir
      */
-    public static function set_prefs($prefs) {
+    public static function set_prefs($prefs, $defaultdir = false) {
         if (!in_array($prefs->sortby, self::$validsort)) {
             $prefs->sortby = 'name';
         }
-        if ($prefs->sortby == 'name') {
+        if ($defaultdir) {
+            if ($prefs->sortby == 'name') {
+                $prefs->sortdir = 'asc';
+            } else {
+                $prefs->sortdir = 'desc';
+            }
+        }
+        if ($prefs->sortdir != 'desc') {
             $prefs->sortdir = 'asc';
-        } else {
-            $prefs->sortdir = 'desc';
         }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
     }
@@ -238,18 +244,26 @@ class meinekurse {
     /**
      * @param int $page
      * @param string $sortby optional
+     * @param string $sortdir
      * @param int $numcourses
      * @param int $schoolid
      * @param int $otherschoolid
      * @return string
      */
-    public static function output_course_list($page = 1, $sortby = null, $numcourses = null, $schoolid = null, $otherschoolid = null) {
+    public static function output_course_list($page = 1, $sortby = null, $sortdir = null, $numcourses = null,
+                                              $schoolid = null, $otherschoolid = null) {
         global $USER;
 
         $prefs = self::get_prefs();
-        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid) || !is_null($otherschoolid)) {
+        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid) || !is_null($otherschoolid) || !is_null($sortdir)) {
+            $defaultdir = false;
             if (!is_null($sortby)) {
                 $prefs->sortby = $sortby;
+                $defaultdir = true;
+            }
+            if (!is_null($sortdir)) {
+                $prefs->sortdir = $sortdir;
+                $defaultdir = false;
             }
             if (!is_null($numcourses)) {
                 $prefs->numcourses = $numcourses;
@@ -260,7 +274,7 @@ class meinekurse {
             if (!is_null($otherschoolid)) {
                 $prefs->otherschool = $otherschoolid;
             }
-            self::set_prefs($prefs);
+            self::set_prefs($prefs, $defaultdir);
         }
 
         $mycourses = self::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $page,

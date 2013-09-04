@@ -144,3 +144,7 @@ table.mycourses{
 .block_meinekurse .courseandpaging .paging {
     border-top: 0
 }
+
+.sorthidden {
+    display: none;
+}

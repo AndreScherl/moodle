@@ -106,7 +106,10 @@ input.button  {
    
 }
 
-
+input[readonly=readonly], input[readonly=readonly]:focus {
+    border:none;
+    background:#ffffff;
+}
 
 .block_action input {
     border : none;

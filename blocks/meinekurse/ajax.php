@@ -45,10 +45,11 @@ case 'setschool':
 case 'getcourses':
     $page = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
     $sortby = optional_param('meinekurse_sortby', null, PARAM_ALPHA);
+    $sortdir = optional_param('meinekurse_sortdir', null, PARAM_ALPHA);
     $numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT);
     $schoolid = optional_param('meinekurse_schoolid', null, PARAM_INT);
     $otherschoolid = optional_param('meinekurse_otherschoolid', null, PARAM_INT);
-    list($name, $out) = meinekurse::output_course_list($page, $sortby, $numcourses, $schoolid, $otherschoolid);
+    list($name, $out) = meinekurse::output_course_list($page, $sortby, $sortdir, $numcourses, $schoolid, $otherschoolid);
     $prefs = meinekurse::get_prefs();
     $ret = (object)array(
         'error' => 0,
@@ -56,6 +57,7 @@ case 'getcourses':
         'otherschoolid' => $prefs->otherschool,
         'name' => $name,
         'content' => $out,
+        'sortdir' => $prefs->sortdir,
     );
     echo json_encode($ret);
     break;

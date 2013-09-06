@@ -97,29 +97,27 @@ M.block_meineschulen_search = {
             schooltype = Y.one('#meineschulen_school_form #schooltype').get('options').item(schooltype).get('value');
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
-            if (searchtext) {
-                if (onload) {
-                    pagequery = window.location.href;
-                    pagequery = pagequery.substring(pagequery.indexOf('?') + 1);
-                    if (pagequery) {
-                        pagequery = Y.QueryString.parse(pagequery);
-                        if (pagequery.schoolname === searchtext) {
-                            // Don't repeat the search if the search has already been performed via the page params.
-                            return;
-                        }
+
+            if (onload) {
+                pagequery = window.location.href;
+                pagequery = pagequery.substring(pagequery.indexOf('?') + 1);
+                if (pagequery) {
+                    pagequery = Y.QueryString.parse(pagequery);
+                    if (pagequery.schoolname === searchtext) {
+                        // Don't repeat the search if the search has already been performed via the page params.
+                        return;
                     }
                 }
-                send_school_search(searchtext, schooltype, numberofresults);
             }
-        }
+
+            send_school_search(searchtext, schooltype, numberofresults);
+    }
 
         function send_school_search(searchtext, schooltype, numberofresults, sortby, sortdir, page) {
             var searchouter, resultel, url, data;
 
             searchouter = Y.one('.meineschulen_content .meineschulen_school_results');
-            if (searchouter.hasClass('hidden')) {
-                searchouter.removeClass('hidden');
-            }
+            searchouter.removeClass('hidden');
 
             resultel = Y.one('#meineschulen_school_results');
             resultel.setContent(waitimg);
@@ -149,10 +147,13 @@ M.block_meineschulen_search = {
                     success: function (id, resp) {
                         var details;
                         details = Y.JSON.parse(resp.responseText);
-                        if (details && details.error === 0 && details.results) {
+                        if (details && details.error === 0) {
                             resultel.setContent(details.results);
                             update_sort_links();
                             update_paging_links();
+                            if (!details.results) {
+                                searchouter.addClass('hidden');
+                            }
                         }
                     }
                 }

@@ -738,10 +738,6 @@ class meineschulen {
     public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page) {
         global $DB, $OUTPUT, $PAGE;
 
-        if (empty($searchtext)) {
-            return '';
-        }
-
         // Handle sorting.
         $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
                     'schoolname' => $searchtext,
@@ -779,11 +775,14 @@ class meineschulen {
 
         // Do the search.
         $typecriteria = '';
+        $searchcriteria = '';
         $params = array(
-            'searchtext1' => "%$searchtext%",
-            'searchtext2' => "%$searchtext%",
             'schooldepth' => MEINEKURSE_SCHOOL_CAT_DEPTH,
         );
+        if ($searchtext) {
+            $params['searchtext'] = "%$searchtext%";
+            $searchcriteria = ' AND '.$DB->sql_like('sch.name', ':searchtext', false, false);
+        }
         if ($schooltype > 0) {
             $typecriteria = 'AND t.id = :schooltype';
             $params['schooltype'] = $schooltype;
@@ -791,8 +790,8 @@ class meineschulen {
         $fields = " SELECT sch.id, sch.name, t.name AS type, sch.visible";
         $select = "   FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
-                     WHERE " . $DB->sql_like('sch.name', ':searchtext1', false, false) . "
-                       AND sch.depth = :schooldepth
+                     WHERE sch.depth = :schooldepth
+                           $searchcriteria
                            $typecriteria
                      ORDER BY $order";
         $totalcount = $DB->count_records_sql("SELECT COUNT(*)" . $select, $params);

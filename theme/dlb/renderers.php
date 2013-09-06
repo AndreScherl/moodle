@@ -239,10 +239,10 @@ class theme_dlb_core_renderer extends core_renderer {
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
 
-           /*atar: Kursbereichsicon vorerst deaktiviert
-            $href = html_writer::link($CFG->wwwroot . "/course/index.php", $this->pix_icon('toolbar/toolbar-kursbereich', 'Mein Schulbereich', 'theme', array('title' => '')));
-            $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Mein Schulbereich'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
-            */
+           /*atar: Kursbereichsicon vorerst deaktiviert*/
+            $href = html_writer::link($CFG->wwwroot . "/blocks/meineschulen/search.php", $this->pix_icon('toolbar/toolbar-schulesuchen', 'Schule suchen', 'theme', array('title' => '')));
+            $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
+
 
             $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
@@ -286,9 +286,10 @@ class theme_dlb_core_renderer extends core_renderer {
      * @return boolean
      */
     protected function can_see_supportbutton() {
+
         global $USER, $DB, $CFG;
 
-        if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl))
+ if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl))
             return false;
 
         if (isset($USER->canseesupportbutton))
@@ -316,7 +317,18 @@ class theme_dlb_core_renderer extends core_renderer {
         global $USER, $DB, $CFG;
 
         $content = "";
-        if ($this->can_see_supportbutton()) {
+                if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)){
+
+
+             $outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
+
+            $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
+
+            $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
+            $content .= "<div style=\"clear:both\"></div>";
+
+
+        }elseif (isloggedin()&&$this->can_see_supportbutton()) {
 
             $mylink = $CFG->block_dlb_supporturl;
 
@@ -595,7 +607,10 @@ class theme_dlb_core_renderer extends core_renderer {
     public function standard_head_html() {
         return parent::standard_head_html() . $this->_load_dock_images();
     }
+
 }
+
+
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion
 require_once($CFG->libdir . '/medialib.php');

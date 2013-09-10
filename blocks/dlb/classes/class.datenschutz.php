@@ -197,7 +197,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_locallib_get_potential_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS02: Hook in enrol/manual/locallib.php enrol_manual_potential_participant->find_users()
@@ -210,7 +210,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_manual_locallib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS03: Hook in admin/user.php
@@ -283,7 +283,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_cohort_lib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()
@@ -444,6 +444,8 @@ class datenschutz {
     public static function hook_message_index($user2id) {
         if ($user2id == 0)
             return;
+if(has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM),$user2id))
+         return;
         datenschutz::_require_cap_to_view_user($user2id);
     }
 

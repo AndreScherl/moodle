@@ -36,8 +36,6 @@ require_once($CFG->dirroot.'/repository/mediathek/mediathekapi.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class repository_pmediathek extends repository {
-
-    static $api = null;
     const EMBED_PREFIX = 'PMEDIATHEK_EMBED:';
 
     public function __construct($repositoryid, $context = SYSCONTEXTID, $options = array()) {
@@ -57,7 +55,7 @@ class repository_pmediathek extends repository {
     }
 
     public function get_listing($path='', $page = '') {
-        $url = new moodle_url('/repository/pmediathek/search.php');
+        $url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id));
         $ret = array(
             'nologin' => true,
             'nosearch' => true,
@@ -118,10 +116,7 @@ class repository_pmediathek extends repository {
             );
             $DB->insert_record('repository_mediathek_link', $ins);
         }
-        $link = new moodle_url('/repository/mediathek/link.php', array('hash' => $hash));
-        if ($embed) {
-            $link->param('embed', 1);
-        }
+        $link = new moodle_url('/repository/pmediathek/link.php', array('hash' => $hash, 'embed' => 1));
         return $link->out(false);
     }
 
@@ -130,24 +125,33 @@ class repository_pmediathek extends repository {
     }
 
     public static function get_type_option_names() {
-        return array_merge(parent::get_type_option_names(), array('url', 'username', 'password'));
+        return array_merge(parent::get_type_option_names(), array('url', 'username', 'password', 'logqueries'));
     }
 
     public static function type_config_form($mform, $classname = 'repository') {
+        global $CFG;
+
         parent::type_config_form($mform);
 
         $config = get_config('repository_mediathek');
-        $mform->addElement('text', 'url', get_string('url', 'repository_mediathek'), array('size' => 60));
+        $mform->addElement('text', 'url', get_string('url', 'repository_pmediathek'), array('size' => 60));
         if (isset($config->url)) {
             $mform->setDefault('url', $config->url);
         }
-        $mform->addElement('text', 'username', get_string('username', 'repository_mediathek'), array('size' => 20));
+        $mform->addElement('text', 'username', get_string('username', 'repository_pmediathek'), array('size' => 20));
         if (isset($config->username)) {
             $mform->setDefault('username', $config->username);
         }
-        $mform->addElement('text', 'password', get_string('password', 'repository_mediathek'), array('size' => 20));
+        $mform->addElement('text', 'password', get_string('password', 'repository_pmediathek'), array('size' => 20));
         if (isset($config->password)) {
             $mform->setDefault('password', $config->password);
+        }
+
+        $logpath = $CFG->dataroot.'/mediathek.log';
+        $logdesc = get_string('logqueries_desc', 'repository_pmediathek', $logpath);
+        $mform->addElement('advcheckbox', 'logqueries', get_string('logqueries', 'repository_pmediathek'), $logdesc);
+        if (isset($config->logqueries)) {
+            $mform->setDefault('logqueries', $config->logqueries);
         }
     }
 }

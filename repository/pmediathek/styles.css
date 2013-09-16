@@ -1,0 +1,9 @@
+body.pagelayout-embedded.path-repository-pmediathek {
+    min-width: inherit;
+    padding: 5px;
+    width: 95%;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .intro {
+    margin-bottom: 20px;
+}

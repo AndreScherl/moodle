@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class to contain the code for connecting to the mediathek repository
+ * Class to contain the code for connecting to the Prüfungsarchiv Mediathek repository
  *
- * @package   repository_pmediathek
+ * @package   repository_ppmediathek
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-class repository_mediathek_api {
+class repository_pmediathek_api {
 
     /** @var cache_application */
     protected $settings = null;
@@ -62,12 +62,19 @@ class repository_mediathek_api {
             $list = $this->parse_response_list($resp);
             $this->settings->set($name, $list);
         }
+        $anystr = $includeany;
+        if ($includeany && !is_string($includeany)) {
+            $anystr = get_string('any', 'repository_pmediathek');
+        }
         if ($this->listtype == self::LIST_KEYVALUE) {
+            if ($includeany) {
+                $list = array('' => $anystr) + $list;
+            }
             return $list;
         } else { // Convert to array containing 'label' and 'value' fields (for the repository search form)
             $ret = array();
             if ($includeany) {
-                $ret[] = array('label' => get_string('any', 'repository_pmediathek'), 'value' => '');
+                $ret[] = array('label' => $anystr, 'value' => '');
             }
             foreach ($list as $key => $value) {
                 $ret[] = array('label' => $value, 'value' => $key);
@@ -110,6 +117,61 @@ class repository_mediathek_api {
 
     public function get_error_list($includeany = false) {
         return $this->return_list('errorlist', 'getErrorList', $includeany);
+    }
+
+    public function get_exam_type_list($includeany = false) {
+        return $this->return_list('examtypelist', 'getArchiveExaminationTypeList', $includeany);
+    }
+
+    public function get_exam_subject_lists($includeany = false) {
+        $result = array();
+        $examtypes = $this->get_exam_type_list();
+        foreach ($examtypes as $examtype => $displayname) {
+            $apicall = 'getArchiveSubjectList_'.str_replace('-', '_', $examtype);
+            $result[$examtype] = $this->return_list('examsubject_'.$examtype, $apicall, $includeany);
+        }
+        return $result;
+    }
+
+    public function get_exam_year_list($includeany = false) {
+        return $this->return_list('examyear', 'getArchiveExamYearList', $includeany);
+    }
+
+    public function get_exam_resource_type_list($includeany = false) {
+        return $this->return_list('examresourcetype', 'getArchiveExamResourcetypeList', $includeany);
+    }
+
+
+    public function get_school_type_list($includeany = false) {
+        return $this->return_list('schooltypelist', 'getArchiveSchoolTypeList', $includeany);
+    }
+
+    public function get_school_subject_lists($includeany = false) {
+        $result = array();
+        $schooltypes = $this->get_school_type_list();
+        foreach ($schooltypes as $schooltype => $displayname) {
+            $apicall = 'getArchiveSubjectList_'.str_replace('-', '_', $schooltype);
+            $result[$schooltype] = $this->return_list('schoolsubject_'.$schooltype, $apicall, $includeany);
+        }
+        return $result;
+    }
+
+    public function get_grade_list($includeany = false) {
+        return $this->return_list('gradelist', 'getArchiveTestGradeList', $includeany);
+    }
+
+    public function get_school_year_list($includeany = false) {
+        return $this->return_list('schoolyear', 'getArchiveExamYearList', $includeany);
+
+        // TODO use this version once the medithek API is fixed.
+        return $this->return_list('schoolyear', 'getArchiveTestYearList', $includeany);
+    }
+    public function get_school_resource_type_list($includeany = false) {
+        return $this->return_list('schoolresourcetype', 'getArchiveTestResourcetypeList', $includeany);
+    }
+
+    public function get_p_restriction_list($includeany = false) {
+        return $this->return_list('prestrictionlist', 'getArchiveRestrictionList', $includeany);
     }
 
     public function get_tag_list() {
@@ -265,6 +327,9 @@ class repository_mediathek_api {
     protected function parse_response_list(SimpleXMLElement $items) {
         $ret = array();
         foreach ($items->item as $item) {
+            if (empty($item->value) || empty($item->description)) {
+                continue;
+            }
             $ret[(string)$item->value] = (string)$item->description;
         }
         return $ret;

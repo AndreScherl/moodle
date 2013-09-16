@@ -23,5 +23,27 @@
  */
  
 require_once(dirname(__FILE__).'/../../config.php');
+global $PAGE, $OUTPUT, $CFG;
+require_once($CFG->dirroot.'/repository/pmediathek/locallib.php');
 
-echo "The search form will appear here";
+$contextid = required_param('contextid', PARAM_INT);
+$context = context::instance_by_id($contextid);
+
+$url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $context->id));
+$PAGE->set_url($url);
+
+require_login();
+$PAGE->set_context($context);
+require_capability('repository/pmediathek:view', $context);
+
+$title = get_string('pluginname', 'repository_pmediathek');
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('embedded');
+
+$search = new repository_pmediathek_search($context);
+$search->process();
+
+echo $OUTPUT->header();
+echo $search->output();
+echo $OUTPUT->footer();

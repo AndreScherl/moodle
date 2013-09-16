@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="repository/pmediathek/db" VERSION="20130130" COMMENT="Database tables for the Prüfungsarchiv Mediathek repository"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="repository_pmediathek_link" COMMENT="Stores links inserted from the Prüfungsarchiv Mediathek repository">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="url"/>
+        <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The URL of the file to retrieve" PREVIOUS="id" NEXT="hash"/>
+        <FIELD NAME="hash" TYPE="char" LENGTH="40" NOTNULL="true" SEQUENCE="false" COMMENT="The SHA1 hash of the file url" PREVIOUS="url"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="hash" UNIQUE="true" FIELDS="hash"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

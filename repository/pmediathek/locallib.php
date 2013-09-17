@@ -39,12 +39,21 @@ class repository_pmediathek_search {
     protected $searchparams = array();
     /** @var moodleform */
     protected $searchform = null;
+    /** @var int */
+    protected $page = 0;
+    /** @var int */
+    protected $perpage = self::DEFAULT_PER_PAGE;
+    /** @var int */
+    protected $totalresults = 0;
+    /** @var array */
+    protected $results = array();
 
     /** @var array */
     protected static $validsearchparams = array('searchtab', 'examtype', 'subject', 'year', 'type', 'school', 'grade');
 
     const TAB_EXAM = 'exam';
     const TAB_SCHOOL = 'school';
+    const DEFAULT_PER_PAGE = 10;
 
     /**
      * @param context $context
@@ -58,7 +67,7 @@ class repository_pmediathek_search {
      */
     public function process() {
         $this->issearch = optional_param('search', false, PARAM_BOOL);
-        $this->get_search_params();
+        $this->set_search_params();
 
         if (!$this->issearch) {
             if ($this->get_tab() == self::TAB_EXAM) {
@@ -75,7 +84,7 @@ class repository_pmediathek_search {
                                                                                   'search' => 1));
                 foreach (self::$validsearchparams as $validparam) {
                     if (!empty($data->$validparam)) {
-                        $redir->$validparam = $data->$validparam;
+                        $redir->param($validparam, $data->$validparam);
                     }
                 }
                 redirect($redir);
@@ -100,10 +109,23 @@ class repository_pmediathek_search {
         return $out;
     }
 
+    protected function get_url($search = true) {
+        global $PAGE;
+
+        $url = new moodle_url($PAGE->url, $this->searchparams);
+        if ($search) {
+            $url->param('search', 1);
+        }
+        return $url;
+    }
+
     /**
      * Gather the search parameters specified via the URL.
      */
-    protected function get_search_params() {
+    protected function set_search_params() {
+        $this->page = optional_param('page', 0, PARAM_INT);
+        $this->perpage = optional_param('perpage', self::DEFAULT_PER_PAGE, PARAM_INT);
+
         foreach (self::$validsearchparams as $validsearch) {
             $value = optional_param($validsearch, null, PARAM_TEXT);
             if (!is_null($value)) {
@@ -124,7 +146,15 @@ class repository_pmediathek_search {
     }
 
     protected function output_results() {
-        return 'These are the results';
+        $out = '';
+
+        $this->search();
+
+        $out .= $this->output_back_link();
+        $out .= $this->output_paging();
+        $out .= $this->output_results_page();
+
+        return $out;
     }
 
     protected function output_tabs() {
@@ -154,6 +184,51 @@ class repository_pmediathek_search {
         $this->searchform->display();
         return ob_get_clean();
     }
+
+    protected function search() {
+        $api = new repository_pmediathek_api();
+
+        // Make sure all params exist (even if null).
+        $searchparams = $this->searchparams;
+        foreach (self::$validsearchparams as $validparam) {
+            if (!isset($searchparams[$validparam])) {
+                $searchparams[$validparam] = null;
+            }
+        }
+
+        // Perform the correct search.
+        if ($this->get_tab() == self::TAB_EXAM) {
+            $this->results = $api->search_exam_content($this->perpage, $this->page, $searchparams['examtype'],
+                                                       $searchparams['subject'], null, $searchparams['year'],
+                                                       $searchparams['type']);
+        } else {
+            $this->results = $api->search_school_content($this->perpage, $this->page, $searchparams['school'],
+                                                       $searchparams['subject'], null, $searchparams['grade'],
+                                                       $searchparams['year'], $searchparams['type']);
+        }
+        $this->totalresults = $api->get_total_results();
+    }
+
+    protected function output_back_link() {
+        $url = $this->get_url(false);
+        return html_writer::link($url, get_string('backtosearch', 'repository_pmediathek'));
+    }
+
+    protected function output_paging() {
+        global $OUTPUT;
+
+        $baseurl = $this->get_url(true);
+        if ($this->perpage !== self::DEFAULT_PER_PAGE) {
+            $baseurl->param('perpage', $this->perpage);
+        }
+        return $OUTPUT->paging_bar($this->totalresults, $this->page, $this->perpage, $baseurl);
+    }
+
+    protected function output_results_page() {
+        ob_start();
+        print_object($this->results);
+        return ob_get_clean();
+    }
 }
 
 /**
@@ -167,7 +242,7 @@ class repository_pmediathek_exam_search_form extends moodleform {
         $mform->addElement('hidden', 'contextid');
         $mform->setType('contextid', PARAM_INT);
         $mform->addElement('hidden', 'searchtab', repository_pmediathek_search::TAB_EXAM);
-        $mform->setType('searchtab', PARAM_INT);
+        $mform->setType('searchtab', PARAM_ALPHA);
 
         $api = new repository_pmediathek_api();
 
@@ -208,7 +283,7 @@ class repository_pmediathek_school_search_form extends moodleform {
         $mform->addElement('hidden', 'contextid');
         $mform->setType('contextid', PARAM_INT);
         $mform->addElement('hidden', 'searchtab', repository_pmediathek_search::TAB_SCHOOL);
-        $mform->setType('searchtab', PARAM_INT);
+        $mform->setType('searchtab', PARAM_ALPHA);
 
         $api = new repository_pmediathek_api();
 
@@ -224,7 +299,7 @@ class repository_pmediathek_school_search_form extends moodleform {
         $years = $api->get_school_year_list(true);
         $types = $api->get_school_resource_type_list(true);
 
-        $mform->addElement('select', 'examtype', get_string('examtype', 'repository_pmediathek'), $schools);
+        $mform->addElement('select', 'school', get_string('school', 'repository_pmediathek'), $schools);
         $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $subjects);
         $mform->addElement('select', 'grade', get_string('grade', 'repository_pmediathek'), $grades);
         $mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);

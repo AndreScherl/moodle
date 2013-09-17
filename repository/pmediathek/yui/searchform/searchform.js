@@ -9,15 +9,19 @@ YUI.add('moodle-repository_pmediathek-searchform', function(Y) {
 
             // Unhide the main drop-down list.
             var mainselect;
-            mainselect = Y.one('#fitem_id_examtype') || Y.one('#fitem_id_schooltype');
+            mainselect = Y.one('#fitem_id_examtype') || Y.one('#fitem_id_school');
             mainselect.addClass('show');
-            mainselect.one('select').after('change', this.update_selection, this);
+
+            // Set up the handler for changes and call immediately (in case it already has a value).
+            mainselect = mainselect.one('select');
+            mainselect.after('change', function(e) { this.update_selection(e.currentTarget); }, this);
+            this.update_selection(mainselect);
         },
 
-        update_selection: function(e) {
+        update_selection: function(target) {
             var val, select, key, subject, opt;
 
-            val = e.currentTarget.get('value');
+            val = target.get('value');
             if (val) {
                 select = Y.one('#id_subject');
                 select.all('option').remove(true);
@@ -46,7 +50,7 @@ YUI.add('moodle-repository_pmediathek-searchform', function(Y) {
         hide_elements: function() {
             Y.all('.fitem').each(function(el) {
                 var id = el.get('id');
-                if (id !== 'fitem_id_examtype' && id !== 'fitem_id_schooltype') {
+                if (id !== 'fitem_id_examtype' && id !== 'fitem_id_school') {
                     el.removeClass('show');
                 }
             });

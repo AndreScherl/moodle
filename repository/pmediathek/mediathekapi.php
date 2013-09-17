@@ -222,6 +222,61 @@ class repository_pmediathek_api {
         return $this->parse_response_files($resp);
     }
 
+    public function search_exam_content($pagesize, $page, $type, $subject, $text = null, $year = null,
+                                        $resourcetype = null, $restrictions = null) {
+        global $USER;
+        $fields = array(
+            'userID' => $USER->id,
+            'numberOfItemsPerPage' => $pagesize,
+            'currentPageRequired' => $page + 1,
+            'searchArchiveExamType' => $type,
+            'searchArchiveSubject' => $subject
+        );
+        if (!empty($text)) {
+            $fields['searchText'] = $text;
+        }
+        if (!empty($year)) {
+            $fields['searchArchiveYear'] = $year;
+        }
+        if (!empty($resourcetype)) {
+            $fields['searchArchiveLRT']  = $resourcetype;
+        }
+        if (!empty($restrictions)) {
+            $fields['searchArchiveRestrictions'] = $restrictions;
+        }
+        $resp = $this->do_request('searchArchiveExamContent', $fields);
+        return $this->parse_response_files($resp);
+    }
+
+    public function search_school_content($pagesize, $page, $type, $subject, $text = null, $grade = null,
+                                          $year = null, $resourcetype = null, $restrictions = null) {
+        global $USER;
+        $fields = array(
+            'userID' => $USER->id,
+            'numberOfItemsPerPage' => $pagesize,
+            'currentPageRequired' => $page + 1,
+            'searchArchiveTestContext' => $type,
+            'searchArchiveSubject' => $subject
+        );
+        if (!empty($text)) {
+            $fields['searchText'] = $text;
+        }
+        if (!empty($grade)) {
+            $fields['searchArchiveTestGrade'] = $grade;
+        }
+        if (!empty($year)) {
+            $fields['searchArchiveYear'] = $year;
+        }
+        if (!empty($resourcetype)) {
+            $fields['searchArchiveLRT']  = $resourcetype;
+        }
+        if (!empty($restrictions)) {
+            $fields['searchArchiveRestrictions'] = $restrictions;
+        }
+        $resp = $this->do_request('searchArchiveTestContent', $fields);
+        return $this->parse_response_files($resp);
+    }
+
     /**
      * Return the number of results found by the last search
      * @return int|null
@@ -285,7 +340,7 @@ class repository_pmediathek_api {
         if (!empty($response->searchResultParameters->totalNumberOfItems)) {
             $this->totalresults = intval($response->searchResultParameters->totalNumberOfItems);
         } else {
-            $this->totalresults = null;
+            $this->totalresults = 0;
         }
 
         return $response->items;

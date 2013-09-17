@@ -49,6 +49,7 @@ $string['pluginname'] = 'Prüfungsarchiv';
 $string['onlylink'] = 'Links allowed, but not copying';
 $string['resourcetype'] = 'Type';
 $string['restrictions'] = 'Restrictions';
+$string['school'] = 'School';
 $string['searchintro'] = 'Archiv für zentral Prüfungsarchiv an bayersichen Schulen.<br />Bitte wählen Sie eine Prüfungsart:';
 $string['sort'] = 'Sort order';
 $string['subject'] = 'Subject';

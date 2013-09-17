@@ -33,8 +33,8 @@ require_once($CFG->dirroot.'/repository/pmediathek/mediathekapi.php');
 class repository_pmediathek_search {
     /** @var \context */
     protected $context;
-    /** @var bool */
-    protected $issearch = false;
+    /** @var string */
+    protected $action = self::ACTION_FORM;
     /** @var array */
     protected $searchparams = array();
     /** @var moodleform */
@@ -50,10 +50,16 @@ class repository_pmediathek_search {
 
     /** @var array */
     protected static $validsearchparams = array('searchtab', 'examtype', 'subject', 'year', 'type', 'school', 'grade');
+    protected static $api = null;
 
     const TAB_EXAM = 'exam';
     const TAB_SCHOOL = 'school';
     const DEFAULT_PER_PAGE = 10;
+
+    const ACTION_FORM = 'form';
+    const ACTION_SEARCH = 'search';
+    const ACTION_VIEW = 'view';
+    const ACTION_INSERT = 'insert';
 
     /**
      * @param context $context
@@ -66,29 +72,51 @@ class repository_pmediathek_search {
      * Initialise the search parameters and (if needed) the form.
      */
     public function process() {
-        $this->issearch = optional_param('search', false, PARAM_BOOL);
+        if (optional_param('search', false, PARAM_BOOL)) {
+            $this->action = self::ACTION_SEARCH;
+        } else if ($view = optional_param('view', null, PARAM_RAW)) {
+            $this->action = self::ACTION_VIEW;
+        } else if ($insert = optional_param('insert', null, PARAM_RAW)) {
+            $this->action = self::ACTION_INSERT;
+        } else {
+            $this->action = self::ACTION_FORM;
+        }
+
         $this->set_search_params();
 
-        if (!$this->issearch) {
-            if ($this->get_tab() == self::TAB_EXAM) {
-                $this->searchform = new repository_pmediathek_exam_search_form();
-            } else {
-                $this->searchform = new repository_pmediathek_school_search_form();
-            }
+        switch ($this->action) {
+            case self::ACTION_SEARCH:
+                $this->search();
+                break;
 
-            $formdata = $this->searchparams;
-            $formdata['contextid'] = $this->context->id;
-            $this->searchform->set_data($formdata);
-            if ($data = $this->searchform->get_data()) {
-                $redir = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
-                                                                                  'search' => 1));
-                foreach (self::$validsearchparams as $validparam) {
-                    if (!empty($data->$validparam)) {
-                        $redir->param($validparam, $data->$validparam);
-                    }
+            case self::ACTION_VIEW:
+                break;
+
+            case self::ACTION_INSERT:
+                break;
+
+            case self::ACTION_FORM:
+            default:
+                if ($this->get_tab() == self::TAB_EXAM) {
+                    $this->searchform = new repository_pmediathek_exam_search_form();
+                } else {
+                    $this->searchform = new repository_pmediathek_school_search_form();
                 }
-                redirect($redir);
-            }
+
+                $formdata = $this->searchparams;
+                $formdata['contextid'] = $this->context->id;
+                $this->searchform->set_data($formdata);
+                if ($data = $this->searchform->get_data()) {
+                    $redir = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
+                                                                                      'search' => 1));
+                    foreach (self::$validsearchparams as $validparam) {
+                        if (!empty($data->$validparam)) {
+                            $redir->param($validparam, $data->$validparam);
+                        }
+                    }
+                    redirect($redir);
+                }
+                break;
         }
     }
 
@@ -99,17 +127,30 @@ class repository_pmediathek_search {
      */
     public function output() {
         $out = '';
-        if ($this->issearch) {
-            $out .= $this->output_results();
-        } else {
-            $out .= $this->output_tabs();
-            $out .= $this->output_form();
+        switch ($this->action) {
+            case self::ACTION_SEARCH:
+                $out .= $this->output_results();
+                break;
+
+            case self::ACTION_VIEW:
+                echo "viewing the resource";
+                break;
+
+            case self::ACTION_INSERT:
+                echo "Insert the resource";
+                break;
+
+            case self::ACTION_FORM:
+            default:
+                $out .= $this->output_tabs();
+                $out .= $this->output_form();
+                break;
         }
 
         return $out;
     }
 
-    protected function get_url($search = true) {
+    protected function get_url($search = false) {
         global $PAGE;
 
         $url = new moodle_url($PAGE->url, $this->searchparams);
@@ -117,6 +158,13 @@ class repository_pmediathek_search {
             $url->param('search', 1);
         }
         return $url;
+    }
+
+    protected static function get_api() {
+        if (is_null(self::$api)) {
+            self::$api = new repository_pmediathek_api();
+        }
+        return self::$api;
     }
 
     /**
@@ -147,8 +195,6 @@ class repository_pmediathek_search {
 
     protected function output_results() {
         $out = '';
-
-        $this->search();
 
         $out .= $this->output_back_link();
         $out .= $this->output_paging();
@@ -186,7 +232,7 @@ class repository_pmediathek_search {
     }
 
     protected function search() {
-        $api = new repository_pmediathek_api();
+        $api = self::get_api();
 
         // Make sure all params exist (even if null).
         $searchparams = $this->searchparams;
@@ -210,7 +256,7 @@ class repository_pmediathek_search {
     }
 
     protected function output_back_link() {
-        $url = $this->get_url(false);
+        $url = $this->get_url();
         return html_writer::link($url, get_string('backtosearch', 'repository_pmediathek'));
     }
 
@@ -225,10 +271,79 @@ class repository_pmediathek_search {
     }
 
     protected function output_results_page() {
-        ob_start();
-        print_object($this->results);
-        return ob_get_clean();
+        $out = '';
+
+        if (!$this->results) {
+            return get_string('noresults', 'repository_pmediathek');
+        }
+
+        foreach ($this->results as $result) {
+            $out .= $this->output_results_item($result);
+        }
+
+        return $out;
     }
+
+    protected function output_results_item($result) {
+        $out = '';
+
+        $out .= $this->output_result_icon($result);
+        $out .= $this->output_result_heading($result);
+        $out .= $this->output_result_actions($result);
+        $out .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        $out .= $this->output_result_details($result);
+
+        return html_writer::tag('div', $out, array('class' => 'searchresult'));
+    }
+
+    protected function get_type_name($type) {
+        return get_string('type_'.$type, 'repository_pmediathek');
+    }
+
+    protected function output_result_icon($result) {
+        $alt = $this->get_type_name($result->educational_resourcetype);
+        return html_writer::empty_tag('img', array('src' => $result->technical_thumbnail, 'alt' => $alt,
+                                                  'class' => 'resourceicon'));
+    }
+
+    protected function output_result_heading($result) {
+        $out = format_string($result->general_title_de);
+        $out .= html_writer::empty_tag('br');
+        $out .= format_string($result->technical_size);
+        return html_writer::tag('div', $out, array('class' => 'resultheading'));
+    }
+
+    protected function output_result_actions($result) {
+        global $OUTPUT;
+
+        $viewurl = $this->get_url();
+        $viewurl->param('view', urlencode($result->technical_location));
+        $params = array(
+            'title' => $result->general_title_de,
+            'source' => $result->technical_location,
+            'thumbnail' => $result->technical_thumbnail,
+            'author' => '',
+            'license' => $result->rights_license,
+        );
+        $inserturl = http_build_query($params);
+
+        $viewstr = $OUTPUT->pix_icon('t/preview', '');
+        $viewstr .= ' '.get_string('view', 'repository_pmediathek');
+        $insertstr = $OUTPUT->pix_icon('t/approve', '');
+        $insertstr .= ' '.get_string('insert', 'repository_pmediathek');
+
+        $out = '';
+        $out .= html_writer::link($viewurl, $viewstr);
+        $out .= html_writer::empty_tag('br');
+        $out .= html_writer::link($inserturl, $insertstr);
+        return html_writer::tag('div', $out, array('class' => 'actions'));
+    }
+
+    protected function output_result_details($result) {
+        $out = 'The details';
+        return html_writer::tag('div', $out, array('class' => 'details'));
+    }
+
 }
 
 /**
@@ -248,17 +363,17 @@ class repository_pmediathek_exam_search_form extends moodleform {
 
         $examtypes = $api->get_exam_type_list(get_string('noselection', 'repository_pmediathek'));
         $examsubjects = $api->get_exam_subject_lists();
-        $subjects = array();
+        $allsubjects = array();
         foreach ($examsubjects as $exam => $subjects) {
             foreach ($subjects as $id => $subject) {
-                $subjects[$id] = $subject; // Show all subjects in the list (otherwise it will not validate).
+                $allsubjects[$id] = $subject; // Show all subjects in the list (otherwise it will not validate).
             }
         }
         $years = $api->get_exam_year_list(true);
         $types = $api->get_exam_resource_type_list(true);
 
         $mform->addElement('select', 'examtype', get_string('examtype', 'repository_pmediathek'), $examtypes);
-        $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $subjects);
+        $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
         $mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
         $mform->addElement('select', 'type', get_string('type', 'repository_pmediathek'), $types);
 
@@ -289,10 +404,10 @@ class repository_pmediathek_school_search_form extends moodleform {
 
         $schools = $api->get_school_type_list(get_string('noselection', 'repository_pmediathek'));
         $schoolsubjects = $api->get_school_subject_lists();
-        $subjects = array();
+        $allsubjects = array();
         foreach ($schoolsubjects as $school => $subjects) {
             foreach ($subjects as $id => $subject) {
-                $subjects[$id] = $subject; // Show all subjects in the list (otherwise it will not validate).
+                $allsubjects[$id] = $subject; // Show all subjects in the list (otherwise it will not validate).
             }
         }
         $grades = $api->get_grade_list(true);
@@ -300,7 +415,7 @@ class repository_pmediathek_school_search_form extends moodleform {
         $types = $api->get_school_resource_type_list(true);
 
         $mform->addElement('select', 'school', get_string('school', 'repository_pmediathek'), $schools);
-        $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $subjects);
+        $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
         $mform->addElement('select', 'grade', get_string('grade', 'repository_pmediathek'), $grades);
         $mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
         $mform->addElement('select', 'type', get_string('type', 'repository_pmediathek'), $types);

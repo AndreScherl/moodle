@@ -161,9 +161,6 @@ class repository_pmediathek_api {
     }
 
     public function get_school_year_list($includeany = false) {
-        return $this->return_list('schoolyear', 'getArchiveExamYearList', $includeany);
-
-        // TODO use this version once the medithek API is fixed.
         return $this->return_list('schoolyear', 'getArchiveTestYearList', $includeany);
     }
     public function get_school_resource_type_list($includeany = false) {
@@ -225,6 +222,11 @@ class repository_pmediathek_api {
     public function search_exam_content($pagesize, $page, $type, $subject, $text = null, $year = null,
                                         $resourcetype = null, $restrictions = null) {
         global $USER;
+
+        if (is_null($subject)) {
+            throw new moodle_exception('missingsubject', 'repository_pmediathek');
+        }
+
         $fields = array(
             'userID' => $USER->id,
             'numberOfItemsPerPage' => $pagesize,

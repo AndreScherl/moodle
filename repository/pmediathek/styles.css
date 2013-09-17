@@ -15,3 +15,37 @@ body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem {
 body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem.show {
     display: block;
 }
+
+body.pagelayout-embedded.path-repository-pmediathek .searchresult {
+    border: solid 1px #888;
+    padding: 2px;
+    margin: 5px 0;
+    background-color: #eee;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .resourceicon {
+    width: 24px;
+    height: 24px;
+    float: left;
+    display: block;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .resultheading {
+    display: block;
+    width: 75%;
+    float: left;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .actions {
+    display: block;
+    max-width: 15%;
+    float: right;
+    padding: 0 5px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .details {
+    display: none;
+    clear: both;
+}

@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Library code used by the meinkurse block
  *
@@ -21,7 +21,7 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
 define('MEINEKURSE_SCHOOL_CAT_DEPTH', 3);
@@ -39,9 +39,12 @@ class meinekurse {
     public static function get_main_school($user) {
         global $DB;
         static $myschool = null;
-
+        //+++atar: fixed error undefined property: stdClass::$institution
+          $user->institution = '';
+          //---atar
         if (is_null($myschool)) {
             $schoolid = $user->institution;
+
             if (!$schoolid) {
                 $myschool = false;
             } else {
@@ -893,6 +896,7 @@ class meinekurse {
         }
         return false;
     }
+
 
     /**
      * Get a list of all the courses the user is in, grouped by school

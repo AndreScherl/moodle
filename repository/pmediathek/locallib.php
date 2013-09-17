@@ -161,6 +161,7 @@ class repository_pmediathek_search {
  */
 class repository_pmediathek_exam_search_form extends moodleform {
     public function definition() {
+        global $PAGE;
 
         $mform = $this->_form;
         $mform->addElement('hidden', 'contextid');
@@ -188,7 +189,11 @@ class repository_pmediathek_exam_search_form extends moodleform {
 
         $this->add_action_buttons(false, get_string('search'));
 
-        // Initialise javascript to: a) hide other fields when exam type not selected, b) populate subjects list as exam type chosen
+        $options = array(
+            'subjects' => $examsubjects,
+        );
+        $PAGE->requires->yui_module('moodle-repository_pmediathek-searchform', 'M.repository_pmediathek.searchform.init',
+                                    array($options), null, true);
     }
 }
 
@@ -197,6 +202,7 @@ class repository_pmediathek_exam_search_form extends moodleform {
  */
 class repository_pmediathek_school_search_form extends moodleform {
     public function definition() {
+        global $PAGE;
 
         $mform = $this->_form;
         $mform->addElement('hidden', 'contextid');
@@ -225,6 +231,11 @@ class repository_pmediathek_school_search_form extends moodleform {
         $mform->addElement('select', 'type', get_string('type', 'repository_pmediathek'), $types);
 
         $this->add_action_buttons(false, get_string('search'));
-        // Initialise javascript to: a) hide other fields when exam type not selected, b) populate subjects list as exam type chosen
+
+        $options = array(
+            'subjects' => $schoolsubjects,
+        );
+        $PAGE->requires->yui_module('moodle-repository_pmediathek-searchform', 'M.repository_pmediathek.searchform.init',
+                                    array($options), null, true);
     }
 }

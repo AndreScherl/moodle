@@ -7,3 +7,11 @@ body.pagelayout-embedded.path-repository-pmediathek {
 body.pagelayout-embedded.path-repository-pmediathek .intro {
     margin-bottom: 20px;
 }
+
+body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem {
+    display: none;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem.show {
+    display: block;
+}

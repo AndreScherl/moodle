@@ -49,3 +49,8 @@ body.pagelayout-embedded.path-repository-pmediathek .details {
     display: none;
     clear: both;
 }
+
+body.pagelayout-embedded.path-repository-pmediathek .details.show {
+    display: block;
+    clear: both;
+}

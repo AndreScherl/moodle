@@ -271,6 +271,8 @@ class repository_pmediathek_search {
     }
 
     protected function output_results_page() {
+        global $PAGE;
+
         $out = '';
 
         if (!$this->results) {
@@ -281,6 +283,8 @@ class repository_pmediathek_search {
             $out .= $this->output_results_item($result);
         }
 
+        $PAGE->requires->yui_module('moodle-repository_pmediathek-results', 'M.repository_pmediathek.results.init',
+                                    null, null, true);
         return $out;
     }
 
@@ -326,6 +330,7 @@ class repository_pmediathek_search {
             'license' => $result->rights_license,
         );
         $inserturl = http_build_query($params);
+        $inserturl = '?'.$inserturl;
 
         $viewstr = $OUTPUT->pix_icon('t/preview', '');
         $viewstr .= ' '.get_string('view', 'repository_pmediathek');
@@ -333,9 +338,9 @@ class repository_pmediathek_search {
         $insertstr .= ' '.get_string('insert', 'repository_pmediathek');
 
         $out = '';
-        $out .= html_writer::link($viewurl, $viewstr);
+        $out .= html_writer::link($viewurl, $viewstr, array('class' => 'viewlink'));
         $out .= html_writer::empty_tag('br');
-        $out .= html_writer::link($inserturl, $insertstr);
+        $out .= html_writer::link($inserturl, $insertstr, array('class' => 'insertlink'));
         return html_writer::tag('div', $out, array('class' => 'actions'));
     }
 

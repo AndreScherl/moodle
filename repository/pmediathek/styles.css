@@ -32,7 +32,7 @@ body.pagelayout-embedded.path-repository-pmediathek .resourceicon {
 
 body.pagelayout-embedded.path-repository-pmediathek .basicdata {
     display: block;
-    width: 75%;
+    width: 70%;
     float: left;
     margin: 0 5px;
 }
@@ -46,6 +46,7 @@ body.pagelayout-embedded.path-repository-pmediathek .actions {
     display: block;
     float: right;
     padding: 0 5px;
+    width: 18%;
 }
 
 body.pagelayout-embedded.path-repository-pmediathek .details {

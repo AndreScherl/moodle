@@ -25,7 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['any'] = 'Any';
-$string['backtosearch'] = 'Back to search';
+$string['backtosearch'] = 'Back to search results';
+$string['backtosearchform'] = 'Back to search form';
 $string['cachecleared'] = 'Prüfungsarchiv search parameter cache cleared';
 $string['cannotinsert'] = 'Cannot insert';
 $string['cannotinsert_help'] = 'This resource can only be inserted as a link. The location where you are wanting to add the resource only accepts files that can be downloaded to the site.';

@@ -279,7 +279,8 @@ class repository_pmediathek_search {
 
     protected function output_back_link($search = false) {
         $url = $this->get_url($search);
-        return html_writer::link($url, get_string('backtosearch', 'repository_pmediathek'));
+        $strident = $search ? 'backtosearch' : 'backtosearchform';
+        return html_writer::link($url, get_string($strident, 'repository_pmediathek'));
     }
 
     protected function output_paging() {
@@ -339,7 +340,7 @@ class repository_pmediathek_search {
     }
 
     protected function can_view($result) {
-        return ($result->rights_license != 'blocked');
+        return (trim($result->rights_license) != 'blocked');
     }
 
     protected function can_insert($result) {

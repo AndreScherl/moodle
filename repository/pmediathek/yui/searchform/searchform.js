@@ -19,11 +19,13 @@ YUI.add('moodle-repository_pmediathek-searchform', function(Y) {
         },
 
         update_selection: function(target) {
-            var val, select, key, subject, opt;
+            var val, select, key, subject, opt, oldsubject, stillexists;
 
             val = target.get('value');
             if (val) {
                 select = Y.one('#id_subject');
+                oldsubject = select.get('value');
+                stillexists = false;
                 select.all('option').remove(true);
                 if (this.subjects[val] !== undefined) {
                     for (key in this.subjects[val]) {
@@ -33,8 +35,14 @@ YUI.add('moodle-repository_pmediathek-searchform', function(Y) {
                             opt.set('value', key);
                             opt.setHTML(subject);
                             select.appendChild(opt);
+                            if (key === oldsubject) {
+                                stillexists = true;
+                            }
                         }
                     }
+                }
+                if (stillexists) {
+                    select.set('value', oldsubject); // Keep the 'subject' selection if it is still available.
                 }
 
                 this.show_elements();

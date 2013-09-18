@@ -50,6 +50,10 @@ class repository_pmediathek_search {
     protected $totalresults = 0;
     /** @var array */
     protected $results = array();
+    /** @var string */
+    protected $viewname = null;
+    /** @var string */
+    protected $viewurl = null;
 
     /** @var array */
     protected static $validsearchparams = array('searchtab', 'examtype', 'subject', 'year', 'type', 'school', 'grade');
@@ -79,10 +83,13 @@ class repository_pmediathek_search {
      * Initialise the search parameters and (if needed) the form.
      */
     public function process() {
+        $viewurl = null;
+        $viewname = null;
         if (optional_param('search', false, PARAM_BOOL)) {
             $this->action = self::ACTION_SEARCH;
-        } else if ($view = optional_param('view', null, PARAM_RAW)) {
+        } else if ($viewurl = optional_param('viewurl', null, PARAM_URL)) {
             $this->action = self::ACTION_VIEW;
+            $viewname = required_param('viewname', PARAM_TEXT);
         } else {
             $this->action = self::ACTION_FORM;
         }
@@ -95,6 +102,7 @@ class repository_pmediathek_search {
                 break;
 
             case self::ACTION_VIEW:
+                $this->set_view_details($viewurl, $viewname);
                 break;
 
             case self::ACTION_FORM:
@@ -137,7 +145,7 @@ class repository_pmediathek_search {
                 break;
 
             case self::ACTION_VIEW:
-                echo "viewing the resource";
+                $out .= $this->output_view();
                 break;
 
             case self::ACTION_FORM:
@@ -183,6 +191,20 @@ class repository_pmediathek_search {
 
         if (!isset($this->searchparams['searchtab']) || $this->searchparams['searchtab'] != self::TAB_SCHOOL) {
             $this->searchparams['searchtab'] = self::TAB_EXAM;
+        }
+    }
+
+    protected function set_view_details($viewurl, $viewname) {
+        if (empty($viewurl) || empty($viewname)) {
+            throw new moodle_exception('missingviewparams', 'repository_mediathek');
+        }
+
+        $this->viewurl = $viewurl;
+        $this->viewname = $viewname;
+
+        $api = $this->get_api();
+        if (!$api->check_embed_url($this->viewurl)) {
+            throw new moodle_exception('invalidurl', 'repository_mediathek');
         }
     }
 
@@ -255,8 +277,8 @@ class repository_pmediathek_search {
         $this->totalresults = $api->get_total_results();
     }
 
-    protected function output_back_link() {
-        $url = $this->get_url();
+    protected function output_back_link($search = false) {
+        $url = $this->get_url($search);
         return html_writer::link($url, get_string('backtosearch', 'repository_pmediathek'));
     }
 
@@ -348,7 +370,8 @@ class repository_pmediathek_search {
 
         if ($this->can_view($result)) {
             $viewurl = $this->get_url();
-            $viewurl->param('view', urlencode($result->technical_location));
+            $viewurl->param('viewurl', $result->technical_location);
+            $viewurl->param('viewname', $result->general_title_de);
             $viewstr = $OUTPUT->pix_icon('t/preview', '');
             $viewstr .= ' '.get_string('view', 'repository_pmediathek');
             $actions[] = html_writer::link($viewurl, $viewstr, array('class' => 'viewlink'));
@@ -409,6 +432,16 @@ class repository_pmediathek_search {
                                  array('class' => 'identifier'));
         $out .= html_writer::empty_tag('br', array('class' => 'clearer'));
         return html_writer::tag('div', $out, array('class' => 'details'));
+    }
+
+    protected function output_view() {
+        $out = '';
+
+        $out .= $this->output_back_link(true);
+        $out .= html_writer::tag('div', format_string($this->viewname));
+        $out .= html_writer::empty_tag('iframe', array('src' => $this->viewurl, 'class' => 'preview'));
+
+        return $out;
     }
 }
 

@@ -287,6 +287,18 @@ class repository_pmediathek_api {
         return $this->totalresults;
     }
 
+    /**
+     * Confirm that the embed URL matches the configured Mediathek server.
+     * @param string $url
+     * @return bool
+     */
+    public function check_embed_url($url) {
+        $apiurl = parse_url($this->url);
+        $testurl = parse_url($url);
+
+        return ($apiurl['host'] == $testurl['host']);
+    }
+
     protected function do_request($query, $extrafields = array()) {
         $url = $this->url;
         $url .= '?query='.$query;

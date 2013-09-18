@@ -307,14 +307,13 @@ class repository_pmediathek_search {
     protected function output_result_icon($result) {
         $alt = $this->get_type_name($result->educational_resourcetype);
         return html_writer::empty_tag('img', array('src' => $result->technical_thumbnail, 'alt' => $alt,
-                                                  'class' => 'resourceicon'));
+                                                  'title' => $alt, 'class' => 'resourceicon'));
     }
 
     protected function output_result_heading($result) {
-        $out = format_string($result->general_title_de);
-        $out .= html_writer::empty_tag('br');
-        $out .= format_string($result->technical_size);
-        return html_writer::tag('div', $out, array('class' => 'resultheading'));
+        $out = html_writer::tag('div', format_string($result->general_title_de), array('class' => 'resultheading'));
+        $out .= html_writer::tag('div', $result->technical_size, array('class' => 'filesize'));
+        return html_writer::tag('div', $out, array('class' => 'basicdata'));
     }
 
     protected function output_result_actions($result) {
@@ -345,10 +344,21 @@ class repository_pmediathek_search {
     }
 
     protected function output_result_details($result) {
-        $out = 'The details';
+        $out = '';
+        if (!empty($result->general_description_de)) {
+            $out .= html_writer::tag('div', $result->general_description_de);
+        }
+        if (!empty($result->educational_typicalagerangemin)) {
+            $out .= html_writer::tag('div', get_string('typicalage', 'repository_pmediathek',
+                                                       $result->educational_typicalagerangemin),
+                                     array('class' => 'typicalage'));
+        }
+        $out .= html_writer::tag('div', $result->rights_license_description, array('class' => 'rightsdesc'));
+        $out .= html_writer::tag('div', get_string('identifier', 'repository_pmediathek', $result->general_identifier),
+                                 array('class' => 'identifier'));
+        $out .= html_writer::empty_tag('br', array('class' => 'clearer'));
         return html_writer::tag('div', $out, array('class' => 'details'));
     }
-
 }
 
 /**

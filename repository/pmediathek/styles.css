@@ -30,11 +30,15 @@ body.pagelayout-embedded.path-repository-pmediathek .resourceicon {
     display: block;
 }
 
-body.pagelayout-embedded.path-repository-pmediathek .resultheading {
+body.pagelayout-embedded.path-repository-pmediathek .basicdata {
     display: block;
     width: 75%;
     float: left;
     margin: 0 5px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .resultheading {
+    font-weight: bolder;
     cursor: pointer;
 }
 
@@ -48,9 +52,19 @@ body.pagelayout-embedded.path-repository-pmediathek .actions {
 body.pagelayout-embedded.path-repository-pmediathek .details {
     display: none;
     clear: both;
+    padding-top: 10px;
 }
 
 body.pagelayout-embedded.path-repository-pmediathek .details.show {
     display: block;
     clear: both;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .identifier {
+    float: right;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .rightsdesc {
+    float: left;
+    width: 75%;
 }

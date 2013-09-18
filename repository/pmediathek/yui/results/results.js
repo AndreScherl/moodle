@@ -10,7 +10,7 @@ YUI.add('moodle-repository_pmediathek-results', function(Y) {
         toggle_result: function(result) {
             var details;
 
-            details = result.ancestor().one('.details');
+            details = result.ancestor('.searchresult').one('.details');
             if (details.hasClass('show')) {
                 details.removeClass('show');
             } else {

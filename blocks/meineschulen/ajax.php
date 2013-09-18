@@ -69,7 +69,7 @@ case 'schoolsearch':
     $page = optional_param('page', 0, PARAM_INT);
     $resp = (object)array(
         'error' => 0,
-        'results' => meineschulen::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page),
+        'results' => meineschulen::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page, true),
     );
     break;
 default:

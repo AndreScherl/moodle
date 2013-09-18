@@ -90,28 +90,67 @@ M.block_meineschulen_search = {
         check_send_school_search(true); // Catch situations where the back button has been pressed and the search needs repeating.
 
         function check_send_school_search(onload) {
-            var searchtext, schooltype, pagequery, numberofresults;
+            var searchtext, schooltype, numberofresults;
 
             searchtext = Y.Lang.trim(Y.one('#meineschulen_school_form #schoolname').get('value'));
             schooltype = Y.one('#meineschulen_school_form #schooltype').get('selectedIndex');
             schooltype = Y.one('#meineschulen_school_form #schooltype').get('options').item(schooltype).get('value');
+            schooltype = parseInt(schooltype, 10);
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
             numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
+            numberofresults = parseInt(numberofresults, 10);
 
             if (onload) {
-                pagequery = window.location.href;
-                pagequery = pagequery.substring(pagequery.indexOf('?') + 1);
-                if (pagequery) {
-                    pagequery = Y.QueryString.parse(pagequery);
-                    if (pagequery.schoolname === searchtext) {
-                        // Don't repeat the search if the search has already been performed via the page params.
-                        return;
-                    }
+                if (!search_params_changed(searchtext, schooltype, numberofresults)) {
+                    return; // No change, so do not refresh the results.
                 }
             }
 
             send_school_search(searchtext, schooltype, numberofresults);
-    }
+        }
+
+        function search_params_changed(searchtext, schooltype, numberofresults) {
+            var pagequery, pos, defaultquery, i;
+
+            defaultquery = {
+                schoolname: "",
+                schooltype: -1,
+                numberofresults: 20
+            };
+            pagequery = window.location.href;
+            pos = pagequery.indexOf('?');
+            if (pos !== -1) {
+                pagequery = pagequery.substring(pos + 1);
+                if (!pagequery) {
+                    pagequery = {};
+                } else {
+                    pagequery = Y.QueryString.parse(pagequery);
+                }
+            } else {
+                pagequery = {};
+            }
+            for (i in defaultquery) {
+                if (defaultquery.hasOwnProperty(i)) {
+                    if (pagequery[i] === undefined) {
+                        pagequery[i] = defaultquery[i];
+                    }
+                }
+            }
+
+            if (pagequery.schoolname !== searchtext) {
+                return true;
+            }
+            pagequery.schooltype = parseInt(pagequery.schooltype, 10);
+            if (pagequery.schooltype !== schooltype) {
+                return true;
+            }
+            pagequery.numberofresults = parseInt(pagequery.numberofresults, 10);
+            if (pagequery.numberofresults !== numberofresults) {
+                return true;
+            }
+
+            return false;
+        }
 
         function send_school_search(searchtext, schooltype, numberofresults, sortby, sortdir, page) {
             var searchouter, resultel, url, data;

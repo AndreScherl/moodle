@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/repository/pmediathek/mediathekapi.php');
+require_once($CFG->dirroot.'/repository/lib.php');
 
 /**
  * Class repository_pmediathek_search
@@ -33,6 +34,8 @@ require_once($CFG->dirroot.'/repository/pmediathek/mediathekapi.php');
 class repository_pmediathek_search {
     /** @var \context */
     protected $context;
+    /** @var int */
+    protected $returntypes;
     /** @var string */
     protected $action = self::ACTION_FORM;
     /** @var array */
@@ -59,13 +62,17 @@ class repository_pmediathek_search {
     const ACTION_FORM = 'form';
     const ACTION_SEARCH = 'search';
     const ACTION_VIEW = 'view';
-    const ACTION_INSERT = 'insert';
+
+    const INSERT_NO = 0;
+    const INSERT_LINK = 1;
+    const INSERT_ANY = 2;
 
     /**
      * @param context $context
      */
-    public function __construct(context $context) {
+    public function __construct(context $context, $returntypes) {
         $this->context = $context;
+        $this->returntypes = $returntypes;
     }
 
     /**
@@ -76,8 +83,6 @@ class repository_pmediathek_search {
             $this->action = self::ACTION_SEARCH;
         } else if ($view = optional_param('view', null, PARAM_RAW)) {
             $this->action = self::ACTION_VIEW;
-        } else if ($insert = optional_param('insert', null, PARAM_RAW)) {
-            $this->action = self::ACTION_INSERT;
         } else {
             $this->action = self::ACTION_FORM;
         }
@@ -92,9 +97,6 @@ class repository_pmediathek_search {
             case self::ACTION_VIEW:
                 break;
 
-            case self::ACTION_INSERT:
-                break;
-
             case self::ACTION_FORM:
             default:
                 if ($this->get_tab() == self::TAB_EXAM) {
@@ -105,9 +107,11 @@ class repository_pmediathek_search {
 
                 $formdata = $this->searchparams;
                 $formdata['contextid'] = $this->context->id;
+                $formdata['returntypes'] = $this->returntypes;
                 $this->searchform->set_data($formdata);
                 if ($data = $this->searchform->get_data()) {
                     $redir = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
+                                                                                      'returntypes' => $this->returntypes,
                                                                                       'search' => 1));
                     foreach (self::$validsearchparams as $validparam) {
                         if (!empty($data->$validparam)) {
@@ -134,10 +138,6 @@ class repository_pmediathek_search {
 
             case self::ACTION_VIEW:
                 echo "viewing the resource";
-                break;
-
-            case self::ACTION_INSERT:
-                echo "Insert the resource";
                 break;
 
             case self::ACTION_FORM:
@@ -316,30 +316,77 @@ class repository_pmediathek_search {
         return html_writer::tag('div', $out, array('class' => 'basicdata'));
     }
 
+    protected function can_view($result) {
+        return ($result->rights_license != 'blocked');
+    }
+
+    protected function can_insert($result) {
+        $ret = self::INSERT_NO;
+        switch (trim($result->rights_license)) {
+            case 'public':
+                $ret = self::INSERT_ANY;
+                break;
+
+            case 'no copy':
+                $ret = self::INSERT_LINK;
+                break;
+        }
+
+        if (!($this->returntypes|FILE_EXTERNAL)) {
+            if ($ret == self::INSERT_LINK) {
+                $ret = self::INSERT_NO;
+            }
+        }
+
+        return $ret;
+    }
+
     protected function output_result_actions($result) {
         global $OUTPUT;
 
-        $viewurl = $this->get_url();
-        $viewurl->param('view', urlencode($result->technical_location));
-        $params = array(
-            'title' => $result->general_title_de,
-            'source' => $result->technical_location,
-            'thumbnail' => $result->technical_thumbnail,
-            'author' => '',
-            'license' => $result->rights_license,
-        );
-        $inserturl = http_build_query($params);
-        $inserturl = '?'.$inserturl;
+        $actions = array();
 
-        $viewstr = $OUTPUT->pix_icon('t/preview', '');
-        $viewstr .= ' '.get_string('view', 'repository_pmediathek');
-        $insertstr = $OUTPUT->pix_icon('t/approve', '');
-        $insertstr .= ' '.get_string('insert', 'repository_pmediathek');
+        if ($this->can_view($result)) {
+            $viewurl = $this->get_url();
+            $viewurl->param('view', urlencode($result->technical_location));
+            $viewstr = $OUTPUT->pix_icon('t/preview', '');
+            $viewstr .= ' '.get_string('view', 'repository_pmediathek');
+            $actions[] = html_writer::link($viewurl, $viewstr, array('class' => 'viewlink'));
+        } else {
+            $viewstr = $OUTPUT->help_icon('cannotview', 'repository_pmediathek');
+            $viewstr .= ' '.get_string('cannotview', 'repository_pmediathek');
+            $actions[] = $viewstr;
+        }
 
-        $out = '';
-        $out .= html_writer::link($viewurl, $viewstr, array('class' => 'viewlink'));
-        $out .= html_writer::empty_tag('br');
-        $out .= html_writer::link($inserturl, $insertstr, array('class' => 'insertlink'));
+        if ($this->can_insert($result)) {
+            $params = array(
+                'title' => $result->general_title_de,
+                'source' => $result->technical_location,
+                'thumbnail' => $result->technical_thumbnail,
+                'author' => '',
+            );
+            if ($this->can_insert($result) == self::INSERT_LINK) {
+                $params['return_types'] = FILE_EXTERNAL;
+            } else {
+                $params['return_types'] = FILE_EXTERNAL|FILE_INTERNAL;
+            }
+            $inserturl = http_build_query($params);
+            $inserturl = '?'.$inserturl;
+
+            $insertstr = $OUTPUT->pix_icon('t/approve', '');
+            $insertstr .= ' '.get_string('insert', 'repository_pmediathek');
+
+            $actions[] = html_writer::link($inserturl, $insertstr, array('class' => 'insertlink'));
+        } else {
+            if ($this->can_view($result)) {
+                $insertstr = $OUTPUT->help_icon('cannotinsert', 'repository_pmediathek');
+                $insertstr .= ' '.get_string('cannotinsert', 'repository_pmediathek');
+                $actions[] = $insertstr;
+            }
+        }
+
+        $out = implode(html_writer::empty_tag('br'), $actions);
+
         return html_writer::tag('div', $out, array('class' => 'actions'));
     }
 
@@ -377,6 +424,8 @@ class repository_pmediathek_exam_search_form extends moodleform {
         $mform->setType('contextid', PARAM_INT);
         $mform->addElement('hidden', 'searchtab', repository_pmediathek_search::TAB_EXAM);
         $mform->setType('searchtab', PARAM_ALPHA);
+        $mform->addElement('hidden', 'returntypes');
+        $mform->setType('returntypes', PARAM_INT);
 
         $api = new repository_pmediathek_api();
 
@@ -418,6 +467,8 @@ class repository_pmediathek_school_search_form extends moodleform {
         $mform->setType('contextid', PARAM_INT);
         $mform->addElement('hidden', 'searchtab', repository_pmediathek_search::TAB_SCHOOL);
         $mform->setType('searchtab', PARAM_ALPHA);
+        $mform->addElement('hidden', 'returntypes');
+        $mform->setType('returntypes', PARAM_INT);
 
         $api = new repository_pmediathek_api();
 

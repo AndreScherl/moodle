@@ -27,9 +27,10 @@ global $PAGE, $OUTPUT, $CFG;
 require_once($CFG->dirroot.'/repository/pmediathek/locallib.php');
 
 $contextid = required_param('contextid', PARAM_INT);
+$returntypes = required_param('returntypes', PARAM_INT);
 $context = context::instance_by_id($contextid);
 
-$url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $context->id));
+$url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $context->id, 'returntypes' => $returntypes));
 $PAGE->set_url($url);
 
 require_login();
@@ -41,7 +42,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('embedded');
 
-$search = new repository_pmediathek_search($context);
+$search = new repository_pmediathek_search($context, $returntypes);
 $search->process();
 
 echo $OUTPUT->header();

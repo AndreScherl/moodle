@@ -44,7 +44,6 @@ body.pagelayout-embedded.path-repository-pmediathek .resultheading {
 
 body.pagelayout-embedded.path-repository-pmediathek .actions {
     display: block;
-    max-width: 15%;
     float: right;
     padding: 0 5px;
 }
@@ -72,4 +71,9 @@ body.pagelayout-embedded.path-repository-pmediathek .identifier {
 body.pagelayout-embedded.path-repository-pmediathek .rightsdesc {
     float: left;
     width: 75%;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .smallicon {
+    padding-left: 3px;
+    width: 16px;
 }

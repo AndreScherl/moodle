@@ -55,13 +55,14 @@ class repository_pmediathek extends repository {
     }
 
     public function get_listing($path='', $page = '') {
-        $url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id));
+        $url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
+                                                                        'returntypes' => $this->returntypes));
         $ret = array(
             'nologin' => true,
             'nosearch' => true,
             'object' => array(
                 'type' => 'text/html',
-                'src' => $url->out(),
+                'src' => $url->out(false),
             ),
         );
         return $ret;

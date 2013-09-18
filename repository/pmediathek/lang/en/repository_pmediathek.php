@@ -31,6 +31,7 @@ $string['clearcache'] = 'Clear search parameter cache';
 $string['clearcachedesc'] = 'this will retrieve new details to fill in the drop-down lists on the search form (only needed if these change on the Mediathek server)';
 $string['configplugin'] = 'Configure Prüfungsarchiv plugin';
 $string['description'] = 'Description';
+$string['duration'] = 'Duration: {$a}';
 $string['errorconnecting'] = 'Error connecting to the mediathek server: {$a}';
 $string['errorparseresponse'] = 'Error parsing the response from the mediathek server';
 $string['errorserver'] = 'Error returned by the mediathek server: {$a}';

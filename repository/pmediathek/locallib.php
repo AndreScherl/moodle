@@ -346,7 +346,11 @@ class repository_pmediathek_search {
     protected function output_result_details($result) {
         $out = '';
         if (!empty($result->general_description_de)) {
-            $out .= html_writer::tag('div', $result->general_description_de);
+            $out .= html_writer::tag('div', format_string($result->general_description_de), array('class' => 'description'));
+        }
+        if (!empty($result->technical_duration)) {
+            $out .= html_writer::tag('div', get_string('duration', 'repository_pmediathek', $result->technical_duration),
+                                     array('class' => 'duration'));
         }
         if (!empty($result->educational_typicalagerangemin)) {
             $out .= html_writer::tag('div', get_string('typicalage', 'repository_pmediathek',

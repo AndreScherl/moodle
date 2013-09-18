@@ -60,6 +60,11 @@ body.pagelayout-embedded.path-repository-pmediathek .details.show {
     clear: both;
 }
 
+body.pagelayout-embedded.path-repository-pmediathek .duration,
+body.pagelayout-embedded.path-repository-pmediathek .typicalage {
+    margin-bottom: 5px;
+}
+
 body.pagelayout-embedded.path-repository-pmediathek .identifier {
     float: right;
 }

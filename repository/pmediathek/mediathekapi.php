@@ -143,7 +143,7 @@ class repository_pmediathek_api {
 
 
     public function get_school_type_list($includeany = false) {
-        return $this->return_list('schooltypelist', 'getArchiveSchoolTypeList', $includeany);
+        return $this->return_list('schooltypelist', 'getArchiveTestContextList', $includeany);
     }
 
     public function get_school_subject_lists($includeany = false) {

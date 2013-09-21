@@ -88,7 +88,8 @@
 #dockeditempanel .dockeditempanel_hd h2 {
 	margin: 0;
 	padding-right: 1em;
-	font-size: 12px
+	font-size: 13px;
+	border-bottom: 1px solid white;
 }
 
 #dockeditempanel .dockeditempanel_hd .commands {

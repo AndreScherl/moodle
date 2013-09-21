@@ -76,13 +76,15 @@ class block_meinekurse extends block_base {
         $content = '';
 
         //Handle submitted / saved data
+        $defaultdir = false;
         $prefs = meinekurse::get_prefs();
         if ($sortby = optional_param('meinekurse_sortby', null, PARAM_TEXT)) {
-            /*if ($prefs->sortby == $sortby) {
-                $prefs->sortdir = ($prefs->sortdir == 'asc') ? 'desc' : 'asc';
-            } else*/ {
-                $prefs->sortby = $sortby;
-            }
+            $prefs->sortby = $sortby;
+            $defaultdir = true;
+        }
+        if ($sortdir = optional_param('meinekurse_sortdir', null, PARAM_ALPHA)) {
+            $prefs->sortdir = $sortdir;
+            $defaultdir = false;
         }
         if ($numcourses = optional_param('meinekurse_numcourses', null, PARAM_INT)) {
             $prefs->numcourses = $numcourses;
@@ -90,13 +92,32 @@ class block_meinekurse extends block_base {
         if (!is_null($school = optional_param('meinekurse_school', null, PARAM_INT))) {
             $prefs->school = $school;
         }
-        meinekurse::set_prefs($prefs);
+        meinekurse::set_prefs($prefs, $defaultdir);
 
         $pagenum = optional_param('meinekurse_page', 0, PARAM_INT) + 1;
 
         //Get courses:
         $mycourses = meinekurse::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school,
                                                 $pagenum, $prefs->otherschool);
+ //+++atar: abbreviate course names
+            foreach ($mycourses as $school) {
+                  $schools =$school->courses;
+                  foreach ($schools as $subschool){
+                      $max =33;
+                      if (textlib::strlen($subschool->fullname) <= $max) {
+                             $subschool->fullname = $subschool->fullname ;
+                            }
+                       else {
+                               $subschool->fullname = textlib::substr($subschool->fullname,0,$max-3).'...';
+                            }
+                     }
+             }
+      //---
+        if (is_null($prefs->school) || !isset($mycourses[$prefs->school])) {
+            $schoolids = array_keys($mycourses);
+            $prefs->school = reset($schoolids);
+            meinekurse::set_prefs($prefs);
+        }
 
         $starttab = 0;
         $tabnum = 0;
@@ -129,7 +150,8 @@ class block_meinekurse extends block_base {
 
         // Tab contents.
         foreach ($mycourses as $school) {
-            $tab = self::sorting_form($baseurl, $prefs->sortby, $prefs->numcourses, $school->schools, $prefs->otherschool);
+            $tab = self::sorting_form($baseurl, $prefs->sortby, $prefs->sortdir, $prefs->numcourses,
+                                      $school->schools, $prefs->otherschool);
             $tabcontent = meinekurse::one_tab($USER, $prefs, $school->courses, $school->id, $school->coursecount, $school->page);
             $tab .=  html_writer::tag('div', $tabcontent, array('class' => 'courseandpaging'));
             $content .= html_writer::tag('div', $tab, array('id' => "school{$school->id}tab"));
@@ -177,12 +199,13 @@ class block_meinekurse extends block_base {
      *
      * @param moodle_url $baseurl the URL to base the links on
      * @param string $selectedtype the sort currently selected
+     * @param $sortdir
      * @param $numcourses
      * @param array $otherschools
      * @param int $otherschoolid
      * @return string html snipet for the icons
      */
-    protected static function sorting_form($baseurl, $selectedtype, $numcourses, $otherschools, $otherschoolid) {
+    protected static function sorting_form($baseurl, $selectedtype, $sortdir, $numcourses, $otherschools, $otherschoolid) {
 
         $prefs = new stdClass();
         $prefs->sortby = $selectedtype;
@@ -202,7 +225,9 @@ class block_meinekurse extends block_base {
         $table->data = array();
         $row = array();
         $sortopts = array('name', 'timecreated', 'timevisited');
-        $row[] = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs);
+        $sortby = self::html_select('sortby', array_combine($sortopts, $sortopts), true, $prefs);
+        $sortby .= self::sort_direction_selector($sortdir);
+        $row[] = $sortby;
         $numopts = array(5, 10, 20, 50, 100);
         $row[] = self::html_select('numcourses', array_combine($numopts, $numopts), false, $prefs);
         if (count($otherschools) > 2) {
@@ -238,6 +263,24 @@ class block_meinekurse extends block_base {
         }
         $select .= '</select>';
         return $select;
+    }
+
+    private static function sort_direction_selector($current) {
+        global $OUTPUT;
+        $ascclass = 'sorthidden ';
+        $descclass = '';
+        if ($current == 'asc') {
+            $ascclass = '';
+            $descclass = 'sorthidden ';
+        }
+        $ascclass .= 'sortasc sorticon';
+        $descclass .= 'sortdesc sorticon';
+        $ascicon = $OUTPUT->pix_icon('t/sort_asc', get_string('sortasc', 'block_meinekurse'));
+        $descicon = $OUTPUT->pix_icon('t/sort_desc', get_string('sortdesc', 'block_meinekurse'));
+        $ascicon = html_writer::link('#', $ascicon, array('class' => $ascclass));
+        $descicon = html_writer::link('#', $descicon, array('class' => $descclass));
+
+        return $ascicon.$descicon;
     }
 
     /**

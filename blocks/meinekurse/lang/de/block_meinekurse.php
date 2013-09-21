@@ -3,7 +3,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['allcourses'] = 'Alle Kurse';
-$string['allotherschools'] = 'Alle Schulen';
+$string['allotherschools'] = 'Alle weiteren Schulen';
 $string['assignments'] = 'Aufgaben';
 $string['coursesastrainer'] = 'Kurse als Trainer/in';
 $string['deadline'] = 'Einsendeschluss';
@@ -21,12 +21,12 @@ $string['new'] = 'Neu';
 $string['nocourses'] = 'Keine Kurse anzeigbar';
 $string['nonewitemssincelastlogin'] = 'Keine neuen Beiträge seit Ihrem letzten Login';
 $string['notinschool'] = 'Ohne Zuordnung';
-$string['numcourses'] = 'Kurse pro Seite';
+$string['numcourses'] = 'Zahl der Kurse';
 $string['numgradedsubmissions'] = 'Zahl der bewerteten Abgaben';
 $string['numposts'] = 'Zahl der Einträge';
 $string['numsubmissions'] = 'Zahl der Abgaben';
 $string['numtests'] = 'Zahl der fertiggestellten Tests';
-$string['otherschools'] = 'Meine Schulen';
+$string['otherschools'] = 'Weitere Schulen';
 $string['pluginname'] = 'Meine Kurse';
 $string['posts'] = 'Einträge';
 $string['quizes'] = 'Tests';

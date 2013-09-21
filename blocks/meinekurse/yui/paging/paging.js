@@ -7,7 +7,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
         lastnumcourses: null,
 
         init: function(opts) {
-            var selects, tablinks;
+            var selects, tablinks, sortdirs;
 
             this.opts = opts;
             this.waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
@@ -37,6 +37,21 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                     meinekurse_otherschoolid);
 
                 return false;
+            }, this);
+
+            sortdirs = Y.all('.block_meinekurse .sorticon');
+            sortdirs.on('click', function(e) {
+                var resultel, sortdir, form;
+                e.preventDefault();
+                form = e.currentTarget.ancestor('form');
+                resultel = form.ancestor().one('.courseandpaging');
+
+                sortdir = 'desc';
+                if (e.currentTarget.hasClass('sortdesc')) {
+                    sortdir = 'asc';
+                }
+                this.do_course_search(resultel, undefined, undefined, undefined, undefined, undefined, sortdir);
+
             }, this);
 
             this.setup_hover();
@@ -80,7 +95,7 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             }, this);
         },
 
-        do_course_search: function(resultel, sortby, numcourses, page, schoolid, otherschoolid) {
+        do_course_search: function(resultel, sortby, numcourses, page, schoolid, otherschoolid, sortdir) {
             var url, data, self;
 
             resultel.one('.coursecontainer').setContent(this.waitimg);
@@ -103,6 +118,9 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
             }
             if (otherschoolid !== undefined) {
                 data.meinekurse_otherschoolid = otherschoolid;
+            }
+            if (sortdir !== undefined) {
+                data.meinekurse_sortdir = sortdir;
             }
 
             self = this;
@@ -137,10 +155,25 @@ YUI.add('moodle-block_meinekurse-paging', function(Y) {
                                     Y.one('#school-2tablink').setContent(details.name);
                                 }
                             }
+                            self.set_sort_icon(details.sortdir);
                         }
                     }
                 }
             });
+        },
+
+        set_sort_icon: function(dir) {
+            var ascicons, descicons;
+
+            ascicons = Y.all('.block_meinekurse .sortasc');
+            descicons = Y.all('.block_meinekurse .sortdesc');
+            if (dir == 'asc') {
+                ascicons.removeClass('sorthidden');
+                descicons.addClass('sorthidden');
+            } else {
+                ascicons.addClass('sorthidden');
+                descicons.removeClass('sorthidden');
+            }
         },
 
         setup_hover: function(parentel) {

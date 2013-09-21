@@ -63,6 +63,25 @@
     width:28px;
  }
 
+/** Darstellung des current topic*/
+
+.course-content .current  .left {
+    background: url([[pix:theme|course/bg-course-section-left-current]]) no-repeat !important;
+    width: 20px;
+}
+
+.course-content .current  {
+    background: url([[pix:theme|course/bg-course-section-current]]) repeat-x !important;
+    padding-bottom: 8px;
+}
+
+.course-content .current  .right {
+    background: url([[pix:theme|course/bg-course-section-right-current]]) no-repeat scroll top right !important;
+    padding-top:5px;
+    width:28px;
+ }
+
+
 /** Menü unterhalb der Inhaltsseite */
 #sectionmenu {
     border-top: 1px solid #cccccc;

@@ -677,13 +677,14 @@ class meineschulen {
         $sortdir = optional_param('sortdir', 'asc', PARAM_ALPHA);
         $numberofresults = optional_param('numberofresults', 20, PARAM_INT);
         $page = optional_param('page', 0, PARAM_INT);
+        $showall = optional_param('search', false, PARAM_BOOL); // The search button has been clicked.
 
         $form = get_string('searchcriteria', 'block_meineschulen');
         $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults), array('class' => 'meineschulen_school_form_inner'));
         $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
 
 
-        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page);
+        $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page, $showall);
         $results = get_string('searchresults', 'block_meineschulen');
         $results .= html_writer::tag('div', $resultsinner, array('id' => 'meineschulen_school_results'));
         $attrib = array('class' => 'meineschulen_school_results');
@@ -735,10 +736,10 @@ class meineschulen {
         return $types;
     }
 
-    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page) {
+    public static function output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page, $showall = false) {
         global $DB, $OUTPUT, $PAGE;
 
-        if (empty($searchtext)) {
+        if (!$showall && $searchtext == '' && $schooltype == -1) {
             return '';
         }
 
@@ -779,11 +780,14 @@ class meineschulen {
 
         // Do the search.
         $typecriteria = '';
+        $searchcriteria = '';
         $params = array(
-            'searchtext1' => "%$searchtext%",
-            'searchtext2' => "%$searchtext%",
             'schooldepth' => MEINEKURSE_SCHOOL_CAT_DEPTH,
         );
+        if ($searchtext) {
+            $params['searchtext'] = "%$searchtext%";
+            $searchcriteria = ' AND '.$DB->sql_like('sch.name', ':searchtext', false, false);
+        }
         if ($schooltype > 0) {
             $typecriteria = 'AND t.id = :schooltype';
             $params['schooltype'] = $schooltype;
@@ -791,8 +795,8 @@ class meineschulen {
         $fields = " SELECT sch.id, sch.name, t.name AS type, sch.visible";
         $select = "   FROM {course_categories} sch
                       JOIN {course_categories} t ON t.depth = 1 AND sch.path LIKE CONCAT('/', t.id, '/%')
-                     WHERE " . $DB->sql_like('sch.name', ':searchtext1', false, false) . "
-                       AND sch.depth = :schooldepth
+                     WHERE sch.depth = :schooldepth
+                           $searchcriteria
                            $typecriteria
                      ORDER BY $order";
         $totalcount = $DB->count_records_sql("SELECT COUNT(*)" . $select, $params);

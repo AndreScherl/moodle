@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Library code used by the meinkurse block
  *
@@ -21,7 +21,7 @@
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
 define('MEINEKURSE_SCHOOL_CAT_DEPTH', 3);
@@ -39,9 +39,12 @@ class meinekurse {
     public static function get_main_school($user) {
         global $DB;
         static $myschool = null;
-
+        //+++atar: fixed error undefined property: stdClass::$institution
+          $user->institution = '';
+          //---atar
         if (is_null($myschool)) {
             $schoolid = $user->institution;
+
             if (!$schoolid) {
                 $myschool = false;
             } else {
@@ -83,15 +86,21 @@ class meinekurse {
 
     /**
      * @param object $prefs
+     * @param $defaultdir
      */
-    public static function set_prefs($prefs) {
+    public static function set_prefs($prefs, $defaultdir = false) {
         if (!in_array($prefs->sortby, self::$validsort)) {
             $prefs->sortby = 'name';
         }
-        if ($prefs->sortby == 'name') {
+        if ($defaultdir) {
+            if ($prefs->sortby == 'name') {
+                $prefs->sortdir = 'asc';
+            } else {
+                $prefs->sortdir = 'desc';
+            }
+        }
+        if ($prefs->sortdir != 'desc') {
             $prefs->sortdir = 'asc';
-        } else {
-            $prefs->sortdir = 'desc';
         }
         set_user_preference('block_meinekurse_prefs', serialize($prefs));
     }
@@ -238,18 +247,26 @@ class meinekurse {
     /**
      * @param int $page
      * @param string $sortby optional
+     * @param string $sortdir
      * @param int $numcourses
      * @param int $schoolid
      * @param int $otherschoolid
      * @return string
      */
-    public static function output_course_list($page = 1, $sortby = null, $numcourses = null, $schoolid = null, $otherschoolid = null) {
+    public static function output_course_list($page = 1, $sortby = null, $sortdir = null, $numcourses = null,
+                                              $schoolid = null, $otherschoolid = null) {
         global $USER;
 
         $prefs = self::get_prefs();
-        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid) || !is_null($otherschoolid)) {
+        if (!is_null($sortby) || !is_null($numcourses) || !is_null($schoolid) || !is_null($otherschoolid) || !is_null($sortdir)) {
+            $defaultdir = false;
             if (!is_null($sortby)) {
                 $prefs->sortby = $sortby;
+                $defaultdir = true;
+            }
+            if (!is_null($sortdir)) {
+                $prefs->sortdir = $sortdir;
+                $defaultdir = false;
             }
             if (!is_null($numcourses)) {
                 $prefs->numcourses = $numcourses;
@@ -260,7 +277,7 @@ class meinekurse {
             if (!is_null($otherschoolid)) {
                 $prefs->otherschool = $otherschoolid;
             }
-            self::set_prefs($prefs);
+            self::set_prefs($prefs, $defaultdir);
         }
 
         $mycourses = self::get_my_courses($prefs->sortby, $prefs->sortdir, $prefs->numcourses, $prefs->school, $page,
@@ -879,6 +896,7 @@ class meinekurse {
         }
         return false;
     }
+
 
     /**
      * Get a list of all the courses the user is in, grouped by school

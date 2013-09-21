@@ -197,7 +197,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_locallib_get_potential_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS02: Hook in enrol/manual/locallib.php enrol_manual_potential_participant->find_users()
@@ -210,7 +210,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_manual_locallib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS03: Hook in admin/user.php
@@ -283,7 +283,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_cohort_lib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
     }
 
     /** @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()
@@ -373,6 +373,43 @@ class datenschutz {
                 $mform->setConstants(array('idnumber' => $user->idnumber));
             }
         }
+        //falls kein username angezeigt wird, Information darüber einfügen
+        if (!$mform->elementExists('username')) {
+            $username = $mform->createElement('static', 'username', get_string('username'));
+            $mform->insertElementBefore($username, 'firstname');
+        }
+        
+        // Felder für User, die editadvanced aufrufen können weil sie das Recht
+        // moodle/user:update haben, aber keine Admins sind, trotzdem sperren.
+        if (has_capability('moodle/user:update', context_system::instance())) {
+            
+            //Anmeldenamen schützen
+            if ($mform->elementExists('username')) {
+                //ersetzt Inputfeld durch Anzeige
+                $mform->hardFreeze('username');
+                //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
+                $mform->setConstants(array('username' => $user->username));
+            }
+            
+            //restliche Einstellungen des Auth-Plugins schützen
+            $fields = get_user_fieldnames();
+            $authplugin = get_auth_plugin($user->auth);
+            foreach ($fields as $field) {
+                if (!$mform->elementExists($field)) {
+                    continue;
+                }
+                $configvariable = 'field_lock_' . $field;
+                if (isset($authplugin->config->{$configvariable})) {
+                    if ($authplugin->config->{$configvariable} === 'locked') {
+                        $mform->hardFreeze($field);
+                        $mform->setConstant($field, $user->$field);
+                    } else if ($authplugin->config->{$configvariable} === 'unlockedifempty' and $user->$field != '') {
+                        $mform->hardFreeze($field);
+                        $mform->setConstant($field, $user->$field);
+                    }
+                }
+            }
+        }
     }
 
     /** @HOOK DS11: Hook in mod/chat/mod_form.php
@@ -444,6 +481,8 @@ class datenschutz {
     public static function hook_message_index($user2id) {
         if ($user2id == 0)
             return;
+if(has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM),$user2id))
+         return;
         datenschutz::_require_cap_to_view_user($user2id);
     }
 

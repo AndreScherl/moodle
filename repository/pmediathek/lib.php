@@ -56,7 +56,8 @@ class repository_pmediathek extends repository {
 
     public function get_listing($path='', $page = '') {
         $url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
-                                                                        'returntypes' => $this->returntypes));
+                                                                        'returntypes' => $this->returntypes,
+                                                                        'filetypes' => $this->get_filetypes()));
         $ret = array(
             'nologin' => true,
             'nosearch' => true,
@@ -66,6 +67,13 @@ class repository_pmediathek extends repository {
             ),
         );
         return $ret;
+    }
+
+    protected function get_filetypes() {
+        if (!is_array($this->options['mimetypes'])) {
+            return $this->options['mimetypes'];
+        }
+        return implode(',', $this->options['mimetypes']);
     }
 
 

@@ -36,6 +36,8 @@ class repository_pmediathek_search {
     protected $context;
     /** @var int */
     protected $returntypes;
+    /** @var string[] */
+    protected $filetypes;
     /** @var string */
     protected $action = self::ACTION_FORM;
     /** @var array */
@@ -67,6 +69,7 @@ class repository_pmediathek_search {
     const ACTION_SEARCH = 'search';
     const ACTION_VIEW = 'view';
 
+    const INSERT_NO_FILETYPE = -1;
     const INSERT_NO = 0;
     const INSERT_LINK = 1;
     const INSERT_ANY = 2;
@@ -74,15 +77,22 @@ class repository_pmediathek_search {
     /**
      * @param context $context
      */
-    public function __construct(context $context, $returntypes) {
+    public function __construct(context $context, $returntypes, $filetypes) {
         $this->context = $context;
         $this->returntypes = $returntypes;
+
+        $this->filetypes = explode(',', $filetypes);
+        if (in_array('*', $this->filetypes)) {
+            $this->filetypes = '*';
+        }
     }
 
     /**
      * Initialise the search parameters and (if needed) the form.
      */
     public function process() {
+        global $PAGE;
+
         $viewurl = null;
         $viewname = null;
         if (optional_param('search', false, PARAM_BOOL)) {
@@ -116,11 +126,10 @@ class repository_pmediathek_search {
                 $formdata = $this->searchparams;
                 $formdata['contextid'] = $this->context->id;
                 $formdata['returntypes'] = $this->returntypes;
+                $formdata['filetypes'] = implode(',', $this->filetypes);
                 $this->searchform->set_data($formdata);
                 if ($data = $this->searchform->get_data()) {
-                    $redir = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
-                                                                                      'returntypes' => $this->returntypes,
-                                                                                      'search' => 1));
+                    $redir = new moodle_url($PAGE->url, array('search' => 1));
                     foreach (self::$validsearchparams as $validparam) {
                         if (!empty($data->$validparam)) {
                             $redir->param($validparam, $data->$validparam);
@@ -361,6 +370,13 @@ class repository_pmediathek_search {
             }
         }
 
+        if ($ret !== self::INSERT_NO && $this->filetypes !== '*') {
+            $extn = mimeinfo_from_type('extension', $result->technical_format);
+            if (!in_array($extn, $this->filetypes)) {
+                $ret = self::INSERT_NO_FILETYPE;
+            }
+        }
+
         return $ret;
     }
 
@@ -382,9 +398,13 @@ class repository_pmediathek_search {
             $actions[] = $viewstr;
         }
 
-        if ($this->can_insert($result)) {
+        if ($this->can_insert($result) > self::INSERT_NO) {
+            $extn = '';
+            if ($this->filetypes !== '*') {
+                $extn = mimeinfo_from_type('extension', $result->technical_format);
+            }
             $params = array(
-                'title' => $result->general_title_de,
+                'title' => $result->general_title_de.$extn,
                 'source' => $result->technical_location,
                 'thumbnail' => $result->technical_thumbnail,
                 'author' => '',
@@ -403,7 +423,11 @@ class repository_pmediathek_search {
             $actions[] = html_writer::link($inserturl, $insertstr, array('class' => 'insertlink'));
         } else {
             if ($this->can_view($result)) {
-                $insertstr = $OUTPUT->help_icon('cannotinsert', 'repository_pmediathek');
+                if ($this->can_insert($result) == self::INSERT_NO) {
+                    $insertstr = $OUTPUT->help_icon('cannotinsert', 'repository_pmediathek');
+                } else { // INSERT_NO_FILETYPE
+                    $insertstr = $OUTPUT->help_icon('cannotinsert2', 'repository_pmediathek');
+                }
                 $insertstr .= ' '.get_string('cannotinsert', 'repository_pmediathek');
                 $actions[] = $insertstr;
             }
@@ -460,6 +484,8 @@ class repository_pmediathek_exam_search_form extends moodleform {
         $mform->setType('searchtab', PARAM_ALPHA);
         $mform->addElement('hidden', 'returntypes');
         $mform->setType('returntypes', PARAM_INT);
+        $mform->addElement('hidden', 'filetypes');
+        $mform->setType('returntypes', PARAM_RAW);
 
         $api = new repository_pmediathek_api();
 
@@ -503,6 +529,8 @@ class repository_pmediathek_school_search_form extends moodleform {
         $mform->setType('searchtab', PARAM_ALPHA);
         $mform->addElement('hidden', 'returntypes');
         $mform->setType('returntypes', PARAM_INT);
+        $mform->addElement('hidden', 'filetypes');
+        $mform->setType('returntypes', PARAM_RAW);
 
         $api = new repository_pmediathek_api();
 

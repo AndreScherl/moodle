@@ -141,6 +141,8 @@ class block_dlb extends block_base {
 
         $this->content = new stdClass();
         $this->content->text = "";
+        $this->content->items = array();
+        $this->content->icons = array();
         $this->content->footer = '';
 
         $str = "<div id=\"dlb-navigation\">";
@@ -227,8 +229,28 @@ class block_dlb extends block_base {
         $renderer = $this->page->get_renderer('block_dlb');
         $str .= $renderer->navigation_tree($nodes, 2, array('depth' => '0'));
         $str .= "</div>";
-
+        
         $this->content->text = $str;
+        
+        // ...display the course requests here.
+        require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+        
+        $requests = meineschulen::get_course_requests();
+        
+        $list = '';
+        $c = 0;
+        foreach ($requests as $request) {
+            $info = (object)array('name' => format_string($request->name), 'count' => $request->count);
+            $str = get_string('viewcourserequests', 'block_meineschulen', $info);
+            $list .= html_writer::tag('li', html_writer::link($request->viewurl, $str), array('class' => 'column c1'));
+            $c = ($c + 1) % 2;
+        }
+        
+        if (!empty($list)) {
+            $this->content->text .= html_writer::tag('ul', $list, array('class' => 'meineschulen-courserequests'));
+        }
+
+        
         return $this->content;
     }
 

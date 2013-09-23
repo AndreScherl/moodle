@@ -64,3 +64,14 @@
 
 .jsenabled.dir-rtl .block_dlb .block_tree .tree_item.emptybranch {background-image: url([[pix:t/collapsed_empty_rtl]]);background-position: center right;}
 .jsenabled.dir-rtl .block_dlb .block_tree .collapsed .tree_item.branch {background-image: url([[pix:t/collapsed_rtl]]);}
+
+.block_dlb  ul.meineschulen-courserequests {
+    list-style: none;
+    margin: 0;
+}
+
+.block_dlb .meineschulen-courserequests li {
+    background-image: url([[pix:i/navigationitem]]);
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}

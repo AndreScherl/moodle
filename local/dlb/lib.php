@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file may not be redistributed in whole or significant part.
  * Content of this file is Protected by International Copyright Laws.
@@ -11,35 +12,50 @@
 function local_dlb_extends_navigation($navigation) {
     global $CFG, $PAGE;
 
-    if (empty($CFG->local_dlb_mebis_sites)) return;
+    if (!empty($CFG->local_dlb_mebis_sites)) {
 
-    $node = $navigation->get('home');
+        $node = $navigation->get('home');
 
-    if ($node) {
+        if ($node) {
 
-        //Knoten umgestalten...
-        $node->text = $CFG->local_dlb_home;
-        $node->action = "";
-        $node->mainnavonly = true;
+            //Knoten umgestalten...
+            $node->text = $CFG->local_dlb_home;
+            $node->action = "";
+            $node->mainnavonly = true;
 
-        //neue Links einfügen..
-        $nodes = explode(';', trim($CFG->local_dlb_mebis_sites,";"));
+            //neue Links einfügen..
+            $nodes = explode(';', trim($CFG->local_dlb_mebis_sites, ";"));
 
-        foreach($nodes as $nnode) {
-            list($name, $url) = explode(',', $nnode);
-            if (!empty($name) and !empty($url)) $node->add($name, $url);
+            foreach ($nodes as $nnode) {
+                list($name, $url) = explode(',', $nnode);
+                if (!empty($name) and !empty($url))
+                    $node->add($name, $url);
+            }
         }
     }
-//+++atar: add node "Meine Schulen" to navigation
-$schoolnode = $PAGE->navigation->add(get_string('schoolnode','local_dlb'),  navigation_node::TYPE_CONTAINER);
-require_once($CFG->dirroot."/blocks/meineschulen/lib.php");
-$schoolarray =meineschulen:: get_my_schools();
 
-foreach($schoolarray as $school) {
+    //+++atar: add node "Meine Schulen" to navigation
+    $schoolnode = $PAGE->navigation->add(get_string('schoolnode', 'local_dlb'), navigation_node::TYPE_CONTAINER);
+    require_once($CFG->dirroot . "/blocks/meineschulen/lib.php");
+    $schoolarray = meineschulen:: get_my_schools();
 
-                 $snode=$schoolnode->add($school->name, $school->viewurl);
-                 $snode->make_active();
+    foreach ($schoolarray as $school) {
 
-                  }
-//---
+        $snode = $schoolnode->add($school->name, $school->viewurl);
+        $snode->make_active();
+    }
+    //---
+}
+
+function local_dlb_extends_settings_navigation(settings_navigation $navigation) {
+    
+    // ...remove website-administration for non admins.
+    if (!has_capability('moodle/site:config', context_system::instance())) {
+        
+        $node = $navigation->get('root');
+        
+        if ($node) {
+            $node->remove();
+        }
+    }
 }

@@ -239,10 +239,10 @@ class theme_dlb_core_renderer extends core_renderer {
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
 
-           /*atar: Kursbereichsicon vorerst deaktiviert*/
+           /*atar: Kursbereichsicon vorerst deaktiviert
             $href = html_writer::link($CFG->wwwroot . "/blocks/meineschulen/search.php", $this->pix_icon('toolbar/toolbar-schulesuchen', 'Schule suchen', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
-
+            */
 
             $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));

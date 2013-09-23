@@ -341,6 +341,10 @@ class repository_pmediathek_api {
             fclose($fp);
         }
 
+        // Strip off any warning messages + other junk data output by the Mediathek server before the XML starts.
+        $xmlstart = strpos($res, '<?xml');
+        $res = substr($res, $xmlstart);
+
         try {
             $response = new SimpleXMLElement($res);
         } catch (exception $e) {

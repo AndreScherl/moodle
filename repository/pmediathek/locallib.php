@@ -83,8 +83,16 @@ class repository_pmediathek_search {
 
         $this->filetypes = explode(',', $filetypes);
         if (in_array('*', $this->filetypes)) {
-            $this->filetypes = '*';
+            $this->filetypes = array('*');
         }
+    }
+
+    protected function any_filetypes() {
+        return in_array('*', $this->filetypes);
+    }
+
+    protected function filetypes_param() {
+        return implode(',', $this->filetypes);
     }
 
     /**
@@ -126,7 +134,7 @@ class repository_pmediathek_search {
                 $formdata = $this->searchparams;
                 $formdata['contextid'] = $this->context->id;
                 $formdata['returntypes'] = $this->returntypes;
-                $formdata['filetypes'] = implode(',', $this->filetypes);
+                $formdata['filetypes'] = $this->filetypes_param();
                 $this->searchform->set_data($formdata);
                 if ($data = $this->searchform->get_data()) {
                     $redir = new moodle_url($PAGE->url, array('search' => 1));
@@ -370,7 +378,7 @@ class repository_pmediathek_search {
             }
         }
 
-        if ($ret !== self::INSERT_NO && $this->filetypes !== '*') {
+        if ($ret !== self::INSERT_NO && !$this->any_filetypes()) {
             $extn = mimeinfo_from_type('extension', $result->technical_format);
             if (!in_array($extn, $this->filetypes)) {
                 $ret = self::INSERT_NO_FILETYPE;
@@ -400,7 +408,7 @@ class repository_pmediathek_search {
 
         if ($this->can_insert($result) > self::INSERT_NO) {
             $extn = '';
-            if ($this->filetypes !== '*') {
+            if (!$this->any_filetypes()) {
                 $extn = mimeinfo_from_type('extension', $result->technical_format);
             }
             $params = array(

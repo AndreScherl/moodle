@@ -87,6 +87,7 @@ class repository_pmediathek extends repository {
 
     public function get_file($url, $filename = '') {
         // Same as the parent function, except that redirects are followed.
+        $config = get_config('pmediathek');
         $path = $this->prepare_file($filename);
         $c = new curl;
         $options = array(
@@ -94,6 +95,8 @@ class repository_pmediathek extends repository {
             'timeout' => self::GETFILE_TIMEOUT,
             'CURLOPT_FOLLOWLOCATION' => true,
             'CURLOPT_MAXREDIRS' => 5,
+            'CURLOPT_HTTPAUTH' => CURLAUTH_BASIC,
+            'CURLOPT_USERPWD' => "{$config->username}:{$config->password}",
         );
         $result = $c->download_one($url, null, $options);
         if ($result !== true) {

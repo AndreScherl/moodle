@@ -197,7 +197,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_locallib_get_potential_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
     }
 
     /** @HOOK DS02: Hook in enrol/manual/locallib.php enrol_manual_potential_participant->find_users()
@@ -210,7 +210,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_manual_locallib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
     }
 
     /** @HOOK DS03: Hook in admin/user.php
@@ -283,7 +283,7 @@ class datenschutz {
      * @return string
      */
     public static function hook_cohort_lib_find_users($wherecondition) {
-        return datenschutz::_addInstitutionFilter($wherecondition, "u.");
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
     }
 
     /** @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()

@@ -112,12 +112,12 @@ class repository_pmediathek extends repository {
         }
         */
         $hash = sha1($url);
-        if (!$DB->record_exists('repository_mediathek_link', array('hash' => $hash))) {
+        if (!$DB->record_exists('repository_pmediathek_link', array('hash' => $hash))) {
             $ins = (object)array(
                 'hash' => $hash,
                 'url' => $url,
             );
-            $DB->insert_record('repository_mediathek_link', $ins);
+            $DB->insert_record('repository_pmediathek_link', $ins);
         }
         $link = new moodle_url('/repository/pmediathek/link.php', array('hash' => $hash, 'embed' => 1));
         return $link->out(false);

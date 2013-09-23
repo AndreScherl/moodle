@@ -95,7 +95,7 @@ class repository_pmediathek extends repository {
     }
 
     public function supported_filetypes() {
-        return '*';
+        return array('audio', 'spreadsheet', 'document', '.pdf');
     }
 
     public function get_link($url) {

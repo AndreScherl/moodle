@@ -324,7 +324,7 @@ class repository_pmediathek_search {
     }
 
     protected function get_type_name($type) {
-        return get_string('type_'.$type, 'repository_pmediathek');
+        return $type;
     }
 
     protected function output_result_icon($result) {

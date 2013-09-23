@@ -196,7 +196,7 @@ class repository_pmediathek_search {
 
     protected function set_view_details($viewurl, $viewname) {
         if (empty($viewurl) || empty($viewname)) {
-            throw new moodle_exception('missingviewparams', 'repository_mediathek');
+            throw new moodle_exception('missingviewparams', 'repository_pmediathek');
         }
 
         $this->viewurl = $viewurl;
@@ -204,7 +204,7 @@ class repository_pmediathek_search {
 
         $api = $this->get_api();
         if (!$api->check_embed_url($this->viewurl)) {
-            throw new moodle_exception('invalidurl', 'repository_mediathek');
+            throw new moodle_exception('invalidurl', 'repository_pmediathek');
         }
     }
 

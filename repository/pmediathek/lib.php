@@ -101,6 +101,7 @@ class repository_pmediathek extends repository {
     public function get_link($url) {
         global $DB;
 
+        /*
         $embed = false;
         if (substr_compare($url, self::EMBED_PREFIX, 0, strlen(self::EMBED_PREFIX)) == 0) {
             $embed = true;
@@ -109,6 +110,7 @@ class repository_pmediathek extends repository {
         if (!$embed) {
             return $url;
         }
+        */
         $hash = sha1($url);
         if (!$DB->record_exists('repository_mediathek_link', array('hash' => $hash))) {
             $ins = (object)array(

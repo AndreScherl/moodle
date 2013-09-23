@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['advancedsearch'] = 'Advanced Search';
 $string['allresults'] = 'All';
 $string['alltypes'] = 'All types';
 $string['backschool'] = 'Back to the school page';

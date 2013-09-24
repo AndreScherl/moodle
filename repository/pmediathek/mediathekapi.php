@@ -296,7 +296,16 @@ class repository_pmediathek_api {
         $apiurl = parse_url($this->url);
         $testurl = parse_url($url);
 
-        return ($apiurl['host'] == $testurl['host']);
+        if ($apiurl['host'] == $testurl['host']) {
+            return true; // Direct link to Mediathek server.
+        }
+
+        $localurl = parse_url(new moodle_url('/repository/pmediathek/link.php'));
+        if ($testurl['host'] == $localurl['host'] && $testurl['path'] == $localurl['path']) {
+            return true; // Indirect link via local URL.
+        }
+
+        return false;
     }
 
     protected function do_request($query, $extrafields = array()) {

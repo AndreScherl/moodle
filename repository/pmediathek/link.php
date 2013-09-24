@@ -23,7 +23,7 @@
  */
 
 require_once(dirname(__FILE__).'/../../config.php');
-global $DB;
+global $DB, $USER;
 
 $hash = required_param('hash', PARAM_TEXT);
 
@@ -33,5 +33,6 @@ $linkurl = $DB->get_field('repository_pmediathek_link', 'url', array('hash' => $
 if (!$linkurl) {
     die();
 }
+$linkurl .= '&mode=display&user='.$USER->username;
 
 header("Location: $linkurl");

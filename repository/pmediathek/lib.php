@@ -86,7 +86,8 @@ class repository_pmediathek extends repository {
     }
 
     public function get_file($url, $filename = '') {
-        // Same as the parent function, except that redirects are followed.
+        global $USER;
+
         $config = get_config('pmediathek');
         $path = $this->prepare_file($filename);
         $c = new curl;
@@ -98,6 +99,7 @@ class repository_pmediathek extends repository {
             'CURLOPT_HTTPAUTH' => CURLAUTH_BASIC,
             'CURLOPT_USERPWD' => "{$config->username}:{$config->password}",
         );
+        $url .= '&mode=download&user='.$USER->username;
         $result = $c->download_one($url, null, $options);
         if ($result !== true) {
             throw new moodle_exception('errorwhiledownload', 'repository', '', $result);

@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class filter_pmediathek extends moodle_text_filter {
     public function filter($text, array $options = array()) {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         $basepath = preg_quote("{$CFG->wwwroot}/repository/pmediathek/link.php?hash=");
         $regex = "%<a.*?href=\"({$basepath})([a-z0-9]*)(&|&amp;)embed=1\".*?</a>%";
         $matches = array();
@@ -38,6 +38,7 @@ class filter_pmediathek extends moodle_text_filter {
             $find = $match[0];
             $hash = $match[2];
             if ($desturl = $DB->get_field('repository_pmediathek_link', 'url', array('hash' => $hash))) {
+                $desturl .= '&mode=display&user='.$USER->username;
                 $replace = '<iframe class="pmediathek_embed" src="'.$desturl.'"></iframe>';
                 $text = str_replace($find, $replace, $text);
             }

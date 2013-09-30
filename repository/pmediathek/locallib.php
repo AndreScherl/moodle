@@ -212,11 +212,13 @@ class repository_pmediathek_search {
     }
 
     protected function set_view_details($viewurl, $viewname) {
+        global $USER;
+
         if (empty($viewurl) || empty($viewname)) {
             throw new moodle_exception('missingviewparams', 'repository_pmediathek');
         }
 
-        $this->viewurl = $viewurl;
+        $this->viewurl = $viewurl.'&mode=display&user='.$USER->username;
         $this->viewname = $viewname;
 
         $api = $this->get_api();

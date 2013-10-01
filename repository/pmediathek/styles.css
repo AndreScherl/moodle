@@ -1,0 +1,86 @@
+body.pagelayout-embedded.path-repository-pmediathek {
+    min-width: inherit;
+    padding: 5px;
+    width: 95%;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .intro {
+    margin-bottom: 20px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem {
+    display: none;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek.jsenabled .fitem.show {
+    display: block;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .searchresult {
+    border: solid 1px #888;
+    padding: 2px;
+    margin: 5px 0;
+    background-color: #eee;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .resourceicon {
+    width: 24px;
+    height: 24px;
+    float: left;
+    display: block;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .basicdata {
+    display: block;
+    width: 70%;
+    float: left;
+    margin: 0 5px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .resultheading {
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .actions {
+    display: block;
+    float: right;
+    padding: 0 5px;
+    width: 18%;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .details {
+    display: none;
+    clear: both;
+    padding-top: 10px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .details.show {
+    display: block;
+    clear: both;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .duration,
+body.pagelayout-embedded.path-repository-pmediathek .typicalage {
+    margin-bottom: 5px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .identifier {
+    float: right;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .rightsdesc {
+    float: left;
+    width: 75%;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .smallicon {
+    padding-left: 3px;
+    width: 16px;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .preview {
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
+}

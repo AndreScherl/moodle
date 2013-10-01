@@ -359,7 +359,8 @@ class repository_pmediathek_search {
     }
 
     protected function can_view($result) {
-        return (trim($result->rights_license) != 'blocked');
+        $license = trim($result->rights_license);
+        return ($license != 'blocked' && $license != 'no show');
     }
 
     protected function can_insert($result) {

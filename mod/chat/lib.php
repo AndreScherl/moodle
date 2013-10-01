@@ -24,9 +24,6 @@
  */
 
 require_once($CFG->dirroot.'/calendar/lib.php');
-// atar +++ Hook DS21
-require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
-//---DS21
 // The HTML head for the message window to start with (<!-- nix --> is used to get some browsers starting with output
 global $CHAT_HTMLHEAD;
 $CHAT_HTMLHEAD = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\"><html><head></head>\n<body>\n\n".padding(200);
@@ -722,6 +719,9 @@ function chat_update_chat_times($chatid=0) {
  */
 function chat_format_message_manually($message, $courseid, $sender, $currentuser, $chat_lastrow=NULL) {
     global $CFG, $USER, $OUTPUT;
+    // atar +++ Hook DS21
+    require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
+    //---DS21
 
     $output = new stdClass();
     $output->beep = false;       // by default

@@ -177,3 +177,6 @@
     overflow: visible;
 }
 
+.block_meineschulen #meineschulen_school_form_wrapper {
+    margin-top: 10px;
+}

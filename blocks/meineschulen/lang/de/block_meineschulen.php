@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['advancedsearch'] = 'Erweiterte Suche';
 $string['allresults'] = 'Alle';
 $string['alltypes'] = 'Alle Typen';
 $string['backschool'] = 'Zurück zur Schulbereichsübersicht';

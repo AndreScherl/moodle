@@ -1086,4 +1086,22 @@ class meineschulen {
         return $out;
     }
 
+    /** returns html code for a search form used directly in block meineschulen */
+    public static function output_block_search_form() {
+        
+        $output = html_writer::tag('input', '', 
+                array('id' => 'schoolname', 'type' => 'text',
+                    'name' => 'schoolname', 'value' => get_string('schoolsearch', 'block_meineschulen')."..."));
+        
+        $action = self::get_search_url();
+        $output .= html_writer::link($action, get_string('advancedsearch', 'block_meineschulen'),
+                array('title' => get_string('advancedsearch', 'block_meineschulen')));
+        
+        $output = html_writer::tag('form', $output,
+                array('id' => 'meineschulen_school_form', 'action' => $action, 'method' => 'get'));
+        
+        $output = html_writer::tag('div', $output, array('id' => 'meineschulen_school_form_wrapper'));
+        
+        return $output;
+    }
 }

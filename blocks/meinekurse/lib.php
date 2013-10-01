@@ -39,18 +39,20 @@ class meinekurse {
     public static function get_main_school($user) {
         global $DB;
         static $myschool = null;
-        //+++atar: fixed error undefined property: stdClass::$institution
-          $user->institution = '';
-          //---atar
-        if (is_null($myschool)) {
-            $schoolid = $user->institution;
 
-            if (!$schoolid) {
+      //+++awag: undefined property error fixed
+       if (is_null($myschool)) {
+
+            if (empty ( $user->institution)) {
+
                 $myschool = false;
+
             } else {
+                 $schoolid =$user->institution;
                 $myschool = $DB->get_record('course_categories', array('idnumber' => $schoolid, 'depth' => MEINEKURSE_SCHOOL_CAT_DEPTH),
                                             'id, name');
             }
+             //---awag
         }
 
         return $myschool;

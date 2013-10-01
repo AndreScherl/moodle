@@ -43,8 +43,7 @@ class block_meineschulen extends block_list {
         $this->content->items = array();
         $this->content->icons = array();
 
-        $searchurl = meineschulen::get_search_url();
-        $this->content->footer = html_writer::link($searchurl, get_string('schoolsearch', 'block_meineschulen'));
+        $this->content->footer = meineschulen::output_block_search_form();
 
         $arrowicon = $OUTPUT->pix_icon('i/navigationitem', '');
         $schools = meineschulen::get_my_schools();

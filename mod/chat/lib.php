@@ -719,9 +719,6 @@ function chat_update_chat_times($chatid=0) {
  */
 function chat_format_message_manually($message, $courseid, $sender, $currentuser, $chat_lastrow=NULL) {
     global $CFG, $USER, $OUTPUT;
-    // atar +++ Hook DS21
-    require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
-    //---DS21
 
     $output = new stdClass();
     $output->beep = false;       // by default
@@ -876,11 +873,11 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
      // atar +++ Hook DS21
      $strchat = $CFG->chat_anon;
 
-
-     if ($strchat==='anony')
+     if ($strchat==='anony') {
+    	  require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
 
           return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
-
+	 }
      else
      //---DS21
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);

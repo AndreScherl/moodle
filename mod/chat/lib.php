@@ -873,11 +873,8 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
      // atar +++ Hook DS21
      $strchat = $CFG->chat_anon;
 
-     if ($strchat==='anony') {
-    	  require_once($CFG->dirroot.'/blocks/dlb/classes/class.datenschutz.php');
-
+     if ($strchat==='anony') 
           return datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
-	 }
      else
      //---DS21
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);

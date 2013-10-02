@@ -56,7 +56,7 @@ class repository_pmediathek extends repository {
 
     public function get_listing($path='', $page = '') {
         $url = new moodle_url('/repository/pmediathek/search.php', array('contextid' => $this->context->id,
-                                                                        'returntypes' => $this->returntypes,
+                                                                        'returntypes' => $this->options['returntypes'],
                                                                         'filetypes' => $this->get_filetypes()));
         $ret = array(
             'nologin' => true,
@@ -86,7 +86,13 @@ class repository_pmediathek extends repository {
     }
 
     public function get_file($url, $filename = '') {
-        global $USER;
+        global $USER, $CFG;
+
+        require_once($CFG->dirroot.'/repository/pmediathek/locallib.php');
+        $rights = repository_pmediathek_search::get_rights_licence($url);
+        if ($rights != 'public') {
+            throw new moodle_exception('notalloweddownload', 'repository_pmediathek');
+        }
 
         $config = get_config('pmediathek');
         $path = $this->prepare_file($filename);
@@ -112,7 +118,13 @@ class repository_pmediathek extends repository {
     }
 
     public function get_link($url) {
-        global $DB;
+        global $DB, $CFG;
+
+        require_once($CFG->dirroot.'/repository/pmediathek/locallib.php');
+        $rights = repository_pmediathek_search::get_rights_licence($url);
+        if ($rights != 'public' && $rights != 'no copy') {
+            throw new moodle_exception('notallowedlink', 'repository_pmediathek');
+        }
 
         /*
         $embed = false;

@@ -29,4 +29,8 @@ $definitions = array(
         'mode' => cache_store::MODE_APPLICATION,
         'persistent' => true,
     ),
+    'filerights' => array(
+        'mode' => cache_store::MODE_SESSION,
+        'persistant' => true,
+    ),
 );

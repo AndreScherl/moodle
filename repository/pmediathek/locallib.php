@@ -294,6 +294,26 @@ class repository_pmediathek_search {
                                                        $searchparams['year'], $searchparams['type']);
         }
         $this->totalresults = $api->get_total_results();
+        $this->cache_result_rights();
+    }
+
+    protected function cache_result_rights() {
+        $cache = cache::make('repository_pmediathek', 'filerights');
+        foreach ($this->results as $result) {
+            $saved = $cache->get($result->technical_location);
+            if ($saved !== $result->rights_license) {
+                $cache->set($result->technical_location, $result->rights_license);
+            }
+        }
+    }
+
+    public static function get_rights_licence($url) {
+        $cache = cache::make('repository_pmediathek', 'filerights');
+        $rights = $cache->get($url);
+        if ($rights !== false) {
+            return $rights;
+        }
+        return 'no copy'; // Bad fallback, but there is no API for getting this data about a single file.
     }
 
     protected function output_back_link($search = false) {
@@ -375,7 +395,7 @@ class repository_pmediathek_search {
                 break;
         }
 
-        if (!($this->returntypes|FILE_EXTERNAL)) {
+        if (!($this->returntypes&FILE_EXTERNAL)) {
             if ($ret == self::INSERT_LINK) {
                 $ret = self::INSERT_NO;
             }
@@ -421,9 +441,9 @@ class repository_pmediathek_search {
                 'author' => '',
             );
             if ($this->can_insert($result) == self::INSERT_LINK) {
-                $params['return_types'] = FILE_EXTERNAL;
+                $params['returntypes'] = FILE_EXTERNAL;
             } else {
-                $params['return_types'] = FILE_EXTERNAL|FILE_INTERNAL;
+                $params['returntypes'] = FILE_EXTERNAL|FILE_INTERNAL;
             }
             $inserturl = http_build_query($params);
             $inserturl = '?'.$inserturl;

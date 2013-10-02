@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013091700;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '2.4+ (Build 2013091700)';
+$plugin->version   = 2013100200;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = '2.4+ (Build 2013100200)';
 $plugin->requires  = 2012120300;        // Requires this Moodle version.
 $plugin->component = 'repository_pmediathek'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_BETA;

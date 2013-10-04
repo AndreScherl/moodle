@@ -518,7 +518,7 @@ if ($formdata = $mform2->is_cancelled()) {
 			$user->lang			= 'de';
 			$user->country 		= 'DE';
 
-			$user->auth = 'ldapdlb';
+			$user->auth = 'shibboleth';
 				
 			if (!empty($user->email)) {
            		if (!validate_email($user->email)) {

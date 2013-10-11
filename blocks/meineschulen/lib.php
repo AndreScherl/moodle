@@ -236,18 +236,11 @@ class meineschulen {
             } else if (has_capability('moodle/course:request', context_system::instance())) {
                 $resp = true;
             } else {
-                $roles = get_roles_with_capability('moodle/course:request');
-                self::debuglog("Checking if current user ($USER->id) can request courses - roles that can request are: ");
-                foreach ($roles as $role) {
-                    self::debuglog("{$role->shortname} ({$role->id})");
-                }
+                $roles = get_roles_with_capability('moodle/course:request', CAP_ALLOW);
                 if ($roles) {
                     list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
                     $params['userid'] = $USER->id;
                     $resp = $DB->record_exists_select('role_assignments', "userid = :userid AND roleid $rsql", $params);
-
-                    self::debuglog("User has roles: ");
-                    self::debuglog($DB->get_fieldset_select('role_assignments', 'DISTINCT(roleid)', "userid = ?", array($USER->id)));
                 }
             }
         }

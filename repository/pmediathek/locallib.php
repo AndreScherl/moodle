@@ -179,6 +179,7 @@ class repository_pmediathek_search {
         global $PAGE;
 
         $url = new moodle_url($PAGE->url, $this->searchparams);
+        $url->param('page', $this->page);
         if ($search) {
             $url->param('search', 1);
         }

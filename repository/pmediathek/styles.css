@@ -84,3 +84,12 @@ body.pagelayout-embedded.path-repository-pmediathek .preview {
     height: 400px;
     margin-top: 10px;
 }
+
+body.pagelayout-embedded.path-repository-pmediathek .filesize {
+    float: left;
+}
+
+body.pagelayout-embedded.path-repository-pmediathek .duration {
+    float: left;
+    margin-left: 15px;
+}

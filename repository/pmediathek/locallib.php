@@ -376,6 +376,10 @@ class repository_pmediathek_search {
     protected function output_result_heading($result) {
         $out = html_writer::tag('div', format_string($result->general_title_de), array('class' => 'resultheading'));
         $out .= html_writer::tag('div', $result->technical_size, array('class' => 'filesize'));
+        if (!empty($result->technical_duration)) {
+            $out .= html_writer::tag('div', get_string('duration', 'repository_pmediathek', $result->technical_duration),
+                                     array('class' => 'duration'));
+        }
         return html_writer::tag('div', $out, array('class' => 'basicdata'));
     }
 
@@ -472,22 +476,20 @@ class repository_pmediathek_search {
 
     protected function output_result_details($result) {
         $out = '';
+        $out .= html_writer::tag('div', get_string('identifier', 'repository_pmediathek', $result->general_identifier),
+                                 array('class' => 'identifier'));
         if (!empty($result->general_description_de)) {
             $out .= html_writer::tag('div', format_string($result->general_description_de), array('class' => 'description'));
-        }
-        if (!empty($result->technical_duration)) {
-            $out .= html_writer::tag('div', get_string('duration', 'repository_pmediathek', $result->technical_duration),
-                                     array('class' => 'duration'));
         }
         if (!empty($result->educational_typicalagerangemin)) {
             $out .= html_writer::tag('div', get_string('typicalage', 'repository_pmediathek',
                                                        $result->educational_typicalagerangemin),
                                      array('class' => 'typicalage'));
         }
-        $out .= html_writer::tag('div', $result->rights_license_description, array('class' => 'rightsdesc'));
-        $out .= html_writer::tag('div', get_string('identifier', 'repository_pmediathek', $result->general_identifier),
-                                 array('class' => 'identifier'));
-        $out .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        if (!empty($result->rights_licence_description)) {
+            $out .= html_writer::tag('div', $result->rights_license_description, array('class' => 'rightsdesc'));
+        }
+        $out .= html_writer::empty_tag('span', array('class' => 'clearer'));
         return html_writer::tag('div', $out, array('class' => 'details'));
     }
 

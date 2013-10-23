@@ -236,7 +236,7 @@ class meineschulen {
             } else if (has_capability('moodle/course:request', context_system::instance())) {
                 $resp = true;
             } else {
-                $roles = get_roles_with_capability('moodle/course:request');
+                $roles = get_roles_with_capability('moodle/course:request', CAP_ALLOW);
                 if ($roles) {
                     list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
                     $params['userid'] = $USER->id;
@@ -246,6 +246,26 @@ class meineschulen {
         }
 
         return $resp;
+    }
+
+    protected static function debuglog($msg) {
+        global $CFG;
+
+        if (is_object($msg)) {
+            ob_start();
+            print_r($msg);
+            $msg = ob_get_clean();
+        }
+        if (is_array($msg)) {
+            $msg = implode(',', $msg);
+        }
+
+        $fp = fopen($CFG->dataroot.'/meineschulen.log', 'a');
+        if (!$fp) {
+            return;
+        }
+        fwrite($fp, $msg."\n");
+        fclose($fp);
     }
 
     /**

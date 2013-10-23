@@ -1,5 +1,4 @@
 <?php
-
 /*
   #########################################################################
   #                       DLB-Bayern
@@ -30,8 +29,9 @@ class datenschutz {
     public static function getInstance() {
         static $datenschutz;
 
-        if (isset($datenschutz))
+        if (isset($datenschutz)) {
             return $datenschutz;
+        }
 
         $datenschutz = new datenschutz();
         return $datenschutz;
@@ -44,24 +44,27 @@ class datenschutz {
      * @global moodle_database $DB
      * @global object $USER
      * @param int $userid
-     * @return void
+     * @return boolean if this user is allowed to view user with given userid.
      */
     private static function _require_same_institution($userid) {
         global $DB, $USER;
 
-//neuer User wird angelegt
-        if ($userid == -1)
-            return;
+        // ... return if a new user is created.
+        if ($userid == -1) {
+            return true;
+        }
 
-//User bearbeitet eigenes Formular
-        if ($userid == $USER->id)
-            return;
+        // ... institution is the same for equal users.
+        if ($userid == $USER->id) {
+            return true;
+        }
 
-//falls das erforderliche Recht existiert weiter zum original Skript
-        if (has_capability("block/dlb:institutionview", get_system_context()))
-            return;
-
-//Gültigkeitsprüfung ist bereits erfolgt!
+        // ... nothing to do, if user has cap to view other institutions.
+        if (has_capability("block/dlb:institutionview", get_system_context())) {
+            return true;
+        }
+        
+        // ... check institution.
         $user = $DB->get_record('user', array('id' => $userid));
 
         if (empty($USER->institution)) {
@@ -73,47 +76,85 @@ class datenschutz {
         }
     }
 
-    /** bricht das Skript mit einer Fehlermeldung ab, falls der eingeloggte User nicht
-     * das Recht hat User anderer Schulen (Feld Institution) zu sehen und der User zur übergebenen
-     * User-ID nicht den gleichen Wert im Feld Schule (Institution) hat
+    /** print error, when this user is not allowed to send a message or do some
+     * other action (i. e. block contact etc.) related to given user.
      *
      * @global moodle_database $DB
      * @global object $USER
      * @param int $userid
-     * @return void
+     * @return boolean true id user is allowed to do some message actions.
      */
-    private static function _require_cap_to_view_user($userid) {
+    private static function can_do_message_actions($userid) {
         global $DB, $USER;
 
-//User bearbeitet eigenes Formular
-        if ($userid == $USER->id)
-            return;
+        // ... user may send a messagen to himself.
+        if ($userid == $USER->id) {
+            return true;
+        }
 
-//falls das erforderliche Recht existiert weiter zum original Skript
-        if (has_capability("block/dlb:institutionview", get_system_context()))
-            return;
+        // ... this user may send messages to everyone.
+        if (has_capability("block/dlb:institutionview", get_system_context())) {
+            return true;
+        }
 
-//Gültigkeitsprüfung ist bereits erfolgt!
+        // ... check same institution.
         $user = $DB->get_record('user', array('id' => $userid));
 
+        // ... user must have same instituion.
         if (empty($USER->institution)) {
             print_error('noinstitutionerror', 'block_dlb');
         }
 
-        if ($USER->institution == $user->institution)
-            return;
+        if ($USER->institution == $user->institution) {
+            return true;
+        }
 
-//falls $USER und $userid in gleichem Kurs sind, ok
+        // ... if user is participant in same course.
         $datenschutz = datenschutz::getInstance();
         $usertogether = $datenschutz->_get_userids_together_in_course($userid);
-        if (in_array($USER->id, array_keys($usertogether)))
-            return;
+
+        if (in_array($USER->id, array_keys($usertogether))) {
+            return true;
+        }
+
+        // ... if user has got a message from recipient already.
+        if ($datenschutz->has_sent_messages($userid, $USER->id)) {
+            return true;
+        }
 
         print_error('nopermissiontoviewuser', 'block_dlb');
     }
 
-    /** gibt alle Ids der User, die mit diesem User gemeinsam in einen Kurs
-     * eingeschrieben sind.
+    /** check, whether there are messages sent between users.
+     * 
+     * 
+     * @global moodle_database $DB
+     * @param type $useridfrom
+     * @param type $useridto
+     * @return type
+     */
+    private function has_sent_messages($useridfrom, $useridto) {
+        global $DB;
+
+        // ... check read messages.
+        $sql = "SELECT count(*) FROM {message_read} 
+                WHERE useridfrom = ? AND useridto = ?";
+
+        $count = $DB->count_records_sql($sql, array($useridfrom, $useridto));
+
+        // ... if no read messages, check unread messages.
+        if ($count == 0) {
+
+            $sql = "SELECT count(*) FROM {message} 
+                    WHERE useridfrom = ? AND useridto = ?";
+
+            $count = $DB->count_records_sql($sql, array($useridfrom, $useridto));
+        }
+
+        return ($count > 0);
+    }
+
+    /** get all users, which are enrolled in courses with this user ($USER).
      *
      * @global moodle_database $DB
      * @param int $userid, die ID des Users
@@ -122,8 +163,9 @@ class datenschutz {
     private function _get_userids_together_in_course($userid) {
         global $DB;
 
-        if (isset($this->userids_together_in_course))
+        if (isset($this->userids_together_in_course)) {
             return $this->userids_together_in_course;
+        }
 
         $sql = "SELECT DISTINCT userid FROM {user_enrolments} ue " .
                 "JOIN {enrol} e ON e.id = ue.enrolid " .
@@ -146,9 +188,10 @@ class datenschutz {
     private static function _addInstitutionFilter($wherecondition = "", $tablealias = "", $strictinstitution = false) {
         global $USER;
 
-//Wenn $USER über Institutsgrenzen hinaus sehen kann, nichts ändern
-        if (has_capability("block/dlb:institutionview", get_system_context()))
+        // ... nothing to do, if user has cap to view other institutions.
+        if (has_capability("block/dlb:institutionview", get_system_context())) {
             return $wherecondition;
+        }
 
         if (empty($USER->institution)) {
             print_error('noinstitutionerror', 'block_dlb');
@@ -162,8 +205,7 @@ class datenschutz {
             return $wherecondition;
         }
 
-//Wenn $USER nicht das Recht hat über Institutsgrenzen hinaus zu sehen
-//muss das Feld Institution gleich sein oder der die User belegen gemeinsam einen Kurs
+        // ...check if users are enrolled in the same course.
         $datenschutz = datenschutz::getInstance();
         $userids = $datenschutz->_get_userids_together_in_course($USER->id);
 
@@ -172,6 +214,7 @@ class datenschutz {
             $userids = array_keys($userids);
             $wherecondition .= " (({$tablealias}institution = '{$USER->institution}') or {$tablealias}id IN (" . implode(",", $userids) . ")) ";
             return $wherecondition;
+            
         } else {
 
             $wherecondition .= " ({$tablealias}institution = '{$USER->institution}')";
@@ -179,7 +222,7 @@ class datenschutz {
         }
     }
 
-    /*     * **************************************************************************************
+    /****************************************************************************************
      * nachfolgend sind alle verwendeten Corecode-Hacks gelistet.
      * Die Funktionsbezeichnung wird nach der Position des Hacks gebildet:
      *
@@ -378,11 +421,11 @@ class datenschutz {
             $username = $mform->createElement('static', 'username', get_string('username'));
             $mform->insertElementBefore($username, 'firstname');
         }
-        
+
         // Felder für User, die editadvanced aufrufen können weil sie das Recht
         // moodle/user:update haben, aber keine Admins sind, trotzdem sperren.
         if (has_capability('moodle/user:update', context_system::instance())) {
-            
+
             //Anmeldenamen schützen
             if ($mform->elementExists('username')) {
                 //ersetzt Inputfeld durch Anzeige
@@ -390,7 +433,7 @@ class datenschutz {
                 //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
                 $mform->setConstants(array('username' => $user->username));
             }
-            
+
             //restliche Einstellungen des Auth-Plugins schützen
             $fields = get_user_fieldnames();
             $authplugin = get_auth_plugin($user->auth);
@@ -479,11 +522,19 @@ class datenschutz {
      * @return void
      */
     public static function hook_message_index($user2id) {
-        if ($user2id == 0)
-            return;
-if(has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM),$user2id))
-         return;
-        datenschutz::_require_cap_to_view_user($user2id);
+
+        // ... allow actions not regarding a foreign user.
+        if ($user2id == 0) {
+            return true;
+        }
+
+        // ... allow all actions for administrators.
+        if (has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM), $user2id)) {
+            return true;
+        }
+        
+        // ...check whether $USER has the permission to run the message/index.php script.
+        datenschutz::can_do_message_actions($user2id);
     }
 
     /** @HOOK DS 18 Hook in lib/filelib.php

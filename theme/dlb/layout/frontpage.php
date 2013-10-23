@@ -61,14 +61,14 @@ echo $OUTPUT->doctype(); ?>
                 <a href="https://mebis.bayern.de/">
                     <div id="menuItemMebis" class="mainMenuMebis"> </div>
                 </a>
-                <a href="https://mediathek.mebis.bayern.de/archiv.php">
-                    <div id="menuItemArch" class="mainMenuArchive"> </div>
+               <a href="https://mediathek.mebis.bayern.de/">
+                    <div id="menuItemMediathek" class="mainMenuMediathek"> </div>
                 </a>
                 <a href="https://lernplattform.mebis.bayern.de">
                     <div id="menuItemMoodle" class="mainMenuLMSActive"> </div>
                 </a>
-                <a href="https://mediathek.mebis.bayern.de/">
-                    <div id="menuItemMediathek" class="mainMenuMediathek"> </div>
+                 <a href="https://mediathek.mebis.bayern.de/archiv.php">
+                    <div id="menuItemArch" class="mainMenuArchive"> </div>
                 </a>
             </div>
             <div id="toolbar-wrapper">

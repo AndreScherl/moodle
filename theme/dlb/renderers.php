@@ -361,7 +361,7 @@ class theme_dlb_core_renderer extends core_renderer {
                     </div>
                 </a>
                 <a href="http://www.km.bayern.de/" target="_blank">
-                    <div class="logo_stmuk" alt="Link zur Homepage des Bayerischen Staatsministeriums für Unterricht und Kultus " title="Link zur Homepage des Bayerischen Staatsministeriums für Unterricht und Kultus ">
+                    <div class="logo_stmuk" alt="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst " title="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst ">
                     </div>
                 </a>
             </div>

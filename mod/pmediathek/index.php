@@ -24,3 +24,75 @@
  
 require_once(dirname(__FILE__).'/../../config.php');
 
+$id = required_param('id', PARAM_INT); // course id
+
+$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
+
+require_course_login($course, true);
+$PAGE->set_pagelayout('incourse');
+
+add_to_log($course->id, 'pmediathek', 'view all', "index.php?id=$course->id", '');
+
+$strpmediathek       = get_string('modulename', 'pmediathek');
+$strpmediatheks      = get_string('modulenameplural', 'pmediathek');
+$strsectionname  = get_string('sectionname', 'format_'.$course->format);
+$strname         = get_string('name');
+$strintro        = get_string('moduleintro');
+$strlastmodified = get_string('lastmodified');
+
+$PAGE->set_url('/mod/pmediathek/index.php', array('id' => $course->id));
+$PAGE->set_title($course->shortname.': '.$strpmediatheks);
+$PAGE->set_heading($course->fullname);
+$PAGE->navbar->add($strpmediatheks);
+echo $OUTPUT->header();
+
+if (!$pmediatheks = get_all_instances_in_course('pmediathek', $course)) {
+    notice(get_string('thereareno', 'moodle', $strpmediatheks), "$CFG->wwwroot/course/view.php?id=$course->id");
+    exit;
+}
+
+$usesections = course_format_uses_sections($course->format);
+
+$table = new html_table();
+$table->attributes['class'] = 'generaltable mod_index';
+
+if ($usesections) {
+    $table->head  = array ($strsectionname, $strname, $strintro);
+    $table->align = array ('center', 'left', 'left');
+} else {
+    $table->head  = array ($strlastmodified, $strname, $strintro);
+    $table->align = array ('left', 'left', 'left');
+}
+
+$modinfo = get_fast_modinfo($course);
+$currentsection = '';
+foreach ($pmediatheks as $pmediathek) {
+    $cm = $modinfo->get_cm($pmediathek->coursemodule);
+    if ($usesections) {
+        $printsection = '';
+        if ($pmediathek->section !== $currentsection) {
+            if ($pmediathek->section) {
+                $printsection = get_section_name($course, $pmediathek->section);
+            }
+            if ($currentsection !== '') {
+                $table->data[] = 'hr';
+            }
+            $currentsection = $pmediathek->section;
+        }
+    } else {
+        $printsection = '<span class="smallinfo">'.userdate($pmediathek->timemodified)."</span>";
+    }
+
+    $extra = $cm->get_extra_classes();
+    $icon = '<img src="'.$cm->get_icon_url().'" class="activityicon iconlarge" alt="'.get_string('modulename', $cm->modname).'" /> ';
+
+    $class = $pmediathek->visible ? '' : 'class="dimmed"'; // hidden modules are dimmed
+    $table->data[] = array (
+        $printsection,
+        "<a $class $extra href=\"view.php?id=$cm->id\">".$icon.format_string($pmediathek->name)."</a>",
+        format_module_intro('pmediathek', $pmediathek, $cm->id));
+}
+
+echo html_writer::table($table);
+
+echo $OUTPUT->footer();

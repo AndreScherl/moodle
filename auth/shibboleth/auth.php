@@ -1,4 +1,4 @@
-<?php
+_change<?php
 /**
  * @author Martin Dougiamas
  * @author Lukas Haemmerle
@@ -185,7 +185,9 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      * @return bool
      */
     function can_change_password() {
-        return false;
+        
+        // +++ mmantlik enable password changing.
+        return true;
     }
 
      /**

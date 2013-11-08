@@ -59,8 +59,10 @@ class repository_pmediathek extends repository {
                                                                         'returntypes' => $this->options['returntypes'],
                                                                         'filetypes' => $this->get_filetypes()));
         $ret = array(
-            'nologin' => true,
+            'nologin' => false,
+            'logouttext' => get_string('newsearch', 'repository_pmediathek'),
             'nosearch' => true,
+            'norefresh' => true,
             'object' => array(
                 'type' => 'text/html',
                 'src' => $url->out(false),

@@ -50,6 +50,7 @@ $string['levellist'] = 'Level';
 $string['license'] = 'License';
 $string['logqueries'] = 'Log Mediathek queries';
 $string['logqueries_desc'] = '(Debug only) If enabled, then all queries sent to the Mediathek server will be logged in \'{$a}\'';
+$string['newsearch'] = 'New search';
 $string['noresults'] = 'No results found';
 $string['noselection'] = '[No selection]';
 $string['notalloweddownload'] = 'This file is restricted from downloading into this site';

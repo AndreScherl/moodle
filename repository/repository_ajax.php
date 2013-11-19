@@ -54,7 +54,7 @@ $usefilereference  = optional_param('usefilereference', false, PARAM_BOOL);
 $returntypes = optional_param('returntypes', null, PARAM_INT);  // SYNERGY LEARNING - list of returntypes currently accepted
 
 list($context, $course, $cm) = get_context_info_array($contextid);
-require_login($course, false, $cm);
+require_login($course, false, $cm, false, true);
 $PAGE->set_context($context);
 
 echo $OUTPUT->header(); // send headers

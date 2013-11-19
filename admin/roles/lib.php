@@ -1034,6 +1034,12 @@ class potential_assignees_below_course extends role_assign_user_selector_base {
         if ($wherecondition) {
             $wherecondition = ' AND ' . $wherecondition;
         }
+        
+         //+++ awag DS23:Rollenzuweisung außerhalb des Kurses
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_admin_roles_lib_potential_assignees_below_course($wherecondition);
+        //--- awag   
 
         $fields      = 'SELECT ' . $this->required_fields_sql('u');
         $countfields = 'SELECT COUNT(u.id)';
@@ -1219,9 +1225,14 @@ class potential_assignees_course_and_above extends role_assign_user_selector_bas
         global $DB;
 
         list($wherecondition, $params) = $this->search_sql($search, '');
-
         $fields      = 'SELECT ' . $this->required_fields_sql('');
         $countfields = 'SELECT COUNT(1)';
+        
+         //+++ awag DS25:Rollenzuweisung außerhalb des Kurses
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_admin_roles_potential_assignees_course_and_above($wherecondition);
+        //--- awag
 
         $sql = " FROM {user}
                 WHERE $wherecondition
@@ -1649,10 +1660,10 @@ class admins_potential_selector extends user_selector_base {
     public function find_users($search) {
         global $CFG, $DB;
         list($wherecondition, $params) = $this->search_sql($search, '');
-
+        
         $fields      = 'SELECT ' . $this->required_fields_sql('');
         $countfields = 'SELECT COUNT(1)';
-
+        
         $sql = " FROM {user}
                 WHERE $wherecondition AND mnethostid = :localmnet";
 

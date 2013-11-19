@@ -245,6 +245,13 @@ class course_enrolment_manager {
             list($ctxcondition, $params) = $DB->get_in_or_equal(get_parent_contexts($this->context, true), SQL_PARAMS_NAMED, 'ctx');
             $params['courseid'] = $this->course->id;
             $params['cid'] = $this->course->id;
+            
+             //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
+            global $CFG;
+            require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+            $wherecondition = datenschutz::hook_enrol_locallib_get_other_users();
+            //--- awag      
+            
             $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, u.*, ue.lastseen
                     FROM {role_assignments} ra
                     JOIN {user} u ON u.id = ra.userid
@@ -257,7 +264,7 @@ class course_enrolment_manager {
                         WHERE e.courseid = :courseid
                        ) ue ON ue.userid=u.id
                    WHERE ctx.id $ctxcondition AND
-                         ue.id IS NULL
+                         ue.id IS NULL {$wherecondition}
                 ORDER BY u.$sort $direction, ctx.depth DESC";
             $this->otherusers[$key] = $DB->get_records_sql($sql, $params, $page*$perpage, $perpage);
         }
@@ -386,6 +393,12 @@ class course_enrolment_manager {
 
         list($ufields, $params, $wherecondition) = $this->get_basic_search_conditions($search, $searchanywhere);
 
+        //+++ awag DS24:Sichtbarkeitstrennung-Einschreibung
+        global $CFG;
+        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
+        $wherecondition = datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
+        //--- awag     
+        
         $fields      = 'SELECT ' . $ufields;
         $countfields = 'SELECT COUNT(u.id)';
         $sql   = " FROM {user} u

@@ -737,4 +737,61 @@ class datenschutz {
         return $output;
     }
 
+    /** @HOOK DS22: Hook in enrol/locallib.php course_enrolment_manager->get_other_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (unter Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     * @return string
+     */
+    public static function hook_enrol_locallib_get_other_users() {
+        
+        $whereinstitution = datenschutz::_addInstitutionFilter("", "u.", true);
+        if (!empty($whereinstitution)) {
+            $whereinstitution =  " AND ".$whereinstitution;
+        }
+        return $whereinstitution;
+    }
+    
+    /** @HOOK DS23: Hook in admin/roles/lib.php potential_assignees_below_course->find_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (unter Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     * @return string
+     */
+    public static function hook_admin_roles_lib_potential_assignees_below_course($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+    }
+    
+     /** @HOOK DS24: Hook in enrol/locallib.php course_enrolment_manager->search_other_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (unter Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     * @return string
+     */
+    public static function hook_enrol_locallib_search_other_users($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
+    }
+    
+    /** @HOOK DS25: Hook in admin/roles/lib.php potential_assignees_course_and_above->find_users()
+     * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
+     * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
+     * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
+     * (unter Verwendung von AJAX) sieht
+     *
+     * @param String $wherecondition
+     * @return string
+     */
+    public static function hook_admin_roles_potential_assignees_course_and_above($wherecondition) {
+        return datenschutz::_addInstitutionFilter($wherecondition, "", true);
+    }
+   
 }

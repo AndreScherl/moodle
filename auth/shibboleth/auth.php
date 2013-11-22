@@ -1,4 +1,4 @@
-_change<?php
+<?php
 /**
  * @author Martin Dougiamas
  * @author Lukas Haemmerle

@@ -533,6 +533,7 @@ class repository_pmediathek_exam_search_form extends moodleform {
         }
         $years = $api->get_exam_year_list(true);
         $types = $api->get_exam_resource_type_list(true);
+        $resourcemap = $api->get_exam_resource_map(true);
 
         $mform->addElement('select', 'examtype', get_string('examtype', 'repository_pmediathek'), $examtypes);
         $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
@@ -543,6 +544,7 @@ class repository_pmediathek_exam_search_form extends moodleform {
 
         $options = array(
             'subjects' => $examsubjects,
+            'resourcemap' => $resourcemap,
         );
         $PAGE->requires->yui_module('moodle-repository_pmediathek-searchform', 'M.repository_pmediathek.searchform.init',
                                     array($options), null, true);

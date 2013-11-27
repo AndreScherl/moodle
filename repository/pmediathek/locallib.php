@@ -581,6 +581,7 @@ class repository_pmediathek_school_search_form extends moodleform {
         $grades = $api->get_grade_list(true);
         $years = $api->get_school_year_list(true);
         $types = $api->get_school_resource_type_list(true);
+        $resourcemap = $api->get_school_resource_map(true);
 
         $mform->addElement('select', 'school', get_string('school', 'repository_pmediathek'), $schools);
         $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
@@ -592,6 +593,7 @@ class repository_pmediathek_school_search_form extends moodleform {
 
         $options = array(
             'subjects' => $schoolsubjects,
+            'resourcemap' => $resourcemap,
         );
         $PAGE->requires->yui_module('moodle-repository_pmediathek-searchform', 'M.repository_pmediathek.searchform.init',
                                     array($options), null, true);

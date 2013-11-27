@@ -72,7 +72,7 @@ class repository_pmediathek_api {
         }
         if ($this->listtype == self::LIST_KEYVALUE) {
             if ($includeany) {
-                $list = array('' => $anystr) + $list;
+                $list = array(null => $anystr) + $list;
             }
             return $list;
         }
@@ -80,7 +80,7 @@ class repository_pmediathek_api {
         // Convert to array containing 'label' and 'value' fields (for the repository search form).
         $ret = array();
         if ($includeany) {
-            $ret[] = array('label' => $anystr, 'value' => '');
+            $ret[] = array('label' => $anystr, 'value' => null);
         }
         foreach ($list as $key => $value) {
             $ret[] = array('label' => $value, 'value' => $key);
@@ -192,13 +192,23 @@ class repository_pmediathek_api {
     }
 
     public function get_exam_resource_map($includeany = false) {
-        $data = $this->load_resource_map($includeany);
-        return $data->exam;
+        $data = $this->load_resource_map();
+        foreach ($data->exam->map as $examid => $subjects) {
+            foreach ($subjects as $subjectid => $resources) {
+                $data->exam->map[$examid][$subjectid] = $this->prepare_list($data->exam->map[$examid][$subjectid], $includeany);
+            }
+        }
+        return $data->exam->map;
     }
 
     public function get_school_resource_map($includeany = false) {
-        $data = $this->load_resource_map($includeany);
-        return $data->school;
+        $data = $this->load_resource_map();
+        foreach ($data->school->map as $examid => $subjects) {
+            foreach ($subjects as $subjectid => $resources) {
+                $data->school->map[$examid][$subjectid] = $this->prepare_list($data->school->map[$examid][$subjectid], $includeany);
+            }
+        }
+        return $data->school->map;
     }
 
     protected function load_resource_map() {
@@ -514,7 +524,7 @@ class repository_pmediathek_api {
                     $resourceid = (string)($resource->attributes()['id']);
                     $resourcename = (string)($resource->attributes()['label']);
                     $ret->resources[$resourceid] = $resourcename;
-                    $resourcemap[] = $resourceid;
+                    $resourcemap[$resourceid] = $resourcename;
                 }
                 $subjmap[$subjid] = $resourcemap;
             }

@@ -62,25 +62,30 @@ class repository_pmediathek_api {
             $list = $this->parse_response_list($resp);
             $this->settings->set($name, $list);
         }
+        return $this->prepare_list($list, $includeany);
+    }
+
+    protected function prepare_list($list, $includeany) {
         $anystr = $includeany;
         if ($includeany && !is_string($includeany)) {
             $anystr = get_string('any', 'repository_pmediathek');
         }
         if ($this->listtype == self::LIST_KEYVALUE) {
             if ($includeany) {
-                $list = array('' => $anystr) + $list;
+                $list = array(null => $anystr) + $list;
             }
             return $list;
-        } else { // Convert to array containing 'label' and 'value' fields (for the repository search form)
-            $ret = array();
-            if ($includeany) {
-                $ret[] = array('label' => $anystr, 'value' => '');
-            }
-            foreach ($list as $key => $value) {
-                $ret[] = array('label' => $value, 'value' => $key);
-            }
-            return $ret;
         }
+
+        // Convert to array containing 'label' and 'value' fields (for the repository search form).
+        $ret = array();
+        if ($includeany) {
+            $ret[] = array('label' => $anystr, 'value' => null);
+        }
+        foreach ($list as $key => $value) {
+            $ret[] = array('label' => $value, 'value' => $key);
+        }
+        return $ret;
     }
 
     public function get_search_mode_list($includeany = false) {
@@ -125,10 +130,13 @@ class repository_pmediathek_api {
 
     public function get_exam_subject_lists($includeany = false) {
         $result = array();
-        $examtypes = $this->get_exam_type_list();
-        foreach ($examtypes as $examtype => $displayname) {
-            $apicall = 'getArchiveSubjectList_'.str_replace('-', '_', $examtype);
-            $result[$examtype] = $this->return_list('examsubject_'.$examtype, $apicall, $includeany);
+        $map = $this->load_resource_map();
+        foreach ($map->exam->map as $examid => $subjects) {
+            $subj = array();
+            foreach ($subjects as $subjectid => $unused) {
+                $subj[$subjectid] = $map->exam->subjects[$subjectid];
+            }
+            $result[$examid] = $this->prepare_list($subj, $includeany);
         }
         return $result;
     }
@@ -138,9 +146,10 @@ class repository_pmediathek_api {
     }
 
     public function get_exam_resource_type_list($includeany = false) {
-        return $this->return_list('examresourcetype', 'getArchiveExamResourcetypeList', $includeany);
+        $map = $this->load_resource_map();
+        asort($map->exam->resources);
+        return $this->prepare_list($map->exam->resources, $includeany);
     }
-
 
     public function get_school_type_list($includeany = false) {
         return $this->return_list('schooltypelist', 'getArchiveTestContextList', $includeany);
@@ -148,10 +157,13 @@ class repository_pmediathek_api {
 
     public function get_school_subject_lists($includeany = false) {
         $result = array();
-        $schooltypes = $this->get_school_type_list();
-        foreach ($schooltypes as $schooltype => $displayname) {
-            $apicall = 'getArchiveSubjectList_'.str_replace('-', '_', $schooltype);
-            $result[$schooltype] = $this->return_list('schoolsubject_'.$schooltype, $apicall, $includeany);
+        $map = $this->load_resource_map();
+        foreach ($map->school->map as $schoolid => $subjects) {
+            $subj = array();
+            foreach ($subjects as $subjectid => $unused) {
+                $subj[$subjectid] = $map->school->subjects[$subjectid];
+            }
+            $result[$schoolid] = $this->prepare_list($subj, $includeany);
         }
         return $result;
     }
@@ -164,7 +176,9 @@ class repository_pmediathek_api {
         return $this->return_list('schoolyear', 'getArchiveTestYearList', $includeany);
     }
     public function get_school_resource_type_list($includeany = false) {
-        return $this->return_list('schoolresourcetype', 'getArchiveTestResourcetypeList', $includeany);
+        $map = $this->load_resource_map();
+        asort($map->school->resources);
+        return $this->prepare_list($map->school->resources, $includeany);
     }
 
     public function get_p_restriction_list($includeany = false) {
@@ -176,6 +190,37 @@ class repository_pmediathek_api {
         $resp = $this->do_request('getTagList', array('userID' => $USER->id));
         return $this->parse_response_list($resp);
     }
+
+    public function get_exam_resource_map($includeany = false) {
+        $data = $this->load_resource_map();
+        foreach ($data->exam->map as $examid => $subjects) {
+            foreach ($subjects as $subjectid => $resources) {
+                $data->exam->map[$examid][$subjectid] = $this->prepare_list($data->exam->map[$examid][$subjectid], $includeany);
+            }
+        }
+        return $data->exam->map;
+    }
+
+    public function get_school_resource_map($includeany = false) {
+        $data = $this->load_resource_map();
+        foreach ($data->school->map as $examid => $subjects) {
+            foreach ($subjects as $subjectid => $resources) {
+                $data->school->map[$examid][$subjectid] = $this->prepare_list($data->school->map[$examid][$subjectid], $includeany);
+            }
+        }
+        return $data->school->map;
+    }
+
+    protected function load_resource_map() {
+        $map = $this->settings->get('resourcemap');
+        if (!$map) {
+            $resp = $this->do_request('getArchiveValueList');
+            $map = $this->parse_response_map($resp);
+            $this->settings->set('resourcemap', $map);
+        }
+        return $map;
+    }
+
 
     /**
      * Perform the search on the Mediathek server
@@ -370,6 +415,9 @@ class repository_pmediathek_api {
             $this->totalresults = 0;
         }
 
+        if (!empty($response->archiveTypes)) {
+            return $response->archiveTypes; // Returned by getArchiveValueList.
+        }
         return $response->items;
     }
 
@@ -427,6 +475,60 @@ class repository_pmediathek_api {
                 $file->{$fieldname} = $value;
             }
             $ret[] = $file;
+        }
+
+        return $ret;
+    }
+
+    protected function parse_response_map(SimpleXMLElement $resp) {
+        $ret = (object)array(
+            'exam' => null,
+            'school' => null,
+        );
+
+        foreach ($resp->archiveType as $archivetype) {
+            $attrib = $archivetype->attributes();
+            if ((string)$attrib['id'] == 'examinations') {
+                $ret->exam = $this->parse_response_examination_type($archivetype->examinationType);
+            } else if ((string)$attrib['id'] == 'annualTest') {
+                $ret->school = $this->parse_response_examination_type($archivetype->examinationType);
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @param SimpleXMLElement[] $examtypes
+     * @return object
+     */
+    protected function parse_response_examination_type($examtypes) {
+        $ret = (object)array(
+            'exams' => array(),
+            'subjects' => array(),
+            'resources' => array(),
+            'map' => array(),
+        );
+
+        foreach ($examtypes as $examtype) {
+            $examid = (string)($examtype->attributes()['id']);
+            $examname = (string)($examtype->attributes()['label']);
+            $ret->exams[$examid] = $examname;
+            $subjmap = array();
+            foreach ($examtype->subject as $subject) {
+                $subjid = (string)($subject->attributes()['id']);
+                $subjname = (string)($subject->attributes()['label']);
+                $ret->subjects[$subjid] = $subjname;
+                $resourcemap = array();
+                foreach ($subject->resourcetype as $resource) {
+                    $resourceid = (string)($resource->attributes()['id']);
+                    $resourcename = (string)($resource->attributes()['label']);
+                    $ret->resources[$resourceid] = $resourcename;
+                    $resourcemap[$resourceid] = $resourcename;
+                }
+                $subjmap[$subjid] = $resourcemap;
+            }
+            $ret->map[$examid] = $subjmap;
         }
 
         return $ret;

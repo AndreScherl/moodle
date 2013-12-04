@@ -511,18 +511,21 @@ class repository_pmediathek_api {
         );
 
         foreach ($examtypes as $examtype) {
-            $examid = (string)($examtype->attributes()['id']);
-            $examname = (string)($examtype->attributes()['label']);
+            $attrib = $examtype->attributes();
+            $examid = (string)($attrib['id']);
+            $examname = (string)($attrib['label']);
             $ret->exams[$examid] = $examname;
             $subjmap = array();
             foreach ($examtype->subject as $subject) {
-                $subjid = (string)($subject->attributes()['id']);
-                $subjname = (string)($subject->attributes()['label']);
+                $attrib = $subject->attributes();
+                $subjid = (string)($attrib['id']);
+                $subjname = (string)($attrib['label']);
                 $ret->subjects[$subjid] = $subjname;
                 $resourcemap = array();
                 foreach ($subject->resourcetype as $resource) {
-                    $resourceid = (string)($resource->attributes()['id']);
-                    $resourcename = (string)($resource->attributes()['label']);
+                    $attrib = $resource->attributes();
+                    $resourceid = (string)($attrib['id']);
+                    $resourcename = (string)($attrib['label']);
                     $ret->resources[$resourceid] = $resourcename;
                     $resourcemap[$resourceid] = $resourcename;
                 }

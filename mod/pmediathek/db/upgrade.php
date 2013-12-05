@@ -43,7 +43,7 @@ function xmldb_pmediathek_upgrade($oldversion) {
         rebuild_course_cache(0, true); // To make sure the popup javascript is added.
 
         // url savepoint reached
-        upgrade_mod_savepoint(true, 2013120500, 'url');
+        upgrade_mod_savepoint(true, 2013120500, 'pmediathek');
     }
 
     return true;

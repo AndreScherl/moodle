@@ -40,6 +40,8 @@ function xmldb_pmediathek_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        rebuild_course_cache(0, true); // To make sure the popup javascript is added.
+
         // url savepoint reached
         upgrade_mod_savepoint(true, 2013120500, 'url');
     }

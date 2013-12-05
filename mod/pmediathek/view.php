@@ -23,7 +23,8 @@
  */
  
 require_once(dirname(__FILE__).'/../../config.php');
-global $DB, $PAGE, $OUTPUT;
+global $CFG, $DB, $PAGE, $OUTPUT;
+require_once($CFG->libdir.'/resourcelib.php');
 
 $id = required_param('id', PARAM_INT);
 
@@ -48,5 +49,19 @@ echo $OUTPUT->header();
 if (!empty($pmediathek->intro)) {
     echo format_module_intro('pmediathek', $pmediathek, $cm->id);
 }
-echo html_writer::tag('iframe', '', array('class' => 'pmediathek_embed', 'src' => $exturl));
+
+if ($pmediathek->display == RESOURCELIB_DISPLAY_EMBED) {
+    echo html_writer::tag('iframe', '', array('class' => 'pmediathek_embed', 'src' => $exturl));
+} else { // RESOURCELIB_DISPLAY_POPUP
+
+    $jsexturl = addslashes_js($exturl);
+    $width  = 620;
+    $height = 450;
+    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
+    $extra = "onclick=\"window.open('$jsexturl', '', '$wh'); return false;\"";
+
+    echo '<div class="urlworkaround">';
+    print_string('clicktoopen', 'url', "<a href=\"$exturl\" $extra>$exturl</a>");
+    echo '</div>';
+}
 echo $OUTPUT->footer();

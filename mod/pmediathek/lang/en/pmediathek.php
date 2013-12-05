@@ -24,6 +24,13 @@
  
 defined('MOODLE_INTERNAL') || die();
 
+$string['displayselect'] = 'Display';
+$string['displayselect_help'] = 'This setting determines how the URL is displayed. Options are:
+
+* Embed - The URL is displayed within the page below the navigation bar together with the URL description and any blocks
+* In pop-up - The URL is displayed in a new browser window without menus or an address bar
+';
+$string['displayselectexplain'] = 'Choose display type, unfortunately not all types are suitable for all URLs.';
 $string['modulename'] = 'Prüfungsarchiv';
 $string['modulename_help'] = 'This activity allows you to insert resources from the Prüfungsarchiv repository.';
 $string['modulenameplural'] = 'Prüfungsarchiv';

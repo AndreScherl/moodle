@@ -37,7 +37,7 @@ class backup_pmediathek_activity_structure_step extends backup_activity_structur
 
         // Define each element separated
         $pmediathek = new backup_nested_element('pmediathek', array('id'),
-                                                array('name', 'intro', 'introformat', 'externalurl', 'timemodified'));
+                                                array('name', 'intro', 'introformat', 'externalurl', 'timemodified', 'display'));
 
 
         // Build the tree

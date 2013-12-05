@@ -79,3 +79,24 @@ function pmediathek_delete_instance($id) {
     return true;
 }
 
+function pmediathek_get_coursemodule_info($coursemodule) {
+    global $DB;
+
+    if (!$pmediathek = $DB->get_record('pmediathek', array('id' => $coursemodule->instance))) {
+        return null;
+    }
+
+    $info = new cached_cm_info();
+    $info->name = $pmediathek->name;
+
+    if ($pmediathek->display == RESOURCELIB_DISPLAY_POPUP) {
+        $jsexturl = addslashes_js($pmediathek->externalurl);
+        $width  = 620;
+        $height = 450;
+        $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
+        $info->onclick = "window.open('$jsexturl', '', '$wh'); return false;";
+    }
+
+    return $info;
+}
+

@@ -30,6 +30,8 @@ require_once($CFG->dirroot.'/mod/pmediathek/urlpmediathek.php');
 class mod_pmediathek_mod_form extends moodleform_mod {
     function definition() {
         global $CFG;
+        require_once($CFG->libdir.'/resourcelib.php');
+
         $mform = $this->_form;
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -46,6 +48,15 @@ class mod_pmediathek_mod_form extends moodleform_mod {
         $mform->addElement('header', 'content', get_string('contentheader', 'url'));
         $mform->addElement('urlpmediathek', 'externalurl', get_string('externalurl', 'url'), array('size'=>'60'), array('usefilepicker'=>true));
         $mform->addRule('externalurl', null, 'required', null, 'client');
+
+        $options = array(
+            RESOURCELIB_DISPLAY_POPUP => get_string('resourcedisplaypopup'),
+            RESOURCELIB_DISPLAY_EMBED => get_string('resourcedisplayembed'),
+        );
+        $mform->addElement('select', 'display', get_string('displayselect', 'mod_pmediathek'), $options);
+        $mform->setDefault('display', RESOURCELIB_DISPLAY_POPUP);
+        $mform->addHelpButton('display', 'displayselect', 'mod_pmediathek');
+
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();

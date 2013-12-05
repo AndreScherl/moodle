@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  
 /**
- * Version information for Prüfungsarchiv activity
+ * Upgrade steps for the Prüfungsarchiv module.
  *
  * @package   mod_pmediathek
  * @copyright 2013 Davo Smith, Synergy Learning
@@ -24,15 +24,25 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2013120500;
-$module->requires  = 2012120300; // 2.2: 2011120100; 2.3: 2012062500; 2.4: 2012120300; 2.5: 2013051400
-$module->cron      = 0;
-$module->component = 'mod_pmediathek';
-$module->maturity  = MATURITY_STABLE;
-$module->release   = '2.4+ (Build: 2013092300)';
- 
-$module->dependencies = array(
-    'repository_pmediathek' => ANY_VERSION,
-);
+function xmldb_pmediathek_upgrade($oldversion) {
+    global $DB;
 
+    $dbman = $DB->get_manager();
 
+    if ($oldversion < 2013120500) {
+
+        // Define field display to be added to pmediathek
+        $table = new xmldb_table('pmediathek');
+        $field = new xmldb_field('display', XMLDB_TYPE_INTEGER, '4', null, null, null, '6', 'timemodified');
+
+        // Conditionally launch add field display
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // url savepoint reached
+        upgrade_mod_savepoint(true, 2013120500, 'url');
+    }
+
+    return true;
+}

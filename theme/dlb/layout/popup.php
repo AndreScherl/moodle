@@ -130,7 +130,7 @@ echo $OUTPUT->doctype() ?>
                         </p>
 
                         <?php
-                        echo $OUTPUT->login_info();
+                        echo $OUTPUT->login_info(false);
                         echo $OUTPUT->home_link();
                         echo $OUTPUT->standard_footer_html();
                         ?>

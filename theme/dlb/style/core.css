@@ -261,3 +261,20 @@ input[readonly=readonly], input[readonly=readonly]:focus {
 #page-admin-roles-allow .region-content form {
     overflow:auto;
 }
+
+.editprofileurl {
+    background: #efefef;
+    border: 1px solid silver;
+    
+    padding:0 4px;
+    float:right;
+}
+
+.editprofileurl a {
+    text-decoration: none;
+    color: black;
+}
+
+.editprofileurl + .fitem {
+    clear:none;
+}

@@ -1111,7 +1111,7 @@ class meineschulen {
         
         $output = html_writer::tag('input', '', 
                 array('id' => 'schoolname', 'type' => 'text',
-                    'name' => 'schoolname', 'value' => get_string('schoolsearch', 'block_meineschulen')."..."));
+                    'name' => 'schoolname', 'value' => get_string('schoolsearch', 'block_meineschulen')."...", 'onclick' => "this.value='';"));
         
         $action = self::get_search_url();
         $output .= html_writer::link($action, get_string('advancedsearch', 'block_meineschulen'),

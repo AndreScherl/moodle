@@ -16,19 +16,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'theme_dlb', language 'de', branch 'MOODLE_20_STABLE'
+ * Strings for component 'auth_shibboleth', language 'en', branch 'MOODLE_20_STABLE'
  *
- * @package   theme_dlb
- * @copyright DLB Bayern
+ * @package   auth_shibboleth
+ * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// ...awag: additional definitions for DLB.
+$string['auth_shib_editprofileurl'] = 'Link zur Änderung der persönlichen Daten';
+$string['auth_shib_editprofileurlhelp'] = 'Geben sie einen Link zur Seite des Authentifizierungssystems an, auf der die persönlichen Daten geändert werden können.';
+$string['auth_shib_editusersurl'] = 'Link zur Nutzerverwaltung';
+$string['auth_shib_editusersurlhelp'] = 'Geben Sie einen Link zum Authentifizierungssystem an, unter dem berechtigte User (Nutzerverwalter) Nutzerdaten verwalten können.';
 
-$string['editusersurl'] = 'Nutzerverwaltung';
-$string['editmysettings'] = 'Anwendungseinstellungen';
-$string['choosereadme'] = 'Designvorlage für DLB-Moodle';
-$string['loggedinas'] = 'Herzlich willkommen,{$a}';
-$string['loggedinnot'] = '';
-$string['login'] = '';
-$string['pluginname'] = 'Mebis-Design';
-$string['region-side-post'] = 'Rechts';
-$string['region-side-pre'] = 'Links';

@@ -107,6 +107,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
             // so leave $this->config->objectclass as is.
         }
 		
+        if (!empty($this->config->organisationlist)) {
 		$strOrganisations = $this->config->organisationlist;
 		$lines = explode("\n", $strOrganisations);
 		foreach ($lines as $line) {
@@ -116,6 +117,7 @@ class auth_plugin_ldapdlb extends auth_plugin_ldap {
 			$value = $org[1];
 			$this->sArr[$key] = $value;
 		}
+        }
     }
 
     /**

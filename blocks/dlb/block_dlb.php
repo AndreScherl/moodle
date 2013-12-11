@@ -185,47 +185,6 @@ class block_dlb extends block_base {
             if ($node_editcount > 0) $nodes[] = $node_editheader;
         }
 
-        $nodes_user = array();
-        
-        //Nutzerliste einsehen und bearbeiten
-        if (has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM))) {
-            
-             $properties = array(
-                'type' => navigation_node::TYPE_CUSTOM,
-                'text' => get_string('userlist', 'admin'),
-                'action' => new moodle_url('/admin/user.php'), 
-            );
-            
-            $nodes_user[] = new navigation_node($properties);
-        }
-
-        //Nutzer hochladen
-        if (has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) {
-
-             $properties = array(
-                'type' => navigation_node::TYPE_CUSTOM,
-                'text' => get_string('upload_users', 'block_dlb'),
-                'action' => new moodle_url('/admin/tool/dlbuploaduser/index.php'), 
-            );
-            
-            $nodes_user[] = new navigation_node($properties);
-        }
-
-        if (count($nodes_user) > 0) {
-            
-            $properties = array(
-                'type' => navigation_node::TYPE_ROOTNODE,
-                'text' => get_string('manage_users', 'block_dlb')
-            );
-
-            $node_manageusers = new navigation_node($properties);
-            
-            foreach ($nodes_user as $node) {
-                $node_manageusers->add_node($node);
-            }
-            $nodes[] = $node_manageusers;
-        }
-
         $renderer = $this->page->get_renderer('block_dlb');
         $str .= $renderer->navigation_tree($nodes, 2, array('depth' => '0'));
         $str .= "</div>";

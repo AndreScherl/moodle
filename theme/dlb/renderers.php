@@ -27,6 +27,9 @@ class theme_dlb_core_renderer extends core_renderer {
         //überprüft, ob das Attribut $USER->isTeacher gesetzt ist, falls nicht wird der Wert gesetzt.
         $this->check_user_isTeacher();
 
+        //setup mebiRole
+        $this->setup_mebis_roles();
+
         //lädt zusätzliche Stylesheet für die Schriftarten, Whiteboard-Theme
         $this->load_additional_stylesheets($page);
 
@@ -69,7 +72,6 @@ class theme_dlb_core_renderer extends core_renderer {
                     }
                 }
             }
-
         } else if ($CFG->theme != 'iwb') {
             //falls zusätzliche Stylesheets geladen werden sollen, hier tun
             if (($cssindex > -1) and isset($CFG->block_dlb_addcss)) {
@@ -88,6 +90,32 @@ class theme_dlb_core_renderer extends core_renderer {
         }
     }
 
+    /** get all the mebisRole coming from the authentification via shibboleth into
+     *  $USER objetct.
+     * 
+     * @global object $USER
+     * @global type $SESSION
+     * @return boolean, true if there are mebis roles available.
+     */
+    protected function setup_mebis_roles() {
+        global $USER, $SESSION;
+
+        // ... check only for real users.
+        if (isset($USER->mebisRole)) {
+            return true;
+        }
+
+        // ... garantee the attribute for all users even when no role available.
+        if (!isset($SESSION->mebisRole)) {
+            $USER->mebisRole = array();
+            return false;
+        }
+
+        // ... mebisRole is available to take it into users session data.
+        $USER->mebisRole = $SESSION->mebisRole;
+        return true;
+    }
+
     /** überprüfen, ob der User ein Lehrer ist, speichern des Ergebnisses für die
      * Dauer der Session im Attribut $USER->isTeacher
      *
@@ -100,11 +128,13 @@ class theme_dlb_core_renderer extends core_renderer {
         global $USER, $SESSION, $DB;
 
         //nur echte User zulassen....
-        if (!isloggedin() or isguestuser())
+        if (!isloggedin() or isguestuser()) {
             return false;
+        }
 
-        if (isset($USER->isTeacher))
+        if (isset($USER->isTeacher)) {
             return $USER->isTeacher;
+        }
 
         //für Shibboleth und LDAP-USER SESSION überprüfen und übernehmen.
         if (isset($SESSION->isTeacher)) {
@@ -126,7 +156,7 @@ class theme_dlb_core_renderer extends core_renderer {
         return $USER->isTeacher;
     }
 
-   /** erzeugt für das Layout general.php einen Header, der einen kursbereichsspezifischen Title und
+    /** erzeugt für das Layout general.php einen Header, der einen kursbereichsspezifischen Title und
      * ein kursbereichsspezifischen Hintergrundbild berücksichtigt.
      * @global object $CFG
      * @global object $PAGE
@@ -239,10 +269,10 @@ class theme_dlb_core_renderer extends core_renderer {
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
 
-           /*atar: Kursbereichsicon vorerst deaktiviert
-            $href = html_writer::link($CFG->wwwroot . "/blocks/meineschulen/search.php", $this->pix_icon('toolbar/toolbar-schulesuchen', 'Schule suchen', 'theme', array('title' => '')));
-            $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
-            */
+            /* atar: Kursbereichsicon vorerst deaktiviert
+              $href = html_writer::link($CFG->wwwroot . "/blocks/meineschulen/search.php", $this->pix_icon('toolbar/toolbar-schulesuchen', 'Schule suchen', 'theme', array('title' => '')));
+              $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
+             */
 
             $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
@@ -289,7 +319,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
         global $USER, $DB, $CFG;
 
- if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl))
+        if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl))
             return false;
 
         if (isset($USER->canseesupportbutton))
@@ -312,30 +342,145 @@ class theme_dlb_core_renderer extends core_renderer {
         return $USER->canseesupportbutton;
     }
 
-    /** gibt den HTML-Code des Support-button zurück, falls der User diesen sehen darf*/
+    /** returns true if user is ahtenticated via sibboleth and has appropriated role. */
+    private function can_edit_users() {
+        global $USER;
+
+        $caneditusers = (($USER->auth == 'sibboleth') && (in_array('nutzerverwalter', $USER->mebisRole)));
+
+        return $caneditusers;
+    }
+
+    /** genetate the settings menu in the toolbar
+     * Note that content of this menu depends on:
+     * 
+     * 1- authenticfication type of the user
+     * 2- the mebis role obtained by shibboleth auth.
+     * 
+     * @global object $OUTPUT
+     * @global object $USER
+     * @global object $PAGE
+     * @global type $COURSE
+     * @return string
+     */
+    public function toolbar_settings_menu() {
+        global $OUTPUT, $USER, $PAGE, $COURSE;
+
+        if (!isloggedin() or isguestuser()) {
+            return "";
+        }
+
+        // ... display always this users settings in toolbar.
+        $user = $USER;
+        $usercontext = context_user::instance($user->id); // User context
+        $currentuser = true;
+
+        $course = $COURSE;
+        $systemcontext = get_system_context();
+
+        // ... get the Authentification for this user.
+        $userauthplugin = false;
+        if (!empty($user->auth)) {
+            $userauthplugin = get_auth_plugin($user->auth);
+        }
+
+        $settingmenuitems = array();
+
+        // ... get change password link from auth-plugin for all users which:
+        // 1. has not the capability moodle/user:update
+        // 2. has the capability to edit their own profile (moodle/uzser:editownprofile)
+
+        if (!is_mnet_remote_user($user)) {
+
+            if (($currentuser || is_siteadmin($USER) || !is_siteadmin($user)) && has_capability('moodle/user:update', $systemcontext)) {
+
+                $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
+                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+            } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
+                if ($userauthplugin && $userauthplugin->can_edit_profile()) {
+                    $url = $userauthplugin->edit_profile_url();
+                    if (empty($url)) {
+                        $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
+                    }
+                    $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+                }
+            }
+        }
+
+        // ... get the passwordchangeurl from auth-plugin for all users which:
+        // 1- has capability to change their own password.
+
+        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext) && $userauthplugin->can_change_password()) {
+
+            $passwordchangeurl = $userauthplugin->change_password_url();
+
+            if (empty($passwordchangeurl)) {
+                $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
+            }
+            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword"));
+        }
+
+        // ... get the link for editing the user-specific settings for moodle.
+        if (has_capability('moodle/user:update', $systemcontext)) {
+
+            $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
+            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
+            
+        } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
+                ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
+            
+            $moodlesettingsurl = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
+            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
+        }
+
+        // ... get the userediturl from auth-plugin for all users which:
+        // 1- are authenticated via shibboleth.
+        // 2- have the mebisRole "nutzerverwalter" (i. e. can_edit_users() is true)
+
+        if ($this->can_edit_users()) {
+
+            $editusersurl = $userauthplugin->edit_users_url();
+            if (!empty($editusersurl)) {
+                $settingmenuitems[] = html_writer::link($url, get_string('editusersurltext', 'theme_dlb'));
+            }
+        }
+
+        $output = html_writer::tag('div', $OUTPUT->pix_icon('toolbar/einstellungen', get_string('settings'), 'theme_dlb'), array('id' => 'toolbar-settings', 'class' => 'toolbar-content-item'));
+
+        $submenu = html_writer::tag('ul', html_writer::tag('li', implode('</li><li>', $settingmenuitems)));
+        $output .= html_writer::tag('div', $submenu, array('class' => 'toolbar-submenu', 'id' => 'toolbar-submenu',
+                    'style' => 'display:none'
+                ));
+
+        $jsmodule = array(
+            'name' => 'theme_dlb',
+            'fullpath' => new moodle_url('/theme/dlb/js/menu.js'),
+            'requires' => array('node', 'event-mouseenter')
+        );
+
+        $args = array();
+        $PAGE->requires->js_init_call("M.theme_dlb.init", array($args), false, $jsmodule);
+
+        return $output;
+    }
+
+    /** gibt den HTML-Code des Support-button zurück, falls der User diesen sehen darf */
     public function support_button() {
-        global $USER, $DB, $CFG;
+        global $CFG;
 
-       $content = "";
-                if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)){
+        $content = "";
+        if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)) {
 
-
-             $outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
-
+            $outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
             $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
 
             $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-            $content .= "<div style=\"clear:both\"></div>";
-
-
-        }elseif (isloggedin()&&$this->can_see_supportbutton()) {
+        } elseif (isloggedin() && $this->can_see_supportbutton()) {
 
             $mylink = $CFG->block_dlb_supporturl;
-
             $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $mylink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
 
             $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-            $content .= "<div style=\"clear:both\"></div>";
         }
         return $content;
     }
@@ -343,37 +488,36 @@ class theme_dlb_core_renderer extends core_renderer {
     /** gibt die Links auf die Institutionen zurück */
     public function pagecontent_footer() {
         global $CFG;
-       if (isloggedin()){
+        if (isloggedin()) {
 
-        $content = "";
-       }
-       else{
-        ?>
+            $content = "";
+        } else {
+            ?>
 
-        <div class="page-content-footer">
-            <div id="page-content-footer-right">
-                <a href="http://alp.dillingen.de/" target="_blank">
-                    <div class="logo_alp" alt="Link zur Homepage der Akademie für Lehrerfortbildung und Personalführung Dillingen" title="Link zur Homepage der Akademie für Lehrerfortbildung und Personalführung Dillingen">
-                    </div>
-                </a>
-                <a href="http://www.isb.bayern.de/" target="_blank">
-                    <div class="logo_isb" alt="Link zur Homepage des Staatinstituts für Schulqualität und Bildungsforschung" title="Link zur Homepage des Staatinstituts für Schulqualität und Bildungsforschung">
-                    </div>
-                </a>
-                <a href="http://www.km.bayern.de/" target="_blank">
-                    <div class="logo_stmuk" alt="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst " title="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst ">
-                    </div>
-                </a>
+            <div class="page-content-footer">
+                <div id="page-content-footer-right">
+                    <a href="http://alp.dillingen.de/" target="_blank">
+                        <div class="logo_alp" alt="Link zur Homepage der Akademie für Lehrerfortbildung und Personalführung Dillingen" title="Link zur Homepage der Akademie für Lehrerfortbildung und Personalführung Dillingen">
+                        </div>
+                    </a>
+                    <a href="http://www.isb.bayern.de/" target="_blank">
+                        <div class="logo_isb" alt="Link zur Homepage des Staatinstituts für Schulqualität und Bildungsforschung" title="Link zur Homepage des Staatinstituts für Schulqualität und Bildungsforschung">
+                        </div>
+                    </a>
+                    <a href="http://www.km.bayern.de/" target="_blank">
+                        <div class="logo_stmuk" alt="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst " title="Link zur Homepage des Bayerischen Staatsministeriums für Bildung und Kultus, Wissenschaft und Kunst ">
+                        </div>
+                    </a>
+                </div>
+                <div id="page-content-footer-left">
+                    <?php echo $CFG->block_dlb_contentfooterleft; ?>
+                </div>
             </div>
-            <div id="page-content-footer-left">
-                <?php echo $CFG->block_dlb_contentfooterleft; ?>
-            </div>
-        </div>
-        <?php
-       }
+            <?php
+        }
     }
 
- //++++ Overriden Methods from core_renderer
+    //++++ Overriden Methods from core_renderer
 
     /** überschreibt die originale Funktion, um den Blockcode mit zusätzlichen DIVS
      * zu versehen, die für die Abrundungen an den Ecken erforderlich sind
@@ -428,13 +572,21 @@ class theme_dlb_core_renderer extends core_renderer {
             return '';
         }
 
+        if (is_null($withlinks)) {
+            $withlinks = empty($this->page->layout_options['nologinlinks']);
+        }
+
         $loginapge = ((string) $this->page->url === get_login_url());
         $course = $this->page->course;
 
         if (session_is_loggedinas()) {
             $realuser = session_get_realuser();
             $fullname = fullname($realuser, true);
-            $realuserinfo = " [<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\">$fullname</a>] ";
+           
+                $loginastitle = get_string('loginas');
+                $realuserinfo = " [<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
+                $realuserinfo .= "title =\"" . $loginastitle . "\">$fullname</a>] ";
+           
         } else {
             $realuserinfo = '';
         }
@@ -449,15 +601,25 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $fullname = fullname($USER, true);
             // Since Moodle 2.0 this link always goes to the public profile page (not the course profile page)
-            //+++ awag: hier einen <br />-Tag eingefügt...
-            $username = "<br /><a href=\"$CFG->wwwroot/user/profile.php?id=$USER->id\">$fullname</a>";
-            //--- awag ---
-            if (is_mnet_remote_user($USER) and $idprovider = $DB->get_record('mnet_host', array('id' => $USER->mnethostid))) {
-                $username .= " from <a href=\"{$idprovider->wwwroot}\">{$idprovider->name}</a>";
+            if ($withlinks) {
+                $linktitle = get_string('viewprofile');
+                $username = "<a href=\"$CFG->wwwroot/user/profile.php?id=$USER->id\" title=\"$linktitle\">$fullname</a>";
+            } else {
+                $username = $fullname;
             }
+            if (is_mnet_remote_user($USER) and $idprovider = $DB->get_record('mnet_host', array('id' => $USER->mnethostid))) {
+                if ($withlinks) {
+                    $username .= " from <a href=\"{$idprovider->wwwroot}\">{$idprovider->name}</a>";
+                } else {
+                    $username .= " from {$idprovider->name}";
+                }
+            }
+            //+++ awag: hier einen <br />-Tag eingefügt...
+            $username = "<br />" . $username;
+            //--- awag ---
             if (isguestuser()) {
                 $loggedinas = $realuserinfo . get_string('loggedinasguest');
-                if (!$loginapge) {
+                if (!$loginapge && $withlinks) {
                     $loggedinas .= " (<a href=\"$loginurl\">" . get_string('login') . '</a>)';
                 }
                 //+++ awag, keine Information über Gastlogin, falls der User automatisch eingeloggt wird
@@ -607,9 +769,8 @@ class theme_dlb_core_renderer extends core_renderer {
     public function standard_head_html() {
         return parent::standard_head_html() . $this->_load_dock_images();
     }
+
 }
-
-
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion
 require_once($CFG->libdir . '/medialib.php');
@@ -644,6 +805,7 @@ class core_media_player_mediathek extends core_media_player_external {
     public function is_enabled() {
         return true;
     }
+
 }
 
 class theme_dlb_core_media_renderer extends core_media_renderer {
@@ -653,4 +815,5 @@ class theme_dlb_core_media_renderer extends core_media_renderer {
         $ret += array('mediathek' => new core_media_player_mediathek());
         return $ret;
     }
+
 }

@@ -589,7 +589,7 @@ class navigation_node implements renderable {
     public function find_expandable(array &$expandable) {
         foreach ($this->children as &$child) {
             if ($child->display && $child->has_children() && $child->children->count() == 0) {
-                $child->id = 'expandable_branch_'.(count($expandable)+1);
+                $child->id = 'expandable_branch_'.$child->type.'_'.clean_param($child->key, PARAM_ALPHANUMEXT);
                 $this->add_class('canexpand');
                 $expandable[] = array('id' => $child->id, 'key' => $child->key, 'type' => $child->type);
             }
@@ -899,8 +899,9 @@ class navigation_node_collection implements IteratorAggregate {
         $child = $this->get($key, $type);
         if ($child !== false) {
             foreach ($this->collection as $colkey => $node) {
-                if ($node->key == $key && $node->type == $type) {
+                if ($node->key === $key && $node->type == $type) {
                     unset($this->collection[$colkey]);
+                    $this->collection = array_values($this->collection);
                     break;
                 }
             }
@@ -1200,12 +1201,14 @@ class global_navigation extends navigation_node {
                 // Load the course sections into the page
                 $this->load_course_sections($course, $coursenode, null, $cm);
                 $activity = $coursenode->find($cm->id, navigation_node::TYPE_ACTIVITY);
-                // Finally load the cm specific navigaton information
-                $this->load_activity($cm, $course, $activity);
-                // Check if we have an active ndoe
-                if (!$activity->contains_active_node() && !$activity->search_for_active_node()) {
-                    // And make the activity node active.
-                    $activity->make_active();
+                if (!empty($activity)) {
+                    // Finally load the cm specific navigaton information
+                    $this->load_activity($cm, $course, $activity);
+                    // Check if we have an active ndoe
+                    if (!$activity->contains_active_node() && !$activity->search_for_active_node()) {
+                        // And make the activity node active.
+                        $activity->make_active();
+                    }
                 }
                 break;
             case CONTEXT_USER :
@@ -1265,7 +1268,8 @@ class global_navigation extends navigation_node {
         // Remove any empty root nodes
         foreach ($this->rootnodes as $node) {
             // Dont remove the home node
-            if ($node->key !== 'home' && !$node->has_children()) {
+            /** @var navigation_node $node */
+            if ($node->key !== 'home' && !$node->has_children() && !$node->isactive) {
                 $node->remove();
             }
         }
@@ -1820,9 +1824,6 @@ class global_navigation extends navigation_node {
             }
             foreach ($modinfo->sections[$section->section] as $cmid) {
                 $cm = $modinfo->cms[$cmid];
-                if (!$cm->uservisible) {
-                    continue;
-                }
                 $activity = new stdClass;
                 $activity->id = $cm->id;
                 $activity->course = $course->id;
@@ -1840,7 +1841,7 @@ class global_navigation extends navigation_node {
                     $activity->display = false;
                 } else {
                     $activity->url = $cm->get_url()->out();
-                    $activity->display = true;
+                    $activity->display = $cm->uservisible ? true : false;
                     if (self::module_extends_navigation($cm->modname)) {
                         $activity->nodetype = navigation_node::NODETYPE_BRANCH;
                     }
@@ -1979,9 +1980,6 @@ class global_navigation extends navigation_node {
             return null;
         }
         $cm = $modinfo->cms[$this->page->cm->id];
-        if (!$cm->uservisible) {
-            return null;
-        }
         if ($cm->icon) {
             $icon = new pix_icon($cm->icon, get_string('modulename', $cm->modname), $cm->iconcomponent);
         } else {
@@ -1991,7 +1989,11 @@ class global_navigation extends navigation_node {
         $activitynode = $coursenode->add(format_string($cm->name), $url, navigation_node::TYPE_ACTIVITY, null, $cm->id, $icon);
         $activitynode->title(get_string('modulename', $cm->modname));
         $activitynode->hidden = (!$cm->visible);
-        if (!$url) {
+        if (!$cm->uservisible) {
+            // Do not show any error here, let the page handle exception that activity is not visible for the current user.
+            // Also there may be no exception at all in case when teacher is logged in as student.
+            $activitynode->display = false;
+        } else if (!$url) {
             // Don't show activities that don't have links!
             $activitynode->display = false;
         } else if (self::module_extends_navigation($cm->modname)) {
@@ -2446,22 +2448,19 @@ class global_navigation extends navigation_node {
         //Participants
         if (has_capability('moodle/course:viewparticipants', $this->page->context)) {
             $participants = $coursenode->add(get_string('participants'), new moodle_url('/user/index.php?id='.$course->id), self::TYPE_CONTAINER, get_string('participants'), 'participants');
-            $currentgroup = groups_get_course_group($course, true);
-            if ($course->id == $SITE->id) {
-                $filtervar = 'courseid';
-                $filterselect = '';
-            } else if ($course->id && !$currentgroup) {
-                $filtervar = 'courseid';
-                $filterselect = $course->id;
-            } else {
-                $filtervar = 'groupid';
-                $filterselect = $currentgroup;
-            }
-            $filterselect = clean_param($filterselect, PARAM_INT);
-            if (($CFG->bloglevel == BLOG_GLOBAL_LEVEL or ($CFG->bloglevel == BLOG_SITE_LEVEL and (isloggedin() and !isguestuser())))
-               and has_capability('moodle/blog:view', context_system::instance())) {
-                $blogsurls = new moodle_url('/blog/index.php', array($filtervar => $filterselect));
-                $participants->add(get_string('blogscourse','blog'), $blogsurls->out());
+            if (!empty($CFG->enableblogs)) {
+                if (($CFG->bloglevel == BLOG_GLOBAL_LEVEL or ($CFG->bloglevel == BLOG_SITE_LEVEL and (isloggedin() and !isguestuser())))
+                   and has_capability('moodle/blog:view', context_system::instance())) {
+                    $blogsurls = new moodle_url('/blog/index.php');
+                    if ($course->id == $SITE->id) {
+                        $blogsurls->param('courseid', 0);
+                    } else if ($currentgroup = groups_get_course_group($course, true)) {
+                        $blogsurls->param('groupid', $currentgroup);
+                    } else {
+                        $blogsurls->param('courseid', $course->id);
+                    }
+                    $participants->add(get_string('blogscourse','blog'), $blogsurls->out());
+                }
             }
             if (!empty($CFG->enablenotes) && (has_capability('moodle/notes:manage', $this->page->context) || has_capability('moodle/notes:view', $this->page->context))) {
                 $participants->add(get_string('notes','notes'), new moodle_url('/notes/index.php', array('filtertype'=>'course', 'filterselect'=>$course->id)));
@@ -2697,7 +2696,7 @@ class global_navigation extends navigation_node {
             list($sql, $params) = $DB->get_in_or_equal($categoryids);
             $categories = $DB->get_recordset_select('course_categories', 'id '.$sql.' AND parent = 0', $params, 'sortorder, id');
             foreach ($categories as $category) {
-                $this->add_category($category, $this->rootnodes['mycourses']);
+                $this->add_category($category, $this->rootnodes['mycourses'], self::TYPE_MY_CATEGORY);
             }
             $categories->close();
         } else {
@@ -2879,20 +2878,49 @@ class global_navigation_for_ajax extends global_navigation {
                 $this->add_category($category, $this, $nodetype);
                 $basecategory = $this->addedcategories[$category->id];
             } else {
-                $subcategories[] = $category;
+                $subcategories[$category->id] = $category;
             }
         }
         $categories->close();
 
-        if (!is_null($basecategory)) {
-            foreach ($subcategories as $category) {
-                $this->add_category($category, $basecategory, $nodetype);
-            }
-        }
 
-        // If category is shown in MyHome then only show enrolled courses, else show all courses.
+        // If category is shown in MyHome then only show enrolled courses and hide empty subcategories,
+        // else show all courses.
         if ($nodetype === self::TYPE_MY_CATEGORY) {
             $courses = enrol_get_my_courses();
+            $categoryids = array();
+
+            // Only search for categories if basecategory was found.
+            if (!is_null($basecategory)) {
+                // Get course parent category ids.
+                foreach ($courses as $course) {
+                    $categoryids[] = $course->category;
+                }
+
+                // Get a unique list of category ids which a part of the path
+                // to user's courses.
+                $coursesubcategories = array();
+                $addedsubcategories = array();
+
+                list($sql, $params) = $DB->get_in_or_equal($categoryids);
+                $categories = $DB->get_recordset_select('course_categories', 'id '.$sql, $params, 'sortorder, id', 'id, path');
+
+                foreach ($categories as $category){
+                    $coursesubcategories = array_merge($coursesubcategories, explode('/', trim($category->path, "/")));
+                }
+                $coursesubcategories = array_unique($coursesubcategories);
+
+                // Only add a subcategory if it is part of the path to user's course and
+                // wasn't already added.
+                foreach ($subcategories as $subid => $subcategory) {
+                    if (in_array($subid, $coursesubcategories) &&
+                            !in_array($subid, $addedsubcategories)) {
+                            $this->add_category($subcategory, $basecategory, $nodetype);
+                            $addedsubcategories[] = $subid;
+                    }
+                }
+            }
+
             foreach ($courses as $course) {
                 // Add course if it's in category.
                 if (in_array($course->category, $categorylist)) {
@@ -2900,6 +2928,11 @@ class global_navigation_for_ajax extends global_navigation {
                 }
             }
         } else {
+            if (!is_null($basecategory)) {
+                foreach ($subcategories as $key=>$category) {
+                    $this->add_category($category, $basecategory, $nodetype);
+                }
+            }
             $courses = $DB->get_recordset('course', array('category' => $categoryid), 'sortorder', '*' , 0, $limit);
             foreach ($courses as $course) {
                 $this->add_course($course);
@@ -3108,12 +3141,22 @@ class navbar extends navigation_node {
      * @return array
      */
     private function get_course_categories() {
+        global $CFG;
+
+        require_once($CFG->dirroot.'/course/lib.php');
         $categories = array();
+        $cap = 'moodle/category:viewhiddencategories';
         foreach ($this->page->categories as $category) {
+            if (!$category->visible && !has_capability($cap, get_category_or_system_context($category->parent))) {
+                continue;
+            }
             $url = new moodle_url('/course/category.php', array('id' => $category->id));
             $name = format_string($category->name, true, array('context' => context_coursecat::instance($category->id)));
-            $categories[] = navigation_node::create($name, $url, self::TYPE_CATEGORY, null, $category->id);
-            $id = $category->parent;
+            $categorynode = navigation_node::create($name, $url, self::TYPE_CATEGORY, null, $category->id);
+            if (!$category->visible) {
+                $categorynode->hidden = true;
+            }
+            $categories[] = $categorynode;
         }
         if (is_enrolled(context_course::instance($this->page->course->id))) {
             $courses = $this->page->navigation->get('mycourses');
@@ -3535,7 +3578,7 @@ class settings_navigation extends navigation_node {
             $coursenode->force_open();
         }
 
-        if (has_capability('moodle/course:update', $coursecontext)) {
+        if ($this->page->user_allowed_editing()) {
             // Add the turn on/off settings
 
             if ($this->page->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
@@ -3558,8 +3601,9 @@ class settings_navigation extends navigation_node {
             $coursenode->add($editstring, $editurl, self::TYPE_SETTING, null, null, new pix_icon('i/edit', ''));
 
             // Add the module chooser toggle
-            $modchoosertoggleurl = clone($baseurl);
-            if ($this->page->user_is_editing() && course_ajax_enabled($course)) {
+            if ($this->page->user_is_editing() && has_capability('moodle/course:manageactivities', $coursecontext)
+                    && course_ajax_enabled($course)) {
+                $modchoosertoggleurl = clone($baseurl);
                 if ($usemodchooser = get_user_preferences('usemodchooser', $CFG->modchooserdefault)) {
                     $modchoosertogglestring = get_string('modchooserdisable', 'moodle');
                     $modchoosertoggleurl->param('modchooser', 'off');
@@ -3572,7 +3616,9 @@ class settings_navigation extends navigation_node {
                 $modchoosertoggle->add_class('visibleifjs');
                 user_preference_allow_ajax_update('usemodchooser', PARAM_BOOL);
             }
+        }
 
+        if (has_capability('moodle/course:update', $coursecontext)) {
             // Add the course settings link
             $url = new moodle_url('/course/edit.php', array('id'=>$course->id));
             $coursenode->add(get_string('editsettings'), $url, self::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
@@ -3737,7 +3783,7 @@ class settings_navigation extends navigation_node {
             require_once($file);
         }
 
-        $modulenode = $this->add(get_string('pluginadministration', $this->page->activityname));
+        $modulenode = $this->add(get_string('pluginadministration', $this->page->activityname), null, self::TYPE_SETTING, null, 'modulesettings');
         $modulenode->force_open();
 
         // Settings for the module
@@ -4118,7 +4164,7 @@ class settings_navigation extends navigation_node {
     protected function load_block_settings() {
         global $CFG;
 
-        $blocknode = $this->add(print_context_name($this->context));
+        $blocknode = $this->add(print_context_name($this->context), null, self::TYPE_SETTING, null, 'blocksettings');
         $blocknode->force_open();
 
         // Assign local roles
@@ -4244,7 +4290,7 @@ class settings_navigation extends navigation_node {
         }
         $frontpage->id = 'frontpagesettings';
 
-        if (has_capability('moodle/course:update', $coursecontext)) {
+        if ($this->page->user_allowed_editing()) {
 
             // Add the turn on/off settings
             $url = new moodle_url('/course/view.php', array('id'=>$course->id, 'sesskey'=>sesskey()));
@@ -4256,7 +4302,9 @@ class settings_navigation extends navigation_node {
                 $editstring = get_string('turneditingon');
             }
             $frontpage->add($editstring, $url, self::TYPE_SETTING, null, null, new pix_icon('i/edit', ''));
+        }
 
+        if (has_capability('moodle/course:update', $coursecontext)) {
             // Add the course settings link
             $url = new moodle_url('/admin/settings.php', array('section'=>'frontpagesettings'));
             $frontpage->add(get_string('editsettings'), $url, self::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));

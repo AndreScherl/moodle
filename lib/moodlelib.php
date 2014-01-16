@@ -1164,6 +1164,8 @@ function fix_utf8($value) {
             // shortcut
             return $value;
         }
+        // No null bytes expected in our data, so let's remove it.
+        $value = str_replace("\0", '', $value);
 
         // Lower error reporting because glibc throws bogus notices.
         $olderror = error_reporting();
@@ -4065,6 +4067,9 @@ function delete_user(stdClass $user) {
     // unauthorise the user for all services
     $DB->delete_records('external_services_users', array('userid'=>$user->id));
 
+    // Remove users private keys.
+    $DB->delete_records('user_private_key', array('userid' => $user->id));
+
     // force logout - may fail if file based sessions used, sorry
     session_kill_user($user->id);
 
@@ -4380,6 +4385,9 @@ function update_internal_user_password($user, $password) {
     if ($user->password !== $hashedpassword) {
         $DB->set_field('user', 'password',  $hashedpassword, array('id'=>$user->id));
         $user->password = $hashedpassword;
+
+        // Trigger user updated event
+        events_trigger('user_updated', $user);
     }
 
     return true;
@@ -4619,6 +4627,7 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
     require_once($CFG->dirroot.'/tag/coursetagslib.php');
     require_once($CFG->dirroot.'/comment/lib.php');
     require_once($CFG->dirroot.'/rating/lib.php');
+    require_once($CFG->dirroot.'/notes/lib.php');
 
     // NOTE: these concatenated strings are suboptimal, but it is just extra info...
     $strdeleted = get_string('deleted').' - ';
@@ -4777,6 +4786,9 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
 
     // filters be gone!
     filter_delete_all_for_context($coursecontext->id);
+
+    // Notes, you shall not pass!
+    note_delete_all($course->id);
 
     // die comments!
     comment::delete_comments($coursecontext->id);
@@ -5595,6 +5607,11 @@ function setnew_password_and_mail($user) {
     $newpassword = generate_password();
 
     $DB->set_field('user', 'password', hash_internal_user_password($newpassword), array('id'=>$user->id));
+
+    $user->password = $hashedpassword;
+
+    // Trigger user updated event
+    events_trigger('user_updated', $user);
 
     $a = new stdClass();
     $a->firstname   = fullname($user, true);
@@ -8593,6 +8610,9 @@ function check_php_version($version='5.2.4') {
           // See: http://www.useragentstring.com/pages/Internet%20Explorer/
           if (preg_match("/MSIE ([0-9\.]+)/", $agent, $match)) {
               $browser = $match[1];
+          // See: http://msdn.microsoft.com/en-us/library/ie/bg182625%28v=vs.85%29.aspx for IE11+ useragent details.
+          } else if (preg_match("/Trident\/[0-9\.]+/", $agent) && preg_match("/rv:([0-9\.]+)/", $agent, $match)) {
+              $browser = $match[1];
           } else {
               return false;
           }
@@ -9196,7 +9216,6 @@ function random_string ($length=15) {
     $pool .= 'abcdefghijklmnopqrstuvwxyz';
     $pool .= '0123456789';
     $poollen = strlen($pool);
-    mt_srand ((double) microtime() * 1000000);
     $string = '';
     for ($i = 0; $i < $length; $i++) {
         $string .= substr($pool, (mt_rand()%($poollen)), 1);
@@ -9217,7 +9236,6 @@ function complex_random_string($length=null) {
     $pool  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     $pool .= '`~!@#%^&*()_+-=[];,./<>?:{} ';
     $poollen = strlen($pool);
-    mt_srand ((double) microtime() * 1000000);
     if ($length===null) {
         $length = floor(rand(24,32));
     }
@@ -9496,9 +9514,10 @@ function format_float($float, $decimalpoints=1, $localized=true, $stripzeros=fal
  * Do NOT try to do any math operations before this conversion on any user submitted floats!
  *
  * @param string $locale_float locale aware float representation
- * @return float
+ * @param bool $strict If true, then check the input and return false if it is not a valid number.
+ * @return mixed float|bool - false or the parsed float.
  */
-function unformat_float($locale_float) {
+function unformat_float($locale_float, $strict = false) {
     $locale_float = trim($locale_float);
 
     if ($locale_float == '') {
@@ -9506,8 +9525,13 @@ function unformat_float($locale_float) {
     }
 
     $locale_float = str_replace(' ', '', $locale_float); // no spaces - those might be used as thousand separators
+    $locale_float = str_replace(get_string('decsep', 'langconfig'), '.', $locale_float);
 
-    return (float)str_replace(get_string('decsep', 'langconfig'), '.', $locale_float);
+    if ($strict && !is_numeric($locale_float)) {
+        return false;
+    }
+
+    return (float)$locale_float;
 }
 
 /**
@@ -9519,7 +9543,6 @@ function unformat_float($locale_float) {
  */
 function swapshuffle($array) {
 
-    srand ((double) microtime() * 10000000);
     $last = count($array) - 1;
     for ($i=0;$i<=$last;$i++) {
         $from = rand(0,$last);
@@ -9559,7 +9582,6 @@ function swapshuffle_assoc($array) {
  * @return array
  */
 function draw_rand_array($array, $draws) {
-    srand ((double) microtime() * 10000000);
 
     $return = array();
 
@@ -10335,15 +10357,28 @@ function message_popup_window() {
         $strgomessage = get_string('gotomessages', 'message');
         $strstaymessage = get_string('ignore','admin');
 
+        $notificationsound = null;
+        $beep = get_user_preferences('message_beepnewmessage', '');
+        if (!empty($beep)) {
+            // Browsers will work down this list until they find something they support.
+            $sourcetags =  html_writer::empty_tag('source', array('src' => $CFG->wwwroot.'/message/bell.wav', 'type' => 'audio/wav'));
+            $sourcetags .= html_writer::empty_tag('source', array('src' => $CFG->wwwroot.'/message/bell.ogg', 'type' => 'audio/ogg'));
+            $sourcetags .= html_writer::empty_tag('source', array('src' => $CFG->wwwroot.'/message/bell.mp3', 'type' => 'audio/mpeg'));
+            $sourcetags .= html_writer::empty_tag('embed',  array('src' => $CFG->wwwroot.'/message/bell.wav', 'autostart' => 'true', 'hidden' => 'true'));
+
+            $notificationsound = html_writer::tag('audio', $sourcetags, array('preload' => 'auto', 'autoplay' => 'autoplay'));
+        }
+
         $url = $CFG->wwwroot.'/message/index.php';
         $content =  html_writer::start_tag('div', array('id'=>'newmessageoverlay','class'=>'mdl-align')).
                         html_writer::start_tag('div', array('id'=>'newmessagetext')).
                             $strmessages.
                         html_writer::end_tag('div').
 
-                        html_writer::start_tag('div', array('id'=>'newmessagelinks')).
-                            html_writer::link($url, $strgomessage, array('id'=>'notificationyes')).'&nbsp;&nbsp;&nbsp;'.
-                            html_writer::link('', $strstaymessage, array('id'=>'notificationno')).
+                        $notificationsound.
+                        html_writer::start_tag('div', array('id' => 'newmessagelinks')).
+                            html_writer::link($url, $strgomessage, array('id' => 'notificationyes')).'&nbsp;&nbsp;&nbsp;'.
+                            html_writer::link('', $strstaymessage, array('id' => 'notificationno')).
                         html_writer::end_tag('div');
                     html_writer::end_tag('div');
 
@@ -10429,8 +10464,8 @@ function get_performance_info() {
     $info['html'] .= '<span class="included">Included '.$info['includecount'].' files</span> ';
     $info['txt']  .= 'includecount: '.$info['includecount'].' ';
 
-    if (!empty($CFG->early_install_lang)) {
-        // We can not track more performance before installation, sorry.
+    if (!empty($CFG->early_install_lang) or empty($PAGE)) {
+        // We can not track more performance before installation or before PAGE init, sorry.
         return $info;
     }
 

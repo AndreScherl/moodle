@@ -51,12 +51,12 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('mydashboard');
 $PAGE->set_pagetype('user-files');
 
-$maxbytes = $CFG->userquota;
-$maxareabytes = $CFG->userquota;
 // SYNERGY LEARNING - increase the user quota for users with 'local/uploadlimits:higherlimit' somewhere in the site
+//$maxbytes = $CFG->userquota
 //$maxareabytes = $CFG->userquota;
 require_once($CFG->dirroot.'/local/uploadlimits/lib.php');
 $maxareabytes = local_uploadlimits::get_limit();
+$maxbytes = $maxareabytes;
 // SYNERGY LEARNING - increase the user quota for users with 'local/uploadlimits:higherlimit' somewhere in the site
 if (has_capability('moodle/user:ignoreuserquota', $context)) {
     $maxbytes = USER_CAN_IGNORE_FILE_SIZE_LIMITS;

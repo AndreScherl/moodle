@@ -43,7 +43,40 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         )
     ),
 
+    // SYNERGY LEARNING - able to enrol a class via 'Users > Enroled users'.
+    'enrol/class:enrol' => array(
+        'captype' => 'write',
+        'riskbitmask' => RISK_SPAM | RISK_MANAGETRUST,
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        )
+    ),
+
+    // SYNERGY LEARNING - able to manage class enrolments via 'Users > Enroled users'.
+    'enrol/class:manage' => array(
+        'captype' => 'write',
+        'riskbitmask' => RISK_SPAM | RISK_MANAGETRUST,
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        )
+    ),
+
+    // SYNERGY LEARNING - roles that can be assigned by this plugin.
+    'enrol/class:assignable' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        )
+    ),
 );

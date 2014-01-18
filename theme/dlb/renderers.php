@@ -441,7 +441,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $editusersurl = $userauthplugin->edit_users_url();
             if (!empty($editusersurl)) {
-                $settingmenuitems[] = html_writer::link($url, get_string('editusersurl', 'theme_dlb'));
+                $settingmenuitems[] = html_writer::link($editusersurl, get_string('editusersurl', 'theme_dlb'));
             }
         }
 

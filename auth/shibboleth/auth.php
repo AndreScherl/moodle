@@ -130,16 +130,6 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             include($this->config->convert_data);
         }
 
-        /*         * ** UW: load institution-number ***** */
-        $ldapdlb = new auth_plugin_ldapdlb();
-        $extusername = textlib::convert($username, 'utf-8', $ldapdlb->config->ldapencoding);
-        $ldapconnection = $ldapdlb->ldap_connect();
-        if (!($user_dn = $ldapdlb->ldap_find_userdn($ldapconnection, $extusername))) {
-            return false;
-        }
-        $result['institution'] = $ldapdlb->ldap_find_user_schoolid($ldapconnection, $user_dn);
-        $ldapdlb->ldap_close();
-
         // ... awag: now setup mebisRole in Sessiondata, we have no $USER record yet.
         if (!empty($_SERVER["mebisRole"])) {
 

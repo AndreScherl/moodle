@@ -141,7 +141,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         $ldapdlb->ldap_close();
 
         // ... awag: now setup mebisRole in Sessiondata, we have no $USER record yet.
-        if (!isset($_SERVER["mebisRole"])) {
+        if (!empty($_SERVER["mebisRole"])) {
 
             $SESSION->mebisRole = explode(";", strtolower($_SERVER["mebisRole"]));
             $SESSION->isTeacher = (strtolower($_SERVER["mebisRole"]) == "lehrer") ? 1 : 0;

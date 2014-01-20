@@ -63,7 +63,7 @@ class enrol_class_edit_form extends moodleform {
             $classes = array('' => get_string('choosedots'));
             $classlist = enrol_class_get_classes($USER);
             foreach ($classlist as $c) {
-                $classes[$c['classname']] = format_string($c['name']);
+                $classes[$c] = format_string($c);
             }
             $mform->addElement('select', 'customchar1', get_string('class', 'enrol_class'), $classes);
             $mform->addRule('customchar1', get_string('required'), 'required', null, 'client');

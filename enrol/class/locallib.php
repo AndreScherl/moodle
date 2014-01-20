@@ -317,38 +317,14 @@ function enrol_class_get_available_roles() {
  * Gets all the classes the user is able to view.
  * SYNERGY LEARNING - very different form the original cohort enrolment.
  *
- * @param object $user optional
+ * @param object $user
  * @return array
  */
-function enrol_class_get_classes($user = null) {
-    global $DB;
-
-    // TODO davo - get this list via LDAP, instead of searching 'user' table.
-    $config = get_config('enrol_class');
-
-    $where = '';
-    $params = array();
-    if ($user !== null) {
-        $where = ' WHERE u.'.$config->user_field_schoolid.' = ? ';
-        $params[] = $user->{$config->user_field_schoolid};
+function enrol_class_get_classes($user) {
+    if (empty($user->moodleClassList)) {
+        return array();
     }
-
-    $sql = "SELECT DISTINCT u.{$config->user_field_classname} AS classname, COUNT(u.id) AS usercount
-              FROM {user} u
-              {$where}
-             GROUP BY u.{$config->user_field_classname}
-             ORDER BY u.{$config->user_field_classname}";
-    $rs = $DB->get_recordset_sql($sql, $params);
-    $classes = array();
-    foreach ($rs as $c) {
-        $classes[$c->classname] = array(
-            'classname' => $c->classname,
-            'name' => $c->classname,
-            'users' => $c->usercount,
-        );
-    }
-    $rs->close();
-
+    $classes = explode(',', $user->moodleClassList);
     return $classes;
 }
 
@@ -362,7 +338,7 @@ function enrol_class_get_classes($user = null) {
 function enrol_class_can_view_class($classname) {
     global $USER;
     $classes = enrol_class_get_classes($USER);
-    return array_key_exists($classname, $classes);
+    return in_array($classname, $classes);
 }
 
 /**
@@ -378,61 +354,55 @@ function enrol_class_can_view_class($classname) {
  */
 function enrol_class_search_classes(course_enrolment_manager $manager, $offset = 0, $limit = 25, $search = '') {
     global $DB, $USER;
-    $classes = array();
+
+    $schoolfield = get_config('enrol_class', 'user_field_schoolid');
+    $schoolid = $USER->{$schoolfield};
+    $allclasses = enrol_class_get_classes($USER);
     $instances = $manager->get_enrolment_instances();
     $enrolled = array();
+    $enrolids = array();
     foreach ($instances as $instance) {
-        if ($instance->enrol == 'class') {
+        if ($instance->enrol == 'class' && $instance->customchar2 == $schoolid) { // Only include enrol from the same school.
             $enrolled[] = $instance->customchar1;
+            $enrolids[] = $instance->id;
         }
     }
 
-    // TODO davo - get the list via LDAP, instead of searching the 'user' table.
-    $config = get_config('enrol_class');
-    $schoolfield = $config->user_field_schoolid;
-    $classfield = $config->user_field_classname;
-    $schoolid = $USER->{$schoolfield};
+    // SYNERGY LEARNING - count how many enrolments there are for each class.
+    list($esql, $params) = $DB->get_in_or_equal($enrolids, SQL_PARAMS_NAMED);
+    $sql = "SELECT e.customchar1, COUNT(ue.id)
+              FROM {enrol} e
+              JOIN {user_enrolments} ue ON ue.enrolid = e.id
+             WHERE e.id {$esql}
+             GROUP BY e.customchar1";
+    $usercount = $DB->get_records_sql_menu($sql, $params);
 
-    $wheres = array();
-    $params = array();
-    if ($schoolid !== null) {
-        $wheres[] = "u.{$schoolfield} = :schoolid";
-        $params['schoolid'] = $schoolid;
-    }
+    // SYNERGY LEARNING - filter out any classes that do not match the search string.
     if ($search) {
-        $wheres[] = $DB->sql_like("u.{$classfield}", ':search', false, false);
-        $params['search'] = '%'.$search.'%';
+        $classes = array();
+        foreach ($allclasses as $class) {
+            if (strpos($class, $search) !== false) {
+                $classes[] = $class;
+            }
+        }
+    } else {
+        $classes = $allclasses;
     }
 
-    $where = '';
-    if ($wheres) {
-        $where = ' WHERE '.implode(' AND ', $wheres);
-    }
+    // Only return the number of results requested.
+    $totalcount = count($classes);
+    $classes = array_slice($classes, $offset, $limit);
 
-    $sql = "SELECT DISTINCT u.{$config->user_field_classname} AS classname, COUNT(u.id) AS usercount
-              FROM {user} u
-              {$where}
-             GROUP BY u.{$config->user_field_classname}
-             ORDER BY u.{$config->user_field_classname}";
-    $rs = $DB->get_recordset_sql($sql, $params, $offset, $limit + 1); // One extra, to see if there are more results.
-
-    foreach ($rs as $c) {
-        $classes[$c->classname] = array(
-            'classname' => $c->classname,
-            'name' => $c->classname,
-            'users' => $c->usercount,
-            'enrolled' => in_array($c->classname, $enrolled),
-            'schoolid' => $schoolid,
+    // Format the results as required by the javascript.
+    $ret = array();
+    foreach ($classes as $class) {
+        $ret[$class] = array(
+            'classname' => $class,
+            'name' => $class,
+            'users' => isset($usercount[$class]) ? $usercount[$class] : 0,
+            'enrolled' => in_array($class, $enrolled),
         );
     }
-    $rs->close();
 
-    // Check to see if there are more results to find (and remove the extra result).
-    $more = false;
-    if (count($classes) > $limit) {
-        $more = true;
-        array_pop($classes);
-    }
-
-    return array('more' => $more, 'offset' => $offset + $limit, 'classes' => $classes);
+    return array('more' => (($offset + $limit) < $totalcount), 'offset' => $offset + $limit, 'classes' => $ret);
 }

@@ -29,7 +29,7 @@ require_once("$CFG->libdir/formslib.php");
 class enrol_class_edit_form extends moodleform {
 
     function definition() {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
 
         $mform  = $this->_form;
 
@@ -52,37 +52,25 @@ class enrol_class_edit_form extends moodleform {
                          ENROL_INSTANCE_DISABLED => get_string('no'));
         $mform->addElement('select', 'status', get_string('status', 'enrol_class'), $options);
 
+        // SYNERGY LEARNING - display class selector (no cohort selector).
         if ($instance->id) {
-            if ($class = $DB->get_record('class', array('id'=>$instance->customint1))) {
-                $classes = array($instance->customint1=>format_string($class->name, true, array('context'=>context::instance_by_id($class->contextid))));
-            } else {
-                $classes = array($instance->customint1=>get_string('error'));
-            }
-            $mform->addElement('select', 'customint1', get_string('class', 'class'), $classes);
-            $mform->setConstant('customint1', $instance->customint1);
-            $mform->hardFreeze('customint1', $instance->customint1);
+            $classes = array($instance->customchar1 => $instance->customchar1);
+            $mform->addElement('select', 'customchar1', get_string('class', 'enrol_class'), $classes);
+            $mform->setConstant('customchar1', $instance->customchar1);
+            $mform->hardFreeze('customchar1');
 
         } else {
             $classes = array('' => get_string('choosedots'));
-            list($sqlparents, $params) = $DB->get_in_or_equal($coursecontext->get_parent_context_ids());
-            $sql = "SELECT id, name, idnumber, contextid
-                      FROM {class}
-                     WHERE contextid $sqlparents
-                  ORDER BY name ASC, idnumber ASC";
-            $rs = $DB->get_recordset_sql($sql, $params);
-            foreach ($rs as $c) {
-                $context = context::instance_by_id($c->contextid);
-                if (!has_capability('moodle/class:view', $context)) {
-                    continue;
-                }
-                $classes[$c->id] = format_string($c->name);
+            $classlist = enrol_class_get_classes($USER);
+            foreach ($classlist as $c) {
+                $classes[$c['classname']] = format_string($c['name']);
             }
-            $rs->close();
-            $mform->addElement('select', 'customint1', get_string('class', 'class'), $classes);
-            $mform->addRule('customint1', get_string('required'), 'required', null, 'client');
+            $mform->addElement('select', 'customchar1', get_string('class', 'enrol_class'), $classes);
+            $mform->addRule('customchar1', get_string('required'), 'required', null, 'client');
         }
 
-        $roles = get_assignable_roles($coursecontext);
+        // SYNERGY LEARNING - get list of roles that we are allowed to assign.
+        $roles = enrol_class_get_available_roles();
         $roles[0] = get_string('none');
         $roles = array_reverse($roles, true); // Descending default sortorder.
         $mform->addElement('select', 'roleid', get_string('assignrole', 'enrol_class'), $roles);
@@ -96,6 +84,9 @@ class enrol_class_edit_form extends moodleform {
             }
         }
         $mform->addElement('select', 'customint2', get_string('addgroup', 'enrol_class'), $groups);
+
+        // SYNERGY LEARNING - allow synchronisation to be disabled (whilst still leaving the plugin enroled).
+        $mform->addElement('selectyesno', 'customint3', get_string('syncmembers', 'enrol_class'));
 
         $mform->addElement('hidden', 'courseid', null);
         $mform->setType('courseid', PARAM_INT);
@@ -117,8 +108,12 @@ class enrol_class_edit_form extends moodleform {
 
         $errors = parent::validation($data, $files);
 
-        $params = array('roleid'=>$data['roleid'], 'customint1'=>$data['customint1'], 'courseid'=>$data['courseid'], 'id'=>$data['id']);
-        if ($DB->record_exists_select('enrol', "roleid = :roleid AND customint1 = :customint1 AND courseid = :courseid AND enrol = 'class' AND id <> :id", $params)) {
+        // SYNERGY LEARNING - check for duplicate enrolment instances.
+        $instance = $this->_customdata[0];
+        $params = array('roleid'=>$data['roleid'], 'customchar1'=>$data['customchar1'], 'customchar2' => $instance->customchar2,
+                        'courseid'=>$data['courseid'], 'id'=>$data['id']);
+        if ($DB->record_exists_select('enrol', "roleid = :roleid AND customchar1 = :customchar1 AND customchar2 = :customchar2
+                                                AND courseid = :courseid AND enrol = 'class' AND id <> :id", $params)) {
             $errors['roleid'] = get_string('instanceexists', 'enrol_class');
         }
 

@@ -1,8 +1,9 @@
+/* SYNERGY LEARNING - rename cohortid => classname; minor language string name changes */
 YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
 
     var CONTROLLERNAME = 'Quick class enrolment controller',
         CLASSNAME = 'Class',
-        CLASSID = 'classid',
+        CLASSID = 'classname',
         ENROLLED = 'enrolled',
         NAME = 'name',
         USERS = 'users',
@@ -72,7 +73,7 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
 
             var close = Y.Node.create('<div class="close"></div>');
             var panel = new Y.Overlay({
-                headerContent : Y.Node.create('<div></div>').append(Y.Node.create('<h2>'+M.str.enrol.enrolclass+'</h2>')).append(close),
+                headerContent : Y.Node.create('<div></div>').append(Y.Node.create('<h2>'+M.str.enrol_class.enrolclass+'</h2>')).append(close),
                 bodyContent : base,
                 constrain : true,
                 centered : true,
@@ -229,7 +230,7 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
             var rawclasses = response.classes;
             var classes = [], i=0;
             for (i in rawclasses) {
-                classes[rawclasses[i].classid] = new CLASS(rawclasses[i]);
+                classes[rawclasses[i].classname] = new CLASS(rawclasses[i]);
             }
             this.set(CLASSES, classes);
         },
@@ -276,7 +277,7 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
             var params = {
                 id : this.get(COURSEID),
                 roleid : node.one('.'+CSS.PANELROLES+' select').get('value'),
-                classid : classobj.get(CLASSID),
+                classname : classobj.get(CLASSID),
                 action : (usersonly)?'enrolclassusers':'enrolclass',
                 sesskey : M.cfg.sesskey
             };
@@ -295,7 +296,7 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
                                     Y.Node.one('#id_yuialertconfirm-' + alertpanel.COUNT).focus();
                                 }
                                 var enrolled = Y.Node.create('<div class="'+CSS.CLASSBUTTON+' alreadyenrolled">'+M.str.enrol.synced+'</div>');
-                                node.one('.'+CSS.CLASS+' #classid_'+classobj.get(CLASSID)).replace(enrolled);
+                                node.one('.'+CSS.CLASS+' #classname_'+classobj.get(CLASSID)).replace(enrolled);
                                 this.set(REQUIREREFRESH, true);
                             }
                         } catch (e) {
@@ -351,14 +352,14 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
             if (this.get(ENROLLED)) {
                 button = Y.Node.create('<div class="'+CSS.CLASSBUTTON+' alreadyenrolled">'+M.str.enrol.synced+'</div>');
             } else {
-                button = Y.Node.create('<div id="classid_'+this.get(CLASSID)+'"></div>');
+                button = Y.Node.create('<div id="classname_'+this.get(CLASSID)+'"></div>');
 
-                syncbutton = Y.Node.create('<a class="'+CSS.CLASSBUTTON+' notenrolled enrolclass">'+M.str.enrol.enrolclass+'</a>');
+                syncbutton = Y.Node.create('<a class="'+CSS.CLASSBUTTON+' notenrolled enrolclass">'+M.str.enrol_class.enrolclass+'</a>');
                 syncbutton.on('click', function(){this.fire('enrolchort');}, this);
                 button.append(syncbutton);
 
                 if (supportmanualenrolment) {
-                    usersbutton = Y.Node.create('<a class="'+CSS.CLASSBUTTON+' notenrolled enrolusers">'+M.str.enrol.enrolclassusers+'</a>');
+                    usersbutton = Y.Node.create('<a class="'+CSS.CLASSBUTTON+' notenrolled enrolusers">'+M.str.enrol_class.enrolclassusers+'</a>');
                     usersbutton.on('click', function(){this.fire('enrolusers');}, this);
                     button.append(usersbutton);
                 }
@@ -370,7 +371,7 @@ YUI.add('moodle-enrol_class-quickenrolment', function(Y) {
     }, {
         NAME : CLASSNAME,
         ATTRS : {
-            classid : {
+            classname : {
 
             },
             name : {

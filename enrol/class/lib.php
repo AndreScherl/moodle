@@ -45,11 +45,7 @@ class enrol_class_plugin extends enrol_plugin {
 
         } else if (empty($instance->name)) {
             $enrol = $this->get_name();
-            $class = $DB->get_record('class', array('id'=>$instance->customint1));
-            if (!$class) {
-                return get_string('pluginname', 'enrol_'.$enrol);
-            }
-            $classname = format_string($class->name, true, array('context'=>context::instance_by_id($class->contextid)));
+            $classname = $instance->customchar1; // SYNERGY LEARNING - get the classname directly from the field.
             if ($role = $DB->get_record('role', array('id'=>$instance->roleid))) {
                 $role = role_get_name($role, context_course::instance($instance->courseid, IGNORE_MISSING));
                 return get_string('pluginname', 'enrol_'.$enrol) . ' (' . $classname . ' - ' . $role .')';
@@ -83,25 +79,11 @@ class enrol_class_plugin extends enrol_plugin {
      * @return bool
      */
     protected function can_add_new_instances($courseid) {
-        global $DB;
-
         $coursecontext = context_course::instance($courseid);
         if (!has_capability('moodle/course:enrolconfig', $coursecontext) or !has_capability('enrol/class:config', $coursecontext)) {
             return false;
         }
-        list($sqlparents, $params) = $DB->get_in_or_equal(get_parent_contexts($coursecontext));
-        $sql = "SELECT id, contextid
-                  FROM {class}
-                 WHERE contextid $sqlparents
-              ORDER BY name ASC";
-        $classes = $DB->get_records_sql($sql, $params);
-        foreach ($classes as $c) {
-            $context = context::instance_by_id($c->contextid);
-            if (has_capability('moodle/class:view', $context)) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -219,22 +201,23 @@ class enrol_class_plugin extends enrol_plugin {
             return false;
         }
 
+        // SYNERGY LEARNING - slightly different lang strings from cohort plugin.
         $classurl = new moodle_url('/enrol/class/edit.php', array('courseid' => $course->id));
-        $button = new enrol_user_button($classurl, get_string('enrolclass', 'enrol'), 'get');
+        $button = new enrol_user_button($classurl, get_string('enrolclass', 'enrol_class'), 'get');
         $button->class .= ' enrol_class_plugin';
 
         $button->strings_for_js(array(
             'enrol',
             'synced',
-            'enrolclass',
-            'enrolclassusers',
             ), 'enrol');
         $button->strings_for_js(array(
             'ajaxmore',
+            'class',
             'classesearch',
+            'enrolclass',
+            'enrolclassusers',
             ), 'enrol_class');
         $button->strings_for_js('assignroles', 'role');
-        $button->strings_for_js('class', 'class');
         $button->strings_for_js('users', 'moodle');
 
         // No point showing this at all if the user cant manually enrol users.
@@ -273,8 +256,11 @@ class enrol_class_plugin extends enrol_plugin {
             $data->customint2 = $step->get_mappingid('group', $data->customint2);
         }
 
-        if ($data->roleid and $DB->record_exists('class', array('id'=>$data->customint1))) {
-            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enrol'=>$this->get_name()));
+        // SYNERGY LEARNING - use customchar1 and customchar2 fields instead of customint1 (used in cohort enrol).
+        if ($data->roleid and $data->customchar1 and $data->customchar2) {
+            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customchar1'=>$data->customchar1,
+                                                       'customchar2' => $data->customchar2,
+                                                       'courseid'=>$course->id, 'enrol'=>$this->get_name()));
             if ($instance) {
                 $instanceid = $instance->id;
             } else {
@@ -286,8 +272,11 @@ class enrol_class_plugin extends enrol_plugin {
             enrol_class_sync($course->id, false);
 
         } else if ($this->get_config('unenrolaction') == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
-            $data->customint1 = 0;
-            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enrol'=>$this->get_name()));
+            $data->customchar1 = '';
+            $data->customchar2 = '';
+            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customchar1'=>$data->customchar1,
+                                                       'customchar2' => $data->customchar2,
+                                                       'courseid'=>$course->id, 'enrol'=>$this->get_name()));
 
             if ($instance) {
                 $instanceid = $instance->id;

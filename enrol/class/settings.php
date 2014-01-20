@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
 
+    // SYNERGY LEARNING - settings extensively customised from enrol_cohort.
+
     //--- general settings -----------------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_class_settings', '', get_string('pluginname_desc', 'enrol_class')));
 
@@ -43,8 +45,9 @@ if ($ADMIN->fulltree) {
                                                   get_string('status_desc', 'enrol_class'), ENROL_INSTANCE_ENABLED, $options));
 
     if (!during_initial_install()) {
-        $options = get_roles_with_capability('enrol/class:assignable', CAP_ALLOW, context_system::instance());
-        $options = role_fix_names($options, null, ROLENAME_BOTH, true);
+        global $CFG;
+        require_once($CFG->dirroot.'/enrol/class/locallib.php');
+        $options = enrol_class_get_available_roles();
         $student = get_archetype_roles('student');
         $student = reset($student);
         $settings->add(new admin_setting_configselect('enrol_class/roleid', get_string('defaultrole', 'role'),
@@ -62,11 +65,11 @@ if ($ADMIN->fulltree) {
                      'timecreated', 'timemodified', 'trustbitmask', 'imagealt');
     $options = array_combine($userfields, $userfields);
 
-    $settings->add(new admin_setting_configselect('emrol_class/user_field_classname',
+    $settings->add(new admin_setting_configselect('enrol_class/user_field_classname',
                                                   get_string('userfieldclassname', 'enrol_class'),
                                                   get_string('userfieldclassname_desc', 'enrol_class'), 'department', $options));
 
-    $settings->add(new admin_setting_configselect('emrol_class/user_field_schoolid',
+    $settings->add(new admin_setting_configselect('enrol_class/user_field_schoolid',
                                                   get_string('userfieldschoolid', 'enrol_class'),
                                                   get_string('userfieldschoolid_desc', 'enrol_class'), 'institution', $options));
 

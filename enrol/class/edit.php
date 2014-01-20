@@ -46,6 +46,7 @@ if (!enrol_is_enabled('class')) {
 }
 
 $enrol = enrol_get_plugin('class');
+$schoolfield = get_config('enrol_class', 'user_field_schoolid');
 
 if ($instanceid) {
     $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'class', 'id'=>$instanceid), '*', MUST_EXIST);
@@ -60,8 +61,10 @@ if ($instanceid) {
     $instance->id         = null;
     $instance->courseid   = $course->id;
     $instance->enrol      = 'class';
-    $instance->customint1 = ''; // Class id.
+    $instance->customchar1 = ''; // SYNERGY LEARNING: Class name.
+    $instance->customchar2 = $USER->{$schoolfield}; // SYNERGY LEARNING: School id.
     $instance->customint2 = 0;  // Optional group id.
+    $instance->customint3 = 0;  // SYNERGY LEARNING: Sync enabled.
 }
 
 // Try and make the manage instances node on the navigation active.
@@ -87,12 +90,21 @@ if ($mform->is_cancelled()) {
         $instance->status       = $data->status;
         $instance->roleid       = $data->roleid;
         $instance->customint2   = $data->customint2;
+        $instance->customint3   = $data->customint3;
         $instance->timemodified = time();
         $DB->update_record('enrol', $instance);
+        enrol_class_sync($course->id); // SYNERGY LEARNING: Synchronise, if 'sync members' is enabled.
     }  else {
-        $enrol->add_instance($course, array('name'=>$data->name, 'status'=>$data->status, 'customint1'=>$data->customint1, 'roleid'=>$data->roleid, 'customint2'=>$data->customint2));
+        // SYNERGY LEARNING - save different params from enrol_cohort.
+        $globalconfig = get_config('enrol_class');
+        $instanceid = $enrol->add_instance($course, array('name'=>$data->name, 'status'=>$data->status,
+                                                          'customchar1'=>$data->customchar1,
+                                                          'customchar2' => $USER->{$schoolfield},
+                                                          'customint3' => $data->customint3,
+                                                          'roleid'=>$data->roleid, 'customint2'=>$data->customint2));
+        // When creating a new instance, force update even if 'sync members' is off.
+        enrol_class_sync($course->id, false, $instanceid);
     }
-    enrol_class_sync($course->id);
     redirect($returnurl);
 }
 

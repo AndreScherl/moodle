@@ -26,136 +26,15 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/enrol/locallib.php');
 
-
-/**
- * Event handler for class enrolment plugin.
- *
- * We try to keep everything in sync via listening to events,
- * it may fail sometimes, so we always do a full sync in cron too.
- */
-class enrol_class_handler {
-    /**
-     * Event processor - class member added.
-     * @param stdClass $ca
-     * @return bool
-     */
-    public static function member_added($ca) {
-        global $DB, $CFG;
-        require_once("$CFG->dirroot/group/lib.php");
-
-        if (!enrol_is_enabled('class')) {
-            return true;
-        }
-
-        // Does any enabled class instance want to sync with this class?
-        $sql = "SELECT e.*, r.id as roleexists
-                  FROM {enrol} e
-             LEFT JOIN {role} r ON (r.id = e.roleid)
-                 WHERE e.customint1 = :classid AND e.enrol = 'class'
-              ORDER BY e.id ASC";
-        if (!$instances = $DB->get_records_sql($sql, array('classid'=>$ca->classid))) {
-            return true;
-        }
-
-        $plugin = enrol_get_plugin('class');
-        foreach ($instances as $instance) {
-            if ($instance->status != ENROL_INSTANCE_ENABLED ) {
-                // No roles for disabled instances.
-                $instance->roleid = 0;
-            } else if ($instance->roleid and !$instance->roleexists) {
-                // Invalid role - let's just enrol, they will have to create new sync and delete this one.
-                $instance->roleid = 0;
-            }
-            unset($instance->roleexists);
-            // No problem if already enrolled.
-            $plugin->enrol_user($instance, $ca->userid, $instance->roleid, 0, 0, ENROL_USER_ACTIVE);
-
-            // Sync groups.
-            if ($instance->customint2) {
-                if (!groups_is_member($instance->customint2, $ca->userid)) {
-                    if ($group = $DB->get_record('groups', array('id'=>$instance->customint2, 'courseid'=>$instance->courseid))) {
-                        groups_add_member($group->id, $ca->userid, 'enrol_class', $instance->id);
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Event processor - class member removed.
-     * @param stdClass $ca
-     * @return bool
-     */
-    public static function member_removed($ca) {
-        global $DB;
-
-        // Does anything want to sync with this class?
-        if (!$instances = $DB->get_records('enrol', array('customint1'=>$ca->classid, 'enrol'=>'class'), 'id ASC')) {
-            return true;
-        }
-
-        $plugin = enrol_get_plugin('class');
-        $unenrolaction = $plugin->get_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
-
-        foreach ($instances as $instance) {
-            if (!$ue = $DB->get_record('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$ca->userid))) {
-                continue;
-            }
-            if ($unenrolaction == ENROL_EXT_REMOVED_UNENROL) {
-                $plugin->unenrol_user($instance, $ca->userid);
-
-            } else {
-                if ($ue->status != ENROL_USER_SUSPENDED) {
-                    $plugin->update_user_enrol($instance, $ue->userid, ENROL_USER_SUSPENDED);
-                    $context = context_course::instance($instance->courseid);
-                    role_unassign_all(array('userid'=>$ue->userid, 'contextid'=>$context->id, 'component'=>'enrol_class', 'itemid'=>$instance->id));
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Event processor - class deleted.
-     * @param stdClass $class
-     * @return bool
-     */
-    public static function deleted($class) {
-        global $DB;
-
-        // Does anything want to sync with this class?
-        if (!$instances = $DB->get_records('enrol', array('customint1'=>$class->id, 'enrol'=>'class'), 'id ASC')) {
-            return true;
-        }
-
-        $plugin = enrol_get_plugin('class');
-        $unenrolaction = $plugin->get_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
-
-        foreach ($instances as $instance) {
-            if ($unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
-                $context = context_course::instance($instance->courseid);
-                role_unassign_all(array('contextid'=>$context->id, 'component'=>'enrol_class', 'itemid'=>$instance->id));
-                $plugin->update_status($instance, ENROL_INSTANCE_DISABLED);
-            } else {
-                $plugin->delete_instance($instance);
-            }
-        }
-
-        return true;
-    }
-}
-
-
 /**
  * Sync all class course links.
  * @param int $courseid one course, empty mean all
  * @param bool $verbose verbose CLI output
+ * @param int $forceupdateid (optional) SYNERGY LEARNING force sync of instance, even if sync members
+ *                                      is disabled (used when creating a new instance).
  * @return int 0 means ok, 1 means error, 2 means plugin disabled
  */
-function enrol_class_sync($courseid = NULL, $verbose = false) {
+function enrol_class_sync($courseid = NULL, $verbose = false, $forceupdateid = null) {
     global $CFG, $DB;
     require_once("$CFG->dirroot/group/lib.php");
 
@@ -182,18 +61,31 @@ function enrol_class_sync($courseid = NULL, $verbose = false) {
     $plugin = enrol_get_plugin('class');
     $unenrolaction = $plugin->get_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
 
+    // SYNERGY LEARNING - get the user profile fields to use for school/class.
+    $globalconfig = get_config('enrol_class');
+    $schoolfield = $globalconfig->user_field_schoolid;
+    $classfield = $globalconfig->user_field_classname;
 
     // Iterate through all not enrolled yet users.
-    $onecourse = $courseid ? "AND e.courseid = :courseid" : "";
-    $sql = "SELECT cm.userid, e.id AS enrolid, ue.status
-              FROM {class_members} cm
-              JOIN {enrol} e ON (e.customint1 = cm.classid AND e.enrol = 'class' $onecourse)
-              JOIN {user} u ON (u.id = cm.userid AND u.deleted = 0)
-         LEFT JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = cm.userid)
-             WHERE ue.id IS NULL OR ue.status = :suspended";
+    // SYNERGY LEARNING - match users based on their school id + class name.
+    // Ignore disabled instances and those with Sync members off (unless we are first creating an instance
+    // when $forceupdateid will be set)
     $params = array();
+    $onecourse = $courseid ? "AND e.courseid = :courseid" : "";
+    $forceupdate = '';
+    if ($forceupdateid) {
+        $forceupdate = ' OR e.id = :forceupdateid ';
+        $params['forceupdateid'] = $forceupdateid;
+    }
+    $sql = "SELECT u.id AS 'userid', e.id AS enrolid, ue.status
+              FROM {user} u
+              JOIN {enrol} e ON (e.customchar1 = u.{$classfield} AND e.customchar2 = u.{$schoolfield}
+                                 AND e.enrol = 'class' AND e.status = :enabled AND (e.customint3 = 1 $forceupdate) $onecourse)
+         LEFT JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = u.id)
+             WHERE u.deleted = 0 AND (ue.id IS NULL OR ue.status = :suspended)";
     $params['courseid'] = $courseid;
     $params['suspended'] = ENROL_USER_SUSPENDED;
+    $params['enabled'] = ENROL_INSTANCE_ENABLED;
     $rs = $DB->get_recordset_sql($sql, $params);
     foreach($rs as $ue) {
         if (!isset($instances[$ue->enrolid])) {
@@ -203,12 +95,12 @@ function enrol_class_sync($courseid = NULL, $verbose = false) {
         if ($ue->status == ENROL_USER_SUSPENDED) {
             $plugin->update_user_enrol($instance, $ue->userid, ENROL_USER_ACTIVE);
             if ($verbose) {
-                mtrace("  unsuspending: $ue->userid ==> $instance->courseid via class $instance->customint1");
+                mtrace("  unsuspending: $ue->userid ==> $instance->courseid via class $instance->customchar1");
             }
         } else {
             $plugin->enrol_user($instance, $ue->userid);
             if ($verbose) {
-                mtrace("  enrolling: $ue->userid ==> $instance->courseid via class $instance->customint1");
+                mtrace("  enrolling: $ue->userid ==> $instance->courseid via class $instance->customchar1");
             }
         }
     }
@@ -216,12 +108,20 @@ function enrol_class_sync($courseid = NULL, $verbose = false) {
 
 
     // Unenrol as necessary.
+    // SYNERGY LEARNING - match users based on their school id + class name.
+    // Ignore disabled instances and those with Sync members off (unless we are first creating an instance
+    // when $forceupdateid will be set)
     $sql = "SELECT ue.*, e.courseid
               FROM {user_enrolments} ue
-              JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'class' $onecourse)
-         LEFT JOIN {class_members} cm ON (cm.classid = e.customint1 AND cm.userid = ue.userid)
-             WHERE cm.id IS NULL";
-    $rs = $DB->get_recordset_sql($sql, array('courseid'=>$courseid));
+              JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'class'
+                                 AND e.status = :enabled AND (e.customint3 = 1 $forceupdate) $onecourse)
+         LEFT JOIN {user} u ON (u.{$classfield} = e.customchar1 AND u.{$schoolfield} = e.customchar2 AND u.id = ue.userid)
+             WHERE u.id IS NULL";
+    $params = array('courseid' => $courseid, 'enabled' => ENROL_INSTANCE_ENABLED);
+    if ($forceupdateid) {
+        $params['forceupdateid'] = $forceupdateid;
+    }
+    $rs = $DB->get_recordset_sql($sql, $params);
     foreach($rs as $ue) {
         if (!isset($instances[$ue->enrolid])) {
             $instances[$ue->enrolid] = $DB->get_record('enrol', array('id'=>$ue->enrolid));
@@ -231,7 +131,7 @@ function enrol_class_sync($courseid = NULL, $verbose = false) {
             // Remove enrolment together with group membership, grades, preferences, etc.
             $plugin->unenrol_user($instance, $ue->userid);
             if ($verbose) {
-                mtrace("  unenrolling: $ue->userid ==> $instance->courseid via class $instance->customint1");
+                mtrace("  unenrolling: $ue->userid ==> $instance->courseid via class $instance->customchar1");
             }
 
         } else { // ENROL_EXT_REMOVED_SUSPENDNOROLES
@@ -356,13 +256,13 @@ function enrol_class_sync($courseid = NULL, $verbose = false) {
  * In order for this to succeed the course must contain a valid manual
  * enrolment plugin instance that the user has permission to enrol users through.
  *
- * @global moodle_database $DB
  * @param course_enrolment_manager $manager
- * @param int $classid
+ * @param string $classname
+ * @param string $schoolid
  * @param int $roleid
  * @return int
  */
-function enrol_class_enrol_all_users(course_enrolment_manager $manager, $classid, $roleid) {
+function enrol_class_enrol_all_users(course_enrolment_manager $manager, $classname, $schoolid, $roleid) {
     global $DB;
     $context = $manager->get_context();
     require_capability('moodle/course:enrolconfig', $context);
@@ -376,65 +276,79 @@ function enrol_class_enrol_all_users(course_enrolment_manager $manager, $classid
         }
     }
     $plugin = enrol_get_plugin('manual');
-    if (!$instance || !$plugin || !$plugin->allow_enrol($instance) || !has_capability('enrol/'.$plugin->get_name().':enrol', $context)) {
+    // SYNERGY LEARNING - tweak capability check from enrol_cohort.
+    if (!$instance || !$plugin || !$plugin->allow_enrol($instance) || !has_capability('enrol/class:enrol', $context)) {
         return false;
     }
-    $sql = "SELECT com.userid
-              FROM {class_members} com
+    // SYNERGY LEARNING - look up all users with matching classname + schoolid.
+    $config = get_config('enrol_class');
+    $classfield = $config->user_field_classname;
+    $schoolfield = $config->user_field_schoolid;
+    $sql = "SELECT u.id
+              FROM {user} u
          LEFT JOIN (
                 SELECT *
                   FROM {user_enrolments} ue
                  WHERE ue.enrolid = :enrolid
-                 ) ue ON ue.userid=com.userid
-             WHERE com.classid = :classid AND ue.id IS NULL";
-    $params = array('classid' => $classid, 'enrolid' => $instance->id);
+                 ) ue ON ue.userid = u.id
+             WHERE u.{$classfield} = :classname AND u.{$schoolfield} = :schoolid AND ue.id IS NULL";
+    $params = array('classname' => $classname, 'schoolid' => $schoolid, 'enrolid' => $instance->id);
     $rs = $DB->get_recordset_sql($sql, $params);
     $count = 0;
     foreach ($rs as $user) {
         $count++;
-        $plugin->enrol_user($instance, $user->userid, $roleid);
+        $plugin->enrol_user($instance, $user->id, $roleid);
     }
     $rs->close();
     return $count;
 }
 
 /**
- * Gets all the classes the user is able to view.
+ * SYNERGY LEARNING - get a list of roles we are allowed to allocate during enrolment.
  *
- * @global moodle_database $DB
- * @param course_enrolment_manager $manager
+ * @return array (roleid => display name)
+ */
+function enrol_class_get_available_roles() {
+    $roles = get_roles_with_capability('enrol/class:assignable', CAP_ALLOW, context_system::instance());
+    return role_fix_names($roles, null, ROLENAME_BOTH, true);
+}
+
+/**
+ * Gets all the classes the user is able to view.
+ * SYNERGY LEARNING - very different form the original cohort enrolment.
+ *
+ * @param object $user optional
  * @return array
  */
-function enrol_class_get_classes(course_enrolment_manager $manager) {
+function enrol_class_get_classes($user = null) {
     global $DB;
-    $context = $manager->get_context();
-    $classes = array();
-    $instances = $manager->get_enrolment_instances();
-    $enrolled = array();
-    foreach ($instances as $instance) {
-        if ($instance->enrol == 'class') {
-            $enrolled[] = $instance->customint1;
-        }
+
+    // TODO davo - get this list via LDAP, instead of searching 'user' table.
+    $config = get_config('enrol_class');
+
+    $where = '';
+    $params = array();
+    if ($user !== null) {
+        $where = ' WHERE u.'.$config->user_field_schoolid.' = ? ';
+        $params[] = $user->{$config->user_field_schoolid};
     }
-    list($sqlparents, $params) = $DB->get_in_or_equal(get_parent_contexts($context));
-    $sql = "SELECT id, name, idnumber, contextid
-              FROM {class}
-             WHERE contextid $sqlparents
-          ORDER BY name ASC, idnumber ASC";
+
+    $sql = "SELECT DISTINCT u.{$config->user_field_classname} AS classname, COUNT(u.id) AS usercount
+              FROM {user} u
+              {$where}
+             GROUP BY u.{$config->user_field_classname}
+             ORDER BY u.{$config->user_field_classname}";
     $rs = $DB->get_recordset_sql($sql, $params);
+    $classes = array();
     foreach ($rs as $c) {
-        $context = context::instance_by_id($c->contextid);
-        if (!has_capability('moodle/class:view', $context)) {
-            continue;
-        }
-        $classes[$c->id] = array(
-            'classid'=>$c->id,
-            'name'=>format_string($c->name, true, array('context'=>context::instance_by_id($c->contextid))),
-            'users'=>$DB->count_records('class_members', array('classid'=>$c->id)),
-            'enrolled'=>in_array($c->id, $enrolled)
+        $classes[$c->classname] = array(
+            'classname' => $c->classname,
+            'name' => $c->classname,
+            'users' => $c->usercount,
         );
     }
     $rs->close();
+
     return $classes;
 }
 
@@ -442,23 +356,18 @@ function enrol_class_get_classes(course_enrolment_manager $manager) {
  * Check if class exists and user is allowed to enrol it.
  *
  * @global moodle_database $DB
- * @param int $classid Class ID
+ * @param string $classname Class ID
  * @return boolean
  */
-function enrol_class_can_view_class($classid) {
-    global $DB;
-    $class = $DB->get_record('class', array('id' => $classid), 'id, contextid');
-    if ($class) {
-        $context = context::instance_by_id($class->contextid);
-        if (has_capability('moodle/class:view', $context)) {
-            return true;
-        }
-    }
-    return false;
+function enrol_class_can_view_class($classname) {
+    global $USER;
+    $classes = enrol_class_get_classes($USER);
+    return array_key_exists($classname, $classes);
 }
 
 /**
  * Gets classes the user is able to view.
+ * SYNERGY LEARNING - very different from original cohort enrolment.
  *
  * @global moodle_database $DB
  * @param course_enrolment_manager $manager
@@ -468,67 +377,62 @@ function enrol_class_can_view_class($classid) {
  * @return array    Array(more => bool, offset => int, classes => array)
  */
 function enrol_class_search_classes(course_enrolment_manager $manager, $offset = 0, $limit = 25, $search = '') {
-    global $DB;
-    $context = $manager->get_context();
+    global $DB, $USER;
     $classes = array();
     $instances = $manager->get_enrolment_instances();
     $enrolled = array();
     foreach ($instances as $instance) {
         if ($instance->enrol == 'class') {
-            $enrolled[] = $instance->customint1;
+            $enrolled[] = $instance->customchar1;
         }
     }
 
-    list($sqlparents, $params) = $DB->get_in_or_equal($context->get_parent_context_ids());
+    // TODO davo - get the list via LDAP, instead of searching the 'user' table.
+    $config = get_config('enrol_class');
+    $schoolfield = $config->user_field_schoolid;
+    $classfield = $config->user_field_classname;
+    $schoolid = $USER->{$schoolfield};
 
-    // Add some additional sensible conditions.
-    $tests = array('contextid ' . $sqlparents);
-
-    // Modify the query to perform the search if required.
-    if (!empty($search)) {
-        $conditions = array(
-            'name',
-            'idnumber',
-            'description'
-        );
-        $searchparam = '%' . $DB->sql_like_escape($search) . '%';
-        foreach ($conditions as $key=>$condition) {
-            $conditions[$key] = $DB->sql_like($condition, "?", false);
-            $params[] = $searchparam;
-        }
-        $tests[] = '(' . implode(' OR ', $conditions) . ')';
+    $wheres = array();
+    $params = array();
+    if ($schoolid !== null) {
+        $wheres[] = "u.{$schoolfield} = :schoolid";
+        $params['schoolid'] = $schoolid;
     }
-    $wherecondition = implode(' AND ', $tests);
+    if ($search) {
+        $wheres[] = $DB->sql_like("u.{$classfield}", ':search', false, false);
+        $params['search'] = '%'.$search.'%';
+    }
 
-    $sql = "SELECT id, name, idnumber, contextid, description
-              FROM {class}
-             WHERE $wherecondition
-          ORDER BY name ASC, idnumber ASC";
-    $rs = $DB->get_recordset_sql($sql, $params, $offset);
+    $where = '';
+    if ($wheres) {
+        $where = ' WHERE '.implode(' AND ', $wheres);
+    }
 
-    // Produce the output respecting parameters.
+    $sql = "SELECT DISTINCT u.{$config->user_field_classname} AS classname, COUNT(u.id) AS usercount
+              FROM {user} u
+              {$where}
+             GROUP BY u.{$config->user_field_classname}
+             ORDER BY u.{$config->user_field_classname}";
+    $rs = $DB->get_recordset_sql($sql, $params, $offset, $limit + 1); // One extra, to see if there are more results.
+
     foreach ($rs as $c) {
-        // Track offset.
-        $offset++;
-        // Check capabilities.
-        $context = context::instance_by_id($c->contextid);
-        if (!has_capability('moodle/class:view', $context)) {
-            continue;
-        }
-        if ($limit === 0) {
-            // We have reached the required number of items and know that there are more, exit now.
-            $offset--;
-            break;
-        }
-        $classes[$c->id] = array(
-            'classid' => $c->id,
-            'name'     => shorten_text(format_string($c->name, true, array('context'=>context::instance_by_id($c->contextid))), 35),
-            'users'    => $DB->count_records('class_members', array('classid'=>$c->id)),
-            'enrolled' => in_array($c->id, $enrolled)
+        $classes[$c->classname] = array(
+            'classname' => $c->classname,
+            'name' => $c->classname,
+            'users' => $c->usercount,
+            'enrolled' => in_array($c->classname, $enrolled),
+            'schoolid' => $schoolid,
         );
-        // Count items.
-        $limit--;
     }
     $rs->close();
-    return array('more' => !(bool)$limit, 'offset' => $offset, 'classes' => $classes);
+
+    // Check to see if there are more results to find (and remove the extra result).
+    $more = false;
+    if (count($classes) > $limit) {
+        $more = true;
+        array_pop($classes);
+    }
+
+    return array('more' => $more, 'offset' => $offset + $limit, 'classes' => $classes);
 }

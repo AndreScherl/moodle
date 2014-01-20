@@ -79,31 +79,38 @@ switch ($action) {
         $outcome->response = enrol_class_search_classes($manager, $offset, 25, $search);
         break;
     case 'enrolclass':
+        // SYNERGY LEARNING - rename cohortid => classname; use current user's schoolid.
         require_capability('moodle/course:enrolconfig', $context);
-        require_capability('enrol/class:config', $context);
+        require_capability('enrol/class:enrol', $context);
         $roleid = required_param('roleid', PARAM_INT);
-        $classid = required_param('classid', PARAM_INT);
+        $classname = required_param('classname', PARAM_TEXT);
+        $schoolfield = get_config('enrol_class', 'user_field_schoolid');
+        $schoolid = $USER->{$schoolfield};
 
         $roles = $manager->get_assignable_roles();
-        if (!enrol_class_can_view_class($classid) || !array_key_exists($roleid, $roles)) {
+        if (!enrol_class_can_view_class($classname) || !array_key_exists($roleid, $roles)) {
             throw new enrol_ajax_exception('errorenrolclass');
         }
         $enrol = enrol_get_plugin('class');
-        $enrol->add_instance($manager->get_course(), array('customint1' => $classid, 'roleid' => $roleid));
+        $enrol->add_instance($manager->get_course(), array('customchar1' => $classname, 'roleid' => $roleid,
+                                                           'customchar2' => $schoolid));
         enrol_class_sync($manager->get_course()->id);
         break;
     case 'enrolclassusers':
+        // SYNERGY LEARNING - rename cohortid => classname, change capability check.
         //TODO: this should be moved to enrol_manual, see MDL-35618.
-        require_capability('enrol/manual:enrol', $context);
+        require_capability('enrol/class:enrol', $context);
         $roleid = required_param('roleid', PARAM_INT);
-        $classid = required_param('classid', PARAM_INT);
+        $classname = required_param('classname', PARAM_TEXT);
+        $schoolfield = get_config('enrol_class', 'user_field_schoolid');
+        $schoolid = $USER->{$schoolfield};
 
         $roles = $manager->get_assignable_roles();
-        if (!enrol_class_can_view_class($classid) || !array_key_exists($roleid, $roles)) {
+        if (!enrol_class_can_view_class($classname) || !array_key_exists($roleid, $roles)) {
             throw new enrol_ajax_exception('errorenrolclass');
         }
 
-        $result = enrol_class_enrol_all_users($manager, $classid, $roleid);
+        $result = enrol_class_enrol_all_users($manager, $classname, $schoolid, $roleid);
         if ($result === false) {
             throw new enrol_ajax_exception('errorenrolclassusers');
         }

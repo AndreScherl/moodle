@@ -52,7 +52,10 @@ class enrol_class_edit_form extends moodleform {
                          ENROL_INSTANCE_DISABLED => get_string('no'));
         $mform->addElement('select', 'status', get_string('status', 'enrol_class'), $options);
 
-        // SYNERGY LEARNING - display class selector (no cohort selector).
+        // SYNERGY LEARNING - display class selector (not cohort selector).
+        $schoolfield = get_config('enrol_class', 'user_field_schoolid');
+        $schoolid = $USER->{$schoolfield};
+        $mform->addElement('static', 'schoolid', get_string('schoolid', 'enrol_class'), $schoolid);
         if ($instance->id) {
             $classes = array($instance->customchar1 => $instance->customchar1);
             $mform->addElement('select', 'customchar1', get_string('class', 'enrol_class'), $classes);

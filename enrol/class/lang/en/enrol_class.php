@@ -37,6 +37,7 @@ $string['instanceexists'] = 'Class is already synchronised with selected role';
 $string['moreglobalsettings'] = 'More global settings';
 $string['pluginname'] = 'Class enrolment';
 $string['pluginname_desc'] = 'Class enrolment plugin synchronises class members with course participants.';
+$string['schoolid'] = 'School';
 $string['status'] = 'Active';
 $string['status_desc'] = 'Enable class enrolments.';
 $string['syncmembers'] = 'Sync members';

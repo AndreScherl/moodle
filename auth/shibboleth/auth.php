@@ -130,7 +130,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             // modify the variable $moodleattributes
             include($this->config->convert_data);
         }
-		
+
 		/**** UW: load institution-number ******/
 		$ldapdlb = new auth_plugin_ldapdlb();
         $extusername = textlib::convert($username, 'utf-8', $ldapdlb->config->ldapencoding);
@@ -185,7 +185,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      * @return bool
      */
     function can_change_password() {
-        
+
         // +++ mmantlik enable password changing.
         return true;
     }
@@ -454,8 +454,8 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
         return $CookieArray;
     }
-	
-	
+
+
     function user_update($olduser, $newuser) {
         $ldapdlb = new auth_plugin_ldapdlb();
         $result = true;
@@ -464,13 +464,38 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         }
         return $result;
     }
-	
+
 	function user_update_password($user, $newpassword) {
 		$ldapdlb = new auth_plugin_ldapdlb();
         $result = $ldapdlb->user_update_password($user, $newpassword);
-		
+
         return $result;
     }
+
+    //atar++ Funktion aus ldapdlb-Plugin für Nutzerlöschung
+    function cron() {// Delete users who haven't confirmed within required period
+        global $CFG, $DB;
+        $ldapdlb = new auth_plugin_ldapdlb();
+        $timenow  = time();
+        srand ((double) microtime() * 10000000);
+        $random100 = rand(0,100);
+        if (($random100 < 20) and (!empty($this->config->autodeleteinterval))) {     // Approximately 20% of the time.
+            mtrace("Running clean-up task: shibboleth");
+            $cuttime = $timenow - ($this->config->autodeleteinterval * 24 * 3600);
+            $rs = $DB->get_recordset_sql ("SELECT *
+                                         FROM {user}
+                                          WHERE auth = 'shibboleth' and firstaccess = 0 and deleted = 0
+                                           AND timecreated < ?", array($cuttime));
+            foreach ($rs as $user) {
+                delete_user($user); // we MUST delete user properly first
+                if ($this->ldap_user_delete($user->username)) {
+                    mtrace(" Deleted unconfirmed user for ".fullname($user, true)." ($user->id)");
+                }
+            }
+            $rs->close();
+        }
+    }
+   //atar --
 }
 
 

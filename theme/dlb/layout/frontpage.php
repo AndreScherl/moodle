@@ -43,7 +43,9 @@ if ($CFG->block_dlb_toolbaronfrontpage == 0) {
 if (!isloggedin() or isguestuser()) {
     $bodyclasses[] = 'notloggedin';
 }
-
+if (!$PAGE->user_allowed_editing()) {
+    $bodyclasses[] = 'hide_settings_block';
+}
 echo $OUTPUT->doctype(); ?>
 <html id="frontpage" <?php echo $OUTPUT->htmlattributes() ?>>
     <head>

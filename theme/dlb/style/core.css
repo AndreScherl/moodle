@@ -261,3 +261,7 @@ input[readonly=readonly], input[readonly=readonly]:focus {
 #page-admin-roles-allow .region-content form {
     overflow:auto;
 }
+
+body.hide_settings_block .block_settings{
+    display:none;
+}

@@ -52,6 +52,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_dlb_supporturl', get_string('supporurl', 'block_dlb'),
             get_string('supporturlexpl', 'block_dlb'), '', PARAM_TEXT));
 
+    $settings->add(new admin_setting_configtext('block_dlb_presupporturl', get_string('presupporturl', 'block_dlb'),
+            get_string('presupporturlexpl', 'block_dlb'), '', PARAM_TEXT));
+
     $choices = array();
 
     $roles = $DB->get_records('role');

@@ -15,7 +15,11 @@
     if (!isset($config->changepasswordurl)) {
         $config->changepasswordurl = '';
     }
-
+   //atar+++: Konfiguration für Nutzerlöschung
+    if (!isset($config->autodeleteinterval)) {
+        $config->autodeleteinterval = 0;
+    }
+   //atar---
 ?>
 <table cellspacing="0" cellpadding="5" border="0">
 
@@ -133,7 +137,18 @@ urn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/
     </td>
     <td><?php print_string('changepasswordhelp', 'auth') ?></td>
 </tr>
-
+<tr>
+    <td align="right">
+        <label for="graceattr"><?php print_string('auth_auto_delete_interval_key', 'auth_ldapdlb') ?></label>
+    </td>
+    <td>
+        <input name="autodeleteinterval" id="autodeleteinterval" type="text" size="3" value="<?php echo $config->autodeleteinterval?>" />
+        <?php if (isset($err['delete_interval'])) { echo $OUTPUT->error_text($err['delete_interval']); } ?>
+    </td>
+    <td>
+        <?php print_string('auth_auto_delete_interval', 'auth_shibboleth') ?>
+    </td>
+</tr>
 
 
 <?php

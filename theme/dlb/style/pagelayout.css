@@ -506,5 +506,9 @@ body.pagelayout-frontpage.no_toolbar #page {
     overflow: auto;
 }
 
+#page-admin-user   .generaltable  .c3 {
+	 display:none;
+	
+}
 
 

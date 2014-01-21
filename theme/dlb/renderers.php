@@ -24,11 +24,8 @@ class theme_dlb_core_renderer extends core_renderer {
 
         parent::__construct($page, $target);
 
-        //überprüft, ob das Attribut $USER->isTeacher gesetzt ist, falls nicht wird der Wert gesetzt.
+        // ... for manual Account check the teacher flag depending on role assignments.
         $this->check_user_isTeacher();
-
-        //setup mebiRole
-        $this->setup_mebis_roles();
 
         //lädt zusätzliche Stylesheet für die Schriftarten, Whiteboard-Theme
         $this->load_additional_stylesheets($page);
@@ -125,7 +122,7 @@ class theme_dlb_core_renderer extends core_renderer {
      * @return boolean, true falls der User als Lehrer gilt.
      */
     protected function check_user_isTeacher() {
-        global $USER, $SESSION, $DB;
+        global $USER, $DB;
 
         //nur echte User zulassen....
         if (!isloggedin() or isguestuser()) {
@@ -136,11 +133,11 @@ class theme_dlb_core_renderer extends core_renderer {
             return $USER->isTeacher;
         }
 
-        //für Shibboleth und LDAP-USER SESSION überprüfen und übernehmen.
-        if (isset($SESSION->isTeacher)) {
+        // deprecated sincen IDM2.
+        /*if (isset($SESSION->isTeacher)) {
             $USER->isTeacher = $SESSION->isTeacher;
             return $USER->isTeacher;
-        }
+        }*/
 
         //prüfen, ob der User in irgend einem Kurs die Lehrerrolle hat.
         $roles = get_roles_with_capability('enrol/self:config');

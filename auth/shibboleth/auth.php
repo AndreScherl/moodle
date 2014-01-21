@@ -90,7 +90,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      */
     function get_userinfo($username) {
         // reads user information from shibboleth attributes and return it in array()
-        global $CFG, $SESSION;
+        global $CFG;
 
         // Check whether we have got all the essential attributes
         if (empty($_SERVER[$this->config->user_attribute])) {
@@ -129,21 +129,10 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             // modify the variable $moodleattributes
             include($this->config->convert_data);
         }
-
-        // ... awag: now setup mebisRole in Sessiondata, we have no $USER record yet.
-        if (!empty($_SERVER["mebisRole"])) {
-
-            $SESSION->mebisRole = explode(";", strtolower($_SERVER["mebisRole"]));
-            $SESSION->isTeacher = (strtolower($_SERVER["mebisRole"]) == "lehrer") ? 1 : 0;
-        } else {
-
-            debugging('received no mebis-role in auth/sibboleth/auth.php fpr user: ' . $username);
-        }
-        /*         * *********************************** */
-
+       
         return $result;
     }
-
+    
     /**
      * Returns array containg attribute mappings between Moodle and Shibboleth.
      *
@@ -443,7 +432,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         return $CookieArray;
     }
 
-// ++++ awag: From here on adapted for DLB to use with LDAP-Portal, Andreas Wagner ++++
+// ++++ awag: From here on adapted for DLB to use with new LDAP-Portal, Andreas Wagner ++++
     /**
      * Returns true if this authentication plugin can change the user's
      * password.
@@ -514,5 +503,43 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      */
     function edit_users_url() {
         return $this->config->editusersurl;
+    }
+    
+    
+    /** awag: override the authenticated hook to retrieve additional Shibboletz Header Vars
+     * 
+     * @global type $SESSION
+     * @param type $user
+     * @param type $username
+     * @param type $password
+     */
+    function user_authenticated_hook(&$user, $username, $password) {
+        
+        if ($user->auth != 'shibboleth') {
+            return false;
+        }
+        
+        // ...Default-Values for the $USER record.
+        $user->moodleClassList = array();
+        $user->mebisRole = array();
+        $user->isTeacher = 0;
+        
+         // ... get the moodleClassList for this user, if available.
+        if (!empty($_SERVER["moodleClassList"])) {
+            
+            $user->moodleClassList = explode(";", $_SERVER["moodleClassList"]);
+            
+        }
+
+        // ... now setup mebisRole in Sessiondata, we have no $USER record yet.
+        if (!empty($_SERVER["mebisRole"])) {
+
+            $user->mebisRole = explode(";", strtolower($_SERVER["mebisRole"]));
+            $user->isTeacher = (strtolower($_SERVER["mebisRole"]) == "lehrer") ? 1 : 0;
+            
+        } else {
+
+            debugging('received no mebis-role in auth/sibboleth/auth.php fpr user: ' . $username);
+        }
     }
 }

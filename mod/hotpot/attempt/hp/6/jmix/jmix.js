@@ -25,9 +25,9 @@
  * JMix
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function JMix(sendallclicks, ajax) {
+function JMix(sendallclicks, forceajax) {
     this.quiztype = 'JMix';
 
     /**
@@ -141,6 +141,6 @@ function JMix(sendallclicks, ajax) {
 
     } // end function : onclickCheck
 
-    this.init(1, sendallclicks, ajax);
+    this.init(1, sendallclicks, forceajax);
 }
 JMix.prototype = new hpQuizAttempt();

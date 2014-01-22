@@ -85,6 +85,7 @@ function CardDockToR(OtherCard){
 	this.SetL(OtherCard.GetR() + 5);
 	this.SetT(OtherCard.GetT());
 }
+
 Card.prototype.DockToR=CardDockToR;
 
 function CardSetHome(){
@@ -97,6 +98,7 @@ function CardGoHome(){
 	this.SetL(this.HomeL);
 	this.SetT(this.HomeT);
 }
+
 Card.prototype.GoHome=CardGoHome;
 
 //Fix for 6.2.5.2: avoid image dragging problem in draggable cards
@@ -109,6 +111,7 @@ function CardSetHTML(HTML){
 		}
 	}
 }
+
 Card.prototype.SetHTML = CardSetHTML;
 
 function doDrag(e) {
@@ -158,3 +161,4 @@ function endDrag(e) {
 
 var CurrDrag = -1;
 var topZ = 100;
+

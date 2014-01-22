@@ -44,7 +44,7 @@ class hotpot_source_hp_6_jcloze_xml extends hotpot_source_hp_6_jcloze {
      * @param xxx $sourcefile
      * @return xxx
      */
-    static public function is_quizfile($sourcefile)  {
+    public static function is_quizfile($sourcefile)  {
         return preg_match('/\.jcl$/', $sourcefile->get_filename());
     }
 

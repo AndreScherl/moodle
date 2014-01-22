@@ -51,7 +51,7 @@ class mod_hotpot_attempt_hp_6_jquiz_xml_v6_exam_renderer extends mod_hotpot_atte
      *
      * @return array of strings
      */
-    static public function sourcetypes()  {
+    public static function sourcetypes()  {
         return array('hp_6_jquiz_xml');
     }
 

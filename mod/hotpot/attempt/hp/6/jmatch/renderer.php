@@ -112,20 +112,6 @@ class mod_hotpot_attempt_hp_6_jmatch_renderer extends mod_hotpot_attempt_hp_6_re
             ."	var obj = document.getElementsByTagName('div');\n"
             ."	if (obj && obj.length) {\n"
             ."		myParentNode = obj[obj.length - 1].parentNode;\n"
-            ."		var css_prefix = new Array('webkit', 'khtml', 'moz', 'ms', 'o', '');\n"
-            ."		for (var i=0; i<css_prefix.length; i++) {\n"
-            ."			if (css_prefix[i]=='') {\n"
-            ."				var userSelect = 'userSelect';\n"
-            ."			} else {\n"
-            ."				var userSelect = css_prefix[i] + 'UserSelect';\n"
-            ."			}\n"
-            ."			if (typeof(myParentNode.style[userSelect]) != 'undefined') {\n"
-            ."				myParentNode.style[userSelect] = 'none';\n"
-            ."				break;\n"
-            ."			}\n"
-            ."		}\n"
-            ."		userSelect = null;\n"
-            ."		css_prefix = null;\n"
             ."	}\n"
             ."}\n"
             ."for (var i=0; i<F.length; i++){\n"
@@ -301,7 +287,6 @@ class mod_hotpot_attempt_hp_6_jmatch_renderer extends mod_hotpot_attempt_hp_6_re
      * @param xxx $length
      */
     function fix_js_DeleteItem_Flashcard(&$str, $start, $length)  {
-        $event = $this->get_send_results_event();
         $substr = ''
             ."function DeleteItem(){\n"
             ."	var Qs = document.getElementById('Questions');\n"
@@ -318,7 +303,7 @@ class mod_hotpot_attempt_hp_6_jmatch_renderer extends mod_hotpot_attempt_hp_6_re
             ."		var count = 0;\n"
             ."	}\n"
             ."	if (count==0){\n"
-            ."		HP_send_results($event);\n"
+            ."		HP.onunload(4,0);\n"
             ."	}\n"
             ."}\n"
         ;
@@ -336,10 +321,7 @@ class mod_hotpot_attempt_hp_6_jmatch_renderer extends mod_hotpot_attempt_hp_6_re
 
         $substr = substr($str, $start, $length);
 
-        $event = $this->get_send_results_event();
-        $search = '/(\s*)return;/';
-        $replace = '$1'.'HP_send_results($event);$0';
-        $substr = preg_replace($search, $replace, $substr);
+        $substr = preg_replace('/(\s*)return;/', '$1'.'HP.onunload(4,0);$0', $substr);
 
         if ($pos = strrpos($substr, '}')) {
             $append = "\n"
@@ -480,8 +462,12 @@ class mod_hotpot_attempt_hp_6_jmatch_renderer extends mod_hotpot_attempt_hp_6_re
     function fix_js_ShowSolution_JMemori(&$str, $start, $length)  {
         $substr = substr($str, $start, $length);
 
-        $event = $this->get_send_results_event();
-        $substr = str_replace('Finish()', "HP_send_results($event)", $substr);
+        if ($this->hotpot->delay3==hotpot::TIME_AFTEROK) {
+            $flag = 1; // set form values only
+        } else {
+            $flag = 0; // set form values and send form
+        }
+        $substr = str_replace('Finish()', "HP.onunload(4,$flag)", $substr);
 
         $str = substr_replace($str, $substr, $start, $length);
     }

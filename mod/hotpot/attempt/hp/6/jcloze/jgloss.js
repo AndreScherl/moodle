@@ -25,9 +25,9 @@
  * JClozeJGloss
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function JClozeJGloss(sendallclicks, ajax) {
+function JClozeJGloss(sendallclicks, forceajax) {
     this.quiztype = 'JCloze';
 
     /**
@@ -71,6 +71,6 @@ function JClozeJGloss(sendallclicks, ajax) {
         }
     }
 
-    this.init(I.length, sendallclicks, ajax);
+    this.init(I.length, sendallclicks, forceajax);
 }
 JClozeJGloss.prototype = new hpQuizAttempt();

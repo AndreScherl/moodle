@@ -43,7 +43,7 @@ class mod_hotpot_attempt_hp_6_jmatch_html_intro_renderer extends mod_hotpot_atte
      *
      * @return array of strings
      */
-    static public function sourcetypes()  {
+    public static function sourcetypes()  {
         return array('hp_6_jmatch_html_intro');
     }
 
@@ -78,7 +78,7 @@ class mod_hotpot_attempt_hp_6_jmatch_html_intro_renderer extends mod_hotpot_atte
 
         // add extra argument to this function, so it can be called from stop button
         if ($pos = strpos($substr, ')')) {
-            $substr = substr_replace($substr, 'ForceQuizEvent', $pos, 0);
+            $substr = substr_replace($substr, 'ForceQuizStatus', $pos, 0);
         }
 
         // intercept checks
@@ -93,13 +93,13 @@ class mod_hotpot_attempt_hp_6_jmatch_html_intro_renderer extends mod_hotpot_atte
         if ($pos = strpos($substr, 'if (TotalCorrect == F.length) {')) {
             $insert = ''
                 ."if (TotalCorrect == F.length) {\n"
-                ."		var QuizEvent = HP.EVENT_COMPLETED;\n"
-                ."	} else if (ForceQuizEvent){\n"
-                ."		var QuizEvent = ForceQuizEvent;\n" // TIMEDOUT or ABANDONED
+                ."		var QuizStatus = 4; // completed\n"
+                ."	} else if (ForceQuizStatus){\n"
+                ."		var QuizStatus = ForceQuizStatus; // 3=abandoned\n"
                 ."	} else if (TimeOver){\n"
-                ."		var QuizEvent = HP.EVENT_TIMEDOUT;\n"
+                ."		var QuizStatus = 2; // timed out\n"
                 ."	} else {\n"
-                ."		var QuizEvent = HP.EVENT_CHECK;\n"
+                ."		var QuizStatus = 1; // in progress\n"
                 ."	}\n"
                 ."	"
             ;
@@ -119,17 +119,30 @@ class mod_hotpot_attempt_hp_6_jmatch_html_intro_renderer extends mod_hotpot_atte
 
         // send results to Moodle, if necessary
         if ($pos = strrpos($substr, '}')) {
+            if ($this->hotpot->delay3==hotpot::TIME_AFTEROK) {
+                $flag = 1; // set form values only
+            } else {
+                $flag = 0; // set form values and send form
+            }
+            if ($this->hotpot->delay3==hotpot::TIME_DISABLE) {
+                $forceredirect = '(ForceQuizStatus ? 1 : 0)';
+            } else {
+                $forceredirect = 1;
+            }
             $insert = "\n"
-                ."	if (HP.end_of_quiz(QuizEvent)) {\n"
+                ."	if (QuizStatus > 1) {\n"
                 ."		TimeOver = true;\n"
                 ."		Locked = true;\n"
                 ."		Finished = true;\n"
                 ."	}\n"
                 ."	if (Finished || HP.sendallclicks){\n"
-                ."		if (QuizEvent==HP.EVENT_COMPLETED){\n"
-                ."			setTimeout('HP_send_results('+QuizEvent+')', SubmissionTimeout);\n"
+                ."		var ForceRedirect = $forceredirect;\n"
+                ."		if (ForceQuizStatus || QuizStatus==1){\n"
+                ."			// send results immediately\n"
+                ."			HP.onunload(QuizStatus, 0, ForceRedirect);\n"
                 ."		} else {\n"
-                ."			HP_send_results(QuizEvent);\n"
+                ."			// send results after delay\n"
+                ."			setTimeout('HP.onunload('+QuizStatus+',$flag,'+ForceRedirect+')', SubmissionTimeout);\n"
                 ."		}\n"
                 ."	}\n"
             ;

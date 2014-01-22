@@ -25,9 +25,9 @@
  * JQuiz
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function JQuiz(sendallclicks, ajax) {
+function JQuiz(sendallclicks, forceajax) {
     this.quiztype = 'JQuiz';
 
     /**
@@ -134,8 +134,6 @@ function JQuiz(sendallclicks, ajax) {
     this.setScoreAndPenalties = function (forceRecalculate) {
         if (forceRecalculate) {
             // based on JQuiz calculateOverallScore()
-            // but calculates score for ALL questions
-            // not just those that have been attempted
             var TotalWeighting = 0;
             var TotalScore = 0;
             var TotalCount = 0;
@@ -163,6 +161,6 @@ function JQuiz(sendallclicks, ajax) {
         this.penalties = window.Penalties || 0;
     }
 
-    this.init(State.length, sendallclicks, ajax);
+    this.init(State.length, sendallclicks, forceajax);
 }
 JQuiz.prototype = new hpQuizAttempt();

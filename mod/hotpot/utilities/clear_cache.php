@@ -27,12 +27,7 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
 require_once($CFG->dirroot.'/mod/hotpot/lib.php');
 
 require_login(SITEID);
-if (class_exists('context_system')) {
-    $context = context_system::instance();
-} else {
-    $context = get_context_instance(CONTEXT_SYSTEM);
-}
-require_capability('moodle/site:config', $context);
+require_capability('moodle/site:config', hotpot_get_context(CONTEXT_SYSTEM));
 
 // $SCRIPT is set by initialise_fullme() in "lib/setuplib.php"
 // it is the path below $CFG->wwwroot of this script

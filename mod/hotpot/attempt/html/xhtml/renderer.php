@@ -43,7 +43,7 @@ class mod_hotpot_attempt_html_xhtml_renderer extends mod_hotpot_attempt_html_ren
      *
      * @return array of strings
      */
-    static public function sourcetypes()  {
+    public static function sourcetypes()  {
         return array('html_xhtml');
     }
 }

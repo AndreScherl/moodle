@@ -90,9 +90,14 @@ class mod_hotpot_attempt_hp_6_sequitur_renderer extends mod_hotpot_attempt_hp_6_
         $substr = substr($str, $start, $length);
 
         if ($pos = strpos($substr, '	ShowMessage')) {
+            if ($this->hotpot->delay3==hotpot::TIME_AFTEROK) {
+                $flag = 1; // set form values only
+            } else {
+                $flag = 0; // set form values and send form
+            }
             $insert = ''
                 ."	Finished = true;\n"
-                ."	HP_send_results(HP.EVENT_TIMEDOUT);\n"
+                ."	HP.onunload(".hotpot::STATUS_TIMEDOUT.",$flag);\n"
             ;
             $substr = substr_replace($substr, $insert, $pos, 0);
         }
@@ -147,7 +152,7 @@ class mod_hotpot_attempt_hp_6_sequitur_renderer extends mod_hotpot_attempt_hp_6_
 
         // add extra argument to this function, so it can be called from stop button
         if ($pos = strpos($substr, ')')) {
-            $substr = substr_replace($substr, ', ForceQuizEvent', $pos, 0);
+            $substr = substr_replace($substr, ', ForceQuizStatus', $pos, 0);
         }
 
         // allow for Btn being null (as it is when called from stop button)
@@ -171,16 +176,15 @@ class mod_hotpot_attempt_hp_6_sequitur_renderer extends mod_hotpot_attempt_hp_6_
 
         // set quiz status
         if ($pos = strpos($substr, 'if (CurrentCorrect == Chosen)')) {
-            $event = $this->get_send_results_event();
             $insert = ''
                 ."if (CurrentCorrect==Chosen && CurrentNumber>=(TotalSegments-2)){\n"
-                ."		var QuizEvent = $event;\n" // COMPLETED or SETVALUES
-                ."	} else if (ForceQuizEvent){\n"
-                ."		var QuizEvent = ForceQuizEvent;\n"
+                ."		var QuizStatus = 4; // completed\n"
+                ."	} else if (ForceQuizStatus){\n"
+                ."		var QuizStatus = ForceQuizStatus; // 3=abandoned\n"
                 ."	} else if (TimeOver){\n"
-                ."		var QuizEvent = HP.EVENT_TIMEDOUT;\n"
+                ."		var QuizStatus = 2; // timed out\n"
                 ."	} else {\n"
-                ."		var QuizEvent = HP.EVENT_CHECK;\n"
+                ."		var QuizStatus = 1; // in progress\n"
                 ."	}\n"
                 ."	"
             ;
@@ -189,19 +193,30 @@ class mod_hotpot_attempt_hp_6_sequitur_renderer extends mod_hotpot_attempt_hp_6_
 
         // send results to Moodle, if necessary
         if ($pos = strrpos($substr, '}')) {
+            if ($this->hotpot->delay3==hotpot::TIME_AFTEROK) {
+                $flag = 1; // set form values only
+            } else {
+                $flag = 0; // set form values and send form
+            }
+            if ($this->hotpot->delay3==hotpot::TIME_DISABLE) {
+                $forceredirect = '(ForceQuizStatus ? 1 : 0)';
+            } else {
+                $forceredirect = 1;
+            }
             $insert = "\n"
-                ."	if (HP.end_of_quiz(QuizEvent)) {\n"
+                ."	if (QuizStatus > 1) {\n"
                 ."		TimeOver = true;\n"
                 ."		Locked = true;\n"
                 ."		Finished = true;\n"
                 ."	}\n"
                 ."	if (Finished || HP.sendallclicks){\n"
-                ."		if (QuizEvent==HP.EVENT_COMPLETED){\n"
-                ."			// send results after delay (quiz completed as expected)\n"
-                ."			setTimeout('HP_send_results('+QuizEvent+')', SubmissionTimeout);\n"
+                ."		var ForceRedirect = $forceredirect;\n"
+                ."		if (ForceQuizStatus || QuizStatus==1){\n"
+                ."			// send results immediately\n"
+                ."			HP.onunload(QuizStatus, 0, ForceRedirect);\n"
                 ."		} else {\n"
-                ."			// send results immediately (quiz finished unexpectedly)\n"
-                ."			HP_send_results(QuizEvent);\n"
+                ."			// send results after delay\n"
+                ."			setTimeout('HP.onunload('+QuizStatus+',$flag,'+ForceRedirect+')', SubmissionTimeout);\n"
                 ."		}\n"
                 ."	}\n"
             ;
@@ -226,6 +241,6 @@ class mod_hotpot_attempt_hp_6_sequitur_renderer extends mod_hotpot_attempt_hp_6_
      * @return xxx
      */
     function get_stop_function_args()  {
-        return '0,null,HP.EVENT_ABANDONED';
+        return '0,null,'.hotpot::STATUS_ABANDONED;
     }
 }

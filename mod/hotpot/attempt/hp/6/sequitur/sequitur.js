@@ -25,9 +25,9 @@
  * Sequitur
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function Sequitur(sendallclicks, ajax) {
+function Sequitur(sendallclicks, forceajax) {
     this.quiztype = 'Sequitur';
 
     /**
@@ -89,6 +89,6 @@ function Sequitur(sendallclicks, ajax) {
         }
     }
 
-    this.init(1, sendallclicks, ajax);
+    this.init(1, sendallclicks, forceajax);
 }
 Sequitur.prototype = new hpQuizAttempt();

@@ -25,10 +25,10 @@
  * JMatch
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  * @return xxx
  */
-function JMatch(sendallclicks, ajax) {
+function JMatch(sendallclicks, forceajax) {
     this.quiztype = 'JMatch';
 
     /**
@@ -149,9 +149,9 @@ function JMatch(sendallclicks, ajax) {
     }
 
     if (window.F) {
-        this.init(F.length, sendallclicks, ajax);
+        this.init(F.length, sendallclicks, forceajax);
     } else if (window.Status) {
-        this.init(Status.length, sendallclicks, ajax);
+        this.init(Status.length, sendallclicks, forceajax);
     }
 }
 JMatch.prototype = new hpQuizAttempt();

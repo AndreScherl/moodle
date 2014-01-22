@@ -44,13 +44,13 @@ class hotpot_source_hp_6_jmatch_html_jmemori extends hotpot_source_hp_6_jmatch_h
      * @param xxx $sourcefile
      * @return xxx
      */
-    static public function is_quizfile($sourcefile)  {
+    public static function is_quizfile($sourcefile)  {
         if (! preg_match('/\.html?$/', $sourcefile->get_filename())) {
             // wrong file type
             return false;
         }
 
-        if (! $content = self::get_content($sourcefile)) {
+        if (! $content = $sourcefile->get_content()) {
             // empty or non-existant file
             return false;
         }

@@ -25,9 +25,9 @@
  * JClozeDropDown
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function JClozeDropDown(sendallclicks, ajax) {
+function JClozeDropDown(sendallclicks, forceajax) {
     this.quiztype = 'JCloze';
 
     /**
@@ -138,6 +138,6 @@ function JClozeDropDown(sendallclicks, ajax) {
         }
     }
 
-    this.init(I.length, sendallclicks, ajax);
+    this.init(I.length, sendallclicks, forceajax);
 }
 JClozeDropDown.prototype = new hpQuizAttempt();

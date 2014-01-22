@@ -99,20 +99,6 @@ class mod_hotpot_attempt_hp_6_jmix_renderer extends mod_hotpot_attempt_hp_6_rend
             ."	var obj = document.getElementsByTagName('div');\n"
             ."	if (obj && obj.length) {\n"
             ."		myParentNode = obj[obj.length - 1].parentNode;\n"
-            ."		var css_prefix = new Array('webkit', 'khtml', 'moz', 'ms', 'o', '');\n"
-            ."		for (var i=0; i<css_prefix.length; i++) {\n"
-            ."			if (css_prefix[i]=='') {\n"
-            ."				var userSelect = 'userSelect';\n"
-            ."			} else {\n"
-            ."				var userSelect = css_prefix[i] + 'UserSelect';\n"
-            ."			}\n"
-            ."			if (typeof(myParentNode.style[userSelect]) != 'undefined') {\n"
-            ."				myParentNode.style[userSelect] = 'none';\n"
-            ."				break;\n"
-            ."			}\n"
-            ."		}\n"
-            ."		userSelect = null;\n"
-            ."		css_prefix = null;\n"
             ."	}\n"
             ."}\n"
             ."for (var i=0; i<DropTotal; i++){\n"
@@ -222,9 +208,14 @@ class mod_hotpot_attempt_hp_6_jmix_renderer extends mod_hotpot_attempt_hp_6_rend
         }
 
         if ($pos = strrpos($substr, '}')) {
+            if ($this->hotpot->delay3==hotpot::TIME_AFTEROK) {
+                $flag = 1; // set form values only
+            } else {
+                $flag = 0; // set form values and send form
+            }
             $insert = ''
                 ."	Finished = true;\n"
-                ."	HP_send_results(HP.EVENT_TIMEDOUT);\n"
+                ."	HP.onunload(".hotpot::STATUS_TIMEDOUT.",$flag);\n"
                 ."	ShowMessage('$msg');\n"
             ;
             $substr = substr_replace($substr, $insert, $pos, 0);
@@ -279,7 +270,7 @@ class mod_hotpot_attempt_hp_6_jmix_renderer extends mod_hotpot_attempt_hp_6_rend
         // this must come after call to $this->fix_js_CheckAnswers()
         $search = 'TimeOver == true';
         if ($pos = strpos($substr, $search)) {
-            $replace = $search.' || ForceQuizEvent';
+            $replace = $search.' || ForceQuizStatus';
             $substr = substr_replace($substr, $replace, $pos, strlen($search));
         }
 
@@ -414,7 +405,7 @@ class mod_hotpot_attempt_hp_6_jmix_renderer extends mod_hotpot_attempt_hp_6_rend
      * @return xxx
      */
     function get_stop_function_args()  {
-        return 'HP.EVENT_ABANDONED';
+        return '0,'.hotpot::STATUS_ABANDONED;
     }
 
     /**

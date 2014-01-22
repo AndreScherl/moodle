@@ -45,7 +45,7 @@ class hotpot_source_hp_6_jmix_xml extends hotpot_source_hp_6_jmix {
      * @param xxx $sourcefile
      * @return xxx
      */
-    static public function is_quizfile($sourcefile)  {
+    public static function is_quizfile($sourcefile)  {
         return preg_match('/\.jmx$/', $sourcefile->get_filename());
     }
 }

@@ -25,9 +25,9 @@
  * JMatchFlashcard
  *
  * @param xxx sendallclicks
- * @param xxx ajax
+ * @param xxx forceajax
  */
-function JMatchFlashcard(sendallclicks, ajax) {
+function JMatchFlashcard(sendallclicks, forceajax) {
     this.quiztype = 'JMatch';
 
     /**
@@ -67,7 +67,7 @@ function JMatchFlashcard(sendallclicks, ajax) {
     }
 
     if (window.QList) {
-        this.init(QList.length, sendallclicks, ajax);
+        this.init(QList.length, sendallclicks, forceajax);
     }
 }
 JMatchFlashcard.prototype = new hpQuizAttempt();

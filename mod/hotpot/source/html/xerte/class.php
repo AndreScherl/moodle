@@ -49,12 +49,12 @@ class hotpot_source_html_xerte extends hotpot_source_html {
      *
      * @return xxx
      */
-    static public function is_quizfile($sourcefile) {
+    public static function is_quizfile($sourcefile) {
         if (! preg_match('/\.html?$/', $sourcefile->get_filename())) {
             // not an html file
             return false;
         }
-        if (! $content = self::get_content($sourcefile)) {
+        if (! $content = $sourcefile->get_content()) {
             // empty or non-existant file
             return false;
         }

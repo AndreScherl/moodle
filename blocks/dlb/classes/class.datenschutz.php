@@ -1,4 +1,5 @@
 <?php
+
 /*
   #########################################################################
   #                       DLB-Bayern
@@ -63,7 +64,7 @@ class datenschutz {
         if (has_capability("block/dlb:institutionview", get_system_context())) {
             return true;
         }
-        
+
         // ... check institution.
         $user = $DB->get_record('user', array('id' => $userid));
 
@@ -214,7 +215,6 @@ class datenschutz {
             $userids = array_keys($userids);
             $wherecondition .= " (({$tablealias}institution = '{$USER->institution}') or {$tablealias}id IN (" . implode(",", $userids) . ")) ";
             return $wherecondition;
-            
         } else {
 
             $wherecondition .= " ({$tablealias}institution = '{$USER->institution}')";
@@ -222,7 +222,7 @@ class datenschutz {
         }
     }
 
-    /****************************************************************************************
+    /*     * **************************************************************************************
      * nachfolgend sind alle verwendeten Corecode-Hacks gelistet.
      * Die Funktionsbezeichnung wird nach der Position des Hacks gebildet:
      *
@@ -355,7 +355,7 @@ class datenschutz {
      * @param mixed, false oder 0 bei neuem User, sonst Userid des bearbeiteten Users.
      */
     public static function hook_profile_definition_after_data(&$mform, $userid) {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
 
         //Editor für alle entfernen => nicht sichtbar
         if ($mform->elementExists('description_editor')) {
@@ -367,9 +367,21 @@ class datenschutz {
             $mform->setConstants('description_editor[format]');
         }
 
+        // add a new section.
+        $settingsheader = $mform->createElement('header', 'moodlesettings', get_string('settings'));
+        $mform->insertElementBefore($settingsheader, 'maildisplay');
+
+        // ... move school information (field city) into top section.
+        if ($mform->elementExists('city')) {
+            $schoolelement = $mform->removeElement('city');
+            $schoolelement->updateAttributes("'size=70'");
+            $mform->insertElementBefore($schoolelement, 'moodlesettings');
+        }
+
         //admin hat Zugriff auf alle Felder...
-        if (has_capability("moodle/site:config", get_system_context()))
-            return;
+        if (has_capability("moodle/site:config", get_system_context())) {
+            return true;
+        }
 
         //Profilfeld schule für bestehende User sperren.
         $user = $DB->get_record('user', array('id' => $userid)); //$user ist der bearbeitete User (!= $USER)
@@ -422,6 +434,7 @@ class datenschutz {
             $mform->insertElementBefore($username, 'firstname');
         }
 
+        $authplugin = get_auth_plugin($user->auth);
         // Felder für User, die editadvanced aufrufen können weil sie das Recht
         // moodle/user:update haben, aber keine Admins sind, trotzdem sperren.
         if (has_capability('moodle/user:update', context_system::instance())) {
@@ -436,7 +449,6 @@ class datenschutz {
 
             //restliche Einstellungen des Auth-Plugins schützen
             $fields = get_user_fieldnames();
-            $authplugin = get_auth_plugin($user->auth);
             foreach ($fields as $field) {
                 if (!$mform->elementExists($field)) {
                     continue;
@@ -451,6 +463,44 @@ class datenschutz {
                         $mform->setConstant($field, $user->$field);
                     }
                 }
+            }
+        }
+
+        // ... hide and lock some fields for Shibboleth-Users and Provide a link to edit personal data in LDAP-Portal.
+        $editprofileurl = "";
+        if (method_exists($authplugin, 'get_edit_profile_url')) {
+
+            $editprofileurl = $authplugin->get_edit_profile_url();
+        }
+
+        if (!empty($editprofileurl)) {
+
+            if ($mform->elementExists('suspended')) {
+                $mform->removeElement('suspended');
+            }
+
+            if ($mform->elementExists('newpassword')) {
+                $mform->removeElement('newpassword');
+            }
+
+            if ($mform->elementExists('preference_auth_forcepasswordchange')) {
+                $mform->removeElement('preference_auth_forcepasswordchange');
+            }
+
+            if ($mform->elementExists('email')) {
+                //ersetzt Inputfeld durch Anzeige
+                $mform->hardFreeze('email');
+                //macht den Submit unüberschreibbar, auch bei Formularmanipulationen
+                $mform->setConstants(array('email' => $user->email));
+            }
+
+            // add a Link to edit personal data in LDAP-Portal
+            if ($user->id == $USER->id) {
+                $output = html_writer::link($editprofileurl, get_string('editmyprofile'));
+                $output = html_writer::tag('div', $output, array('class' => 'editprofileurl'));
+
+                $element = $mform->createElement('html', $output);
+                $mform->insertElementBefore($element, 'username');
             }
         }
     }
@@ -532,7 +582,7 @@ class datenschutz {
         if (has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM), $user2id)) {
             return true;
         }
-        
+
         // ...check whether $USER has the permission to run the message/index.php script.
         datenschutz::can_do_message_actions($user2id);
     }
@@ -747,14 +797,14 @@ class datenschutz {
      * @return string
      */
     public static function hook_enrol_locallib_get_other_users() {
-        
+
         $whereinstitution = datenschutz::_addInstitutionFilter("", "u.", true);
         if (!empty($whereinstitution)) {
-            $whereinstitution =  " AND ".$whereinstitution;
+            $whereinstitution = " AND " . $whereinstitution;
         }
         return $whereinstitution;
     }
-    
+
     /** @HOOK DS23: Hook in admin/roles/lib.php potential_assignees_below_course->find_users()
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
      * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
@@ -767,8 +817,8 @@ class datenschutz {
     public static function hook_admin_roles_lib_potential_assignees_below_course($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
     }
-    
-     /** @HOOK DS24: Hook in enrol/locallib.php course_enrolment_manager->search_other_users()
+
+    /** @HOOK DS24: Hook in enrol/locallib.php course_enrolment_manager->search_other_users()
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
      * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
      * in einen Kurs eingeschrieben sind, bei der Rollenzuweisung im Kurs
@@ -780,7 +830,7 @@ class datenschutz {
     public static function hook_enrol_locallib_search_other_users($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "u.", true);
     }
-    
+
     /** @HOOK DS25: Hook in admin/roles/lib.php potential_assignees_course_and_above->find_users()
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
      * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
@@ -793,5 +843,5 @@ class datenschutz {
     public static function hook_admin_roles_potential_assignees_course_and_above($wherecondition) {
         return datenschutz::_addInstitutionFilter($wherecondition, "", true);
     }
-   
+
 }

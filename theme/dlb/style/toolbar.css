@@ -41,69 +41,48 @@ body.path-site #toolbar-wrapper {
     min-width : 450px;
 }
 /** Icons auf der Toolbar */
-
-#toolbar-content
-{
+#toolbar-content {
     margin-left: 52px;
     padding-top: 0px;
     font-size: 13px;
 }
 
-.toolbar-content-item
- {
+.toolbar-content-item {
     float:left;
     text-align: center;
     margin-right:20px;
+    line-height: 33px;
 }
 
 #toolbar-content-left{
-	min-height:1px;
-	float:left;
-	width:345px;
+    min-height:1px;
+    float:left;
+    width:300px;
 }
-
-/* Positionierung der Lesehilfe */
-
-
 
 #toolbar-content-item_6,
 #toolbar-content-item_8,
 #toolbar-content-item_7,
-#toolbar-content-item_9 {
-    line-height: 30px;
+#toolbar-content-item_9,
+#toolbar-content-item_10 {
+    line-height: 33px;
     margin: 12px;
-    float:right;
+    float:left;
     margin-top: 0px;
     margin-right:-2px;
 }
 
 #toolbar-login{
-	margin: 45px;
-    float:left;
-    margin-top: 7px;
-    margin-right: 10px;
-    
-}
-#logininfo{
-	margin: 2px;
-    float:left;
-    margin-top: 0px;
-    
-}
-
-#toolbar-content-item_10{
-	line-height: 30px;
-    
+    line-height: 33px;
     float:right;
-    margin-top: 0px;
-	margin-right:11px;
-	
-}
+    margin-right: 10px;
 
-#toolbar-content-item_10 .toolbar-tooltip {
-    margin-left: 10%;
-    min-width:100px;
-    margin-top: 5px;
+}
+#logininfo {
+    line-height: 14px;
+    margin: 4px 10px 4px;
+    float:right;
+    text-align: right;
 }
 
 /**Toolbar Tipp*/
@@ -112,7 +91,6 @@ body.path-site #toolbar-wrapper {
     display: none;
     position: absolute;
     z-index: 10000;
-    
 }
 
 #block-toolbarcontent  a:hover + div, #block-toolbarcontent a:hover + div,
@@ -126,8 +104,6 @@ body.path-site #toolbar-wrapper {
 }
 
 /** Toolbar im Block */
-
-
 #block-toolbarcontent #toolbar-content-item_6,
 #block-toolbarcontent #toolbar-content-item_8,
 #block-toolbarcontent #toolbar-content-item_7,
@@ -135,14 +111,17 @@ body.path-site #toolbar-wrapper {
     margin: 2px;
 }
 
+#toolbar-content-item_10 .toolbar-tooltip {
+    margin-left: 10%;
+    min-width:100px;
+    margin-top: 5px;
+}
 
 .tooltip-content,.tooltip-left, .tooltip-right  {
     height:27px;
-    float:left;
     line-height: 27px;
+    float:left;
 }
-
-
 
 #toolbar-login a, #toolbar-content  a {
     text-decoration: none;
@@ -151,9 +130,7 @@ body.path-site #toolbar-wrapper {
 .toolbar-tooltip {
     white-space: nowrap;
     margin-left: -30%;
-    
 }
-
 
 #toolbar-content-item_6 .toolbar-tooltip,
 #toolbar-content-item_7 .toolbar-tooltip, 
@@ -184,59 +161,87 @@ body.path-site #toolbar-wrapper {
     width:7px;
 }
 
-
-
 /* Logininfo in der Toolbar*/
 .headermenu {
     font-size: 1em;
     margin: 5px 6px;
-    
+
 }
 
-
 .langmenu select{
-
-   width: 130px;
-   background:#C4D8DA;
-   border: 1px solid #356379;
+    width: 130px;
+    background:#C4D8DA;
+    border: 1px solid #356379;
 }
 
 
 .toolbar-toolpop {
-   margin-left: 0.5%;
-   font-size: 1em;
-   padding-bottom: 0px;
-   position:absolute;
-   margin-top: 4px;
-   
+    margin-left: 0.5%;
+    font-size: 1em;
+    padding-bottom: 0px;
+    position:absolute;
+    margin-top: 4px;
 }
-
 
 .toolpop-content,.toolpop-left, .toolpop-right{
 
-   float:left;
-   line-height: 18px;
-   height: 18px;
-   
+    float:left;
+    line-height: 18px;
+    height: 18px;
+
 }
-
-
 
 .toolpop-content {
     background: url([[pix:theme|toolbar/toolpop]]) repeat-x;
     min-width: 12px;
-    
+
 }
 
 .toolpop-left {
     background: url([[pix:theme|toolbar/toolpop-left]]) no-repeat;
     width:3px;
-    
+
 }
 
 .toolpop-right {
     background: url([[pix:theme|toolbar/toolpop-right]]) no-repeat;
     width:4px;
-    
+
 }
 
+#custommenu {
+    float: right;
+    line-height: 37px;
+    clear:none;
+    height: 37px;
+}
+
+#toolbar-submenu {
+    position:absolute;
+    background-color: #356379;
+    top:35px;
+    z-index:10;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius: 3px; 
+    box-shadow: 3px 3px 3px #999999;
+}
+
+#toolbar-submenu a {
+    text-decoration: none;
+}
+
+#toolbar-submenu ul {
+    margin: 0;
+}
+
+#toolbar-submenu li {
+    background: url([[pix:core|i/navigationitem]]) no-repeat left center;
+    list-style:none;
+    border-top: 1px solid #8CA3AD;
+    line-height: 25px;
+    padding: 0 10px 0 20px;
+}
+
+#toolbar-submenu li:hover {
+    background-color: #8CA3AD; 
+} 

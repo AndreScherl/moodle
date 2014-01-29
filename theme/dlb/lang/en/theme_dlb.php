@@ -16,17 +16,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'theme_base', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'theme_dlb', language 'en', branch 'MOODLE_20_STABLE'
  *
- * @package   theme_base
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @package   theme_dlb
+ * @copyright DLB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Mebis-Design';
-$string['region-side-post'] = 'Right';
-$string['region-side-pre'] = 'Left';
+$string['editusersurl'] = 'Manage Users';
+$string['editmysettings'] = 'Application Settings';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';
 $string['loggedinas'] = 'Welcome,{$a}';
 $string['loggedinnot'] = '';
 $string['login'] = '';
+$string['pluginname'] = 'Mebis-Design';
+$string['region-side-post'] = 'Right';
+$string['region-side-pre'] = 'Left';

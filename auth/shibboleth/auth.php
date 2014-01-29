@@ -530,16 +530,23 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             $user->moodleClassList = explode(";", $_SERVER["moodleClassList"]);
             
         }
-
+         // ... get the mebisKlassenListe for this user, if available.
+        if (!empty($_SERVER["mebisKlassenListe"])) {
+            
+            $user->moodleClassList = explode(";", $_SERVER["mebisKlassenListe"]);
+            $user->mebisKlassenListe = explode(";", $_SERVER["mebisKlassenListe"]);
+            
+        }
+       
         // ... now setup mebisRole in Sessiondata, we have no $USER record yet.
         if (!empty($_SERVER["mebisRole"])) {
 
             $user->mebisRole = explode(";", strtolower($_SERVER["mebisRole"]));
-            $user->isTeacher = (strtolower($_SERVER["mebisRole"]) == "lehrer") ? 1 : 0;
+            $user->isTeacher = in_array("lehrer", $user->mebisRole);
             
         } else {
 
-            debugging('received no mebis-role in auth/sibboleth/auth.php fpr user: ' . $username);
+            debugging('received no mebis-role in auth/shibboleth/auth.php fpr user: ' . $username);
         }
     }
 }

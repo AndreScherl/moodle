@@ -16,22 +16,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of hotpot
- *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
+ * Store results of an attempt at a HotPot quiz
+ * Output format: hp_6_jmatch_xml_sort
  *
  * @package   mod-hotpot
  * @copyright 2010 Gordon Bateson <gordon.bateson@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// prevent direct access to this script
 defined('MOODLE_INTERNAL') || die();
 
-$module->cron      = 0;
-$module->component = 'mod_hotpot';
-$module->maturity  = MATURITY_STABLE; // ALPHA=50, BETA=100, RC=150, STABLE=200
-$module->release   = '2014.01.26 (99)';
-$module->version   = 2014012699;
-$module->requires  = 2010112400; // Moodle 2.0
+// get parent class
+require_once($CFG->dirroot.'/mod/hotpot/attempt/hp/6/jmatch/xml/storage.php');
+
+/**
+ * mod_hotpot_attempt_hp_6_jmatch_xml_sort_storage
+ *
+ * @copyright 2010 Gordon Bateson
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @since     Moodle 2.0
+ */
+class mod_hotpot_attempt_hp_6_jmatch_xml_sort_storage extends mod_hotpot_attempt_hp_6_jmatch_xml_storage {
+}

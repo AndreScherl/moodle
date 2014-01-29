@@ -89,7 +89,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** get all the mebisRole coming from the authentification via shibboleth into
      *  $USER objetct.
-     * 
+     *
      * @global object $USER
      * @global type $SESSION
      * @return boolean, true if there are mebis roles available.
@@ -350,10 +350,10 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** genetate the settings menu in the toolbar
      * Note that content of this menu depends on:
-     * 
+     *
      * 1- authenticfication type of the user
      * 2- the mebis role obtained by shibboleth auth.
-     * 
+     *
      * @global object $OUTPUT
      * @global object $USER
      * @global object $PAGE
@@ -422,10 +422,10 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-            
+
         } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
                 ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
-            
+
             $moodlesettingsurl = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
         }
@@ -468,11 +468,17 @@ class theme_dlb_core_renderer extends core_renderer {
         $content = "";
         if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)) {
 
-            $outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
+           if (!empty($CFG->block_dlb_presupporturl)) {
+             $outlink = $CFG->block_dlb_presupporturl;
+             //$outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
+
             $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
 
             $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-        } elseif (isloggedin() && $this->can_see_supportbutton()) {
+            $content .= "<div style=\"clear:both\"></div>";
+
+                    }
+             } elseif (isloggedin() && $this->can_see_supportbutton()) {
 
             $mylink = $CFG->block_dlb_supporturl;
             $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $mylink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
@@ -579,11 +585,11 @@ class theme_dlb_core_renderer extends core_renderer {
         if (session_is_loggedinas()) {
             $realuser = session_get_realuser();
             $fullname = fullname($realuser, true);
-           
+
                 $loginastitle = get_string('loginas');
                 $realuserinfo = " [<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
                 $realuserinfo .= "title =\"" . $loginastitle . "\">$fullname</a>] ";
-           
+
         } else {
             $realuserinfo = '';
         }

@@ -134,10 +134,10 @@ class theme_dlb_core_renderer extends core_renderer {
         }
 
         // deprecated sincen IDM2.
-        /*if (isset($SESSION->isTeacher)) {
-            $USER->isTeacher = $SESSION->isTeacher;
-            return $USER->isTeacher;
-        }*/
+        /* if (isset($SESSION->isTeacher)) {
+          $USER->isTeacher = $SESSION->isTeacher;
+          return $USER->isTeacher;
+          } */
 
         //prüfen, ob der User in irgend einem Kurs die Lehrerrolle hat.
         $roles = get_roles_with_capability('enrol/self:config');
@@ -385,11 +385,11 @@ class theme_dlb_core_renderer extends core_renderer {
 
         // ... get change password link from auth-plugin for all users which:
         // 1. has not the capability moodle/user:update
-        // 2. has the capability to edit their own profile (moodle/uzser:editownprofile)
+        // 2. has the capability to edit their own profile (moodle/user:editownprofile)
 
         if (!is_mnet_remote_user($user)) {
 
-            if (($currentuser || is_siteadmin($USER) || !is_siteadmin($user)) && has_capability('moodle/user:update', $systemcontext)) {
+            if (is_siteadmin($USER)) {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
                 $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
@@ -422,7 +422,6 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-
         } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
                 ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
 
@@ -468,21 +467,18 @@ class theme_dlb_core_renderer extends core_renderer {
         $content = "";
         if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)) {
 
-           if (!empty($CFG->block_dlb_presupporturl)) {
-             $outlink = $CFG->block_dlb_presupporturl;
-             //$outlink = new moodle_url('https://lernplattform.mebis.bayern.de/support/course/view.php?id=51');
+            // ... user sees pre support url before the login.
+            if (!empty($CFG->block_dlb_presupporturl)) {
 
-            $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
+                $outlink = $CFG->block_dlb_presupporturl;
+                $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
+                $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
+            }
+        } elseif (isloggedin() && $this->can_see_supportbutton()) {
 
-            $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-            $content .= "<div style=\"clear:both\"></div>";
-
-                    }
-             } elseif (isloggedin() && $this->can_see_supportbutton()) {
-
+            // ... generate support- button for mebis teachers with different url.
             $mylink = $CFG->block_dlb_supporturl;
             $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $mylink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
-
             $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
         }
         return $content;
@@ -586,10 +582,9 @@ class theme_dlb_core_renderer extends core_renderer {
             $realuser = session_get_realuser();
             $fullname = fullname($realuser, true);
 
-                $loginastitle = get_string('loginas');
-                $realuserinfo = " [<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
-                $realuserinfo .= "title =\"" . $loginastitle . "\">$fullname</a>] ";
-
+            $loginastitle = get_string('loginas');
+            $realuserinfo = " [<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
+            $realuserinfo .= "title =\"" . $loginastitle . "\">$fullname</a>] ";
         } else {
             $realuserinfo = '';
         }
@@ -768,9 +763,68 @@ class theme_dlb_core_renderer extends core_renderer {
         <?php
     }
 
+    /** this script is used to redirect the user if shibboleth is passive. and the user is not loggedin already 
+     * 
+      Written by Lukas Haemmerle <lukas.haemmerle@switch.ch>, SWITCH
+      /*
+      This isPassive script will automatically try to log in a user using the SAML2
+      isPassive feature.
+      In case a user already has an authenticated session at his Identity Provider and
+      given the Discovery Service can guess the user's Identity Provider, the user will
+      eventually be on the exact same page this script is embedded in but logged in
+      (= Shibboleth attributes are available and user has a valid session with the
+      Service Provider on the same host).
+      The user page also will be requested with the same GET arguments than the initial request.
+
+      Requirements:
+      - Only works if a Service Provider 2.x is installed on the same host
+      - JavaScript must be enabled. Otherwise the script won't have any effect.
+      - The script must be able to set cookies (required for Shibboleth Service Provider as well)
+      - In the shibboleth2.xml there must be defined a redirectErrors="#THIS PAGE#" in
+      the <Errors> element. #THIS PAGE# must be the relative/absolute URL of the page
+      this script is embedded in.
+      - It also makes sense to protect #THIS PAGE# with a lazy session in order to use
+      the Shibboleth attribute that should be available after authentication.
+     */
+    protected function load_shibboleth_ispassiv_script() {
+        global $CFG;
+        
+        // ... only try a redirect, when user isn't logged in and it is not a dev system.
+        $shouldredirect = !isloggedin() and (strpos($CFG->wwwroot,"//localhost/") === false);
+
+        if ($shouldredirect) {
+            
+            ?>        
+            <script type="text/javascript" language="javascript">
+                // Check for session cookie that contains the initial location
+                if(document.cookie && document.cookie.search(/_check_is_passive=/) >= 0){
+                    // If we have the opensaml::FatalProfileException GET arguments
+                    // redirect to initial location because isPassive failed
+                    if (
+                    window.location.search.search(/errorType/) >= 0
+                        && window.location.search.search(/RelayState/) >= 0
+                        && window.location.search.search(/requestURL/) >= 0
+                ) {
+                        var startpos = (document.cookie.indexOf('_check_is_passive=')+18);
+                        var endpos = document.cookie.indexOf(';', startpos);
+                        window.location = document.cookie.substring(startpos,endpos);
+                    }
+                } else {
+                    // Mark browser as being isPassive checked
+                    document.cookie = "_check_is_passive=" + window.location;
+                             
+                    // Redirect to Shibboleth handler
+                    window.location = "/Shibboleth.sso/Login?isPassive=true&target=" + encodeURIComponent(window.location);
+                }
+            </script>
+            <!-- END: isPassive script-->
+            <?php
+        }
+    }
+
     /** überschreibt die originale Funktion, um die dock-Symbole zu laden */
     public function standard_head_html() {
-        return parent::standard_head_html() . $this->_load_dock_images();
+        return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
     }
 
 }

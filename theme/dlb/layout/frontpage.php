@@ -50,14 +50,14 @@ if (!$PAGE->user_allowed_editing()) {
 echo $OUTPUT->doctype();
 ?>
 <html id="frontpage" <?php echo $OUTPUT->htmlattributes(); ?>>
-    
+
     <head>
         <title><?php echo $PAGE->title ?></title>
         <link rel="shortcut icon" href="<?php echo $OUTPUT->pix_url('favicon', 'theme') ?>" />
         <meta name="description" content="<?php p(strip_tags(format_text($SITE->summary, FORMAT_HTML))) ?>" />
         <?php echo $OUTPUT->standard_head_html(); ?>
     </head>
-    
+
     <body id="<?php p($PAGE->bodyid) ?>" class="<?php p($PAGE->bodyclasses . ' ' . join(' ', $bodyclasses)) ?>">
         <div id="page-wrapper">
             <?php echo $OUTPUT->standard_top_of_body_html() ?>
@@ -80,18 +80,20 @@ echo $OUTPUT->doctype();
             <div id="toolbar-wrapper">
                 <div id="toolbar">
 
+                    <?php echo $OUTPUT->toolbar_content(); ?>
+                    <?php echo $OUTPUT->support_button(); ?>
+                    <?php echo $OUTPUT->toolbar_loginbutton(); ?>
+                    <?php if ($hascustommenu) { ?>
+                        <div id="custommenu"><?php echo $custommenu; ?></div>
+                    <?php } ?>
+                    <?php echo $OUTPUT->login_info(false); ?>
+
                     <div class="headermenu">
                         <?php
-                        echo $OUTPUT->lang_menu();
                         echo $PAGE->headingmenu;
                         ?>
                     </div>
-                    <?php echo $OUTPUT->toolbar_content(); ?>
-                    <?php echo $OUTPUT->toolbar_loginbutton(); ?>
-                    <?php echo $OUTPUT->login_info(false); ?>
-                    <div>
-                        <?php echo $OUTPUT->support_button(); ?>
-                    </div>
+                    <div style="clear:both"></div>
                 </div>
             </div>
 
@@ -104,12 +106,7 @@ echo $OUTPUT->doctype();
                 <div id="page-content-bg">
                     <div id="page-content-bg-bottomfade">
                         <div id="page-content-bg-topfade">
-                            <div id="page-header" class="clearfix">
-                                <?php if ($hascustommenu) { ?>
-                                    <div id="custommenu"><?php echo $custommenu; ?></div>
-                                <?php } ?>
-
-                            </div>
+                            <div id="page-header" class="clearfix"></div>
                             <div style="clear:both"></div>
                             <div id="page-content">
                                 <div id="region-main-box">

@@ -275,14 +275,13 @@ if ($session_has_timed_out and !data_submitted()) {
 }
 
 /// First, let's remember where the user was trying to get to before they got here
-
 if (empty($SESSION->wantsurl)) {
-    $SESSION->wantsurl = (array_key_exists('HTTP_REFERER', $_SERVER) &&
-            $_SERVER["HTTP_REFERER"] != $CFG->wwwroot &&
-            $_SERVER["HTTP_REFERER"] != $CFG->wwwroot . '/' &&
-            $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot . '/login/' &&
-            strpos($_SERVER["HTTP_REFERER"], $CFG->httpswwwroot . '/login/?') !== 0 &&
-            strpos($_SERVER["HTTP_REFERER"], $CFG->httpswwwroot . '/login/index.php') !== 0) // There might be some extra params such as ?lang=. ? $_SERVER["HTTP_REFERER"] : NULL;
+    $SESSION->wantsurl = (array_key_exists('HTTP_REFERER',$_SERVER) &&
+                          $_SERVER["HTTP_REFERER"] != $CFG->wwwroot &&
+                          $_SERVER["HTTP_REFERER"] != $CFG->wwwroot.'/' &&
+                          $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot.'/login/' &&
+                          $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot.'/login/index.php')
+        ? $_SERVER["HTTP_REFERER"] : NULL;
 }
 
 // make sure we really are on the https page when https login required

@@ -12,7 +12,7 @@ function block_dlb_on_user_deleted($user) {
    /* erzeuge leeres Standarduser-Objekt */
    $u = new stdClass();
    $u->id = $deleteduser->id;
-   $u->auth = 'ldapdlb';
+   $u->auth = 'nologin';
    $u->confirmed = $deleteduser->confirmed;
    $u->policyagreed = '0';
    $u->deleted = '1';

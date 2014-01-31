@@ -29,7 +29,6 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once($CFG->libdir . '/authlib.php');
-require_once($CFG->dirroot . '/auth/ldapdlb/auth.php');
 
 /**
  * Shibboleth authentication plugin.

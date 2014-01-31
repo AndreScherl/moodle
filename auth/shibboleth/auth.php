@@ -519,20 +519,13 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         }
         
         // ...Default-Values for the $USER record.
-        $user->moodleClassList = array();
+        $user->mebisKlassenListe = array();
         $user->mebisRole = array();
         $user->isTeacher = 0;
         
-         // ... get the moodleClassList for this user, if available.
-        if (!empty($_SERVER["moodleClassList"])) {
-            
-            $user->moodleClassList = explode(";", $_SERVER["moodleClassList"]);
-            
-        }
          // ... get the mebisKlassenListe for this user, if available.
         if (!empty($_SERVER["mebisKlassenListe"])) {
             
-            $user->moodleClassList = explode(";", $_SERVER["mebisKlassenListe"]);
             $user->mebisKlassenListe = explode(";", $_SERVER["mebisKlassenListe"]);
             
         }

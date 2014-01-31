@@ -790,9 +790,9 @@ class theme_dlb_core_renderer extends core_renderer {
         global $CFG;
         
         // ... only try a redirect, when user isn't logged in and it is not a dev system.
-        $shouldredirect = !isloggedin() and (strpos($CFG->wwwroot,"//localhost/") === false);
+        $checkpassive = (!isloggedin() and (strpos($CFG->wwwroot,"/localhost/") === false));
 
-        if ($shouldredirect) {
+        if ($checkpassive) {
             
             ?>        
             <script type="text/javascript" language="javascript">

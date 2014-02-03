@@ -321,11 +321,10 @@ function enrol_class_get_available_roles() {
  * @return array
  */
 function enrol_class_get_classes($user) {
-    if (empty($user->moodleClassList)) {
+    if (empty($user->mebisKlassenListe)) {
         return array();
     }
-    $classes = explode(',', $user->moodleClassList);
-    return $classes;
+    return $user->mebisKlassenListe;
 }
 
 /**

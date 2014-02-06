@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['changepassword'] = 'Password';
+$string['editmyprofile'] = 'mebis-Profile';
 $string['editusersurl'] = 'Manage Users';
 $string['editmysettings'] = 'Application Settings';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';

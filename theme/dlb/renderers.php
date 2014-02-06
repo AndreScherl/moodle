@@ -393,7 +393,7 @@ class theme_dlb_core_renderer extends core_renderer {
             if (empty($passwordchangeurl)) {
                 $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
             }
-            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword"));
+            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string('changepassword', 'theme_dlb'));
         }
 
         // ... get change password link from auth-plugin for all users which:
@@ -405,14 +405,14 @@ class theme_dlb_core_renderer extends core_renderer {
             if (is_siteadmin($USER)) {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
-                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile', 'theme_dlb'));
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
                 if ($userauthplugin && $userauthplugin->can_edit_profile()) {
                     $url = $userauthplugin->edit_profile_url();
                     if (empty($url)) {
                         $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
                     }
-                    $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+                    $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile', 'theme_dlb'));
                 }
             }
         }

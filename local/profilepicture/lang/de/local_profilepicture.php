@@ -27,4 +27,4 @@ defined('MOODLE_INTERNAL') || die();
 $string['noimage'] = 'Keine Bilder in \'{$a}\' gefunden - bitte kontaktieren Sie einen Administrator.';
 $string['pluginname'] = 'Profile picture selector';
 $string['profilepicture:anypicture'] = 'Sie können hier jedes gewünschte Nutzerbild hochladen';
-$string['selectpicture'] = 'Profilbild ändern';
+$string['selectpicture'] = 'Nutzerbild ändern';

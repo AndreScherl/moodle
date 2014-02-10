@@ -27,4 +27,4 @@ defined('MOODLE_INTERNAL') || die();
 $string['noimage'] = 'No images found in \'{$a}\' - please contact your site administrator to fix.';
 $string['pluginname'] = 'Profile picture selector';
 $string['profilepicture:anypicture'] = 'Use the filepicker to upload any profile image';
-$string['selectpicture'] = 'Choose profile picture';
+$string['selectpicture'] = 'Choose user picture';

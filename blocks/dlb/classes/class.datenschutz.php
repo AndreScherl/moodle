@@ -467,13 +467,13 @@ class datenschutz {
         }
 
         // ... hide and lock some fields for Shibboleth-Users and Provide a link to edit personal data in LDAP-Portal.
-        $editprofileurl = "";
-        if (method_exists($authplugin, 'get_edit_profile_url')) {
+        $editmebisprofileurl = "";
+        if (method_exists($authplugin, 'edit_mebis_profile')) {
 
-            $editprofileurl = $authplugin->get_edit_profile_url();
+            $editmebisprofileurl = $authplugin->edit_mebis_profile();
         }
 
-        if (!empty($editprofileurl)) {
+        if (!empty($editmebisprofileurl)) {
 
             if ($mform->elementExists('suspended')) {
                 $mform->removeElement('suspended');
@@ -496,8 +496,8 @@ class datenschutz {
 
             // add a Link to edit personal data in LDAP-Portal
             if ($user->id == $USER->id) {
-                $output = html_writer::link($editprofileurl, get_string('editmyprofile'));
-                $output = html_writer::tag('div', $output, array('class' => 'editprofileurl'));
+                $output = html_writer::link($editmebisprofileurl, get_string('editmyprofile'));
+                $output = html_writer::tag('div', $output, array('class' => 'editmebisprofileurl'));
 
                 $element = $mform->createElement('html', $output);
                 $mform->insertElementBefore($element, 'username');

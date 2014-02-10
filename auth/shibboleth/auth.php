@@ -465,7 +465,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      *  are synchronized to the internal profile.
      */
     function edit_mebis_profile() {
-        $this->config->editmebisprofileurl;
+        return $this->config->editmebisprofileurl;
     }
 
     /**

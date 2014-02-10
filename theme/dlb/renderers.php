@@ -383,6 +383,19 @@ class theme_dlb_core_renderer extends core_renderer {
 
         $settingmenuitems = array();
 
+        // ... get the passwordchangeurl from auth-plugin for all users which:
+        // 1- has capability to change their own password.
+
+        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
+
+            $passwordchangeurl = $userauthplugin->change_password_url();
+
+            if (empty($passwordchangeurl)) {
+                $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
+            }
+            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword", "theme_dlb"));
+        }
+        
         // ... get change password link from auth-plugin for all users which:
         // 1. has not the capability moodle/user:update
         // 2. has the capability to edit their own profile (moodle/user:editownprofile)
@@ -392,7 +405,7 @@ class theme_dlb_core_renderer extends core_renderer {
             if (is_siteadmin($USER)) {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
-                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile', 'theme_dlb'));
                 
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
                 
@@ -404,22 +417,10 @@ class theme_dlb_core_renderer extends core_renderer {
                     if (!empty($profileurl)) {
                         $url = $profileurl;
                     }
+
                 }
                 $settingmenuitems[] = html_writer::link($url, get_string('editmebisprofile', 'theme_dlb'));
             }
-        }
-
-        // ... get the passwordchangeurl from auth-plugin for all users which:
-        // 1- has capability to change their own password.
-
-        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
-
-            $passwordchangeurl = $userauthplugin->change_password_url();
-
-            if (empty($passwordchangeurl)) {
-                $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
-            }
-            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword"));
         }
 
         // ... get the link for editing the user-specific settings for moodle.

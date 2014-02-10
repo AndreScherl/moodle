@@ -41,8 +41,7 @@ function local_dlb_extends_navigation($navigation) {
 
     foreach ($schoolarray as $school) {
 
-        $snode = $schoolnode->add($school->name, $school->viewurl);
-        $snode->make_active();
+        $schoolnode->add($school->name, $school->viewurl);
     }
     //---
 }

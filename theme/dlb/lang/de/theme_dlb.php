@@ -25,6 +25,7 @@
 
 $string['editusersurl'] = 'Nutzerverwaltung';
 $string['editmysettings'] = 'Anwendungseinstellungen';
+$string['editmebisprofile'] = 'mebis-Profil';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';
 $string['loggedinas'] = 'Herzlich willkommen,{$a}';
 $string['loggedinnot'] = '';

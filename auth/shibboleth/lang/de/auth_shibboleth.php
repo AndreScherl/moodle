@@ -23,8 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 // ...awag: additional definitions for DLB.
-$string['auth_shib_editprofileurl'] = 'Link zur Änderung der persönlichen Daten';
-$string['auth_shib_editprofileurlhelp'] = 'Geben sie einen Link zur Seite des Authentifizierungssystems an, auf der die persönlichen Daten geändert werden können.';
+$string['auth_shib_editmebisprofileurl'] = 'Link zur Änderung der persönlichen Daten';
+$string['auth_shib_editmebisprofileurlhelp'] = 'Geben sie einen Link zur Seite des Authentifizierungssystems an, auf der die persönlichen Daten geändert werden können.';
 $string['auth_shib_editusersurl'] = 'Link zur Nutzerverwaltung';
 $string['auth_shib_editusersurlhelp'] = 'Geben Sie einen Link zum Authentifizierungssystem an, unter dem berechtigte User (Nutzerverwalter) Nutzerdaten verwalten können.';
 

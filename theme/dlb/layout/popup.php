@@ -37,6 +37,10 @@ if ($hascustommenu) {
     $bodyclasses[] = 'has_custom_menu';
 }
 
+if (!is_siteadmin($USER)) {
+    $bodyclasses[] = 'noadmin';
+}
+
 echo $OUTPUT->doctype() ?>
 <html <?php echo $OUTPUT->htmlattributes() ?>>
     <head>

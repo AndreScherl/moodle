@@ -432,30 +432,40 @@ class auth_plugin_shibboleth extends auth_plugin_base {
     }
 
 // ++++ awag: From here on adapted for DLB to use with new LDAP-Portal, Andreas Wagner ++++
-    /**
-     * Returns true if this authentication plugin can change the user's
-     * password.
-     *
+    
+    /** return false, hide change password link in the settings navigation.
      * @return bool
      */
     function can_change_password() {
-
-        // +++ mmantlik enable password changing.
-        return true;
+        
+        // UGLY HACK!
+        // ... set to false is needed to hide change password link in the settings navigation.
+        return false;
     }
 
     /**
      * Returns the URL for changing the users' passwords, or empty if the default
      * URL can be used.
      *
-     * This method is used if can_change_password() returns true.
+     * This method is used if can_change_password() returns true in the settings navigation
+     * but it is used in toolbar_settings menu of DLB theme without this check.
+     * 
      * This method is called only when user is logged in, it may use global $USER.
      *
      * @return moodle_url url of the profile page or null if standard used
      */
     function change_password_url() {
-        //override if needed
+        
         return $this->config->changepasswordurl;
+    }
+    
+    /** 
+     *  the Mebis Profile URL is the url to the idm of Mebis and is different from 
+     *  the moodle internal profile. Some parts (i. e. user name, firstname, lastname, email
+     *  are synchronized to the internal profile.
+     */
+    function edit_mebis_profile() {
+        $this->config->editmebisprofileurl;
     }
 
     /**
@@ -468,32 +478,18 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         //override if needed
         return true;
     }
-
+    
     /**
-     * Returns the URL for editing the users' profile, or empty if the default
-     * URL can be used.
-     *
-     * This method is used if can_edit_profile() returns true.
-     * This method is called only when user is logged in, it may use global $USER.
+     * Returns the URL for editing the users' moodle-specific settings.
+     * For all users (except admins) we use edit.php, which is a modified version
+     * of originally moodles edit.php, which allows various settings but only settings
+     * regarding this moodle application.
      *
      * @return moodle_url url of the profile page or null if standard used
      */
     function edit_profile_url() {
-        global $PAGE;
-        
-        // UGLY-HACK, but necessary if we wan't to use original profile page for moodle settings.
-        // if original edit_form is called, don't return profile_url to avoid redirect in edit.php
-        if (strpos($PAGE->url->get_path(), 'edit.php') !== false) {
-            return null;
-        }
-        
-        // ...normally return configurated editprofileurl for navigation items.
-        return $this->config->editprofileurl;
-    }
-    
-    
-    function get_edit_profile_url() {
-        return $this->config->editprofileurl;
+        // ... return null to use the >>>modified<<< edit.php page
+        return null;
     }
     
     /** returns the URL for editing other users profiles in the LDAP-Portal
@@ -503,7 +499,6 @@ class auth_plugin_shibboleth extends auth_plugin_base {
     function edit_users_url() {
         return $this->config->editusersurl;
     }
-    
     
     /** awag: override the authenticated hook to retrieve additional Shibboletz Header Vars
      * 

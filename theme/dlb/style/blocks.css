@@ -144,6 +144,11 @@
 	list-style-type: none;
 }
 
+.block_navigation .block_tree li.type_course, 
+.block_navigation .block_tree li.type_user {
+   display:none;
+}
+
 .block_navigation .block_tree {
 	margin: 0
 }

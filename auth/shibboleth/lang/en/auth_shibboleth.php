@@ -59,8 +59,8 @@ $string['shib_not_set_up_error'] = 'Shibboleth authentication doesn\'t seem to b
 $string['pluginname'] = 'Shibboleth';
 
 // ...awag: additional definitions for DLB.
-$string['auth_shib_editprofileurl'] = 'Edit Profile Url';
-$string['auth_shib_editprofileurlhelp'] = 'Provide a URL that Shibboleth Users can edit their Profile';
+$string['auth_shib_editmebisprofileurl'] = 'Edit Profile Url';
+$string['auth_shib_editmebisprofileurlhelp'] = 'Provide a URL that Shibboleth Users can edit their Profile';
 $string['auth_shib_editusersurl'] = 'Edit Users Url';
 $string['auth_shib_editusersurlhelp'] = 'Provide a URL that Shibboleth Users (i. e. Nutzerverwalter) can edit User and Userlists.';
 

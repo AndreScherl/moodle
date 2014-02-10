@@ -271,7 +271,7 @@ class theme_dlb_core_renderer extends core_renderer {
               $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
              */
 
-            $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
+            /*$href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
 
             /* awag: Portfolio für später vorbereitet...
@@ -393,21 +393,26 @@ class theme_dlb_core_renderer extends core_renderer {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
                 $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
+                
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
-                if ($userauthplugin && $userauthplugin->can_edit_profile()) {
-                    $url = $userauthplugin->edit_profile_url();
-                    if (empty($url)) {
-                        $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
+                
+                $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
+                
+                if (method_exists($userauthplugin, 'edit_mebis_profile')) {
+                    
+                    $profileurl = $userauthplugin->edit_mebis_profile();
+                    if (!empty($profileurl)) {
+                        $url = $profileurl;
                     }
-                    $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
                 }
+                $settingmenuitems[] = html_writer::link($url, get_string('editmebisprofile', 'theme_dlb'));
             }
         }
 
         // ... get the passwordchangeurl from auth-plugin for all users which:
         // 1- has capability to change their own password.
 
-        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext) && $userauthplugin->can_change_password()) {
+        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
 
             $passwordchangeurl = $userauthplugin->change_password_url();
 
@@ -422,6 +427,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
+        
         } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
                 ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
 

@@ -47,6 +47,10 @@ if (!isloggedin() or isguestuser()) {
 if (!$PAGE->user_allowed_editing()) {
     $bodyclasses[] = 'hide_settings_block';
 }
+
+if (!is_siteadmin($USER)) {
+    $bodyclasses[] = 'noadmin';
+}
 echo $OUTPUT->doctype();
 ?>
 <html id="frontpage" <?php echo $OUTPUT->htmlattributes(); ?>>

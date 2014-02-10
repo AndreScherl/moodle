@@ -41,6 +41,10 @@ if (!isloggedin() or isguestuser()) {
     $bodyclasses[] = 'notloggedin';
 }
 
+if (!is_siteadmin($USER)) {
+    $bodyclasses[] = 'noadmin';
+}
+
 echo $OUTPUT->doctype()
 ?>
 <html <?php echo $OUTPUT->htmlattributes() ?>>

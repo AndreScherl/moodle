@@ -136,9 +136,9 @@ if (!isset($config->changepasswordurl)) {
 
     <?php // ...awag: additional urls needed for LDAP-Portal. 
     
-    if (!isset($config->editprofileurl)) {
+    if (!isset($config->editmebisprofileurl)) {
     
-        $config->editprofileurl = '';
+        $config->editmebisprofileurl = '';
     }
     
     if (!isset($config->editusersurl)) {
@@ -147,18 +147,18 @@ if (!isset($config->changepasswordurl)) {
     }
     ?>
     <tr valign="top">
-        <td align="right"><label for="editprofileurl"><?php print_string('auth_shib_editprofileurl', 'auth_shibboleth') ?>: </label></td>
+        <td align="right"><label for="editmebisprofileurl"><?php print_string('auth_shib_editmebisprofileurl', 'auth_shibboleth') ?>: </label></td>
         <td>
-            <input name="editprofileurl" id="editprofileurl" type="text" value="<?php echo $config->editprofileurl ?>" size="40"/>
+            <input name="editmebisprofileurl" id="editmebisprofileurl" type="text" value="<?php echo $config->editmebisprofileurl ?>" size="40"/>
             <?php
 
-            if (isset($err['editprofileurl'])) {
-            echo $OUTPUT->error_text($err['editprofileurl']);
+            if (isset($err['editmebisprofileurl'])) {
+            echo $OUTPUT->error_text($err['editmebisprofileurl']);
             }
 
             ?>
         </td>
-        <td><?php print_string('auth_shib_editprofileurlhelp', 'auth_shibboleth') ?></td>
+        <td><?php print_string('auth_shib_editmebisprofileurlhelp', 'auth_shibboleth') ?></td>
     </tr>
     <tr valign="top">
         <td align="right"><label for="editusersurl"><?php print_string('auth_shib_editusersurl', 'auth_shibboleth') ?>: </label></td>

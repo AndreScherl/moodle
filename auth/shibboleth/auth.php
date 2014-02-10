@@ -293,11 +293,11 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         }
 
         // ...awag: additional settings for DLB.
-        if (!isset($config->editprofileurl)) {
+        if (!isset($config->editmebisprofileurl)) {
 
-            $config->editprofileurl = '';
+            $config->editmebisprofileurl = '';
         }
-        set_config('editprofileurl', $config->editprofileurl, 'auth/shibboleth');
+        set_config('editmebisprofileurl', $config->editmebisprofileurl, 'auth/shibboleth');
 
         if (!isset($config->editusersurl)) {
 

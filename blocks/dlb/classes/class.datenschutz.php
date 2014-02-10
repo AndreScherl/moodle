@@ -497,7 +497,7 @@ class datenschutz {
             // add a Link to edit personal data in LDAP-Portal
             if ($user->id == $USER->id) {
                 $output = html_writer::link($editmebisprofileurl, get_string('editmyprofile'));
-                $output = html_writer::tag('div', $output, array('class' => 'editmebisprofileurl'));
+                $output = html_writer::tag('div', $output, array('class' => 'editprofileurl'));
 
                 $element = $mform->createElement('html', $output);
                 $mform->insertElementBefore($element, 'username');

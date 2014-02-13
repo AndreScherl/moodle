@@ -445,6 +445,9 @@ class repository_pmediathek_search {
                 'thumbnail' => $result->technical_thumbnail,
                 'author' => '',
             );
+            if (isset($result->technical_size)) {
+                $params['size'] = $result->technical_size;
+            }
             if ($this->can_insert($result) == self::INSERT_LINK) {
                 $params['returntypes'] = FILE_EXTERNAL;
             } else {

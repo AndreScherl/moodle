@@ -350,7 +350,7 @@ class repository_pmediathek_api {
             return true; // Indirect link via local URL.
         }
 
-        debugging("{$url} does not match the Mediathek server ({$testurl['host']}) or the local link URL (".$localurl->out().")");
+        debugging("URL: {$url} does not match the Mediathek server ({$apiurl['host']}) or the local link URL ({$localurl['host']}{$localurl['path']})");
 
         return false;
     }

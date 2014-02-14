@@ -405,7 +405,7 @@ class theme_dlb_core_renderer extends core_renderer {
             if (is_siteadmin($USER)) {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
-                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile', 'theme_dlb'));
+                $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
                 
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
                 

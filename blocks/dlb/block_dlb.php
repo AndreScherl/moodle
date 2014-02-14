@@ -126,7 +126,6 @@ class block_dlb extends block_base {
         //Block wird nicht angezeigt, falls
         if ((count($USER->managed_categories) == 0) //keine Kursbereiche zu betreuen.
                 and !has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM)))  //keine Nutzungverwalterfunktionen
-                //and !has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) //keine Uploadfunktion
             return "";
 
 

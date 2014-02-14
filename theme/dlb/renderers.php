@@ -386,7 +386,7 @@ class theme_dlb_core_renderer extends core_renderer {
         // ... get the passwordchangeurl from auth-plugin for all users which:
         // 1- has capability to change their own password.
 
-        if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
+        /*if ($userauthplugin && $currentuser && !session_is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
 
             $passwordchangeurl = $userauthplugin->change_password_url();
 
@@ -394,7 +394,7 @@ class theme_dlb_core_renderer extends core_renderer {
                 $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
             }
             $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword", "theme_dlb"));
-        }
+        }*/
         
         // ... get change password link from auth-plugin for all users which:
         // 1. has not the capability moodle/user:update
@@ -423,19 +423,6 @@ class theme_dlb_core_renderer extends core_renderer {
             }
         }
 
-        // ... get the link for editing the user-specific settings for moodle.
-        if (has_capability('moodle/user:update', $systemcontext)) {
-
-            $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
-            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-        
-        } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
-                ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
-
-            $moodlesettingsurl = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
-            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-        }
-
         // ... get the userediturl from auth-plugin for all users which:
         // 1- are authenticated via shibboleth.
         // 2- have the mebisRole "nutzerverwalter" (i. e. can_edit_users() is true)
@@ -448,6 +435,20 @@ class theme_dlb_core_renderer extends core_renderer {
             }
         }
 
+        // ... get the link for editing the user-specific settings for moodle.
+        if (has_capability('moodle/user:update', $systemcontext)) {
+
+            $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
+            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
+        
+        } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
+                ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
+
+            $moodlesettingsurl = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
+            $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
+        }
+        
+        
         $output = html_writer::tag('div', $OUTPUT->pix_icon('toolbar/einstellungen', get_string('settings'), 'theme_dlb'), array('id' => 'toolbar-settings', 'class' => 'toolbar-content-item'));
 
         $submenu = html_writer::tag('ul', html_writer::tag('li', implode('</li><li>', $settingmenuitems)));

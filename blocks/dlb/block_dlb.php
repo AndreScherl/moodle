@@ -125,8 +125,8 @@ class block_dlb extends block_base {
 
         //Block wird nicht angezeigt, falls
         if ((count($USER->managed_categories) == 0) //keine Kursbereiche zu betreuen.
-                and !has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM))  //keine Nutzungverwalterfunktionen
-                and !has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) //keine Uploadfunktion
+                and !has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM)))  //keine Nutzungverwalterfunktionen
+                //and !has_capability('moodle/site:dlbuploadusers', get_context_instance(CONTEXT_SYSTEM))) //keine Uploadfunktion
             return "";
 
 
@@ -146,12 +146,12 @@ class block_dlb extends block_base {
         $this->content->footer = '';
 
         $str = "<div id=\"dlb-navigation\">";
-        
+
         $nodes = array();
 
         //betreute Kursbereiche
         if (count($USER->managed_categories) > 0) {
-            
+
             //Kursbereich bearbeiten
             $properties = array(
                 'type' => navigation_node::TYPE_ROOTNODE,
@@ -159,28 +159,28 @@ class block_dlb extends block_base {
             );
 
             $node_managedcats = new navigation_node($properties);
-            
+
             //Header bearbeiten
             $properties = array(
                 'type' => navigation_node::TYPE_ROOTNODE,
                 'text' => get_string('managed_headers', 'block_dlb')
             );
-            
+
             $node_editheader = new navigation_node($properties);
             $node_editcount = 0;
-            
+
             foreach ($USER->managed_categories as $category) {
-                
-                $node_managedcats->add($category->name, new moodle_url('/course/category.php', array('id' => $category->id)), 
+
+                $node_managedcats->add($category->name, new moodle_url('/course/category.php', array('id' => $category->id)),
                         navigation_node::TYPE_CUSTOM);
-                
+
                 if (has_capability('block/custom_category:editheader', context_coursecat::instance($category->id))) {
-                    $node_editheader->add($category->name, new moodle_url('/blocks/custom_category/header/index.php?', array('categoryid' => $category->id)), 
+                    $node_editheader->add($category->name, new moodle_url('/blocks/custom_category/header/index.php?', array('categoryid' => $category->id)),
                         navigation_node::TYPE_CUSTOM);
                     $node_editcount++;
                 }
             }
-            
+
             $nodes[] = $node_managedcats;
             if ($node_editcount > 0) $nodes[] = $node_editheader;
         }
@@ -188,14 +188,14 @@ class block_dlb extends block_base {
         $renderer = $this->page->get_renderer('block_dlb');
         $str .= $renderer->navigation_tree($nodes, 2, array('depth' => '0'));
         $str .= "</div>";
-        
+
         $this->content->text = $str;
-        
+
         // ...display the course requests here.
         require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
-        
+
         $requests = meineschulen::get_course_requests();
-        
+
         $list = '';
         $c = 0;
         foreach ($requests as $request) {
@@ -204,12 +204,12 @@ class block_dlb extends block_base {
             $list .= html_writer::tag('li', html_writer::link($request->viewurl, $str), array('class' => 'column c1'));
             $c = ($c + 1) % 2;
         }
-        
+
         if (!empty($list)) {
             $this->content->text .= html_writer::tag('ul', $list, array('class' => 'meineschulen-courserequests'));
         }
 
-        
+
         return $this->content;
     }
 

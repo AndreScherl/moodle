@@ -93,3 +93,23 @@ body.pagelayout-embedded.path-repository-pmediathek .duration {
     float: left;
     margin-left: 15px;
 }
+
+.fp-fileinfo .fp-author {
+    display: none;
+}
+
+.fp-fileinfo .fp-license {
+    display: none;
+}
+
+.fp-select .fp-setauthor {
+    display: none;
+}
+
+.fp-select .fp-setlicense {
+    display: none;
+}
+
+.fp-select .fp-unknown {
+    display: none;
+}

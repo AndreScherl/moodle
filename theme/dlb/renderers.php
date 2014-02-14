@@ -395,7 +395,7 @@ class theme_dlb_core_renderer extends core_renderer {
             }
             $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword", "theme_dlb"));
         }*/
-        
+
         // ... get change password link from auth-plugin for all users which:
         // 1. has not the capability moodle/user:update
         // 2. has the capability to edit their own profile (moodle/user:editownprofile)
@@ -406,13 +406,13 @@ class theme_dlb_core_renderer extends core_renderer {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
                 $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
-                
+
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
-                
+
                 $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
-                
+
                 if (method_exists($userauthplugin, 'edit_mebis_profile')) {
-                    
+
                     $profileurl = $userauthplugin->edit_mebis_profile();
                     if (!empty($profileurl)) {
                         $url = $profileurl;
@@ -440,16 +440,16 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-        
+
         } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
                 ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
 
             $moodlesettingsurl = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
         }
-        
-        
-        $output = html_writer::tag('div', $OUTPUT->pix_icon('toolbar/einstellungen', get_string('settings'), 'theme_dlb'), array('id' => 'toolbar-settings', 'class' => 'toolbar-content-item'));
+
+
+        $output = html_writer::tag('div', $OUTPUT->pix_icon('toolbar/einstellungen', get_string('settings'), 'theme'), array('id' => 'toolbar-settings', 'class' => 'toolbar-content-item'));
 
         $submenu = html_writer::tag('ul', html_writer::tag('li', implode('</li><li>', $settingmenuitems)));
         $output .= html_writer::tag('div', $submenu, array('class' => 'toolbar-submenu', 'id' => 'toolbar-submenu',
@@ -771,8 +771,8 @@ class theme_dlb_core_renderer extends core_renderer {
         <?php
     }
 
-    /** this script is used to redirect the user if shibboleth is passive. and the user is not loggedin already 
-     * 
+    /** this script is used to redirect the user if shibboleth is passive. and the user is not loggedin already
+     *
       Written by Lukas Haemmerle <lukas.haemmerle@switch.ch>, SWITCH
       /*
       This isPassive script will automatically try to log in a user using the SAML2
@@ -796,13 +796,13 @@ class theme_dlb_core_renderer extends core_renderer {
      */
     protected function load_shibboleth_ispassiv_script() {
         global $CFG;
-        
+
         // ... only try a redirect, when user isn't logged in and it is not a dev system.
         $checkpassive = (!isloggedin() and (strpos($CFG->wwwroot,"/localhost/") === false));
 
         if ($checkpassive) {
-            
-            ?>        
+
+            ?>
             <script type="text/javascript" language="javascript">
                 // Check for session cookie that contains the initial location
                 if(document.cookie && document.cookie.search(/_check_is_passive=/) >= 0){
@@ -820,7 +820,7 @@ class theme_dlb_core_renderer extends core_renderer {
                 } else {
                     // Mark browser as being isPassive checked
                     document.cookie = "_check_is_passive=" + window.location;
-                             
+
                     // Redirect to Shibboleth handler
                     window.location = "/Shibboleth.sso/Login?isPassive=true&target=" + encodeURIComponent(window.location);
                 }

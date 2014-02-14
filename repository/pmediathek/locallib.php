@@ -103,11 +103,13 @@ class repository_pmediathek_search {
 
         $viewurl = null;
         $viewname = null;
+        $token = null;
         if (optional_param('search', false, PARAM_BOOL)) {
             $this->action = self::ACTION_SEARCH;
         } else if ($viewurl = optional_param('viewurl', null, PARAM_URL)) {
             $this->action = self::ACTION_VIEW;
             $viewname = required_param('viewname', PARAM_TEXT);
+            $token = required_param('token', PARAM_ALPHANUM);
         } else {
             $this->action = self::ACTION_FORM;
         }
@@ -120,7 +122,7 @@ class repository_pmediathek_search {
                 break;
 
             case self::ACTION_VIEW:
-                $this->set_view_details($viewurl, $viewname);
+                $this->set_view_details($viewurl, $viewname, $token);
                 break;
 
             case self::ACTION_FORM:
@@ -212,20 +214,20 @@ class repository_pmediathek_search {
         }
     }
 
-    protected function set_view_details($viewurl, $viewname) {
+    protected function set_view_details($viewurl, $viewname, $token) {
         global $USER;
 
         if (empty($viewurl) || empty($viewname)) {
             throw new moodle_exception('missingviewparams', 'repository_pmediathek');
         }
 
-        $this->viewurl = $viewurl.'&mode=display&user='.$USER->username;
-        $this->viewname = $viewname;
-
         $api = $this->get_api();
-        if (!$api->check_embed_url($this->viewurl)) {
+        if (!$api->check_embed_url($viewurl, $token)) {
             throw new moodle_exception('invalidurl', 'repository_pmediathek');
         }
+
+        $this->viewurl = $viewurl.'&mode=display&user='.$USER->username;
+        $this->viewname = $viewname;
     }
 
     protected function get_tab() {
@@ -425,6 +427,7 @@ class repository_pmediathek_search {
             $viewurl = $this->get_url();
             $viewurl->param('viewurl', $result->technical_location);
             $viewurl->param('viewname', $result->general_title_de);
+            $viewurl->param('token', $this->get_api()->generate_token($result->technical_location));
             $viewstr = $OUTPUT->pix_icon('t/preview', '');
             $viewstr .= ' '.get_string('view', 'repository_pmediathek');
             $actions[] = html_writer::link($viewurl, $viewstr, array('class' => 'viewlink'));

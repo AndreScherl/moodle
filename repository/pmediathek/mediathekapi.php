@@ -335,24 +335,36 @@ class repository_pmediathek_api {
     /**
      * Confirm that the embed URL matches the configured Mediathek server.
      * @param string $url
+     * @param string $token (optional) if present, used to validate the embed URL
      * @return bool
      */
-    public function check_embed_url($url) {
+    public function check_embed_url($url, $token = null) {
         $apiurl = parse_url($this->url);
         $testurl = parse_url($url);
-
-        if ($apiurl['host'] == $testurl['host']) {
-            return true; // Direct link to Mediathek server.
-        }
 
         $localurl = parse_url(new moodle_url('/repository/pmediathek/link.php'));
         if ($testurl['host'] == $localurl['host'] && $testurl['path'] == $localurl['path']) {
             return true; // Indirect link via local URL.
         }
 
+        if ($token) {
+            // Check the token matches the URL => the link was generated from a valid search.
+            return ($token == $this->generate_token($url));
+        }
+
+        if ($apiurl['host'] == $testurl['host']) {
+            return true; // Direct link to Mediathek server.
+        }
+
         debugging("URL: {$url} does not match the Mediathek server ({$apiurl['host']}) or the local link URL ({$localurl['host']}{$localurl['path']})");
 
         return false;
+    }
+
+    public function generate_token($url) {
+        $token = $url.'_'.$this->url.'_'.$this->username.'_'.$this->password;
+        $token = sha1($token);
+        return substr($token, 0, 10); // Use first 10 chars of sha1 key.
     }
 
     protected function do_request($query, $extrafields = array()) {

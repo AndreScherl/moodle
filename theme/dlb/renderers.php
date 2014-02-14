@@ -419,7 +419,7 @@ class theme_dlb_core_renderer extends core_renderer {
                     }
 
                 }
-                $settingmenuitems[] = html_writer::link($url, get_string('editmebisprofile', 'theme_dlb'));
+                $settingmenuitems[] = html_writer::link($url, get_string('mebisprofile', 'theme_dlb'));
             }
         }
 

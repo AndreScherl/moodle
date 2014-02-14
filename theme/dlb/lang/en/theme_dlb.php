@@ -26,7 +26,8 @@
 $string['changepassword'] = 'Password';
 $string['editusersurl'] = 'Manage Users';
 $string['editmysettings'] = 'Application Settings';
-$string['editmebisprofile'] = 'Profile';
+$string['editmebisprofile'] = 'Edit Profile';
+$string['mebisprofile'] = 'Profile';
 $string['choosereadme'] = 'Designvorlage für DLB-Moodle';
 $string['loggedinas'] = 'Welcome,{$a}';
 $string['loggedinnot'] = '';

@@ -235,11 +235,11 @@ body.path-site #toolbar-wrapper {
 }
 
 #toolbar-submenu li {
-    background: url([[pix:core|i/navigationitem]]) no-repeat left center;
+   
     list-style:none;
     border-top: 1px solid #8CA3AD;
     line-height: 25px;
-    padding: 0 10px 0 20px;
+    padding: 0 10px 0 10px;
 }
 
 #toolbar-submenu li:hover {

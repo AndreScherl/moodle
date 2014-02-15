@@ -68,10 +68,10 @@ echo $OUTPUT->doctype();
 
             <!---awag mebis-header--->
             <div id ="mebis-header">
-                <a href="https://mebis.bayern.de/">
+                <a href="https://www.mebis.bayern.de">
                     <div id="menuItemMebis" class="mainMenuMebis"> </div>
                 </a>
-                <a href="https://mediathek.mebis.bayern.de/">
+                <a href="https://mediathek.mebis.bayern.de">
                     <div id="menuItemMediathek" class="mainMenuMediathek"> </div>
                 </a>
                 <a href="https://lernplattform.mebis.bayern.de">

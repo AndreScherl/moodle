@@ -343,7 +343,7 @@ class theme_dlb_core_renderer extends core_renderer {
     private function can_edit_users() {
         global $USER;
 
-        $caneditusers = (($USER->auth == 'shibboleth') && (in_array('nutzerverwalter', $USER->mebisRole)));
+        $caneditusers = (($USER->auth == 'shibboleth') && (in_array('nutzerverwalter', $USER->mebisRole) || in_array('Schuelerverwalter', $USER->mebisRole)));
 
         return $caneditusers;
     }

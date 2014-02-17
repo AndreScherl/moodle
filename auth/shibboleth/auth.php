@@ -533,7 +533,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             
         } else {
 
-            debugging('received no mebis-role in auth/shibboleth/auth.php fpr user: ' . $username);
+            debugging('received no mebis-role in auth/shibboleth/auth.php für user: ' . $username);
         }
     }
 }

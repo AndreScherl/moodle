@@ -66,7 +66,7 @@ class mod_mediathek_mod_form extends moodleform_mod {
             $mform->setDefault('display', key($options));
         } else {
             $mform->addElement('select', 'display', get_string('displayselect', 'mediathek'), $options);
-            $mform->setDefault('display', $config->display);
+            $mform->setDefault('display', RESOURCELIB_DISPLAY_POPUP);
             $mform->setAdvanced('display', $config->display_adv);
             $mform->addHelpButton('display', 'displayselect', 'mediathek');
         }

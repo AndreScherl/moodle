@@ -214,6 +214,7 @@ $string[ 'cross_max_attempts'] = 'Maximale Anzahl der Versuche';
 $string[ 'cross_maxwords'] = 'Maximale Anzahl von Wörtern des Kreuzworträtsels';
 $string[ 'cross_minwords'] = 'Minimale Anzahl von Wörtern des Kreuzworträtsels';
 $string[ 'cross_options'] = 'Kreuzworträtsel-Optionen';
+$string[ 'cross_showprint'] = 'Ausdruck erlauben';
 $string[ 'cryptex_maxtries'] = 'Maximale Anzahl der Versuche';
 $string[ 'cryptex_options'] = 'Suchrätsel-Optionen';
 $string[ 'gameclose'] = 'Spiel schließen';

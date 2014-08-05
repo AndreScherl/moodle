@@ -50,10 +50,14 @@ class block_recent_activity_renderer extends plugin_renderer_base {
                 get_string('activitysince', '', userdate($timestart)),
                 array('class' => 'activityhead'));
 
-        $output .= html_writer::tag('div',
+        //+++ awag DS15: Link zur Auswertung von vergangenen Aktivitäten zeigen?
+        if (\block_dlb\local\datenschutz::hook_course_lib_can_access_recent_activities()) {
+            $output .= html_writer::tag('div',
                 html_writer::link(new moodle_url('/course/recent.php', array('id' => $course->id)),
                     get_string('recentactivityreport')),
                 array('class' => 'activityhead'));
+        }
+        //--- awag
 
         $content = false;
 

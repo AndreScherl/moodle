@@ -343,7 +343,9 @@ class user_picture implements renderable {
         }
 
         // First try to detect deleted users - but do not read from database for performance reasons!
-        if (!empty($this->user->deleted) or strpos($this->user->email, '@') === false) {
+        // SYNERGY LEARNING - empty email addresses no longer count as 'deleted' users
+        if (!empty($this->user->deleted) or (!empty($this->user->email) && strpos($this->user->email, '@') === false)) {
+        // SYNERGY LEARNING - empty email addresses no longer count as 'deleted' users
             // All deleted users should have email replaced by md5 hash,
             // all active users are expected to have valid email.
             return $defaulturl;

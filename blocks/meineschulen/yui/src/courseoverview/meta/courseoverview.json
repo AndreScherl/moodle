@@ -1,0 +1,9 @@
+{
+    "moodle-block_meineschulen-courseoverview": {
+        "requires": [
+            "base",
+            "node",
+            "yui2-treeview"
+        ]
+    }
+}

@@ -24,7 +24,6 @@
  */
 
 require_once($CFG->dirroot.'/calendar/lib.php');
-
 // The HTML head for the message window to start with (<!-- nix --> is used to get some browsers starting with output
 global $CHAT_HTMLHEAD;
 $CHAT_HTMLHEAD = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\"><html><head></head>\n<body>\n\n".padding(200);
@@ -865,7 +864,7 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
 /// Given a message object full of information, this function
 /// formats it appropriately into text and html, then
 /// returns the formatted data.
-    global $DB;
+    global $DB, $CFG;
 
     static $users;     // Cache user lookups
 
@@ -876,6 +875,14 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
     } else {
         return NULL;
     }
+
+    // atar +++ Hook DS21
+    $strchat = $CFG->chat_anon;
+
+    if ($strchat==='anony') {
+        return \block_dlb\local\datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
+    }
+    //---DS21
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);
 }
 

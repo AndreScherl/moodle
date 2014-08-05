@@ -1,0 +1,10 @@
+{
+    "name": "moodle-local_dlb-shortname",
+    "builds": {
+        "moodle-local_dlb-shortname": {
+            "jsfiles": [
+                "shortname.js"
+            ]
+        }
+    }
+}

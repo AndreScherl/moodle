@@ -122,6 +122,7 @@ class user_edit_form extends moodleform {
             } else {
                 $imagevalue = get_string('none');
             }
+            $imagevalue = html_writer::tag('span', $imagevalue, array('id' => 'currentpicture')); // SYNERGY LEARNING - wrap in span with ID.
             $imageelement = $mform->getElement('currentpicture');
             $imageelement->setValue($imagevalue);
 
@@ -170,26 +171,34 @@ class user_edit_form extends moodleform {
         $usernew = (object)$usernew;
         $user    = $DB->get_record('user', array('id' => $usernew->id));
 
-        // Validate email.
-        if (!isset($usernew->email)) {
-            // Mail not confirmed yet.
-        } else if (!validate_email($usernew->email)) {
-            $errors['email'] = get_string('invalidemail');
-        } else if (($usernew->email !== $user->email) and $DB->record_exists('user', array('email' => $usernew->email, 'mnethostid' => $CFG->mnet_localhost_id))) {
-            $errors['email'] = get_string('emailexists');
-        }
+        //+++ awag H019: leere E-Mail nicht überprüfen
+        if (!empty($usernew->email)) {
+        //---awag
 
-        if (isset($usernew->email) and $usernew->email === $user->email and over_bounce_threshold($user)) {
-            $errors['email'] = get_string('toomanybounces');
-        }
-
-        if (isset($usernew->email) and !empty($CFG->verifychangedemail) and !isset($errors['email']) and !has_capability('moodle/user:update', context_system::instance())) {
-            $errorstr = email_is_not_allowed($usernew->email);
-            if ($errorstr !== false) {
-                $errors['email'] = $errorstr;
+            // Validate email.
+            if (!isset($usernew->email)) {
+                // Mail not confirmed yet.
+            } else if (!validate_email($usernew->email)) {
+                $errors['email'] = get_string('invalidemail');
+            } else if (($usernew->email !== $user->email) and $DB->record_exists('user', array('email' => $usernew->email, 'mnethostid' => $CFG->mnet_localhost_id))) {
+                $errors['email'] = get_string('emailexists');
             }
-        }
 
+            if (isset($usernew->email) and $usernew->email === $user->email and over_bounce_threshold($user)) {
+                $errors['email'] = get_string('toomanybounces');
+            }
+
+            if (isset($usernew->email) and !empty($CFG->verifychangedemail) and !isset($errors['email']) and !has_capability('moodle/user:update', context_system::instance())) {
+                $errorstr = email_is_not_allowed($usernew->email);
+                if ($errorstr !== false) {
+                    $errors['email'] = $errorstr;
+                }
+            }
+            
+        //+++ awag H019    
+        }
+        //--- awag
+    
         // Next the customisable profile fields.
         $errors += profile_validation($usernew, $files);
 

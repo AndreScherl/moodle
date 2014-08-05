@@ -53,6 +53,10 @@ if ($categoryid && !$category->visible && !has_capability('moodle/category:viewh
     throw new moodle_exception('unknowncategory');
 }
 
+// SYNERGY LEARNING - check the user is allowed to view the course list.
+local_dlb\local\core_changes::check_view_courses();
+// SYNERGY LEARNING - check the user is allowed to view the course list.
+
 $PAGE->set_heading($site->fullname);
 $content = $courserenderer->course_category($categoryid);
 

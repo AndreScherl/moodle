@@ -33,6 +33,13 @@ $string['composemessage'] = 'Compose a message';
 $string['configmethod'] = 'The ajax chat method provide an ajax based chat interface, it contacts server regularly for update. The normal chat method involves the clients regularly contacting the server for updates. It requires no configuration and works everywhere, but it can create a large load on the server with many chatters.  Using a server daemon requires shell access to Unix, but it results in a fast scalable chat environment.';
 $string['confignormalupdatemode'] = 'Chatroom updates are normally served efficiently using the <em>Keep-Alive</em> feature of HTTP 1.1, but this is still quite heavy on the server. A more advanced method is to use the <em>Stream</em> strategy to feed updates to the users. Using <em>Stream</em> scales much better (similar to the chatd method) but may not be supported by your server.';
 $string['configoldping'] = 'What is the maximum time that may pass before we detect that a user has disconnected (in seconds)? This is just an upper limit, as usually disconnects are detected very quickly. Lower values will be more demanding on your server. If you are using the normal method, <strong>never</strong> set this lower than 2 * chat_refresh_room.';
+//+++ Hook DS21
+$string['anonchat']='Anonymous Chatprotocol';
+$string['anonexplain']='If chatprotocol is set to anonymous, chat protocols will not show usernames and userpictures. If chatprotocol is set to not anonymous, those details will be visible again.';
+$string['chatuser']='Chatuser';
+$string['chat_anonymous']= 'chatprotocol anonymous';
+$string['chat_notanonymous'] = 'chatprotocol not anonymous';
+//---DS21
 $string['configrefreshroom'] = 'How often should the chat room itself be refreshed? (in seconds).  Setting this low will make the chat room seem quicker, but it may place a higher load on your web server when many people are chatting. If you are using <em>Stream</em> updates, you can select higher refresh frequencies -- try with 2.';
 $string['configrefreshuserlist'] = 'How often should the list of users be refreshed? (in seconds)';
 $string['configserverhost'] = 'The hostname of the computer where the server daemon is';

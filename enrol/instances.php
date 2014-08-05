@@ -179,6 +179,12 @@ $table->data  = array();
 $updowncount = 1;
 $icount = count($instances);
 $url = new moodle_url('/enrol/instances.php', array('sesskey'=>sesskey(), 'id'=>$course->id));
+
+//+++ awag DS19, verhindern, dass sich ein Trainer durch Verbergen bzw. Löschen der Einschreibemethode ausschließt
+// Translation: prevent a trainer from excluding themselves from a course by disabling the enrolment method they are using.
+$enrolmentmethods = \block_dlb\local\datenschutz::hook_enrol_instances_get_user_enrolmentmethods($course);
+//--- awag DS19
+
 foreach ($instances as $instance) {
     if (!isset($plugins[$instance->enrol])) {
         continue;
@@ -213,7 +219,11 @@ foreach ($instances as $instance) {
         ++$updowncount;
 
         // edit links
-        if ($plugin->instance_deleteable($instance)) {
+        if ($plugin->instance_deleteable($instance)
+//+++ awag DS19: Löschen der eigenen Einschreibungsmethode nicht zulässig
+            and (!in_array($instance->enrol, $enrolmentmethods))
+//--- awag
+                ) {
             $aurl = new moodle_url($url, array('action'=>'delete', 'instance'=>$instance->id));
             $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/delete', $strdelete, 'core', array('class' => 'iconsmall')));
         }
@@ -221,7 +231,12 @@ foreach ($instances as $instance) {
         if (enrol_is_enabled($instance->enrol)) {
             if ($instance->status == ENROL_INSTANCE_ENABLED) {
                 $aurl = new moodle_url($url, array('action'=>'disable', 'instance'=>$instance->id));
-                $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/hide', $strdisable, 'core', array('class' => 'iconsmall')));
+                //+++ awag DS19: Verbergen der eigenen Einschreibungsmethode nicht zulässig
+                // Translation: prevent a trainer from excluding themselves from a course by disabling the enrolment method they are using.
+                if (!in_array($instance->enrol, $enrolmentmethods)) {
+                    $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/hide', $strdisable, 'core', array('class' => 'iconsmall')));
+                }
+                //--- awag
             } else if ($instance->status == ENROL_INSTANCE_DISABLED) {
                 $aurl = new moodle_url($url, array('action'=>'enable', 'instance'=>$instance->id));
                 $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/show', $strenable, 'core', array('class' => 'iconsmall')));

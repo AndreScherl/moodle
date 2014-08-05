@@ -233,7 +233,16 @@
                 foreach ($sessionusers as $sessionuser => $usermessagecount) {
                     if ($user = $DB->get_record('user', array('id'=>$sessionuser))) {
                         $OUTPUT->user_picture($user, array('courseid'=>$course->id));
-                        echo '&nbsp;'.fullname($user, true); // XXX TODO  use capability instead of true
+                         // atar +++ Hook DS21
+                        global $CFG;
+                        $strchat = $CFG->chat_anon;
+                        if ($strchat==='anony'){
+                            $hashy = substr(md5($user->id),0,4);
+                            echo  '&nbsp;'.get_string('chatuser','chat').' '.$hashy;
+                        } else {
+                            echo '&nbsp;'.fullname($user, true); // XXX TODO  use capability instead of true
+                        }
+                        //---DS21
                         echo "&nbsp;($usermessagecount)<br />";
                     }
                 }

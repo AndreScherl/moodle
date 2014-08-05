@@ -226,7 +226,8 @@ function folder_get_file_info($browser, $areas, $course, $cm, $context, $fileare
         $urlbase = $CFG->wwwroot.'/pluginfile.php';
 
         // students may read files here
-        $canwrite = has_capability('mod/folder:managefiles', $context);
+        // SYNERGY LEARNING - check if students can modify the files.
+        $canwrite = has_capability('mod/folder:managefiles', $context) || folder_can_edit_as_student($cm->instance, $context);
         return new folder_content_file_info($browser, $context, $storedfile, $urlbase, $areas[$filearea], true, true, $canwrite, false);
     }
 
@@ -454,4 +455,19 @@ function folder_cm_info_view(cm_info $cm) {
         $renderer = $PAGE->get_renderer('mod_folder');
         $cm->set_content($renderer->display_folder($folder));
     }
+}
+
+// SYNERGY LEARNING - check if a student can edit the files.
+function folder_can_edit_as_student($folder, $context) {
+    global $DB;
+    if (is_object($folder)) {
+        if (empty($folder->studentedit)) {
+            return false;
+        }
+    } else {
+        if (!$DB->get_field('folder', 'studentedit', array('id' => $folder))) {
+            return false;
+        }
+    }
+    return has_capability('mod/folder:managefilesifenabled', $context);
 }

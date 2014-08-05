@@ -56,3 +56,12 @@ $string['shib_no_attributes_error'] = 'You seem to be Shibboleth authenticated b
 $string['shib_not_all_attributes_error'] = 'Moodle needs certain Shibboleth attributes which are not present in your case. The attributes are: {$a}<br />Please contact the webmaster of this server or your Identity Provider.';
 $string['shib_not_set_up_error'] = 'Shibboleth authentication doesn\'t seem to be set up correctly because no Shibboleth environment variables are present for this page. Please consult the <a href="README.txt">README</a> for further instructions on how to set up Shibboleth authentication or contact the webmaster of this Moodle installation.';
 $string['pluginname'] = 'Shibboleth';
+
+// ...awag: additional definitions for DLB.
+$string['auth_shib_editmebisprofileurl'] = 'Edit Profile Url';
+$string['auth_shib_editmebisprofileurlhelp'] = 'Provide a URL that Shibboleth Users can edit their Profile';
+$string['auth_shib_editusersurl'] = 'Edit Users Url';
+$string['auth_shib_editusersurlhelp'] = 'Provide a URL that Shibboleth Users (i. e. Nutzerverwalter) can edit User and Userlists.';
+$string['auth_shib_categorierole'] = 'Automatic Assign Category Role';
+$string['auth_shib_categorierolehelp'] = 'Role automatically to assign, wenn user has the mebisRole nutzerverwalter';
+$string['nocategorierole'] = 'assing no role';

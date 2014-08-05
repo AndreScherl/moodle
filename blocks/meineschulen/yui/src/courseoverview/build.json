@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_meineschulen-courseoverview",
+    "builds": {
+        "moodle-block_meineschulen-courseoverview": {
+            "jsfiles": [
+                "courseoverview.js"
+            ]
+        }
+    }
+}

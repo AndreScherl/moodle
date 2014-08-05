@@ -36,6 +36,10 @@ $userid = optional_param('id', $USER->id, PARAM_INT);    // User id.
 $course = optional_param('course', SITEID, PARAM_INT);   // Course id (defaults to Site).
 $cancelemailchange = optional_param('cancelemailchange', 0, PARAM_INT);   // Course id (defaults to Site).
 
+//+++ DS06: awag - prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
+\block_dlb\local\datenschutz::hook_local_user_edit_require_same_institution($userid);
+//---
+
 $PAGE->set_url('/user/edit.php', array('course' => $course, 'id' => $userid));
 
 if (!$course = $DB->get_record('course', array('id' => $course))) {

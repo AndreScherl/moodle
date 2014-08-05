@@ -65,7 +65,9 @@ class mod_folder_renderer extends plugin_renderer_base {
                 'generalbox foldertree');
 
         // Do not append the edit button on the course page.
-        if ($folder->display != FOLDER_DISPLAY_INLINE && has_capability('mod/folder:managefiles', $context)) {
+        // SYNERGY LEARNING - see if students are allowed to edit files.
+        if ($folder->display != FOLDER_DISPLAY_INLINE && has_capability('mod/folder:managefiles', $context) ||
+            folder_can_edit_as_student($folder, $context)) {
             $output .= $this->output->container(
                     $this->output->single_button(new moodle_url('/mod/folder/edit.php',
                     array('id' => $cm->id)), get_string('edit')),

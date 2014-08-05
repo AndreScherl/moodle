@@ -93,6 +93,12 @@ class core_course_editcategory_form extends moodleform {
         $mform->setDefault('id', $categoryid);
 
         $this->add_action_buttons(true, $strsubmit);
+
+        //+++ awag: freeze the 'ID number' field, to prevent school coordinators changing the school id.
+        if (!\block_dlb\local\datenschutz::can_edit_idnumber($categoryid, $parent)) {
+            $mform->hardFreeze('idnumber');
+        }
+        //--- awag.
     }
 
     /**

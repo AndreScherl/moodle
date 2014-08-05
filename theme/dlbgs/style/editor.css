@@ -1,0 +1,28 @@
+
+@font-face {
+font-family: "Amaranth";
+src:url([[font:Amaranth]]);
+
+
+}
+
+
+@font-face{
+	font-family: "VA";
+	src:url([[font:VA]]);
+}
+
+@font-face{
+	font-family: "SchulbuchBayern";
+	src:url([[font:SchulbuchBayern]]);
+}
+
+@font-face{
+	font-family: "SAS";
+	src:url([[font:SAS]]);
+}
+
+@font-face{
+	font-family: "SASB";
+	src:url([[font:SASB]]);
+}

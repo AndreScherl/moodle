@@ -214,7 +214,11 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('static', 'emailpending', get_string('email'), $notice);
     } else {
         $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
-        $mform->addRule('email', $strrequired, 'required', null, 'client');
+
+        //+++ awag H015 E-Mailadresse ist nicht verpflichtend!
+        // $mform->addRule('email', $strrequired, 'required', null, 'client');
+        //--- awag 
+
         $mform->setType('email', PARAM_EMAIL);
     }
 
@@ -345,8 +349,15 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('checkbox', 'deletepicture', get_string('delete'));
         $mform->setDefault('deletepicture', 0);
 
-        $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
-        $mform->addHelpButton('imagefile', 'newpicture');
+        // SYNERGY LEARNING - select profile picture support.
+        if (has_capability('moodle/user:update', context_system::instance())) {
+            $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
+            $mform->addHelpButton('imagefile', 'newpicture');
+        } else {
+            require_once($CFG->dirroot.'/local/profilepicture/lib.php');
+            $mform->addElement('profilepicture', 'imagefile', get_string('newpicture'));
+        }
+        // SYNERGY LEARNING - select profile picture support.
 
         $mform->addElement('text', 'imagealt', get_string('imagealt'), 'maxlength="100" size="30"');
         $mform->setType('imagealt', PARAM_TEXT);

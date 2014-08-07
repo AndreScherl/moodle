@@ -27,6 +27,7 @@ $string['ajaxmore'] = 'More...';
 $string['assignrole'] = 'Assign role';
 $string['class'] = 'Class';
 $string['classesearch'] = 'Search';
+$string['class:assignable'] = 'Roles that can be assigned by class enrolment';
 $string['class:config'] = 'Configure class instances';
 $string['class:enrol'] = 'Enrol classes';
 $string['class:manage'] = 'Manage class enrolments';

@@ -79,7 +79,7 @@
 
 /// Display the choiceanon and possibly results
     $eventdata = array();
-    $eventdata['objectid'] = $choice->id;
+    $eventdata['objectid'] = $choiceanon->id;
     $eventdata['context'] = $context;
 
     $event = \mod_choiceanon\event\course_module_viewed::create($eventdata);

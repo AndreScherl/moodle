@@ -300,7 +300,7 @@ WHERE
             $eventdata['userid'] = $userid;
             $eventdata['courseid'] = $course->id;
             $eventdata['other'] = array();
-            $eventdata['other']['choiceanonid'] = $choice->id;
+            $eventdata['other']['choiceanonid'] = $choiceanon->id;
             $eventdata['other']['optionid'] = $formanswer;
 
             $event = \mod_choiceanon\event\answer_updated::create($eventdata);
@@ -328,7 +328,7 @@ WHERE
             $eventdata['userid'] = $userid;
             $eventdata['courseid'] = $course->id;
             $eventdata['other'] = array();
-            $eventdata['other']['choiceanonid'] = $choice->id;
+            $eventdata['other']['choiceanonid'] = $choiceanon->id;
             $eventdata['other']['optionid'] = $formanswer;
 
             $event = \mod_choiceanon\event\answer_submitted::create($eventdata);

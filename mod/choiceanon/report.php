@@ -44,7 +44,7 @@
     $strresponses = get_string("responses", "choiceanon");
 
     $eventdata = array();
-    $eventdata['objectid'] = $choice->id;
+    $eventdata['objectid'] = $choiceanon->id;
     $eventdata['context'] = $context;
     $eventdata['courseid'] = $course->id;
     $eventdata['other']['content'] = 'choicereportcontentviewed';

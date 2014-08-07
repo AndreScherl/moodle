@@ -23,7 +23,7 @@ function block_dlb_on_user_deleted($user) {
    $u->idnumber = '';
    $u->firstname = 'Anonymous';
    $u->lastname = '';
-   $u->email = $deleteduser->email.$deleteduser->id;
+   $u->email = md5($deleteduser->email.$deleteduser->id.$now);
    $u->emailstop = '0';
    $u->icq = '';
    $u->skype = '';

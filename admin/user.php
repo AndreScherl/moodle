@@ -202,19 +202,9 @@
     }
 
     list($extrasql, $params) = $ufiltering->get_sql_filter();
-
-    //+++ awag DS03, DS04:Sichtbarkeitsregel-Nutzerverwaltung
-    $extrasql = \block_dlb\local\datenschutz::hook_admin_user_get_extrasql($extrasql);
-    $extrasqlusercount = \block_dlb\local\datenschutz::hook_admin_user_get_extrasqlusercount();
-    //--- awag
-
     $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
             $extrasql, $params, $context);
-
-    //+++ awag DS04:Gesamtanzahl $usercount = get_users(false);
-    $usercount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasqlusercount);
-    //--- awag
-
+    $usercount = get_users(false);
     $usersearchcount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasql, $params);
 
     if ($extrasql !== '') {

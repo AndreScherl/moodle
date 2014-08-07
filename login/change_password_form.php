@@ -75,13 +75,10 @@ class login_change_password_form extends moodleform {
         $errors = parent::validation($data, $files);
 
         // ignore submitted username
-        /*
-        // SYNERGY LEARNING - disable check that the 'old password' is correct?
         if (!$user = authenticate_user_login($USER->username, $data['password'], true)) {
             $errors['password'] = get_string('invalidlogin');
             return $errors;
         }
-        */
 
         if ($data['newpassword1'] <> $data['newpassword2']) {
             $errors['newpassword1'] = get_string('passwordsdiffer');

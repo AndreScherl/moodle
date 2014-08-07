@@ -832,7 +832,14 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** überschreibt die originale Funktion, um die dock-Symbole zu laden */
     public function standard_head_html() {
-        return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
+        /* das shibboleth_ispassiv_script() war ein Versuch, das Problem der lazy sessions zu lösen.
+         * Da das Problem noch offen (Stand 07.08.2014) ist und das Script außer 
+         * eine Fehlermeldung keine Wirkung zeigt, wird es für das Update auf Moodle 2.7 deaktiviert.
+         * 
+         * Eine erneute Installation sollte über einen themeunabhängigen Weg führen ($PAGE->requires...)
+         */
+        //return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
+        return parent::standard_head_html() . $this->_load_dock_images();
     }
 
 }

@@ -85,4 +85,8 @@ $string['errorcannotviewusermindmap'] = '你沒有權限檢視其他用戶的腦
 $string['errorinvalidauthor'] = '腦圖作者不是正確的用戶。';
 $string['errornostudentincourse'] = '課程內沒有學生。';
 $string['errornouseringroup'] = '群組內沒有成員。';
-?>
+$string['removeinstances'] = '刪除所有腦圖';
+
+// event names
+$string['eventmindmapupdated'] = '更新了一個腦圖。';
+$string['eventmindmapunlocked'] = '解除了一個腦圖的鎖定';

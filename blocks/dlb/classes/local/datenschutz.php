@@ -289,21 +289,19 @@ class datenschutz {
      *
      * @param String $wherecondition
      * @return string
-     */
-    public static function hook_admin_user_get_extrasql($wherecondition) {
-        return self::_add_institution_filter($wherecondition, "", true);
-    }
-
+     * 
+     * obsolete seit dem IDM (Feb 2014)
+    */
+   
     /**
      * @HOOK DS04: Hook in admin/user.php
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
      * die <b>Gesamtanzahl der User</b> mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm
      * in einen Kurs eingeschrieben sind, bei der globalen Nutzerverwaltung sieht
+     * 
+     * obsolete seit dem IDM (Feb 2014) 
      */
-    public static function hook_admin_user_get_extrasqlusercount() {
-        return self::_add_institution_filter("", "", true);
-    }
-
+    
     /**
      * DS05: Hook in local/user/editadvanced.php
      * prüft, ob der eingeloggte User zur Bearbeitung des Users mit der ID $usertoedit
@@ -313,10 +311,10 @@ class datenschutz {
      * vor der Verarbeitung des originalen Skripts user/editadvanced.php aufgerufen
      *
      * @param int $useridtoedit, die ID des zu bearbeitenden Users
+     *
+     * * obsolete seit dem IDM (Feb 2014)
      */
-    public static function hook_local_user_editadvanced_require_same_institution($useridtoedit) {
-        self::_require_same_institution($useridtoedit);
-    }
+   
 
     /**
      * DS06: Hook in local/user/edit.php
@@ -327,11 +325,11 @@ class datenschutz {
      * vor der Verarbeitung des originalen Skripts user/edit.php aufgerufen
      *
      * @param int $useridtoedit, die ID des zu bearbeitenden Users
+     * 
+     * * obsolete seit dem IDM (Feb 2014)
+     * 
      */
-    public static function hook_local_user_edit_require_same_institution($useridtoedit) {
-        self::_require_same_institution($useridtoedit);
-    }
-
+   
     /**
      * @HOOK DS07: Hook in admin/roles/lib.php
      * potential_assignees_course_and_above->get_potential_users()
@@ -590,25 +588,13 @@ class datenschutz {
     }
 
     /**
-     * @HOOK DS 16: Hook in admin/settings/user
+     * @HOOK DS16: Hook in admin/settings/user
      * verbirgt die Bulk verwaltung für User, die nicht das Recht haben über Schulgrenzen hinaus zu sehen
-     *
-     * @param admin_root $ADMIN
+     * obsolete seit der neuen Userverwaltung
      */
-    public static function hook_admin_users_hide_bulk(&$ADMIN) {
-        global $CFG;
-
-        $systemcontext = context_system::instance();
-        if (has_capability("moodle/site:config", $systemcontext) or
-            (has_capability("block/dlb:institutionview", $systemcontext))) {
-            $ADMIN->add('accounts', new admin_externalpage('userbulk', new lang_string('userbulk','admin'),
-                                                           "$CFG->wwwroot/$CFG->admin/user/user_bulk.php",
-                                                           array('moodle/user:update', 'moodle/user:delete')));
-        }
-    }
-
+   
     /**
-     * @HOOK DS 17 Hook in message/index.php
+     * @HOOK DS17 Hook in message/index.php
      * bricht das Messaging-Skript ab, falls dieser User nicht das Recht hat den
      * User mit der ID $user2id zu sehen.
      *
@@ -631,7 +617,7 @@ class datenschutz {
     }
 
     /**
-     * @HOOK DS 18 Hook in lib/filelib.php
+     * @HOOK DS18 Hook in lib/filelib.php
      * verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen
      * Player aufgerufen werden.
      *
@@ -896,7 +882,9 @@ class datenschutz {
     }
 
     /**
-     * Check if the user is allowed to edit the idnumber.
+     * @HOOK DS26: Hook in editcategory_form.php, Check if the user is allowed to edit the idnumber.
+     * Avoid that a schoolnumber, which is needed as idnumber for the maincategory  of schoolwould
+     * be used in some subcategories inputed by a "Schulkoordinator".
      *
      * @param int $categoryid
      * @param int $parent

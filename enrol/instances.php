@@ -220,8 +220,8 @@ foreach ($instances as $instance) {
 
         // edit links
         if ($plugin->instance_deleteable($instance)
-//+++ awag DS19: Löschen der eigenen Einschreibungsmethode nicht zulässig
-            and (!in_array($instance->enrol, $enrolmentmethods))
+//+++ awag DS19: Löschen der eigenen Einschreibungsmethode nicht zulässig, falls es die einzige Einschreibemethode im Kurs ist.
+            and ((!in_array($instance->enrol, $enrolmentmethods)) or (count($enrolmentmethods) > 1))
 //--- awag
                 ) {
             $aurl = new moodle_url($url, array('action'=>'delete', 'instance'=>$instance->id));
@@ -231,9 +231,9 @@ foreach ($instances as $instance) {
         if (enrol_is_enabled($instance->enrol)) {
             if ($instance->status == ENROL_INSTANCE_ENABLED) {
                 $aurl = new moodle_url($url, array('action'=>'disable', 'instance'=>$instance->id));
-                //+++ awag DS19: Verbergen der eigenen Einschreibungsmethode nicht zulässig
+                //+++ awag DS19: Verbergen der eigenen Einschreibungsmethode nicht zulässig, falls es die einzige Einschreibemethode im Kurs ist.
                 // Translation: prevent a trainer from excluding themselves from a course by disabling the enrolment method they are using.
-                if (!in_array($instance->enrol, $enrolmentmethods)) {
+                if ((!in_array($instance->enrol, $enrolmentmethods))  or (count($enrolmentmethods) > 1)) {
                     $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/hide', $strdisable, 'core', array('class' => 'iconsmall')));
                 }
                 //--- awag

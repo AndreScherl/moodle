@@ -65,6 +65,10 @@ M.block_meineschulen.blocksearch = {
         Y.all('#meineschulen_school_form .searchtype input').on('click', function(e) {
             var val = e.currentTarget.get('value');
             M.util.set_user_preference('block_meineschulen_searchtype', val);
+            
+            // Display the search context as placeholder text of input field
+            var placeholder = e.currentTarget.getAttribute('data-action');
+            searchbox.set('placeholder', placeholder);
         });
     }
 };

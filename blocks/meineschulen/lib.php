@@ -1372,7 +1372,7 @@ class meineschulen {
         $searchtype = get_user_preferences('block_meineschulen_searchtype', 'course');
         foreach (self::get_search_types() as $st) {
             $id = 'searchtype_'.$st;
-            $attrib = array('type' => 'radio', 'name' => 'searchtype', 'id' => $id, 'value' => $st);
+            $attrib = array('type' => 'radio', 'name' => 'searchtype', 'id' => $id, 'value' => $st, 'data-action' => get_string($st.'search', 'block_meineschulen').'...');
             if ($st == $searchtype) {
                 $attrib['checked'] = 'checked';
             }

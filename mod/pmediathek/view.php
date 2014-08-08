@@ -40,7 +40,7 @@ require_capability('mod/pmediathek:view', $context);
 
 $params = array(
     'context' => $context,
-    'objectid' => $resource->id
+    'objectid' => $pmediathek->id
 );
 $event = \mod_pmediathek\event\course_module_viewed::create($params);
 $event->add_record_snapshot('course_modules', $cm);

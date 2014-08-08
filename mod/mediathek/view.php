@@ -50,12 +50,12 @@ require_capability('mod/mediathek:view', $context);
 
 $params = array(
     'context' => $context,
-    'objectid' => $resource->id
+    'objectid' => $url->id
 );
 $event = \mod_pmediathek\event\course_module_viewed::create($params);
 $event->add_record_snapshot('course_modules', $cm);
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('pmediathek', $pmediathek);
+$event->add_record_snapshot('mediathek', $url);
 $event->trigger();
 
 // Update 'viewed' state if required by completion system

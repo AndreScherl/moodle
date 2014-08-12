@@ -72,7 +72,7 @@ body {
 }
 
 #page-content .region-content {
-    
+
     padding: 0px;
     padding-bottom: 20px;
 }
@@ -508,15 +508,15 @@ body.pagelayout-frontpage.no_toolbar #page {
 }
 
 #page-admin-user   .generaltable  .c3 {
-	 display:none;
+    display:none;
 }
 
 .pagelayout-embedded #page-content {min-width:0px}
 
- #page-site-index .section .label .mod-indent-outer {
+#page-site-index .section .label .mod-indent-outer {
     padding-left: 0px;
 }
 
-#page-site-index .course-content .section .label .contentwithoutlink {
+#page-site-index .sitetopic .section .activity .contentwithoutlink {
     padding-right: 0px;
 }

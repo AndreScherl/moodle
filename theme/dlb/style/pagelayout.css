@@ -510,3 +510,5 @@ body.pagelayout-frontpage.no_toolbar #page {
 #page-admin-user   .generaltable  .c3 {
 	 display:none;
 }
+
+.pagelayout-embedded #page-content {min-width:0px}

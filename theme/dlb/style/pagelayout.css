@@ -512,3 +512,11 @@ body.pagelayout-frontpage.no_toolbar #page {
 }
 
 .pagelayout-embedded #page-content {min-width:0px}
+
+ #page-site-index .section .label .mod-indent-outer {
+    padding-left: 0px;
+}
+
+#page-site-index .course-content .section .label .contentwithoutlink {
+    padding-right: 0px;
+}

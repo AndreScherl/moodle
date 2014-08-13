@@ -33,7 +33,7 @@ require_login();
 $context = context_system::instance();
 $PAGE->set_context($context);
 
-$strtitle = get_string('schoolsearch', 'block_meineschulen');
+$strtitle = get_string('search');
 $PAGE->set_title($strtitle);
 $PAGE->set_heading($strtitle);
 $PAGE->set_pagelayout('standard');

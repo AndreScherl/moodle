@@ -58,7 +58,17 @@ if ($id) {
 require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
-add_to_log($course->id, 'mindmap', 'view', 'view.php?id='.$cm->id, $mindmap->name, $cm->id);
+//Trigger events
+$params = array(
+    'context' => $context,
+    'objectid' => $mindmap->id
+);
+$event = \mod_mindmap\event\course_module_viewed::create($params);
+$event->add_record_snapshot('course_modules', $cm);
+$event->add_record_snapshot('course', $course);
+$event->add_record_snapshot('mindmap', $mindmap);
+$event->trigger();
+
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
@@ -128,7 +138,7 @@ echo html_writer::tag('div', '', array('id' => 'flashcontent'));
     }
     var so = new SWFObject('<?php echo $CFG->wwwroot; ?>/mod/mindmap/viewer.swf?uVal=<?php echo rand(0,100); ?>', 'viewer', swf_width, 600, '9', '#FFFFFF');
     so.addVariable('load_url', '<?php echo $CFG->wwwroot; ?>/mod/mindmap/xml.php?id=<?php echo $mindmap->id;?>');
-    <?php if((has_capability('moodle/course:manageactivities', $context, $USER->id)) || ($mindmap->editable == '1')): ?>
+    <?php if(!isguestuser() && ((has_capability('moodle/course:manageactivities', $context, $USER->id)) || ($mindmap->editable == '1'))): ?>
             so.addVariable('save_url', '<?php echo $CFG->wwwroot; ?>/mod/mindmap/save.php?id=<?php echo $mindmap->id;?>');
             <?php if ($mindmap->locking == 0) { ?>
                     so.addVariable('editable', 'true');

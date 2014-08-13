@@ -856,7 +856,7 @@ class meineschulen {
                                       array('for' => $id, 'class' => 'radiolabel'));
         }
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
-        $form .= html_writer::tag('label', get_string('schoolname', 'block_meineschulen'), array('for' => 'schoolname'));
+        $form .= html_writer::tag('label', get_string('search'), array('for' => 'schoolname'));
         $form .= html_writer::empty_tag('input', array('class' => 'test', 'type' => 'text', 'name' => 'schoolname', 'id' => 'schoolname',
                     'value' => $searchtext, 'size' => 80));
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
@@ -1020,7 +1020,7 @@ class meineschulen {
                 $url = new moodle_url('/course/view.php', array('id' => $result->courseid));
                 $link = html_writer::link($url, format_string($result->fullname));
             } else {
-                $url = new moodle_url('/course/index.php', array('categoryid' => $result->id));
+                $url = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $result->id));
                 $link = html_writer::link($url, format_string($result->name));
             }
             $ret[] = $link;
@@ -1386,7 +1386,7 @@ class meineschulen {
                                                           'type' => 'text',
                                                           'name' => 'schoolname',
                                                           'value' => '',
-                                                          'placeholder' => get_string('schoolsearch', 'block_meineschulen').' ...'));
+                                                          'placeholder' => get_string('search').' ...'));
         
         $action = self::get_search_url();
         $output .= html_writer::empty_tag('input', array('type' => 'image',

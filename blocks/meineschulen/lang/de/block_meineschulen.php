@@ -47,7 +47,6 @@ $string['otherschools'] = 'Andere Schulen';
 $string['pluginname'] = 'Schulen';
 $string['requestcourse'] = 'Kurs anfordern';
 $string['schoolname'] = 'Name der Schule';
-$string['schoolsearch'] = 'Schule suchen';
 $string['schooltype'] = 'Schultyp';
 $string['searchcriteria'] = 'Suchkriterien';
 $string['searchresults'] = 'Suchergebnisse';

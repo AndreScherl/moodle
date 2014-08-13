@@ -545,6 +545,12 @@ class theme_dlb_core_renderer extends core_renderer {
         if (!empty($bc->controls)) {
             $bc->add_class('block_with_controls');
         }
+        if (!empty($bc->blockinstanceid)) {
+            $bc->attributes['data-instanceid'] = $bc->blockinstanceid;
+        }
+        if ($bc->dockable) {
+            $bc->attributes['data-dockable'] = 1;
+        }
 
         $skiptitle = strip_tags($bc->title);
         if (empty($skiptitle)) {

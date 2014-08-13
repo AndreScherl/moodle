@@ -236,6 +236,9 @@ Known Issues
 
 History
 =============
+9th August 2014 Version 2.7.1.2
+  1.  Fixed CONTRIB-5191.  This is a workaround that depends on MDL-43525 being implemented before it is reversed.
+
 12th June 2014 - Version 2.7.1.1
   1.  Slight change to CSS for Bootstrap V3.
   2.  Fixed CONTRIB-5106 - thanks to Hanna Edelman for this.

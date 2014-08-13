@@ -44,7 +44,7 @@ $PAGE->set_title($strtitle);
 $PAGE->set_heading($strtitle);
 $PAGE->set_pagelayout('coursecategory');
 $searchurl = new moodle_url('/blocks/meineschulen/search.php');
-$PAGE->navbar->add(get_string('schoolsearch', 'block_meineschulen'), $searchurl);
+$PAGE->navbar->add(get_string('search'), $searchurl);
 $schoolurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $schoolcat->id));
 $PAGE->navbar->add($strtitle, $schoolurl);
 $PAGE->navbar->add(get_string('courserequests', 'block_meineschulen'), $PAGE->url);

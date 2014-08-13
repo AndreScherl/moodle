@@ -46,11 +46,13 @@ $string['numberofresults'] = 'Ergebnisse pro Seite';
 $string['otherschools'] = 'Andere Schulen';
 $string['pluginname'] = 'Schulen';
 $string['requestcourse'] = 'Kurs anfordern';
-$string['schoolname'] = 'Name der Schule';
-$string['schoolsearch'] = 'Schule suchen';
+$string['schoolname'] = 'Suche';
+$string['schoolsearch'] = 'Suche';
 $string['schooltype'] = 'Schultyp';
 $string['searchcriteria'] = 'Suchkriterien';
 $string['searchresults'] = 'Suchergebnisse';
+$string['searchtype_course'] = 'Kurs';
+$string['searchtype_school'] = 'Schule';
 $string['sendmessage'] = 'Nachricht senden';
 $string['viewcourserequests'] = 'Sie haben {$a->count} Kursantrag/-anträge: {$a->name}';
 

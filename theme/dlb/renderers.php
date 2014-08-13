@@ -767,7 +767,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $filename = "dock_" . $dock_image . ".png";
             $imgpath = (file_exists($CFG->dirroot . $imgpaththeme . $filename)) ? $imgpaththeme . $filename : $imgpathfallback . $filename;
-            $js_lines[] = '"block_' . $dock_image . '":"' . $CFG->wwwroot . $imgpath . '"';
+            $js_lines[] = '"'.$dock_image.'":"' . $CFG->wwwroot . $imgpath . '"';
         }
         ?>
         <script type="text/javascript">

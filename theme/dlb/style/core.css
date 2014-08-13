@@ -199,7 +199,8 @@ input[readonly=readonly], input[readonly=readonly]:focus {
 
 /** datenschutz **/
 /**Ausblenden wegen Datenschutz */
-#moodle_optional, #moodle_interests, #fitem_id_country {
+#id_moodle_optional, #id_moodle_interests, #id_moodle_additional_names,
+#fitem_id_country, #fitem_id_imagealt {
     display:none;
 }
 

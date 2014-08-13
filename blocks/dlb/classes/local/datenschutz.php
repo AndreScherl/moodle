@@ -1,4 +1,5 @@
 <?php
+
 /*
   #########################################################################
   #                       DLB-Bayern
@@ -188,10 +189,10 @@ class datenschutz {
         }
 
         $sql = "SELECT DISTINCT userid FROM {user_enrolments} ue " .
-            "JOIN {enrol} e ON e.id = ue.enrolid " .
-            "WHERE courseid in (" .
-            "SELECT courseid FROM {user_enrolments} ue " .
-            "JOIN {enrol} e ON e.id = ue.enrolid where userid = :userid)";
+                "JOIN {enrol} e ON e.id = ue.enrolid " .
+                "WHERE courseid in (" .
+                "SELECT courseid FROM {user_enrolments} ue " .
+                "JOIN {enrol} e ON e.id = ue.enrolid where userid = :userid)";
 
         $this->useridstogetherincourse = $DB->get_records_sql($sql, ["userid" => $userid]);
         return $this->useridstogetherincourse;
@@ -236,7 +237,7 @@ class datenschutz {
 
             $userids = array_keys($userids);
             $wherecondition .= " (({$tablealias}institution = '{$USER->institution}') or {$tablealias}id IN ("
-                . implode(",", $userids) . ")) ";
+                    . implode(",", $userids) . ")) ";
             return $wherecondition;
         } else {
 
@@ -291,8 +292,7 @@ class datenschutz {
      * @return string
      * 
      * obsolete seit dem IDM (Feb 2014)
-    */
-   
+     */
     /**
      * @HOOK DS04: Hook in admin/user.php
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
@@ -301,7 +301,6 @@ class datenschutz {
      * 
      * obsolete seit dem IDM (Feb 2014) 
      */
-    
     /**
      * DS05: Hook in local/user/editadvanced.php
      * prüft, ob der eingeloggte User zur Bearbeitung des Users mit der ID $usertoedit
@@ -314,8 +313,6 @@ class datenschutz {
      *
      * * obsolete seit dem IDM (Feb 2014)
      */
-   
-
     /**
      * DS06: Hook in local/user/edit.php
      * prüft, ob der eingeloggte User zur Bearbeitung des Users mit der ID $usertoedit
@@ -329,7 +326,7 @@ class datenschutz {
      * * obsolete seit dem IDM (Feb 2014)
      * 
      */
-   
+
     /**
      * @HOOK DS07: Hook in admin/roles/lib.php
      * potential_assignees_course_and_above->get_potential_users()
@@ -424,8 +421,8 @@ class datenschutz {
             if ($mform->elementExists($schulfeldname)) {
 
                 $sql = "SELECT data FROM {user_info_data} as id " .
-                    "JOIN {user_info_field} inf ON inf.id = id.fieldid " .
-                    "WHERE id.userid = :userid and inf.name = :fieldname";
+                        "JOIN {user_info_field} inf ON inf.id = id.fieldid " .
+                        "WHERE id.userid = :userid and inf.name = :fieldname";
 
                 $schule = $DB->get_field_sql($sql, ['userid' => $user->id, 'fieldname' => $CFG->bm_school_field]);
 
@@ -458,7 +455,30 @@ class datenschutz {
                 // Macht den Submit unüberschreibbar, auch bei Formularmanipulationen.
                 $mform->setConstants(['idnumber' => $user->idnumber]);
             }
+            
+            if ($mform->elementExists('department')) {
+                // Ersetzt Inputfeld durch Anzeige.
+                $mform->hardFreeze('department');
+                // Macht den Submit unüberschreibbar, auch bei Formularmanipulationen.
+                $mform->setConstants(['department' => $user->department]);
+            }
+            
+            if ($mform->elementExists('interests')) {
+                // Ersetzt Inputfeld durch Anzeige.
+                $mform->hardFreeze('interests');
+                // Macht den Submit unüberschreibbar, auch bei Formularmanipulationen.
+                $mform->setConstants(['interests' => '']);
+            }
         }
+        // ...remove field, which should not be edited.
+        $removefields = array('firstnamephonetic', 'lastnamephonetic', 'middlename', 'alternatename',   
+            'url', 'icq', 'skype', 'aim', 'yahoo', 'msn','phone1','phone2','address');
+        foreach ($removefields as $field) {
+            if ($mform->elementExists($field)) {
+                $mform->removeElement($field);
+            }
+        }
+
         // Falls kein username angezeigt wird, Information darüber einfügen.
         if (!$mform->elementExists('username')) {
             $username = $mform->createElement('static', 'username', get_string('username'));
@@ -592,7 +612,7 @@ class datenschutz {
      * verbirgt die Bulk verwaltung für User, die nicht das Recht haben über Schulgrenzen hinaus zu sehen
      * obsolete seit der neuen Userverwaltung
      */
-   
+
     /**
      * @HOOK DS17 Hook in message/index.php
      * bricht das Messaging-Skript ab, falls dieser User nicht das Recht hat den
@@ -718,10 +738,10 @@ class datenschutz {
 
             $output->text = $message->strtime . ': ' . get_string('message' . $message->message, 'chat', $myanon);
             $output->html = '<table class="chat-event"><tr' . $rowclass . '><td class="picture">' . $message->picture .
-                '</td><td class="text">';
+                    '</td><td class="text">';
             $output->html .= '<span class="event">' . $output->text . '</span></td></tr></table>';
-            $output->basic = '<dl><dt class="event">' . $message->strtime . ': '.
-                get_string('message' . $message->message, 'chat', $myanon) . '</dt></dl>';
+            $output->basic = '<dl><dt class="event">' . $message->strtime . ': ' .
+                    get_string('message' . $message->message, 'chat', $myanon) . '</dt></dl>';
 
             if ($message->message == 'exit' or $message->message == 'enter') {
                 $output->refreshusers = true; // Force user panel refresh ASAP.
@@ -900,4 +920,5 @@ class datenschutz {
         }
         return has_capability('local/dlb:editschoolid', $context);
     }
+
 }

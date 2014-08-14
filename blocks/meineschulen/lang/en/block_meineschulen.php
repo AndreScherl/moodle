@@ -60,7 +60,7 @@ $string['schoolandcoord'] = 'Requesting courses';
 $string['schoolandcoord_help'] = 'To request a course at a school other than your home school, you need to visit the category page for that particular school.<br>
 Schools can be found by searching in the block on your home page.';
 $string['schoolname'] = 'Search';
-$string['schoolsearch'] = 'Search';
+$string['schoolsearch'] = 'Search schools';
 $string['schooltype'] = 'School type';
 $string['searchcriteria'] = 'Search criteria';
 $string['searchresults'] = 'Search results';

@@ -271,10 +271,10 @@ class theme_dlb_core_renderer extends core_renderer {
               $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
              */
 
-            /*$href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
-            $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
+            /* $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
+              $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
 
-            /* awag: Portfolio für später vorbereitet...
+              /* awag: Portfolio für später vorbereitet...
               $href = html_writer::link("",  $this->pix_icon('toolbar/toolbar-portfolio', 'Portfolio', 'theme', array('title'=>'')));
               $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Portfolio'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_1"));
              */
@@ -386,15 +386,15 @@ class theme_dlb_core_renderer extends core_renderer {
         // ... get the passwordchangeurl from auth-plugin for all users which:
         // 1- has capability to change their own password.
 
-        /*if ($userauthplugin && $currentuser && !\core\session\manager::is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
+        /* if ($userauthplugin && $currentuser && !\core\session\manager::is_loggedinas() && !isguestuser() && has_capability('moodle/user:changeownpassword', $systemcontext)) {
 
-            $passwordchangeurl = $userauthplugin->change_password_url();
+          $passwordchangeurl = $userauthplugin->change_password_url();
 
-            if (empty($passwordchangeurl)) {
-                $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
-            }
-            $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword", "theme_dlb"));
-        }*/
+          if (empty($passwordchangeurl)) {
+          $passwordchangeurl = new moodle_url('/login/change_password.php', array('id' => $course->id));
+          }
+          $settingmenuitems[] = html_writer::link($passwordchangeurl, get_string("changepassword", "theme_dlb"));
+          } */
 
         // ... get change password link from auth-plugin for all users which:
         // 1. has not the capability moodle/user:update
@@ -406,7 +406,6 @@ class theme_dlb_core_renderer extends core_renderer {
 
                 $url = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
                 $settingmenuitems[] = html_writer::link($url, get_string('editmyprofile'));
-
             } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) || ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
 
                 $url = new moodle_url('/user/edit.php', array('id' => $user->id, 'course' => $course->id));
@@ -417,7 +416,6 @@ class theme_dlb_core_renderer extends core_renderer {
                     if (!empty($profileurl)) {
                         $url = $profileurl;
                     }
-
                 }
                 $settingmenuitems[] = html_writer::link($url, get_string('mebisprofile', 'theme_dlb'));
             }
@@ -440,7 +438,6 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $moodlesettingsurl = new moodle_url('/user/editadvanced.php', array('id' => $user->id, 'course' => $course->id));
             $settingmenuitems[] = html_writer::link($moodlesettingsurl, get_string('editmysettings', 'theme_dlb'));
-
         } else if ((has_capability('moodle/user:editprofile', $usercontext) && !is_siteadmin($user)) ||
                 ($currentuser && has_capability('moodle/user:editownprofile', $systemcontext))) {
 
@@ -492,15 +489,31 @@ class theme_dlb_core_renderer extends core_renderer {
         return $content;
     }
 
+    /** adding debug output for profile form */
+    public function standard_footer_html() {
+        global $CFG, $USER, $PAGE, $OUTPUT;
+
+        if ($CFG->debugdisplay && debugging('', DEBUG_DEVELOPER)) {  // Show user object
+            
+            if (($PAGE->pagetype == 'user-edit') or ($PAGE->pagetype == 'user-editadvanced')) {
+                
+                echo html_writer::tag('div', '', array('class' => 'clearfix'));
+                echo $OUTPUT->heading('DEBUG MODE:  User session variables');
+                echo html_writer::start_tag('div', array('style' => 'text-align:left'));
+                print_object($USER);
+                echo html_writer::end_tag('div');
+            }
+        }
+
+        return parent::standard_footer_html();
+    }
+
     /** gibt die Links auf die Institutionen zurück */
     public function pagecontent_footer() {
-        global $CFG;
-        if (isloggedin()) {
+        global $CFG, $OUTPUT, $USER, $PAGE;
 
-            $content = "";
-        } else {
+        if (!isloggedin()) {
             ?>
-
             <div class="page-content-footer">
                 <div id="page-content-footer-right">
                     <a href="http://alp.dillingen.de/" target="_blank">
@@ -524,7 +537,7 @@ class theme_dlb_core_renderer extends core_renderer {
         }
     }
 
-    //++++ Overriden Methods from core_renderer
+//++++ Overriden Methods from core_renderer
 
     /** überschreibt die originale Funktion, um den Blockcode mit zusätzlichen DIVS
      * zu versehen, die für die Abrundungen an den Ecken erforderlich sind
@@ -606,13 +619,13 @@ class theme_dlb_core_renderer extends core_renderer {
         $loginurl = get_login_url();
 
         if (empty($course->id)) {
-            // $course->id is not defined during installation
+// $course->id is not defined during installation
             return '';
         } else if (isloggedin()) {
             $context = context_course::instance($course->id);
 
             $fullname = fullname($USER, true);
-            // Since Moodle 2.0 this link always goes to the public profile page (not the course profile page)
+// Since Moodle 2.0 this link always goes to the public profile page (not the course profile page)
             if ($withlinks) {
                 $linktitle = get_string('viewprofile');
                 $username = "<a href=\"$CFG->wwwroot/user/profile.php?id=$USER->id\" title=\"$linktitle\">$fullname</a>";
@@ -626,9 +639,9 @@ class theme_dlb_core_renderer extends core_renderer {
                     $username .= " from {$idprovider->name}";
                 }
             }
-            //+++ awag: hier einen <br />-Tag eingefügt...
+//+++ awag: hier einen <br />-Tag eingefügt...
             $username = "<br />" . $username;
-            //--- awag ---
+//--- awag ---
             if (isguestuser()) {
                 $loggedinas = $realuserinfo . get_string('loggedinasguest');
                 if (!$loginapge && $withlinks) {
@@ -647,13 +660,13 @@ class theme_dlb_core_renderer extends core_renderer {
                 $loggedinas = get_string('loggedinas', 'theme_dlb', $username) . $rolename .
                         " (<a href=\"$CFG->wwwroot/course/view.php?id=$course->id&amp;switchrole=0&amp;sesskey=" . sesskey() . "\">" . get_string('switchrolereturn') . '</a>)';
             }
-            //+++ atar: Logout-Link entfernt
+//+++ atar: Logout-Link entfernt
             else {
                 $loggedinas = $realuserinfo . get_string('loggedinas', 'theme_dlb', $username) . '</a>';
             }
             $loggedinas = '<div class="logininfo"  id="logininfo">' . $loggedinas . '</div>';
         }
-        //+++ atar: String loggedinnot und login aus Theme-Languagefile geladen
+//+++ atar: String loggedinnot und login aus Theme-Languagefile geladen
         else {
             $loggedinas = get_string('loggedinnot', 'theme_dlb');
             if (!$loginapge) {
@@ -690,9 +703,9 @@ class theme_dlb_core_renderer extends core_renderer {
 
         $htmlblocks = array();
 
-        //Im Array können home = Startseite und myhome vorkommen
-        //falls home vorkommt und nicht an erster Position ist, muss es gelöscht werden
-        //home soll immer an erster Position stehen
+//Im Array können home = Startseite und myhome vorkommen
+//falls home vorkommt und nicht an erster Position ist, muss es gelöscht werden
+//home soll immer an erster Position stehen
 
         if (isset($items[0]) and ($items[0]->key != 'home')) {
 
@@ -708,7 +721,7 @@ class theme_dlb_core_renderer extends core_renderer {
             array_unshift($items, $item);
         }
 
-        // Iterate the navarray and display each node
+// Iterate the navarray and display each node
         $itemcount = count($items);
 
         for ($i = 0; $i < $itemcount; $i++) {
@@ -734,10 +747,10 @@ class theme_dlb_core_renderer extends core_renderer {
             $htmlblocks[] = $content;
         }
 
-        //accessibility: heading for navbar list  (MDL-20446)
+//accessibility: heading for navbar list  (MDL-20446)
         $navbarcontent = html_writer::tag('span', get_string('pagepath'), array('class' => 'accesshide'));
         $navbarcontent .= html_writer::tag('div', join('', $htmlblocks));
-        // XHTML
+// XHTML
         return $navbarcontent;
     }
 
@@ -767,7 +780,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $filename = "dock_" . $dock_image . ".png";
             $imgpath = (file_exists($CFG->dirroot . $imgpaththeme . $filename)) ? $imgpaththeme . $filename : $imgpathfallback . $filename;
-            $js_lines[] = '"'.$dock_image.'":"' . $CFG->wwwroot . $imgpath . '"';
+            $js_lines[] = '"' . $dock_image . '":"' . $CFG->wwwroot . $imgpath . '"';
         }
         ?>
         <script type="text/javascript">
@@ -803,11 +816,10 @@ class theme_dlb_core_renderer extends core_renderer {
     protected function load_shibboleth_ispassiv_script() {
         global $CFG;
 
-        // ... only try a redirect, when user isn't logged in and it is not a dev system.
-        $checkpassive = (!isloggedin() and (strpos($CFG->wwwroot,"/localhost/") === false));
+// ... only try a redirect, when user isn't logged in and it is not a dev system.
+        $checkpassive = (!isloggedin() and (strpos($CFG->wwwroot, "/localhost/") === false));
 
         if ($checkpassive) {
-
             ?>
             <script type="text/javascript" language="javascript">
                 // Check for session cookie that contains the initial location
@@ -844,7 +856,7 @@ class theme_dlb_core_renderer extends core_renderer {
          * 
          * Eine erneute Installation sollte über einen themeunabhängigen Weg führen ($PAGE->requires...)
          */
-        //return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
+//return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
         return parent::standard_head_html() . $this->_load_dock_images();
     }
 
@@ -897,6 +909,7 @@ class theme_dlb_core_media_renderer extends core_media_renderer {
 }
 
 class theme_dlb_core_renderer_maintenance extends core_renderer_maintenance {
+
     public function toolbar_settings_menu() {
         return '';
     }
@@ -916,4 +929,5 @@ class theme_dlb_core_renderer_maintenance extends core_renderer_maintenance {
     public function generalheader() {
         return '';
     }
+
 }

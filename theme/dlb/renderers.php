@@ -929,5 +929,61 @@ class theme_dlb_core_renderer_maintenance extends core_renderer_maintenance {
     public function generalheader() {
         return '';
     }
+}
 
+class theme_dlb_core_course_management_renderer extends core_course_management_renderer {
+    /**
+     * Presents a course category listing.
+     *
+     * @param coursecat $category The currently selected category. Also the category to highlight in the listing.
+     * @return string
+     */
+    public function category_listing(coursecat $category = null) {
+        global $USER;
+
+        if ($category === null) {
+            $selectedparents = array();
+            $selectedcategory = null;
+        } else {
+            $selectedparents = $category->get_parents();
+            $selectedparents[] = $category->id;
+            $selectedcategory = $category->id;
+        }
+        $catatlevel = \core_course\management\helper::get_expanded_categories('');
+        $catatlevel[] = array_shift($selectedparents);
+        $catatlevel = array_unique($catatlevel);
+
+        //+++ asch: shorten the category tree to start at main school ($USER->institution) of user
+        $listing = coursecat::get($USER->institution)->get_children();
+        //---
+
+        $attributes = array(
+            'class' => 'ml',
+            'role' => 'tree',
+            'aria-labelledby' => 'category-listing-title'
+        );
+
+        $html  = html_writer::start_div('category-listing');
+        $html .= html_writer::tag('h3', get_string('categories'), array('id' => 'category-listing-title'));
+        $html .= $this->category_listing_actions($category);
+        $html .= html_writer::start_tag('ul', $attributes);
+        foreach ($listing as $listitem) {
+            // Render each category in the listing.
+            $subcategories = array();
+            if (in_array($listitem->id, $catatlevel)) {
+                $subcategories = $listitem->get_children();
+            }
+            $html .= $this->category_listitem(
+                $listitem,
+                $subcategories,
+                $listitem->get_children_count(),
+                $selectedcategory,
+                $selectedparents
+            );
+        }
+        $html .= html_writer::end_tag('ul');
+        $html .= $this->category_bulk_actions($category);
+        $html .= html_writer::end_div();
+        return $html;
+    }
 }

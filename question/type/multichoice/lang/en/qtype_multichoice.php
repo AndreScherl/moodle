@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['addmorechoiceblanks'] = 'Blanks for {no} more choices';
 $string['answerhowmany'] = 'One or multiple answers?';
 $string['answernumbering'] = 'Number the choices?';
 $string['answernumbering123'] = '1., 2., 3., ...';
@@ -60,8 +61,8 @@ $string['pluginname_link'] = 'question/type/multichoice';
 $string['pluginnameadding'] = 'Adding a Multiple choice question';
 $string['pluginnameediting'] = 'Editing a Multiple choice question';
 $string['pluginnamesummary'] = 'Allows the selection of a single or multiple responses from a pre-defined list.';
-$string['selectmulti'] = 'Select one or more:';
-$string['selectone'] = 'Select one:';
+$string['selectmulti'] = '';
+$string['selectone'] = '';
 $string['shuffleanswers'] = 'Shuffle the choices?';
 $string['shuffleanswers_help'] = 'If enabled, the order of the answers is randomly shuffled for each attempt, provided that "Shuffle within questions" in the activity settings is also enabled.';
 $string['singleanswer'] = 'Choose one answer.';

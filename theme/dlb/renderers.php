@@ -947,9 +947,9 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
     protected function get_editable_schoolids($level = DLB_SCHOOL_CAT_DEPTH) {
         global $USER, $DB;
 
-       /* if (!empty($USER->editableschoolids)) {
+        if (!empty($USER->editableschoolids)) {
             return $USER->editableschoolids;
-        }*/
+        }
 
         // get roleids with caps.
         $sql = "SELECT DISTINCT rc.roleid FROM {role_capabilities} rc 

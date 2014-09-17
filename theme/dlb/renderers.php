@@ -1003,6 +1003,10 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
      */
     protected function can_manage_category($category, $editablecatids) {
 
+        if (empty($category)) {
+            return false;
+        }
+        
         $catidstocheck = $category->get_parents();
 
         // possibility to manage main category.

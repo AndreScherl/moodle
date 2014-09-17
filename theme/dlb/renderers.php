@@ -1053,7 +1053,8 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
             $usercanedit = (!empty($editableschoolids) && $this->can_manage_category($category, $editableschoolids));
 
             if (!$usercanedit) {
-                $url = new moodle_url('/course/index.php', array('categoryid' => $category->id));
+                $param = (isset($category))? array('categoryid' => $category->id) : array();
+                $url = new moodle_url('/course/index.php', $param);
                 redirect($url);
             }
 

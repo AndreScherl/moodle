@@ -144,8 +144,6 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
         die;
     }
 
-    update_login_count();
-
     if ($user) {
 
         if (($user->auth != "manual") and !empty($CFG->alternateloginurl)) {
@@ -188,7 +186,6 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
         }
 
         /// Let's get them all set up.
-        add_to_log(SITEID, 'user', 'login', "view.php?id=$USER->id&course=" . SITEID, $user->id, 0, $user->id);
         complete_user_login($user);
 
         // sets the username cookie
@@ -254,8 +251,6 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
                 exit;
             }
         }
-
-        reset_login_count();
 
         // test the session actually works by redirecting to self
         $SESSION->wantsurl = $urltogo;

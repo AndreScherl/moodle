@@ -1105,7 +1105,8 @@ class meineschulen {
                 $typecriteria = 'AND t.id = :schooltype';
                 $params['schooltype'] = $schooltype;
             }
-            $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
+            /* awag : old sql from synergy learning.
+             * $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
                                sch.id, sch.name, sch.visible,
                                t.name AS type
                                ";
@@ -1115,6 +1116,22 @@ class meineschulen {
                                AND (sch.id = ca.id OR ca.path LIKE CONCAT(sch.path, '/%'))
                           JOIN {course_categories} t ON t.depth = 1 AND ca.path LIKE CONCAT(t.path, '/%')
                          WHERE 1=1
+                               $searchcriteria
+                               $typecriteria
+                         ORDER BY $order"; */
+            
+            /** awag : optimized SQL for mysql, rely on SUBSTRING_INDEX, pay attention when changing the SQL away from mysql.*/
+            
+            $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
+                               sch.id, sch.name, sch.visible,
+                               t.name AS type
+                               ";
+            
+            $select = "   FROM {course} c
+                          JOIN {course_categories} ca ON ca.id = c.category
+                          JOIN {course_categories} sch ON sch.id = REPLACE(SUBSTRING_INDEX(REPLACE(ca.path, SUBSTRING_INDEX(ca.path,'/',:schooldepth),''), '/',2),'/','')
+                          JOIN {course_categories} t ON t.id = REPLACE(SUBSTRING_INDEX(ca.path,'/',2), '/','')
+                         WHERE ca.visible = 1
                                $searchcriteria
                                $typecriteria
                          ORDER BY $order";

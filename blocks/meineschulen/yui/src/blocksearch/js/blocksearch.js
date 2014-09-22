@@ -11,6 +11,11 @@ M.block_meineschulen.blocksearch = {
             resultHighligher: 'phraseMatch',
             maxResults: 11,
             source: function(search, callback) {
+                
+                if (search.length < 3) {
+                    return;
+                }
+                
                 var searchtype;
                 searchtype = 'school';
                 if (searchtypeel.get('checked')) {
@@ -61,8 +66,13 @@ M.block_meineschulen.blocksearch = {
         resultel.appendTo('body');
 
         Y.all('#meineschulen_school_form .searchtype input').on('click', function(e) {
+            
             var val = e.currentTarget.get('value');
             M.util.set_user_preference('block_meineschulen_searchtype', val);
+            
+            // Display the search context as placeholder text of input field
+            var placeholder = e.currentTarget.getAttribute('data-action');
+            searchbox.set('placeholder', placeholder);
         });
     }
 };

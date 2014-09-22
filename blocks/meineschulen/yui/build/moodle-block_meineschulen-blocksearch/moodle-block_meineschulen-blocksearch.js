@@ -13,6 +13,11 @@ M.block_meineschulen.blocksearch = {
             resultHighligher: 'phraseMatch',
             maxResults: 11,
             source: function(search, callback) {
+                
+                if (search.length < 3) {
+                    return;
+                }
+                
                 var searchtype;
                 searchtype = 'school';
                 if (searchtypeel.get('checked')) {
@@ -61,12 +66,9 @@ M.block_meineschulen.blocksearch = {
         // Attach the autocomplete results box to the body tag (to avoid overflow:hidden clipping).
         resultel = searchbox.next('.yui3-aclist');
         resultel.appendTo('body');
-        
-        // Start with the right search context placeholder
-		var placeholder = Y.one('#meineschulen_school_form input:checked').getAttribute('data-action');
-		searchbox.set('placeholder', placeholder);
 
         Y.all('#meineschulen_school_form .searchtype input').on('click', function(e) {
+            
             var val = e.currentTarget.get('value');
             M.util.set_user_preference('block_meineschulen_searchtype', val);
             

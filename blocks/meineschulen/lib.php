@@ -1403,7 +1403,7 @@ class meineschulen {
                                                           'type' => 'text',
                                                           'name' => 'schoolname',
                                                           'value' => '',
-                                                          'placeholder' => get_string('search').' ...'));
+                                                          'placeholder' => get_string($searchtype.'search', 'block_meineschulen').' ...'));
         
         $action = self::get_search_url();
         $output .= html_writer::empty_tag('input', array('type' => 'image',

@@ -970,7 +970,7 @@ class meineschulen {
                 } else {
                     $fullname = format_string($result->fullname);
                     $fullname = self::highlight_text($searchtext, $fullname);
-                    $courseurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $result->id));
+                    $courseurl = new moodle_url('/course/view.php', array('id' => $result->courseid));
                     $fullname = html_writer::link($courseurl, $fullname);
                 }
 

@@ -1106,7 +1106,8 @@ class meineschulen {
                 $params['schooltype'] = $schooltype;
             }
             /* awag : old sql from synergy learning.
-             * $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
+
+             $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
                                sch.id, sch.name, sch.visible,
                                t.name AS type
                                ";
@@ -1120,8 +1121,11 @@ class meineschulen {
                                $typecriteria
                          ORDER BY $order"; */
             
-            /** awag : optimized SQL for mysql, rely on SUBSTRING_INDEX, pay attention when changing the SQL away from mysql.*/
-            
+            /** awag :
+             *  optimized SQL for mysql (mariadb too), it makes the query 500x faster but relies on SUBSTRING_INDEX, 
+             *  Unfortunately there is no proper function in the database layer, so pay attention when changing the database system.
+             *  It might be necessary to change this query.
+             */
             $fields = " SELECT c.id AS courseid, c.fullname, c.visible AS coursevisible,
                                sch.id, sch.name, sch.visible,
                                t.name AS type

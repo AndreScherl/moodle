@@ -50,7 +50,7 @@
 }
 
 body {
-font-family:"SchulbuchBayern";
+font-family:"SchulbuchBayern", Consolas, monaco, monospace;
     font-size:16px;
     
     line-height: 18px;
@@ -58,7 +58,7 @@ font-family:"SchulbuchBayern";
 }
 
 h1 {
-    font-family:"SchulbuchBayern";
+    font-family:"SchulbuchBayern", Consolas, monaco, monospace;
     font-size:25px;
     
     line-height: 31px;

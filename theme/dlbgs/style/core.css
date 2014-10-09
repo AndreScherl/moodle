@@ -1,18 +1,10 @@
-@font-face {
-font-family: "SchulbuchBayern";
-src:url([[font:SchulbuchBayern]]);
-
-
-}
-
 .logininfo{
 font-size: 15px;
-font-family:"SchulbuchBayern";
-}
+font-family:"SchulbuchBayern", Consolas, monaco, monospace;}
 
 
 body {
-   font-family: "SchulbuchBayern";
+   font-family: "SchulbuchBayern", Consolas, monaco, monospace;
     font-size:15px;
     color:#001e2e;
 }
@@ -23,7 +15,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-     font-family:"SchulbuchBayern";
+     font-family:"SchulbuchBayern", Consolas, monaco, monospace;
     font-size:30px; 
     line-height: 36px; 
     font-weight: bold;

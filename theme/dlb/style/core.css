@@ -165,23 +165,23 @@ input[readonly=readonly], input[readonly=readonly]:focus {
 }
 
 .breadcrumb-sep {
-    background: url([[pix:theme|bg-breadcrumb-sep]]) no-repeat;
+    background: url([[pix:theme|breadcrumb/bg-breadcrumb-sep]]) no-repeat;
     width: 17px;
     height: 20px;
 }
 
 .breadcrumb-nav  {
-    background: url([[pix:theme|bg-breadcrumb-nav]]) repeat-x;
+    background: url([[pix:theme|breadcrumb/bg-breadcrumb-nav]]) repeat-x;
     padding-left: 3px;
 }
 
 .breadcrumb-start {
-    background: url([[pix:theme|bg-breadcrumb-start]]) no-repeat;
+    background: url([[pix:theme|breadcrumb/bg-breadcrumb-start]]) no-repeat;
     width: 4px;
 }
 
 .breadcrumb-end {
-    background: url([[pix:theme|bg-breadcrumb-end]]) no-repeat;
+    background: url([[pix:theme|breadcrumb/bg-breadcrumb-end]]) no-repeat;
     width: 17px;
 }
 
@@ -199,7 +199,8 @@ input[readonly=readonly], input[readonly=readonly]:focus {
 
 /** datenschutz **/
 /**Ausblenden wegen Datenschutz */
-#moodle_optional, #moodle_interests, #fitem_id_country {
+#id_moodle_optional, #id_moodle_interests, #id_moodle_additional_names,
+#fitem_id_country, #fitem_id_imagealt {
     display:none;
 }
 

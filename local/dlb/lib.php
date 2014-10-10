@@ -58,3 +58,50 @@ function local_dlb_extends_settings_navigation(settings_navigation $navigation) 
         }
     }
 }
+
+/** called, when user is correcty loggedin */
+function local_dlb_user_loggedin($events) {
+
+    // set up the isTeacher - flag, we do this here for all auth types.
+    local_dlb::setup_teacher_flag();
+}
+
+class local_dlb {
+    
+    /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)
+     * or is enrolled in min. one course as a teacher.
+     *
+     * @global object $USER
+     * @global type $SESSION
+     * @global type $DB
+     * @return boolean, true falls der User als Lehrer gilt.
+     */
+
+    public static function setup_teacher_flag() {
+        global $USER, $DB;
+
+        //nur echte User zulassen....
+        if (!isloggedin() or isguestuser()) {
+            return false;
+        }
+
+        if (isset($USER->isTeacher)) {
+            return $USER->isTeacher;
+        }
+
+        // ...check if user has a role with cap enrol/self:config.
+
+        $roles = get_roles_with_capability('enrol/self:config');
+        list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+        $params['userid'] = $USER->id;
+
+        $sql = "SELECT ra.id
+               FROM {role_assignments} ra
+               WHERE ra.roleid $rsql
+               AND ra.userid = :userid";
+
+        $USER->isTeacher = $DB->record_exists_sql($sql, $params);
+
+        return $USER->isTeacher;
+    }
+}

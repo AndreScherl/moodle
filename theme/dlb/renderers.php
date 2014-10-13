@@ -843,6 +843,13 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
      */
     public function category_listing(coursecat $category = null) {
         global $PAGE;
+        
+        $perfdebug = optional_param('perfdebug', 0, PARAM_INT);
+        
+        if (optional_param('purge', 0, PARAM_INT) == 1) {
+            cache_helper::purge_by_event('changesincoursecat');
+        }
+        $starttime = microtime(true);
 
         if ($category === null) {
             $selectedparents = array();
@@ -859,10 +866,13 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         // +++ awag: get all editable schools //
         $listings = array();
 
+        $datatime = 0;
+        $startdatatime = microtime(true);
         // don't restrict the list for site-admins.
         if (is_siteadmin()) {
-
+            
             $listings[] = coursecat::get(0)->get_children();
+            
         } else { // non site admins.
             // get schoolids (category of level 3), which contains elements (category, subcategories or courses) this user can edit.
             $editableschoolids = $this->get_editable_schoolids();
@@ -888,6 +898,7 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
                 $listings[] = array($catid => $coursecat);
             }
         }
+        $datatime += (microtime(true) - $startdatatime);
         // --- awag;
 
         $attributes = array(
@@ -903,6 +914,8 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         // +++ awag: print out all editable schools, like original renders but in a loop.
 
 
+        $rendertime = 0;
+        
         foreach ($listings as $listing) {
 
             $html .= html_writer::start_tag('ul', $attributes);
@@ -910,16 +923,27 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
                 // Render each category in the listing.
                 $subcategories = array();
                 if (in_array($listitem->id, $catatlevel)) {
+                    $startdatatime = microtime(true);
                     $subcategories = $listitem->get_children();
+                    $datatime += (microtime(true) - $startdatatime);
                 }
+                $startrendertime = microtime(true);
                 $html .= $this->category_listitem(
                         $listitem, $subcategories, $listitem->get_children_count(), $selectedcategory, $selectedparents
                 );
+                $rendertime += (microtime(true) - $startrendertime);
             }
             $html .= html_writer::end_tag('ul');
         }
         $html .= $this->category_bulk_actions($category);
         $html .= html_writer::end_div();
+        
+        if ($perfdebug) {
+            echo "<br/>category_listing: ".(microtime(true) - $starttime);
+            echo "<br/>datatime: ".$datatime;
+            echo "<br/>renderttime: ".$rendertime;
+        }
+        
         return $html;
     }
 

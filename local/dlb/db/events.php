@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,16 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme version info
- *
- * @package    theme
- * @subpackage base
- * @copyright  2011 Petr Skoda  {@link http://skodak.org}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_dlb
+ * @copyright 2014 Andreas Wagner, ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
-
-$plugin->version   = 2014101000; // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2011081700; // Requires this Moodle version
-$plugin->component = 'theme_iwb'; // Full name of the plugin (used for diagnostics)
+$observers = array(
+    array(
+        'eventname' => '\core\event\user_loggedin',
+        'callback' => 'local_dlb_user_loggedin',
+        'includefile' => '/local/dlb/lib.php',
+        'internal' => true
+    )
+);

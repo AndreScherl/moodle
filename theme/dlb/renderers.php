@@ -848,6 +848,9 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         
         if (optional_param('purge', 0, PARAM_INT) == 1) {
             cache_helper::purge_by_event('changesincoursecat');
+            if ($perfdebug) {
+                echo "<br/>cache purged";
+            }
         }
         $starttime = microtime(true);
 

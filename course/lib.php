@@ -2316,11 +2316,7 @@ function move_courses($courseids, $categoryid) {
         $event->set_legacy_logdata(array($course->id, 'course', 'move', 'edit.php?id=' . $course->id, $course->id));
         $event->trigger();
     }
-    // awag: PERFOMANCE-03 - update only changed cat.
-    $starttime = microtime(true);
-    fix_course_sortorder(array());
-    local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array(), $starttime,'move_courses');
-
+    fix_course_sortorder();
     cache_helper::purge_by_event('changesincourse');
 
     return true;
@@ -2564,10 +2560,7 @@ function create_course($data, $editoroptions = NULL) {
     // Create a default section.
     course_create_sections_if_missing($course, 0);
 
-    // awag: PERFOMANCE-03 - update only changed cat.
-    $starttime = microtime(true);
-    fix_course_sortorder(array());
-    local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array(), $starttime,'create_course');
+    fix_course_sortorder();
     // purge appropriate caches in case fix_course_sortorder() did not change anything
     cache_helper::purge_by_event('changesincourse');
 
@@ -2672,10 +2665,7 @@ function update_course($data, $editoroptions = NULL) {
     }
     $fixcoursesortorder = $movecat || (isset($data->sortorder) && ($oldcourse->sortorder != $data->sortorder));
     if ($fixcoursesortorder) {
-        // awag: PERFOMANCE-03 - update only changed cat.
-        $starttime = microtime(true);
-        fix_course_sortorder(array($course->category));
-        local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($course->category), $starttime,'create_course');
+        fix_course_sortorder();
     }
 
     // purge appropriate caches in case fix_course_sortorder() did not change anything
@@ -3621,20 +3611,14 @@ function course_change_sortorder_by_one($course, $up) {
         $select = 'sortorder > ? AND category = ?';
         $sort = 'sortorder ASC';
     }
-    // awag: PERFOMANCE-03 - update only changed cat.
-    $starttime = microtime(true);
-    fix_course_sortorder(array());
-    local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array(), $starttime,'course_change_sortorder_by_one');
+    fix_course_sortorder();
     $swapcourse = $DB->get_records_select('course', $select, $params, $sort, '*', 0, 1);
     if ($swapcourse) {
         $swapcourse = reset($swapcourse);
         $DB->set_field('course', 'sortorder', $swapcourse->sortorder, array('id' => $course->id));
         $DB->set_field('course', 'sortorder', $course->sortorder, array('id' => $swapcourse->id));
         // Finally reorder courses.
-        // awag: PERFOMANCE-03 - update only changed cat.
-        $starttime = microtime(true);
-        fix_course_sortorder(array());
-        local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array(), $starttime,'course_change_sortorder_by_one');
+        fix_course_sortorder();
         cache_helper::purge_by_event('changesincourse');
         return true;
     }
@@ -3702,10 +3686,7 @@ function course_change_sortorder_after_course($courseorid, $moveaftercourseid) {
         $DB->execute($sql, $params);
         $DB->set_field('course', 'sortorder', $moveaftercourse->sortorder + 1, array('id' => $course->id));
     }
-    // awag: PERFOMANCE-03 - update only changed cat.
-    $starttime = microtime(true);
-    fix_course_sortorder(array());
-    local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array(), $starttime,'course_change_sortorder_course_after_course');
+    fix_course_sortorder();
     cache_helper::purge_by_event('changesincourse');
     return true;
 }

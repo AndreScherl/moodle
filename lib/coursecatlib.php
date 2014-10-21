@@ -411,7 +411,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         // We should mark the context as dirty.
         context_coursecat::instance($newcategory->id)->mark_dirty();
 
-        fix_course_sortorder();
+        // awag: PERFOMANCE-03 - update only changed cat.
+        $starttime = microtime(true);
+        fix_course_sortorder(array($newcategory->parent));
+        local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($newcategory->id, $newcategory->parent), $starttime,'category::create');
 
         // If this is data from form results, save embedded files and update description.
         $categorycontext = context_coursecat::instance($newcategory->id);
@@ -516,7 +519,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             }
             $parentcat = self::get($data->parent, MUST_EXIST, true);
             $this->change_parent_raw($parentcat);
-            fix_course_sortorder();
+            // awag: PERFORMANCE-03
+            $starttime = microtime(true);
+            fix_course_sortorder(array($data->parent));
+            local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($newcategory->id, $data->parent), $starttime, 'coursecat::update1');
         }
 
         $newcategory->timemodified = time();
@@ -534,7 +540,11 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         ));
         $event->trigger();
 
-        fix_course_sortorder();
+        // awag: PERFORMANCE-03
+        $starttime = microtime(true);
+        fix_course_sortorder(array($data->parent));
+        local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($newcategory->id), $starttime, 'coursecat::update2');
+
         // Purge cache even if fix_course_sortorder() did not do it.
         cache_helper::purge_by_event('changesincoursecat');
 
@@ -1791,7 +1801,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
                     $childcat->id));
                 $event->trigger();
             }
-            fix_course_sortorder();
+            // awag: PERFORMANCE-03
+            $starttime = microtime(true);
+            fix_course_sortorder(array($newparentcat->id));
+            local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array_keys($children), $starttime, 'coursecat::delete_move');
         }
 
         if ($coursesids) {
@@ -1919,7 +1932,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         $DB->set_field('course_categories', 'sortorder', MAX_COURSES_IN_CATEGORY*MAX_COURSE_CATEGORIES, array('id' => $this->id));
 
         if ($hidecat) {
-            fix_course_sortorder();
+            // awag: PERFORMANCE-03
+            $starttime = microtime(true);
+            fix_course_sortorder(array($newparentcat->id));
+            local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($newparentcat->id, $this->id), $starttime, 'coursecat::change_parent_raw');
             $this->restore();
             // Hide object but store 1 in visibleold, because when parent category visibility changes this category must
             // become visible again.
@@ -1954,7 +1970,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         }
         if ($newparentcat->id != $this->parent) {
             $this->change_parent_raw($newparentcat);
-            fix_course_sortorder();
+             // awag: PERFORMANCE-03
+            $starttime = microtime(true);
+            fix_course_sortorder(array($newparentcat->id));
+            local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($newparentcat->id, $this->id), $starttime, 'coursecat::change_parent');
             cache_helper::purge_by_event('changesincoursecat');
             $this->restore();
 
@@ -2576,7 +2595,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             }
             if ($cleanup) {
                 // This should not be needed but we do it just to be safe.
-                fix_course_sortorder();
+                 // awag: PERFORMANCE-03
+                $starttime = microtime(true);
+                fix_course_sortorder(array($this->parent));
+                local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($this->parent), $starttime, 'coursecat::resort_courses');
                 cache_helper::purge_by_event('changesincourse');
             }
         }
@@ -2600,7 +2622,11 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             $select = 'sortorder > ? AND parent = ?';
             $sort = 'sortorder ASC';
         }
-        fix_course_sortorder();
+        // awag: PERFORMANCE-03
+        $starttime = microtime(true);
+        fix_course_sortorder(array($this->parent));
+        local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($this->parent), $starttime, 'coursecat::change_sortorder_by_one1');
+
         $swapcategory = $DB->get_records_select('course_categories', $select, $params, $sort, '*', 0, 1);
         $swapcategory = reset($swapcategory);
         if ($swapcategory) {
@@ -2617,7 +2643,10 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             $event->trigger();
 
             // Finally reorder courses.
-            fix_course_sortorder();
+            // awag: PERFORMANCE-03
+            $starttime = microtime(true);
+            fix_course_sortorder(array($this->parent, $swapcategory->parent));
+            local_dlb\local\core_changes::assert_fix_course_sortorder_categories(array($this->parent, $swapcategory->parent), $starttime, 'coursecat::change_sortorder_by_one2');
             cache_helper::purge_by_event('changesincoursecat');
             return true;
         }

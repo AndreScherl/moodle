@@ -859,7 +859,11 @@ function get_courses_search($searchterms, $sort, $page, $recordsperpage, &$total
  * @uses CONTEXT_COURSE
  * @return void
  */
-function fix_course_sortorder() {
+
+/* awag: PERORMANCE introduce parameter $topcatids to speed up fix_course_sortorder by
+ * executing _fix_course_cats only for this categories.
+ */
+function fix_course_sortorder($topcatids = null) {
     global $DB, $SITE;
 
     //WARNING: this is PHP5 only code!
@@ -898,23 +902,48 @@ function fix_course_sortorder() {
         }
         $allcats[$cat->parent]->children[$sortorder] = $cat;
     }
-    unset($allcats);
+    
+    // awag: PERFORMANCE execute original Moodle-Code, if no topcatids given.
+    if (!isset($topcatids)) {
+        
+        unset($allcats);
 
-    // add broken cats to category tree
-    if ($brokencats) {
-        $defaultcat = reset($topcats);
-        foreach ($brokencats as $cat) {
-            $topcats[] = $cat;
+        // add broken cats to category tree
+        if ($brokencats) {
+            $defaultcat = reset($topcats);
+            foreach ($brokencats as $cat) {
+                $topcats[] = $cat;
+            }
         }
-    }
 
-    // now walk recursively the tree and fix any problems found
-    $sortorder = 0;
-    $fixcontexts = array();
-    if (_fix_course_cats($topcats, $sortorder, 0, 0, '', $fixcontexts)) {
-        $cacheevents['changesincoursecat'] = true;
+        // now walk recursively the tree and fix any problems found
+        $sortorder = 0;
+        $fixcontexts = array();
+        if (_fix_course_cats($topcats, $sortorder, 0, 0, '', $fixcontexts)) {
+            $cacheevents['changesincoursecat'] = true;
+        }
+    } else {
+        // awag: PERFORMANCE execute modified code for related categories only
+        // (duplicate sortorder of categories may exist until next cron with fix_course_sortorder)
+        
+        // get cats width childs to check, so we can release memory before recursion.
+        $catstocheckchilds = array();
+        foreach ($topcatids as $catid) {
+            if (!empty($allcats[$catid])) {
+                $catstocheckchilds[$catid] = $allcats[$catid];
+            }
+        }
+        unset($allcats);
+        
+        $fixcontexts = array();
+        foreach ($catstocheckchilds as $catid => $cat) {
+            // fixing all subcategories for this cat.
+            if (_fix_course_cats($cat->children, $cat->sortorder, $catid, $cat->depth, $cat->path, $fixcontexts)) {
+                $cacheevents['changesincoursecat'] = true;
+            }
+        }
+        echo "quick fix";
     }
-
     // detect if there are "multiple" frontpage courses and fix them if needed
     $frontcourses = $DB->get_records('course', array('category'=>0), 'id');
     if (count($frontcourses) > 1) {

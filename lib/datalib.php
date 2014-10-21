@@ -864,7 +864,7 @@ function get_courses_search($searchterms, $sort, $page, $recordsperpage, &$total
  * executing _fix_course_cats only for this categories.
  */
 function fix_course_sortorder($topcatids = null) {
-    global $DB, $SITE;
+    global $DB, $SITE, $CFG;
 
     //WARNING: this is PHP5 only code!
 
@@ -904,7 +904,7 @@ function fix_course_sortorder($topcatids = null) {
     }
     
     // awag: PERFORMANCE execute original Moodle-Code, if no topcatids given.
-    if (!isset($topcatids)) {
+    if (!isset($topcatids) || !empty($CFG->sortordernotmodified)) {
         
         unset($allcats);
 

@@ -162,10 +162,13 @@ echo $OUTPUT->doctype()
                     </div>
                 </div>
                 <?php 
+                    
                     global $SESSION;
-                    if (!empty($SESSION->profilefixsortorder)) {
-                        echo $SESSION->profilefixsortorder;
-                        unset($SESSION->profilefixsortorder);
+                    if (!empty($CFG->debugfixsortorder)) {
+                        if (!empty($SESSION->profilefixsortorder)) {
+                            echo $SESSION->profilefixsortorder;
+                            unset($SESSION->profilefixsortorder);
+                        }
                     }
                     echo $OUTPUT->standard_end_of_body_html();
                 ?>

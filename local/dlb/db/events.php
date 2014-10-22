@@ -27,5 +27,19 @@ $observers = array(
         'callback' => 'local_dlb_user_loggedin',
         'includefile' => '/local/dlb/lib.php',
         'internal' => true
+    ), 
+    
+    array(
+        'eventname' => '\core\event\course_category_created',
+        'callback' => 'local_dlb_course_category_created',
+        'includefile' => '/local/dlb/lib.php',
+        'internal' => true
+    ), 
+    
+    array(
+        'eventname' => '\core\event\course_category_updated',
+        'callback' => 'local_dlb_course_category_updated',
+        'includefile' => '/local/dlb/lib.php',
+        'internal' => true
     )
 );

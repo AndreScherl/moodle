@@ -860,19 +860,25 @@ function get_courses_search($searchterms, $sort, $page, $recordsperpage, &$total
  * @return void
  */
 function fix_course_sortorder() {
-    global $DB, $SITE;
+    global $DB, $SITE, $SESSION;
 
+    if (empty($SESSION->profilefixsortorder)) {
+        $SESSION->profilefixsortorder = '';
+    }
+    
+    $starttime = microtime(true);
     //WARNING: this is PHP5 only code!
 
     // if there are any changes made to courses or categories we will trigger
     // the cache events to purge all cached courses/categories data
     $cacheevents = array();
 
-    if ($unsorted = $DB->get_records('course_categories', array('sortorder'=>0))) {
+    /* awag: PEROMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
+     * if ($unsorted = $DB->get_records('course_categories', array('sortorder'=>0))) {
         //move all categories that are not sorted yet to the end
         $DB->set_field('course_categories', 'sortorder', MAX_COURSES_IN_CATEGORY*MAX_COURSE_CATEGORIES, array('sortorder'=>0));
         $cacheevents['changesincoursecat'] = true;
-    }
+    }*/
 
     $allcats = $DB->get_records('course_categories', null, 'sortorder, id', 'id, sortorder, parent, depth, path');
     $topcats    = array();
@@ -936,6 +942,7 @@ function fix_course_sortorder() {
         $frontcourse = reset($frontcourses);
     }
 
+    $starttime2 = microtime(true);
     // now fix the paths and depths in context table if needed
     if ($fixcontexts) {
         foreach ($fixcontexts as $fixcontext) {
@@ -946,7 +953,7 @@ function fix_course_sortorder() {
         $cacheevents['changesincourse'] = true;
         $cacheevents['changesincoursecat'] = true;
     }
-
+    $SESSION->profilefixsortorder .= "<br>fixcontext: " . (microtime(true) - $starttime2);
     // release memory
     unset($topcats);
     unset($brokencats);
@@ -982,7 +989,6 @@ function fix_course_sortorder() {
         }
         $cacheevents['changesincoursecat'] = true;
     }
-
     // now make sure that sortorders in course table are withing the category sortorder ranges
     $sql = "SELECT DISTINCT cc.id, cc.sortorder
               FROM {course_categories} cc
@@ -1053,6 +1059,7 @@ function fix_course_sortorder() {
     foreach (array_keys($cacheevents) as $event) {
         cache_helper::purge_by_event($event);
     }
+    $SESSION->profilefixsortorder .= "<br>fix_course_sortorder: " . (microtime(true) - $starttime);
 }
 
 /**
@@ -1090,10 +1097,11 @@ function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixc
             $context = context_coursecat::instance($cat->id);
             $fixcontexts[$context->id] = $context;
         }
-        if ($cat->sortorder != $sortorder) {
+        // awag: PEROMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
+        /*if ($cat->sortorder != $sortorder) {
             $cat->sortorder = $sortorder;
             $update = true;
-        }
+        }*/
         if ($update) {
             $DB->update_record('course_categories', $cat, true);
             $changesmade = true;

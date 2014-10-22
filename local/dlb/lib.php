@@ -78,6 +78,14 @@ function local_dlb_user_loggedin($event) {
     local_dlb::setup_teacher_flag();
 }
 
+/** called, when user created a course */
+function local_dlb_course_created($events) {
+    global $DB, $USER, $COURSE;
+    // assign course owner role to course creator, to manage the right of course deletion
+    $role = $DB->get_record('role', array('shortname' => 'kursbesitzer'));
+    role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+}
+
 /** fix the sortorder of new coursecategory.
  *  regarding performance we:
  *  1. drop the unique sortorder or categories in fix_course_sortorder
@@ -172,5 +180,4 @@ class local_dlb {
 
         return $USER->isTeacher;
     }
-
 }

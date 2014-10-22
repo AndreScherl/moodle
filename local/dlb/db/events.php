@@ -28,7 +28,6 @@ $observers = array(
         'includefile' => '/local/dlb/lib.php',
         'internal' => true
     ), 
-    
     array(
         'eventname' => '\core\event\course_category_created',
         'callback' => 'local_dlb_course_category_created',
@@ -41,5 +40,10 @@ $observers = array(
         'callback' => 'local_dlb_course_category_updated',
         'includefile' => '/local/dlb/lib.php',
         'internal' => true
-    )
+    ),
+    array(
+    	'eventname' => 'core\event\course_created',
+    	'callback' => 'local_dlb_course_created',
+    	'includefile' => '/local/dlb/lib.php'
+    )  
 );

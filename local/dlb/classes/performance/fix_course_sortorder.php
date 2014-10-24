@@ -45,6 +45,8 @@
 
 namespace local_dlb\performance;
 
+use cache_helper;
+
 class fix_course_sortorder {
 
     public $starttime = array();
@@ -154,21 +156,16 @@ class fix_course_sortorder {
             }
             $cacheevents['changesincourse'] = true;
         }
+        if (!empty($gapcategories)) {
+            mtrace(count($gapcategories)." gapcategories fixed");   
+        }
         unset($gapcategories);
 
         // fix course sortorders in problematic categories only
         foreach ($fixcategories as $cat) {
             $i = 1;
-            $courses = $DB->get_records('course', array('category' => $cat->id), 'sortorder ASC, id DESC', 'id, sortorder');
-            foreach ($courses as $course) {
-                if ($course->sortorder != $cat->sortorder + $i) {
-                    $course->sortorder = $cat->sortorder + $i;
-                    $DB->update_record_raw('course', $course, true);
-                    $cacheevents['changesincourse'] = true;
-                }
-                $i++;
-            }
             $fixcoursesortorder = array();
+            $courses = $DB->get_records('course', array('category'=>$cat->id), 'sortorder ASC, id DESC', 'id, sortorder');
             foreach ($courses as $course) {
                 if ($course->sortorder != $cat->sortorder + $i) {
                     $fixcoursesortorder[$course->id] = $cat->sortorder + $i;
@@ -176,6 +173,10 @@ class fix_course_sortorder {
                 $i++;
             }
             self::bulk_update_mysql('{course}', 'id', 'sortorder', $fixcoursesortorder);
+            if ($i > 1) {
+                mtrace(($i - 1)." sortorder of courses fixed");    
+            }
+            
         }
         foreach (array_keys($cacheevents) as $event) {
             cache_helper::purge_by_event($event);

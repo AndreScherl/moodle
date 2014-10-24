@@ -2256,9 +2256,6 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             }
         }
         
-        // awag: PERFOMRANCE-03, need to sort list, we can't rely on sortorder, because of performance Hack!
-        asort($names, SORT_STRING | SORT_FLAG_CASE);
-        
         return $names;
     }
 

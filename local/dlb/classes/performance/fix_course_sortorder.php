@@ -162,6 +162,7 @@ class fix_course_sortorder {
         unset($gapcategories);
 
         // fix course sortorders in problematic categories only
+        $totalfixed = 0;
         foreach ($fixcategories as $cat) {
             $i = 1;
             $fixcoursesortorder = array();
@@ -174,10 +175,10 @@ class fix_course_sortorder {
             }
             self::bulk_update_mysql('{course}', 'id', 'sortorder', $fixcoursesortorder);
             if ($i > 1) {
-                mtrace(($i - 1)." sortorder of courses fixed");    
+               $totalfixed += ($i - 1);
             }
-            
         }
+        mtrace("sortorder of courses fixed: ".$total);   
         foreach (array_keys($cacheevents) as $event) {
             cache_helper::purge_by_event($event);
         }

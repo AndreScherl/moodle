@@ -873,12 +873,12 @@ function fix_course_sortorder() {
     // the cache events to purge all cached courses/categories data
     $cacheevents = array();
 
-    /* awag: PERFORMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
-     * if ($unsorted = $DB->get_records('course_categories', array('sortorder'=>0))) {
+    /* awag: PERFORMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.*/
+    if ($unsorted = $DB->get_records('course_categories', array('sortorder'=>0))) {
         //move all categories that are not sorted yet to the end
         $DB->set_field('course_categories', 'sortorder', MAX_COURSES_IN_CATEGORY*MAX_COURSE_CATEGORIES, array('sortorder'=>0));
         $cacheevents['changesincoursecat'] = true;
-    }*/
+    }
  
     $starttime2 = microtime(true);
     

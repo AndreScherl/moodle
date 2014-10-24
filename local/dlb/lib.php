@@ -99,7 +99,12 @@ function local_dlb_course_created($events) {
 function local_dlb_course_category_created($event) {
 
     $eventdata = $event->get_data();
-    //local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+    /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+     *  wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_dlb\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
 }
 
 /** fix the sortorder of moved coursecategory.
@@ -113,158 +118,15 @@ function local_dlb_course_category_created($event) {
 function local_dlb_course_category_updated($event) {
 
     $eventdata = $event->get_data();
-    //local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+     /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+      * wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_dlb\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
 }
 
 class local_dlb {
-
-    public static function bulk_update_mysql($table, $id_column, $update_column, array &$idstovals) {
-        global $DB;
-
-        if (empty($idstovals)) {
-            return false;
-        }
-
-        $sql = "UPDATE $table SET $update_column = CASE $id_column ";
-        
-        foreach ($idstovals as $id => $val) {
-            $sql .= " WHEN '$id' THEN '$val' \n";
-        }
-        $sql .= " ELSE $update_column END";
-        
-        $DB->execute($sql);
-    }
-
-    /** get all the categories, which may be childs of given parent (depth > parent->depth)
-      then build a cattree starting with the $parentcatid as a root.
-      we don't use coursecattree cache here, because it is invalid after category_updated!
-     * 
-     * @global object $DB
-     * @param int $mindepth read only cats with depth > mindepth.
-     * @return array
-     */
-    private static function build_cattree($mindepth) {
-        global $DB;
-
-        $sql = "SELECT id, parent FROM {course_categories} where depth >= ? ORDER BY sortorder, id";
-
-        $depthcats = $DB->get_records_sql($sql, array($mindepth));
-
-        $allchilds = array();
-        foreach ($depthcats as $cat) {
-
-            if (!isset($allchilds[$cat->parent])) {
-                $allchilds[$cat->parent] = array();
-            }
-
-            $allchilds[$cat->parent][$cat->id] = $cat->id;
-        }
-        return $allchilds;
-    }
-
-    /** recursively calculate appropriate sortorders
-     * 
-     * @param array $allcat tree informations
-     * @param int $parentid current parentid
-     * @param int $sortorder current sortorder
-     * @param array $newsortorders containing sortorder results
-     * @return boolean
-     */
-    private static function calc_subtree_sortorder(&$allcat, $parentid, $sortorder, &$newsortorders) {
-
-        $children = array();
-        if (isset($allcat[$parentid])) {
-            $children = $allcat[$parentid];
-        }
-
-        foreach ($children as $catid) {
-
-            $sortorder = $sortorder + MAX_COURSES_IN_CATEGORY;
-            $newsortorders[$catid] = $sortorder;
-
-            if (isset($allcat[$catid])) {
-                self::calc_subtree_sortorder($allcat, $catid, $sortorder, $newsortorders);
-            }
-        }
-        return true;
-    }
-
-    /** traverse the subtree with $newcategory as root and set the new sortorder values
-     * 
-     * @global object $DB
-     * @param type $newcategory
-     */
-    private static function fix_subcategories_sortorder($newcategory) {
-        global $DB;
-
-        // Build the cattree, parentid => array(childids).
-        $allchilds = self::build_cattree($newcategory->depth);
-
-        // Calculate the sortorder.
-        $newsortorders = array();
-        self::calc_subtree_sortorder($allchilds, $newcategory->id, $newcategory->sortorder, $newsortorders);
-
-        unset($allchilds);
-
-        // ... set sortorder in one Statement.
-        if (!empty($newsortorders)) {
-
-            $sql = "UPDATE {course_categories} SET sortorder = CASE id ";
-
-            foreach ($newsortorders as $id => $val) {
-                $sql .= " WHEN '$id' THEN '$val' \n";
-            }
-
-            $sql .= " ELSE sortorder END";
-            $DB->execute($sql);
-        }
-    }
-
-    /** if the new/updated categorie has a sortorder lower than its parent, fix
-     *  the sortorder of the categorie and its subcategories.
-     * 
-     *  @global object $DB
-     *  @param int $categorieid
-     *  @return boolean true, when a fix ist done.
-     */
-    public static function fix_catgeorie_sortorder($categorieid) {
-        global $DB;
-
-        if (!$newcategory = $DB->get_record('course_categories', array('id' => $categorieid))) {
-            return false;
-        }
-
-        if ($newcategory->parent == 0) {
-            return false;
-        }
-
-        $parentcat = $DB->get_record('course_categories', array('id' => $newcategory->parent));
-
-        // ...sortorder for subcategory is greater, so nothing to do...
-        if ($parentcat->sortorder < $newcategory->sortorder) {
-            return false;
-        }
-
-        // ... get other childs.
-        $sql = "SELECT max(cc.sortorder) as maxsortorder
-                FROM {course_categories} cc
-                WHERE cc.parent = ? AND cc.id <> ?";
-
-        if (!$maxsortorder = $DB->get_field_sql($sql, array($newcategory->parent, $newcategory->id))) {
-
-            $newcategory->sortorder = $parentcat->sortorder + MAX_COURSE_CATEGORIES;
-        } else {
-            // ...we have other childs, so queue at the end.
-            $newcategory->sortorder = $maxsortorder + MAX_COURSE_CATEGORIES;
-        }
-
-        $DB->update_record('course_categories', $newcategory);
-
-        // Now fix all subcategories to make sure, that subcat->sortorder > cat->sortorder to avoid problems in get_tree!
-        self::fix_subcategories_sortorder($newcategory);
-
-        return true;
-    }
 
     /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)
      * or is enrolled in min. one course as a teacher.

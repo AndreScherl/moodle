@@ -10,7 +10,7 @@
  */
 $string['pluginname'] = 'dlb - Anpassungen';
 $string['dlb:editschoolid'] = 'ID-Number der Schule bearbeiten';
-
+$string['fixgapcategories'] = 'Sortierung in Kursbereichen korrigieren';
 $string['local_dlb_home'] = 'Rootknotenbezeichnung';
 $string['local_dlb_home_expl'] = 'Im Navigationsblock ersetzt diese Bezeichnung die Bezeichnung der Lernplattform';
 $string['local_dlb_home_default'] = 'Mebisangebote';

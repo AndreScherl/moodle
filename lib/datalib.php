@@ -860,7 +860,7 @@ function get_courses_search($searchterms, $sort, $page, $recordsperpage, &$total
  * @return void
  */
 function fix_course_sortorder() {
-    global $DB, $SITE, $SESSION;
+    global $DB, $SITE, $SESSION, $CFG;
 
     if (empty($SESSION->profilefixsortorder)) {
         $SESSION->profilefixsortorder = '';
@@ -873,13 +873,15 @@ function fix_course_sortorder() {
     // the cache events to purge all cached courses/categories data
     $cacheevents = array();
 
-    /* awag: PEROMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
+    /* awag: PERFORMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
      * if ($unsorted = $DB->get_records('course_categories', array('sortorder'=>0))) {
         //move all categories that are not sorted yet to the end
         $DB->set_field('course_categories', 'sortorder', MAX_COURSES_IN_CATEGORY*MAX_COURSE_CATEGORIES, array('sortorder'=>0));
         $cacheevents['changesincoursecat'] = true;
     }*/
-
+ 
+    $starttime2 = microtime(true);
+    
     $allcats = $DB->get_records('course_categories', null, 'sortorder, id', 'id, sortorder, parent, depth, path');
     $topcats    = array();
     $brokencats = array();
@@ -913,14 +915,29 @@ function fix_course_sortorder() {
             $topcats[] = $cat;
         }
     }
-
+    $SESSION->profilefixsortorder .= "tree: " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
     // now walk recursively the tree and fix any problems found
     $sortorder = 0;
+    $fixsortorders = array();
     $fixcontexts = array();
-    if (_fix_course_cats($topcats, $sortorder, 0, 0, '', $fixcontexts)) {
+    if (_fix_course_cats($topcats, $sortorder, 0, 0, '', $fixcontexts, $fixsortorders)) {
         $cacheevents['changesincoursecat'] = true;
     }
-
+    $SESSION->profilefixsortorder .= "<br>fix_course_cats: " . (microtime(true) - $starttime2);
+    /** awag: PERFORMANCE-03 using bulk_update instead; 
+    if (!empty($fixsortorders)) { 
+        
+        foreach ($fixsortorders as $catid => $sortorder) {
+            $sql = "UPDATE {course_categories} SET sortorder = ? WHERE id = ?";
+            $DB->execute($sql, array($sortorder, $catid));
+        }
+    }*/
+    require_once($CFG->dirroot.'/local/dlb/lib.php');
+    local_dlb::bulk_update_mysql('{course_categories}', 'id', 'sortorder', $fixsortorders);
+    $SESSION->profilefixsortorder .= "<br>bulk update sortorder (".count($fixsortorders)."): " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
+    
     // detect if there are "multiple" frontpage courses and fix them if needed
     $frontcourses = $DB->get_records('course', array('category'=>0), 'id');
     if (count($frontcourses) > 1) {
@@ -941,7 +958,7 @@ function fix_course_sortorder() {
     } else {
         $frontcourse = reset($frontcourses);
     }
-
+    $SESSION->profilefixsortorder .= "<br>front: " . (microtime(true) - $starttime2);
     $starttime2 = microtime(true);
     // now fix the paths and depths in context table if needed
     if ($fixcontexts) {
@@ -953,7 +970,8 @@ function fix_course_sortorder() {
         $cacheevents['changesincourse'] = true;
         $cacheevents['changesincoursecat'] = true;
     }
-    $SESSION->profilefixsortorder .= "<br>fixcontext: " . (microtime(true) - $starttime2);
+    $SESSION->profilefixsortorder .= "<br>fix_context: " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
     // release memory
     unset($topcats);
     unset($brokencats);
@@ -989,6 +1007,8 @@ function fix_course_sortorder() {
         }
         $cacheevents['changesincoursecat'] = true;
     }
+    $SESSION->profilefixsortorder .= "<br>fix_course_count: " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
     // now make sure that sortorders in course table are withing the category sortorder ranges
     $sql = "SELECT DISTINCT cc.id, cc.sortorder
               FROM {course_categories} cc
@@ -997,16 +1017,23 @@ function fix_course_sortorder() {
 
     if ($fixcategories = $DB->get_records_sql($sql)) {
         //fix the course sortorder ranges
-        foreach ($fixcategories as $cat) {
+        /* awag: PERFORMANCE-03, use bulk_update.
+         * foreach ($fixcategories as $cat) {
             $sql = "UPDATE {course}
                        SET sortorder = ".$DB->sql_modulo('sortorder', MAX_COURSES_IN_CATEGORY)." + ?
                      WHERE category = ?";
             $DB->execute($sql, array($cat->sortorder, $cat->id));
+        }*/
+        $fixcatsortorder = array();
+        foreach ($fixcategories as $cat) {
+            $fixcatsortorder[$cat->id] = $cat->sortorder %  MAX_COURSES_IN_CATEGORY +  $cat->sortorder;
         }
+        local_dlb::bulk_update_mysql('{course_categories}', 'id', 'sortorder', $fixcatsortorder);
         $cacheevents['changesincoursecat'] = true;
     }
     unset($fixcategories);
-
+    $SESSION->profilefixsortorder .= "<br>sortorders in range: " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
     // categories having courses with sortorder duplicates or having gaps in sortorder
     $sql = "SELECT DISTINCT c1.category AS id , cc.sortorder
               FROM {course} c1
@@ -1041,20 +1068,31 @@ function fix_course_sortorder() {
     }
     unset($gapcategories);
 
+    $SESSION->profilefixsortorder .= "<br>gapcategories 1: " . (microtime(true) - $starttime2);
+    $starttime2 = microtime(true);
+    
     // fix course sortorders in problematic categories only
     foreach ($fixcategories as $cat) {
         $i = 1;
         $courses = $DB->get_records('course', array('category'=>$cat->id), 'sortorder ASC, id DESC', 'id, sortorder');
-        foreach ($courses as $course) {
+        /*foreach ($courses as $course) {
             if ($course->sortorder != $cat->sortorder + $i) {
                 $course->sortorder = $cat->sortorder + $i;
                 $DB->update_record_raw('course', $course, true);
                 $cacheevents['changesincourse'] = true;
             }
             $i++;
+        }*/
+        $fixcoursesortorder = array();
+        foreach ($courses as $course) {
+            if ($course->sortorder != $cat->sortorder + $i) {
+                $fixcoursesortorder[$course->id] = $cat->sortorder + $i;
+            }
+            $i++;
         }
+        local_dlb::bulk_update_mysql('{course}', 'id', 'sortorder', $fixcoursesortorder);
     }
-
+    $SESSION->profilefixsortorder .= "<br>gapcategories 2 (".count($fixcategories)."): " . (microtime(true) - $starttime2);
     // advise all caches that need to be rebuilt
     foreach (array_keys($cacheevents) as $event) {
         cache_helper::purge_by_event($event);
@@ -1078,8 +1116,8 @@ function fix_course_sortorder() {
  * @param array $fixcontexts
  * @return bool if changes were made
  */
-function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixcontexts) {
-    global $DB;
+function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixcontexts, &$fixsortorder) {
+    global $DB, $SESSION;
 
     $depth++;
     $changesmade = false;
@@ -1088,26 +1126,43 @@ function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixc
         $sortorder = $sortorder + MAX_COURSES_IN_CATEGORY;
         $update = false;
         if ($parent != $cat->parent or $depth != $cat->depth or $path.'/'.$cat->id != $cat->path) {
+            
+            $SESSION->profilefixsortorder .= '<br>parent: '.$cat->parent."(soll: $parent)";
+            $SESSION->profilefixsortorder .= '<br>depth: '.$cat->depth."(soll: $depth)";
+            $SESSION->profilefixsortorder .= '<br>path: '.$cat->path."(soll: ".($path.'/'.$cat->id).")";
+            
             $cat->parent = $parent;
             $cat->depth  = $depth;
             $cat->path   = $path.'/'.$cat->id;
             $update = true;
-
+            
             // make sure context caches are rebuild and dirty contexts marked
             $context = context_coursecat::instance($cat->id);
-            $fixcontexts[$context->id] = $context;
+            
+            // check, whether parent context is already fixed.
+            if ($cat->parent != 0) {
+                $parentcontext = context_coursecat::instance($cat->parent);
+            } else {
+                $parentcontext = context_system::instance();
+            }
+            $SESSION->profilefixsortorder .= '<br>ctx path: '.$parentcontext->path.'/'.$context->id."(".($context->path).")";
+             
+            if ($parentcontext->path.'/'.$context->id != $context->path) {
+                $fixcontexts[$context->id] = $context;
+            }
         }
         // awag: PEROMANCE-03: don't update sortorder, to avoid Performance issues, must have local/dlb - Plugin installed to fix sortorder.
-        /*if ($cat->sortorder != $sortorder) {
+        if ($cat->sortorder != $sortorder) {
             $cat->sortorder = $sortorder;
-            $update = true;
-        }*/
+            $fixsortorder[$cat->id] = $sortorder;
+         //   $update = true;
+        }
         if ($update) {
             $DB->update_record('course_categories', $cat, true);
             $changesmade = true;
         }
         if (isset($cat->children)) {
-            if (_fix_course_cats($cat->children, $sortorder, $cat->id, $cat->depth, $cat->path, $fixcontexts)) {
+            if (_fix_course_cats($cat->children, $sortorder, $cat->id, $cat->depth, $cat->path, $fixcontexts, $fixsortorder)) {
                 $changesmade = true;
             }
         }

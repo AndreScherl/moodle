@@ -1071,14 +1071,6 @@ function fix_course_sortorder() {
             }
             $i++;
         }
-        $fixcoursesortorder = array();
-        foreach ($courses as $course) {
-            if ($course->sortorder != $cat->sortorder + $i) {
-                $fixcoursesortorder[$course->id] = $cat->sortorder + $i;
-            }
-            $i++;
-        }
-        local_dlb::bulk_update_mysql('{course}', 'id', 'sortorder', $fixcoursesortorder);
     }*/
     // advise all caches that need to be rebuilt
     foreach (array_keys($cacheevents) as $event) {

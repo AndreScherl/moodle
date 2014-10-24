@@ -910,11 +910,11 @@ function fix_course_sortorder() {
     }
     
     \local_dlb\performance\fix_course_sortorder::start_profiling('fix_course_cats', 'fix_course_sortorder');
-    $fixcontexts = array();
+    $fixsortorders = array();
     
     // now walk recursively the tree and fix any problems found
     $sortorder = 0;
-    $fixsortorders = array();
+    $fixcontexts = array();
     if (_fix_course_cats($topcats, $sortorder, 0, 0, '', $fixcontexts, $fixsortorders)) {
         $cacheevents['changesincoursecat'] = true;
     }
@@ -1113,7 +1113,6 @@ function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixc
         $sortorder = $sortorder + MAX_COURSES_IN_CATEGORY;
         $update = false;
         if ($parent != $cat->parent or $depth != $cat->depth or $path.'/'.$cat->id != $cat->path) {
-            
             $cat->parent = $parent;
             $cat->depth  = $depth;
             $cat->path   = $path.'/'.$cat->id;
@@ -1128,7 +1127,6 @@ function _fix_course_cats($children, &$sortorder, $parent, $depth, $path, &$fixc
             } else {
                 $parentcontext = context_system::instance();
             }
-            
             // awag: PERFORMANCE-03: only fix context, when context path is wrong.
             if ($parentcontext->path.'/'.$context->id != $context->path) {
                 $fixcontexts[$context->id] = $context;

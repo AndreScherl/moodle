@@ -2255,7 +2255,6 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
                 $names[$id] = join($separator, $namechunks);
             }
         }
-        
         return $names;
     }
 

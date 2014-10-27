@@ -530,7 +530,7 @@ class meineschulen {
      * @return string
      */
     public function output_coordinators() {
-        global $OUTPUT;
+        global $OUTPUT, $USER;
 
         $out = '';
 
@@ -539,7 +539,11 @@ class meineschulen {
             $messageurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
             $messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_meineschulen'));
             $messagelink = html_writer::link($messageurl, $messageicon);
-            $profileurl = new moodle_url('/user/profile.php', array('id' => $coordinator->id));
+            if (has_capability('moodle/user:viewdetails', $this->context, $USER->id)) {
+                $profileurl = new moodle_url('/user/profile.php', array('id' => $coordinator->id));
+            } else {
+                $profileurl = $messageurl;
+            }
             $coordlink = $messagelink.' '.html_writer::link($profileurl, fullname($coordinator));
             $out .= html_writer::tag('li', $coordlink);
         }

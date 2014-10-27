@@ -1,13 +1,25 @@
 <?php
 
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * This file may not be redistributed in whole or significant part.
- * Content of this file is Protected by International Copyright Laws.
- *
- * ~~~~~~~~~ This Plugin IS NOT FREE SOFTWARE ~~~~~~~~~~~~~~~~
  *
  * @package   local_dlb
- * @copyright 2013 Andreas Wagner. All Rights reserved.
+ * @copyright 2014 Andreas Wagner, mebis Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 function local_dlb_extends_navigation($navigation) {
     global $CFG, $PAGE;
@@ -60,14 +72,78 @@ function local_dlb_extends_settings_navigation(settings_navigation $navigation) 
 }
 
 /** called, when user is correcty loggedin */
-function local_dlb_user_loggedin($events) {
+function local_dlb_user_loggedin($event) {
 
     // set up the isTeacher - flag, we do this here for all auth types.
     local_dlb::setup_teacher_flag();
 }
 
+/** called, when user created a course */
+function local_dlb_course_created($events) {
+    global $DB, $USER, $COURSE;
+    // assign course owner role to course creator, to manage the right of course deletion
+    $role = $DB->get_record('role', array('shortname' => 'kursbesitzer'));
+    role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+}
+
+/** fix the sortorder of new coursecategory.
+ *  regarding performance we:
+ *  1. drop the unique sortorder or categories in fix_course_sortorder
+ *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
+ *      a. the new categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
+ *      b. if new sortorder exceeds parentsortorder + MAX_COURSES_IN_CATEGORY, we resort all childs.  
+ * 
+ * @param type $eventdata
+ */
+function local_dlb_course_category_created($event) {
+
+    $eventdata = $event->get_data();
+    local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+}
+
+/** fix the sortorder of moved coursecategory.
+ *  regarding performance we:
+ *  1. drop the unique sortorder or categories in fix_course_sortorder
+ *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
+ *        a. the nmoved categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
+ * 
+ * @param type $eventdata
+ */
+function local_dlb_course_category_updated($event) {
+
+    $eventdata = $event->get_data();
+    local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+}
+
 class local_dlb {
-    
+
+    public static function fix_catgeorie_sortorder($categorieid) {
+        global $DB;
+
+        if (!$newcategory = $DB->get_record('course_categories', array('id' => $categorieid))) {
+            return false;
+        }
+
+        // ... get other childs.
+        $sql = "SELECT max(cc.sortorder) as maxsortorder
+                FROM {course_categories} cc
+                WHERE cc.parent = ? AND cc.id <> ?";
+
+        if (!$maxsortorder = $DB->get_field_sql($sql, array($newcategory->parent, $newcategory->id))) {
+
+            if ($parentcat = $DB->get_record('course_categories', array('id' => $newcategory->parent))) {
+
+                $newcategory->sortorder = $parentcat->sortorder + MAX_COURSE_CATEGORIES;
+                $DB->update_record('course_categories', $newcategory);
+            }
+            // no parentcat, no child, first categorie ever, do nothing (sortorder = 0).
+        } else { //we have other childs, so parent is valid, gap are closed with next fix_course_sortorder.
+            $newcategory->sortorder = $maxsortorder + MAX_COURSE_CATEGORIES;
+            $DB->update_record('course_categories', $newcategory);
+        }
+        return true;
+    }
+
     /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)
      * or is enrolled in min. one course as a teacher.
      *

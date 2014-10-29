@@ -1,0 +1,25 @@
+{
+	"name": "course_create",
+	"steps": [{
+		"url": "/blocks/meineschulen/viewschool.php",
+		"sel": ".meineschulen_createcourse_link",
+		"tip": "Auf das + klicken, um Kurs zu erstellen." 	
+		},{
+		"url": "/course/edit.php",
+		"sel": "#id_fullname",
+		"tip": "Geben Sie einen Namen für den Kurs ein.<br /><a id=\"assistant_next_step\"> weiter >> </a>"	
+		},{
+		"url": "/course/edit.php",
+		"sel": "#id_shortname",
+		"tip": "Geben Sie einen Kurznamen für den Kurs ein.<br /><a id=\"assistant_next_step\"> weiter >> </a>"	
+		},{
+		"url": "/course/edit.php",
+		"sel": "#fitem_id_category",
+		"tip": "Wählen Sie einen Kursbereich aus, in dem Sie Ihren Kurs anlegen möchten.<br /><a id=\"assistant_next_step\"> weiter >> </a>"	
+		},{
+		"url": "/course/edit.php",
+		"sel": "#id_submitbutton",
+		"tip": "Klicken Sie hier, um den Kurs anzulegen."	
+		}	
+	]
+}

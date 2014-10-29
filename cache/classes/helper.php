@@ -325,6 +325,9 @@ class cache_helper {
                 // If there is we need to invalidate the keys from there.
                 $definitionkey = $definition->get_component().'/'.$definition->get_area();
                 if (isset($inuse[$definitionkey])) {
+                    
+                    \local_dlb\performance\fix_course_sortorder::add_output('purge: '.$definitionkey);
+                    
                     $inuse[$definitionkey]->purge();
                 }
 

@@ -178,7 +178,7 @@ class fix_course_sortorder {
                $totalfixed += ($i - 1);
             }
         }
-        mtrace("sortorder of courses fixed: ".$total);   
+        mtrace("sortorder of courses fixed: ".$totalfixed);   
         foreach (array_keys($cacheevents) as $event) {
             cache_helper::purge_by_event($event);
         }
@@ -315,4 +315,14 @@ class fix_course_sortorder {
         return true;
     }
 
+    
+    public static function add_output($text) {
+        global $SESSION;
+
+        if (empty($SESSION->profilefixsortorder)) {
+            $SESSION->profilefixsortorder = '';
+        }
+        
+        $SESSION->profilefixsortorder .= '<br/>' .$text;
+    }
 }

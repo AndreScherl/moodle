@@ -126,6 +126,14 @@ function local_dlb_course_category_updated($event) {
     //local_dlb\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
 }
 
+function local_dlb_course_deleted($event) {
+
+    $coursecatcache = cache::make('core', 'coursecat');
+    $coursecatcache->purge();
+}
+
+
+
 class local_dlb {
 
     /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)

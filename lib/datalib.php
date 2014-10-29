@@ -1025,7 +1025,7 @@ function fix_course_sortorder() {
     unset($fixcategories);
     \local_dlb\performance\fix_course_sortorder::stop_profiling('sortorders in range');
     // categories having courses with sortorder duplicates or having gaps in sortorder
-    /** awag: PERFORMANCE-03 don't fix course sortorder, this can be done by cron later.   
+    /** awag: PERFORMANCE-03 don't fix course sortorder, this can be done by cron later.  
     $sql = "SELECT DISTINCT c1.category AS id , cc.sortorder
               FROM {course} c1
               JOIN {course} c2 ON c1.sortorder = c2.sortorder
@@ -1071,7 +1071,8 @@ function fix_course_sortorder() {
             }
             $i++;
         }
-    }*/
+    }
+     */
     // advise all caches that need to be rebuilt
     foreach (array_keys($cacheevents) as $event) {
         cache_helper::purge_by_event($event);

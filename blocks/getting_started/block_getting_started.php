@@ -34,7 +34,7 @@ class block_getting_started extends block_base {
         global $CFG, $OUTPUT;
 		
 		$this->content = new stdClass();
-        $this->content->text = "<a id=\"link_assistant_course_create\" href=\"#\">Assistent zum Kurs anlegen starten</a>";        
+        $this->content->text = "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"#\">Assistent zum Kurs anlegen starten</a>";        
 
         return $this->content;
     }

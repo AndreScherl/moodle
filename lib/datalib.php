@@ -930,7 +930,7 @@ function fix_course_sortorder() {
     if (\local_dlb\performance\fix_course_sortorder::bulk_update_mysql('{course_categories}', 'id', 'sortorder', $fixsortorders)) {
         $cacheevents['changesincoursecat'] = true;
     }
-    \local_dlb\performance\fix_course_sortorder::next_profiling('front', 'bulk update sortorder', count($fixsortorders)." ".implode(', ',$fixsortorders));
+    \local_dlb\performance\fix_course_sortorder::next_profiling('front', 'bulk update sortorder', count($fixsortorders));
     
     // detect if there are "multiple" frontpage courses and fix them if needed
     $frontcourses = $DB->get_records('course', array('category'=>0), 'id');

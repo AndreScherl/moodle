@@ -29,7 +29,7 @@ YUI.add('moodle-block_getting_started-assistant', function(Y) {
 	    	this.copy_sequence_from_json(seqname, Y.bind(function(success){
 		    	if(success) {
 			    	this.sequence = this.get_sequence(seqname);
-			    	this.sequence.current_step = 0;
+			    	this.sequence.current_step = parseInt(this.sequence.current_step);
 		    	}
 		    	// store the name of the current sequence
 		    	localStorage.setItem("current_sequence", seqname);
@@ -38,21 +38,16 @@ YUI.add('moodle-block_getting_started-assistant', function(Y) {
     	
     	// Load current sequence from localStorage, if the current sequence ist null 
     	if(!this.sequence.name && localStorage.getItem("current_sequence")) {
-	    	this.sequence = localStorage.getItem(localStorage.getItem("current_sequence"));
+	    	this.sequence = this.get_sequence(localStorage.getItem("current_sequence"));
+	    	this.sequence.current_step = parseInt(this.sequence.current_step);
     	}
-	};
-	
-	/*
-	 * Get sequence into an js object
-	 * @param string sname - name of the sequence e.g. course_create
-	 * @return object sequence
-	 */
-	M.block_getting_started.assistant.get_sequence = function(sname) {
-		var seq = localStorage.getItem(sname);
-		if(seq) {
-			return JSON.parse(seq);	
-		}
-		return null;	
+    	
+    	if(this.sequence.name) {
+	    	// Show tooltip
+			this.show_tip(this.sequence.current_step);
+			// Prepare next step
+			this.prepare_next_step(this.sequence.current_step);	
+    	}
 	};
 	
 	/*
@@ -74,6 +69,69 @@ YUI.add('moodle-block_getting_started-assistant', function(Y) {
 		    	}
 	    	});	
 	};
+	
+	/*
+	 * Get sequence into an js object
+	 * @param string sname - name of the sequence e.g. course_create
+	 * @return object sequence
+	 */
+	M.block_getting_started.assistant.get_sequence = function(sname) {
+		var seq = localStorage.getItem(sname);
+		if(seq) {
+			return JSON.parse(seq);	
+		}
+		return null;	
+	};
+	
+	/*
+	 * Write sequence into localStorage
+	 * @param object sequence
+	 */
+	M.block_getting_started.assistant.store_sequence = function(seq) {
+		localStorage.setItem(seq.name, JSON.stringify(seq));
+	};
+	
+	/*
+	 * Show tip and set focus to target element
+	 * @param number step
+	 */
+	M.block_getting_started.assistant.show_tip = function(step) {
+		var cs = this.sequence.steps[step];
+		var tip = new Opentip(document.querySelector(cs.sel), {
+			target: true,
+			showOn: null,
+			hideOn: 'blur'
+		});
+		tip.setContent(cs.tip);
+		tip.show();
+		document.querySelector(cs.sel).focus();
+	};
+	
+	/*
+	 * Prepare the next step
+	 * @param int cs - current step
+	 */
+	M.block_getting_started.assistant.prepare_next_step = function(cs) {
+		if(this.sequence.steps.length == cs+1) {
+			// the end, there is no next step
+			return;
+		}
+		
+		if(window.location.pathname.search(this.sequence.steps[cs+1].url) != -1) {
+			// next link of tip
+			Y.one("#assistant_next_step_"+cs).on('click', Y.bind(function(e) {
+				this.sequence.current_step = cs+1;
+				this.store_sequence(this.sequence);
+				this.show_tip(cs+1);
+				this.prepare_next_step(cs+1);
+			}, this));
+		} else {
+			Y.one(this.sequence.steps[cs].sel).on('click', Y.bind(function(e) {
+				this.sequence.current_step = cs+1;
+				this.store_sequence(this.sequence);
+			}, this)); 
+		}
+	};	
 }, '@VERSION@', {
 	requires: ['node', 'event', 'io']
 });

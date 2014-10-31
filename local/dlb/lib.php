@@ -82,13 +82,14 @@ function local_dlb_user_loggedin($event) {
 function local_dlb_course_created($events) {
     global $DB, $USER, $COURSE;
     // assign course owner role to course creator, to manage the right of course deletion
-    $role = $DB->get_record('role', array('shortname' => 'kursbesitzer'));
-    role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+    if ($role = $DB->get_record('role', array('shortname' => 'kursbesitzer'))) {
+        role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+    }
 }
 
 /** fix the sortorder of new coursecategory.
  *  regarding performance we:
- *  1. drop the unique sortorder or categories in fix_course_sortorder
+ *  1. drop the unique sortorder or categories in fix_course_sortorder in a hack.
  *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
  *      a. the new categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
  *      b. if new sortorder exceeds parentsortorder + MAX_COURSES_IN_CATEGORY, we resort all childs.  
@@ -98,12 +99,17 @@ function local_dlb_course_created($events) {
 function local_dlb_course_category_created($event) {
 
     $eventdata = $event->get_data();
-    local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+    /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+     *  wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_dlb\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
 }
 
 /** fix the sortorder of moved coursecategory.
  *  regarding performance we:
- *  1. drop the unique sortorder or categories in fix_course_sortorder
+ *  1. drop the unique sortorder or categories in fix_course_sortorder in a hack
  *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
  *        a. the nmoved categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
  * 
@@ -112,37 +118,23 @@ function local_dlb_course_category_created($event) {
 function local_dlb_course_category_updated($event) {
 
     $eventdata = $event->get_data();
-    local_dlb::fix_catgeorie_sortorder($eventdata['objectid']);
+     /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+      * wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_dlb\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
 }
 
+function local_dlb_course_deleted($event) {
+
+    $coursecatcache = cache::make('core', 'coursecat');
+    $coursecatcache->purge();
+}
+
+
+
 class local_dlb {
-
-    public static function fix_catgeorie_sortorder($categorieid) {
-        global $DB;
-
-        if (!$newcategory = $DB->get_record('course_categories', array('id' => $categorieid))) {
-            return false;
-        }
-
-        // ... get other childs.
-        $sql = "SELECT max(cc.sortorder) as maxsortorder
-                FROM {course_categories} cc
-                WHERE cc.parent = ? AND cc.id <> ?";
-
-        if (!$maxsortorder = $DB->get_field_sql($sql, array($newcategory->parent, $newcategory->id))) {
-
-            if ($parentcat = $DB->get_record('course_categories', array('id' => $newcategory->parent))) {
-
-                $newcategory->sortorder = $parentcat->sortorder + MAX_COURSE_CATEGORIES;
-                $DB->update_record('course_categories', $newcategory);
-            }
-            // no parentcat, no child, first categorie ever, do nothing (sortorder = 0).
-        } else { //we have other childs, so parent is valid, gap are closed with next fix_course_sortorder.
-            $newcategory->sortorder = $maxsortorder + MAX_COURSE_CATEGORIES;
-            $DB->update_record('course_categories', $newcategory);
-        }
-        return true;
-    }
 
     /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)
      * or is enrolled in min. one course as a teacher.
@@ -180,4 +172,5 @@ class local_dlb {
 
         return $USER->isTeacher;
     }
+
 }

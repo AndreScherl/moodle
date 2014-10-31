@@ -628,7 +628,6 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      */
     protected static function get_tree($id) {
         global $DB;
-        static $rv; // request cache unserialized result.
         
         $coursecattreecache = cache::make('core', 'coursecattree');
         
@@ -640,17 +639,15 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             return $rv;
         }
         */
-        if (!isset($rv)) {
-            $starttime = microtime(true);
-            if ($allserialized = $coursecattreecache->get('all')) {
-                $rv = unserialize($allserialized);
-                if (optional_param('perfdebug', 0, PARAM_INT)) {
-                    echo "<br/>coursecatcache read all: ".(microtime(true) - $starttime);
-                }
+        $starttime = microtime(true);
+        if ($allserialized = $coursecattreecache->get('all')) {
+            $rv = unserialize($allserialized);
+            if (optional_param('perfdebug', 0, PARAM_INT)) {
+                echo "<br/>coursecatcache read all: ".(microtime(true) - $starttime);
             }
-        }
-        if (isset($rv[$id])) {
-            return $rv[$id];
+            if (isset($rv[$id])) {
+                return $rv[$id];
+            }
         }
         // --- awag HACK.
         // Re-build the tree.
@@ -2255,10 +2252,6 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
                 $names[$id] = join($separator, $namechunks);
             }
         }
-        
-        // awag: PERFOMRANCE-03, need to sort list, we can't rely on sortorder, because of performance Hack!
-        asort($names, SORT_STRING | SORT_FLAG_CASE);
-        
         return $names;
     }
 

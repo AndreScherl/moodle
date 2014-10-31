@@ -11,7 +11,7 @@
 $string['pluginname'] = 'dlb - Anpassungen';
 $string['dlb:editschoolid'] = 'Edit school ID-Number';
 $string['dlb:viewcourselist'] = 'View list of courses';
-
+$string['fixgapcategories'] = 'Fix course sortorder in categories';
 $string['local_dlb_home'] = 'Root node name';
 $string['local_dlb_home_expl'] = 'Name of Lernplattform within the navigation block';
 $string['local_dlb_home_default'] = 'Mebisangebote';

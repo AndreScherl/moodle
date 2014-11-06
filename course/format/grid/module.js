@@ -165,7 +165,7 @@ M.format_grid.icon_toggle = function(e) {
             //console.log("Shadebox was closed");
             this.icon_change_shown();
             this.shadebox.toggle_shadebox();
-            this.update_arrows();
+            //this.update_arrows();
         }
     } //else {
         //console.log("Grid format:icon_toggle() - no selected section to show.");
@@ -205,7 +205,7 @@ M.format_grid.change_selected_section = function(increase_section) {
         //console.log("Selected section no is now: " + this.selected_section_no);
         if (M.format_grid.shadebox.shadebox_open == true) {
             this.icon_change_shown();
-            this.update_arrows();
+            //this.update_arrows();
         }
     } //else {
         //console.log("Grid format:change_selected_section() - no selected section to show.");
@@ -332,14 +332,20 @@ M.format_grid.shadebox.initialize_shadebox = function() {
 
     this.hide_shadebox();
 
+    var top = 50;
+    var mainregion = M.format_grid.ourYUI.one('#region-main');
+    if (mainregion) {
+        var mainregionDOM = mainregion.getDOMNode();
+        top = mainregionDOM.offsetTop + mainregionDOM.clientTop + 15;
+    }
+
     /* This is added here as not editing and JS is on to move the content from
        below the grid icons and into the shade box. */
     var content = document.getElementById('gridshadebox_content');
     content.style.position = 'absolute';
     content.style.width = '90%';
-    content.style.top = '50px';
+    content.style.top = '' + top + 'px';
     content.style.left = '5%';
-    //content.style.marginLeft = '-400px';
     content.style.zIndex = '1';
 };
 

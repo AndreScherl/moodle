@@ -50,10 +50,19 @@ if ($id) {
 }
 
 require_login($course, true, $cm);
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+//$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 require_capability('mod/geogebra:view', $context);
 
-add_to_log($course->id, 'geogebra', 'result', "result.php?id={$cm->id}", $geogebra->name, $cm->id);
+//add_to_log($course->id, 'geogebra', 'result', "result.php?id={$cm->id}", $geogebra->name, $cm->id);
+$eventdata = array();
+    $eventdata['objectid'] = $geogebra->id;
+    $eventdata['context'] = $context;
+
+    $event = \mod_geogebra\event\course_module_viewed::create($eventdata);
+    $event->add_record_snapshot('course_modules', $cm);
+    $event->add_record_snapshot('course', $course);
+    $event->trigger();
 
 /// Print the page header
 
@@ -109,7 +118,7 @@ if (!empty($action)){
         geogebra_view_results($geogebra, $context, $cm, $course, $action);
     } else{
         // Show GGB applet with last attempt
-        geogebra_view_applet($geogebra, $cm, $context);    
+        geogebra_view_applet($geogebra, $cm, $context);
     }
 }
 

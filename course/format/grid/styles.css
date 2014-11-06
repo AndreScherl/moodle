@@ -55,6 +55,7 @@ body.jsenabled li.grid_section.hide_section {
 
 div#gridmiddle-column > ul {
     list-style-type: none;
+    overflow: visible;
 }
 
 .course-content ul.gtopics {
@@ -204,6 +205,9 @@ body.jsenabled #gridshadebox_content.hide_content {
 .gridshadebox_arrow {
     position: absolute;
     cursor: pointer;
+    height: 55px;
+    width: 55px;
+    top: 75px;
     opacity: 0;
     transition: opacity .25s ease-in-out;
     -moz-transition: opacity .25s ease-in-out;
@@ -213,12 +217,10 @@ body.jsenabled #gridshadebox_content.hide_content {
     opacity: 0.8;
 }
 #gridshadebox_left {
-    top: 92px;  /* Done here so that JS can change it. */
-    left: -24px;
+    left: -28px;
 }
 #gridshadebox_right {
-    top: 92px;  /* Done here so that JS can change it. */
-    right: -24px;
+    right: -28px;
 }
 
 #gridshadebox_content ul.gtopics {

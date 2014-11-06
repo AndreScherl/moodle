@@ -264,13 +264,12 @@ class format_grid_renderer extends format_section_renderer_base {
         echo $this->format_summary_text($thissection);
 
         if ($editing) {
-            $link = html_writer::link(
+            echo html_writer::link(
                             new moodle_url('editsection.php', array('id' => $thissection->id)),
                                 html_writer::empty_tag('img', array('src' => $urlpicedit,
                                                                      'alt' => $streditsummary,
                                                                      'class' => 'iconsmall edit')),
                                                         array('title' => $streditsummary));
-            echo $this->topic0_at_top ? html_writer::tag('p', $link) : $link;
         }
         echo html_writer::end_tag('div');
 

@@ -15,16 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    qtype_algebra
- * @copyright  Roger Moore <rwmoore@ualberta.ca>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * The mod_geogebra course module viewed event.
+ *
+ * @package    mod_geogebra
+
  */
+
+namespace mod_geogebra\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_algebra';
-$plugin->version   = 2014092700;
+/**
+ * The mod_geogebra course module viewed event class.
+ *
+ * @package    mod_geogebra
+ * @since      Moodle 2.7
 
-$plugin->requires  = 2013050100;
-$plugin->release   = '1.32 for Moodle 2.5, 2.6 and 2.7';
-$plugin->maturity  = MATURITY_STABLE;
+ */
+class course_module_viewed extends \core\event\course_module_viewed {
+
+    /**
+     * Init method.
+     */
+    protected function init() {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'geogebra';
+    }
+}

@@ -264,6 +264,10 @@ body.hide_settings_block .block_settings{
     display:none;
 }
 
+.hide{
+	display: visible;
+}
+
 .editprofileurl {
     background: #efefef;
     border: 1px solid silver;

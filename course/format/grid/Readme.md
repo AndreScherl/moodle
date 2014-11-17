@@ -28,6 +28,14 @@ If you make improvements or bug fixes then I would appreciate if you would send 
 https://github.com/gjb2048/moodle-courseformat_grid and doing a 'Pull Request' so that the rest of the
 Moodle community benefits.
 
+Donations
+=========
+This course format is provided to you for free, and if you want to express your gratitude for using this format, please consider donating by:
+
+Flattr - https://flattr.com/profile/gjb2048
+
+Donations may allow me to provide you with more or better features in less time.
+
 Installation
 ============
 1. Ensure you have the version of Moodle as stated above in 'Required version of Moodle'.  This is essential as the
@@ -236,6 +244,16 @@ Known Issues
 
 History
 =============
+5th November 2014 Version 2.7.1.4
+  1.  Fixed CONTRIB-5256.  Thanks to Marius Jugariu for reporting the problem.
+  2.  Made the arrows easier to find by placing them always 75px from the top.
+  3.  Added German 'New activity' image.  Thanks to Guido Hornig.
+  4.  Fixed section 0 editing drop down in Bootstrap v3 themes: https://github.com/gjb2048/moodle-format_grid/issues/9.
+
+18th August 2014 Version 2.7.1.3
+  1.  Fixed issue whereby the grid shade box is underneath certain theme components:
+      https://moodle.org/mod/forum/discuss.php?d=266192#p1152232.
+
 9th August 2014 Version 2.7.1.2
   1.  Fixed CONTRIB-5191.  This is a workaround that depends on MDL-43525 being implemented before it is reversed.
 

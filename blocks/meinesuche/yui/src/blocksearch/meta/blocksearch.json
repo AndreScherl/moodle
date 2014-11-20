@@ -1,0 +1,13 @@
+{
+    "moodle-block_meineschulen-blocksearch": {
+        "requires": [
+            "base",
+            "node",
+            "io-base",
+            "json",
+            "autocomplete",
+            "autocomplete-highlighters",
+            "autocomplete-filters"
+        ]
+    }
+}

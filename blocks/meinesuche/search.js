@@ -1,16 +1,16 @@
-M.block_meineschulen_search = {
+M.block_meinesuche_search = {
     init_course_search: function(Y, opts) {
         var searchform, waitimg;
 
         waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
 
-        searchform = Y.one('#meineschulen_search_form');
+        searchform = Y.one('#meinesuche_search_form');
         searchform.on('submit', function (e) {
             var searchtext;
             e.preventDefault();
             e.stopPropagation();
 
-            searchtext = Y.Lang.trim(this.one('#meineschulen_search_text').get('value'));
+            searchtext = Y.Lang.trim(this.one('#meinesuche_search_text').get('value'));
             if (searchtext) {
                 send_course_search(searchtext);
             }
@@ -22,7 +22,7 @@ M.block_meineschulen_search = {
         function send_course_search(searchtext, sortby, sortdir) {
             var url, resultel, data;
 
-            resultel = Y.one('#meineschulen_search_results');
+            resultel = Y.one('#meinesuche_search_results');
             resultel.setContent(waitimg);
 
             data = {
@@ -37,7 +37,7 @@ M.block_meineschulen_search = {
                 data.sortdir = sortdir;
             }
 
-            url = M.cfg.wwwroot + '/blocks/meineschulen/ajax.php';
+            url = M.cfg.wwwroot + '/blocks/meinesuche/ajax.php';
             Y.io(url, {
                 data: data,
                 on: {
@@ -55,7 +55,7 @@ M.block_meineschulen_search = {
 
         function update_sort_links() {
             // Adjust the sortorder links to submit via AJAX
-            Y.all('#meineschulen_search_results table th a').on('click', function (e) {
+            Y.all('#meinesuche_search_results table th a').on('click', function (e) {
                 var link, linkparams;
 
                 e.preventDefault();
@@ -77,7 +77,7 @@ M.block_meineschulen_search = {
 
         waitimg = '<img src="' + M.util.image_url('i/ajaxloader', 'moodle') + '" />';
 
-        searchform = Y.one('#meineschulen_school_form');
+        searchform = Y.one('#meinesuche_school_form');
         searchform.on('submit', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -93,15 +93,15 @@ M.block_meineschulen_search = {
             var searchtype, searchtext, schooltype, numberofresults;
 
             searchtype = 'school';
-            if (Y.one('#meineschulen_school_form #searchtype_course').get('checked')) {
+            if (Y.one('#meinesuche_school_form #searchtype_course').get('checked')) {
                 searchtype = 'course';
             }
-            searchtext = Y.Lang.trim(Y.one('#meineschulen_school_form #schoolname').get('value'));
-            schooltype = Y.one('#meineschulen_school_form #schooltype').get('selectedIndex');
-            schooltype = Y.one('#meineschulen_school_form #schooltype').get('options').item(schooltype).get('value');
+            searchtext = Y.Lang.trim(Y.one('#meinesuche_school_form #schoolname').get('value'));
+            schooltype = Y.one('#meinesuche_school_form #schooltype').get('selectedIndex');
+            schooltype = Y.one('#meinesuche_school_form #schooltype').get('options').item(schooltype).get('value');
             schooltype = parseInt(schooltype, 10);
-            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('selectedIndex');
-            numberofresults = Y.one('#meineschulen_school_form #numberofresults').get('options').item(numberofresults).get('value');
+            numberofresults = Y.one('#meinesuche_school_form #numberofresults').get('selectedIndex');
+            numberofresults = Y.one('#meinesuche_school_form #numberofresults').get('options').item(numberofresults).get('value');
             numberofresults = parseInt(numberofresults, 10);
 
             if (onload) {
@@ -163,10 +163,10 @@ M.block_meineschulen_search = {
         function send_school_search(searchtype, searchtext, schooltype, numberofresults, sortby, sortdir, page) {
             var searchouter, resultel, url, data;
 
-            searchouter = Y.one('.meineschulen_content .meineschulen_school_results');
+            searchouter = Y.one('.meinesuche_content .meinesuche_school_results');
             searchouter.removeClass('hidden');
 
-            resultel = Y.one('#meineschulen_school_results');
+            resultel = Y.one('#meinesuche_school_results');
             resultel.setContent(waitimg);
 
             data = {
@@ -188,7 +188,7 @@ M.block_meineschulen_search = {
                 data.page = page;
             }
 
-            url = M.cfg.wwwroot + '/blocks/meineschulen/ajax.php';
+            url = M.cfg.wwwroot + '/blocks/meinesuche/ajax.php';
             Y.io(url, {
                 data: data,
                 on: {
@@ -210,7 +210,7 @@ M.block_meineschulen_search = {
 
         function update_sort_links() {
             // Adjust the sortorder links to submit via AJAX
-            Y.all('#meineschulen_school_results table th a').on('click', function (e) {
+            Y.all('#meinesuche_school_results table th a').on('click', function (e) {
                 var link, linkparams;
 
                 e.preventDefault();
@@ -228,7 +228,7 @@ M.block_meineschulen_search = {
 
         function update_paging_links() {
             // Adjust the paging links to submit via AJAX
-            Y.all('#meineschulen_school_results .paging a').on('click', function (e) {
+            Y.all('#meinesuche_school_results .paging a').on('click', function (e) {
                 var link, linkparams;
 
                 e.preventDefault();

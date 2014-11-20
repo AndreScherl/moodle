@@ -17,16 +17,16 @@
 /**
  * Main code for the Meine Schulen block
  *
- * @package   block_meineschulen
+ * @package   block_meinesuche
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
  
 defined('MOODLE_INTERNAL') || die();
 
-class block_meineschulen extends block_list {
+class block_meinesuche extends block_list {
     public function init() {
-        $this->title = get_string('pluginname', 'block_meineschulen');
+        $this->title = get_string('pluginname', 'block_meinesuche');
     }
 
     public function instance_can_be_docked() {
@@ -35,7 +35,7 @@ class block_meineschulen extends block_list {
 
     public function get_content() {
         global $CFG, $OUTPUT;
-        require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+        require_once($CFG->dirroot.'/blocks/meinesuche/lib.php');
 
         if ($this->content !== null) {
             return $this->content;
@@ -45,29 +45,10 @@ class block_meineschulen extends block_list {
         $this->content->items = array();
         $this->content->icons = array();
 
-      //  $this->content->footer = meineschulen::output_block_search_form();
-        $this->content->footer = '';
+        $this->content->footer = meinesuche::output_block_search_form();
 
         $arrowicon = $OUTPUT->pix_icon('i/navigationitem', '');
-        $schools = meineschulen::get_my_schools();
-        if (!empty($schools)) {
-            $this->content->items[] = get_string('myschools', 'block_meineschulen');
-            $this->content->icons[] = '';
-        }
-        foreach ($schools as $school) {
-            $this->content->items[] = html_writer::link($school->viewurl, format_string($school->name));
-            $this->content->icons[] = $arrowicon;
-        }
-        $this->content->items[] = '';
-        $this->content->icons[] = '';
 
-        $requests = meineschulen::get_course_requests();
-        foreach ($requests as $request) {
-            $info = (object)array('name' => format_string($request->name), 'count' => $request->count);
-            $str = get_string('viewcourserequests', 'block_meineschulen', $info);
-            $this->content->items[] = html_writer::link($request->viewurl, $str);
-            $this->content->icons[] = $arrowicon;
-        }
 
         return $this->content;
     }

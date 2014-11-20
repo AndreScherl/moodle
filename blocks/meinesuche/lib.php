@@ -18,7 +18,7 @@
 /**
  * Library functions for the Meine Schulen block
  *
- * @package   block_meineschulen
+ * @package   block_meinesuche
  * @copyright 2013 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,9 +28,9 @@ global $CFG;
 require_once($CFG->dirroot . '/blocks/meinekurse/lib.php');
 
 /**
- * Class meineschulen
+ * Class meinesuche
  */
-class meineschulen {
+class meinesuche {
     /** Number of characters to truncate results to */
 
     const TRUNCATE_COURSE_SUMMARY = 50;
@@ -55,29 +55,29 @@ class meineschulen {
     }
 
     /**
-     * Given a course category record, return a meineschulen object initialised with the
+     * Given a course category record, return a meinesuche object initialised with the
      * school that contains the category.
      *
      * @param $category
-     * @return meineschulen
+     * @return meinesuche
      */
     public static function new_from_category($category) {
         if (!$category) {
-            return new meineschulen(null);
+            return new meinesuche(null);
         }
 
         if ($category->depth < MEINEKURSE_SCHOOL_CAT_DEPTH) {
-            return new meineschulen(null);
+            return new meinesuche(null);
         }
 
         if ($category->depth = MEINEKURSE_SCHOOL_CAT_DEPTH) {
-            return new meineschulen($category);
+            return new meinesuche($category);
         }
 
         $path = explode('/', $category->path);
         $schoolcatid = $path[MEINEKURSE_SCHOOL_CAT_DEPTH + 1];
         $schoolcat = coursecat::get($schoolcatid);
-        return new meineschulen($schoolcat);
+        return new meinesuche($schoolcat);
     }
 
     /**
@@ -159,16 +159,16 @@ class meineschulen {
      * @return moodle_url
      */
     public static function get_school_view_url($schoolid) {
-        return new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $schoolid));
+        return new moodle_url('/blocks/meinesuche/viewschool.php', array('id' => $schoolid));
     }
 
     /**
      * Get a link to the school search page.
      *
      * @return moodle_url
-     
+     */
     public static function get_search_url() {
-        return new moodle_url('/blocks/meineschulen/search.php');
+        return new moodle_url('/blocks/meinesuche/search.php');
     }
 
     /**
@@ -183,12 +183,12 @@ class meineschulen {
             $this->seecoordinators = false;
             if (!empty($USER->isTeacher)) {
                 $this->seecoordinators = true;
-            } else if (has_capability('block/meineschulen:viewcoordinators', $this->context)) {
+            } else if (has_capability('block/meinesuche:viewcoordinators', $this->context)) {
                 // Has the capability in the current context.
                 $this->seecoordinators = true;
             } else {
                 // Find the roles that can see the coordinators list.
-                $roles = get_roles_with_capability('block/meineschulen:viewcoordinators');
+                $roles = get_roles_with_capability('block/meinesuche:viewcoordinators');
                 if ($roles) {
                     // See if the user has one of those roles in a child of the current context.
                     list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
@@ -286,7 +286,7 @@ class meineschulen {
             $msg = implode(',', $msg);
         }
 
-        $fp = fopen($CFG->dataroot.'/meineschulen.log', 'a');
+        $fp = fopen($CFG->dataroot.'/meinesuche.log', 'a');
         if (!$fp) {
             return;
         }
@@ -301,7 +301,7 @@ class meineschulen {
      */
     public function get_school_name() {
         if (!$this->schoolcat) {
-            return get_string('notinschool', 'block_meineschulen');
+            return get_string('notinschool', 'block_meinesuche');
         }
         return format_string($this->schoolcat->name);
     }
@@ -328,7 +328,7 @@ class meineschulen {
         }
         $out .= $this->output_course_search();
 
-        return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
+        return html_writer::tag('div', $out, array('class' => 'meinesuche_content'));
     }
 
     /**
@@ -342,11 +342,11 @@ class meineschulen {
 
         // Javascript for the tree view.
         $jsmodule = array(
-            'name' => 'block_meineschulen_collapse',
-            'fullpath' => new moodle_url('/blocks/meineschulen/collapse.js'),
+            'name' => 'block_meinesuche_collapse',
+            'fullpath' => new moodle_url('/blocks/meinesuche/collapse.js'),
             'requires' => array('yui2-treeview'),
         );
-        $PAGE->requires->js_init_call('M.block_meineschulen_collapse.init', array(), true, $jsmodule);
+        $PAGE->requires->js_init_call('M.block_meinesuche_collapse.init', array(), true, $jsmodule);
 
         // Get the categories + courses.
         $categories = $this->get_categories();
@@ -399,16 +399,16 @@ class meineschulen {
         }
         // Wrap the tree within a div.
         $out = html_writer::tag('ul', $out);
-        $out = html_writer::tag('div', $out, array('id' => 'meineschulen_coursetree'));
+        $out = html_writer::tag('div', $out, array('id' => 'meinesuche_coursetree'));
 
         // Wrap within an outer box.
-        $out = html_writer::tag('div', $out, array('class' => 'meineschulen_courses_inner'));
-        $out = get_string('courselist', 'block_meineschulen') . $out;
+        $out = html_writer::tag('div', $out, array('class' => 'meinesuche_courses_inner'));
+        $out = get_string('courselist', 'block_meinesuche') . $out;
         $fullwidth = '';
         if (!$this->can_see_coordinators() && !$this->can_create_course() && !self::can_request_course()) {
             $fullwidth = 'fullwidth';
         }
-        return html_writer::tag('div', $out, array('class' => "meineschulen_courses {$fullwidth}"));
+        return html_writer::tag('div', $out, array('class' => "meinesuche_courses {$fullwidth}"));
     }
 
     protected function get_categories() {
@@ -537,7 +537,7 @@ class meineschulen {
         $coordinators = $this->get_coordinators();
         foreach ($coordinators as $coordinator) {
             $messageurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
-            $messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_meineschulen'));
+            $messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_meinesuche'));
             $messagelink = html_writer::link($messageurl, $messageicon);
             if (has_capability('moodle/user:viewdetails', $this->context, $USER->id)) {
                 $profileurl = new moodle_url('/user/profile.php', array('id' => $coordinator->id));
@@ -549,10 +549,10 @@ class meineschulen {
         }
         $out = html_writer::nonempty_tag('ul', $out);
 
-        $out = html_writer::div($out, 'meineschulen_coordinators_inner');
-        $out = html_writer::div(get_string('coordinators', 'block_meineschulen'), 'meineschulen_coordinators_title') . $out;
+        $out = html_writer::div($out, 'meinesuche_coordinators_inner');
+        $out = html_writer::div(get_string('coordinators', 'block_meinesuche'), 'meinesuche_coordinators_title') . $out;
 
-        return html_writer::tag('div', $out, array('class' => 'meineschulen_coordinators'));
+        return html_writer::tag('div', $out, array('class' => 'meinesuche_coordinators'));
     }
 
     /**
@@ -577,35 +577,35 @@ class meineschulen {
         if ($this->can_create_course()) {
             $createurl = new moodle_url('/course/edit.php', array('category' => $this->schoolcat->id,
                                                                   'returnto' => 'category'));
-            $createtext = get_string('createcourse', 'block_meineschulen');
+            $createtext = get_string('createcourse', 'block_meinesuche');
             if ($buttons) {
                 $out .= $OUTPUT->single_button($createurl, $createtext);
             } else {
                 $createtext = html_writer::tag('span', $createtext);
-                $createlink = html_writer::link($createurl, $createtext, array('class' => 'meineschulen_createcourse_link'));
-                $out .= html_writer::tag('span', get_string('createcourse', 'block_meineschulen') . $createlink,
-                                         array('class' => 'meineschulen_createcourse'));
+                $createlink = html_writer::link($createurl, $createtext, array('class' => 'meinesuche_createcourse_link'));
+                $out .= html_writer::tag('span', get_string('createcourse', 'block_meinesuche') . $createlink,
+                                         array('class' => 'meinesuche_createcourse'));
             }
             $out .= html_writer::empty_tag('br');
         }
         if (self::can_request_course()) {
-            $requesturl = new moodle_url('/blocks/meineschulen/request.php', array('category' => $this->schoolcat->id));
-            $createtext = get_string('requestcourse', 'block_meineschulen');
+            $requesturl = new moodle_url('/blocks/meinesuche/request.php', array('category' => $this->schoolcat->id));
+            $createtext = get_string('requestcourse', 'block_meinesuche');
             if ($buttons) {
                 $out .= $OUTPUT->single_button($requesturl, $createtext);
             } else {
                 $createtext = html_writer::tag('span', $createtext);
-                $createlink = html_writer::link($requesturl, $createtext, array('class' => 'meineschulen_requestcourse_link'));
-                $out .= html_writer::tag('span', get_string('requestcourse', 'block_meineschulen') . $createlink,
-                                         array('class' => 'meineschulen_requestcourse'));
+                $createlink = html_writer::link($requesturl, $createtext, array('class' => 'meinesuche_requestcourse_link'));
+                $out .= html_writer::tag('span', get_string('requestcourse', 'block_meinesuche') . $createlink,
+                                         array('class' => 'meinesuche_requestcourse'));
             }
             $out .= html_writer::empty_tag('br');
         }
 
-        $out = html_writer::tag('div', $out, array('class' => 'meineschulen_newcourse_inner'));
-        $out = get_string('newcourse', 'block_meineschulen') . $out;
+        $out = html_writer::tag('div', $out, array('class' => 'meinesuche_newcourse_inner'));
+        $out = get_string('newcourse', 'block_meinesuche') . $out;
 
-        return html_writer::tag('div', $out, array('class' => 'meineschulen_newcourse'));
+        return html_writer::tag('div', $out, array('class' => 'meinesuche_newcourse'));
     }
 
     /**
@@ -617,12 +617,12 @@ class meineschulen {
         global $PAGE;
 
         $jsmodule = array(
-            'name' => 'block_meineschulen_search',
-            'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
+            'name' => 'block_meinesuche_search',
+            'fullpath' => new moodle_url('/blocks/meinesuche/search.js'),
             'requires' => array('node', 'io-base', 'json', 'lang', 'querystring'),
         );
         $opts = array('schoolid' => $this->schoolcat->id);
-        $PAGE->requires->js_init_call('M.block_meineschulen_search.init_course_search', array($opts), true, $jsmodule);
+        $PAGE->requires->js_init_call('M.block_meinesuche_search.init_course_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('search', '', PARAM_TEXT));
         $sortby = optional_param('sortby', 'name', PARAM_ALPHA);
@@ -633,19 +633,19 @@ class meineschulen {
         $forminner = '';
         $forminner .= html_writer::input_hidden_params($PAGE->url);
         $forminner .= html_writer::empty_tag('input', array('type' => 'text', 'size' => '60', 'name' => 'search',
-                    'value' => $searchtext, 'id' => 'meineschulen_search_text'));
+                    'value' => $searchtext, 'id' => 'meinesuche_search_text'));
         $forminner .= html_writer::empty_tag('input', arraY('type' => 'submit', 'name' => 'dosearch',
                     'value' => get_string('search')));
         $out .= html_writer::tag('form', $forminner, array('action' => $PAGE->url->out_omit_querystring(),
                     'method' => 'get',
-                    'id' => 'meineschulen_search_form'));
+                    'id' => 'meinesuche_search_form'));
 
-        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext, $sortby, $sortdir), array('id' => 'meineschulen_search_results'));
+        $out .= html_writer::tag('div', $this->output_course_search_results($searchtext, $sortby, $sortdir), array('id' => 'meinesuche_search_results'));
 
-        $out = html_writer::tag('div', $out, array('class' => 'meineschulen_search_inner'));
-        $out = get_string('coursesearch', 'block_meineschulen') . $out;
+        $out = html_writer::tag('div', $out, array('class' => 'meinesuche_search_inner'));
+        $out = get_string('coursesearch', 'block_meinesuche') . $out;
 
-        return html_writer::tag('div', $out, array('class' => 'meineschulen_search'));
+        return html_writer::tag('div', $out, array('class' => 'meinesuche_search'));
     }
 
     /**
@@ -664,7 +664,7 @@ class meineschulen {
         }
 
         // Handle sorting.
-        $baseurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $this->schoolcat->id));
+        $baseurl = new moodle_url('/blocks/meinesuche/viewschool.php', array('id' => $this->schoolcat->id));
         /** @var moodle_url[] $urls */
         $urls = array(
             'name' => new moodle_url($baseurl, array('search' => $searchtext, 'sortby' => 'name')),
@@ -747,7 +747,7 @@ class meineschulen {
             }
         }
         if (empty($table->data)) {
-            $cell = new html_table_cell(get_string('nocoursesfound', 'block_meineschulen'));
+            $cell = new html_table_cell(get_string('nocoursesfound', 'block_meinesuche'));
             $cell->colspan = 2;
             $table->data = array(new html_table_row(array($cell)));
         }
@@ -809,12 +809,12 @@ class meineschulen {
         $out = '';
 
         $jsmodule = array(
-            'name' => 'block_meineschulen_search',
-            'fullpath' => new moodle_url('/blocks/meineschulen/search.js'),
+            'name' => 'block_meinesuche_search',
+            'fullpath' => new moodle_url('/blocks/meinesuche/search.js'),
             'requires' => array('node', 'io-base', 'json', 'lang', 'querystring'),
         );
         $opts = array();
-        $PAGE->requires->js_init_call('M.block_meineschulen_search.init_school_search', array($opts), true, $jsmodule);
+        $PAGE->requires->js_init_call('M.block_meinesuche_search.init_school_search', array($opts), true, $jsmodule);
 
         $searchtext = trim(optional_param('schoolname', '', PARAM_TEXT));
         $schooltype = optional_param('schooltype', -1, PARAM_INT);
@@ -825,23 +825,23 @@ class meineschulen {
         $showall = optional_param('search', false, PARAM_BOOL); // The search button has been clicked.
         $searchtype = optional_param('searchtype', 'school', PARAM_ALPHA);
 
-        $form = get_string('searchcriteria', 'block_meineschulen');
+        $form = get_string('searchcriteria', 'block_meinesuche');
         $form .= html_writer::tag('div', self::output_search_form($searchtext, $schooltype, $numberofresults, $searchtype),
-                                  array('class' => 'meineschulen_school_form_inner'));
-        $out .= html_writer::tag('div', $form, array('class' => 'meineschulen_school_form'));
+                                  array('class' => 'meinesuche_school_form_inner'));
+        $out .= html_writer::tag('div', $form, array('class' => 'meinesuche_school_form'));
 
 
         $resultsinner = self::output_school_search_results($searchtext, $schooltype, $sortby, $sortdir, $numberofresults, $page,
                                                            $searchtype, $showall);
-        $results = get_string('searchresults', 'block_meineschulen');
-        $results .= html_writer::tag('div', $resultsinner, array('id' => 'meineschulen_school_results'));
-        $attrib = array('class' => 'meineschulen_school_results');
+        $results = get_string('searchresults', 'block_meinesuche');
+        $results .= html_writer::tag('div', $resultsinner, array('id' => 'meinesuche_school_results'));
+        $attrib = array('class' => 'meinesuche_school_results');
         if (empty($resultsinner)) {
             $attrib['class'] .= ' hidden';
         }
         $out .= html_writer::tag('div', $results, $attrib);
 
-        return html_writer::tag('div', $out, array('class' => 'meineschulen_content'));
+        return html_writer::tag('div', $out, array('class' => 'meinesuche_content'));
     }
 
     protected static function output_search_form($searchtext, $schooltype, $numberofresults, $searchtype) {
@@ -856,7 +856,7 @@ class meineschulen {
                 $attrib['checked'] = 'checked';
             }
             $form .= html_writer::empty_tag('input', $attrib);
-            $form .= html_writer::tag('label', get_string('searchtype_'.$st, 'block_meineschulen'),
+            $form .= html_writer::tag('label', get_string('searchtype_'.$st, 'block_meinesuche'),
                                       array('for' => $id, 'class' => 'radiolabel'));
         }
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
@@ -866,13 +866,13 @@ class meineschulen {
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         $opts = self::get_school_types();
-        $form .= html_writer::tag('label', get_string('schooltype', 'block_meineschulen'), array('for' => 'schooltype'));
+        $form .= html_writer::tag('label', get_string('schooltype', 'block_meinesuche'), array('for' => 'schooltype'));
         $form .= html_writer::select($opts, 'schooltype', $schooltype, false, array('id' => 'schooltype'));
 
         $opts = array(10, 20, 50, 100);
         $opts = array_combine($opts, $opts);
-        $opts[-1] = get_string('allresults', 'block_meineschulen');
-        $form .= html_writer::tag('label', get_string('numberofresults', 'block_meineschulen'), array('for' => 'numberofresults'));
+        $opts[-1] = get_string('allresults', 'block_meinesuche');
+        $form .= html_writer::tag('label', get_string('numberofresults', 'block_meinesuche'), array('for' => 'numberofresults'));
         $form .= html_writer::select($opts, 'numberofresults', $numberofresults, false, array('id' => 'numberofresults'));
 
         $form .= html_writer::tag('label', '', array('for' => 'submitbutton'));
@@ -881,7 +881,7 @@ class meineschulen {
         $form .= html_writer::empty_tag('br', array('class' => 'clearer'));
 
         return html_writer::tag('form', $form, array('action' => $PAGE->url, 'method' => 'get',
-                    'id' => 'meineschulen_school_form'));
+                    'id' => 'meinesuche_school_form'));
     }
 
     protected static function get_school_types() {
@@ -890,7 +890,7 @@ class meineschulen {
         static $types = null;
         if (is_null($types)) {
             $types = $DB->get_records_menu('course_categories', array('depth' => 1), 'name', 'id, name');
-            $types = array(-1 => get_string('alltypes', 'block_meineschulen')) + $types;
+            $types = array(-1 => get_string('alltypes', 'block_meinesuche')) + $types;
             $types = array_diff($types, array('Miscellaneous'));
         }
 
@@ -911,7 +911,7 @@ class meineschulen {
         self::check_params($searchtype, $sortby);
 
         // Handle sorting.
-        $baseurl = new moodle_url('/blocks/meineschulen/search.php', array(
+        $baseurl = new moodle_url('/blocks/meinesuche/search.php', array(
                     'schoolname' => $searchtext,
                     'schooltype' => $schooltype,
                     'numberofresults' => $numberofresults,
@@ -952,8 +952,8 @@ class meineschulen {
             $table->size = array('60%', '40%');
         }
 
-        $table->head[] = html_writer::link($urls['name'], get_string('schoolname', 'block_meineschulen') . $icons['name']);
-        $table->head[] = html_writer::link($urls['type'], get_string('schooltype', 'block_meineschulen') . $icons['type']);
+        $table->head[] = html_writer::link($urls['name'], get_string('schoolname', 'block_meinesuche') . $icons['name']);
+        $table->head[] = html_writer::link($urls['type'], get_string('schooltype', 'block_meinesuche') . $icons['type']);
 
         // Output the results.
         if ($results) {
@@ -978,7 +978,7 @@ class meineschulen {
                     $fullname = html_writer::link($courseurl, $fullname);
                 }
 
-                $schoolurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $result->id));
+                $schoolurl = new moodle_url('/blocks/meinesuche/viewschool.php', array('id' => $result->id));
                 $name = html_writer::link($schoolurl, $name);
 
                 if ($searchtype == 'course') {
@@ -990,9 +990,9 @@ class meineschulen {
         }
         if (empty($table->data)) {
             if ($searchtype == 'school') {
-                $notfoundstr = get_string('noschoolsfound', 'block_meineschulen');
+                $notfoundstr = get_string('noschoolsfound', 'block_meinesuche');
             } else {
-                $notfoundstr = get_string('nocoursesfound', 'block_meineschulen');
+                $notfoundstr = get_string('nocoursesfound', 'block_meinesuche');
             }
             $cell = new html_table_cell($notfoundstr);
             $cell->colspan = 2;
@@ -1024,7 +1024,7 @@ class meineschulen {
                 $url = new moodle_url('/course/view.php', array('id' => $result->courseid));
                 $link = html_writer::link($url, format_string($result->fullname));
             } else {
-                $url = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $result->id));
+                $url = new moodle_url('/blocks/meinesuche/viewschool.php', array('id' => $result->id));
                 $link = html_writer::link($url, format_string($result->name));
             }
             $ret[] = $link;
@@ -1032,7 +1032,7 @@ class meineschulen {
         if ($totalcount > $numberofresults) {
             $moreurl = self::get_search_url();
             $moreurl->params(array('schoolname' => $searchtext, 'searchtype' => $searchtype));
-            $morelink = html_writer::link($moreurl, get_string('moreresults', 'block_meineschulen'), array('class' => 'moreresults'));
+            $morelink = html_writer::link($moreurl, get_string('moreresults', 'block_meinesuche'), array('class' => 'moreresults'));
             $ret[] = $morelink;
         }
 
@@ -1207,7 +1207,7 @@ class meineschulen {
                             'id' => $schoolid,
                             'name' => null,
                             'count' => 0,
-                            'viewurl' => new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $schoolid))
+                            'viewurl' => new moodle_url('/blocks/meinesuche/viewrequests.php', array('id' => $schoolid))
                 );
             }
             if ((count($path) - 1) == MEINEKURSE_SCHOOL_CAT_DEPTH) {
@@ -1240,7 +1240,7 @@ class meineschulen {
     public function process_requests() {
         global $DB, $CFG, $PAGE, $OUTPUT, $USER;
 
-        require_once($CFG->dirroot . '/blocks/meineschulen/requestlib.php');
+        require_once($CFG->dirroot . '/blocks/meinesuche/requestlib.php');
         require_once($CFG->dirroot . '/course/request_form.php');
 
         $approve = optional_param('approve', 0, PARAM_INT);
@@ -1249,7 +1249,7 @@ class meineschulen {
         /// Process approval of a course.
         if (!empty($approve) and confirm_sesskey()) {
             /// Load the request.
-            $course = new meineschulen_course_request($approve);
+            $course = new meinesuche_course_request($approve);
             if ($course->category != $this->schoolcat->id) {
                 $select = 'id = :id AND ' . $DB->sql_like('path', ':path');
                 $params = array(
@@ -1257,7 +1257,7 @@ class meineschulen {
                     'path' => "{$this->schoolcat->path}/%"
                 );
                 if (!$DB->record_exists_select('course_categories', $select, $params, '*', MUST_EXIST)) {
-                    print_error('categorynotinschool', 'block_meineschulen');
+                    print_error('categorynotinschool', 'block_meinesuche');
                 }
             }
             $courseid = $course->approve();
@@ -1272,8 +1272,8 @@ class meineschulen {
 
                 } else {
 
-                    $redir = new moodle_url('/blocks/meineschulen/viewrequests.php', array('id' => $this->schoolcat->id));
-                    redirect($redir, get_string('courseapproved', 'block_meineschulen'), 5);
+                    $redir = new moodle_url('/blocks/meinesuche/viewrequests.php', array('id' => $this->schoolcat->id));
+                    redirect($redir, get_string('courseapproved', 'block_meinesuche'), 5);
                 }
             } else {
                 print_error('courseapprovedfailed');
@@ -1332,7 +1332,7 @@ class meineschulen {
         if (empty($pending)) {
             $out .= $OUTPUT->heading(get_string('nopendingcourses'));
         } else {
-            $out .= $OUTPUT->heading(get_string('coursespending', 'block_meineschulen'));
+            $out .= $OUTPUT->heading(get_string('coursespending', 'block_meinesuche'));
 
             /// Build a table of all the requests.
             $table = new html_table();
@@ -1382,23 +1382,69 @@ class meineschulen {
         }
 
         // Button to leave the page.
-        $backurl = new moodle_url('/blocks/meineschulen/viewschool.php', array('id' => $this->schoolcat->id));
-        $out .= $OUTPUT->single_button($backurl, get_string('backschool', 'block_meineschulen'));
+        $backurl = new moodle_url('/blocks/meinesuche/viewschool.php', array('id' => $this->schoolcat->id));
+        $out .= $OUTPUT->single_button($backurl, get_string('backschool', 'block_meinesuche'));
 
         return $out;
+    }
+
+    /** returns html code for a search form used directly in block meinesuche */
+    public static function output_block_search_form() {
+        global $OUTPUT, $PAGE;
+        
+        $output = '';
+
+        $searchtype = get_user_preferences('block_meinesuche_searchtype', 'course');
+        foreach (self::get_search_types() as $st) {
+            $id = 'searchtype_'.$st;
+            $attrib = array('type' => 'radio', 'name' => 'searchtype', 'id' => $id, 'value' => $st, 'data-action' => get_string($st.'search', 'block_meinesuche').'...');
+            if ($st == $searchtype) {
+                $attrib['checked'] = 'checked';
+            }
+            $output .= html_writer::empty_tag('input', $attrib);
+            $output .= html_writer::tag('label', get_string('searchtype_'.$st, 'block_meinesuche'),
+                                      array('for' => $id, 'class' => 'radiolabel'));
+        }
+        $output = html_writer::div($output, 'searchtype');
+
+        $output .= html_writer::empty_tag('input', array( 'id' => 'schoolname',
+                                                          'type' => 'text',
+                                                          'name' => 'schoolname',
+                                                          'value' => '',
+                                                          'placeholder' => get_string($searchtype.'search', 'block_meinesuche').' ...'));
+        
+        $action = self::get_search_url();
+        $output .= html_writer::empty_tag('input', array('type' => 'image',
+                                                         'id' => 'schoolsearch_submitbutton',
+                                                         'name' => 'search',
+                                                         'src' => $OUTPUT->pix_url('a/search')));
+
+        $output .= html_writer::empty_tag('br', array('class' => 'clearer'));
+        
+        $output = html_writer::tag('form', $output,
+                array('id' => 'meinesuche_school_form', 'action' => $action, 'method' => 'get'));
+        
+        $output = html_writer::div($output, '', array('id' => 'meinesuche_school_form_wrapper'));
+
+        $ajaxurl = new moodle_url('/blocks/meinesuche/ajax.php');
+        $opts = array('url' => $ajaxurl->out());
+        $PAGE->requires->yui_module('moodle-block_meinesuche-blocksearch', 'M.block_meinesuche.blocksearch.init', array($opts));
+        user_preference_allow_ajax_update('block_meinesuche_searchtype', PARAM_ALPHA);
+        
+        return $output;
     }
 
     public static function extend_course_overview($content) {
         global $PAGE, $CFG;
 
         static $id = 1; // Make sure the block content has a unique ID on the page.
-        $prefname = 'meineschulen_courseoverview';
+        $prefname = 'meinesuche_courseoverview';
 
         $text = '';
 
         // Get the currently selected view.
         $view = get_user_preferences($prefname, 'standard');
-        if ($updateview = optional_param('meineschulen_courseoverview', null, PARAM_ALPHA)) {
+        if ($updateview = optional_param('meinesuche_courseoverview', null, PARAM_ALPHA)) {
             if ($view != $updateview) {
                 set_user_preference($prefname, $updateview);
                 $view = $updateview;
@@ -1428,7 +1474,7 @@ class meineschulen {
         // Add the javascript for switching views.
         user_preference_allow_ajax_update($prefname, PARAM_ALPHA);
         $opts = array('id' => $id);
-        $PAGE->requires->yui_module('moodle-block_meineschulen-courseoverview', 'M.block_meineschulen.courseoverview.init',
+        $PAGE->requires->yui_module('moodle-block_meinesuche-courseoverview', 'M.block_meinesuche.courseoverview.init',
                                     array($opts));
 
         if (empty($CFG->loaded_course_category_expander_already)) {
@@ -1446,9 +1492,9 @@ class meineschulen {
         $baseurl = $PAGE->url;
         $urls = array();
         foreach (array('standard', 'treeview') as $v) {
-            $url = new moodle_url($baseurl, array('meineschulen_courseoverview' => $v));
+            $url = new moodle_url($baseurl, array('meinesuche_courseoverview' => $v));
             $url = $url->out();
-            $urls[$url] = get_string('course_overview-'.$v, 'block_meineschulen');
+            $urls[$url] = get_string('course_overview-'.$v, 'block_meinesuche');
             if ($v == $view) {
                 $selected = $url;
             }
@@ -1469,10 +1515,10 @@ class meineschulen {
             $out = html_writer::div($out, 'subcategories');
         }
         $out = html_writer::div($out, 'content');
-        $out = html_writer::div($out, 'course_category_tree clearfix category-browse category-browse-0', array('id' => 'meineschulen_coursetree_id-'.$id));
+        $out = html_writer::div($out, 'course_category_tree clearfix category-browse category-browse-0', array('id' => 'meinesuche_coursetree_id-'.$id));
 
         if (!$schools) {
-            $out .= html_writer::tag('p', get_string('nocourses', 'block_meineschulen'));
+            $out .= html_writer::tag('p', get_string('nocourses', 'block_meinesuche'));
         }
 
         return $out;

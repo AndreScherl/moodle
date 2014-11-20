@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_meinesuche-blocksearch",
+    "builds": {
+        "moodle-block_meinesuche-blocksearch": {
+            "jsfiles": [
+                "blocksearch.js"
+            ]
+        }
+    }
+}

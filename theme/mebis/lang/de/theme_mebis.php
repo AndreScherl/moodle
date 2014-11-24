@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * Theme Mebis lang file.
+ *
+ * @package theme-mebis
+ */
+
+$string['choosereadme'] = ' <p>Mebis Theme basierend auf Bootstrap 3</p>';
+
+$string['configtitle'] = 'Mebis';
+
+$string['pluginname'] = 'Mebis';
+
+$string['region-side-post'] = 'Rechts';
+$string['region-side-pre'] = 'Links';
+
+$string['url-support'] = 'Link zum Supportbereich';
+$string['url-support-descr'] = 'Link zum Supportbereich';
+
+$string['url-preferences'] = 'Link zur Nutzerverwaltung (allg.)';
+$string['url-preferences-descr'] = 'Link zur Nutzerverwaltung (allgemein)';
+
+$string['url-preferences-personal'] = 'Link zur Nutzerverwaltung (pers.)';
+$string['url-preferences-personal-descr'] = 'Link zur Nutzerverwaltung (persönliches Profil)';
+
+$string['help-note-remove-permanent'] = 'dauerhaft entfernen';
+$string['help-note-close'] = 'schließen';
+$string['help-note-welcome'] = 'Herzlich willkommen%s!';
+$string['help-note-content'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
+$string['help-note-tutorial-link'] = 'Tutorials';
+
+$string['footer-newsletter'] = 'Newsletter';
+$string['footer-about'] = 'Ueber Mebis';
+$string['footer-contact'] = 'Kontakt';
+$string['footer-imprint'] = 'Impressum';
+$string['footer-data_privacy'] = 'Datenschutz';
+$string['footer-terms_of_use'] = 'Nutzungsbedingungen';
+
+$string['footer-search-schooltypes'] = 'Pruefungstermine für alle Schularten';
+$string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
+$string['footer-search-media'] = 'Medien suchen oder Suchbegriff eingeben';
+
+$string['menu-administration-head'] = 'Lernplattform-Verwaltung';

@@ -1,0 +1,97 @@
+#frontpage-course-list {
+    padding: 15px 0 30px 0;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .me-course-action-links {
+        position: absolute;
+        top: -50px;
+        right: 20px;
+
+        a {
+            display: inline-block;
+            margin-left: 15px;
+        }
+
+    }
+
+    .course-sorting {
+        background: $bg-light;
+        padding: 15px 20px;
+    }
+
+}
+
+.coursebox {
+    padding-top: 15px;
+
+    .coursebox-meta {
+        background: $brand-primary;
+
+        .course-is-new span,
+        .box-type i {
+            display: inline-block;
+            background: $brand-primary-dark;
+            color: $white;
+            line-height: 40px;
+            text-align: center;
+            margin-right: 0;
+        }
+
+        .course-is-new span {
+            padding: 0 10px;
+            line-height: 28px;
+            font-size: emCalc(14px);
+            margin-left: 10px;
+        }
+
+        .box-type i {
+            width: 40px;
+            margin-right: 10px;
+            font-size: emCalc(24px);
+        }
+    }
+
+    .coursebox-inner.odd, .coursebox-inner.even {
+        padding: 0;
+        border: 0;
+
+        .coursebox-link {
+            min-height: 150px;
+            padding: 20px;
+            text-align: left;
+            display: block;
+            background: $white;
+
+            font-weight: 400;
+
+            .coursename{
+                font-size: emCalc(20px);
+            }
+
+            .coursetype {
+                font-size: emCalc(12px);
+            }
+
+            &:hover {
+                background: $brand-secondary;
+                color: $white;
+            }
+
+        }
+
+
+
+    }
+
+    .vbox {
+        font-size: emCalc(36px);
+        text-align: left;
+        line-height: normal;
+        position: absolute;
+        bottom: 10px;
+        right: 35px;
+    }
+}

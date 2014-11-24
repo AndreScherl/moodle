@@ -1,0 +1,53 @@
+
+div[role="main"] {
+
+    ul, ol {
+        padding: initial;
+        overflow: initial;
+    }
+}
+
+.moodle-menu .nav > li {
+    font-family: FontAwesome;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 22px;
+    float: right;
+    width: 50px;
+    height: 60px;
+
+    &.dropdown {
+
+        ul {
+
+            &.dropdown-menu {
+                border: none;
+            }
+
+            min-width: 255px;
+
+            div {
+                background-color: $gray-lighter;
+                font-family: 'Titillium Web';
+                font-size: emCalc(16px);
+                color: $gray-dark;
+                text-align: left;
+                line-height: normal;
+
+                &.admin-dropdown {
+                    background-color: $gray-dark;
+                    color: $white;
+
+                    a {
+                        color: $white;
+                    }
+                }
+
+                ul {
+                    list-style: none;
+                }
+            }
+        }
+    }
+
+}

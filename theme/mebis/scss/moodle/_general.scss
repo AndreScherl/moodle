@@ -1,0 +1,23 @@
+ul {
+
+    &.weeks {
+
+        h3 {
+
+            &.sectionname {
+                color: $white !important;
+            }
+        }
+    }
+}
+
+h1, h2 {
+    color: $white;
+}
+
+.block {
+
+    h2 {
+        color: #333;
+    }
+}

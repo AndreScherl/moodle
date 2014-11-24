@@ -1,0 +1,51 @@
+.category-listing, .course-listing, .course-detail{
+    background-color: #FFF;
+}
+
+#coursesearch{
+    label {
+        color: #FFF;
+        font-size: 1.5em;
+        font-weight: 200;
+        margin-right: 20px;
+    }
+}
+.detail-pair {
+    color: #FFF;
+}
+th {
+    color: #FFF;
+}
+
+label {
+    color: #FFF;
+}
+
+.path-rating .ratingtable > tbody > tr:nth-child(2n+1) > td, table#explaincaps > tbody > tr:nth-child(2n+1) > td, table#defineroletable > tbody > tr:nth-child(2n+1) > td, table.grading-report > tbody > tr:nth-child(2n+1) > td, table#listdirectories > tbody > tr:nth-child(2n+1) > td, table.rolecaps > tbody > tr:nth-child(2n+1) > td, table.userenrolment > tbody > tr:nth-child(2n+1) > td, table#form > tbody > tr:nth-child(2n+1) > td, form#movecourses table > tbody > tr:nth-child(2n+1) > td, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > td, .forumheaderlist > tbody > tr:nth-child(2n+1) > td, table.flexible > tbody > tr:nth-child(2n+1) > td, .generaltable > tbody > tr:nth-child(2n+1) > td, .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > th, table#explaincaps > tbody > tr:nth-child(2n+1) > th, table#defineroletable > tbody > tr:nth-child(2n+1) > th, table.grading-report > tbody > tr:nth-child(2n+1) > th, table#listdirectories > tbody > tr:nth-child(2n+1) > th, table.rolecaps > tbody > tr:nth-child(2n+1) > th, table.userenrolment > tbody > tr:nth-child(2n+1) > th, table#form > tbody > tr:nth-child(2n+1) > th, form#movecourses table > tbody > tr:nth-child(2n+1) > th, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > th, .forumheaderlist > tbody > tr:nth-child(2n+1) > th, table.flexible > tbody > tr:nth-child(2n+1) > th, .generaltable > tbody > tr:nth-child(2n+1) > th {
+    background-color: transparent;
+}
+
+.user-enroller-panel .uep-search-results .users > tbody > tr:hover > td, table.grading-report > tbody > tr:hover > td, .forumheaderlist > tbody > tr:hover > td, .generaltable > tbody > tr:hover > td, table.flexible > tbody > tr:hover > td, table#permissions > tbody > tr:hover > td, .user-enroller-panel .uep-search-results .users > tbody > tr:hover > th, table.grading-report > tbody > tr:hover > th, .forumheaderlist > tbody > tr:hover > th, .generaltable > tbody > tr:hover > th, table.flexible > tbody > tr:hover > th, table#permissions > tbody > tr:hover > th {
+    background-color: transparent;
+}
+
+.backup_stage {
+    &.backup_stage_current {
+        color: $white !important;
+    }
+    &.backup_stage_complete {
+        color: #999 !important;
+    }
+}
+
+h2.header {
+    color: $white !important;
+}
+
+.arrow.sep{
+    color: #999;
+}
+
+.grouped_settings label {
+    color: #666;
+}

@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014070900;
+$plugin->version   = 2014112400;
 $plugin->requires  = 2013111800; // 2.6
 $plugin->cron      = 0;
 $plugin->component = 'block_meinekurse';

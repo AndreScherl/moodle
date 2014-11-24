@@ -44,7 +44,17 @@ $capabilities = array(
         ),
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
-
+    
+	'block/meinekurse:addinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'editingteacher' => CAP_PREVENT,
+            'manager' => CAP_PREVENT
+        ),
+ 
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
 );
 
 

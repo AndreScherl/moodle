@@ -14,15 +14,15 @@ $img-path:  '/theme/mebis/pix/';
 $font-path: '/theme/mebis/fonts/';
 
 //== Colors
-$brand-primary:         #00a8d5; // blue
-$brand-primary-dark:	#00637d;
+$brand-primary:         #000000; // blue
+$brand-primary-dark:	#505050; // = $brand-gray-medium
 $brand-primary-light:	#00c5fa;
 
 $brand-secondary:       #ff6600; // orange
 
 $brand-gray-navi:		#111111;
 $brand-gray-dark:		#333333;
-$brand-gray-medium:		#999999;
+$brand-gray-medium:		#505050;
 $brand-gray-light:		#e6e6e6;
 
 $white:          		#fff;
@@ -289,6 +289,9 @@ $border-radius-small:       0px;
 // Small Custom
 $screen-xc:                  640px;
 $screen-xc-min:              $screen-xc;
+
+$screen-xc-mini:             350px;
+$screen-xc-mini-min:         $screen-xc-mini;
 
 // So media queries don't overlap when required, provide a maximum
 //$screen-xs-max:              ($screen-sm-min - 1);
@@ -659,7 +662,7 @@ $list-group-link-color:         #fff;
 //
 //##
 
-$panel-bg:                    #FFF;
+$panel-bg:                    #ccc614;
 //$panel-body-padding:          15px;
 $panel-border-radius:         0;//$border-radius-base;
 
@@ -820,5 +823,3 @@ $carousel-control-opacity:                    .7;
 
 //* Horizontal offset for forms and lists.
 //$component-offset-horizontal: 180px;
-
-$font-path: '/theme/mebis/fonts/';

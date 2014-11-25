@@ -1,4 +1,5 @@
 .schoolbox {
+    margin-top: 40px;
 
     .schoolbox-meta {
         background: $brand-primary;
@@ -23,7 +24,7 @@
         .schoolbox-link {
             display: block;
             background-color: lighten($gray-dark, 5%);
-            min-height: 150px;
+            min-height: 175px;
             padding: 20px;
             text-align: left;
 

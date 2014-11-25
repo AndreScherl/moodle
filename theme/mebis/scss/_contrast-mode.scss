@@ -46,6 +46,23 @@ html {
 			background: $brand-gray-medium !important;
 		}
 
+		#me-news-carousel {
+			.carousel-control {
+				&:hover {
+					background: $brand-secondary !important;
+				}
+					
+				&.left, 
+				&.right {
+					background: $black;
+
+					&:hover {
+						background: $brand-secondary !important;
+					}
+				}
+			}
+		}
+
 		// ======================== INFOPORTAL ======================== //
 
 		.wrapper-infoportal {

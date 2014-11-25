@@ -65,7 +65,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         $i = 0;
         foreach ($cats as $catId => $catName)
         {
-            $content .= html_writer::start_div('col-lg-4 col-sm-4  schoolbox', array('data-courseid' => $catId, 'data-type' => '1'));
+
+            $content .= html_writer::start_div('col-xs-12 col-sm-6 col-md-4 schoolbox', array('data-courseid' => $catId, 'data-type' => '1'));
 
             $content .= html_writer::start_div('schoolbox-meta');
             $content .= html_writer::start_div('row');

@@ -24,6 +24,12 @@ $string['url-preferences-descr'] = 'Link zur Nutzerverwaltung (allgemein)';
 $string['url-preferences-personal'] = 'Link zur Nutzerverwaltung (pers.)';
 $string['url-preferences-personal-descr'] = 'Link zur Nutzerverwaltung (persönliches Profil)';
 
+$string['url-login'] = 'Login Url';
+$string['url-login-descr'] = 'Login Url';
+
+$string['url-logout'] = 'Logout Url';
+$string['url-logout-descr'] = 'Logout Url';
+
 $string['help-note-remove-permanent'] = 'dauerhaft entfernen';
 $string['help-note-close'] = 'schließen';
 $string['help-note-welcome'] = 'Herzlich willkommen%s!';

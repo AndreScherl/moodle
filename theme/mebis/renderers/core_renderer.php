@@ -76,8 +76,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             $content .= html_writer::end_div();
 
             $content .= html_writer::start_div('schoolbox-inner' . (($i == 0) ? ' first' : ''));
-            $content .= html_writer::start_tag('a', array('class' => 'schoolbox-link',
-                'href' => 'http://moodle.trio/course/index.php?categoryid=' . $catId));
+            $url = new moodle_url('/course/index.php', array('categoryid' => $catId));
+            $content .= html_writer::start_tag('a', array('class' => 'schoolbox-link', 'href' => $url));
             $content .= html_writer::start_div('panel-heading info');
 
             $content .= html_writer::tag('span', $catName, array('class' => 'schoolname'));

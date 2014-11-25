@@ -37,13 +37,12 @@ echo $OUTPUT->doctype()
         <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">
         <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png','mebis');?>">
 
+        <?php $PAGE->requires->css( new moodle_url("/theme/mebis/style/mebis.css"), array('data-mode' => 'default')); ?>
+        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
+
         <?php echo $OUTPUT->standard_head_html(); ?>
 
         <script src="/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-        <!-- for developement only -->
-        <link rel="stylesheet" href="/theme/mebis/style/mebis.css" data-mode="default">
-        <!-- for developement only -->
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -134,11 +133,13 @@ echo $OUTPUT->doctype()
             <i class="fa fa-chevron-up"></i>
         </a>
 
-        <script src="/theme/mebis/vendor/jquery-1.11.0.min.js"></script>
-        <script src="/theme/mebis/javascripts/vendor.min.js"></script>
-        <script src="/theme/mebis/javascripts/mebis.js"></script>
-        <script src="/theme/mebis/javascripts/mebis.learning-platform.js"></script>
+        <?php
+            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
 
-    <?php echo $OUTPUT->standard_end_of_body_html() ?>
+            echo $OUTPUT->standard_end_of_body_html();
+        ?>
     </body>
 </html>

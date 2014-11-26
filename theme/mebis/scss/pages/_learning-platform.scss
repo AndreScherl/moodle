@@ -40,10 +40,6 @@ div[role="main"] > h2 {
 					height: 100%;
 					position: relative;
 
-					&:hover a {
-						background: transparent;
-					}
-
 					> a {
 						font-size: 1.5em;
 						display: block;
@@ -52,7 +48,7 @@ div[role="main"] > h2 {
 
 					&.open, &.dropdown:hover {
 
-						.dropdown-toggle {
+						> a, .dropdown-toggle {
 							background: $brand-secondary;
 							color: $white;
 						}

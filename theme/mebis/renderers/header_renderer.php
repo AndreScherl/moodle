@@ -18,15 +18,18 @@ class theme_mebis_header_renderer extends renderer_base
         $output = '';
         $userBar = '';
 
-        $url_support = isset($PAGE->theme->settings->url_support) ? $PAGE->theme->settings->url_support : '';
-        $url_preferences = '';
+        $url_support = isset($PAGE->theme->settings->url_support) ? $PAGE->theme->settings->url_support : '#';
+        $url_login = isset($PAGE->theme->settings->url_login) ? $PAGE->theme->settings->url_login : '#';
+        $url_logout = isset($PAGE->theme->settings->url_logout) ? $PAGE->theme->settings->url_logout : '#';
+        $url_preferences = '#';
 
         if (isloggedin()) {
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-left'));
 
             $userBar .= html_writer::start_tag('li', array('class' => 'profile'));
             $userBar .= html_writer::start_tag('a',
-                    array('href' => new moodle_url('/user/profile.php', array('id' => $USER->id))));
+                array('href' => new moodle_url('/user/profile.php', array('id' => $USER->id)))
+            );
             $userBar .= html_writer::start_tag('span', array('class' => 'me-username'));
             $userBar .= html_writer::tag('span', fullname($USER));
             $userBar .= html_writer::end_tag('span');
@@ -38,10 +41,9 @@ class theme_mebis_header_renderer extends renderer_base
 
             $userBar .= html_writer::start_tag('li');
             $userBar .= html_writer::start_tag('a',
-                    array(
-                    'href' => new moodle_url('/login/logout.php', array('sesskey' => sesskey(), 'alt' => 'logout')
-                    )
-                    )
+                array(
+                    'href' => $url_logout
+                )
             );
             $userBar .= html_writer::tag('span', 'Logout');
             $userBar .= html_writer::end_tag('a');
@@ -49,28 +51,28 @@ class theme_mebis_header_renderer extends renderer_base
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
 
-            $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '';
+            $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
         } else {
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
 
             $userBar .= html_writer::start_tag('li');
-            $userBar .= html_writer::start_tag('a', array('href' => new moodle_url('/login/index.php')));
+            $userBar .= html_writer::start_tag('a', array('href' => $url_login));
             $userBar .= html_writer::tag('span', 'Login');
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
 
-            $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '';
+            $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
         }
 
 
         $output .= html_writer::start_tag('nav',
-                array(
+            array(
                 'class' => 'navbar yamm navbar-inverse navbar-fixed-top top-bar',
                 'id' => 'topbar', 'role' => 'navigation'
-                )
+            )
         );
 
         $output .= html_writer::start_div('container');
@@ -80,21 +82,22 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_div('navbar-header clearfix');
 
         $output .= html_writer::start_tag('button',
-                array(
+            array(
                 'data-target' => '.js-navbar-collapse',
                 'data-toggle' => 'collapse', 'type' => 'button', 'class' => 'navbar-toggle collapsed'
-                )
+            )
         );
-        $output .= html_writer::tag('span', 'Toggle navigation', array('class' => 'sr-only'));
+        $output .= html_writer::tag('span', get_string('nav-toggle', 'theme_mebis'), array('class' => 'sr-only'));
         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
         $output .= html_writer::end_tag('button');
 
         $output .= html_writer::start_tag('ul',
-                array('role' => 'tablist', 'class' => 'nav nav-tabs nav-login hidden-lg'));
+            array('role' => 'tablist', 'class' => 'nav nav-tabs nav-login hidden-lg')
+        );
         $output .= html_writer::start_tag('li', array('class' => 'dropdown'));
-        $output .= html_writer::tag('a', 'Logout', array('href' => '#', 'class' => 'dropdown-toggle active'));
+        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => '#', 'class' => 'dropdown-toggle active'));
         $output .= html_writer::end_tag('li');
         $output .= html_writer::end_tag('ul');
 
@@ -102,25 +105,25 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
 
-        $output .= html_writer::start_div('js-navbar-collapse collapse');
+        $output .= html_writer::start_div('js-navbar-collapse collapse hidden-lg');
         $output .= html_writer::tag('ul', $this->buildNavStructure(), array('class' => 'nav'));
         $output .= html_writer::start_tag('ul', array('class' => 'js-navbar-collapse-submenu'));
         $output .= html_writer::start_tag('li');
         $output .= html_writer::start_tag('a', array('href' => '#invert'));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
-        $output .= 'Kontrast';
+        $output .= get_string('nav-contrast', 'theme_mebis');
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
         $output .= html_writer::start_tag('li');
         $output .= '<a href="' . $url_support . '">';
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-support'));
-        $output .= 'Support';
+        $output .= get_string('nav-support', 'theme_mebis');
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
         $output .= html_writer::start_tag('li');
         $output .= '<a href="' . $url_preferences . '">';
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
-        $output .= 'Verwaltung';
+        $output .= get_string('nav-management', 'theme_mebis');
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
         $output .= html_writer::end_tag('ul');
@@ -133,14 +136,16 @@ class theme_mebis_header_renderer extends renderer_base
 
         $output .= html_writer::start_tag('li');
         $output .= html_writer::start_tag('a',
-                array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec'));
+            array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec')
+        );
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-verkleinern'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
         $output .= html_writer::start_tag('li');
         $output .= html_writer::start_tag('a',
-                array('href' => '#', 'class' => 'change-fontsize no-padding-right', 'data-change' => 'inc'));
+            array('href' => '#', 'class' => 'change-fontsize no-padding-right', 'data-change' => 'inc')
+        );
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-vergroessern'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
@@ -150,7 +155,7 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_tag('li', array('class' => 'text'));
         $output .= html_writer::start_tag('a', array('href' => '#invert', 'id' => 'me-invert'));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
-        $output .= html_writer::tag('span', 'Kontrast');
+        $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
@@ -159,7 +164,7 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_tag('li', array('class' => 'text'));
         $output .= html_writer::start_tag('a', array('href' => '#'));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-vorlesen'));
-        $output .= html_writer::tag('span', 'Vorlesen');
+        $output .= html_writer::tag('span', get_string('nav-read', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
@@ -172,7 +177,7 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_tag('li');
         $output .= html_writer::start_tag('a', array('href' => $url_support));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-support'));
-        $output .= html_writer::tag('span', 'Support');
+        $output .= html_writer::tag('span', get_string('nav-support', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
@@ -181,7 +186,7 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_tag('li');
         $output .= html_writer::start_tag('a', array('href' => $url_preferences));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
-        $output .= html_writer::tag('span', 'Verwaltung');
+        $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
@@ -197,7 +202,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     public function main_sidebar()
     {
-        $output = html_writer::start_div('me-sidebar-wrapper hidden-xs');
+        $output = html_writer::start_div('me-sidebar-wrapper visible-lg');
         $output .= html_writer::tag('ul', $this->buildNavStructure('fa-2x'), array('class' => 'me-sidebar-nav'));
         $output .= html_writer::end_div();
         return $output;
@@ -205,6 +210,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     public function main_header()
     {
+        $img_alt = get_string('header-img-title', 'theme_mebis');
         $output = html_writer::start_tag('header', array('class' => 'me-page-header full'));
         $output .= html_writer::start_div('container');
         $output .= html_writer::start_div('row');
@@ -215,8 +221,12 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_div('col-md-6 col-xs-12 logo');
         $output .= html_writer::start_tag('a', array('href' => new moodle_url('/')));
         $output .= html_writer::tag('img', '',
-                array('class' => 'pull-left', 'src' => '/theme/mebis/pix/mebis-logo-lernplattform.png',
-                'alt' => 'Mebis Logo Lernplattform', 'title' => 'Mebis Lernplattform', 'height' => '45', 'width' => '340'));
+            array(
+                'class' => 'pull-left', 'src' => '/theme/mebis/pix/mebis-logo-lernplattform.png',
+                'data-src-contrast' => '/theme/mebis/pix/mebis-logo-lernplattform-kontrast.png',
+                'alt' => $img_alt, 'title' => $img_alt, 'height' => '45', 'width' => '340'
+            )
+        );
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_div();
 
@@ -252,7 +262,7 @@ class theme_mebis_header_renderer extends renderer_base
 
         foreach ($navItems as $navItem) {
             list($name, $url) = explode(',', $navItem);
-            if (!empty($name) and ! empty($url)) {
+            if (!empty($name) and !empty($url)) {
                 $iconClass = '';
                 $liClass = '';
                 switch ($name) {
@@ -304,7 +314,8 @@ class theme_mebis_header_renderer extends renderer_base
         $breadcrumbsLine = html_writer::tag('ol', $breadcrumbs, array('class' => 'breadcrumb text-left'));
 
         return html_writer::tag('div', html_writer::tag('div', $breadcrumbsLine, array('class' => 'col-md-12')),
-                array('class' => 'row'));
+            array('class' => 'row')
+        );
     }
 
     public function main_menubar()
@@ -322,9 +333,11 @@ class theme_mebis_header_renderer extends renderer_base
         if ($PAGE->user_is_editing()) {
             $block_menu .= html_writer::start_tag('li', array('class' => 'dropdown'));
             $block_menu .= html_writer::tag('a', '<i class="icon-me-block-hinzufuegen"></i>',
-                    array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-toggle' => 'dropdown'));
+                array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-toggle' => 'dropdown')
+            );
             $block_menu .= html_writer::start_tag('ul',
-                    array('class' => 'dropdown-menu dropdown-right', 'role' => 'menu'));
+                array('class' => 'dropdown-menu dropdown-right', 'role' => 'menu')
+            );
             $block_menu .= html_writer::start_tag('li');
             $block_menu .= html_writer::start_tag('div', array('class' => 'dropdown-inner'));
             $addblocks = block_add_block_ui($this->page, $OUTPUT);
@@ -338,11 +351,17 @@ class theme_mebis_header_renderer extends renderer_base
         // temp code, needs to be removed later on
         $menu_items = array();
         if (!$PAGE->user_is_editing()) {
-            $menu_items = array('Bearbeitung aktivieren' => new moodle_url('/course/view.php',
-                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on')));
+            $menu_items = array(
+                'Bearbeitung aktivieren' => new moodle_url('/course/view.php',
+                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on')
+                )
+            );
         } else {
-            $menu_items = array('Bearbeitung deaktivieren' => new moodle_url('/course/view.php',
-                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off')));
+            $menu_items = array(
+                'Bearbeitung deaktivieren' => new moodle_url('/course/view.php',
+                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off')
+                )
+            );
         }
         $menu_items += array('Lorem ipsum' => '#', 'Dolor sit amet' => '#', 'Consectetur adipisicing' => '#');
 
@@ -377,19 +396,22 @@ class theme_mebis_header_renderer extends renderer_base
         // Messages menu item
         $content .= html_writer::start_tag('li');
         $content .= html_writer::tag('a', '<i class="fa fa-bullhorn"></i>' . $unreadMessages,
-                array('class' => 'extra-nav-mobile-spacer', 'href' => new moodle_url('/message/index.php')));
+            array('class' => 'extra-nav-mobile-spacer', 'href' => new moodle_url('/message/index.php'))
+        );
         $content .= html_writer::end_tag('li');
 
         // Files menu item
         $content .= html_writer::start_tag('li');
         $content .= html_writer::tag('a', '<i class="fa fa-folder"></i>',
-                array('class' => 'extra-nav-mobile-spacer', 'href' => new moodle_url('/user/files.php')));
+            array('class' => 'extra-nav-mobile-spacer', 'href' => new moodle_url('/user/files.php'))
+        );
         $content .= html_writer::end_tag('li');
 
         // Add block menu item
         $content .= html_writer::start_tag('li');
         $content .= html_writer::tag('a', '<i class="fa fa-laptop"></i>',
-                array('class' => 'extra-nav-mobile-spacer', 'href' => '#'));
+            array('class' => 'extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+        );
         $content .= html_writer::end_tag('li');
         $content .= $block_menu;
 
@@ -397,7 +419,8 @@ class theme_mebis_header_renderer extends renderer_base
         if (!empty($user_menu) || !empty($admin_menu)) {
             $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
             $content .= html_writer::tag('a', '<i class="fa fa-cog"></i>',
-                    array('class' => 'extra-nav-mobile-spacer', 'href' => '#'));
+                array('class' => 'extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+            );
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
             $content .= html_writer::tag('li', $user_menu . $admin_menu);
             $content .= html_writer::end_tag('ul');
@@ -410,7 +433,8 @@ class theme_mebis_header_renderer extends renderer_base
             if ($course_menu) {
                 $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
                 $content .= html_writer::start_tag('a',
-                        array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-toggle' => 'dropdown'));
+                    array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+                );
                 $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
                 $content .= html_writer::end_tag('a');
                 $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
@@ -443,7 +467,7 @@ class theme_mebis_header_renderer extends renderer_base
     {
         global $PAGE;
 
-        /* @var $nav settings_navigation  */
+        /* @var $nav settings_navigation */
         $nav = $PAGE->settingsnav;
         $menuitems = '';
         foreach ($node as $linktxt => $link) {
@@ -464,7 +488,7 @@ class theme_mebis_header_renderer extends renderer_base
     {
         global $PAGE;
 
-        /* @var $nav settings_navigation  */
+        /* @var $nav settings_navigation */
         $nav = $PAGE->settingsnav;
         $menuitems = '';
         foreach ($nav->get($node)->children as $navchild) {

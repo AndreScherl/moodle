@@ -27,8 +27,8 @@ class theme_mebis_help_renderer extends renderer_base
         $output .= html_writer::start_div('me-help-note-container clearfix');
 
         $output .= html_writer::start_div('col-md-12 text-right');
-        $output .= '<a href="#" data-close="me-help-box" data-close-type="forever"><i class="fa fa-ban"></i> ' . get_string('help-note-remove-permanent', 'theme_mebis') . '</a>';
-        $output .= '<a href="#" data-close="me-help-box" data-close-type="simple" onclick="$(\'#me-help-box\').remove();"><i class="fa fa-close"></i> ' . get_string('help-note-close', 'theme_mebis') . '</a>';
+        $output .= '<a href="#" id="me-help-box-closeforever" data-close="me-help-box" data-close-type="forever"><i class="fa fa-ban"></i> ' . get_string('help-note-remove-permanent', 'theme_mebis') . '</a>';
+        $output .= '<a href="#" id="me-help-box-close" data-close="me-help-box" data-close-type="simple"><i class="fa fa-close"></i> ' . get_string('help-note-close', 'theme_mebis') . '</a>';
         $output .= html_writer::end_div();
 
         $output .= html_writer::start_div('col-md-7 text-left');

@@ -6,8 +6,8 @@
  * @package theme_mebis
  */
 
-function theme_mebis_process_css($css, $theme) {
-
+function theme_mebis_process_css($css, $theme)
+{
     // run compass compile during the css processing phase...
     $curDir = __DIR__;
     // exec("cd ${curDir} && compass compile -c compass.rb");
@@ -15,8 +15,8 @@ function theme_mebis_process_css($css, $theme) {
     return $css;
 }
 
-function theme_mebis_bootstrap_grid($hassidepre, $hassidepost) {
-
+function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)
+{
     if ($hassidepre && $hassidepost) {
         $regions = array('content' => 'col-sm-12 col-lg-12 col-md-12');
         $regions['pre'] = 'col-sm-12 col-lg-12 col-md-12';

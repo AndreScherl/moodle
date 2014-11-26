@@ -29,7 +29,7 @@ $THEME->layouts = array(
         'regions' => array('side-pre', 'side-post'),
         'defaultregion' => 'side-pre'
     ),
-    'frontpage' => array(
+    'mydashboard' => array(
         'file' => 'default.php',
         'regions' => array('side-pre', 'side-post', 'top'),
         'defaultregion' => 'side-pre'
@@ -38,7 +38,7 @@ $THEME->layouts = array(
         'file' => 'login.php',
         'regions' => array('side-pre', 'side-post', 'top'),
         'defaultregion' => 'side-pre',
-        'options' => array('langmenu' => true, 'nonavbar' => true),
+        'options' => array('langmenu' => false, 'nonavbar' => true),
     )
 );
 

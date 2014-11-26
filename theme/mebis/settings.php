@@ -33,4 +33,20 @@ if ($ADMIN->fulltree) {
     $default = '';
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
     $settings->add($setting);
+
+    // Login Url setting
+    $name = 'theme_mebis/url_login';
+    $title = get_string('url-login','theme_mebis');
+    $description = get_string('url-login-descr', 'theme_mebis');
+    $default = new moodle_url('/local/dlb/login.php');
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
+    $settings->add($setting);
+
+    // Logout Url setting
+    $name = 'theme_mebis/url_logout';
+    $title = get_string('url-logout','theme_mebis');
+    $description = get_string('url-logout-descr', 'theme_mebis');
+    $default = new moodle_url('/login/logout.php', array('sesskey' => sesskey(), 'alt' => 'logout'));
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
+    $settings->add($setting);
 }

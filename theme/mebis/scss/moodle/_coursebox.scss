@@ -24,8 +24,12 @@
 
 }
 
+.courses {
+    margin-top: 40px;
+}
+
 .coursebox {
-    padding-top: 15px;
+    margin-bottom: 40px;
 
     .coursebox-meta {
         background: $brand-primary;
@@ -54,12 +58,12 @@
         }
     }
 
-    .coursebox-inner.odd, .coursebox-inner.even {
+    .coursebox-inner {
         padding: 0;
         border: 0;
 
         .coursebox-link {
-            min-height: 150px;
+            min-height: 175px;
             padding: 20px;
             text-align: left;
             display: block;
@@ -82,8 +86,6 @@
 
         }
 
-
-
     }
 
     .vbox {
@@ -95,3 +97,4 @@
         right: 35px;
     }
 }
+

@@ -119,7 +119,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             'role' => 'region',
             'aria-label' => get_string('shadeboxcontent', 'format_grid')));
 
-        echo html_writer::tag('div', 'zur Übersicht X',
+        echo html_writer::tag('div', get_string('coursedialog-close', 'theme_mebis'),
             array('id' => 'gridshadebox_close', 'style' => 'display:none;',
             'role' => 'link',
             'aria-label' => get_string('closeshadebox', 'format_grid')));

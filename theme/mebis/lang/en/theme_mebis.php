@@ -24,6 +24,12 @@ $string['url-preferences-descr'] = 'Link zur Nutzerverwaltung (allgemein)';
 $string['url-preferences-personal'] = 'Link zur Nutzerverwaltung (pers.)';
 $string['url-preferences-personal-descr'] = 'Link zur Nutzerverwaltung (persönliches Profil)';
 
+$string['url-login'] = 'Login Url';
+$string['url-login-descr'] = 'Login Url';
+
+$string['url-logout'] = 'Logout Url';
+$string['url-logout-descr'] = 'Logout Url';
+
 $string['help-note-remove-permanent'] = 'dauerhaft entfernen';
 $string['help-note-close'] = 'schließen';
 $string['help-note-welcome'] = 'Herzlich willkommen%s!';
@@ -42,3 +48,14 @@ $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Medien suchen oder Suchbegriff eingeben';
 
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
+
+$string['coursedialog-close'] = 'zur Übersicht X';
+
+$string['nav-toggle'] = 'Toggle navigation';
+$string['nav-logout'] = 'Logout';
+$string['nav-contrast'] = 'Kontrast';
+$string['nav-support'] = 'Support';
+$string['nav-management'] = 'Verwaltung';
+$string['nav-read'] = 'Vorlesen';
+
+$string['header-img-title'] = 'Mebis Logo Lernplattform';

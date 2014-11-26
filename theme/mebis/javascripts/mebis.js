@@ -14,15 +14,15 @@ var Mebis = (function($) {
 	 */
 	function initToTop() {
 
-			$win.on('scroll', function () {
-				if ($(this).scrollTop() > 100) {
-					$('#me-back-top').fadeIn();
-				} else {
-					if(!isMobile()) {
-						$('#me-back-top').fadeOut();
-					}
+		$win.on('scroll', function () {
+			if ($(this).scrollTop() > 100) {
+				$('#me-back-top').fadeIn();
+			} else {
+				if(!isMobile()) {
+					$('#me-back-top').fadeOut();
 				}
-			});
+			}
+		});
 
 		// scroll body to 0px on click
 		$('#me-back-top').on('click', function (e) {
@@ -130,12 +130,27 @@ var Mebis = (function($) {
 		var $styles = $('[data-mode]');
 		var style = 'mebis.css';
 		var assets = '/theme/mebis/style/';
+		var images = '/theme/mebis/pix/';
 
 		$invert.on('click', function(e) {
 			e.preventDefault();
 			var mode = $styles.attr('data-mode');
 
-			if(mode == 'default') {
+			// replace logos
+			$("[data-src-contrast]").each(function(){
+				var currentPath = $(this).attr("src");
+				var contrastPath = $(this).attr("data-src-contrast");
+
+				if (mode == 'default') {
+					$(this).attr("src",contrastPath);
+					$(this).attr("data-src-contrast",currentPath);
+				} else {
+					$(this).attr("src",contrastPath);
+					$(this).attr("data-src-contrast",currentPath);
+				}	
+			});
+
+			if (mode == 'default') {
 				$styles.attr('data-mode', 'contrast');
 				style = 'mebis-contrast.css';
 			} else {
@@ -206,6 +221,8 @@ var Mebis = (function($) {
 	 * Toolstips
 	 *
 	 * Content beeing displayed when user is logged out and want to use functionality on the homepage
+	 *
+	 * Doc: http://iamceege.github.io/tooltipster/#getting-started
 	 */
 
 	function initTooltips() {
@@ -374,10 +391,12 @@ var Mebis = (function($) {
 	}
 
 	function initPopupFix() {
-		if($(window).width() <= 768 ) {
-			var $toggle = $('[data-toggle="modal"]');
+		var $toggle = $('[data-toggle="modal"]');
 
-			$toggle.on('click', function(event) {
+		$toggle.on('click', function(event) {
+
+			if($(window).width() <= 768 ) {
+
 				event.preventDefault();
 
 				var $_this = $(this);
@@ -385,11 +404,13 @@ var Mebis = (function($) {
 				var $popup = $(target);
 
 				setTimeout(function() {
-					var top = $_this.offset().top - 150;
+					var top = $_this.offset().top + 25;
 					$popup.css('top', top);
 				},25);
-			});
-		}
+			}	
+
+		});
+
 	}
 
 	function switchModalContents() {
@@ -405,10 +426,20 @@ var Mebis = (function($) {
 	function initStarRating() {
 		var $rating = $('.me-search-result-rate');
 		$rating.each(function() {
-			var $stars = $(this).find('a');
+
+			// add class for coloring the rating stars and remove class with a delay when mouse leaves or touch gesture ends
+			$(this).on('mouseenter touchstart', function() {
+				$(this).addClass("personal-rating");
+			});	
+			
+			$(this).on('mouseleave touchend', function() {
+				$(this).removeClass("personal-rating");
+			});	
+
+			// attach event listener for hover effect
+			var $stars = $(this).find('span');
 
 			$stars.each(function(i) {
-
 				$(this).on({
 					mouseenter: function() {
 						$(this).find('i').addClass('icon-me-stern_komplett').removeClass('icon-me-stern_leer');
@@ -446,6 +477,14 @@ var Mebis = (function($) {
 		},
 		resize: function() {
 			initBlockLinkResize();
+			$.equalizer();
+		},
+		orientationchange: function() {
+			initBlockLinkResize();
+			initImageBlurCanvas();
+			setTimeout(function(){
+				$.equalizer();
+			},50); 
 		}
 	}
 
@@ -457,4 +496,9 @@ $(function() {
 	$(window).on('resize', function() {
 		Mebis.resize();
 	})
+
+	$(window).on('orientationchange', function(){
+		Mebis.orientationchange();
+	});
+
 });

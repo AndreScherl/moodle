@@ -39,11 +39,8 @@ echo $OUTPUT->doctype()
 
         <?php echo $OUTPUT->standard_head_html(); ?>
 
-        <script src="/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-        <!-- for developement only -->
-        <link rel="stylesheet" href="/theme/mebis/style/mebis.css" data-mode="default">
-        <!-- for developement only -->
+        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
+        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -134,11 +131,13 @@ echo $OUTPUT->doctype()
             <i class="fa fa-chevron-up"></i>
         </a>
 
-        <script src="/theme/mebis/vendor/jquery-1.11.0.min.js"></script>
-        <script src="/theme/mebis/javascripts/vendor.min.js"></script>
-        <script src="/theme/mebis/javascripts/mebis.js"></script>
-        <script src="/theme/mebis/javascripts/mebis.learning-platform.js"></script>
+        <?php
+            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
 
-    <?php echo $OUTPUT->standard_end_of_body_html() ?>
+            echo $OUTPUT->standard_end_of_body_html();
+        ?>
     </body>
 </html>

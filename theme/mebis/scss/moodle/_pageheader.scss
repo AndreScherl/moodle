@@ -8,23 +8,30 @@ div[role="main"] {
 }
 
 .moodle-menu .nav > li {
-    font-family: FontAwesome;
     font-weight: 400;
     font-style: normal;
-    font-size: 22px;
     float: right;
     width: 50px;
     height: 60px;
 
+    > a {
+        font-size: emCalc(18px);
+    }
+
     &.dropdown {
 
+        &:hover > a {
+            background: $brand-secondary;
+            color: $white;
+        }
+
         ul {
+            min-width: 255px;
 
             &.dropdown-menu {
                 border: none;
+                font-size: emCalc(14px);
             }
-
-            min-width: 255px;
 
             div {
                 background-color: $gray-lighter;
@@ -33,6 +40,15 @@ div[role="main"] {
                 color: $gray-dark;
                 text-align: left;
                 line-height: normal;
+
+                &.dropdown-inner div {
+                    background: transparent;
+
+                    select {
+                        width: 100%;
+                        margin-bottom: 0;
+                    }
+                }
 
                 &.admin-dropdown {
                     background-color: $gray-dark;

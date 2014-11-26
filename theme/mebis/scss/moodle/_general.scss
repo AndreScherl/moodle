@@ -21,3 +21,14 @@ h1, h2 {
         color: #333;
     }
 }
+
+.highlight {
+    background: $brand-gray-dark;
+    color: $white;
+    border-radius: 5px;
+}
+
+.pagination-row {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

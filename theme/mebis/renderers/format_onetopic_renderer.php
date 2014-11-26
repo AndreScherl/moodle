@@ -2,7 +2,7 @@
 
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/course/format/onetopic/renderer.php');
+require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
@@ -10,7 +10,8 @@ require_once($CFG->dirroot.'/course/format/onetopic/renderer.php');
  * @copyright 2012 David Herney Bernal - cirano
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
+class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
+{
 
 
     /**
@@ -21,18 +22,19 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
      * @param int $sectionno The section number in the coruse which is being dsiplayed
      * @return array associative array with previous and next section link
      */
-    protected function get_nav_links($course, $sections, $sectionno) {
+    protected function get_nav_links($course, $sections, $sectionno)
+    {
 
         // FIXME: This is really evil and should by using the navigation API.
         $course = course_get_format($course)->get_course();
         $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($course->id))
-            or !$course->hiddensections;
+        or !$course->hiddensections;
 
         $links = array('previous' => '', 'next' => '');
         $back = $sectionno - 1;
 
         while ((($back > 0 && $course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) || ($back >= 0 && $course->realcoursedisplay != COURSE_DISPLAY_MULTIPAGE)) &&
-                empty($links['previous'])) {
+            empty($links['previous'])) {
             if ($canviewhidden || $sections[$back]->uservisible) {
                 $params = array();
                 if (!$sections[$back]->visible) {
@@ -62,7 +64,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
         return $links;
     }
 
-        /**
+    /**
      * Output the html for a single section page .
      *
      * @param stdClass $course The course entry from DB
@@ -72,7 +74,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
      * @param array $modnamesused used for print_section()
      * @param int $displaysection The section number in the course which is being displayed
      */
-    public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
+    public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection)
+    {
         global $PAGE;
 
         $real_course_display = $course->realcoursedisplay;
@@ -100,8 +103,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
             if ($thissection->summary or $thissection->sequence or $PAGE->user_is_editing()) {
                 echo $this->start_section_list();
                 echo $this->section_header($thissection, $course, true);
-				echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
-            	echo $this->courserenderer->course_section_add_cm_control($course, 0, $displaysection);
+                echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+                echo $this->courserenderer->course_section_add_cm_control($course, 0, $displaysection);
 
                 echo $this->section_footer();
                 echo $this->end_section_list();
@@ -114,7 +117,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
         //Move controls
         $can_move = false;
         if ($PAGE->user_is_editing() && has_capability('moodle/course:movesections', $context) && $displaysection > 0) {
-        	$can_move = true;
+            $can_move = true;
         }
         $move_list_html = '';
         $count_move_sections = 0;
@@ -139,8 +142,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
             $showsection = true;
             if (!$thissection->visible) {
                 $showsection = false;
-            }
-            else if ($section == 0 && !($thissection->summary or $thissection->sequence or $PAGE->user_is_editing())){
+            } else if ($section == 0 && !($thissection->summary or $thissection->sequence or $PAGE->user_is_editing())) {
                 $showsection = false;
             }
 
@@ -173,25 +175,26 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
 
                     $special_style = '';
                     if ($course->marker == $section) {
-                    	$special_style = ' class="marker" ';
+                        $special_style = ' class="marker" ';
                     }
 
                     $tabs[] = new tabobject("tab_topic_" . $section, $url,
-                    '<font style="white-space:nowrap" ' . $special_style . '>' . s($sectionname) . "</font>", s($sectionname));
+                        '<font style="white-space:nowrap" ' . $special_style . '>' . s($sectionname) . "</font>", s($sectionname)
+                    );
 
 
                     //Init move section list***************************************************************************
                     if ($can_move && $displaysection != $section) {
-                    	if ($section > 0) { // Move section
-                    		$baseurl = course_get_url($course, $displaysection);
-                    		$baseurl->param('sesskey', sesskey());
+                        if ($section > 0) { // Move section
+                            $baseurl = course_get_url($course, $displaysection);
+                            $baseurl->param('sesskey', sesskey());
 
-                    		$url = clone($baseurl);
+                            $url = clone($baseurl);
 
-	                 		$url->param('move', $section - $displaysection);
+                            $url->param('move', $section - $displaysection);
 
-	                   		$move_list_html .= html_writer::tag('li', html_writer::link($url, $sectionname));
-                    	}
+                            $move_list_html .= html_writer::tag('li', html_writer::link($url, $sectionname));
+                        }
                     }
                     //End move section list***************************************************************************
                 }
@@ -206,7 +209,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
 
 
         if (!$course->hidetabsbar && count($tabs) > 0) {
-            $sectiontitle .= print_tabs(array($tabs), "tab_topic_" . $displaysection, NULL, NULL, true);
+            $sectiontitle .= print_tabs(array($tabs), "tab_topic_" . $displaysection, null, null, true);
         }
 
         echo $sectiontitle;
@@ -218,8 +221,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
                 echo $this->end_section_list();
             }
             // Can't view this section.
-        }
-        else {
+        } else {
 
             // Now the list of sections..
             echo $this->start_section_list();
@@ -231,8 +233,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
             $completioninfo = new completion_info($course);
             echo $completioninfo->display_help_icon();
 
-	        echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
-	        echo $this->courserenderer->course_section_add_cm_control($course, $displaysection, $displaysection);
+            echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+            echo $this->courserenderer->course_section_add_cm_control($course, $displaysection, $displaysection);
             echo $this->section_footer();
             echo $this->end_section_list();
         }
@@ -243,13 +245,13 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
         $sectionbottomnav .= html_writer::start_div('row');
 
         //@FIXME: why did I have to override this entire method just so I could do this. THTBABW
-        if(!empty($sectionnavlinks['previous'])){
-        $sectionbottomnav .= html_writer::tag('div', $sectionnavlinks['previous'], array('class' => 'col-md-5 col-xs-2'));
+        if (!empty($sectionnavlinks['previous'])) {
+            $sectionbottomnav .= html_writer::tag('div', $sectionnavlinks['previous'], array('class' => 'col-md-5 col-xs-2'));
         }
-        if(!empty($sectionnavlinks['next'])){
-            if(!empty($sectionnavlinks['previous'])){
+        if (!empty($sectionnavlinks['next'])) {
+            if (!empty($sectionnavlinks['previous'])) {
                 $sectionbottomnav .= html_writer::tag('div', $sectionnavlinks['next'], array('class' => 'col-md-5 col-md-offset-2 col-xs-offset-8 col-xs-2'));
-            }else{
+            } else {
                 $sectionbottomnav .= html_writer::tag('div', $sectionnavlinks['next'], array('class' => 'col-md-5 col-md-offset-7 col-xs-offset-10 col-xs-2'));
             }
         }
@@ -262,8 +264,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer {
 
         //Move controls
         if ($can_move && !empty($move_list_html)) {
-        	echo html_writer::start_tag('div', array('class' => 'move-list-box'));
-        	print_string('movesectionto', 'format_onetopic');
+            echo html_writer::start_tag('div', array('class' => 'move-list-box'));
+            print_string('movesectionto', 'format_onetopic');
             echo html_writer::tag('ul', $move_list_html, array('class' => 'move-list'));
             echo html_writer::end_tag('div');
         }

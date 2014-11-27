@@ -99,7 +99,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
     public function block(block_contents $bc, $region)
     {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if($region === 'top') {
+        if($region === 'top' || $region === 'bottom') {
             return $bc->content;
         }
 
@@ -125,8 +125,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         if (!empty($bc->controls)) {
             $bc->add_class('block_with_controls');
         }
-        //$bc->add_class('col-lg-4 col-sm-4 col-md-4');
-
+        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen'){
+            $bc->add_class('row');
+        }
         if (empty($skiptitle)) {
             $output = '';
             $skipdest = '';
@@ -136,8 +137,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             );
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
-
-        $output .= html_writer::start_tag('div', array('class' => 'col-lg-4 col-sm-4 col-md-4'));
+        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen'){
+            $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
+        }else{
+            $output .= html_writer::start_tag('div', array('class' => 'col-md-4'));
+        }
         $output .= html_writer::start_tag('div', $bc->attributes);
 
         $output .= $this->block_header($bc);

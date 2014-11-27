@@ -321,13 +321,11 @@ class theme_mebis_header_renderer extends renderer_base
     public function main_menubar()
     {
         global $PAGE, $OUTPUT, $COURSE;
-        $id = optional_param('id', 1, PARAM_INT);
         $block_menu = '';
         $user_menu = '';
         $admin_menu = '';
         $unreadMessages = '';
         $content = '';
-        $isCourse = ($COURSE->id !== '1');
 
         // when the page is set in editing mode, render an additional menu item to add blocks to the current page
         if ($PAGE->user_is_editing()) {
@@ -349,42 +347,46 @@ class theme_mebis_header_renderer extends renderer_base
         }
 
         // temp code, needs to be removed later on
-        $menu_items = array();
+        $menu_items = '';
+        $id = optional_param('id', 1, PARAM_INT);
         if (!$PAGE->user_is_editing()) {
-            $menu_items = array(
-                'Bearbeitung aktivieren' => new moodle_url('/course/view.php',
-                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on')
-                )
-            );
+            if($PAGE->user_allowed_editing()) {
+                $url = clone $PAGE->url;
+                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on'));
+                $menu_items .= html_writer::start_tag('li');
+                $menu_items .= html_writer::tag('a', get_string('menu-edit-activate', 'theme_mebis'), array('href' => $url));
+                $menu_items .= html_writer::end_tag('li');
+            }
         } else {
-            $menu_items = array(
-                'Bearbeitung deaktivieren' => new moodle_url('/course/view.php',
-                    array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off')
-                )
-            );
+            $url = clone $PAGE->url;
+            $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off'));
+            $menu_items .= html_writer::start_tag('li');
+            $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url));
+            $menu_items .= html_writer::end_tag('li');
         }
-        $menu_items += array('Lorem ipsum' => '#', 'Dolor sit amet' => '#', 'Consectetur adipisicing' => '#');
 
-        $menu_items = $this->generateMenuContentFromArray($menu_items);
-        if (!empty($menu_items)) {
-            $user_menu = html_writer::start_div('dropdown-inner');
-            $user_menu .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
-            $user_menu .= $menu_items;
-            $user_menu .= html_writer::end_tag('ul');
-            $user_menu .= html_writer::end_div();
+        $node = $PAGE->settingsnav->get('usercurrentsettings');
+        if($node instanceof navigation_node) {
+            $menu_items .= $this->generateMenuContentFor($node);
+            if (!empty($menu_items)) {
+                $user_menu = html_writer::start_div('dropdown-inner');
+                $user_menu .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
+                $user_menu .= $menu_items;
+                $user_menu .= html_writer::end_tag('ul');
+                $user_menu .= html_writer::end_div();
+            }
         }
 
         // try to display admin menu only if user has the required capabilities (improves performance for non-admins)
         if (has_capability('moodle/site:config', context_system::instance())) {
-            $menu_items = $this->generateMenuContentFromArray(array('Lorem ipsum' => '#', 'Dolor sit amet' => '#', 'Consectetur adipisicing' => '#'));
-            if (!empty($menu_items)) {
-                $admin_menu = html_writer::start_div('dropdown-inner admin-dropdown');
-                $admin_menu .= html_writer::tag('strong', get_string('menu-administration-head', 'theme_mebis'));
-                $admin_menu .= html_writer::start_tag('ul');
-                $admin_menu .= $menu_items;
-                $admin_menu .= html_writer::end_tag('ul');
-                $admin_menu .= html_writer::end_div();
-            }
+            $admin_menu = html_writer::start_div('dropdown-inner admin-dropdown');
+            $admin_menu .= html_writer::tag('strong', get_string('menu-administration-head', 'theme_mebis'));
+            $admin_menu .= html_writer::start_tag('ul');
+            $admin_menu .= html_writer::start_tag('li');
+            $admin_menu .= html_writer::tag('a', get_string('menu-administration-link', 'theme_mebis'), array('href' => new moodle_url('/admin/index.php')));
+            $admin_menu .= html_writer::start_tag('li');
+            $admin_menu .= html_writer::end_tag('ul');
+            $admin_menu .= html_writer::end_div();
         }
 
         if (message_count_unread_messages() > 0) {
@@ -407,15 +409,17 @@ class theme_mebis_header_renderer extends renderer_base
         );
         $content .= html_writer::end_tag('li');
 
-        // Add block menu item
+        // My dashboard item
         $content .= html_writer::start_tag('li');
         $content .= html_writer::tag('a', '<i class="fa fa-laptop"></i>',
-            array('class' => 'extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+            array('class' => 'extra-nav-mobile-spacer', 'href' => new moodle_url('/my'))
         );
         $content .= html_writer::end_tag('li');
+
+        // "Add block" menu item
         $content .= $block_menu;
 
-        // Config menu item (only show if one of the menu items has valid nodes)
+        // Config menu item (only show if at least one of the menu items has valid nodes)
         if (!empty($user_menu) || !empty($admin_menu)) {
             $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
             $content .= html_writer::tag('a', '<i class="fa fa-cog"></i>',
@@ -427,26 +431,29 @@ class theme_mebis_header_renderer extends renderer_base
             $content .= html_writer::end_tag('li');
         }
 
+        $isCourse = ($COURSE->id !== '1');
         if ($isCourse) {
-            $course_menu = $this->generateMenuContentFor('courseadmin');
-
-            if ($course_menu) {
-                $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
-                $content .= html_writer::start_tag('a',
-                    array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
-                );
-                $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
-                $content .= html_writer::end_tag('a');
-                $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
-                $content .= html_writer::start_tag('li');
-                $content .= html_writer::start_div('dropdown-inner');
-                $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
-                $content .= $course_menu;
-                $content .= html_writer::end_tag('ul');
-                $content .= html_writer::end_tag('div');
-                $content .= html_writer::end_tag('li');
-                $content .= html_writer::end_tag('ul');
-                $content .= html_writer::end_tag('li');
+            $node = $PAGE->settingsnav->get('courseadmin');
+            if ($node instanceof navigation_node) {
+                $course_menu = $this->generateMenuContentFor($node, array('edit='));
+                if ($course_menu) {
+                    $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
+                    $content .= html_writer::start_tag('a',
+                        array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+                    );
+                    $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
+                    $content .= html_writer::end_tag('a');
+                    $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
+                    $content .= html_writer::start_tag('li');
+                    $content .= html_writer::start_div('dropdown-inner');
+                    $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
+                    $content .= $course_menu;
+                    $content .= html_writer::end_tag('ul');
+                    $content .= html_writer::end_tag('div');
+                    $content .= html_writer::end_tag('li');
+                    $content .= html_writer::end_tag('ul');
+                    $content .= html_writer::end_tag('li');
+                }
             }
         }
 
@@ -460,38 +467,14 @@ class theme_mebis_header_renderer extends renderer_base
      * Turns a list of all child nodes for the given $node name into a list of li elements to render in the menu
      * bar.
      *
-     * @param $node string
+     * @param $node navigation_node
+     * @param $linkfilters array
      * @return string
      */
-    protected function generateMenuContentFromArray($node)
+    protected function generateMenuContentFor(navigation_node $node, array $linkfilters = array())
     {
-        global $PAGE;
-
-        /* @var $nav settings_navigation */
-        $nav = $PAGE->settingsnav;
         $menuitems = '';
-        foreach ($node as $linktxt => $link) {
-            $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a></li>';
-        }
-
-        return $menuitems;
-    }
-
-    /**
-     * Turns a list of all child nodes for the given $node name into a list of li elements to render in the menu
-     * bar.
-     *
-     * @param $node string
-     * @return string
-     */
-    public function generateMenuContentFor($node)
-    {
-        global $PAGE;
-
-        /* @var $nav settings_navigation */
-        $nav = $PAGE->settingsnav;
-        $menuitems = '';
-        foreach ($nav->get($node)->children as $navchild) {
+        foreach ($node->children as $navchild) {
             /* @var $navchild navigation_node */
             if ($navchild->display) {
                 $link = '#';
@@ -500,15 +483,27 @@ class theme_mebis_header_renderer extends renderer_base
                     $link = $navchild->action->__toString();
                 }
 
-                if ($navchild->text instanceof lang_string) {
-                    $linktxt = $navchild->text->out();
-                } else {
-                    $linktxt = $navchild->text;
+                // skip all the links which contain on the given $linkfilters
+                $skipLink = false;
+                foreach($linkfilters as $filter) {
+                    if(false !== strpos($link, $filter)) {
+                        $skipLink = true;
+                        break;
+                    }
                 }
 
-                // "ignore" ajax links in the top menu bar
-                if ($link !== '#') {
-                    $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a></li>';
+                if(!$skipLink) {
+                    if ($navchild->text instanceof lang_string) {
+                        $linktxt = $navchild->text->out();
+                    } else {
+                        $linktxt = $navchild->text;
+                    }
+
+                    $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a>';
+                    if ($navchild->has_children()) {
+                        $menuitems .= '<ul>'.$this->generateMenuContentFor($navchild).'</ul>';
+                    }
+                    $menuitems .= '</li>';
                 }
             }
         }

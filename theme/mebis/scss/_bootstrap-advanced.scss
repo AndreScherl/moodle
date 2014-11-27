@@ -26,6 +26,7 @@
 }
 
 @mixin block-grid ($per-row) {
+
     & > li {
         width: (100%/$per-row);
         list-style: none;
@@ -35,6 +36,7 @@
         &:nth-of-type(n) { clear: none; }
         &:nth-of-type(#{$nth-equation}) { clear: both; }
     }
+
 }
 
 @mixin block-grids($size) {
@@ -52,8 +54,8 @@
     .block-grid-#{$size}-12 { @include block-grid(12); }
 }
 
-
-@media (max-width: $screen-sm-min) { @include block-grids(xs) }
-@media (min-width: $screen-sm-min) { @include block-grids(sm) }
-@media (min-width: $screen-md-min) { @include block-grids(md) }
-@media (min-width: $screen-lg-min) { @include block-grids(lg) }
+@media only screen { @include block-grids(xs) }
+@media only screen and (min-width: $screen-xc-min) { @include block-grids(sm) }
+@media only screen and (min-width: $screen-sm-min) { @include block-grids(sm) }
+@media only screen and (min-width: $screen-md-min) { @include block-grids(md) }
+@media only screen and (min-width: $screen-lg-min) { @include block-grids(lg) }

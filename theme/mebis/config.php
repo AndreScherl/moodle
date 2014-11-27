@@ -9,7 +9,7 @@ $THEME->name = 'mebis';
 $THEME->parents = array('bootstrap');
 
 $THEME->doctype = 'html5';
-$THEME->sheets = array('mebis');
+// $THEME->sheets = array('mebis');
 $THEME->lessfile = 'moodle';
 $THEME->parents_exclude_sheets = array('bootstrap' => array('moodle'));
 $THEME->lessvariablescallback = 'theme_mebis_less_variables';
@@ -26,12 +26,11 @@ $THEME->layouts = array(
     // Most backwards compatible layout without the blocks - this is the layout used by default.
     'base' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre', 'side-post'),
-        'defaultregion' => 'side-pre'
+        'regions' => array()
     ),
     'mydashboard' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre', 'side-post', 'top'),
+        'regions' => array('side-pre', 'side-post', 'top', 'bottom'),
         'defaultregion' => 'side-pre'
     ),
     'login' => array(
@@ -39,11 +38,15 @@ $THEME->layouts = array(
         'regions' => array('side-pre', 'side-post', 'top'),
         'defaultregion' => 'side-pre',
         'options' => array('langmenu' => false, 'nonavbar' => true),
+    ),
+    'course' => array(
+        'file' => 'default.php',
+        'regions' => array('side-pre', 'side-post'),
+        'defaultregion' => 'side-pre'
+    ),
+    'incourse' => array(
+        'file' => 'default.php',
+        'regions' => array('side-pre', 'side-post'),
+        'defaultregion' => 'side-pre'
     )
-);
-
-$THEME->javascripts = array(
-);
-$THEME->javascripts_footer = array(
-    'vendor.min', 'mebis'
 );

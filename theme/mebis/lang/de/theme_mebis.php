@@ -48,6 +48,10 @@ $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Medien suchen oder Suchbegriff eingeben';
 
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
+$string['menu-administration-link'] = 'Webseiten Administration';
+
+$string['menu-edit-activate'] = 'Bearbeitung aktivieren';
+$string['menu-edit-deactivate'] = 'Bearbeitung deaktivieren';
 
 $string['coursedialog-close'] = 'zur Übersicht X';
 

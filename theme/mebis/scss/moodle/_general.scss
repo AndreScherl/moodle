@@ -1,9 +1,6 @@
 ul {
-
     &.weeks {
-
         h3 {
-
             &.sectionname {
                 color: $white !important;
             }
@@ -16,9 +13,8 @@ h1, h2 {
 }
 
 .block {
-
     h2 {
-        color: #333;
+        color: #333 !important;
     }
 }
 
@@ -31,4 +27,18 @@ h1, h2 {
 .pagination-row {
     margin-top: 25px;
     margin-bottom: 25px;
+}
+
+div[role=main] {
+    color: $white;
+}
+
+.mform legend a,
+.mform legend a:hover {
+    color: white !important;
+}
+
+.dndsupported .dndupload-message,
+p.tree_item {
+    color: #333 !important;
 }

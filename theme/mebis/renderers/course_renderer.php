@@ -28,7 +28,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
             )
         );
 
-        $chelper->set_attributes(array('class' => 'frontpage-course-list-all row'));
+        $chelper->set_attributes(array('class' => 'frontpage-course-list-all'));
         $courses = coursecat::get(0)->get_courses($chelper->get_courses_display_options());
         $totalcount = coursecat::get(0)->get_courses_count($chelper->get_courses_display_options());
         if (!$totalcount && !$this->page->user_is_editing() && has_capability('moodle/course:create', context_system::instance())) {
@@ -173,7 +173,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         $sortbox .= html_writer::end_tag('select');
         $sortbox .= html_writer::end_div();
-        $sortbox .= html_writer::start_div('col-md-3');
+        $sortbox .= html_writer::start_div('col-md-4');
         $sortbox .= html_writer::start_tag('select', array('name' => '', 'id' => 'me-order-results', 'class' => 'form-control'));
         $sortbox .= html_writer::tag('option', 'Sortieren nach...', array('value' => ''));
         $sortbox .= html_writer::tag('option', 'manuelle Reihenfolge', array('value' => 'manual'));
@@ -183,7 +183,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::tag('option', 'Zeit der Erstellung', array('value' => 'time-created'));
         $sortbox .= html_writer::end_tag('select');
         $sortbox .= html_writer::end_div();
-        $sortbox .= html_writer::start_div('col-md-3 me-render-results text-right');
+        $sortbox .= html_writer::start_div('col-md-2 me-render-results text-right');
         $sortbox .= html_writer::start_tag('a', array('href' => '#', 'data-switch' => 'list'));
         $sortbox .= html_writer::tag('i', '', array('class' => 'fa fa-list'));
         $sortbox .= html_writer::end_tag('a');
@@ -246,7 +246,6 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
             $formid .= $count;
         }
         $inputid = 'coursesearchbox';
-        $inputsize = 30;
 
         if ($format === 'navbar') {
             $formid = 'coursesearchnavbar';
@@ -267,7 +266,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         $output .= html_writer::start_div('input-group');
         $output .= html_writer::tag('label', $strsearchcourses, array('for' => $inputid, 'class' => 'sr-only'));
-        $search = array('type' => 'text', 'id' => $inputid, 'size' => $inputsize, 'name' => 'search',
+        $search = array('type' => 'text', 'id' => $inputid, 'name' => 'search',
                         'class' => 'form-control', 'value' => s($value), 'placeholder' => $strsearchcourses);
         $output .= html_writer::empty_tag('input', $search);
         $button = array('type' => 'submit', 'class' => 'btn btn-primary btn-search');
@@ -436,7 +435,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
                     $content .= $this->heading(get_string('novalidcourses'));
                 }
             } else {
-                $content .= $this->heading("$totalcount " . get_string('searchresults'). " mit '" . $searchcriteria['search'] . "' gefunden");
+                $content .= $this->heading("$totalcount " . get_string('searchresults'). " für '" . $searchcriteria['search'] . "'");
                 $content .= $courseslist;
             }
 

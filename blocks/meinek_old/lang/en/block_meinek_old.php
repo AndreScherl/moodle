@@ -1,0 +1,44 @@
+<?php
+
+defined('MOODLE_INTERNAL') || die();
+
+$string['allcourses'] = 'All courses';
+$string['allotherschools'] = 'All other schools';
+$string['assignments'] = 'Assignments';
+$string['coursesastrainer'] = 'Courses As Teacher';
+$string['deadline'] = 'Deadline';
+$string['forums'] = 'Forums';
+$string['grade'] = 'Grade';
+$string['last6months'] = 'Visited last 6 months';
+$string['lastmonth'] = 'Visited last month';
+$string['lastvisited'] = 'Last Visited';
+$string['lastweek'] = 'Visited within last week';
+$string['meinek_old:myaddinstance'] = 'Add a new My Courses old block to My home';
+$string['meinek_old:viewtrainertab'] = 'View Trainer Tab';
+$string['mycourses'] = 'Courses As Student';
+$string['name'] = 'Name';
+$string['new'] = 'new';
+$string['nocourses'] = 'No courses to display';
+$string['nonewitemssincelastlogin'] = 'There are no new items since your last login';
+$string['notinschool'] = 'Not in a school';
+$string['numcourses'] = 'Number of Courses';
+$string['numgradedsubmissions'] = 'Number of graded submissions';
+$string['numposts'] = 'Number of posts';
+$string['numsubmissions'] = 'Number of submissions';
+$string['numtests'] = 'Number of completed tests';
+$string['otherschools'] = 'Other schools';
+$string['pluginname'] = 'My Courses old';
+$string['posts'] = 'posts';
+$string['quizes'] = 'Quizes';
+$string['resources'] = 'Resources';
+$string['school'] = 'School';
+$string['sincelastlogin'] = 'since last login';
+$string['sortasc'] = 'Sorted ascending';
+$string['sortby'] = 'Sort By';
+$string['sortdesc'] = 'Sorted descending';
+$string['sortname'] = 'Sort by name';
+$string['sorttimecreated'] = 'Sort by time created';
+$string['sorttimevisited'] = 'Sort by time visited';
+$string['submitted'] = 'Submitted';
+$string['timecreated'] = 'Time Created';
+$string['timevisited'] = 'Time Visited';

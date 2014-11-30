@@ -30,6 +30,4 @@ if ($ADMIN->fulltree) {
         new lang_string('forcedefaultmaxcoursesdesc', 'block_mbs_my_courses'), 1, PARAM_INT));
     $settings->add(new admin_setting_configcheckbox('block_mbs_my_courses/showchildren', new lang_string('showchildren', 'block_mbs_my_courses'),
         new lang_string('showchildrendesc', 'block_mbs_my_courses'), 1, PARAM_INT));
-    $settings->add(new admin_setting_configcheckbox('block_mbs_my_courses/showwelcomearea', new lang_string('showwelcomearea', 'block_mbs_my_courses'),
-        new lang_string('showwelcomeareadesc', 'block_mbs_my_courses'), 1, PARAM_INT));
 }

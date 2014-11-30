@@ -295,37 +295,4 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
         $output = '</div></div></div>';
         return $output;
     }
-
-    /**
-     * Cretes html for welcome area
-     *
-     * @param int $msgcount number of messages
-     * @return string html string for welcome area.
-     */
-    public function welcome_area($msgcount) {
-        global $USER;
-        $output = $this->output->box_start('welcome_area');
-
-        $picture = $this->output->user_picture($USER, array('size' => 75, 'class' => 'welcome_userpicture'));
-        $output .= html_writer::tag('div', $picture, array('class' => 'profilepicture'));
-
-        $output .= $this->output->box_start('welcome_message');
-        $output .= $this->output->heading(get_string('welcome', 'block_mbs_my_courses', $USER->firstname));
-
-        $plural = 's';
-        if ($msgcount > 0) {
-            $output .= get_string('youhavemessages', 'block_mbs_my_courses', $msgcount);
-            if ($msgcount == 1) {
-                $plural = '';
-            }
-        } else {
-            $output .= get_string('youhavenomessages', 'block_mbs_my_courses');
-        }
-        $output .= html_writer::link(new moodle_url('/message/index.php'), get_string('message'.$plural, 'block_mbs_my_courses'));
-        $output .= $this->output->box_end();
-        $output .= $this->output->box('', 'flush');
-        $output .= $this->output->box_end();
-
-        return $output;
-    }
 }

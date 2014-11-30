@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Course overview block
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbs_my_courses
  * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
@@ -23,12 +23,6 @@
  */
 require_once($CFG->dirroot.'/blocks/mbs_my_courses/locallib.php');
 
-/**
- * Course overview block
- *
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class block_mbs_my_courses extends block_base {
     /**
      * If this is passed as mynumber then showallcourses, irrespective of limit by user.
@@ -63,6 +57,7 @@ class block_mbs_my_courses extends block_base {
 
         $content = array();
 
+        // number of visible listed courses
         $updatemynumber = optional_param('mynumber', -1, PARAM_INT);
         if ($updatemynumber >= 0) {
             block_mbs_my_courses_update_mynumber($updatemynumber);
@@ -75,12 +70,6 @@ class block_mbs_my_courses extends block_base {
         $overviews = block_mbs_my_courses_get_overviews($sitecourses);
 
         $renderer = $this->page->get_renderer('block_mbs_my_courses');
-        if (!empty($config->showwelcomearea)) {
-            require_once($CFG->dirroot.'/message/lib.php');
-            $msgcount = message_count_unread_messages();
-            $this->content->text = $renderer->welcome_area($msgcount);
-        }
-
         // Number of sites to display.
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
             $this->content->text .= $renderer->editing_bar_head($totalcourses);

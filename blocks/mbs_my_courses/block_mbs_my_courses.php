@@ -75,6 +75,9 @@ class block_mbs_my_courses extends block_base {
             $this->content->text .= $renderer->editing_bar_head($totalcourses);
         }
 
+        //!ToDo: add parameter to support user specific schools filter
+        $this->content->text .= $renderer->filter_form();
+
         if (empty($sortedcourses)) {
             $this->content->text .= get_string('nocourses','my');
         } else {

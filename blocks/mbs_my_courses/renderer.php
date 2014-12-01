@@ -295,4 +295,32 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
         $output = '</div></div></div>';
         return $output;
     }
+
+    /**
+     * Construct form to filter courses
+     *
+     * @return string return the HTML as a string, rather than printing it.
+     */
+    public function filter_form() {
+        global $CFG;
+        require_once($CFG->libdir."/formslib.php");
+        //! ToDo: language strings, dynamic data
+        $form = '';
+        $form .= html_writer::start_tag('div');
+        $form .= html_writer::select(array("Alle Schulen", "Schule 1", "Schule 2"), "filter_school", $selected = "0");
+        $form .= html_writer::end_tag('div');
+        $form .= html_writer::start_tag('div');
+        $form .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...");
+        $form .= html_writer::end_tag('div');
+        $form .= html_writer::start_tag('div');
+        $form .= html_writer::start_tag('input', array("type" => "radio", "name" => "switch_view", "value" => "list"));
+        $form .= "list";
+        $form .= html_writer::end_tag('input');
+        $form .= html_writer::start_tag('input', array("type" => "radio", "name" => "switch_view", "value" => "grid", "checked" => "checked"));
+        $form .= "grid";
+        $form .= html_writer::end_tag('input');
+        $form .= html_writer::end_tag('div');
+        $output = html_writer::tag('form', $form, array("id" => "filter_form", "action" => new moodle_url("blocks/mbs_my_courses/block_mbs_my_courses.php"), "method" => "get"));
+        return $output;
+    }
 }

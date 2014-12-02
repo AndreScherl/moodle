@@ -137,7 +137,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             );
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
-        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen'){
+        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen' || $bc->title == 'Einstellungen' || $bc->title == 'Lesezeichen' || $bc->title == 'Navigation'){
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         }else{
             $output .= html_writer::start_tag('div', array('class' => 'col-md-4'));

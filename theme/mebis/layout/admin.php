@@ -1,24 +1,18 @@
 <?php
+require_once($CFG->dirroot . "/blocks/settings/block_settings.php");
 
 $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
-$knownregiontop = $PAGE->blocks->is_known_region('top');
-$knownregionbottom = $PAGE->blocks->is_known_region('bottom');
+$knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
 
-if($knownregiontop) {
-    $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
-    $fakeBlock = new block_contents();
-    $fakeBlock->content = $help_renderer->helpnote();
-    $PAGE->blocks->add_fake_block($fakeBlock, 'top');
-}
 
-if($knownregionbottom) {
-    require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
-    $fakeSchoolBlock = new block_contents();
-    $b_ms = new block_meineschulen();
-    $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
-    $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'bottom');
-}
+//if($knownregionadminnavi) {
+//    $fakeSettingsBlock = new block_contents();
+//    $b_s = new block_settings();
+//    $fakeSettingsBlock->content = implode('', $b_s->get_content());
+//
+//    $PAGE->blocks->add_fake_block($fakeSettingsBlock, 'admin-navi');
+//}
 
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
@@ -49,7 +43,7 @@ echo $OUTPUT->doctype()
         <?php echo $OUTPUT->standard_head_html(); ?>
 
         <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
-        <script src="<?php echo new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
+        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -75,63 +69,20 @@ echo $OUTPUT->doctype()
 
                 <!-- Breadcrums -->
                 <?php echo $OUTPUT->main_breadcrumbs() ?>
-
+                <div class="row">
+                <div class="col-md-4">
                 <?php
-
-                if ($knownregiontop) {
-                    echo $OUTPUT->blocks('top');
+                if ($knownregionadminnavi) {
+                    echo $OUTPUT->blocks('admin-navi');
                 }
-
+                ?></div>
+                <div class="col-md-8">
+                <?php
                 // echo $OUTPUT->course_content_header();
                 echo $OUTPUT->main_content();
                 // echo $OUTPUT->course_content_footer();
                 ?>
-                <div class="row">
-                    <?php
-                    if ($knownregionpost || $knownregionpre) {
-                        ?>
-
-                        <div class="col-lg-12 col-sm-12">
-                            <h1 class="pull-left">Meine Apps</h1>
-                        </div>
-                        <?php
-                            $displayregion = $this->page->apply_theme_region_manipulations('side-post');
-                            $classes = array($regions['pre'],$regions['post']);
-                            $classes[] = 'block-region';
-                            $attributes = array(
-                                'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-                                'class' => 'row',
-                                'data-blockregion' => $displayregion,
-                                'data-droptarget' => '1'
-                            );
-                            echo html_writer::start_tag('aside', $attributes);
-                            echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
-
-                            if ($knownregionpost) {
-                                echo $OUTPUT->blocks('side-post', $regions['post']);
-                            }
-                            if ($knownregionpre) {
-                                echo $OUTPUT->blocks('side-pre', $regions['pre']);
-                            }
-                            echo html_writer::end_div();
-                            echo html_writer::end_tag('aside');
-                    }
-                            if ($knownregionbottom) {
-                        ?>
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12">
-                                <h1 class="pull-left">Meine Schulen</h1>
-                            </div>
-                            <?php
-
-                                echo $OUTPUT->blocks('bottom');
-                            ?>
-                        </div>
-                    </div>
-                    <?php
-                    }
-                    ?>
+                </div>
                 </div>
             </div>
 

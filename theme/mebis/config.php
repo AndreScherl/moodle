@@ -48,5 +48,10 @@ $THEME->layouts = array(
         'file' => 'default.php',
         'regions' => array('side-pre', 'side-post'),
         'defaultregion' => 'side-pre'
+    ),
+    'admin' => array(
+        'file' => 'admin.php',
+        'regions' => array('admin-navi'),
+        'defaultregion' => 'admin-navi'
     )
 );

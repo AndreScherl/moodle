@@ -39,6 +39,7 @@
         }
         .content {
             padding: 20px !important;
+            color: #333;
 
             .page.modtype_page, .imscp.modtype_imscp,.resource.modtype_resource,.quiz.modtype_quiz {
                 background-color: #F0F0F0;
@@ -160,6 +161,100 @@
                 top: inherit;
                 left: inherit;
                 top: 80px;
+            }
+        }
+    }
+}
+
+.course-content {
+    ul.ctopics li.section{
+        /*        &.main .content {
+                    margin: 0px -20px !important;
+                }*/
+        .content{
+            color: #333;
+            .toggledsection {
+                display: none;
+                &.sectionopen{
+                    display: inline-block;
+                }
+            }
+
+            .sectionhead {
+                position:relative;
+                background-color: transparent !important;
+                h3{
+                    font-family: "Titillium Web SemiBold","Titillium Web";
+                    font-weight: 600;
+                    font-style: normal;
+                    font-size: emCalc(18px);
+                    text-align: left;
+                    line-height: 24px;
+                }
+                .closebutton {
+                    font-family: FontAwesome;
+                    position: absolute;
+                    right: 0px;
+                    top: 12px;
+                    color: #333333;
+                    cursor: pointer;
+                }
+            }
+            margin: 0px;
+            padding: 10px !important;
+        }
+        &.body {
+            background-color: $white;
+            padding: 20px !important;
+            margin: 2px 1px 1px;
+        }
+        padding: 0px !important;
+    }
+}
+
+ul.jumpnavigation {
+    position:fixed;
+    top:40%;
+    right:0;
+    z-index:5;
+    list-style:none;
+    color: $white;
+    padding: 50px 0 50px 100px !important;
+    li.jumpnavigation-point {
+        background-color:$brand-secondary;
+        padding: 0px 15px ;
+        margin-top:2px;
+        height: 26px;
+        cursor: pointer;
+        min-width: 50px;
+        user-select: none;
+        span {
+            font-family: "Titillium Web Light","Titillium Web";
+            font-weight: 300;
+            font-style: normal;
+            font-size: calcEm(16px);
+            text-align: center;
+            line-height: normal;
+            display: none;
+        }
+        &:hover {
+            background-color:$brand-primary;
+        }
+        &.up-arrow {
+            height: 50px;
+            width: 50px;
+            margin-top:7px;
+            float: right;
+            span {
+                font-size: 32px;
+                display: inline-block;
+            }
+        }
+    }
+    &:hover {
+        li.jumpnavigation-point {
+            span {
+                display: inline-block;
             }
         }
     }

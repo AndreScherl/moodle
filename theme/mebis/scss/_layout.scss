@@ -410,7 +410,7 @@
 
 	// ========================================= Buttons, Forms, etc ========================================= */
 
-	.form-control {
+	.form-control, input[type="text"].form-control {
 		height: auto;
 		font-size: 1em;
 	}
@@ -489,9 +489,12 @@
 		}
 
 		&.btn-search {
-			//line-height: 30px;
 			line-height: inherit;
 			padding: 7px 12px;
+
+			span, i {
+				line-height: inherit;
+			}
 		}
 
 		&.btn-left { text-align: left; }
@@ -502,7 +505,7 @@
 		font-size: inherit;
 	}
 
-	.form-control {
+	.form-control, input[type="text"].form-control {
 		@include box-shadow(2px 2px 0  $brand-gray-light inset);
 		border: 1px solid $brand-gray-medium;
 	}

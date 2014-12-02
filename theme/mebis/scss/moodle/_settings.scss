@@ -49,3 +49,18 @@ h2.header {
 .grouped_settings label {
     color: #666;
 }
+
+.generaltable {
+    color: $white;
+    .disabled{
+        .availability {
+            background-color: transparent !important;
+        }
+    }
+}
+
+.box {
+    .info.total{
+        color: $white;
+    }
+}

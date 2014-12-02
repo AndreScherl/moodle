@@ -75,6 +75,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     {
         global $PAGE;
 
+
+        //Add side jump-navigation
+        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
+        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
+        echo html_writer::end_tag('ul');
+        //End side jump-navigation
+
         $summarystatus = $this->courseformat->get_summary_visibility($course->id);
         $context = context_course::instance($course->id);
         $editing = $PAGE->user_is_editing();

@@ -23,9 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../config.php');
-require_once("$CFG->dirroot/user/files_form.php");
-require_once("$CFG->dirroot/repository/lib.php");
+require_once('../config.php');
+require_once($CFG->customscripts . "/user/files_form.php");
 
 require_login();
 if (isguestuser()) {
@@ -69,7 +68,7 @@ $options = array('subdirs' => 1, 'maxbytes' => $maxbytes, 'maxfiles' => -1, 'acc
         'areamaxbytes' => $maxareabytes);
 file_prepare_standard_filemanager($data, 'files', $options, $context, 'user', 'private', 0);
 
-$mform = new user_files_form(null, array('data' => $data, 'options' => $options));
+$mform = new theme_mebis_user_files_form(null, array('data' => $data, 'options' => $options));
 
 if ($mform->is_cancelled()) {
     redirect($returnurl);
@@ -80,6 +79,16 @@ if ($mform->is_cancelled()) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox');
+
+echo html_writer::start_tag('div', array('class' => 'user-filemanager'));
+echo html_writer::start_tag('div', array('class' => 'row'));
+echo html_writer::start_tag('div', array('class' => 'col-md-12'));
+
 $mform->display();
+
+echo html_writer::end_tag('div');
+echo html_writer::end_tag('div');
+echo html_writer::end_tag('div');
+
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();

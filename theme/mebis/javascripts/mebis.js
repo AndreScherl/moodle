@@ -147,7 +147,7 @@ var Mebis = (function($) {
 				} else {
 					$(this).attr("src",contrastPath);
 					$(this).attr("data-src-contrast",currentPath);
-				}	
+				}
 			});
 
 			if (mode == 'default') {
@@ -253,7 +253,7 @@ var Mebis = (function($) {
 		$('.toggle-nav').on('click', function(e) { e.preventDefault(); });
 
 		if($(window).width() > 992 ) {
-			$.equalizer();
+			//$.equalizer();
 			$('[data-equalizer-inner] .me-block-inner').each(function() {
 				$(this).css('min-height', $(this).parent().css('min-height'));
 			});
@@ -407,7 +407,7 @@ var Mebis = (function($) {
 					var top = $_this.offset().top + 25;
 					$popup.css('top', top);
 				},25);
-			}	
+			}
 
 		});
 
@@ -430,11 +430,11 @@ var Mebis = (function($) {
 			// add class for coloring the rating stars and remove class with a delay when mouse leaves or touch gesture ends
 			$(this).on('mouseenter touchstart', function() {
 				$(this).addClass("personal-rating");
-			});	
-			
+			});
+
 			$(this).on('mouseleave touchend', function() {
 				$(this).removeClass("personal-rating");
-			});	
+			});
 
 			// attach event listener for hover effect
 			var $stars = $(this).find('span');
@@ -484,7 +484,7 @@ var Mebis = (function($) {
 			initImageBlurCanvas();
 			setTimeout(function(){
 				$.equalizer();
-			},50); 
+			},50);
 		}
 	}
 

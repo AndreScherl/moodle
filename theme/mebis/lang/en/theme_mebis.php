@@ -63,3 +63,5 @@ $string['nav-management'] = 'Verwaltung';
 $string['nav-read'] = 'Vorlesen';
 
 $string['header-img-title'] = 'Mebis Logo Lernplattform';
+
+$string['advancedsearch'] = 'Advanced Search';

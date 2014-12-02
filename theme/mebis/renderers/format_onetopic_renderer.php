@@ -61,6 +61,12 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
             $forward++;
         }
 
+        //Add side jump-navigation
+        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
+        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
+        echo html_writer::end_tag('ul');
+        //End side jump-navigation
+
         return $links;
     }
 

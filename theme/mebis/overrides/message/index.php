@@ -22,12 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $USER, $CFG, $PAGE, $SITE, $OUTPUT;
+$overrides_path = dirname(__FILE__);
 
-$path = '/home/vanzeijl/public_html/mebis-moodle/trunk';
-require_once($path . '/config.php');
-require_once($path . '/message/lib.php');
-require_once($path . '/message/send_form.php');
+require_once('../config.php');
+require_once('lib.php');
+require_once($overrides_path . '/lib.php');
+require_once('send_form.php');
 
 require_login(0, false);
 
@@ -244,100 +244,116 @@ $countblocked = count($blockedusers);
 
 list($onlinecontacts, $offlinecontacts, $strangers) = message_get_contacts($user1, $user2);
 
-message_print_contact_selector($countunreadtotal, $viewing, $user1, $user2, $blockedusers, $onlinecontacts, $offlinecontacts, $strangers, $showactionlinks, $page);
+echo html_writer::start_tag('div', array('class' => 'usermessages'));
+echo html_writer::start_tag('div', array('class' => 'row'));
+echo html_writer::start_tag('div', array('class' => 'col-md-12 usermessages-head'));
+echo html_writer::tag('h3', get_string('messages', 'message'), array('class' => 'viewing-label'));
+echo html_writer::end_tag('div');
 
-echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
-    if (!empty($user2)) {
+echo html_writer::start_tag('div', array('class' => 'col-md-4 usermessages-left'));
+theme_mebis_message_print_contact_selector($countunreadtotal, $viewing, $user1, $user2, $blockedusers, $onlinecontacts, $offlinecontacts, $strangers, $showactionlinks, $page);
+echo html_writer::end_tag('div');
 
-        echo html_writer::start_tag('div', array('class' => 'mdl-left messagehistory'));
+echo html_writer::start_tag('div', array('class' => 'col-md-8 usermessages-right'));
 
-            $visible = 'visible';
-            $hidden = 'hiddenelement'; //cant just use hidden as mform adds that class to its fieldset for something else
+echo html_writer::start_tag('div', array('class' => 'messages-area'));
 
-            $recentlinkclass = $recentlabelclass = $historylinkclass = $historylabelclass = $visible;
-            if ($history == MESSAGE_HISTORY_ALL) {
-                $displaycount = 0;
+if (!empty($user2)) {
 
-                $recentlabelclass = $historylinkclass = $hidden;
-            } else if($viewingnewmessages) {
-                //if user is viewing new messages only show them the new messages
-                $displaycount = $countunread;
+    echo html_writer::start_tag('div', array('class' => 'mdl-left messagehistory'));
 
-                $recentlabelclass = $historylabelclass = $hidden;
-            } else {
-                //default to only showing the last few messages
-                $displaycount = MESSAGE_SHORTVIEW_LIMIT;
+    $visible = 'visible';
+    $hidden = 'hiddenelement'; //cant just use hidden as mform adds that class to its fieldset for something else
 
-                if ($countunread>MESSAGE_SHORTVIEW_LIMIT) {
-                    $displaycount = $countunread;
+    $recentlinkclass = $recentlabelclass = $historylinkclass = $historylabelclass = $visible;
+    if ($history == MESSAGE_HISTORY_ALL) {
+        $displaycount = 0;
+
+        $recentlabelclass = $historylinkclass = $hidden;
+    } else if($viewingnewmessages) {
+        //if user is viewing new messages only show them the new messages
+        $displaycount = $countunread;
+
+        $recentlabelclass = $historylabelclass = $hidden;
+    } else {
+        //default to only showing the last few messages
+        $displaycount = MESSAGE_SHORTVIEW_LIMIT;
+
+        if ($countunread>MESSAGE_SHORTVIEW_LIMIT) {
+            $displaycount = $countunread;
+        }
+
+        $recentlinkclass = $historylabelclass = $hidden;
+    }
+
+    $messagehistorylink =  html_writer::start_tag('div', array('class' => 'mdl-align messagehistorytype'));
+    $messagehistorylink .= html_writer::link($PAGE->url->out(false).'&history='.MESSAGE_HISTORY_ALL,
+        get_string('messagehistoryfull','message'),
+        array('class' => $historylinkclass));
+
+    $messagehistorylink .=  html_writer::start_tag('span', array('class' => $historylabelclass));
+    $messagehistorylink .= get_string('messagehistoryfull','message');
+    $messagehistorylink .= html_writer::end_tag('span');
+
+    $messagehistorylink .= '&nbsp;|&nbsp;'.html_writer::link($PAGE->url->out(false).'&history='.MESSAGE_HISTORY_SHORT,
+        get_string('mostrecent','message'),
+        array('class' => $recentlinkclass));
+
+    $messagehistorylink .=  html_writer::start_tag('span', array('class' => $recentlabelclass));
+    $messagehistorylink .= get_string('mostrecent','message');
+    $messagehistorylink .= html_writer::end_tag('span');
+
+    if ($viewingnewmessages) {
+        $messagehistorylink .=  '&nbsp;|&nbsp;'.html_writer::start_tag('span');//, array('class' => $historyclass)
+        $messagehistorylink .= get_string('unreadnewmessages','message',$displaycount);
+        $messagehistorylink .= html_writer::end_tag('span');
+    }
+
+    $messagehistorylink .= html_writer::end_tag('div');
+
+    message_print_message_history($user1, $user2, $search, $displaycount, $messagehistorylink, $viewingnewmessages, $showactionlinks);
+    echo html_writer::end_tag('div');
+
+    //send message form
+    if ($currentuser && has_capability('moodle/site:sendmessage', $systemcontext) && $user2realuser) {
+        echo html_writer::start_tag('div', array('class' => 'mdl-align messagesend'));
+        if (!empty($messageerror)) {
+            echo html_writer::tag('span', $messageerror, array('id' => 'messagewarning'));
+        } else {
+            // Display a warning if the current user is blocking non-contacts and is about to message to a non-contact
+            // Otherwise they may wonder why they never get a reply
+            $blocknoncontacts = get_user_preferences('message_blocknoncontacts', '', $user1->id);
+            if (!empty($blocknoncontacts)) {
+                $contact = $DB->get_record('message_contacts', array('userid' => $user1->id, 'contactid' => $user2->id));
+                if (empty($contact)) {
+                    $msg = get_string('messagingblockednoncontact', 'message', fullname($user2));
+                    echo html_writer::tag('span', $msg, array('id' => 'messagewarning'));
                 }
-
-                $recentlinkclass = $historylabelclass = $hidden;
             }
 
-            $messagehistorylink =  html_writer::start_tag('div', array('class' => 'mdl-align messagehistorytype'));
-                $messagehistorylink .= html_writer::link($PAGE->url->out(false).'&history='.MESSAGE_HISTORY_ALL,
-                    get_string('messagehistoryfull','message'),
-                    array('class' => $historylinkclass));
-
-                $messagehistorylink .=  html_writer::start_tag('span', array('class' => $historylabelclass));
-                    $messagehistorylink .= get_string('messagehistoryfull','message');
-                $messagehistorylink .= html_writer::end_tag('span');
-
-                $messagehistorylink .= '&nbsp;|&nbsp;'.html_writer::link($PAGE->url->out(false).'&history='.MESSAGE_HISTORY_SHORT,
-                    get_string('mostrecent','message'),
-                    array('class' => $recentlinkclass));
-
-                $messagehistorylink .=  html_writer::start_tag('span', array('class' => $recentlabelclass));
-                    $messagehistorylink .= get_string('mostrecent','message');
-                $messagehistorylink .= html_writer::end_tag('span');
-
-                if ($viewingnewmessages) {
-                    $messagehistorylink .=  '&nbsp;|&nbsp;'.html_writer::start_tag('span');//, array('class' => $historyclass)
-                        $messagehistorylink .= get_string('unreadnewmessages','message',$displaycount);
-                    $messagehistorylink .= html_writer::end_tag('span');
-                }
-
-            $messagehistorylink .= html_writer::end_tag('div');
-
-            message_print_message_history($user1, $user2, $search, $displaycount, $messagehistorylink, $viewingnewmessages, $showactionlinks);
-        echo html_writer::end_tag('div');
-
-        //send message form
-        if ($currentuser && has_capability('moodle/site:sendmessage', $systemcontext) && $user2realuser) {
-            echo html_writer::start_tag('div', array('class' => 'mdl-align messagesend'));
-                if (!empty($messageerror)) {
-                    echo html_writer::tag('span', $messageerror, array('id' => 'messagewarning'));
-                } else {
-                    // Display a warning if the current user is blocking non-contacts and is about to message to a non-contact
-                    // Otherwise they may wonder why they never get a reply
-                    $blocknoncontacts = get_user_preferences('message_blocknoncontacts', '', $user1->id);
-                    if (!empty($blocknoncontacts)) {
-                        $contact = $DB->get_record('message_contacts', array('userid' => $user1->id, 'contactid' => $user2->id));
-                        if (empty($contact)) {
-                            $msg = get_string('messagingblockednoncontact', 'message', fullname($user2));
-                            echo html_writer::tag('span', $msg, array('id' => 'messagewarning'));
-                        }
-                    }
-
-                    $mform = new send_form();
-                    $defaultmessage = new stdClass;
-                    $defaultmessage->id = $user2->id;
-                    $defaultmessage->viewing = $viewing;
-                    $defaultmessage->message = '';
-                    //$defaultmessage->messageformat = FORMAT_MOODLE;
-                    $mform->set_data($defaultmessage);
-                    $mform->display();
-                }
-            echo html_writer::end_tag('div');
+            $mform = new send_form();
+            $defaultmessage = new stdClass;
+            $defaultmessage->id = $user2->id;
+            $defaultmessage->viewing = $viewing;
+            $defaultmessage->message = '';
+            //$defaultmessage->messageformat = FORMAT_MOODLE;
+            $mform->set_data($defaultmessage);
+            $mform->display();
         }
-    } else if ($viewing == MESSAGE_VIEW_SEARCH) {
-        message_print_search($advancedsearch, $user1);
-    } else if ($viewing == MESSAGE_VIEW_RECENT_CONVERSATIONS) {
-        message_print_recent_conversations($user1, false, $showactionlinks);
-    } else if ($viewing == MESSAGE_VIEW_RECENT_NOTIFICATIONS) {
-        message_print_recent_notifications($user1);
+        echo html_writer::end_tag('div');
     }
+
+} else if ($viewing == MESSAGE_VIEW_SEARCH) {
+    theme_mebis_message_print_search($advancedsearch, $user1);
+} else if ($viewing == MESSAGE_VIEW_RECENT_CONVERSATIONS) {
+    message_print_recent_conversations($user1, false, $showactionlinks);
+} else if ($viewing == MESSAGE_VIEW_RECENT_NOTIFICATIONS) {
+    message_print_recent_notifications($user1);
+}
+echo html_writer::end_tag('div');
+
+echo html_writer::end_tag('div');
+echo html_writer::end_tag('div');
 echo html_writer::end_tag('div');
 
 echo $OUTPUT->box_end();

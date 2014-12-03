@@ -344,4 +344,14 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
         }
         return $title . $create_course_link;
     }
+    /**
+     * Construct button to load more results
+     *
+     * @return string return the HTML as a string, rather than printing it.
+     */
+    public function load_more_button() {
+        $output = '';
+        $output .= html_writer::tag("button", get_string("load_more_results", "block_mbs_my_courses"), array("class" => "btn_load_more_results"));
+        return $output;
+    }
 }

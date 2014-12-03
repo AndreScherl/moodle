@@ -77,7 +77,6 @@ class block_mbs_my_courses extends block_base {
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
             $this->content->text .= $renderer->editing_bar_head($totalcourses);
         }
-        //!ToDo: add parameter to support user specific schools filter
         $this->content->text .= $renderer->filter_form();
 
         if (empty($sortedcourses)) {
@@ -87,6 +86,8 @@ class block_mbs_my_courses extends block_base {
             $this->content->text .= $renderer->mbs_my_courses($sortedcourses, $overviews);
             $this->content->text .= $renderer->hidden_courses($totalcourses - count($sortedcourses));
         }
+
+        $this->content->text .= $renderer->load_more_button();
 
         return $this->content;
     }

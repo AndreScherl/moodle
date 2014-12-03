@@ -30,7 +30,7 @@ require_login();
 $coursetomove = required_param('courseid', PARAM_INT);
 $moveto = required_param('moveto', PARAM_INT);
 
-list($courses, $sitecourses, $coursecount) = block_mbs_my_courses_get_sorted_courses();
+list($courses, $sitecourses, $coursecount) = mbs_my_courses::get_sorted_courses();
 $sortedcourses = array_keys($courses);
 
 $currentcourseindex = array_search($coursetomove, $sortedcourses);
@@ -56,5 +56,5 @@ $remaningcourses = array_slice($sortedcourses, $moveto);
 foreach ($remaningcourses as $courseid) {
     $neworder[] = $courseid;
 }
-block_mbs_my_courses_update_myorder(array_values($neworder));
+mbs_my_courses::update_myorder(array_values($neworder));
 redirect(new moodle_url('/my/index.php'));

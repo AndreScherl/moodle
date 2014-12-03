@@ -27,6 +27,7 @@ $string['alwaysshowall'] = 'Always show all';
 $string['collapseall'] = 'Collapse all course lists';
 $string['configotherexpanded'] = 'If enabled, other courses will be expanded by default unless overriden by user preferences.';
 $string['configpreservestates'] = 'If enabled, the collapsed/expanded states set by the user are stored and used on each load.';
+$string['create_course'] = 'Create course';
 $string['mbs_my_courses:addinstance'] = 'Add a new course overview block';
 $string['mbs_my_courses:myaddinstance'] = 'Add a new course overview block to My home';
 $string['defaultmaxcourses'] = 'Default maximum courses';

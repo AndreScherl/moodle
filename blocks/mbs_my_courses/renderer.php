@@ -23,6 +23,8 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
+require_once($CFG->dirroot.'/blocks/mbs_my_courses/locallib.php');
+
 /**
  * mbs_my_courses block rendrer
  *
@@ -118,7 +120,7 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
 
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
-                if ($children = block_mbs_my_courses_get_child_shortnames($course->id)) {
+                if ($children = mbs_my_courses::get_child_shortnames($course->id)) {
                     $html .= html_writer::tag('span', $children, array('class' => 'coursechildren'));
                 }
             }
@@ -192,7 +194,7 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
             $options[$i] = $i;
         }
         $url = new moodle_url('/my/index.php');
-        $select = new single_select($url, 'mynumber', $options, block_mbs_my_courses_get_max_user_courses(), array());
+        $select = new single_select($url, 'mynumber', $options, mbs_my_courses::get_max_user_courses(), array());
         $select->set_label(get_string('numtodisplay', 'block_mbs_my_courses'));
         $output .= $this->output->render($select);
 
@@ -304,10 +306,14 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
     public function filter_form() {
         global $CFG;
         require_once($CFG->libdir."/formslib.php");
-        //! ToDo: language strings, dynamic data
+        //! ToDo: language strings
         $form = '';
         $form .= html_writer::start_tag('div');
-        $form .= html_writer::select(array("Alle Schulen", "Schule 1", "Schule 2"), "filter_school", $selected = "0");
+        $schools = [];
+        foreach (mbs_my_courses::schools_of_user() as $key => $value) {
+            $schools[$value->id] = $value->name;
+        }
+        $form .= html_writer::select($schools, "filter_school", $selected = "0");
         $form .= html_writer::end_tag('div');
         $form .= html_writer::start_tag('div');
         $form .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...");
@@ -322,5 +328,20 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
         $form .= html_writer::end_tag('div');
         $output = html_writer::tag('form', $form, array("id" => "filter_form", "action" => new moodle_url("blocks/mbs_my_courses/block_mbs_my_courses.php"), "method" => "get"));
         return $output;
+    }
+    
+    /**
+     * Brings create course link to blocks header (Note: points to the first of users categories list)
+     *
+     * @return string return the HTML as a string, rather than printing it.
+     */
+    public function header_with_link() {
+        global $USER;
+        $title = get_string("pluginname", "block_mbs_my_courses");
+        $create_course_link = '';
+        if(mbs_my_courses::can_create_course($USER->id)) {
+            $create_course_link .= html_writer::tag("a", get_string("create_course", "block_mbs_my_courses"), array("class" => "mbs_my_courses_createcourse_link", "href" => new moodle_url("/course/edit.php", array("category" => mbs_my_courses::schools_of_user()[0]->id, "returnto" => "category"))));
+        }
+        return $title . $create_course_link;
     }
 }

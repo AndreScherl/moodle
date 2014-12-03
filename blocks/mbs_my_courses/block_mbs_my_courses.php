@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot.'/blocks/mbs_my_courses/locallib.php');
+require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
 
 class block_mbs_my_courses extends block_base {
     /**
@@ -33,7 +34,7 @@ class block_mbs_my_courses extends block_base {
      * Block initialization
      */
     public function init() {
-        $this->title   = get_string('pluginname', 'block_mbs_my_courses');
+        $this->title = get_string('pluginname', 'block_mbs_my_courses');
     }
 
     /**
@@ -60,21 +61,22 @@ class block_mbs_my_courses extends block_base {
         // number of visible listed courses
         $updatemynumber = optional_param('mynumber', -1, PARAM_INT);
         if ($updatemynumber >= 0) {
-            block_mbs_my_courses_update_mynumber($updatemynumber);
+            mbs_my_courses::update_mynumber($updatemynumber);
         }
 
         profile_load_custom_fields($USER);
 
         $showallcourses = ($updatemynumber === self::SHOW_ALL_COURSES);
-        list($sortedcourses, $sitecourses, $totalcourses) = block_mbs_my_courses_get_sorted_courses($showallcourses);
-        $overviews = block_mbs_my_courses_get_overviews($sitecourses);
+        list($sortedcourses, $sitecourses, $totalcourses) = mbs_my_courses::get_sorted_courses($showallcourses);
+        $overviews = mbs_my_courses::get_overviews($sitecourses);
 
         $renderer = $this->page->get_renderer('block_mbs_my_courses');
+        $this->title = $renderer->header_with_link();
+
         // Number of sites to display.
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
             $this->content->text .= $renderer->editing_bar_head($totalcourses);
         }
-
         //!ToDo: add parameter to support user specific schools filter
         $this->content->text .= $renderer->filter_form();
 

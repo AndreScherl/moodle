@@ -31,4 +31,4 @@ require_login();
 
 $sortorder = required_param_array('sortorder', PARAM_INT);
 
-block_mbs_my_courses_update_myorder($sortorder);
+mbs_my_courses::update_myorder($sortorder);

@@ -46,8 +46,6 @@ class core_role_potential_assignees_below_course extends core_role_assign_user_s
         }
 
         //+++ awag DS23:Rollenzuweisung außerhalb des Kurses
-        global $CFG;
-        require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
         $wherecondition = \block_dlb\local\datenschutz::hook_admin_roles_lib_potential_assignees_below_course($wherecondition);
         //--- awag
 

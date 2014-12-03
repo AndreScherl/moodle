@@ -24,9 +24,6 @@ class theme_dlb_core_renderer extends core_renderer {
 
         parent::__construct($page, $target);
 
-        // ... for manual Account check the teacher flag depending on role assignments.
-        $this->check_user_isTeacher();
-
         //lädt zusätzliche Stylesheet für die Schriftarten, Whiteboard-Theme
         $this->load_additional_stylesheets($page);
 
@@ -85,72 +82,6 @@ class theme_dlb_core_renderer extends core_renderer {
                 }
             }
         }
-    }
-
-    /** get all the mebisRole coming from the authentification via shibboleth into
-     *  $USER objetct.
-     *
-     * @global object $USER
-     * @global type $SESSION
-     * @return boolean, true if there are mebis roles available.
-     */
-    protected function setup_mebis_roles() {
-        global $USER, $SESSION;
-
-        // ... check only for real users.
-        if (isset($USER->mebisRole)) {
-            return true;
-        }
-
-        // ... garantee the attribute for all users even when no role available.
-        if (!isset($SESSION->mebisRole)) {
-            $USER->mebisRole = array();
-            return false;
-        }
-
-        // ... mebisRole is available to take it into users session data.
-        $USER->mebisRole = $SESSION->mebisRole;
-        return true;
-    }
-
-    /** überprüfen, ob der User ein Lehrer ist, speichern des Ergebnisses für die
-     * Dauer der Session im Attribut $USER->isTeacher
-     *
-     * @global object $USER
-     * @global type $SESSION
-     * @global type $DB
-     * @return boolean, true falls der User als Lehrer gilt.
-     */
-    protected function check_user_isTeacher() {
-        global $USER, $DB;
-
-        //nur echte User zulassen....
-        if (!isloggedin() or isguestuser()) {
-            return false;
-        }
-
-        if (isset($USER->isTeacher)) {
-            return $USER->isTeacher;
-        }
-
-        // deprecated sincen IDM2.
-        /* if (isset($SESSION->isTeacher)) {
-          $USER->isTeacher = $SESSION->isTeacher;
-          return $USER->isTeacher;
-          } */
-
-        //prüfen, ob der User in irgend einem Kurs die Lehrerrolle hat.
-        $roles = get_roles_with_capability('enrol/self:config');
-        list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
-        $params['userid'] = $USER->id;
-        $sql = "SELECT ra.id
-                              FROM {role_assignments} ra
-                             WHERE ra.roleid $rsql
-                               AND ra.userid = :userid";
-
-        $USER->isTeacher = $DB->record_exists_sql($sql, $params);
-
-        return $USER->isTeacher;
     }
 
     /** erzeugt für das Layout general.php einen Header, der einen kursbereichsspezifischen Title und
@@ -213,7 +144,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** erzeugt alle Toolbarelemente zur Steuerung des Themes */
     protected function toolbar_themecontent() {
-        global $USER, $CFG, $PAGE, $SESSION;
+        global $CFG, $PAGE, $SESSION;
 
         $content = "";
         $themeswitchurl = "/blocks/dlb/switchtheme/switch.php?returnto=" . urlencode($PAGE->url);
@@ -257,7 +188,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** erzeugt den HTML-Code für alle restlichen Element der Toolbar */
     public function toolbar_content() {
-        global $USER, $CFG, $PAGE, $SESSION;
+        global $USER, $CFG;
 
         $content = "";
 
@@ -265,19 +196,6 @@ class theme_dlb_core_renderer extends core_renderer {
 
             $href = html_writer::link($CFG->wwwroot . "/my", $this->pix_icon('toolbar/toolbar-schreibtisch', 'Mein Schreibtisch', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Meine Startseite'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_2"));
-
-            /* atar: Kursbereichsicon vorerst deaktiviert
-              $href = html_writer::link($CFG->wwwroot . "/blocks/meineschulen/search.php", $this->pix_icon('toolbar/toolbar-schulesuchen', 'Schule suchen', 'theme', array('title' => '')));
-              $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Schule suchen'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_11"));
-             */
-
-            /* $href = html_writer::link($CFG->wwwroot . "/user/profile.php?id={$USER->id}", $this->pix_icon('toolbar/toolbar-profil', 'Profil', 'theme', array('title' => '')));
-              $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Profil'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_0"));
-
-              /* awag: Portfolio für später vorbereitet...
-              $href = html_writer::link("",  $this->pix_icon('toolbar/toolbar-portfolio', 'Portfolio', 'theme', array('title'=>'')));
-              $content .= html_writer::tag('div', $href.$this->toolbar_tooltip('Portfolio'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_1"));
-             */
 
             $href = html_writer::link($CFG->wwwroot . "/calendar/view.php?view=month", $this->pix_icon('toolbar/toolbar-calendar', 'Kalender', 'theme', array('title' => '')));
             $content .= html_writer::tag('div', $href . $this->toolbar_tooltip('Kalender'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_3"));
@@ -303,41 +221,6 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
 // +++ Support Button
-
-    /** prüft, ob der User den Support-Button sehen darf und merkt sich das Ergebnis
-     *  im Attribut $USER->canseesupportbutton
-     *
-     * @global object $USER
-     * @global type $DB
-     * @global object $CFG
-     * @return boolean
-     */
-    protected function can_see_supportbutton() {
-
-        global $USER, $DB, $CFG;
-
-        if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl))
-            return false;
-
-        if (isset($USER->canseesupportbutton))
-            return $USER->canseesupportbutton;
-
-        if ($USER->isTeacher) {
-
-            $USER->canseesupportbutton = true;
-            return true;
-        }
-
-        if (!empty($CFG->block_dlb_rolestosupport)) {
-
-            $sql = "SELECT count(*) as count FROM {role_assignments} Where roleid in ({$CFG->block_dlb_rolestosupport}) and userid = '{$USER->id}'";
-            $count = $DB->count_records_sql($sql);
-
-            //wird für die Dauer der SESSION gecacht.
-            $USER->canseesupportbutton = ($count > 0);
-        }
-        return $USER->canseesupportbutton;
-    }
 
     /** returns true if user is ahtenticated via sibboleth and has appropriated role. */
     private function can_edit_users() {
@@ -465,26 +348,26 @@ class theme_dlb_core_renderer extends core_renderer {
         return $output;
     }
 
-    /** gibt den HTML-Code des Support-button zurück, falls der User diesen sehen darf */
+    /** renders the HTML-code for the support button */
     public function support_button() {
         global $CFG;
 
-        $content = "";
-        if (!isloggedin() or isguestuser() or empty($CFG->block_dlb_supporturl)) {
+        $supporturl = $CFG->block_dlb_supporturl;
 
-            // ... user sees pre support url before the login.
-            if (!empty($CFG->block_dlb_presupporturl)) {
+        $content = '';
+        if (!empty($supporturl)) {
 
-                $outlink = $CFG->block_dlb_presupporturl;
-                $actionlink = $this->action_link($outlink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $outlink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
-                $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
-            }
-        } elseif (isloggedin() && $this->can_see_supportbutton()) {
+            $popupaction = new popup_action('click', $supporturl, 'Help',
+                            array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0,
+                                'menubar' => false, 'location' => false, 'scrollbars' => true,
+                                'resizable' => false, 'toolbar' => false, 'status' => false,
+                                'directories' => false, 'fullscreen' => false, 'dependent' => true));
 
-            // ... generate support- button for mebis teachers with different url.
-            $mylink = $CFG->block_dlb_supporturl;
-            $actionlink = $this->action_link($mylink, $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => '')), new popup_action('click', $mylink, 'Help', array('height' => '400', 'width' => '500', 'top' => 0, 'left' => 0, 'menubar' => false, 'location' => false, 'scrollbars' => true, 'resizable' => false, 'toolbar' => false, 'status' => false, 'directories' => false, 'fullscreen' => false, 'dependent' => true)));
-            $content .= html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
+            $pixicon = $this->pix_icon('toolbar/support', 'Support', 'theme', array('title' => ''));
+
+            $actionlink = $this->action_link($supporturl, $pixicon, $popupaction);
+
+            $content = html_writer::tag('div', $actionlink . $this->toolbar_tooltip('Support'), array("class" => "toolbar-content-item", "id" => "toolbar-content-item_10"));
         }
         return $content;
     }
@@ -509,7 +392,7 @@ class theme_dlb_core_renderer extends core_renderer {
 
     /** gibt die Links auf die Institutionen zurück */
     public function pagecontent_footer() {
-        global $CFG, $OUTPUT, $USER, $PAGE;
+        global $CFG;
 
         if (!isloggedin()) {
             ?>
@@ -789,73 +672,8 @@ class theme_dlb_core_renderer extends core_renderer {
         <?php
     }
 
-    /** this script is used to redirect the user if shibboleth is passive. and the user is not loggedin already
-     *
-      Written by Lukas Haemmerle <lukas.haemmerle@switch.ch>, SWITCH
-      /*
-      This isPassive script will automatically try to log in a user using the SAML2
-      isPassive feature.
-      In case a user already has an authenticated session at his Identity Provider and
-      given the Discovery Service can guess the user's Identity Provider, the user will
-      eventually be on the exact same page this script is embedded in but logged in
-      (= Shibboleth attributes are available and user has a valid session with the
-      Service Provider on the same host).
-      The user page also will be requested with the same GET arguments than the initial request.
-
-      Requirements:
-      - Only works if a Service Provider 2.x is installed on the same host
-      - JavaScript must be enabled. Otherwise the script won't have any effect.
-      - The script must be able to set cookies (required for Shibboleth Service Provider as well)
-      - In the shibboleth2.xml there must be defined a redirectErrors="#THIS PAGE#" in
-      the <Errors> element. #THIS PAGE# must be the relative/absolute URL of the page
-      this script is embedded in.
-      - It also makes sense to protect #THIS PAGE# with a lazy session in order to use
-      the Shibboleth attribute that should be available after authentication.
-     */
-    protected function load_shibboleth_ispassiv_script() {
-        global $CFG;
-
-// ... only try a redirect, when user isn't logged in and it is not a dev system.
-        $checkpassive = (!isloggedin() and (strpos($CFG->wwwroot, "/localhost/") === false));
-
-        if ($checkpassive) {
-            ?>
-            <script type="text/javascript" language="javascript">
-                // Check for session cookie that contains the initial location
-                if(document.cookie && document.cookie.search(/_check_is_passive=/) >= 0){
-                    // If we have the opensaml::FatalProfileException GET arguments
-                    // redirect to initial location because isPassive failed
-                    if (
-                    window.location.search.search(/errorType/) >= 0
-                        && window.location.search.search(/RelayState/) >= 0
-                        && window.location.search.search(/requestURL/) >= 0
-                ) {
-                        var startpos = (document.cookie.indexOf('_check_is_passive=')+18);
-                        var endpos = document.cookie.indexOf(';', startpos);
-                        window.location = document.cookie.substring(startpos,endpos);
-                    }
-                } else {
-                    // Mark browser as being isPassive checked
-                    document.cookie = "_check_is_passive=" + window.location;
-
-                    // Redirect to Shibboleth handler
-                    window.location = "/Shibboleth.sso/Login?isPassive=true&target=" + encodeURIComponent(window.location);
-                }
-            </script>
-            <!-- END: isPassive script-->
-            <?php
-        }
-    }
-
     /** überschreibt die originale Funktion, um die dock-Symbole zu laden */
     public function standard_head_html() {
-        /* das shibboleth_ispassiv_script() war ein Versuch, das Problem der lazy sessions zu lösen.
-         * Da das Problem noch offen (Stand 07.08.2014) ist und das Script außer 
-         * eine Fehlermeldung keine Wirkung zeigt, wird es für das Update auf Moodle 2.7 deaktiviert.
-         * 
-         * Eine erneute Installation sollte über einen themeunabhängigen Weg führen ($PAGE->requires...)
-         */
-//return parent::standard_head_html() . $this->_load_dock_images().$this->load_shibboleth_ispassiv_script();
         return parent::standard_head_html() . $this->_load_dock_images();
     }
 
@@ -937,7 +755,7 @@ class theme_dlb_core_renderer_maintenance extends core_renderer_maintenance {
 define('DLB_SCHOOL_CAT_DEPTH', 3);
 
 class theme_dlb_core_course_management_renderer extends core_course_management_renderer {
-    
+
     /** get (and cache) the category ids below an optional level (level == 3 for school-catgories), where
      *  the user has the capability moodle/category:manage or moodle/course:create
      * 
@@ -1006,7 +824,7 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         if (empty($category)) {
             return false;
         }
-        
+
         $catidstocheck = $category->get_parents();
 
         // possibility to manage main category.
@@ -1025,6 +843,16 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
      */
     public function category_listing(coursecat $category = null) {
         global $PAGE;
+        
+        $perfdebug = optional_param('perfdebug', 0, PARAM_INT);
+        
+        if (optional_param('purge', 0, PARAM_INT) == 1) {
+            cache_helper::purge_by_event('changesincoursecat');
+            if ($perfdebug) {
+                echo "<br/>cache purged";
+            }
+        }
+        $starttime = microtime(true);
 
         if ($category === null) {
             $selectedparents = array();
@@ -1041,10 +869,13 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         // +++ awag: get all editable schools //
         $listings = array();
 
+        $datatime = 0;
+        $startdatatime = microtime(true);
         // don't restrict the list for site-admins.
         if (is_siteadmin()) {
-
+            
             $listings[] = coursecat::get(0)->get_children();
+            
         } else { // non site admins.
             // get schoolids (category of level 3), which contains elements (category, subcategories or courses) this user can edit.
             $editableschoolids = $this->get_editable_schoolids();
@@ -1053,7 +884,7 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
             $usercanedit = (!empty($editableschoolids) && $this->can_manage_category($category, $editableschoolids));
 
             if (!$usercanedit) {
-                $param = (isset($category))? array('categoryid' => $category->id) : array();
+                $param = (isset($category)) ? array('categoryid' => $category->id) : array();
                 $url = new moodle_url('/course/index.php', $param);
                 redirect($url);
             }
@@ -1070,6 +901,7 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
                 $listings[] = array($catid => $coursecat);
             }
         }
+        $datatime += (microtime(true) - $startdatatime);
         // --- awag;
 
         $attributes = array(
@@ -1085,6 +917,8 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
         // +++ awag: print out all editable schools, like original renders but in a loop.
 
 
+        $rendertime = 0;
+        
         foreach ($listings as $listing) {
 
             $html .= html_writer::start_tag('ul', $attributes);
@@ -1092,16 +926,27 @@ class theme_dlb_core_course_management_renderer extends core_course_management_r
                 // Render each category in the listing.
                 $subcategories = array();
                 if (in_array($listitem->id, $catatlevel)) {
+                    $startdatatime = microtime(true);
                     $subcategories = $listitem->get_children();
+                    $datatime += (microtime(true) - $startdatatime);
                 }
+                $startrendertime = microtime(true);
                 $html .= $this->category_listitem(
                         $listitem, $subcategories, $listitem->get_children_count(), $selectedcategory, $selectedparents
                 );
+                $rendertime += (microtime(true) - $startrendertime);
             }
             $html .= html_writer::end_tag('ul');
         }
         $html .= $this->category_bulk_actions($category);
         $html .= html_writer::end_div();
+        
+        if ($perfdebug) {
+            echo "<br/>category_listing: ".(microtime(true) - $starttime);
+            echo "<br/>datatime: ".$datatime;
+            echo "<br/>renderttime: ".$rendertime;
+        }
+        
         return $html;
     }
 

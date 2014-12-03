@@ -1,7 +1,17 @@
+@font-face {
+    font-family: 'Amaranth';
+    src: url([[fonts:amaranth-webfont|eot]]);
+    src: url([[fonts:amaranth-webfont?#iefix]]) format('embedded-opentype'),
+    url([[fonts:amaranth-webfont|woff]]) format('woff'),
+    url([[fonts:amaranth-webfont|ttf]]) format('truetype'),
+    url([[fonts:amaranth-webfont|svg#amaranth-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
 body {
    font-family: "Amaranth";
-    font-size:14px;
-    
+   font-size:14px;  
 }
 h1 {
     color: #000000;  

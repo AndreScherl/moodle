@@ -4,6 +4,7 @@
     Author     : Synergy Learning
 */
 
+
 /* My Home */
 #page-my-index #region-main .block .header-wrapper {
 	height: 70px;
@@ -490,7 +491,7 @@ input[type=text] {padding: 2px;}
 .que .formulation .r1 {
 	background: none;
 }
-.que .qtext {font-weight: normal; font-size: 1em;}
+.que .qtext {font-weight: bold; font-size: 1.2em;}
 
 #region-main .questionbankwindow.block,
 #page-mod-quiz-edit div.question div.content div.points {
@@ -610,4 +611,12 @@ input#search {
 
 .block_course_summary .header{
 	min-height: 30px;
+}
+
+.adminsearchform input[type=text] {
+	width: 80%;
+}
+
+#enrolusersbutton-2{
+	visibility:hidden;
 }

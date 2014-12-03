@@ -1640,7 +1640,6 @@ function message_search_users($courseids, $searchtext, $sort='', $exceptions='')
     $params = array_merge($params_except, $params);
 
     //+++ awag DS09:Sichtbarkeitstrennung-Messages
-    require_once($CFG->dirroot."/blocks/dlb/classes/class.datenschutz.php");
     $wherecondition = \block_dlb\local\datenschutz::hook_message_lib_message_search_users();
     $except = $wherecondition." ".$except;
     //--- awag

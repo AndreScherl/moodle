@@ -10,7 +10,7 @@
  */
 $string['pluginname'] = 'dlb - Anpassungen';
 $string['dlb:editschoolid'] = 'ID-Number der Schule bearbeiten';
-
+$string['fixgapcategories'] = 'Sortierung in Kursbereichen korrigieren';
 $string['local_dlb_home'] = 'Rootknotenbezeichnung';
 $string['local_dlb_home_expl'] = 'Im Navigationsblock ersetzt diese Bezeichnung die Bezeichnung der Lernplattform';
 $string['local_dlb_home_default'] = 'Mebisangebote';
@@ -18,7 +18,7 @@ $string['local_dlb_mebis_sites'] = 'Navigationslinks';
 $string['local_dlb_mebis_sites_expl'] = 'Diese Navigationselemente erscheinen im Navigationsblock. '.
         'Die Element werden zeilenweise in der Form <b>Link,URL;</b> angegeben.';
 $string['local_dlb_mebis_sites_default'] =
-'Dachportal,https://mebis.bayern.de/;'.
+'Infoportal,https://mebis.bayern.de/;'.
         'Lernplattform,https://lernplattform.mebis.bayern.de/?redirect=0;'.
         'Mediathek,https://mediathek.mebis.bayern.de/;'.
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php';

@@ -184,45 +184,6 @@ echo $OUTPUT->doctype();
         var nodock = "true";
 <?php } ?>
 
-    function onCategorySearch(e) {
-
-
-        var inputelement =  e.target;
-
-        if (inputelement.value.length < 4) {
-            document.getElementById('categorysearch-result').innerHTML = "";
-            document.getElementById('categorysearch-result').visibility = "hide";
-            return;
-        }
-
-        var sUrl = "<?php echo $CFG->wwwroot . "/local/categorysearch.php" ?>";
-        var callback = {
-            success: function(o) {
-                document.getElementById('categorysearch-result').innerHTML =  o.responseText;
-                document.getElementById('categorysearch-result').visibility = "show";
-            },
-            failure: function(o) {
-                alert("AJAX doesn't work"); //FAILURE
-            }
-        }
-
-        YAHOO.util.Connect.asyncRequest('POST', sUrl, callback, "searchterm="+inputelement.value);
-    }
-
-    function onCategorySearchBlur(e) {
-        document.getElementById('coursesearchbox').focus();
-        document.getElementById('categorysearch-result').innerHTML = "";
-        document.getElementById('categorysearch-result').visibility = "hide";
-    }
-
-    YAHOO.util.Event.addListener("categorysearch-input", "keyup", onCategorySearch);
-    YAHOO.util.Event.addListener("coursesearchbox", "focus", onCategorySearchBlur);
-    YAHOO.util.Event.addListener("categorysearch-input", "focus", onCategorySearch);
-    document.getElementById('categorysearch-result').visibility = "hide";
-    //YAHOO.util.KeyListener ( attachTo , keyData , handler , event )
-    var kpl1 = new YAHOO.util.KeyListener(document.getElementById('categorysearch-input'), { keys:[27] }, { fn:onCategorySearchBlur } );
-    kpl1.enable();
-
             </script>
             <?php echo $OUTPUT->standard_end_of_body_html() ?>
             <div style="clear:both"></div>

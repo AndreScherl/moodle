@@ -19,7 +19,6 @@
 
 .tabtree .tabrow0 li {
     display:inline;
-    margin-right:-4px;
 }
 
 .tabtree .tabrow0 li.here {
@@ -55,17 +54,19 @@
 .tabtree .tabrow0 li a {
     /*background-image:url([[pix:theme|tab/left]]);*/
     padding-left:14px;
-    padding-top:10px;
+    padding-top:8px;
     background-repeat:no-repeat;
-    padding-bottom:2px; /*to remove the border-bottom*/
-    margin-bottom:-1px;
-    background-color:#efefef;
-    border:none;
+    padding-bottom:8px; /*to remove the border-bottom*/
+    border-radius: 3px 3px 0 0;
+    border-style: solid;
+    border-color: #999999;
+    border-width: 0 0 1px 0;
 }
 
 .tabtree .tabrow0 li a:hover {
     /*background-image:url([[pix:theme|tab/left_hover]]);*/
     color: #336699;
+    background-color: #cccccc;
 }
 
 .tabtree .tabrow0 li a span {
@@ -78,16 +79,15 @@
 }
 
 .tabtree .tabrow0 li a:hover span {
-    background-image:url([[pix:theme|tab/right_hover]]);
+    /*background-image:url([[pix:theme|tab/right_hover]]);*/
 }
 
 .tabtree .tabrow0 ul,
 .tabtree .tabrow0 div {
-    background-image:url([[pix:theme|tab/tabrow1]]);
+    /*background-image:url([[pix:theme|tab/tabrow1]]);*/
     background-position:0% 50%;
     position:absolute;
     width:100%;
-    border-top:1px solid #aaa;
     padding:0.25em 0px;
     top:100%;
     margin:0px;

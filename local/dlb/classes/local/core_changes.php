@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -30,6 +31,7 @@ use moodle_url;
 defined('MOODLE_INTERNAL') || die();
 
 class core_changes {
+
     public static function check_view_courses() {
         $context = context_system::instance();
         if (!has_capability('local/dlb:viewcourselist', $context)) {

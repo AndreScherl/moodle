@@ -22,7 +22,7 @@
 #dockeditempanel a {color:#ffffff;}
 #dockeditempanel.dockitempanel_hidden {display:none;}
 #dockeditempanel .dockeditempanel_hd {background-color:#038ddc; padding: 0 0 3px 16px;font-size:14px;}
-#dockeditempanel .dockeditempanel_hd h2 {margin:0;padding-right:1em;font-size:16px;font-family: "SchulbuchBayern";color:#ffffff;}
+#dockeditempanel .dockeditempanel_hd h2 {margin:0;padding-right:1em;font-size:16px;font-family: "SchulbuchBayern", Consolas, monaco, monospace;color:#ffffff;}
 #dockeditempanel .dockeditempanel_hd .commands {position: absolute;  margin: 8px; top: 4px; right: 6px;}
 
 #dockeditempanel .dockeditempanel_bd_left {background: url([[pix:theme|blocks/bg-block-middle-left]]) repeat-y;}

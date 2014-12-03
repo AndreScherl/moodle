@@ -63,7 +63,7 @@ class backup_choiceanon_activity_structure_step extends backup_activity_structur
         // Define sources
         $choiceanon->set_source_table('choiceanon', array('id' => backup::VAR_ACTIVITYID));
 
-        $option->set_source_table('choiceanon_options', array('choiceid' => backup::VAR_PARENTID), 'id ASC');
+        $option->set_source_table('choiceanon_options', array('choiceanonid' => backup::VAR_PARENTID), 'id ASC');
 
         // All the rest of elements only happen if we are including user info
         if ($userinfo) {

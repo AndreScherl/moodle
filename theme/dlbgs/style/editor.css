@@ -1,28 +1,232 @@
+@import "dlbgs/style/core.css";
 
 @font-face {
-font-family: "Amaranth";
-src:url([[font:Amaranth]]);
-
-
+    font-family: 'Amaranth-Bold';
+    src: url([[fonts:amaranth-bold-webfont|eot]]);
+    src: url([[fonts:amaranth-Bold-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:amaranth-Bold-webfont|woff]]) format('woff'),
+    url([[fonts:amaranth-Bold-webfont|ttf]]) format('truetype'),
+    url([[fonts:amaranth-Bold-webfont|svg#Amaranth-Bold-webfont]]) format('svg');
+    font-weight: bold;
+    font-style: normal;
 }
 
-
-@font-face{
-	font-family: "VA";
-	src:url([[font:VA]]);
+@font-face {
+    font-family: 'Amaranth-BoldItalic';
+    src: url([[fonts:amaranth-bolditalic-webfont|eot]]);
+    src: url([[fonts:amaranth-bolditalic-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:amaranth-bolditalic-webfont|woff]]) format('woff'),
+    url([[fonts:amaranth-bolditalic-webfont|ttf]]) format('truetype'),
+    url([[fonts:amaranth-bolditalic-webfont|svg#amaranth-bolditalic-webfont]]) format('svg');
+    font-weight: bold;
+    font-style: italic;
 }
 
-@font-face{
-	font-family: "SchulbuchBayern";
-	src:url([[font:SchulbuchBayern]]);
+@font-face {
+    font-family: 'Amaranth-Italic';
+    src: url([[fonts:amaranth-italic-webfont|eot]]);
+    src: url([[fonts:amaranth-italic-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:amaranth-italic-webfont|woff]]) format('woff'),
+    url([[fonts:amaranth-italic-webfont|ttf]]) format('truetype'),
+    url([[fonts:amaranth-italic-webfont|svg#amaranth-italic-webfont]]) format('svg');
+    font-weight: none;
+    font-style: italic;
 }
 
-@font-face{
-	font-family: "SAS";
-	src:url([[font:SAS]]);
+@font-face {
+    font-family: 'Amaranth';
+    src: url([[fonts:amaranth-webfont|eot]]);
+    src: url([[fonts:amaranth-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:amaranth-webfont|woff]]) format('woff'),
+    url([[fonts:amaranth-webfont|ttf]]) format('truetype'),
+    url([[fonts:amaranth-webfont|svg#amaranth-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
 }
 
-@font-face{
-	font-family: "SASB";
-	src:url([[font:SASB]]);
+@font-face {
+    font-family: 'Bienchen_a';
+    src: url([[fonts:bienchen_a-webfont|eot]]);
+    src: url([[fonts:bienchen_a-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:bienchen_a-webfont|woff]]) format('woff'),
+    url([[fonts:bienchen_a-webfont|ttf]]) format('truetype'),
+    url([[fonts:bienchen_a-webfont|svg#bienchen_a-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
 }
+
+@font-face {
+    font-family: 'Bienchen_b';
+    src: url([[fonts:bienchen_b-webfont|eot]]);
+    src: url([[fonts:bienchen_b-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:bienchen_b-webfont|woff]]) format('woff'),
+    url([[fonts:bienchen_b-webfont|ttf]]) format('truetype'),
+    url([[fonts:bienchen_b-webfont|svg#bienchen_b-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold_Oblique';
+    src: url([[fonts:quicksand_bold_oblique-webfont|eot]]);
+    src: url([[fonts:quicksand_bold_oblique-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_bold_oblique-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_bold_oblique-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_bold_oblique-webfont|svg#quicksand_bold_oblique-webfont]]) format('svg');
+    font-weight: bold;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold';
+    src: url([[fonts:quicksand_bold-webfont|eot]]);
+    src: url([[fonts:quicksand_bold-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_bold-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_bold-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_bold-webfont|svg#quicksand_bold-webfont]]) format('svg');
+    font-weight: bold;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book_Oblique';
+    src: url([[fonts:quicksand_book_oblique-webfont|eot]]);
+    src: url([[fonts:quicksand_book_oblique-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_book_oblique-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_book_oblique-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_book_oblique-webfont|svg#quicksand_book_oblique-webfont]]) format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book';
+    src: url([[fonts:quicksand_book-webfont|eot]]);
+    src: url([[fonts:quicksand_book-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_book-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_book-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_book-webfont|svg#quicksand_book-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Dash';
+    src: url([[fonts:quicksand_dash-webfont|eot]]);
+    src: url([[fonts:quicksand_dash-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_dash-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_dash-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_dash-webfont|svg#quicksand_dash-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light_Oblique';
+    src: url([[fonts:quicksand_light_oblique-webfont|eot]]);
+    src: url([[fonts:quicksand_light_oblique-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_light_oblique-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_light_oblique-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_light_oblique-webfont|svg#quicksand_light_oblique-webfont]]) format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light';
+    src: url([[fonts:quicksand_light-webfont|eot]]);
+    src: url([[fonts:quicksand_light-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:quicksand_light-webfont|woff]]) format('woff'),
+    url([[fonts:quicksand_light-webfont|ttf]]) format('truetype'),
+    url([[fonts:quicksand_light-webfont|svg#-]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern-bold';
+    src: url([[fonts:schulbuchbayerncomp-bold-webfont|eot]]);
+    src: url([[fonts:schulbuchbayerncomp-bold-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:schulbuchbayerncomp-bold-webfont|woff]]) format('woff'),
+    url([[fonts:schulbuchbayerncomp-bold-webfont|ttf]]) format('truetype'),
+    url([[fonts:schulbuchbayerncomp-bold-webfont|svg#schulbuchbayerncomp-bold-webfont]]) format('svg');
+    font-weight: bold;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern';
+    src: url([[fonts:schulbuchbayerncomp-webfont|eot]]);
+    src: url([[fonts:schulbuchbayerncomp-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:schulbuchbayerncomp-webfont|woff]]) format('woff'),
+    url([[fonts:schulbuchbayerncomp-webfont|ttf]]) format('truetype'),
+    url([[fonts:schulbuchbayerncomp-webfont|svg#schulbuchbayerncomp-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2';
+    src: url([[fonts:va2|eot]]);
+    src: url([[fonts:va2|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:va2|woff]]) format('woff'),
+    url([[fonts:va2|ttf]]) format('truetype'),
+    url([[fonts:va2|svg#va2]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2_i';
+    src: url([[fonts:va2_i|eot]]);
+    src: url([[fonts:va2_i|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:va2_i|woff]]) format('woff'),
+    url([[fonts:va2_i|ttf]]) format('truetype'),
+    url([[fonts:va2_i|svg#va2_i]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2_b';
+    src: url([[fonts:va2_b|eot]]);
+    src: url([[fonts:va2_b?|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:va2_b|woff]]) format('woff'),
+    url([[fonts:va2_b|ttf]]) format('truetype'),
+    url([[fonts:va2_b|svg#va2_b]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VAU30k';
+    src: url([[fonts:vau30k-webfont|eot]]);
+    src: url([[fonts:vau30k-webfont|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:vau30k-webfont|woff]]) format('woff'),
+    url([[fonts:vau30k-webfont|ttf]]) format('truetype'),
+    url([[fonts:vau30k-webfont|svg#vau30k-webfont]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SAS';
+    src: url([[fonts:SAS|eot]]);
+    src: url([[fonts:SAS|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:SAS|woff]]) format('woff'),
+    url([[fonts:SAS|ttf]]) format('truetype'),
+    url([[fonts:SAS|svg#SAS]]) format('svg');
+    font-weight: none;
+    font-style: none;
+} 
+
+@font-face {
+    font-family: 'SASB';
+    src: url([[fonts:SASB|eot]]);
+    src: url([[fonts:SASB|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:SASB|woff]]) format('woff'),
+    url([[fonts:SASB|ttf]]) format('truetype'),
+    url([[fonts:SASB|svg#SASB]]) format('svg');
+    font-weight: none;
+    font-style: none;
+} 

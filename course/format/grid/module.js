@@ -87,8 +87,11 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
         // Show the sections when editing.
         Y.all(".grid_section").removeClass('hide_section');
     } else {
+        //Use divs instead of ul/li
+        //Y.delegate('click', this.icon_click, Y.config.doc, 'ul.gridicons a.gridicon_link', this);
 
-        Y.delegate('click', this.icon_click, Y.config.doc, 'ul.gridicons a.gridicon_link', this);
+
+        Y.delegate('click', this.icon_click, Y.config.doc, 'div.gridicons a.gridicon_link', this);
 
         var shadeboxtoggleone = Y.one("#gridshadebox_overlay");
         if (shadeboxtoggleone) {
@@ -165,6 +168,7 @@ M.format_grid.icon_toggle = function(e) {
             //console.log("Shadebox was closed");
             this.icon_change_shown();
             this.shadebox.toggle_shadebox();
+            //Do not update the arrows as they have a fixed place now.
             //this.update_arrows();
         }
     } //else {
@@ -205,8 +209,11 @@ M.format_grid.change_selected_section = function(increase_section) {
         //console.log("Selected section no is now: " + this.selected_section_no);
         if (M.format_grid.shadebox.shadebox_open == true) {
             this.icon_change_shown();
+            //Don't update the arrows as they have a fixed place now
             //this.update_arrows();
         }
+            //But scroll to the top of the box when clicking next/previous topic
+            window.scroll(0,document.getElementById("section-" + this.selected_section_no).offsetTop);
     } //else {
         //console.log("Grid format:change_selected_section() - no selected section to show.");
     //}
@@ -342,11 +349,13 @@ M.format_grid.shadebox.initialize_shadebox = function() {
     /* This is added here as not editing and JS is on to move the content from
        below the grid icons and into the shade box. */
     var content = document.getElementById('gridshadebox_content');
-    content.style.position = 'absolute';
-    content.style.width = '90%';
-    content.style.top = '' + top + 'px';
-    content.style.left = '5%';
-    content.style.zIndex = '1';
+    // Moved to CSS, because of changes with regards to bootstrap
+//    content.style.position = 'absolute';
+//    content.style.width = '90%';
+//    content.style.top = '50px';
+//    content.style.left = '5%';
+//    content.style.marginLeft = '-400px';
+    content.style.zIndex = '5';
 };
 
 /**

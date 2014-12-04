@@ -41,6 +41,23 @@
 		font-weight: 400;
 	}
 
+	table.messagesearchresults {
+		width: 100%;
+
+		td {
+			padding: 5px;
+			@include transition(background .25s);
+		}
+
+		tr:hover > td {
+			background: $gray-lighter;
+		}
+	}
+
+	.mdl-left .heading {
+		margin-top: 5px;
+	}
+
 }
 
 .user-filemanager {
@@ -142,5 +159,15 @@
 			color: $brand-gray-dark;
 		}
 
+	}
+}
+
+.block_messages {
+
+	.content {
+
+		.info {
+			text-align: left;
+		}
 	}
 }

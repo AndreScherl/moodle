@@ -60,7 +60,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
         }
 
-        $html .= html_writer::start_tag('ul', array('class' => 'block-grid-md-3 course_list courses'));
+        $html .= html_writer::start_tag('ul', array('class' => 'block-grid-xs-1 block-grid-xc-2 block-grid-md-3 course_list courses'));
         foreach ($courses as $key => $course) {
             // If moving course, then don't show course which needs to be moved.
             if ($ismovingcourse && ($course->id == $movingcourseid)) {
@@ -168,7 +168,8 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $html .= html_writer::end_tag('ul');
 
         // Wrap course list in a div and return.
-        return html_writer::tag('div', $html, array('class' => 'course_list'));
+        $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
+        return html_writer::tag('div', $course_list, array('class' => 'row course_list'));
     }
 
     /**
@@ -178,8 +179,8 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
      * @return string html of header bar.
      */
     public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('notice margin-top-small');
-
+        $output = $this->output->box_start('row notice');
+        $output .= html_writer::start_tag('div', array('class' => 'col-md-12 margin-top-small'));
         $options = array('0' => get_string('alwaysshowall', 'theme_mebis'));
         for ($i = 1; $i <= $max; $i++) {
             $options[$i] = $i;
@@ -188,7 +189,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $select = new single_select($url, 'mynumber', $options, mbs_my_courses::get_max_user_courses(), array());
         $select->set_label(get_string('numtodisplay', 'theme_mebis'), array("class" => "coursenumber-label"));
         $output .= $this->output->render($select);
-
+        $output .= html_writer::end_div();
         $output .= $this->output->box_end();
         return $output;
     }

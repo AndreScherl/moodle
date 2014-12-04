@@ -8,19 +8,20 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
 {
     protected $header_renderer;
     protected $footer_renderer;
+    protected $help_renderer;
 
     public function __construct(\moodle_page $page, $target)
     {
         parent::__construct($page, $target);
         $this->header_renderer = new theme_mebis_header_renderer($page, $target);
         $this->footer_renderer = new theme_mebis_footer_renderer($page, $target);
+        $this->help_renderer = new theme_mebis_help_renderer($page, $target);
     }
 
     public function main_navbar()
     {
         return $this->header_renderer->main_navbar();
     }
-
 
     public function main_sidebar()
     {
@@ -57,49 +58,21 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         return $this->header_renderer->main_menubar($isCourse);
     }
 
-    public function main_schools()
+    public function page_action_navigation()
     {
-        $content = '';
-        $cats = coursecat::make_categories_list();
-
-        $i = 0;
-        foreach ($cats as $catId => $catName)
-        {
-
-            $content .= html_writer::start_div('col-xs-12 col-sm-6 col-md-4 schoolbox', array('data-courseid' => $catId, 'data-type' => '1'));
-
-            $content .= html_writer::start_div('schoolbox-meta');
-            $content .= html_writer::start_div('row');
-            $content .= html_writer::start_div('col-md-12 box-type text-right');
-            $content .= html_writer::tag('i', '', array('class' => 'icon-me-schule'));
-            $content .= html_writer::end_div();
-            $content .= html_writer::end_div();
-            $content .= html_writer::end_div();
-
-            $content .= html_writer::start_div('schoolbox-inner' . (($i == 0) ? ' first' : ''));
-            $url = new moodle_url('/course/index.php', array('categoryid' => $catId));
-            $content .= html_writer::start_tag('a', array('class' => 'schoolbox-link', 'href' => $url));
-            $content .= html_writer::start_div('panel-heading info');
-
-            $content .= html_writer::tag('span', $catName, array('class' => 'schoolname'));
-            $content .= html_writer::tag('span', html_writer::tag('i', '', array('class' => 'icon-me-pfeil-weiter')), array('class' => 'vbox'));
-
-            $content .= html_writer::end_div();
-            $content .= html_writer::end_tag('a');
-            $content .= html_writer::end_div();
-
-            $content .= html_writer::end_div();
-
-            $i++;
-        }
-
-        return $content;
+        return $this->help_renderer->page_action_navigation();
     }
 
+    /**
+     * Renders a block in bootstrap in the new mebis design
+     * @param block_contents $bc
+     * @param type $region
+     * @return String Html string of the block
+     */
     public function block(block_contents $bc, $region)
     {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if($region === 'top' || $region === 'bottom') {
+        if($region === 'top' || $region === 'schools') {
             return $bc->content;
         }
 
@@ -137,7 +110,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             );
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
-        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen' || $bc->title == 'Einstellungen' || $bc->title == 'Lesezeichen' || $bc->title == 'Navigation'){
+        if($bc->title == 'Meine Kurse' || $bc->title == 'Meine Schulen' || $bc->title == 'Einstellungen' || $bc->title == 'Lesezeichen' || $bc->title == 'Navigation' || $region == 'admin-navi'){
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         }else{
             $output .= html_writer::start_tag('div', array('class' => 'col-md-4'));
@@ -158,6 +131,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         return $output;
     }
 
+    /**
+     * Renders a block region in bootstrap in the new mebis design
+     * @param type $region
+     * @param type $classes
+     * @param type $tag
+     * @return String Html string of the block region
+     */
     public function blocks($region, $classes = array(), $tag = 'aside')
     {
         $displayregion = $this->page->apply_theme_region_manipulations($region);

@@ -9344,184 +9344,365 @@ button.close {
     clear: both;
   }
 }
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 480px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-1 > li {
+  .block-grid-xs-1 > li {
     width: 100%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-1 > li:nth-of-type(n) {
+  .block-grid-xs-1 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-1 > li:nth-of-type(1n+1) {
+  .block-grid-xs-1 > li:nth-of-type(1n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-2 > li {
+  .block-grid-xs-2 > li {
     width: 50%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-2 > li:nth-of-type(n) {
+  .block-grid-xs-2 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-2 > li:nth-of-type(2n+1) {
+  .block-grid-xs-2 > li:nth-of-type(2n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-3 > li {
+  .block-grid-xs-3 > li {
     width: 33.3333333333%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-3 > li:nth-of-type(n) {
+  .block-grid-xs-3 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-3 > li:nth-of-type(3n+1) {
+  .block-grid-xs-3 > li:nth-of-type(3n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-4 > li {
+  .block-grid-xs-4 > li {
     width: 25%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-4 > li:nth-of-type(n) {
+  .block-grid-xs-4 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-4 > li:nth-of-type(4n+1) {
+  .block-grid-xs-4 > li:nth-of-type(4n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-5 > li {
+  .block-grid-xs-5 > li {
     width: 20%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-5 > li:nth-of-type(n) {
+  .block-grid-xs-5 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-5 > li:nth-of-type(5n+1) {
+  .block-grid-xs-5 > li:nth-of-type(5n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-6 > li {
+  .block-grid-xs-6 > li {
     width: 16.6666666667%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-6 > li:nth-of-type(n) {
+  .block-grid-xs-6 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-6 > li:nth-of-type(6n+1) {
+  .block-grid-xs-6 > li:nth-of-type(6n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-7 > li {
+  .block-grid-xs-7 > li {
     width: 14.2857142857%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-7 > li:nth-of-type(n) {
+  .block-grid-xs-7 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-7 > li:nth-of-type(7n+1) {
+  .block-grid-xs-7 > li:nth-of-type(7n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-8 > li {
+  .block-grid-xs-8 > li {
     width: 12.5%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-8 > li:nth-of-type(n) {
+  .block-grid-xs-8 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-8 > li:nth-of-type(8n+1) {
+  .block-grid-xs-8 > li:nth-of-type(8n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-9 > li {
+  .block-grid-xs-9 > li {
     width: 11.1111111111%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-9 > li:nth-of-type(n) {
+  .block-grid-xs-9 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-9 > li:nth-of-type(9n+1) {
+  .block-grid-xs-9 > li:nth-of-type(9n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-10 > li {
+  .block-grid-xs-10 > li {
     width: 10%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-10 > li:nth-of-type(n) {
+  .block-grid-xs-10 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-10 > li:nth-of-type(10n+1) {
+  .block-grid-xs-10 > li:nth-of-type(10n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-11 > li {
+  .block-grid-xs-11 > li {
     width: 9.0909090909%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-11 > li:nth-of-type(n) {
+  .block-grid-xs-11 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-11 > li:nth-of-type(11n+1) {
+  .block-grid-xs-11 > li:nth-of-type(11n+1) {
     clear: both;
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
-  .block-grid-sm-12 > li {
+  .block-grid-xs-12 > li {
     width: 8.3333333333%;
     list-style: none;
     padding: 0 20px 1.11111em;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
-  .block-grid-sm-12 > li:nth-of-type(n) {
+  .block-grid-xs-12 > li:nth-of-type(n) {
     clear: none;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
-  .block-grid-sm-12 > li:nth-of-type(12n+1) {
+  .block-grid-xs-12 > li:nth-of-type(12n+1) {
+    clear: both;
+  }
+}
+@media only screen and (min-width: 640px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-1 > li {
+    width: 100%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-1 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-1 > li:nth-of-type(1n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-2 > li {
+    width: 50%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-2 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-2 > li:nth-of-type(2n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-3 > li {
+    width: 33.3333333333%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-3 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-3 > li:nth-of-type(3n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-4 > li {
+    width: 25%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-4 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-4 > li:nth-of-type(4n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-5 > li {
+    width: 20%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-5 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-5 > li:nth-of-type(5n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-6 > li {
+    width: 16.6666666667%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-6 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-6 > li:nth-of-type(6n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-7 > li {
+    width: 14.2857142857%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-7 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-7 > li:nth-of-type(7n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-8 > li {
+    width: 12.5%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-8 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-8 > li:nth-of-type(8n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-9 > li {
+    width: 11.1111111111%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-9 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-9 > li:nth-of-type(9n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-10 > li {
+    width: 10%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-10 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-10 > li:nth-of-type(10n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-11 > li {
+    width: 9.0909090909%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-11 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-11 > li:nth-of-type(11n+1) {
+    clear: both;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000330}}
+  .block-grid-xc-12 > li {
+    width: 8.3333333333%;
+    list-style: none;
+    padding: 0 20px 1.11111em;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000336}}
+  .block-grid-xc-12 > li:nth-of-type(n) {
+    clear: none;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/_bootstrap-advanced\.scss}line{font-family:\0000337}}
+  .block-grid-xc-12 > li:nth-of-type(12n+1) {
     clear: both;
   }
 }
@@ -17501,8 +17682,27 @@ h2.header {
   color: #333333;
   font-weight: 400;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000344}}
+.usermessages table.messagesearchresults {
+  width: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000347}}
+.usermessages table.messagesearchresults td {
+  padding: 5px;
+  -webkit-transition: background 0.25s;
+  -o-transition: background 0.25s;
+  transition: background 0.25s;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000352}}
+.usermessages table.messagesearchresults tr:hover > td {
+  background: #eeeeee;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000357}}
+.usermessages .mdl-left .heading {
+  margin-top: 5px;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000346}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000363}}
 .user-filemanager {
   margin-top: 25px;
   margin-bottom: 25px;
@@ -17511,30 +17711,30 @@ h2.header {
   background: white;
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000371}}
 .user-filemanager #fitem_id_files_filemanager {
   margin-bottom: 20px;
   min-height: 320px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000375}}
 .user-filemanager #fitem_id_files_filemanager .filemanager-container {
   min-height: 175px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000380}}
 .user-filemanager label {
   color: #333333;
   padding-top: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000385}}
 .user-filemanager #id_submitbutton {
   color: white !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000389}}
 .user-filemanager .fp-viewbar {
   border-radius: 0;
   overflow: hidden;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000383}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003100}}
 .user-filemanager .fp-toolbar .fp-btn-add,
 .user-filemanager .fp-toolbar .fp-btn-download,
 .user-filemanager .fp-toolbar .fp-btn-mkdir,
@@ -17545,57 +17745,62 @@ h2.header {
   border-radius: 0;
   overflow: hidden;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003107}}
 .user-filemanager .mform .fitem {
   width: 100%;
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003112}}
 .user-filemanager .mform .fitem .fitemtitle {
   float: none;
   width: 100%;
   text-align: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003118}}
 .user-filemanager .mform .fitem .felement {
   float: none;
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003107}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003124}}
 .user-filemanager .mform .fitem_actionbuttons > div.felement {
   margin: 0;
   text-align: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003128}}
 .user-filemanager .mform .fitem_actionbuttons > div.felement input {
   margin: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003136}}
 .moodle-dialogue-base {
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003122}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003139}}
 .moodle-dialogue-base .moodle-dialogue-wrap {
   border-radius: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003125}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003142}}
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.moodle-dialogue-hd {
   background: #eeeeee;
   text-shadow: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003130}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003147}}
 .moodle-dialogue-base .moodle-dialogue-wrap input[type="text"] {
   max-width: 0;
   min-width: 100%;
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003136}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003153}}
 .moodle-dialogue-base .moodle-dialogue-wrap .yui3-button.closebutton {
   border-radius: 0;
   box-shadow: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003158}}
 .moodle-dialogue-base .moodle-dialogue-wrap label.control-label {
   color: #333333;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003169}}
+.block_messages .content .info {
+  text-align: left;
 }

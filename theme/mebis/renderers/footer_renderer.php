@@ -11,7 +11,10 @@ require_once($CFG->dirroot . "/lib/outputrenderers.php");
 
 class theme_mebis_footer_renderer extends renderer_base
 {
-
+    /**
+     * Renders the main footer
+     * @return String Html string of the sidebar
+     */
     public function main_footer()
     {
         $output = '';
@@ -83,6 +86,10 @@ class theme_mebis_footer_renderer extends renderer_base
         return $output;
     }
 
+    /**
+     * Renders the event footer
+     * @return String Html structure of the event footer
+     */
     public function main_eventfooter()
     {
         $output = '';
@@ -107,6 +114,10 @@ class theme_mebis_footer_renderer extends renderer_base
         return $output;
     }
 
+    /**
+     * Renders the footer searchbar. Is to be replaced by a block.
+     * @return String Html structure of the footer searchbar
+     */
     public function main_searchbar()
     {
         $output = '';

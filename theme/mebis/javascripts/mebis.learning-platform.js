@@ -56,6 +56,10 @@ var MebisLearningPlatform = (function ($) {
                         //else scroll to selected resource, provided it exists
                         if ($($(this).attr('data-scroll')).length) {
                             $("html, body").animate({scrollTop: $($(this).attr('data-scroll')).offset().top - 50}, 1000);
+                            //if topic is closed, open it
+                            if(!($($(this).attr('data-scroll')).find('.the_toggle').is('.toggle_open'))){
+                                $($(this).attr('data-scroll')).find('.sectionhead.toggle').trigger("click");
+                            }
                         }
                     }
                 }

@@ -70,19 +70,22 @@ echo $OUTPUT->doctype()
                 <!-- Breadcrums -->
                 <?php echo $OUTPUT->main_breadcrumbs() ?>
                 <div class="row">
-                <div class="col-md-4">
-                <?php
-                if ($knownregionadminnavi) {
-                    echo $OUTPUT->blocks('admin-navi');
-                }
-                ?></div>
-                <div class="col-md-8">
-                <?php
-                // echo $OUTPUT->course_content_header();
-                echo $OUTPUT->main_content();
-                // echo $OUTPUT->course_content_footer();
-                ?>
-                </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <?php
+                            if ($knownregionadminnavi) {
+                                echo $OUTPUT->blocks('admin-navi');
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <?php
+                        // echo $OUTPUT->course_content_header();
+                        echo $OUTPUT->main_content();
+                        // echo $OUTPUT->course_content_footer();
+                        ?>
+                    </div>
                 </div>
             </div>
 

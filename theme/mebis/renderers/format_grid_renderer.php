@@ -36,33 +36,6 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     }
 
     /**
-     * Generate the starting container html for a list of sections
-     * @return string HTML to output.
-     */
-    protected function start_section_list()
-    {
-        return html_writer::start_tag('ul', array('class' => 'gtopics row', 'id' => 'gtopics'));
-    }
-
-    /**
-     * Generate the closing container html for a list of sections
-     * @return string HTML to output.
-     */
-    protected function end_section_list()
-    {
-        return html_writer::end_tag('ul');
-    }
-
-    /**
-     * Generate the title for this section page
-     * @return string the page title
-     */
-    protected function page_title()
-    {
-        return get_string('sectionname', 'format_grid');
-    }
-
-    /**
      * Output the html for a multiple section page
      *
      * @param stdClass $course The course entry from DB
@@ -77,7 +50,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
 
 
         //Add side jump-navigation
-        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
+                echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
         echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
         echo html_writer::end_tag('ul');
         //End side jump-navigation
@@ -640,70 +613,6 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         } else {
             echo $this->end_section_list();
         }
-    }
-
-    /**
-     * Attempts to return a 40 character title for the section image container.
-     * If section names are set, they are used. Otherwise it scans
-     * the summary for what looks like the first line.
-     */
-    protected function get_title($section)
-    {
-        $title = is_object($section) && isset($section->name) &&
-            is_string($section->name) ? trim($section->name) : '';
-
-        if (!empty($title)) {
-            // Apply filters and clean tags.
-            $title = trim(format_string($section->name, true));
-        }
-
-        if (empty($title)) {
-            $title = trim(format_text($section->summary));
-
-            // Finds first header content. If it is not found, then try to find the first paragraph.
-            foreach (array('h[1-6]', 'p') as $tag) {
-                if (preg_match('#<(' . $tag . ')\b[^>]*>(?P<text>.*?)</\1>#si', $title, $m)) {
-                    if (!$this->is_empty_text($m['text'])) {
-                        $title = $m['text'];
-                        break;
-                    }
-                }
-            }
-            $title = trim(clean_param($title, PARAM_NOTAGS));
-        }
-
-        if (strlen($title) > 40) {
-            $title = $this->text_limit($title, 40);
-        }
-
-        return $title;
-    }
-
-    /**
-     * States if the text is empty.
-     * @param type $text The text to test.
-     * @return boolean Yes(true) or No(false).
-     */
-    public function is_empty_text($text)
-    {
-        return empty($text) ||
-            preg_match('/^(?:\s|&nbsp;)*$/si', htmlentities($text, 0 /* ENT_HTML401 */, 'UTF-8', true));
-    }
-
-    /**
-     * Cuts long texts up to certain length without breaking words.
-     */
-    protected function text_limit($text, $length, $replacer = '...')
-    {
-        if (strlen($text) > $length) {
-            $text = wordwrap($text, $length, "\n", true);
-            $pos = strpos($text, "\n");
-            if ($pos === false) {
-                $pos = $length;
-            }
-            $text = trim(substr($text, 0, $pos)) . $replacer;
-        }
-        return $text;
     }
 
     /**

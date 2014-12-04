@@ -1,9 +1,8 @@
 <?php
 
-$knownregionpre = $PAGE->blocks->is_known_region('side-pre');
-$knownregionpost = $PAGE->blocks->is_known_region('side-post');
+$knownregionapps = $PAGE->blocks->is_known_region('apps');
 $knownregiontop = $PAGE->blocks->is_known_region('top');
-$knownregionbottom = $PAGE->blocks->is_known_region('bottom');
+$knownregionschools = $PAGE->blocks->is_known_region('schools');
 
 if($knownregiontop) {
     $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
@@ -12,21 +11,20 @@ if($knownregiontop) {
     $PAGE->blocks->add_fake_block($fakeBlock, 'top');
 }
 
-if($knownregionbottom) {
+if($knownregionschools) {
     require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
     $fakeSchoolBlock = new block_contents();
     $b_ms = new block_meineschulen();
     $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
-    $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'bottom');
+    $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'schools');
 }
 
-$hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
-$hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
+$hasapps = $PAGE->blocks->region_has_content('apps', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
-$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
+//$regions = theme_mebis_bootstrap_grid($hasapps, null);
 $PAGE->set_popup_notification_allowed(false);
-if ($knownregionpre || $knownregionpost) {
+if ($hasapps) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
 
@@ -88,36 +86,32 @@ echo $OUTPUT->doctype()
                 ?>
                 <div class="row">
                     <?php
-                    if ($knownregionpost || $knownregionpre) {
+                    if ($hasapps) {
                         ?>
 
                         <div class="col-lg-12 col-sm-12">
                             <h1 class="pull-left">Meine Apps</h1>
                         </div>
                         <?php
-                            $displayregion = $this->page->apply_theme_region_manipulations('side-post');
-                            $classes = array($regions['pre'],$regions['post']);
+                            $displayregion = $this->page->apply_theme_region_manipulations('apps');
+                            $classes = array();
                             $classes[] = 'block-region';
                             $attributes = array(
                                 'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-                                'class' => 'row',
                                 'data-blockregion' => $displayregion,
                                 'data-droptarget' => '1'
                             );
                             echo html_writer::start_tag('aside', $attributes);
                             echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
 
-                            if ($knownregionpost) {
-                                echo $OUTPUT->blocks('side-post', $regions['post']);
-                            }
-                            if ($knownregionpre) {
-                                echo $OUTPUT->blocks('side-pre', $regions['pre']);
+                            if ($knownregionapps) {
+                                echo $OUTPUT->blocks('apps');
                             }
                             echo html_writer::end_div();
                             echo html_writer::end_tag('aside');
                     }
-                            if ($knownregionbottom) {
-                        ?>
+                            if ($knownregionschools) {
+                    ?>
                     <div class="col-lg-12 col-sm-12">
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
@@ -125,7 +119,7 @@ echo $OUTPUT->doctype()
                             </div>
                             <?php
 
-                                echo $OUTPUT->blocks('bottom');
+                                echo $OUTPUT->blocks('schools');
                             ?>
                         </div>
                     </div>
@@ -145,9 +139,7 @@ echo $OUTPUT->doctype()
         <!-- HOMEPAGE-WRAPPER [end] -->
         <?php echo $OUTPUT->main_footer(); ?>
 
-        <a href="#top" id="me-back-top">
-            <i class="fa fa-chevron-up"></i>
-        </a>
+        <?php echo $OUTPUT->page_action_navigation();?>
 
         <?php
             $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));

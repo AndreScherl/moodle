@@ -12,6 +12,13 @@ require_once($CFG->dirroot . "/lib/outputrenderers.php");
 class theme_mebis_header_renderer extends renderer_base
 {
 
+    /**
+     * Renders the main navbar. Is to be replaced by an ajax javascript version
+     * @global type $USER
+     * @global type $PAGE
+     * @global type $OUTPUT
+     * @return String Html string of the navbar
+     */
     public function main_navbar()
     {
         global $USER, $PAGE, $OUTPUT;
@@ -200,6 +207,10 @@ class theme_mebis_header_renderer extends renderer_base
         return $output;
     }
 
+    /**
+     * Renders the main sidebar navigation. Is to be replaced by an ajax javascript version
+     * @return String Html string of the sidebar
+     */
     public function main_sidebar()
     {
         $output = html_writer::start_div('me-sidebar-wrapper visible-lg');
@@ -208,6 +219,10 @@ class theme_mebis_header_renderer extends renderer_base
         return $output;
     }
 
+    /**
+     * Renders the moodle header including the menu bar
+     * @return String Html string of the header
+     */
     public function main_header()
     {
         $img_alt = get_string('header-img-title', 'theme_mebis');
@@ -250,7 +265,7 @@ class theme_mebis_header_renderer extends renderer_base
      * Generates the navigation structure based on the input made in the admin interface.
      *
      * @param string $additionalCSSClasses
-     * @return string
+     * @return String Html string of the navigation structure
      */
     protected function buildNavStructure($additionalCSSClasses = '')
     {
@@ -297,6 +312,11 @@ class theme_mebis_header_renderer extends renderer_base
         return $code;
     }
 
+    /**
+     * Renders the breadcrumb navigation
+     * @global type $OUTPUT
+     * @return String Html string of the breadcrumb navigation
+     */
     public function main_breadcrumbs()
     {
         global $OUTPUT;
@@ -318,6 +338,13 @@ class theme_mebis_header_renderer extends renderer_base
         );
     }
 
+    /**
+     * Renders the main menubar inside the header
+     * @global type $PAGE
+     * @global type $OUTPUT
+     * @global type $COURSE
+     * @return String Html string of the menubar
+     */
     public function main_menubar()
     {
         global $PAGE, $OUTPUT, $COURSE;
@@ -469,7 +496,7 @@ class theme_mebis_header_renderer extends renderer_base
      *
      * @param $node navigation_node
      * @param $linkfilters array
-     * @return string
+     * @return String Html string of the Menu Content
      */
     protected function generateMenuContentFor(navigation_node $node, array $linkfilters = array())
     {

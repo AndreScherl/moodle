@@ -55,7 +55,8 @@
 }
 
 @media only screen { @include block-grids(xs) }
-@media only screen and (min-width: $screen-xc-min) { @include block-grids(sm) }
+@media only screen and (min-width: $screen-xs-min) { @include block-grids(xs) }
+@media only screen and (min-width: $screen-xc-min) { @include block-grids(xc) }
 @media only screen and (min-width: $screen-sm-min) { @include block-grids(sm) }
 @media only screen and (min-width: $screen-md-min) { @include block-grids(md) }
 @media only screen and (min-width: $screen-lg-min) { @include block-grids(lg) }

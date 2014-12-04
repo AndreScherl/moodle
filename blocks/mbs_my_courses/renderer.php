@@ -335,14 +335,19 @@ class block_mbs_my_courses_renderer extends plugin_renderer_base {
      *
      * @return string return the HTML as a string, rather than printing it.
      */
-    public function header_with_link() {
+    public function header_with_links() {
         global $USER;
         $title = get_string("pluginname", "block_mbs_my_courses");
         $create_course_link = '';
-        if(mbs_my_courses::can_create_course($USER->id)) {
+        if(mbs_my_courses::can_create_some_course($USER->id)) {
             $create_course_link .= html_writer::tag("a", get_string("create_course", "block_mbs_my_courses"), array("class" => "mbs_my_courses_createcourse_link", "href" => new moodle_url("/course/edit.php", array("category" => mbs_my_courses::schools_of_user()[0]->id, "returnto" => "category"))));
         }
-        return $title . $create_course_link;
+        $request_course_link = '';
+        if(mbs_my_courses::can_request_home_course()) {
+            $request_course_link .= html_writer::tag("a", get_string("request_course", "block_mbs_my_courses"), array("class" => "mbs_my_courses_createcourse_link", "href" => new moodle_url("/blocks/meineschulen/request.php", array("category" => mbs_my_courses::schools_of_user()[0]->id))));
+        }
+
+        return $title . $create_course_link . $request_course_link;
     }
     /**
      * Construct button to load more results

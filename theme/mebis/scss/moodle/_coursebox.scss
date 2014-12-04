@@ -1,35 +1,22 @@
-#frontpage-course-list {
-    padding: 15px 0 30px 0;
-
-    h2 {
-        margin-bottom: 20px;
-    }
-
-    .me-course-action-links {
-        position: absolute;
-        top: -50px;
-        right: 20px;
-
-        a {
-            display: inline-block;
-            margin-left: 15px;
-        }
-
-    }
-
-    .course-sorting {
-        background: $bg-light;
-        padding: 15px 20px;
-    }
-
-}
 
 .courses {
-    margin-top: 40px;
+    margin-top: 20px;
+}
+
+.coursenumber-label {
+    margin-right: 8px;
+    display: inline-block;
 }
 
 .coursebox {
     margin-bottom: 40px;
+
+    .course_title {
+        position: absolute;
+        right: 34px;
+        top: 45px;
+        z-index: 99;
+    }
 
     .coursebox-meta {
         background: $brand-primary;
@@ -61,6 +48,7 @@
     .coursebox-inner {
         padding: 0;
         border: 0;
+        position: relative;
 
         .coursebox-link {
             min-height: 175px;
@@ -77,11 +65,16 @@
 
             .coursetype {
                 font-size: emCalc(12px);
+                color: $gray-dark;
             }
 
             &:hover {
                 background: $brand-secondary;
                 color: $white;
+
+                .coursetype {
+                    color: $white;
+                }
             }
 
         }

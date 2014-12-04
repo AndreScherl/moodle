@@ -14,6 +14,9 @@ $string['pluginname'] = 'Mebis';
 
 $string['region-side-post'] = 'Rechts';
 $string['region-side-pre'] = 'Links';
+$string['region-top'] = 'Top';
+$string['region-bottom'] = 'Bottom';
+$string['region-admin-navi'] = 'Website-Administration';
 
 $string['url-support'] = 'Link zum Supportbereich';
 $string['url-support-descr'] = 'Link zum Supportbereich';
@@ -67,3 +70,13 @@ $string['header-img-title'] = 'Mebis Logo Lernplattform';
 $string['advancedsearch'] = 'Advanced Search';
 
 $string['course-apps'] = 'Kurs-Apps';
+
+
+// mbs_my_courses
+$string['alwaysshowall'] = 'Always show all';
+$string['numtodisplay'] = 'Number of courses to display: ';
+$string['load_more_results'] = 'Load more results...';
+$string['hiddencoursecount'] = 'You have {$a} hidden course';
+$string['hiddencoursecountplural'] = 'You have {$a} hidden courses';
+$string['hiddencoursecountwithshowall'] = 'You have {$a->coursecount} hidden course ({$a->showalllink})';
+$string['hiddencoursecountwithshowallplural'] = 'You have {$a->coursecount} hidden courses ({$a->showalllink})';

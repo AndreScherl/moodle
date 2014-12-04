@@ -257,10 +257,39 @@ ul.jumpnavigation {
         }
     }
     &:hover {
+
         li.jumpnavigation-point {
             span {
                 display: inline-block;
             }
         }
     }
+}
+
+.my-courses-filter {
+
+    label {
+        position: relative;
+        cursor: pointer;
+
+        &:hover i {
+            color: $gray-dark;
+        }
+
+        input {
+            opacity: 0;
+        }
+
+        i {
+            color: $gray-darker;
+            font-size: emCalc(22px);
+            @include transition(color .25s);
+        }
+
+        input:checked + i {
+            color: $brand-primary;
+        }
+
+    }
+
 }

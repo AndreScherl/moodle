@@ -16770,45 +16770,33 @@ div[role="main"] ul, div[role="main"] ol {
   color: inherit;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000031}}
-#frontpage-course-list {
-  padding: 15px 0 30px 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000034}}
-#frontpage-course-list h2 {
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000038}}
-#frontpage-course-list .me-course-action-links {
-  position: absolute;
-  top: -50px;
-  right: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000313}}
-#frontpage-course-list .me-course-action-links a {
-  display: inline-block;
-  margin-left: 15px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000320}}
-#frontpage-course-list .course-sorting {
-  background: url(/theme/mebis/pix//bg-light.jpg);
-  padding: 15px 20px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000032}}
 .courses {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000036}}
+.coursenumber-label {
+  margin-right: 8px;
+  display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000311}}
 .coursebox {
   margin-bottom: 40px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000334}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000314}}
+.coursebox .course_title {
+  position: absolute;
+  right: 34px;
+  top: 45px;
+  z-index: 99;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000321}}
 .coursebox .coursebox-meta {
   background: black;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000338}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000325}}
 .coursebox .coursebox-meta .course-is-new span,
 .coursebox .coursebox-meta .box-type i {
   display: inline-block;
@@ -16818,25 +16806,26 @@ div[role="main"] ul, div[role="main"] ol {
   text-align: center;
   margin-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000334}}
 .coursebox .coursebox-meta .course-is-new span {
   padding: 0 10px;
   line-height: 28px;
   font-size: 0.875em;
   margin-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000341}}
 .coursebox .coursebox-meta .box-type i {
   width: 40px;
   margin-right: 10px;
   font-size: 1.5em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000361}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000348}}
 .coursebox .coursebox-inner {
   padding: 0;
   border: 0;
+  position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000353}}
 .coursebox .coursebox-inner .coursebox-link {
   min-height: 175px;
   padding: 20px;
@@ -16845,20 +16834,25 @@ div[role="main"] ul, div[role="main"] ol {
   background: white;
   font-weight: 400;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000374}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000362}}
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000366}}
 .coursebox .coursebox-inner .coursebox-link .coursetype {
   font-size: 0.75em;
+  color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000382}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000371}}
 .coursebox .coursebox-inner .coursebox-link:hover {
   background: #ff6600;
   color: white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000391}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000375}}
+.coursebox .coursebox-inner .coursebox-link:hover .coursetype {
+  color: white;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000384}}
 .coursebox .vbox {
   font-size: 2.25em;
   text-align: left;
@@ -17012,8 +17006,16 @@ footer .footer-copyright {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\000031}}
 .course-sorting {
-  background-color: #CCC;
-  padding: 15px 0;
+  background: url(/theme/mebis/pix//bg-light.jpg);
+  padding: 15px 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\000035}}
+.course-sorting input, .course-sorting select, .course-sorting label {
+  margin-bottom: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\000039}}
+.course-sorting label {
+  margin-top: 10px;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\000034}}
@@ -17294,9 +17296,35 @@ ul.jumpnavigation li.jumpnavigation-point.up-arrow span {
   font-size: 32px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003261}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003262}}
 ul.jumpnavigation:hover li.jumpnavigation-point span {
   display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003271}}
+.my-courses-filter label {
+  position: relative;
+  cursor: pointer;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003275}}
+.my-courses-filter label:hover i {
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003279}}
+.my-courses-filter label input {
+  opacity: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003283}}
+.my-courses-filter label i {
+  color: #222222;
+  font-size: 1.375em;
+  -webkit-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003289}}
+.my-courses-filter label input:checked + i {
+  color: black;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/vanzeijl\/public_html\/mebis-moodle\/trunk\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\000031}}

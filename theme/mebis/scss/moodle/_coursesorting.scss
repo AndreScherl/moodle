@@ -1,4 +1,12 @@
 .course-sorting {
-    background-color: #CCC;
-    padding: 15px 0;
+    background: $bg-light;
+    padding: 15px 20px;
+
+    input, select, label {
+    	margin-bottom: 0;
+    }
+
+    label {
+    	margin-top: 10px;
+    }
 }

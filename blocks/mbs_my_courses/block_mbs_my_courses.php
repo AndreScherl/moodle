@@ -71,7 +71,7 @@ class block_mbs_my_courses extends block_base {
         $overviews = mbs_my_courses::get_overviews($sitecourses);
 
         $renderer = $this->page->get_renderer('block_mbs_my_courses');
-        $this->title = $renderer->header_with_links();
+        $this->title = $renderer->header_with_link();
 
         // Number of sites to display.
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {

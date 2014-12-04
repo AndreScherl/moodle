@@ -227,7 +227,12 @@ ul.jumpnavigation {
         height: 26px;
         cursor: pointer;
         min-width: 50px;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
         user-select: none;
+        text-align: right;
         span {
             font-family: "Titillium Web Light","Titillium Web";
             font-weight: 300;

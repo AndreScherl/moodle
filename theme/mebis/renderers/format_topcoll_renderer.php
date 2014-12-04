@@ -224,6 +224,7 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
                     , array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
             }
         }
+        echo html_writer::tag('li', '<span>'.  get_string('course-apps','theme_mebis').'</span>', array('class' => 'jumpnavigation-point', 'data-scroll' => '#block-region-side-post'));
         echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
         echo html_writer::end_tag('ul');
         //End side jump-navigation

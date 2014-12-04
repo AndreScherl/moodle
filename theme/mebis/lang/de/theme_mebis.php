@@ -65,3 +65,5 @@ $string['nav-read'] = 'Vorlesen';
 $string['header-img-title'] = 'Mebis Logo Lernplattform';
 
 $string['advancedsearch'] = 'Erweiterte Suche';
+
+$string['course-apps'] = 'Kurs-Apps';

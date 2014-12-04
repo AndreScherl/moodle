@@ -216,8 +216,18 @@ class mbs_my_courses {
      * @param int userid
      * @return bool
      */
-    public static function can_create_course($userid) {
+    public static function can_create_some_course($userid) {
         // check for every school and return true for first success
+        return true;
+    }
+
+    /**
+     * Check if the user has the right to request a course in his home school
+     *
+     * @return bool
+     */
+    public static function can_request_home_course() {
+        // ToDo
         return true;
     }
 

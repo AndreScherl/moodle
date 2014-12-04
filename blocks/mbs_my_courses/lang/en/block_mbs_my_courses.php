@@ -51,6 +51,7 @@ $string['numtodisplay'] = 'Number of courses to display: ';
 $string['otherexpanded'] = 'Other courses expanded';
 $string['pluginname'] = 'mebis My Courses';
 $string['preservestates'] = 'Preserve expanded states';
+$string['request_course'] = 'Request course in home school';
 $string['shortnameprefix'] = 'Includes {$a}';
 $string['shortnamesufixsingular'] = ' (and {$a} other)';
 $string['shortnamesufixprural'] = ' (and {$a} others)';

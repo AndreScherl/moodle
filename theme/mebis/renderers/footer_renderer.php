@@ -17,6 +17,8 @@ class theme_mebis_footer_renderer extends renderer_base
      */
     public function main_footer()
     {
+        global $CFG;
+
         $output = '';
 
         $output .= html_writer::start_tag('footer', array('id' => 'page-footer'));
@@ -63,7 +65,7 @@ class theme_mebis_footer_renderer extends renderer_base
 
         $output .= html_writer::start_div('col-xs-12 col-md-6 footer-mebis-logo hidden-xs');
         $output .= html_writer::tag('img', '',
-                array('class' => 'img-responsive', 'src' => '/theme/mebis/pix/mebis-logo.png',
+                array('class' => 'img-responsive', 'src' => $CFG->wwwroot . '/theme/mebis/pix/mebis-logo.png',
                 'alt' => 'mebis footer-logo', 'width' => '250', 'height' => '42'));
         $output .= html_writer::end_div();
 

@@ -225,6 +225,8 @@ class theme_mebis_header_renderer extends renderer_base
      */
     public function main_header()
     {
+        global $CFG;
+
         $img_alt = get_string('header-img-title', 'theme_mebis');
         $output = html_writer::start_tag('header', array('class' => 'me-page-header full'));
         $output .= html_writer::start_div('container');
@@ -237,8 +239,8 @@ class theme_mebis_header_renderer extends renderer_base
         $output .= html_writer::start_tag('a', array('href' => new moodle_url('/')));
         $output .= html_writer::tag('img', '',
             array(
-                'class' => 'pull-left', 'src' => '/theme/mebis/pix/mebis-logo-lernplattform.png',
-                'data-src-contrast' => '/theme/mebis/pix/mebis-logo-lernplattform-kontrast.png',
+                'class' => 'pull-left', 'src' => $CFG->wwwroot . '/theme/mebis/pix/mebis-logo-lernplattform.png',
+                'data-src-contrast' => $CFG->wwwroot . '/theme/mebis/pix/mebis-logo-lernplattform-kontrast.png',
                 'alt' => $img_alt, 'title' => $img_alt, 'height' => '45', 'width' => '340'
             )
         );
@@ -526,11 +528,16 @@ class theme_mebis_header_renderer extends renderer_base
                         $linktxt = $navchild->text;
                     }
 
-                    $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a>';
-                    if ($navchild->has_children()) {
-                        $menuitems .= '<ul>'.$this->generateMenuContentFor($navchild).'</ul>';
+                    // links  with no link target should not be displayed as they do not represent an own "page" but
+                    // are used only for structuring the menu. As we currently do not deal with submenus in the menu
+                    // bar there is no need to display those links.
+                    if($link !== '#') {
+                        $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a></li>';
                     }
-                    $menuitems .= '</li>';
+
+                    if ($navchild->has_children()) {
+                        $menuitems .= $this->generateMenuContentFor($navchild);
+                    }
                 }
             }
         }

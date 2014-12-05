@@ -72,7 +72,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
     public function block(block_contents $bc, $region)
     {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if($region === 'top' || $region === 'schools') {
+        if($region === 'top' || $region === 'schools' || $bc->attributes['data-block'] == 'mbs_my_courses') {
             return $bc->content;
         }
 

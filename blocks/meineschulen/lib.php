@@ -166,6 +166,7 @@ class meineschulen {
      * Get a link to the school search page.
      *
      * @return moodle_url
+     */
      
     public static function get_search_url() {
         return new moodle_url('/blocks/meineschulen/search.php');

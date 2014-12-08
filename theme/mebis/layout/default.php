@@ -11,13 +11,13 @@ if($knownregiontop) {
     $PAGE->blocks->add_fake_block($fakeBlock, 'top');
 }
 
-if($knownregionschools) {
-    require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
-    $fakeSchoolBlock = new block_contents();
-    $b_ms = new block_meineschulen();
-    $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
-    $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'schools');
-}
+// if($knownregionschools) {
+//     require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
+//     $fakeSchoolBlock = new block_contents();
+//     $b_ms = new block_meineschulen();
+//     $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
+//     $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'schools');
+// }
 
 $hasapps = $PAGE->blocks->region_has_content('apps', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
@@ -90,7 +90,7 @@ echo $OUTPUT->doctype()
                         ?>
 
                         <div class="col-lg-12 col-sm-12">
-                            <h1 class="pull-left">Meine Apps</h1>
+                            <h1>Meine Apps</h1>
                         </div>
                         <?php
                             $displayregion = $this->page->apply_theme_region_manipulations('apps');

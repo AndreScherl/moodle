@@ -25,6 +25,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $ismovingcourse = false;
         $courseordernumber = 0;
         $maxcourses = count($courses);
+
         $userediting = false;
         // Intialise string/icon etc if user is editing and courses > 1
         if ($this->page->user_is_editing() && (count($courses) > 1)) {
@@ -90,12 +91,12 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $html .= html_writer::start_div('row');
 
             //TODO: figure out if new or not, gettext ?
-            $html .= html_writer::start_div('col-md-6 course-is-new');
+            $html .= html_writer::start_div('col-xs-6 course-is-new');
             $html .= html_writer::tag('span', 'NEU');
             $html .= html_writer::end_div();
 
             //TODO: If is not new, pull-right-class is needed (or change to col-12)
-            $html .= html_writer::start_div('col-md-6 box-type text-right');
+            $html .= html_writer::start_div('col-xs-6 box-type text-right');
             $html .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
 
             $html .= html_writer::end_div();
@@ -169,7 +170,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
 
         // Wrap course list in a div and return.
         $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
-        return html_writer::tag('div', $course_list, array('class' => 'row course_list'));
+        return html_writer::tag('div', $course_list, array('class' => 'course_list'));
     }
 
     /**
@@ -179,7 +180,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
      * @return string html of header bar.
      */
     public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('row notice');
+        $output = $this->output->box_start('notice');
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12 margin-top-small'));
         $options = array('0' => get_string('alwaysshowall', 'theme_mebis'));
         for ($i = 1; $i <= $max; $i++) {
@@ -208,7 +209,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $schools[$value->id] = $value->name;
         }
 
-        $output = html_writer::start_tag('div', array('class' => 'row my-courses-filter margin-top-small'));
+        $output = html_writer::start_tag('div', array('class' => 'my-courses-filter margin-top-small'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag('div', array('class' => 'course-sorting'));
 
@@ -223,12 +224,16 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $output .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...", array('class' => 'form-control'));
         $output .= html_writer::end_tag('div');
 
-        $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right'));
+        $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right text-mobile-left'));
         $output .= html_writer::start_tag('label', array("for"=>"switch_list"));
         $output .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_list", "value" => "list"));
+        $switchList = html_writer::tag('span', get_string('switch_list', 'theme_mebis'), array('class' => 'visible-xs'));
+        $output .= html_writer::tag('span', $switchList);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::start_tag('label', array("for"=>"switch_grid"));
         $output .= html_writer::tag('input', '<i class="icon-me-kachelansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_grid", "value" => "grid", "class" => "grid-switch", "checked" => "checked"));
+        $switchGrid = html_writer::tag('span', get_string('switch_grid', 'theme_mebis'), array('class' => 'visible-xs'));
+        $output .= html_writer::tag('span', $switchGrid);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::end_tag('div');
 
@@ -275,11 +280,18 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
      * @return string return the HTML as a string, rather than printing it.
      */
     public function load_more_button() {
-        $output = html_writer::start_tag('div', array('class' => 'row'));
+        $output = html_writer::start_tag('div');
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12 add-more-results margin-bottom-medium'));
         $output .= html_writer::tag("button", get_string("load_more_results", "theme_mebis"), array("class" => "btn load-more-results"));
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
+        return $output;
+    }
+
+    public function load_block_headline()
+    {
+        $headline = html_writer::tag('h1', get_string('my-courses', 'theme_mebis'), array());
+        $output = html_writer::tag('div', $headline, array('class' => 'col-md-12'));
         return $output;
     }
 

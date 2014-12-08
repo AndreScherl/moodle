@@ -36,3 +36,25 @@ div.block,
 .forumpost {
     color: $brand-gray-dark !important;
 }
+
+.hiddenelement {
+	display: none;
+}
+
+.tree_item  span, .tree_item span:focus {
+	outline: 0;
+}
+
+.collapsed .fcontainer, .collapsed ul {
+	display: none;
+}
+
+.block_tree .collapsed .tree_item.branch {
+	background-image: url(/theme/image.php/mebis/core/1417680712/t/collapsed)!important;
+}
+
+.text-mobile-left {
+    @media only screen and (max-width: $screen-xs-min) {
+        text-align: left!important;
+    }
+}

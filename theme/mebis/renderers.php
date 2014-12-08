@@ -12,6 +12,7 @@ require_once('renderers/format_onetopic_renderer.php');
 require_once('renderers/format_grid_renderer.php');
 require_once('renderers/format_topcoll_renderer.php');
 require_once('renderers/block_my_courses_renderer.php');
+require_once('renderers/block_meineschulen_renderer.php');
 require_once('renderers/help_renderer.php');
 require_once('renderers/header_renderer.php');
 require_once('renderers/footer_renderer.php');

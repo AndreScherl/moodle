@@ -73,6 +73,7 @@ $string['course-apps'] = 'Kurs-Apps';
 
 
 // mbs_my_courses
+$string['my-courses'] = 'My Courses';
 $string['alwaysshowall'] = 'Always show all';
 $string['numtodisplay'] = 'Number of courses to display: ';
 $string['load_more_results'] = 'Load more results...';
@@ -80,3 +81,5 @@ $string['hiddencoursecount'] = 'You have {$a} hidden course';
 $string['hiddencoursecountplural'] = 'You have {$a} hidden courses';
 $string['hiddencoursecountwithshowall'] = 'You have {$a->coursecount} hidden course ({$a->showalllink})';
 $string['hiddencoursecountwithshowallplural'] = 'You have {$a->coursecount} hidden courses ({$a->showalllink})';
+$string['switch_list'] = 'Listview';
+$string['switch_grid'] = 'Gridview';

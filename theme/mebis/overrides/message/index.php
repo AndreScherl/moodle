@@ -27,7 +27,7 @@ $overrides_path = dirname(__FILE__);
 require_once('../config.php');
 require_once('lib.php');
 require_once($overrides_path . '/lib.php');
-require_once('send_form.php');
+require_once($overrides_path . '/send_form.php');
 
 require_login(0, false);
 
@@ -176,7 +176,7 @@ if ($currentuser && !empty($user2) && has_capability('moodle/site:sendmessage', 
     }
 
     if (empty($messageerror)) {
-        $mform = new send_form();
+        $mform = new theme_mebis_send_form();
         $defaultmessage = new stdClass;
         $defaultmessage->id = $user2->id;
         $defaultmessage->viewing = $viewing;
@@ -311,7 +311,7 @@ if (!empty($user2)) {
 
     $messagehistorylink .= html_writer::end_tag('div');
 
-    message_print_message_history($user1, $user2, $search, $displaycount, $messagehistorylink, $viewingnewmessages, $showactionlinks);
+    theme_mebis_message_print_message_history($user1, $user2, $search, $displaycount, $messagehistorylink, $viewingnewmessages, $showactionlinks);
     echo html_writer::end_tag('div');
 
     //send message form
@@ -331,12 +331,12 @@ if (!empty($user2)) {
                 }
             }
 
-            $mform = new send_form();
+            $mform = new theme_mebis_send_form();
             $defaultmessage = new stdClass;
             $defaultmessage->id = $user2->id;
             $defaultmessage->viewing = $viewing;
             $defaultmessage->message = '';
-            //$defaultmessage->messageformat = FORMAT_MOODLE;
+
             $mform->set_data($defaultmessage);
             $mform->display();
         }

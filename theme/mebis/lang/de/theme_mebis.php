@@ -72,6 +72,7 @@ $string['advancedsearch'] = 'Erweiterte Suche';
 $string['course-apps'] = 'Kurs-Apps';
 
 // mbs_my_courses
+$string['my-courses'] = 'Meine Kurse';
 $string['alwaysshowall'] = 'Alle';
 $string['numtodisplay'] = 'Angezeigte Kurse: ';
 $string['load_more_results'] = 'Weitere Ergebnisse laden...';
@@ -79,3 +80,6 @@ $string['hiddencoursecount'] = 'Zur Zeit ist {$a} Kurs versteckt';
 $string['hiddencoursecountplural'] = 'Zur Zeit sind {$a} Kurse versteckt';
 $string['hiddencoursecountwithshowall'] = 'Zur Zeit ist {$a->coursecount} Kurs versteckt ({$a->showalllink})';
 $string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount} Kurse versteckt ({$a->showalllink})';
+
+$string['switch_list'] = 'Listenansicht';
+$string['switch_grid'] = 'Gridansicht';

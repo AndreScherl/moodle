@@ -79,7 +79,7 @@ echo $OUTPUT->doctype()
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 admin-content">
                         <?php
                         // echo $OUTPUT->course_content_header();
                         echo $OUTPUT->main_content();

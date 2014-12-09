@@ -100,7 +100,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         // .coursebox-inner
         $content .= html_writer::start_div('coursebox-inner '. $additionalclasses);
 
-        $url = new moodle_url('/course/info.php', array('id' => $course->id));
+        $url = new moodle_url('/course/view.php', array('id' => $course->id));
         $content .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $url));
 
 

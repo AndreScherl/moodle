@@ -1,7 +1,7 @@
 <?php
 
-
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/topcoll/renderer.php');
 
 /**
@@ -36,6 +36,9 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
         parent::__construct($page, $target);
         $this->togglelib = new topcoll_togglelib;
         $this->courseformat = course_get_format($page->course); // Needed for collapsed topics settings retrieval.
+
+        if(!defined('PAGE_MENU_SET'))
+            define('PAGE_MENU_SET', true);
 
         /* Since format_topcoll_renderer::section_edit_controls() only displays the 'Set current section' control when editing
            mode is on we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any
@@ -217,16 +220,27 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
         $sections = $modinfo->get_section_info_all();
 
         //Add side jump-navigation
-        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
+        $menu_items = array();
+
         for($i = 1;$i <= $course->numsections;$i++){
             if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available  ){
-                echo html_writer::tag('li', '<span>'.$this->courseformat->get_topcoll_section_name($course, $sections[$i], false).'</span>'
-                    , array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
+                $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
+                    array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
             }
         }
-        echo html_writer::tag('li', '<span>'.  get_string('course-apps','theme_mebis').'</span>', array('class' => 'jumpnavigation-point', 'data-scroll' => '#block-region-side-post'));
-        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
-        echo html_writer::end_tag('ul');
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+        }
+        $output .= html_writer::end_tag('ul');
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+        echo $output;
+
         //End side jump-navigation
 
         // General section if non-empty.

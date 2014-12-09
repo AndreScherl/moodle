@@ -1,8 +1,8 @@
 <?php
 
-$knownregionapps = $PAGE->blocks->is_known_region('apps');
+$knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 $knownregiontop = $PAGE->blocks->is_known_region('top');
-$knownregionschools = $PAGE->blocks->is_known_region('schools');
+$knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
 if($knownregiontop) {
     $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
@@ -11,20 +11,20 @@ if($knownregiontop) {
     $PAGE->blocks->add_fake_block($fakeBlock, 'top');
 }
 
-// if($knownregionschools) {
+// if($knownregionsidepost) {
 //     require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
 //     $fakeSchoolBlock = new block_contents();
 //     $b_ms = new block_meineschulen();
 //     $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
-//     $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'schools');
+//     $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'side-post');
 // }
 
-$hasapps = $PAGE->blocks->region_has_content('apps', $OUTPUT);
+$hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
 //$regions = theme_mebis_bootstrap_grid($hasapps, null);
 $PAGE->set_popup_notification_allowed(false);
-if ($hasapps) {
+if ($hassidepre) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
 
@@ -86,16 +86,18 @@ echo $OUTPUT->doctype()
                 ?>
                 <div class="row">
                     <?php
-                    if ($hasapps) {
+                    if ($hassidepre) {
                         ?>
 
                         <div class="col-lg-12 col-sm-12">
                             <h1>Meine Apps</h1>
                         </div>
+
+                        <div class="col-lg-12 col-sm-12">
                         <?php
-                            $displayregion = $this->page->apply_theme_region_manipulations('apps');
+                            $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
                             $classes = array();
-                            $classes[] = 'block-region';
+                            $classes[] = 'row block-region';
                             $attributes = array(
                                 'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
                                 'data-blockregion' => $displayregion,
@@ -104,38 +106,48 @@ echo $OUTPUT->doctype()
                             echo html_writer::start_tag('aside', $attributes);
                             echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
 
-                            if ($knownregionapps) {
-                                echo $OUTPUT->blocks('apps');
+                            if ($knownregionsidepre) {
+                                echo $OUTPUT->blocks('side-pre');
                             }
+
                             echo html_writer::end_div();
                             echo html_writer::end_tag('aside');
-                    }
-                            if ($knownregionschools) {
-                    ?>
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12">
-                                <h1 class="pull-left">Meine Schulen</h1>
-                            </div>
-                            <?php
 
-                                echo $OUTPUT->blocks('schools');
-                            ?>
-                        </div>
+                    ?>
                     </div>
                     <?php
                     }
                     ?>
+
+                        <?php
+                        if ($knownregionsidepost) {
+                        ?>
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <h1 class="pull-left">Meine Schulen</h1>
+                                </div>
+                                <?php
+
+                                    echo $OUTPUT->blocks('side-post');
+                                ?>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                        ?>
                 </div>
             </div>
 
             <div id="root-footer"></div>
+
             <!-- CONTENT [end] -->
             <?php echo $OUTPUT->main_searchbar(); ?>
 
             <?php echo $OUTPUT->main_eventfooter(); ?>
 
         </div>
+
         <!-- HOMEPAGE-WRAPPER [end] -->
         <?php echo $OUTPUT->main_footer(); ?>
 
@@ -149,5 +161,6 @@ echo $OUTPUT->doctype()
 
             echo $OUTPUT->standard_end_of_body_html();
         ?>
+
     </body>
 </html>

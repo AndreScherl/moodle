@@ -48,17 +48,20 @@ class theme_mebis_help_renderer extends renderer_base
 
     public function page_action_navigation()
     {
-        $menu_items = array(
-            html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top'))
-        );
 
-        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        foreach($menu_items as $item) {
-            $output .= html_writer::tag('li', $item);
+        if(!defined('PAGE_MENU_SET')) {
+            $menu_items = array(
+                html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top'))
+            );
+
+            $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
+            $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+            foreach($menu_items as $item) {
+                $output .= html_writer::tag('li', $item);
+            }
+            $output .= html_writer::end_tag('ul');
+            $output .= html_writer::end_tag('div');
+            return $output;
         }
-        $output .= html_writer::end_tag('ul');
-        $output .= html_writer::end_tag('div');
-        return $output;
     }
 }

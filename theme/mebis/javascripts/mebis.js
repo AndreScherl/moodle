@@ -4,6 +4,7 @@ var Mebis = (function($) {
 	var $win = $(window);
 	var $body = $('body');
 	var lastY = 0;
+	var anchorHeadlinePositions = [];
 
 	function isMobile() {
 		return ($win.width()) <= 768 ? true : false;
@@ -30,13 +31,16 @@ var Mebis = (function($) {
 
 			$('body, html')
 				.velocity('stop')
-				.velocity('scroll', {duration: 800, offset: 0});
+				.velocity('scroll', {duration: 800, offset: 0}, function(){
+			});
+
+			setAnchorClass();
 
 			window.location.hash = ''; // for older browsers, leaves a # behind
 
 			// IE9 Fix
 			if (history.pushState != undefined) {
-	   			history.pushState('', document.title, window.location.pathname);
+	   			history.pushState('', document.title, window.location.pathname  + window.location.search);
 	   		}
 
 			return false;
@@ -457,6 +461,61 @@ var Mebis = (function($) {
 		});
 	}
 
+	function initAnchorLinks(){
+		var $button = $(".me-in-page-menu-mobile-trigger");
+		var $menu = $(".me-in-page-menu-anchor-links");
+		var $anchorLinks = $menu.children("li");
+
+		$button.on('click', function(){
+			var status = $button.attr("data-status");
+
+			if (status == "hidden") {
+				$menu.slideDown(250);
+				$button.attr("data-status","visible");
+			} else {
+				$menu.slideUp(250);
+				$button.attr("data-status","hidden");
+			}
+		});
+
+		$anchorLinks.on('click', 'a', function(e){
+			e.preventDefault();
+
+			var anchor = $(this).attr('href');
+			var anchorTop = $(anchor).offset().top-85;
+			$('body, html')
+				.velocity('stop')
+				.velocity('scroll', {duration: 800, offset: anchorTop});
+
+			window.location.hash = anchor; // for older browsers, leaves a # behind
+	   		history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
+
+		});
+	}
+
+	function initAnchorScrolling() {
+		var $headlines = $("[data-anchor-link]");
+
+		setTimeout(function(){
+			$headlines.each(function(){
+				anchorHeadlinePositions.push($(this).offset().top - 150);
+			});
+		}, 50);
+	}
+
+	function setAnchorClass() {
+		var viewportPos = $(window).scrollTop();
+		var markIndex;
+
+		$.each(anchorHeadlinePositions, function(index, element){
+			if (viewportPos > element) {
+				markIndex = index;
+			}
+		});
+
+		$(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
+	}
+
 	return {
 		init: function() {
 			initToTop();
@@ -474,6 +533,9 @@ var Mebis = (function($) {
 			initPopupFix();
 			switchModalContents();
 			initStarRating();
+			initAnchorLinks();
+			initAnchorScrolling();
+			setAnchorClass();
 		},
 		resize: function() {
 			initBlockLinkResize();
@@ -485,6 +547,9 @@ var Mebis = (function($) {
 			setTimeout(function(){
 				$.equalizer();
 			},50);
+		},
+		scroll: function() {
+			setAnchorClass();
 		}
 	}
 

@@ -56,7 +56,7 @@ $string['menu-administration-link'] = 'Webseiten Administration';
 $string['menu-edit-activate'] = 'Bearbeitung aktivieren';
 $string['menu-edit-deactivate'] = 'Bearbeitung deaktivieren';
 
-$string['coursedialog-close'] = 'zur Übersicht X';
+$string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
 $string['nav-logout'] = 'Logout';

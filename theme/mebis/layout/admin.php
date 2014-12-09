@@ -5,15 +5,6 @@ $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
 $knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
 
-
-//if($knownregionadminnavi) {
-//    $fakeSettingsBlock = new block_contents();
-//    $b_s = new block_settings();
-//    $fakeSettingsBlock->content = implode('', $b_s->get_content());
-//
-//    $PAGE->blocks->add_fake_block($fakeSettingsBlock, 'admin-navi');
-//}
-
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
@@ -79,12 +70,14 @@ echo $OUTPUT->doctype()
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-8 admin-content">
-                        <?php
-                        // echo $OUTPUT->course_content_header();
-                        echo $OUTPUT->main_content();
-                        // echo $OUTPUT->course_content_footer();
-                        ?>
+                    <div class="col-md-8">
+                        <div class="admin-content">
+                            <?php
+                            // echo $OUTPUT->course_content_header();
+                                echo $OUTPUT->main_content();
+                            // echo $OUTPUT->course_content_footer();
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

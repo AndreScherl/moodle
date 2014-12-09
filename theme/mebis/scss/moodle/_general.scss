@@ -13,11 +13,6 @@ div[role=main] {
     color: $white;
 }
 
-.mform legend a,
-.mform legend a:hover {
-    color: white !important;
-}
-
 .block h2,
 .dndsupported .dndupload-message,
 p.tree_item,
@@ -57,4 +52,12 @@ div.block,
     @media only screen and (max-width: $screen-xs-min) {
         text-align: left!important;
     }
+}
+
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre {
+    padding: 0;
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap {
+    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 }

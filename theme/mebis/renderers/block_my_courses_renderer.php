@@ -129,7 +129,6 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
                     new moodle_url('/auth/mnet/jump.php', array('hostid' => $course->hostid, 'wantsurl' => '/course/view.php?id='.$course->remoteid)),
                     format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 2, 'title');
             }
-            $html .= $this->output->box('', 'flush');
 
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
@@ -143,7 +142,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
                 $html .= $this->activity_display($course->id, $overviews[$course->id]);
             }
 
-            $html .= $this->output->box('', 'flush');
+            $html .= html_writer::tag('span', '<i class="icon-me-pfeil-weiter"></i>', array('class' => 'vbox'));
 
             $courseordernumber++;
             if ($ismovingcourse) {
@@ -170,7 +169,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
 
         // Wrap course list in a div and return.
         $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
-        return html_writer::tag('div', $course_list, array('class' => 'course_list'));
+        return html_writer::tag('div', $course_list, array('class' => 'row course_list'));
     }
 
     /**
@@ -209,7 +208,9 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $schools[$value->id] = $value->name;
         }
 
-        $output = html_writer::start_tag('div', array('class' => 'my-courses-filter margin-top-small'));
+        $output = $this->load_block_headline();
+
+        $output .= html_writer::start_tag('div', array('class' => 'row my-courses-filter margin-top-small'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag('div', array('class' => 'course-sorting'));
 
@@ -280,7 +281,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
      * @return string return the HTML as a string, rather than printing it.
      */
     public function load_more_button() {
-        $output = html_writer::start_tag('div');
+        $output = html_writer::start_tag('div', array('class' => 'row'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12 add-more-results margin-bottom-medium'));
         $output .= html_writer::tag("button", get_string("load_more_results", "theme_mebis"), array("class" => "btn load-more-results"));
         $output .= html_writer::end_tag('div');
@@ -291,8 +292,50 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
     public function load_block_headline()
     {
         $headline = html_writer::tag('h1', get_string('my-courses', 'theme_mebis'), array());
-        $output = html_writer::tag('div', $headline, array('class' => 'col-md-12'));
-        return $output;
+        return $headline;
+    }
+
+    /**
+     * //@TODO:
+     * This is not actually used and only a blueprint. 12345 is used as a standin for an actual id.  and  may be
+     * replaced with icon classes. Javascript has to be added to collape the schoolbox and change the icon (or class)
+     */
+    public function listView() {
+
+        foreach($schools as $school){
+            //start schoolbox
+            $list = html_writer::start_div('col-sm-12 categorybox text-left', array('data-categoryid' => '12345', 'data-type' => '1'));
+            $list .= html_writer::start_div('row');
+            $list .= html_writer::start_div('col-sm-12');
+            $list .= html_writer::start_div('category-container category-name');
+            $list .= $schoolName;
+            $list .= html_writer::div('','closebutton', array('id' => 'close-12345'));
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::start_div('col-sm-12');
+            $list .= html_writer::start_div('category-container', array('id' => 'cat-12345'));
+            $list .= html_writer::start_div('row');
+
+            foreach($courses as $course){
+                //start coursebox
+                $list .= html_writer::start_div('col-sm-12');
+                $list .= html_writer::start_div('category-coursebox');
+                $list .= html_writer::div('','iconbox');
+                $list .= html_writer::div('NEU','newbox');
+                $list .= $courseName;
+                $list .= html_writer::end_div();
+                $list .= html_writer::end_div();
+                //end coursebox
+            }
+
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            //end schoolbox
+        }
+        return $list;
     }
 
 }

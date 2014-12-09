@@ -1,7 +1,7 @@
 <?php
 
-
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 
 /**
@@ -13,6 +13,22 @@ require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
 {
 
+    /**
+     * Constructor method, calls the parent constructor
+     *
+     * @param moodle_page $page
+     * @param string $target one of rendering target constants
+     */
+    public function __construct(moodle_page $page, $target) {
+        parent::__construct($page, $target);
+
+        if(!defined('PAGE_MENU_SET'))
+            define('PAGE_MENU_SET', true);
+
+        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
+        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
+        $page->set_other_editing_capability('moodle/course:setcurrentsection');
+    }
 
     /**
      * Generate next/previous section links for navigation
@@ -62,9 +78,18 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         }
 
         //Add side jump-navigation
-        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
-        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
-        echo html_writer::end_tag('ul');
+        $menu_items = array(
+            html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top'))
+        );
+
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', $item);
+        }
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+        echo $output;
         //End side jump-navigation
 
         return $links;

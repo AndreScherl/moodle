@@ -1,6 +1,7 @@
 <?php
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/grid/renderer.php');
 require_once($CFG->dirroot . '/course/format/grid/lib.php');
 
@@ -29,6 +30,9 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         $this->courseformat = course_get_format($page->course);
         $this->settings = $this->courseformat->get_settings();
 
+        if(!defined('PAGE_MENU_SET'))
+            define('PAGE_MENU_SET', true);
+
         /* Since format_grid_renderer::section_edit_controls() only displays the 'Set current section' control when editing
           mode is on we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any
           other managing capability. */
@@ -48,11 +52,19 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     {
         global $PAGE;
 
+        $menu_items = array(
+            html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top'))
+        );
 
-        //Add side jump-navigation
-                echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
-        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
-        echo html_writer::end_tag('ul');
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', $item);
+        }
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+        echo $output;
+
         //End side jump-navigation
 
         $summarystatus = $this->courseformat->get_summary_visibility($course->id);
@@ -99,10 +111,12 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             'role' => 'region',
             'aria-label' => get_string('shadeboxcontent', 'format_grid')));
 
-        echo html_writer::tag('div', get_string('coursedialog-close', 'theme_mebis'),
+        $close = html_writer::tag('span', '<i class="fa fa-close"></i>' . get_string('coursedialog-close', 'theme_mebis'),
             array('id' => 'gridshadebox_close', 'style' => 'display:none;',
             'role' => 'link',
             'aria-label' => get_string('closeshadebox', 'format_grid')));
+
+        echo html_writer::tag('div', $close, array('class' => 'gridshadebox-close-button'));
 
         echo $this->start_section_list();
         // If currently moving a file then show the current clipboard.
@@ -119,11 +133,11 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             $urlpicedit, false);
 
         echo html_writer::start_div('row');
-        echo html_writer::tag('div', '<',
+        echo html_writer::tag('div', '<i class="icon-me-pfeil-zurueck"></i>',
             array('id' => 'gridshadebox_left', 'class' => 'gridshadebox_arrow col-md-5 col-xs-2',
             'role' => 'link',
             'aria-label' => get_string('previoussection', 'format_grid')));
-        echo html_writer::tag('div', '>',
+        echo html_writer::tag('div', '<i class="icon-me-pfeil-weiter"></i>',
             array('id' => 'gridshadebox_right', 'class' => 'gridshadebox_arrow col-md-5 col-md-offset-2 col-xs-2 col-xs-offset-8',
             'role' => 'link',
             'aria-label' => get_string('nextsection', 'format_grid')));

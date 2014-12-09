@@ -84,19 +84,25 @@
     }
 }
 #gridshadebox {
+
     #gridshadebox_overlay {
         z-index: 2;
+        opacity: 0.5;
     }
+
     #gridshadebox_content {
         position: absolute !important;
         left:0 !important;
-        top: 200px !important;
+        top: 150px !important;
         right: 0;
         border: none;
         z-index: 3;
+        @include box-shadow(0 0 25px rgba(0,0,0,0.35));
 
-        gtopics {
-            margin: 0 15px 10px;
+        .gtopics {
+            margin: 0 0 10px;
+            max-height: 560px;
+            overflow: auto;
         }
 
         div div ul li, div div ol li {
@@ -137,30 +143,50 @@
             }
         }
 
-        #gridshadebox_close {
-            position: absolute;
-            right: 0px;
-            cursor: pointer;
-            top: -56px;
-            background-color: #DDD;
-            padding: 15px 5px;
+        .gridshadebox-close-button {
+            position: relative;
+            text-align: right;
+            padding-top: 5px;
+            padding-right: 5px;
+            margin-bottom: 20px;
+
+            #gridshadebox_close {
+                position: relative;
+                top: auto;
+                left: auto;
+                color: $brand-primary;
+
+                &:hover {
+                    color: $brand-secondary;
+                }
+            }
         }
+
         .gridshadebox_arrow {
             position: relative;
             cursor: pointer;
             padding: 20px;
-            background-color: #FFF;
             opacity: 1;
             text-align: center;
+            background: $white;
+            @include transition(background .25s);
+            @include box-shadow(0 0 25px rgba(0,0,0,0.35));
+
             &#gridshadebox_right {
                 top: inherit;
                 right: inherit;
                 top: 80px;
             }
+
             &#gridshadebox_left {
                 top: inherit;
                 left: inherit;
                 top: 80px;
+            }
+
+            &:hover {
+                background: $brand-primary;
+                color: $white;
             }
         }
     }

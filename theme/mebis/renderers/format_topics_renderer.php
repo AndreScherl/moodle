@@ -2,6 +2,7 @@
 
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/topics/renderer.php');
 
 /**
@@ -12,6 +13,22 @@ require_once($CFG->dirroot . '/course/format/topics/renderer.php');
  */
 class theme_mebis_format_topics_renderer extends format_topics_renderer
 {
+
+    /**
+     * Constructor method, calls the parent constructor
+     *
+     * @param moodle_page $page
+     * @param string $target one of rendering target constants
+     */
+    public function __construct(moodle_page $page, $target) {
+        parent::__construct($page, $target);
+
+        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
+        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
+        $page->set_other_editing_capability('moodle/course:setcurrentsection');
+    }
+
+
     /**
      * Generate a summary of a section for display on the 'coruse index page'
      *
@@ -26,33 +43,31 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
         $sections = $modinfo->get_section_info_all();
 
         //Add side jump-navigation
-        echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
+        $menu_items = array();
+
         for($i = 1;$i <= $course->numsections;$i++){
             if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available  ){
-                echo html_writer::tag('li', '<span>'.$this->section_title($sections[$i], $course).'</span>'
-                    , array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
+                $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
+                    array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
             }
         }
-        echo html_writer::tag('li', '<span>'.  get_string('course-apps','theme_mebis').'</span>', array('class' => 'jumpnavigation-point', 'data-scroll' => '#block-region-side-post'));
-        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
-        echo html_writer::end_tag('ul');
+
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+        }
+        $output .= html_writer::end_tag('ul');
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+        echo $output;
         //End side jump-navigation
 
         parent::print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Generate the edit controls of a section

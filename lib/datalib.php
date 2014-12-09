@@ -1356,6 +1356,10 @@ function get_coursemodule_from_id($modulename, $cmid, $courseid=0, $sectionnum=f
                                                 WHERE cm.id = :cmid", $params, $strictness)) {
             return false;
         }
+    } else {
+        if (!core_component::is_valid_plugin_name('mod', $modulename)) {
+            throw new coding_exception('Invalid modulename parameter');
+        }
     }
 
     $params['modulename'] = $modulename;
@@ -1405,6 +1409,10 @@ function get_coursemodule_from_id($modulename, $cmid, $courseid=0, $sectionnum=f
 function get_coursemodule_from_instance($modulename, $instance, $courseid=0, $sectionnum=false, $strictness=IGNORE_MISSING) {
     global $DB;
 
+    if (!core_component::is_valid_plugin_name('mod', $modulename)) {
+        throw new coding_exception('Invalid modulename parameter');
+    }
+
     $params = array('instance'=>$instance, 'modulename'=>$modulename);
 
     $courseselect = "";
@@ -1443,6 +1451,10 @@ function get_coursemodule_from_instance($modulename, $instance, $courseid=0, $se
 function get_coursemodules_in_course($modulename, $courseid, $extrafields='') {
     global $DB;
 
+    if (!core_component::is_valid_plugin_name('mod', $modulename)) {
+        throw new coding_exception('Invalid modulename parameter');
+    }
+
     if (!empty($extrafields)) {
         $extrafields = ", $extrafields";
     }
@@ -1480,6 +1492,10 @@ function get_coursemodules_in_course($modulename, $courseid, $extrafields='') {
  */
 function get_all_instances_in_courses($modulename, $courses, $userid=NULL, $includeinvisible=false) {
     global $CFG, $DB;
+
+    if (!core_component::is_valid_plugin_name('mod', $modulename)) {
+        throw new coding_exception('Invalid modulename parameter');
+    }
 
     $outputarray = array();
 

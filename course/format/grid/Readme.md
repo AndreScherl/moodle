@@ -244,6 +244,9 @@ Known Issues
 
 History
 =============
+14th November 2014 Version 2.7.1.5
+  1.  Always show shadebox arrows on Tablets and Mobiles with the latter being half size.
+
 5th November 2014 Version 2.7.1.4
   1.  Fixed CONTRIB-5256.  Thanks to Marius Jugariu for reporting the problem.
   2.  Made the arrows easier to find by placing them always 75px from the top.

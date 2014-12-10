@@ -105,7 +105,6 @@
 			-moz-osx-font-smoothing: grayscale;
 			margin-right: 3px;
 			display: inline-block;
-			@include transition(all .25s);
 		}
 
 		&.block-icon {
@@ -1407,8 +1406,6 @@
 		}
 
 		// MEBIS SEARCH-RESULTS
-		.me-search-results {
-
 			.me-search-result {
 				margin-bottom: 20px;
 
@@ -1592,7 +1589,7 @@
 					}
 				}
 			}
-		}
+
 
 		.meta-content {
 			background: $brand-primary;

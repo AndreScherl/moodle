@@ -1,3 +1,5 @@
+// Not final - only to give admin-layout basic style
+
 .admin-content {
 	color: $gray-dark;
 	font-size: emCalc(14px);
@@ -181,10 +183,7 @@ fieldset.hidden > div {
 	padding: 20px;
 }
 
-
 .box.generalbox {
-	background: $white;
-	padding: 20px;
 	color: $gray-dark;
 
 	th,td, label, .cap-name {

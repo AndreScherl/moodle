@@ -117,7 +117,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
                 $coursefullname = format_string(get_course_display_name_for_list($course), true, $course->id);
 
                 $html .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $courseurl));
-                $html .= html_writer::tag('span', $coursefullname, array('class' => 'coursename'));
+                $html .= html_writer::tag('span', $coursefullname, array('class' => 'coursename internal'));
 
                 $cat = coursecat::get($course->category, IGNORE_MISSING);
                 if ($cat) {
@@ -141,8 +141,6 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
                 $html .= $this->activity_display($course->id, $overviews[$course->id]);
             }
-
-            $html .= html_writer::tag('span', '<i class="icon-me-pfeil-weiter"></i>', array('class' => 'vbox'));
 
             $courseordernumber++;
             if ($ismovingcourse) {

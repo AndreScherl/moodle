@@ -56,7 +56,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
                 if (!$sections[$back]->visible) {
                     $params = array('class' => 'dimmed_text');
                 }
-                $previouslink = html_writer::tag('span', $this->output->larrow(), array('class' => 'larrow'));
+                $previouslink = html_writer::tag('span', html_writer::tag('i', '', array('class' => 'icon-me-pfeil-zurueck')), array('class' => 'larrow'));
                 $previouslink .= html_writer::tag('span', get_section_name($course, $sections[$back]), array('class' => 'hidden-sm hidden-xs'));
                 $links['previous'] = html_writer::link(course_get_url($course, $back), $previouslink, $params);
             }
@@ -71,26 +71,13 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
                     $params = array('class' => 'dimmed_text');
                 }
                 $nextlink = html_writer::tag('span', get_section_name($course, $sections[$forward]), array('class' => 'hidden-sm hidden-xs'));
-                $nextlink .= html_writer::tag('span', $this->output->rarrow(), array('class' => 'rarrow'));
+                $nextlink .= html_writer::tag('span', html_writer::tag('i', '', array('class' => 'icon-me-pfeil-weiter')), array('class' => 'rarrow'));
                 $links['next'] = html_writer::link(course_get_url($course, $forward), $nextlink, $params);
             }
             $forward++;
         }
 
-        //Add side jump-navigation
-        $menu_items = array(
-            html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top'))
-        );
-
-        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        foreach($menu_items as $item) {
-            $output .= html_writer::tag('li', $item);
-        }
-        $output .= html_writer::end_tag('ul');
-        $output .= html_writer::end_tag('div');
-        echo $output;
-        //End side jump-navigation
+        echo $this->render_page_action_menu($course, $sections, 'simple');
 
         return $links;
     }
@@ -125,6 +112,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
             return;
         }
 
+        echo html_writer::start_tag('div', array('class' => 'course course-format-onetopic'));
+
         // Copy activity clipboard..
         echo $this->course_activity_clipboard($course, $displaysection);
 
@@ -141,6 +130,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
                 echo $this->end_section_list();
             }
         }
+
+        echo $this->render_course_headline($course->fullname);
 
         // Start single-section div
         echo html_writer::start_tag('div', array('class' => 'single-section onetopic'));
@@ -204,15 +195,9 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
                         $url = course_get_url($course, $section);
                     }
 
-                    $special_style = '';
-                    if ($course->marker == $section) {
-                        $special_style = ' class="marker" ';
-                    }
-
                     $tabs[] = new tabobject("tab_topic_" . $section, $url,
-                        '<font style="white-space:nowrap" ' . $special_style . '>' . s($sectionname) . "</font>", s($sectionname)
+                        s($sectionname), s($sectionname)
                     );
-
 
                     //Init move section list***************************************************************************
                     if ($can_move && $displaysection != $section) {
@@ -238,12 +223,11 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         $sectionnavlinks = $this->get_nav_links($course, $sections, $displaysection);
         $sectiontitle = '';
 
-
         if (!$course->hidetabsbar && count($tabs) > 0) {
             $sectiontitle .= print_tabs(array($tabs), "tab_topic_" . $displaysection, null, null, true);
         }
 
-        echo $sectiontitle;
+        echo str_replace('nav-tabs nav-justified', 'nav-tabs', $sectiontitle);
 
         if (!$sections[$displaysection]->uservisible && !$canviewhidden) {
             if (!$course->hiddensections) {
@@ -300,5 +284,58 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
             echo html_writer::tag('ul', $move_list_html, array('class' => 'move-list'));
             echo html_writer::end_tag('div');
         }
+
+        echo html_writer::end_tag('div');
+    }
+
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+        //Add side jump-navigation
+        $menu_items = array();
+        $output = '';
+
+        if($onlyMobile != 'simple') {
+
+            if(count($sections)) {
+                for($i = 1;$i <= $course->numsections;$i++){
+                    if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available ){
+                        $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
+                            array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
+                    }
+                }
+            }
+        }
+
+        $visibleClass = ($onlyMobile && $onlyMobile != 'simple') ? ' visible-xs' : '';
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu' . $visibleClass));
+
+        if(count($sections) && $onlyMobile != 'simple') {
+            $icon = html_writer::tag('i', '', array('class' => 'icon-me-sprungnav-mobile-ansicht'));
+            $output .= html_writer::tag('span', $icon, array('class' => 'me-in-page-menu-mobile-trigger', 'data-status' => 'hidden'));
+        }
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+        }
+        $output .= html_writer::end_tag('ul');
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+
+        return $output;
+    }
+
+    /**
+     * Renders course headline
+     * @param  string
+     * @return string
+     */
+    protected function render_course_headline($headline) {
+        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
+        $course_headline .= html_writer::tag('h1', $headline);
+        $course_headline .= html_writer::end_tag('div');
+        return $course_headline;
     }
 }

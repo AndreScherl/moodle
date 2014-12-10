@@ -1,5 +1,4 @@
 .schoolbox {
-    margin-bottom: 40px;
 
     .schoolbox-meta {
         background: $white;
@@ -21,12 +20,13 @@
     .schoolbox-inner {
         padding: 0;
         position: relative;
+        margin-bottom: 20px;
 
         .schoolbox-link {
             display: block;
             background-color: $brand-secondary;
             @include transition(color .25s);
-            min-height: 175px;
+            min-height: 150px;
             padding: 20px;
             text-align: left;
 
@@ -38,18 +38,6 @@
                 font-size: emCalc(20px);
             }
         }
-
-        .vbox {
-            color: $brand-secondary;
-            @include transition(color .25s);
-            font-size: emCalc(36px);
-            text-align: left;
-            line-height: normal;
-            position: absolute;
-            bottom: 10px;
-            right: 35px;
-        }
-
 
         &:hover {
 

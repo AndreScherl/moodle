@@ -8,8 +8,6 @@ require_once($CFG->libdir. '/coursecatlib.php');
 class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_renderer
 {
 
-
-
     /**
      * Returns HTML to print list of available courses for the frontpage
      *
@@ -66,13 +64,10 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
 
         $content = '';
-        $classes = trim('col-xs-12 col-sm-6 col-md-4 coursebox');
-        if ($chelper->get_show_courses() < self::COURSECAT_SHOW_COURSES_EXPANDED) {
-            $classes .= ' collapsed';
-        }
 
         // .coursebox
-        $content .= html_writer::start_div($classes, array(
+        $content .= html_writer::start_tag('li', array(
+                'class' => 'coursebox',
                 'data-courseid' => $course->id,
                 'data-type' => self::COURSECAT_TYPE_COURSE,
             )
@@ -103,10 +98,9 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $url = new moodle_url('/course/view.php', array('id' => $course->id));
         $content .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $url));
 
-
         // course name
         $coursename = $chelper->get_course_formatted_name($course);
-        $content .= html_writer::tag('span', $coursename, array('class' => 'coursename'));
+        $content .= html_writer::tag('span', $coursename, array('class' => 'coursename internal'));
 
         $cat = coursecat::get($course->category, IGNORE_MISSING);
         if ($cat) {
@@ -137,13 +131,9 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         $content .= html_writer::end_tag('a'); // .coursebox-link
 
-
-        $content .= html_writer::start_tag('span', array('class' => 'vbox'));
-        $content .= html_writer::tag('i', '', array('class' => 'icon-me-pfeil-weiter'));
-        $content .= html_writer::end_tag('span');
-
         $content .= html_writer::end_div(); // .coursebox
-        $content .= html_writer::end_div(); // .coursebox
+        $content .= html_writer::end_tag('li'); // .coursebox
+
         return $content;
     }
 
@@ -290,6 +280,78 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
     }
 
     /**
+     * Renders HTML to display particular course category - list of it's subcategories and courses
+     *
+     * Invoked from /course/index.php
+     *
+     * @param int|stdClass|coursecat $category
+     */
+    public function course_category($category) {
+        global $CFG;
+        require_once($CFG->libdir. '/coursecatlib.php');
+        $coursecat = coursecat::get(is_object($category) ? $category->id : $category);
+        $site = get_site();
+        $output = '';
+
+        $this->page->set_button($this->course_search_form('', 'navbar'));
+
+        // Print current category description
+        $chelper = new coursecat_helper();
+        if ($description = $chelper->get_category_formatted_description($coursecat)) {
+            $output .= $this->box($description, array('class' => 'generalbox info'));
+        }
+
+        // Prepare parameters for courses and categories lists in the tree
+        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)
+                ->set_attributes(array('class' => 'category-browse category-browse-'.$coursecat->id));
+
+        $coursedisplayoptions = array();
+        $catdisplayoptions = array();
+        $browse = optional_param('browse', null, PARAM_ALPHA);
+        $perpage = optional_param('perpage', $CFG->coursesperpage, PARAM_INT);
+        $page = optional_param('page', 0, PARAM_INT);
+        $baseurl = new moodle_url('/course/index.php');
+        if ($coursecat->id) {
+            $baseurl->param('categoryid', $coursecat->id);
+        }
+        if ($perpage != $CFG->coursesperpage) {
+            $baseurl->param('perpage', $perpage);
+        }
+        $coursedisplayoptions['limit'] = $perpage;
+        $catdisplayoptions['limit'] = $perpage;
+        if ($browse === 'courses' || !$coursecat->has_children()) {
+            $coursedisplayoptions['offset'] = $page * $perpage;
+            $coursedisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
+            $catdisplayoptions['nodisplay'] = true;
+            $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
+            $catdisplayoptions['viewmoretext'] = new lang_string('viewallsubcategories');
+        } else if ($browse === 'categories' || !$coursecat->has_courses()) {
+            $coursedisplayoptions['nodisplay'] = true;
+            $catdisplayoptions['offset'] = $page * $perpage;
+            $catdisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
+            $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
+            $coursedisplayoptions['viewmoretext'] = new lang_string('viewallcourses');
+        } else {
+            // we have a category that has both subcategories and courses, display pagination separately
+            $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses', 'page' => 1));
+            $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories', 'page' => 1));
+        }
+        $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
+
+        $output .= $this->render_category_headline($coursecat->name);
+
+        // Display course category tree
+        $output .= $this->coursecat_tree($chelper, $coursecat);
+
+        // Add course search form (if we are inside category it was already added to the navbar)
+        if (!$coursecat->id) {
+            $output .= $this->course_search_form();
+        }
+
+        return $output;
+    }
+
+    /**
      * Renders the list of courses
      *
      * This is internal function, please use {@link core_course_renderer::courses_list()} or another public
@@ -358,6 +420,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         $coursecount = 0;
         $content .= html_writer::start_div('row');
+        $content .= html_writer::start_div('col-md-12');
+        $content .= html_writer::start_tag('ul', array('class' => 'block-grid-xs-1 block-grid-xc-2 block-grid-md-3 course_list courses'));
         foreach ($courses as $course) {
             $coursecount ++;
             $classes = ($coursecount%2) ? 'odd' : 'even';
@@ -369,6 +433,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
             }
             $content .= $this->coursecat_coursebox($chelper, $course, $classes);
         }
+        $content .= html_writer::end_tag('ul');
+        $content .= html_writer::end_div();
         $content .= html_writer::end_div();
         if (!empty($pagingbar)) {
             $content .= html_writer::start_div('row pagination-row');
@@ -448,6 +514,20 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         return $content;
 
+    }
+
+
+
+    /**
+     * Renders course headline
+     * @param  string
+     * @return string
+     */
+    protected function render_category_headline($headline) {
+        $category_headline = html_writer::start_tag('div', array('class' => 'category-headline'));
+        $category_headline .= html_writer::tag('h1', $headline);
+        $category_headline .= html_writer::end_tag('div');
+        return $category_headline;
     }
 
 

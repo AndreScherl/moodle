@@ -64,4 +64,5 @@ class theme_mebis_help_renderer extends renderer_base
             return $output;
         }
     }
+
 }

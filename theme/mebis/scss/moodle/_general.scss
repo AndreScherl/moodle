@@ -1,7 +1,8 @@
 .highlight {
-    background: $brand-gray-dark;
+    display: inline-block;
+    padding: 0 2px;
+    background: $brand-primary;
     color: $white;
-    border-radius: 5px;
 }
 
 .pagination-row {
@@ -60,4 +61,72 @@ div.block,
 
 .moodle-dialogue-base .moodle-dialogue-wrap {
     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+}
+
+#block-region-side-pre {
+
+    .block {
+        margin-bottom: 40px;
+        padding: 20px 5px;
+        border: 0;
+
+        .header {
+            padding-top: 0;
+        }
+
+        &.block_calendar_month {
+
+            .arrow_link {
+
+                .arrow {
+                    font-size: 0;
+                    text-indent: -999em;
+                    font-family: 'mebis-icons';
+                    speak: none;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+
+                &.previous .arrow:before { content: "\e646"; font-size: 18px; }
+                &.next .arrow:before { content: "\e645"; font-size: 18px; }
+
+            }
+        }
+
+        &.block_private_files {
+
+            ul {
+                list-style: none;
+            }
+
+            img.icon { vertical-align: middle; }
+
+            .singlebutton {
+                margin-top: 15px;
+
+                div,
+                input[type="submit"] {
+                    margin: 0;
+                }
+
+                input[type="submit"] {
+                    background: $brand-primary;
+                    color: $white !important;
+                    border: 1px solid $brand-primary;
+                    @include transition(all .25s);
+
+                    &:hover {
+                        background: $brand-secondary;
+                        border: 1px solid $brand-secondary;
+                    }
+                }
+
+            }
+        }
+    }
 }

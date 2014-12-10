@@ -27,9 +27,8 @@ class theme_mebis_block_meineschulen_renderer extends block_meineschulen_rendere
             $output .= html_writer::start_div('schoolbox-inner');
             $link = new moodle_url("/course/index.php?categoryid=".$value->id);
             $output .= html_writer::start_tag('a', array('class' => 'schoolbox-link', 'href' => $link));
-            $output .= html_writer::tag('span', $value->name, array('class' => 'schoolname'));
+            $output .= html_writer::tag('span', $value->name, array('class' => 'schoolname internal'));
             $output .= html_writer::end_tag('a');
-            $output .= html_writer::tag('span', '<i class="icon-me-pfeil-weiter"></i>', array('class' => 'vbox'));
             $output .= html_writer::end_div();
             $output .= html_writer::end_tag("li");
         }

@@ -11,16 +11,9 @@ if($knownregiontop) {
     $PAGE->blocks->add_fake_block($fakeBlock, 'top');
 }
 
-// if($knownregionsidepost) {
-//     require_once($CFG->dirroot . "/blocks/meineschulen/block_meineschulen.php");
-//     $fakeSchoolBlock = new block_contents();
-//     $b_ms = new block_meineschulen();
-//     $fakeSchoolBlock->content = implode('', $b_ms->get_content()->items);
-//     $PAGE->blocks->add_fake_block($fakeSchoolBlock, 'side-post');
-// }
-
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
+$hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 
 //$regions = theme_mebis_bootstrap_grid($hasapps, null);
 $PAGE->set_popup_notification_allowed(false);
@@ -120,7 +113,7 @@ echo $OUTPUT->doctype()
                     ?>
 
                         <?php
-                        if ($knownregionsidepost) {
+                        if ($knownregionsidepost && $hassidepost) {
                         ?>
                         <div class="col-lg-12 col-sm-12">
                             <div class="row">

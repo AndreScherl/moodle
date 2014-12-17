@@ -1,6 +1,4 @@
 <?php
-require_once($CFG->dirroot . "/blocks/settings/block_settings.php");
-
 $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
 $knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');

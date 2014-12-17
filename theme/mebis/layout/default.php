@@ -16,7 +16,6 @@ $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 
 //$regions = theme_mebis_bootstrap_grid($hasapps, null);
-$PAGE->set_popup_notification_allowed(false);
 if ($hassidepre) {
     theme_bootstrap_initialise_zoom($PAGE);
 }

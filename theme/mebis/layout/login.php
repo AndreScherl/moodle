@@ -7,7 +7,6 @@ $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
 
 $regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
-$PAGE->set_popup_notification_allowed(false);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }

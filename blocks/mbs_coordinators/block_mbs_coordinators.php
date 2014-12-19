@@ -52,4 +52,8 @@ class block_mbs_coordinators extends block_base {
 
         return $this->content;
     }
+
+    function hide_header() {
+        return true;
+    }
 }

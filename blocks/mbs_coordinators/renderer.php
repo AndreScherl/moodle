@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/blocks/mbs_coordinators/classes/mbs_coordinators.php');
 
 /**
- * mbs_my_courses block rendrer
+ * mbs_coordinators block rendrer
  *
  * @copyright  2014 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    todo

@@ -24,6 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014120700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2014121900;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2012112900;        // Requires this Moodle version
 $plugin->component = 'block_mbs_coordinators'; // Full name of the plugin (used for diagnostics)

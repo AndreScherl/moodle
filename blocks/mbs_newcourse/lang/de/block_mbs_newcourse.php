@@ -24,12 +24,12 @@
  */
 
 $string['blockstring'] = 'Block string';
-$string['createcourse'] = 'Create course';
+$string['createcourse'] = 'Kurs erstellen';
 $string['descconfig'] = 'Description of the config section';
 $string['descfoo'] = 'Config description';
 $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
-$string['mbs_newcourse:addinstance'] = 'Add a mbs_newcourse block';
-$string['mbs_newcourse:myaddinstance'] = 'Add a mbs_newcourse block to my moodle';
-$string['pluginname'] = 'Mebis New Course';
-$string['requestcourse'] = 'Request course';
+$string['mbs_newcourse:addinstance'] = 'Hinzufügen des Blocks Neuer Kurs';
+$string['mbs_newcourse:myaddinstance'] = 'Hinzufügen des Blocks Neuer Kurs zu meinem Schreibtisch';
+$string['pluginname'] = 'Mebis Neuer Kurs';
+$string['requestcourse'] = 'Kurs anfordern';

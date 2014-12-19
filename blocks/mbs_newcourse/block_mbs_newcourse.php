@@ -43,54 +43,16 @@ class block_mbs_newcourse extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
+        $this->content->text = '';
         $this->content->footer = '';
 
-        // user/index.php expect course context, so get one if page has module context.
-        $currentcontext = $this->page->context->get_course_context(false);
-
-        if (! empty($this->config->text)) {
-            $this->content->text = $this->config->text;
-        }
-
-        $this->content = '';
-        if (empty($currentcontext)) {
-            return $this->content;
-        }
-        if ($this->page->course->id == SITEID) {
-            $this->context->text .= "site context";
-        }
-
-        if (! empty($this->config->text)) {
-            $this->content->text .= $this->config->text;
-        }
-
+        $renderer = $this->page->get_renderer('block_mbs_newcourse');
+        $this->content->text .= $renderer->mbs_newcourse();
+        
         return $this->content;
     }
 
-    // my moodle can only have SITEID and it's redundant here, so take it away
-    public function applicable_formats() {
-        return array('all' => false,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true, 
-                     'course-view-social' => false,
-                     'mod' => true, 
-                     'mod-quiz' => false);
-    }
-
-    public function instance_allow_multiple() {
-          return true;
-    }
-
-    function has_config() {return true;}
-
-    public function cron() {
-            mtrace( "Hey, my cron script is running" );
-             
-                 // do something
-                  
-                      return true;
+    function hide_header() {
+        return true;
     }
 }

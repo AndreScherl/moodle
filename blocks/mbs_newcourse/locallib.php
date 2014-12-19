@@ -15,16 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * class for mbs_newcourse block
  *
  * @package    block_mbs_newcourse
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @copyright  2014 <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+class mbs_newcourse {
 
-$plugin->version   = 2014121900;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2012112900;        // Requires this Moodle version
-$plugin->component = 'block_mbs_newcourse'; // Full name of the plugin (used for diagnostics)
-$plugin->cron = 300;
+    public static function can_request_course() {
+        // todo
+
+        return true;
+    }
+
+    public static function can_create_course() {
+        // todo
+
+        return true;
+    }
+}

@@ -26,3 +26,5 @@
 $string['mbs_coordinators:addinstance'] = 'Add a mbs_coordinators block';
 $string['mbs_coordinators:myaddinstance'] = 'Add a mbs_coordinators block to my moodle';
 $string['pluginname'] = 'mebis coordinators';
+$string['mebiscoordinators'] = 'mebis coordinators';
+

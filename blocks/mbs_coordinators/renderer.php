@@ -41,6 +41,7 @@ class block_mbs_coordinators_renderer extends plugin_renderer_base {
     public function mbs_coordinators() {
         $html = '';
         $html .= $this->output_coordinators();
+        $html = html_writer::tag('div', get_string('mebiscoordinators', 'block_mbs_coordinators').': '.$html);
         return $html;
     }
 

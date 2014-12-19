@@ -44,17 +44,12 @@ class block_mbs_coordinators extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
+        $this->content->text = '';
         $this->content->footer = '';
 
         $renderer = $this->page->get_renderer('block_mbs_coordinators');
-        $this->content = $renderer->mbs_coordinators();
+        $this->content->text .= $renderer->mbs_coordinators();
 
         return $this->content;
-    }
-
-    public function instance_allow_multiple() {
-          return true;
     }
 }

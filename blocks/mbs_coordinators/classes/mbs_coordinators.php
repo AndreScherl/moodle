@@ -35,10 +35,10 @@ class mbs_coordinators {
      *
      * @return object[]
      */
-    public static function get_coordinators() {
-        global $PAGE;
-        $context = context_coursecat::instance($this->page->id);
-        $fields = 'u.id, '.get_all_user_name_fields(true, 'u');
-        return get_users_by_capability($context, 'moodle/category:manage', $fields, 'lastname ASC, firstname ASC');
-    }
+    // public static function get_coordinators() {
+    //     global $PAGE;
+    //     $context = context_coursecat::instance($this->page->id);
+    //     $fields = 'u.id, '.get_all_user_name_fields(true, 'u');
+    //     return get_users_by_capability($context, 'moodle/category:manage', $fields, 'lastname ASC, firstname ASC');
+    // }
 }

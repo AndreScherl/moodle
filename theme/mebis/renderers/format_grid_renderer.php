@@ -1,6 +1,7 @@
 <?php
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/grid/renderer.php');
 require_once($CFG->dirroot . '/course/format/grid/lib.php');
 
@@ -29,6 +30,9 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         $this->courseformat = course_get_format($page->course);
         $this->settings = $this->courseformat->get_settings();
 
+        if(!defined('PAGE_MENU_SET'))
+            define('PAGE_MENU_SET', true);
+
         /* Since format_grid_renderer::section_edit_controls() only displays the 'Set current section' control when editing
           mode is on we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any
           other managing capability. */
@@ -48,12 +52,11 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     {
         global $PAGE;
 
+        echo $this->render_page_action_menu($course, $sections, false);
 
-        //Add side jump-navigation
-                echo html_writer::start_tag('ul',array('class' => 'jumpnavigation'));
-        echo html_writer::tag('li', '<span>^</span>', array('class' => 'jumpnavigation-point up-arrow', 'data-scroll' => 'top'));
-        echo html_writer::end_tag('ul');
         //End side jump-navigation
+
+        echo html_writer::start_tag('div', array('class' => 'course course-format-grid'));
 
         $summarystatus = $this->courseformat->get_summary_visibility($course->id);
         $context = context_course::instance($course->id);
@@ -67,6 +70,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             $urlpicedit = false;
             $streditsummary = '';
         }
+
+        echo $this->render_course_headline($course->fullname);
 
         echo html_writer::start_tag('div', array('id' => 'gridmiddle-column'));
         echo $this->output->skip_link_target();
@@ -87,7 +92,10 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             'aria-label' => get_string('gridimagecontainer', 'format_grid'), 'class'=>'container'));
         echo html_writer::start_tag('div', array('class' => 'gridicons row'));
         // Print all of the imaege containers.
+
+        echo html_writer::start_tag('div', array('class' => 'col-md-12'));
         $this->make_block_icon_topics($context->id, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit);
+        echo html_writer::end_tag('div');
         echo html_writer::end_tag('div');
         echo html_writer::end_tag('div');
 
@@ -99,10 +107,12 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             'role' => 'region',
             'aria-label' => get_string('shadeboxcontent', 'format_grid')));
 
-        echo html_writer::tag('div', get_string('coursedialog-close', 'theme_mebis'),
+        $close = html_writer::tag('span', '<i class="fa fa-close"></i>' . get_string('coursedialog-close', 'theme_mebis'),
             array('id' => 'gridshadebox_close', 'style' => 'display:none;',
             'role' => 'link',
             'aria-label' => get_string('closeshadebox', 'format_grid')));
+
+        echo html_writer::tag('div', $close, array('class' => 'gridshadebox-close-button'));
 
         echo $this->start_section_list();
         // If currently moving a file then show the current clipboard.
@@ -119,11 +129,11 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             $urlpicedit, false);
 
         echo html_writer::start_div('row');
-        echo html_writer::tag('div', '<',
+        echo html_writer::tag('div', '<i class="icon-me-pfeil-zurueck"></i>',
             array('id' => 'gridshadebox_left', 'class' => 'gridshadebox_arrow col-md-5 col-xs-2',
             'role' => 'link',
             'aria-label' => get_string('previoussection', 'format_grid')));
-        echo html_writer::tag('div', '>',
+        echo html_writer::tag('div', '<i class="icon-me-pfeil-weiter"></i>',
             array('id' => 'gridshadebox_right', 'class' => 'gridshadebox_arrow col-md-5 col-md-offset-2 col-xs-2 col-xs-offset-8',
             'role' => 'link',
             'aria-label' => get_string('nextsection', 'format_grid')));
@@ -149,6 +159,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
             json_encode($this->shadeboxshownarray)));
         // Initialise the key control functionality...
         $PAGE->requires->yui_module('moodle-format_grid-gridkeys', 'M.format_grid.gridkeys.init', null, null, true);
+
+        echo html_writer::end_tag('div');
     }
 
     /**
@@ -241,8 +253,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         // CONTRIB-4099:...
         $gridimagepath = $this->courseformat->get_image_path();
 
+        echo html_writer::start_tag('ul', array('class' => 'block-grid-xs-1 block-grid-xc-2 block-grid-sm-2 block-grid-md-3 me-block-grid'));
+
         // Start at 1 to skip the summary block or include the summary block if it's in the grid display.
         for ($section = $this->topic0_at_top ? 1 : 0; $section <= $course->numsections; $section++) {
+
+            echo html_writer::start_tag('li');
+
             $thissection = $modinfo->get_section_info($section);
 
             // Check if section is visible to user.
@@ -263,11 +280,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                 $liattributes = array(
                     'role' => 'region',
                     'aria-label' => $sectionname,
-                    'class' => 'col-md-4'
+                    'class' => 'me-block-inner'
                 );
+
                 if ($this->courseformat->is_section_current($section)) {
                     $liattributes['class'] .= ' currenticon';
                 }
+
                 echo html_writer::start_tag('div', $liattributes);
                 echo html_writer::start_tag('div');
 
@@ -297,7 +316,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                         array(
                         'href' => '#section-' . $thissection->section,
                         'id' => 'gridsection-' . $thissection->section,
-                        'class' => 'gridicon_link',
+                        'class' => 'me-block-link gridicon_link ',
                         'role' => 'link',
                         'aria-label' => $sectionname));
 
@@ -311,9 +330,6 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                             'alt' => ''));
                     }
 
-                    echo html_writer::start_tag('div', array('class' => 'image_holder'));
-
-
                     $showimg = false;
                     if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
                         $imgurl = moodle_url::make_pluginfile_url(
@@ -324,18 +340,53 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                         $imgurl = $this->output->pix_url('info', 'format_grid');
                         $showimg = true;
                     }
+
+                    /* ToDo: If image is portrait-view */
+                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!
+                    $localImageUrl = $imgurl->out();
+                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!!
+
+                    if($showimg && @file_get_contents($localImageUrl)) {
+                        list($imgWidth, $imgHeight) = getimagesize($localImageUrl);
+                        $specialClass = ($imgWidth < $imgHeight) ? ' portrait' : '';
+
+                        if($imgWidth < 300) {
+                            $specialClass = ' portrait';
+                        }
+
+                        if($imgHeight > 160) {
+                            $specialClass = ' portrait';
+                        }
+
+                    } else {
+                        $specialClass = '';
+                    }
+
+                    echo html_writer::start_tag('div', array('class' => 'format-grid-image' . $specialClass));
+
                     if ($showimg) {
+                        echo html_writer::start_tag('span', array('class' => 'helper'));
                         echo html_writer::empty_tag('img',
                             array(
                             'src' => $imgurl,
                             'alt' => $sectionname,
                             'role' => 'img',
                             'aria-label' => $sectionname));
+                        echo html_writer::end_tag('span');
+                        if($specialClass) {
+                            echo html_writer::tag('div', '', array('class' => 'block-blur-bg blur', 'data-bg' => $localImageUrl));
+                        }
+
+                    } else {
+                        echo html_writer::tag('div', '', array('class' => 'img-replace'));
                     }
 
                     echo html_writer::end_tag('div');
 
-                    echo html_writer::tag('div', $sectionname, array('class' => 'icon_content'));
+                    echo html_writer::start_tag('div', array('class' => 'format-grid-content'));
+                    echo html_writer::tag('h3', $sectionname, array('class' => 'internal'));
+                    echo html_writer::end_tag('div');
+
                     echo html_writer::end_tag('a');
 
                     if ($editing) {
@@ -352,8 +403,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                                 'src' => $urlpicedit,
                                 'alt' => $streditimagealt,
                                 'role' => 'img',
-                                'aria-label' => $streditimagealt)) . '&nbsp;' . $streditimage,
-                            array('title' => $streditimagealt));
+                                'aria-label' => $streditimagealt)) . '<span>' . $streditimage . '</span>',
+                            array('title' => $streditimagealt, 'class' => 'edit-image'));
 
                         if ($section == 0) {
                             $strdisplaysummary = get_string('display_summary', 'format_grid');
@@ -467,7 +518,10 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                 // We now know the value for the grid shade box shown array.
                 $this->shadeboxshownarray[$section] = 1;
             }
+             echo html_writer::end_tag('li');
         }
+
+        echo html_writer::end_tag('ul');
     }
 
     /**
@@ -643,4 +697,53 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
 
         return $sectionsedited;
     }
+
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+        //Add side jump-navigation
+        $menu_items = array();
+
+        if(count($sections)) {
+            for($i = 1;$i <= $course->numsections;$i++){
+                if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available ){
+                    $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
+                        array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
+                }
+            }
+        }
+
+        $visibleClass = ($onlyMobile) ? ' visible-xs' : '';
+        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu' . $visibleClass));
+
+        if(count($sections)) {
+            $icon = html_writer::tag('i', '', array('class' => 'icon-me-sprungnav-mobile-ansicht'));
+            $output .= html_writer::tag('span', $icon, array('class' => 'me-in-page-menu-mobile-trigger', 'data-status' => 'hidden'));
+        }
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        foreach($menu_items as $item) {
+            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+        }
+        $output .= html_writer::end_tag('ul');
+
+        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_tag('div');
+
+        return $output;
+    }
+
+    /**
+     * Renders course headline
+     * @param  string
+     * @return string
+     */
+    protected function render_course_headline($headline)
+    {
+        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
+        $course_headline .= html_writer::tag('h1', $headline);
+        $course_headline .= html_writer::end_tag('div');
+        return $course_headline;
+    }
+
 }

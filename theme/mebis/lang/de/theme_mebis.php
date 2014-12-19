@@ -49,6 +49,7 @@ $string['footer-terms_of_use'] = 'Nutzungsbedingungen';
 $string['footer-search-schooltypes'] = 'Pruefungstermine für alle Schularten';
 $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Medien suchen oder Suchbegriff eingeben';
+$string['footer-my-school'] = 'Meine Schule';
 
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
 $string['menu-administration-link'] = 'Webseiten Administration';
@@ -56,7 +57,7 @@ $string['menu-administration-link'] = 'Webseiten Administration';
 $string['menu-edit-activate'] = 'Bearbeitung aktivieren';
 $string['menu-edit-deactivate'] = 'Bearbeitung deaktivieren';
 
-$string['coursedialog-close'] = 'zur Übersicht X';
+$string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
 $string['nav-logout'] = 'Logout';
@@ -72,6 +73,7 @@ $string['advancedsearch'] = 'Erweiterte Suche';
 $string['course-apps'] = 'Kurs-Apps';
 
 // mbs_my_courses
+$string['my-courses'] = 'Meine Kurse';
 $string['alwaysshowall'] = 'Alle';
 $string['numtodisplay'] = 'Angezeigte Kurse: ';
 $string['load_more_results'] = 'Weitere Ergebnisse laden...';
@@ -79,3 +81,6 @@ $string['hiddencoursecount'] = 'Zur Zeit ist {$a} Kurs versteckt';
 $string['hiddencoursecountplural'] = 'Zur Zeit sind {$a} Kurse versteckt';
 $string['hiddencoursecountwithshowall'] = 'Zur Zeit ist {$a->coursecount} Kurs versteckt ({$a->showalllink})';
 $string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount} Kurse versteckt ({$a->showalllink})';
+
+$string['switch_list'] = 'Listenansicht';
+$string['switch_grid'] = 'Gridansicht';

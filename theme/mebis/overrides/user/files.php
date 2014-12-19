@@ -80,14 +80,10 @@ if ($mform->is_cancelled()) {
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox');
 
-echo html_writer::start_tag('div', array('class' => 'user-filemanager'));
-echo html_writer::start_tag('div', array('class' => 'row'));
-echo html_writer::start_tag('div', array('class' => 'col-md-12'));
+echo html_writer::start_tag('div', array('class' => 'user-filemanager col-md-12'));
 
 $mform->display();
 
-echo html_writer::end_tag('div');
-echo html_writer::end_tag('div');
 echo html_writer::end_tag('div');
 
 echo $OUTPUT->box_end();

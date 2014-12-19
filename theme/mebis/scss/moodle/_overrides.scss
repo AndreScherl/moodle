@@ -25,6 +25,29 @@
 		.messages-area {
 			padding: 0 20px 20px;
 		}
+
+		.messagehistory {
+
+			.user-correspondence {
+
+				.spacing-top {
+					padding-top: 30px;
+				}
+
+			}
+
+			.messagehistorytype {
+				padding: 15px 0 10px;
+			}
+
+			.messagehistory {
+				margin-bottom: 15px;
+			}
+		}
+
+		input[type="submit"] {
+			color: $white!important;
+		}
 	}
 
 	h3, h4 {
@@ -41,12 +64,27 @@
 		font-weight: 400;
 	}
 
-	table.messagesearchresults {
+	table.messagesearchresults, table#message_contacts {
 		width: 100%;
 
 		td {
 			padding: 5px;
 			@include transition(background .25s);
+
+			&.heading {
+				color: $gray-dark;
+				background: transparent!important;
+			}
+
+			img {
+				max-width: none;
+				width: 100%;
+			}
+
+			span {
+				display: inline-block;
+			}
+
 		}
 
 		tr:hover > td {

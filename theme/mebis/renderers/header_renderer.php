@@ -383,14 +383,14 @@ class theme_mebis_header_renderer extends renderer_base
                 $url = clone $PAGE->url;
                 $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on'));
                 $menu_items .= html_writer::start_tag('li');
-                $menu_items .= html_writer::tag('a', get_string('menu-edit-activate', 'theme_mebis'), array('href' => $url));
+                $menu_items .= html_writer::tag('a', get_string('menu-edit-activate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
                 $menu_items .= html_writer::end_tag('li');
             }
         } else {
             $url = clone $PAGE->url;
             $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off'));
             $menu_items .= html_writer::start_tag('li');
-            $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url));
+            $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
             $menu_items .= html_writer::end_tag('li');
         }
 
@@ -412,7 +412,7 @@ class theme_mebis_header_renderer extends renderer_base
             $admin_menu .= html_writer::tag('strong', get_string('menu-administration-head', 'theme_mebis'));
             $admin_menu .= html_writer::start_tag('ul');
             $admin_menu .= html_writer::start_tag('li');
-            $admin_menu .= html_writer::tag('a', get_string('menu-administration-link', 'theme_mebis'), array('href' => new moodle_url('/admin/index.php')));
+            $admin_menu .= html_writer::tag('a', get_string('menu-administration-link', 'theme_mebis'), array('href' => new moodle_url('/admin/index.php'), 'class' => 'internal'));
             $admin_menu .= html_writer::start_tag('li');
             $admin_menu .= html_writer::end_tag('ul');
             $admin_menu .= html_writer::end_div();
@@ -532,7 +532,7 @@ class theme_mebis_header_renderer extends renderer_base
                     // are used only for structuring the menu. As we currently do not deal with submenus in the menu
                     // bar there is no need to display those links.
                     if($link !== '#') {
-                        $menuitems .= '<li><a href="' . $link . '">' . $linktxt . '</a></li>';
+                        $menuitems .= '<li><a href="' . $link . '" class="internal block-icon">' . $linktxt . '</a></li>';
                     }
 
                     if ($navchild->has_children()) {

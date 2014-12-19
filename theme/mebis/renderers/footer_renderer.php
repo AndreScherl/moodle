@@ -101,7 +101,7 @@ class theme_mebis_footer_renderer extends renderer_base
         $output .= html_writer::start_div('row');
 
         $output .= html_writer::start_div('col-md-4');
-        $output .= html_writer::tag('a', get_string('footer-search-schooltypes', 'theme_mebis'),
+        $output .= html_writer::tag('a', get_string('footer-my-school', 'theme_mebis'),
                 array('href' => '', 'class' => 'btn btn-full'));
         $output .= html_writer::end_div();
 

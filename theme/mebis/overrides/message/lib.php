@@ -66,9 +66,9 @@ function theme_mebis_message_print_contact_selector($countunreadtotal, $viewing,
 
     echo html_writer::start_tag('div', array('class' => 'userlist'));
     if ($viewing == MESSAGE_VIEW_UNREAD_MESSAGES) {
-        message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $PAGE->url, 1, $showactionlinks,$strunreadmessages, $user2);
+        theme_mebis_message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $PAGE->url, 1, $showactionlinks,$strunreadmessages, $user2);
     } else if ($viewing == MESSAGE_VIEW_CONTACTS || $viewing == MESSAGE_VIEW_SEARCH || $viewing == MESSAGE_VIEW_RECENT_CONVERSATIONS || $viewing == MESSAGE_VIEW_RECENT_NOTIFICATIONS) {
-        message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $PAGE->url, 0, $showactionlinks, $strunreadmessages, $user2);
+        theme_mebis_message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $PAGE->url, 0, $showactionlinks, $strunreadmessages, $user2);
     } else if ($viewing == MESSAGE_VIEW_BLOCKED) {
         message_print_blocked_users($blockedusers, $PAGE->url, $showactionlinks, null, $user2);
     } else if (substr($viewing, 0, 7) == MESSAGE_VIEW_COURSE) {
@@ -84,21 +84,6 @@ function theme_mebis_message_print_contact_selector($countunreadtotal, $viewing,
 
     echo html_writer::end_tag('div');
 
-    // Only show the search button if we're viewing our own messages.
-    // Search isn't currently able to deal with user A wanting to search user B's messages.
-    if ($showactionlinks) {
-        echo html_writer::start_tag('form', array('action' => 'index.php','method' => 'GET'));
-        echo html_writer::start_tag('fieldset');
-        $managebuttonclass = 'visible';
-        if ($viewing == MESSAGE_VIEW_SEARCH) {
-            $managebuttonclass = 'hiddenelement';
-        }
-        $strmanagecontacts = get_string('search','message');
-        echo html_writer::empty_tag('input', array('type' => 'hidden','name' => 'viewing','value' => MESSAGE_VIEW_SEARCH));
-        echo html_writer::empty_tag('input', array('type' => 'submit','value' => $strmanagecontacts,'class' => $managebuttonclass));
-        echo html_writer::end_tag('fieldset');
-        echo html_writer::end_tag('form');
-    }
 }
 
 /**
@@ -220,4 +205,193 @@ function theme_mebis_message_print_usergroup_selector($viewing, $courses, $cours
     echo html_writer::end_tag('fieldset');
     echo html_writer::end_tag('form');
 
+}
+
+/**
+ * Print $user1's contacts. Called by message_print_contact_selector()
+ *
+ * @param array $onlinecontacts $user1's contacts which are online
+ * @param array $offlinecontacts $user1's contacts which are offline
+ * @param array $strangers users which are not contacts but who have messaged $user1
+ * @param string $contactselecturl the url to send the user to when a contact's name is clicked
+ * @param int $minmessages The minimum number of unread messages required from a user for them to be displayed
+ *                         Typically 0 (show all contacts) or 1 (only show contacts from whom we have a new message)
+ * @param bool $showactionlinks show action links (add/remove contact etc) next to the users
+ * @param string $titletodisplay Optionally specify a title to display above the participants
+ * @param object $user2 the user $user1 is talking to. They will be highlighted if they appear in the list of contacts
+ * @return void
+ */
+function theme_mebis_message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $contactselecturl=null, $minmessages=0, $showactionlinks=true, $titletodisplay=null, $user2=null) {
+    global $CFG, $PAGE, $OUTPUT;
+
+    $countonlinecontacts  = count($onlinecontacts);
+    $countofflinecontacts = count($offlinecontacts);
+    $countstrangers       = count($strangers);
+    $isuserblocked = null;
+
+    if ($countonlinecontacts + $countofflinecontacts == 0) {
+        echo html_writer::tag('div', get_string('contactlistempty', 'message'), array('class' => 'heading'));
+    }
+
+    echo html_writer::start_tag('table', array('id' => 'message_contacts', 'class' => 'boxaligncenter'));
+
+    if (!empty($titletodisplay)) {
+        message_print_heading($titletodisplay);
+    }
+
+    if($countonlinecontacts) {
+        // Print out list of online contacts.
+
+        if (empty($titletodisplay)) {
+            message_print_heading(get_string('onlinecontacts', 'message', $countonlinecontacts));
+        }
+
+        $isuserblocked = false;
+        $isusercontact = true;
+        foreach ($onlinecontacts as $contact) {
+            if ($minmessages == 0 || $contact->messagecount >= $minmessages) {
+                message_print_contactlist_user($contact, $isusercontact, $isuserblocked, $contactselecturl, $showactionlinks, $user2);
+            }
+        }
+    }
+
+    if ($countofflinecontacts) {
+        // Print out list of offline contacts.
+
+        if (empty($titletodisplay)) {
+            message_print_heading(get_string('offlinecontacts', 'message', $countofflinecontacts));
+        }
+
+        $isuserblocked = false;
+        $isusercontact = true;
+        foreach ($offlinecontacts as $contact) {
+            if ($minmessages == 0 || $contact->messagecount >= $minmessages) {
+                message_print_contactlist_user($contact, $isusercontact, $isuserblocked, $contactselecturl, $showactionlinks, $user2);
+            }
+        }
+
+    }
+
+    // Print out list of incoming contacts.
+    if ($countstrangers) {
+        message_print_heading(get_string('incomingcontacts', 'message', $countstrangers));
+
+        $isuserblocked = false;
+        $isusercontact = false;
+        foreach ($strangers as $stranger) {
+            if ($minmessages == 0 || $stranger->messagecount >= $minmessages) {
+                message_print_contactlist_user($stranger, $isusercontact, $isuserblocked, $contactselecturl, $showactionlinks, $user2);
+            }
+        }
+    }
+
+    echo html_writer::end_tag('table');
+
+    if ($countstrangers && ($countonlinecontacts + $countofflinecontacts == 0)) {  // Extra help
+        echo html_writer::tag('div','('.get_string('addsomecontactsincoming', 'message').')',array('class' => 'note'));
+    }
+}
+
+/**
+ * Print the message history between two users
+ *
+ * @param object $user1 the current user
+ * @param object $user2 the other user
+ * @param string $search search terms to highlight
+ * @param int $messagelimit maximum number of messages to return
+ * @param string $messagehistorylink the html for the message history link or false
+ * @param bool $viewingnewmessages are we currently viewing new messages?
+ */
+function theme_mebis_message_print_message_history($user1, $user2 ,$search = '', $messagelimit = 0, $messagehistorylink = false, $viewingnewmessages = false, $showactionlinks = true) {
+    global $CFG, $OUTPUT;
+
+    echo $OUTPUT->box_start('center');
+
+    $myAvatar = $OUTPUT->user_picture($user1, array('size' => 100, 'courseid' => SITEID));
+    $username1 = html_writer::tag('div', fullname($user1), array('class' => 'heading'));
+    $correspondence = html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('i/twoway'), 'alt' => ''));
+
+    // Show user picture with link is real user else without link.
+    if (core_user::is_real_user($user2->id)) {
+        $otherUser = $OUTPUT->user_picture($user2, array('size' => 100, 'courseid' => SITEID));
+    } else {
+        $otherUser = $OUTPUT->user_picture($user2, array('size' => 100, 'courseid' => SITEID, 'link' => false));
+    }
+
+    $username2 = html_writer::tag('div', fullname($user2), array('class' => 'heading'));
+
+    if ($showactionlinks && isset($user2->iscontact) && isset($user2->isblocked)) {
+
+        $script = null;
+        $text = true;
+        $icon = false;
+
+        $strcontact = message_get_contact_add_remove_link($user2->iscontact, $user2->isblocked, $user2, $script, $text, $icon);
+        $strblock   = message_get_contact_block_link($user2->iscontact, $user2->isblocked, $user2, $script, $text, $icon);
+
+
+        $useractionlinks = html_writer::tag('div', $strcontact);
+        $useractionlinks .= html_writer::tag('div', $strblock);
+    }
+
+    echo html_writer::start_tag('div', array('class'=>'row user-correspondence margin-bottom-small'));
+
+    echo html_writer::tag('div', $myAvatar . $username1, array('class' => 'col-md-3 text-center'));
+    echo html_writer::tag('div', $correspondence, array('class' => 'col-md-2 text-center spacing-top'));
+    echo html_writer::tag('div', $otherUser . $username2, array('class' => 'col-md-3 text-center'));
+    echo html_writer::tag('div', html_writer::tag('div', $useractionlinks, array('class' => 'useractionlinks spacing-top')), array('class' => 'col-md-4'));
+    echo html_writer::end_tag('div');
+
+
+    echo $OUTPUT->box_end();
+
+    if (!empty($messagehistorylink)) {
+        echo $messagehistorylink;
+    }
+
+    /// Get all the messages and print them
+    if ($messages = message_get_history($user1, $user2, $messagelimit, $viewingnewmessages)) {
+        $tablecontents = '';
+
+        $current = new stdClass();
+        $current->mday = '';
+        $current->month = '';
+        $current->year = '';
+        $messagedate = get_string('strftimetime');
+        $blockdate   = get_string('strftimedaydate');
+        foreach ($messages as $message) {
+            if ($message->notification) {
+                $notificationclass = ' notification';
+            } else {
+                $notificationclass = null;
+            }
+            $date = usergetdate($message->timecreated);
+            if ($current->mday != $date['mday'] | $current->month != $date['month'] | $current->year != $date['year']) {
+                $current->mday = $date['mday'];
+                $current->month = $date['month'];
+                $current->year = $date['year'];
+
+                $datestring = html_writer::empty_tag('a', array('name' => $date['year'].$date['mon'].$date['mday']));
+                $tablecontents .= html_writer::tag('div', $datestring, array('class' => 'mdl-align heading'));
+
+                $tablecontents .= $OUTPUT->heading(userdate($message->timecreated, $blockdate), 4, 'mdl-align');
+            }
+
+            $formatted_message = $side = null;
+            if ($message->useridfrom == $user1->id) {
+                $formatted_message = message_format_message($message, $messagedate, $search, 'me');
+                $side = 'left';
+            } else {
+                $formatted_message = message_format_message($message, $messagedate, $search, 'other');
+                $side = 'right';
+            }
+            $tablecontents .= html_writer::tag('div', $formatted_message, array('class' => "mdl-left $side $notificationclass"));
+        }
+
+        $tablecontents .= '<hr>';
+
+        echo html_writer::nonempty_tag('div', $tablecontents, array('class' => 'mdl-left messagehistory'));
+    } else {
+        echo html_writer::nonempty_tag('div', '('.get_string('nomessagesfound', 'message').') <hr>', array('class' => 'mdl-align messagehistory'));
+    }
 }

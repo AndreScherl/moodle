@@ -1,25 +1,13 @@
 <?php
-require_once($CFG->dirroot . "/blocks/settings/block_settings.php");
-
 $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
 $knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
-
-
-//if($knownregionadminnavi) {
-//    $fakeSettingsBlock = new block_contents();
-//    $b_s = new block_settings();
-//    $fakeSettingsBlock->content = implode('', $b_s->get_content());
-//
-//    $PAGE->blocks->add_fake_block($fakeSettingsBlock, 'admin-navi');
-//}
 
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
 $regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
-$PAGE->set_popup_notification_allowed(false);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
@@ -80,11 +68,13 @@ echo $OUTPUT->doctype()
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <?php
-                        // echo $OUTPUT->course_content_header();
-                        echo $OUTPUT->main_content();
-                        // echo $OUTPUT->course_content_footer();
-                        ?>
+                        <div class="admin-content">
+                            <?php
+                            // echo $OUTPUT->course_content_header();
+                                echo $OUTPUT->main_content();
+                            // echo $OUTPUT->course_content_footer();
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

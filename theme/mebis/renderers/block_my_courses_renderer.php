@@ -25,6 +25,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $ismovingcourse = false;
         $courseordernumber = 0;
         $maxcourses = count($courses);
+
         $userediting = false;
         // Intialise string/icon etc if user is editing and courses > 1
         if ($this->page->user_is_editing() && (count($courses) > 1)) {
@@ -90,12 +91,12 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $html .= html_writer::start_div('row');
 
             //TODO: figure out if new or not, gettext ?
-            $html .= html_writer::start_div('col-md-6 course-is-new');
+            $html .= html_writer::start_div('col-xs-6 course-is-new');
             $html .= html_writer::tag('span', 'NEU');
             $html .= html_writer::end_div();
 
             //TODO: If is not new, pull-right-class is needed (or change to col-12)
-            $html .= html_writer::start_div('col-md-6 box-type text-right');
+            $html .= html_writer::start_div('col-xs-6 box-type text-right');
             $html .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
 
             $html .= html_writer::end_div();
@@ -116,7 +117,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
                 $coursefullname = format_string(get_course_display_name_for_list($course), true, $course->id);
 
                 $html .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $courseurl));
-                $html .= html_writer::tag('span', $coursefullname, array('class' => 'coursename'));
+                $html .= html_writer::tag('span', $coursefullname, array('class' => 'coursename internal'));
 
                 $cat = coursecat::get($course->category, IGNORE_MISSING);
                 if ($cat) {
@@ -128,7 +129,6 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
                     new moodle_url('/auth/mnet/jump.php', array('hostid' => $course->hostid, 'wantsurl' => '/course/view.php?id='.$course->remoteid)),
                     format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 2, 'title');
             }
-            $html .= $this->output->box('', 'flush');
 
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
@@ -141,8 +141,6 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
                 $html .= $this->activity_display($course->id, $overviews[$course->id]);
             }
-
-            $html .= $this->output->box('', 'flush');
 
             $courseordernumber++;
             if ($ismovingcourse) {
@@ -179,7 +177,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
      * @return string html of header bar.
      */
     public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('row notice');
+        $output = $this->output->box_start('notice');
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12 margin-top-small'));
         $options = array('0' => get_string('alwaysshowall', 'theme_mebis'));
         for ($i = 1; $i <= $max; $i++) {
@@ -208,7 +206,9 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $schools[$value->id] = $value->name;
         }
 
-        $output = html_writer::start_tag('div', array('class' => 'row my-courses-filter margin-top-small'));
+        $output = $this->load_block_headline();
+
+        $output .= html_writer::start_tag('div', array('class' => 'row my-courses-filter margin-top-small'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag('div', array('class' => 'course-sorting'));
 
@@ -223,12 +223,16 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $output .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...", array('class' => 'form-control'));
         $output .= html_writer::end_tag('div');
 
-        $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right'));
+        $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right text-mobile-left'));
         $output .= html_writer::start_tag('label', array("for"=>"switch_list"));
         $output .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_list", "value" => "list"));
+        $switchList = html_writer::tag('span', get_string('switch_list', 'theme_mebis'), array('class' => 'visible-xs'));
+        $output .= html_writer::tag('span', $switchList);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::start_tag('label', array("for"=>"switch_grid"));
         $output .= html_writer::tag('input', '<i class="icon-me-kachelansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_grid", "value" => "grid", "class" => "grid-switch", "checked" => "checked"));
+        $switchGrid = html_writer::tag('span', get_string('switch_grid', 'theme_mebis'), array('class' => 'visible-xs'));
+        $output .= html_writer::tag('span', $switchGrid);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::end_tag('div');
 
@@ -281,6 +285,55 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
         return $output;
+    }
+
+    public function load_block_headline()
+    {
+        $headline = html_writer::tag('h1', get_string('my-courses', 'theme_mebis'), array());
+        return $headline;
+    }
+
+    /**
+     * //@TODO:
+     * This is not actually used and only a blueprint. 12345 is used as a standin for an actual id.  and  may be
+     * replaced with icon classes. Javascript has to be added to collape the schoolbox and change the icon (or class)
+     */
+    public function listView() {
+
+        foreach($schools as $school){
+            //start schoolbox
+            $list = html_writer::start_div('col-sm-12 categorybox text-left', array('data-categoryid' => '12345', 'data-type' => '1'));
+            $list .= html_writer::start_div('row');
+            $list .= html_writer::start_div('col-sm-12');
+            $list .= html_writer::start_div('category-container category-name');
+            $list .= $schoolName;
+            $list .= html_writer::div('','closebutton', array('id' => 'close-12345'));
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::start_div('col-sm-12');
+            $list .= html_writer::start_div('category-container', array('id' => 'cat-12345'));
+            $list .= html_writer::start_div('row');
+
+            foreach($courses as $course){
+                //start coursebox
+                $list .= html_writer::start_div('col-sm-12');
+                $list .= html_writer::start_div('category-coursebox');
+                $list .= html_writer::div('','iconbox');
+                $list .= html_writer::div('NEU','newbox');
+                $list .= $courseName;
+                $list .= html_writer::end_div();
+                $list .= html_writer::end_div();
+                //end coursebox
+            }
+
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            $list .= html_writer::end_div();
+            //end schoolbox
+        }
+        return $list;
     }
 
 }

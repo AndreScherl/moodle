@@ -1,12 +1,11 @@
 .schoolbox {
-    margin-bottom: 40px;
 
     .schoolbox-meta {
-        background: $brand-primary;
+        background: $white;
 
         .box-type i {
             display: inline-block;
-            background: $brand-primary-dark;
+            background: $brand-gray-medium;
             color: $white;
             line-height: 40px;
             text-align: center;
@@ -20,38 +19,38 @@
 
     .schoolbox-inner {
         padding: 0;
+        position: relative;
+        margin-bottom: 20px;
 
         .schoolbox-link {
             display: block;
-            background-color: lighten($gray-dark, 5%);
-            min-height: 175px;
+            background-color: $brand-secondary;
+            @include transition(color .25s);
+            min-height: 150px;
             padding: 20px;
             text-align: left;
 
             font-weight: 400;
             font-style: normal;
-            color: #CCC;
+            color: $white;
 
             .schoolname{
                 font-size: emCalc(20px);
             }
+        }
 
-            &:hover {
-                background: $brand-secondary;
-                color: $white;
+        &:hover {
+
+            .schoolbox-link {
+                color: $gray-dark;
             }
 
+            .vbox {
+                color: $gray-dark;
+            }
         }
 
     }
 
-    .vbox {
-        font-size: emCalc(36px);
-        text-align: left;
-        line-height: normal;
-        position: absolute;
-        bottom: 10px;
-        right: 35px;
-    }
 
 }

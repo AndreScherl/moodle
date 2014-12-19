@@ -30,24 +30,24 @@ $THEME->layouts = array(
     ),
     'mydashboard' => array(
         'file' => 'default.php',
-        'regions' => array('apps', 'top', 'schools'),
-        'defaultregion' => 'apps'
+        'regions' => array('side-pre', 'top', 'side-post'),
+        'defaultregion' => 'side-pre'
     ),
     'login' => array(
         'file' => 'login.php',
-        'regions' => array('apps', 'top'),
-        'defaultregion' => 'apps',
+        'regions' => array('side-pre', 'top'),
+        'defaultregion' => 'side-pre',
         'options' => array('langmenu' => false, 'nonavbar' => true),
     ),
     'course' => array(
         'file' => 'default.php',
-        'regions' => array('apps', 'schools'),
-        'defaultregion' => 'apps'
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre'
     ),
     'incourse' => array(
         'file' => 'default.php',
-        'regions' => array('apps', 'schools'),
-        'defaultregion' => 'apps'
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre'
     ),
     'admin' => array(
         'file' => 'admin.php',

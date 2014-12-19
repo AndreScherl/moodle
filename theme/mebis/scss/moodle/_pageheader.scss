@@ -16,6 +16,10 @@ div[role="main"] {
 
     > a {
         font-size: emCalc(18px);
+
+        &:hover {
+            background: transparent;
+        }
     }
 
     &.dropdown {

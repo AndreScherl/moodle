@@ -26,3 +26,4 @@
 $string['mbs_coordinators:addinstance'] = 'Hinzufügen des Blocks mebis Koordinatoren';
 $string['mbs_coordinators:myaddinstance'] = 'Hinzufügen des Blocks mebis Koordinatoren zu meinem Schreibtisch';
 $string['pluginname'] = 'mebis Koordinatoren';
+$string['mebiscoordinators'] = 'mebis-Koordinatoren';

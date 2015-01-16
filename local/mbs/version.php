@@ -15,18 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * version information for Block mbs_coordinators
+ * verson file for local_mbs
  *
- * @package    block_mbs_coordinators
- * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
+ * @package    local_mbs
+ * @copyright  Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015011601;
-$plugin->requires  = 2014051203;
-$plugin->component = 'block_mbs_coordinators';
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '2.7+ (Build: 2015011601)';
+$plugin->version = 2015011600;
+$plugin->requires = 2014051203;
+$plugin->cron = 0;
+$plugin->component = 'local_mbs';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '2.7+ (Build: 2014072400)';

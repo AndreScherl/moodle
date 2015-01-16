@@ -15,24 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbs_coordinators block caps.
+ * main class for block coordinators.
  *
  * @package    block_mbs_coordinators
  * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    todo
  */
-
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/blocks/mbs_coordinators/renderer.php');
+
+require_once($CFG->dirroot . '/blocks/mbs_coordinators/renderer.php');
 
 class block_mbs_coordinators extends block_base {
 
-    function init() {
+    protected $seecoordinators = null;
+
+    public function init() {
         $this->title = get_string('pluginname', 'block_mbs_coordinators');
     }
 
-    function get_content() {
-        global $CFG, $OUTPUT;
+    public function get_content() {
 
         if ($this->content !== null) {
             return $this->content;
@@ -47,13 +48,95 @@ class block_mbs_coordinators extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $renderer = $this->page->get_renderer('block_mbs_coordinators');
-        $this->content->text .= $renderer->mbs_coordinators();
+        if ($this->page->context->contextlevel != CONTEXT_COURSECAT) {
+            return $this->content;
+        }
+
+        if (!$this->can_see_coordinators()) {
+            return $this->content;
+        }
+
+        if ($coordinators = $this->get_coordinators()) {
+
+            $renderer = $this->page->get_renderer('block_mbs_coordinators');
+            $this->content->text .= $renderer->render_coordinators($coordinators);
+        }
 
         return $this->content;
     }
 
-    function hide_header() {
+    /**
+     * Can the user see the 'coordinators' area of the course category pages?
+     *
+     * @return bool
+     */
+    public function can_see_coordinators() {
+        global $DB, $USER;
+
+        if (is_null($this->seecoordinators)) {
+
+            $this->seecoordinators = false;
+
+            // ... $USER->isTeacher is a flag, which is set to 1 during login via shibboleth
+            // for all users, who owns the teacherrole in the IDM of mebis.
+            // We are NOT happy with this solution, maybe the use of this flag will be changed in the future.
+
+            if (!empty($USER->isTeacher)) {
+                $this->seecoordinators = true;
+            } else if (has_capability('block/mbs_coordinators:viewcoordinators', $this->page->context)) {
+                // Has the capability in the current context.
+                $this->seecoordinators = true;
+            } else {
+                // Find the roles that can see the coordinators list.
+                $roles = get_roles_with_capability('block/mbs_coordinators:viewcoordinators');
+                if ($roles) {
+                    // See if the user has one of those roles in a child of the current context.
+                    list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
+                    $likesql = $DB->sql_like('cx.path', ':likecontextpath');
+                    $params['userid'] = $USER->id;
+                    $params['likecontextpath'] = "{$this->page->context->path}/%";
+                    $sql = "SELECT ra.id
+                              FROM {role_assignments} ra
+                              JOIN {context} cx ON cx.id = ra.contextid
+                             WHERE ra.roleid $rsql
+                               AND $likesql
+                               AND ra.userid = :userid";
+                    $this->seecoordinators = $DB->record_exists_sql($sql, $params);
+                }
+            }
+        }
+
+        return $this->seecoordinators;
+    }
+
+    /**
+     * Return a list of all the users who are 'coordinators' for this school (i. e. 
+     * in a category or in the subtree of category of one school).
+     *
+     * @return object[]
+     */
+    protected function get_coordinators() {
+
+        // ...get the school category from current category.
+        $categoryid = $this->page->context->instanceid;
+
+        if (!$schoolcat = \local_mbs\local\schoolcategory::get_schoolcategory($categoryid)) {
+            return array();
+        }
+
+        // ...get all users, which may manage the school category.
+        $fields = 'u.id, ' . get_all_user_name_fields(true, 'u');
+        $schoolcatcontext = context_coursecat::instance($schoolcat->id, MUST_EXIST);
+
+        return get_users_by_capability($schoolcatcontext, 'moodle/category:manage', $fields, 'lastname ASC, firstname ASC');
+    }
+
+    public function hide_header() {
         return true;
+    }
+
+    public function applicable_formats() {
+
+        return array('all' => false, 'course-management' => true, 'course-index-category' => true);
     }
 }

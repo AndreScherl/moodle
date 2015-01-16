@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,14 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'block_mbs_coordinators', language 'en'
+ * language file for Block mbs_coordinators
  *
- * @package   block_mbs_coordinators
- * @copyright Daniel Neis <danielneis@gmail.com>
+ * @package    block_mbs_coordinators
+ * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['mbs_coordinators:addinstance'] = 'Hinzufügen des Blocks mebis Koordinatoren';
 $string['mbs_coordinators:myaddinstance'] = 'Hinzufügen des Blocks mebis Koordinatoren zu meinem Schreibtisch';
-$string['pluginname'] = 'mebis Koordinatoren';
+$string['mbs_coordinators:viewcoordinators'] = 'Liste der Koordinatoren einsehen';
 $string['mebiscoordinators'] = 'mebis-Koordinatoren';
+$string['pluginname'] = 'mebis Koordinatoren';
+$string['sendmessage'] = 'Mitteilung senden';

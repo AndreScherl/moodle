@@ -344,6 +344,10 @@ class theme_dlb_core_renderer extends core_renderer {
 
         $args = array();
         $PAGE->requires->js_init_call("M.theme_dlb.init", array($args), false, $jsmodule);
+        $PAGE->requires->yui_module('moodle-block_getting_started-assistant', 'M.block_getting_started.assistant.init');
+        // !TODO: just add opentip js and css, if assistant is in use
+        $PAGE->requires->js( new moodle_url("/blocks/getting_started/opentip/opentip-native.min.js"));
+        $PAGE->requires->css( new moodle_url("/blocks/getting_started/opentip/opentip.css"));
 
         return $output;
     }

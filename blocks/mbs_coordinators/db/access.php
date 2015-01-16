@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbs_coordinators block caps.
+ * capabilities for Block mbs_coordinators
  *
- * @package   block_mbs_coordinators
- * @copyright Daniel Neis <danielneis@gmail.com>
+ * @package    block_mbs_coordinators
+ * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,26 +26,27 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'block/mbs_coordinators:myaddinstance' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'user' => CAP_ALLOW
-        ),
-
-        'clonepermissionsfrom' => 'moodle/my:manageblocks'
-    ),
-
     'block/mbs_coordinators:addinstance' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
 
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+
+    'block/mbs_coordinators:viewcoordinators' => array(
+        'captype' => 'read',
+        'riskbitmask' => RISK_PERSONAL,
+        'contextlevel' => CONTEXT_COURSECAT,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+        )
+    )
 );

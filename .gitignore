@@ -37,3 +37,4 @@ composer.lock
 /lib/yuilib/*/*/*-coverage.js
 .sass-cache
 /.bundle
+local/codechecker/

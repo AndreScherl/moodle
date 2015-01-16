@@ -34,6 +34,7 @@ class format_grid_renderer extends format_section_renderer_base {
     private $courseformat; // Our course format object as defined in lib.php.
     private $settings; // Settings array.
     private $shadeboxshownarray = array(); // Value of 1 = not shown, value of 2 = shown - to reduce ambiguity in JS.
+    private $portable = 0; // 1 = mobile, 2 = tablet.
 
     /**
      * Constructor method, calls the parent constructor - MDL-21097
@@ -132,12 +133,23 @@ class format_grid_renderer extends format_section_renderer_base {
             'src' => $this->output->pix_url('close', 'format_grid'),
             'role' => 'link',
             'aria-label' => get_string('closeshadebox', 'format_grid')));
-        echo html_writer::tag('img', '', array('id' => 'gridshadebox_left', 'class' => 'gridshadebox_arrow',
+        $arrowextra = '';
+        switch ($this->portable) {
+            case 1: // Mobile.
+                $arrowextra = ' gridshadebox_arrow_mobile';
+            break;
+            case 2: // Tablet.
+                $arrowextra = ' gridshadebox_arrow_tablet';
+            break;
+            default:
+            break;
+        }
+        echo html_writer::tag('img', '', array('id' => 'gridshadebox_left', 'class' => 'gridshadebox_arrow gridshadebox_left'.$arrowextra,
             'style' => 'display:none;',
             'src' => $this->output->pix_url('arrow_l', 'format_grid'),
             'role' => 'link',
             'aria-label' => get_string('previoussection', 'format_grid')));
-        echo html_writer::tag('img', '', array('id' => 'gridshadebox_right', 'class' => 'gridshadebox_arrow',
+        echo html_writer::tag('img', '', array('id' => 'gridshadebox_right', 'class' => 'gridshadebox_arrow gridshadebox_right'.$arrowextra,
             'style' => 'display:none;',
             'src' => $this->output->pix_url('arrow_r', 'format_grid'),
             'role' => 'link',
@@ -757,5 +769,9 @@ class format_grid_renderer extends format_section_renderer_base {
         }
 
         return $sectionsedited;
+    }
+
+    public function set_portable($portable) {
+        $this->portable = $portable;
     }
 }

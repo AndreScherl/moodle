@@ -216,11 +216,29 @@ body.jsenabled #gridshadebox_content.hide_content {
 .gridshadebox_arrow:hover {
     opacity: 0.8;
 }
-#gridshadebox_left {
+.gridshadebox_left {
     left: -28px;
 }
-#gridshadebox_right {
+.gridshadebox_right {
     right: -28px;
+}
+
+.gridshadebox_arrow.gridshadebox_arrow_mobile {
+    opacity: 1;
+    height: 27px;
+    width: 27px;
+}
+
+.gridshadebox_arrow.gridshadebox_arrow_mobile.gridshadebox_left {
+    left: -14px;
+}
+
+.gridshadebox_arrow.gridshadebox_arrow_mobile.gridshadebox_right {
+    right: -14px;
+}
+
+.gridshadebox_arrow.gridshadebox_arrow_tablet {
+    opacity: 1;
 }
 
 #gridshadebox_content ul.gtopics {

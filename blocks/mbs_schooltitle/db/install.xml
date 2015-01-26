@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/mbs_schooltitle/db" VERSION="20120625" COMMENT="XMLDB file for Moodle blocks/mbs_schooltitle"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="block_mbs_schooltitle" COMMENT="Logo and Title for school categories">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="categoryid"/>
+                <FIELD NAME="categoryid" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" COMMENT="id of category" PREVIOUS="id" NEXT="image"/>
+                <FIELD NAME="image" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" PREVIOUS="categoryid" NEXT="headline"/>
+                <FIELD NAME="headline" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="headline for course category" PREVIOUS="background_image" NEXT="timemodified"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="headline"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="idx_id" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="idx_categoryid" UNIQUE="false" FIELDS="categoryid"/>
+            </INDEXES>
+        </TABLE>
+    </TABLES>
+</XMLDB>

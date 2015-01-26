@@ -30,6 +30,33 @@ class schoolcategory {
 
     public static $schoolcatdepth = 3;
 
+    
+    /** get id of school category of the current user and store it in User sessiondata.
+     * 
+     * @global database $DB
+     * @global record $USER
+     * @return boolean|int the id if succeeded
+     */
+    public static function get_users_schoolcatid() {
+        global $DB, $USER;
+        
+        if (isset($USER->mbs_schoolcatid)) {
+            return $USER->mbs_schoolcatid;
+        }
+        
+        if (empty($USER->institution)) {
+            return false;
+        }
+        
+        if (!$schoolcat = $DB->get_record('course_categories', array('idnumber' => $USER->institution))) {
+            return false;
+        }
+        
+        $USER->mbs_schoolcatid = $schoolcat->id;
+        
+        return $USER->mbs_schoolcatid;
+    }
+
     /** get the category of the schoolcategory (i. e. the parent category of given
      * category with the depth value of $schoolcatdepth.
      * 
@@ -38,11 +65,29 @@ class schoolcategory {
     public static function get_schoolcategory($categoryid) {
         global $DB;
 
+        // ...extract schoolid form context path, this is optimized for mysql!
+        $ctxpath2schoolid = "REPLACE(SUBSTRING_INDEX(REPLACE(ca.path, SUBSTRING_INDEX(ca.path,'/',:depth),''), '/',2),'/','')";
+        
         $sql = "SELECT sch.* FROM {course_categories} ca
-                JOIN {course_categories} sch ON sch.id = REPLACE(SUBSTRING_INDEX(REPLACE(ca.path, SUBSTRING_INDEX(ca.path,'/',:depth),''), '/',2),'/','')
+                JOIN {course_categories} sch ON sch.id = $ctxpath2schoolid
                 WHERE ca.id = :catid ";
 
         return $DB->get_record_sql($sql, array('depth' => self::$schoolcatdepth, 'catid' => $categoryid));
+    }
+    
+    /** get the id category of the schoolcategory (i. e. the parent category of given
+     * category with the depth value of $schoolcatdepth.
+     * 
+     * @param int $categoryid
+     * @return int id of schoolcategory , 0 if not exists.
+     */
+    public static function get_schoolcategoryid($categoryid) {
+        
+        if (!$schoolcat = self::get_schoolcategory($categoryid)) {
+            return 0;
+        }
+        
+        return $schoolcat->id;
     }
 
 }

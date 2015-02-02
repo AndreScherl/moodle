@@ -22,8 +22,28 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2015020201;
-$plugin->requires  = 2012112900;
-$plugin->component = 'block_mbs_newcourse';
+if ($ADMIN->fulltree) {
+
+    global $DB;
+
+    $choices = array();
+
+    $roles = get_roles_with_capability('moodle/course:create');
+    $assignroles = get_roles_with_capability('moodle/role:assign');
+    $managerroles = get_roles_with_capability('moodle/category:manage');
+
+    // Securitycheck only lower roles should be configurable.
+    $roles = array_diff_key($roles, $assignroles, $managerroles);
+
+    $choices[0] = get_string('assignnorole', 'block_mbs_newcourse');
+
+    foreach ($roles as $role) {
+        $choices[$role->id] = role_get_name($role);
+    }
+
+    $settings->add(new admin_setting_configselect('block_mbs_newcourse/coursecreatorrole',
+                    new lang_string('coursecreatorrole', 'block_mbs_newcourse'),
+                    new lang_string('coursecreatorrole_expl', 'block_mbs_newcourse'), 0, $choices));
+}

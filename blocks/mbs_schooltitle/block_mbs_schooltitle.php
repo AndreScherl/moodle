@@ -63,12 +63,15 @@ class block_mbs_schooltitle extends block_base {
 
         $contextlevel = $this->page->context->contextlevel;
         
+        // ...get the id for users school
+        $usersschoolcatid = \local_mbs\local\schoolcategory::get_users_schoolcatid($USER);
+        
         switch ($contextlevel) {
             
             case CONTEXT_SYSTEM:
             case CONTEXT_USER:
                 
-                $schoolcatid = \local_mbs\local\schoolcategory::get_users_schoolcatid($USER);
+                $schoolcatid = $usersschoolcatid;
                 break;
             
             case CONTEXT_COURSE:
@@ -85,10 +88,12 @@ class block_mbs_schooltitle extends block_base {
                 $schoolcatid = SITEID;
                 break;
         }
-
+        
         if ($schoolcatid) {
 
             if ($titledata = $DB->get_record('block_mbs_schooltitle', array('categoryid' => $schoolcatid))) {
+                
+                $titledata->usersschoolid = $usersschoolcatid;
                 
                 $titledata->imageurl = \block_mbs_schooltitle\local\imagehelper::get_imageurl($schoolcatid, $titledata->image);
                 
@@ -111,6 +116,7 @@ class block_mbs_schooltitle extends block_base {
         $titledata->categoryid = 0;
         $titledata->imageurl = '';
         $titledata->headline = '';
+        $titledata->usersschoolid = $usersschoolcatid;
                 
         return $titledata;
     }

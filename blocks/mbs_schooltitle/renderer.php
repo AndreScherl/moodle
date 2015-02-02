@@ -31,9 +31,11 @@ class block_mbs_schooltitle_renderer extends plugin_renderer_base {
         $o = '';
 
         // Link to School.
-        $schoolurl = new moodle_url('/course/index.php', array('categoryid' => $titledata->categoryid));
-        $schoollink = html_writer::link($schoolurl, get_string('toschoolcategory', 'block_mbs_schooltitle'));
-        $o = html_writer::tag('div', $schoollink);
+        if (!empty($titledata->usersschoolid)) {
+            $schoolurl = new moodle_url('/course/index.php', array('categoryid' => $titledata->usersschoolid));
+            $schoollink = html_writer::link($schoolurl, get_string('toschoolcategory', 'block_mbs_schooltitle'));
+            $o = html_writer::tag('div', $schoollink);
+        }
 
         // Headline of page.
         $headline = (!empty($titledata->headline)) ? $titledata->headline : $PAGE->heading;

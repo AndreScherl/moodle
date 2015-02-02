@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,14 +21,25 @@
  * @copyright Andre Scherl <andre.scherl@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-$string['blockstring'] = 'Block string';
+$string['assignnorole'] = 'Keine Rolle automatisch zuweisen';
+$string['approvers'] = 'Empfänger';
+$string['backschool'] = 'Zurück zur Schulbereichsübersicht';
+$string['categorynotinschool'] = 'Der Kursbereich für des Kursantrags ist nicht innerhalb des gewählten Schulbereichs';
+$string['courseapproved'] = 'Der Kursantrag war erfolgreich';
+$string['coursecreatorrole'] = 'Kursersteller Rolle';
+$string['coursecreatorrole_expl'] = 'Diese Rolle wird einem User, der im IDM die Rolle lehrer hat, automatisch zugewiesen, wenn er zum ersten Mal eine Kursbereichsseite in seiner Schule betritt.';
+$string['coursespending'] = 'offene Kursanträge';
+$string['courserequests'] = 'Kursanträge';
 $string['createcourse'] = 'Kurs erstellen';
-$string['descconfig'] = 'Description of the config section';
-$string['descfoo'] = 'Config description';
-$string['headerconfig'] = 'Config section header';
-$string['labelfoo'] = 'Config label';
+$string['courserequestreason'] = 'Ergänzende Informationen zum Kursantrag';
+$string['courserequestsupport'] = 'Hinweise für den mebis-Koordinator dieser Schule (z.B. gewünschter Unterbereich, Begründung des Kursantrags)';
 $string['mbs_newcourse:addinstance'] = 'Hinzufügen des Blocks Neuer Kurs';
-$string['mbs_newcourse:myaddinstance'] = 'Hinzufügen des Blocks Neuer Kurs zu meinem Schreibtisch';
+$string['mbs_newcourse:myaddinstance'] = 'Neuer Kurs Block zu Meine Startseite hinzufügen';
+$string['missinginstitutionid'] = 'ID der Institution fehlt, navigieren Sie in einen Kursbereich. Dort können Sie Kurse beantragen.';
 $string['pluginname'] = 'Mebis Neuer Kurs';
 $string['requestcourse'] = 'Kurs anfordern';
+$string['requestcategory'] = 'Kursbereich des Kurses';
+$string['requestcategory_help'] = 'Um einen Kurs an einer fremden Schule zu beantragen, müssen Sie auf die Kursbereichseite dieser Schule aufrufen.<br>
+Schulen können über die Schulsuche gefunden werden.';
+$string['schoolcategory'] = 'Schulbereich';
+$string['sendmessage'] = 'Nachricht senden';

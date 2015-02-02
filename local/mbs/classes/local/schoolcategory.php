@@ -89,5 +89,40 @@ class schoolcategory {
         
         return $schoolcat->id;
     }
+    
+    
+    /** generate a list of categories below given category to display in a select box
+     * 
+     * @global \local_mbs\local\database $DB
+     * @param record $category
+     * @return array list of categories similar to make_categories_list indexed by category id.
+     */
+    public static function make_schoolcategories_list($category) {
+        global $DB;
+        
+        $catnames = array($category->id => $category->name);
+        
+        // Get a list of all categories whose path puts them below the parent.
+        $select = $DB->sql_like('path', ':schoolcatpath');
+        $params = array(
+            'schoolcatpath' => $category->path.'/%',
+        );
+        
+        $categories = $DB->get_records_select('course_categories', $select, $params, 'depth ASC', 'id, name, parent, visible');
+
+        // Remove any categories the user cannot see.
+        foreach ($categories as $id => $category) {
+            
+            $catcontext = \context_coursecat::instance($id);
+            if (!$category->visible && !has_capability('moodle/category:viewhiddencategories', $catcontext)) {
+                unset($categories[$id]);
+            }
+            $catnames[$id] = $catnames[$category->parent].' / '.$category->name;
+        }
+        
+        asort($catnames);
+        
+        return $catnames;
+    }
 
 }

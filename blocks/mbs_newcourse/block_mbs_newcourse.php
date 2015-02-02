@@ -15,23 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbs_newcourse block caps.
+ * main class of block_mbs_newcourse
  *
- * @package    block_mbs_newcourse
- * @copyright  Daniel Neis <danielneis@gmail.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   block_mbs_newcourse
+ * @copyright Andreas Wagner, ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/coursecatlib.php');
 
 class block_mbs_newcourse extends block_base {
 
-    function init() {
+    public function init() {
         $this->title = get_string('pluginname', 'block_mbs_newcourse');
     }
 
-    function get_content() {
-        global $CFG, $OUTPUT;
+    public function get_content() {
 
         if ($this->content !== null) {
             return $this->content;
@@ -46,13 +46,48 @@ class block_mbs_newcourse extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $renderer = $this->page->get_renderer('block_mbs_newcourse');
-        $this->content->text .= $renderer->mbs_newcourse();
-        
+        // ...check context of current page and get categoryid.
+        $context = $this->page->context;
+
+        $categoryid = 0;
+        if ($context->contextlevel == CONTEXT_COURSECAT) {
+
+            $categoryid = $context->instanceid;
+            $category = coursecat::get($categoryid, MUST_EXIST);
+
+            // ... display no content above Schoolcategories.
+            if ($category->depth < \local_mbs\local\schoolcategory::$schoolcatdepth) {
+                return $this->content;
+            }
+        }
+
+        if ($context->contextlevel == CONTEXT_USER) {
+
+            // ... display warning, when user has no schoolcategory.
+            if (!$categoryid = \local_mbs\local\schoolcategory::get_users_schoolcatid()) {
+                $this->content->text = get_string('missinginstitutionid', 'block_mbs_newcourse');
+                return $this->content;
+            }
+        }
+
+        if (!empty($categoryid)) {
+            $renderer = $this->page->get_renderer('block_mbs_newcourse');
+            $this->content->text .= $renderer->render_block_content($categoryid);
+        }
         return $this->content;
     }
 
-    function hide_header() {
+    public function hide_header() {
         return true;
     }
+
+    public function has_config() {
+        return true;
+    }
+
+    public function applicable_formats() {
+        // Default case: the block can be used in courses and site index, but not in activities.
+        return array('course-index' => true, 'my' => true);
+    }
+
 }

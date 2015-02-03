@@ -63,9 +63,9 @@ class block_mbs_schooltitle extends block_base {
 
         $contextlevel = $this->page->context->contextlevel;
         
-        // ...get the id for users school
+        // ...get the id for users school, may be false!
         $usersschoolcatid = \local_mbs\local\schoolcategory::get_users_schoolcatid($USER);
-        
+
         switch ($contextlevel) {
             
             case CONTEXT_SYSTEM:
@@ -128,5 +128,8 @@ class block_mbs_schooltitle extends block_base {
     function has_config() {
         return true;
     }
-
+    
+    public function applicable_formats() {
+        return array('all' => true, 'my-index' => false);
+    }
 }

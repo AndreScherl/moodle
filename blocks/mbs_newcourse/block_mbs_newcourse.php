@@ -86,8 +86,7 @@ class block_mbs_newcourse extends block_base {
     }
 
     public function applicable_formats() {
-        // Default case: the block can be used in courses and site index, but not in activities.
-        return array('course-index' => true, 'my' => true);
+        return array('course-index' => true, 'my-index' => true);
     }
 
 }

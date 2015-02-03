@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015012601;       
+$plugin->version   = 2015012602;       
 $plugin->requires  = 2014051203;       
 $plugin->component = 'block_mbs_schooltitle'; 
 $plugin->depencies = array('local_mbs' => ANY_VERSION);

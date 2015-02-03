@@ -33,6 +33,14 @@ $capabilities = array(
         ),
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+    'block/mbs_schooltitle:myaddinstance' => array(
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+        ),
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
     'block/mbs_schooltitle:edittitle' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',

@@ -31,19 +31,18 @@ $capabilities = array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(),
-
+        'archetypes' => array(
+            'manager' => CAP_ALLOW
+        ),
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
 
     'block/mbs_newcourse:myaddinstance' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
-
         'captype' => 'write',
-        'contextlevel' => CONTEXT_BLOCK,
+        'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'user' => CAP_ALLOW
          ),
-        'clonepermissionsfrom' => 'moodle/site:manageblocks'
-    ),
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
+    )
 );

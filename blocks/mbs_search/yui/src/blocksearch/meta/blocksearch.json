@@ -1,0 +1,14 @@
+{
+    "moodle-block_mbs_search-blocksearch": {
+        "requires": [
+            "base",
+            "node",
+            "io-base",
+            "json",
+            "autocomplete",
+            "autocomplete-highlighters",
+            "autocomplete-filters", 
+            "node-event-simulate"
+        ]
+    }
+}

@@ -31,6 +31,31 @@ class schoolcategory {
     public static $schoolcatdepth = 3;
 
     
+    /** get several columns from users school cat
+     * 
+     * @global \database $DB
+     * @global \record $USER
+     * @return boolean
+     */
+    public static function get_users_schoolcat() {
+         global $DB, $USER;
+        
+        if (isset($USER->mbs_schoolcat)) {
+            return $USER->mbs_schoolcat;
+        }
+        
+        if (empty($USER->institution)) {
+            return false;
+        }
+        
+        if (!$schoolcat = $DB->get_record('course_categories', array('idnumber' => $USER->institution), 'id, name, parent, depth, path')) {
+            return false;
+        }
+        
+        $USER->mbs_schoolcat = $schoolcat;
+        return $USER->mbs_schoolcat;
+    }
+    
     /** get id of school category of the current user and store it in User sessiondata.
      * 
      * @global database $DB
@@ -38,25 +63,19 @@ class schoolcategory {
      * @return boolean|int the id if succeeded
      */
     public static function get_users_schoolcatid() {
-        global $DB, $USER;
+        global $USER;
         
-        if (isset($USER->mbs_schoolcatid)) {
-            return $USER->mbs_schoolcatid;
+        if (isset($USER->mbs_schoolcat->id)) {
+            return $USER->mbs_schoolcat->id;
         }
         
-        if (empty($USER->institution)) {
+        if (!$schoolcat = self::get_users_schoolcat()) {
             return false;
         }
         
-        if (!$schoolcat = $DB->get_record('course_categories', array('idnumber' => $USER->institution))) {
-            return false;
-        }
-        
-        $USER->mbs_schoolcatid = $schoolcat->id;
-        
-        return $USER->mbs_schoolcatid;
+        return $schoolcat->id;
     }
-
+    
     /** get the category of the schoolcategory (i. e. the parent category of given
      * category with the depth value of $schoolcatdepth.
      * 
@@ -124,5 +143,30 @@ class schoolcategory {
         
         return $catnames;
     }
-
+    
+    /** get the ids from all categories in the school category of the user */
+    public static function get_category_childids($categoryid) {
+        global $DB, $CFG;
+        
+        require_once($CFG->libdir.'/coursecatlib.php');
+        
+        $category = \coursecat::get($categoryid);
+        
+        $catids = array($category->id);
+        
+        // Get a list of all categories whose path puts them below the parent.
+        $select = $DB->sql_like('path', ':schoolcatpath');
+        $params = array(
+            'schoolcatpath' => $category->path.'/%',
+        );
+        
+        if (!$childids = $DB->get_fieldset_select('course_categories', 'id', $select, $params)) {
+            return $catids;
+        }
+        
+        $catids = array_merge($catids, $childids);
+        
+        return $catids;
+    }
+    
 }

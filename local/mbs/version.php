@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2015011600;
-$plugin->requires = 2014051203;
+$plugin->requires = 2014051201;
 $plugin->cron = 0;
 $plugin->component = 'local_mbs';
 $plugin->maturity = MATURITY_STABLE;

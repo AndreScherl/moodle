@@ -72,16 +72,16 @@ if ($mform->is_cancelled()) {
     redirect($return);
 
 } else if ($data = $mform->get_data()) {
-    if ($data->expirynotify == 2) {
-        $data->expirynotify = 1;
-        $data->notifyall = 1;
-    } else {
-        $data->notifyall = 0;
-    }
-    if (!$data->expirynotify) {
-        // Keep previous/default value of disabled expirythreshold option.
-        $data->expirythreshold = $instance->expirythreshold;
-    }
+    // if ($data->expirynotify == 2) {
+    //     $data->expirynotify = 1;
+    //     $data->notifyall = 1;
+    // } else {
+    //     $data->notifyall = 0;
+    // }
+    // if (!$data->expirynotify) {
+    //     // Keep previous/default value of disabled expirythreshold option.
+    //     $data->expirythreshold = $instance->expirythreshold;
+    // }
     if (!isset($data->customint6)) {
         // Add previous value of newenrols if disabled.
         $data->customint6 = $instance->customint6;
@@ -90,23 +90,23 @@ if ($mform->is_cancelled()) {
     if ($instance->id) {
         $reset = ($instance->status != $data->status);
 
-        $instance->status         = $data->status;
-        $instance->name           = $data->name;
+        $instance->status         = ENROL_INSTANCE_ENABLED;
+        // $instance->name           = $data->name;
         $instance->password       = $data->password;
-        $instance->customint1     = $data->customint1;
-        $instance->customint2     = $data->customint2;
-        $instance->customint3     = $data->customint3;
-        $instance->customint4     = $data->customint4;
-        $instance->customint5     = $data->customint5;
-        $instance->customint6     = $data->customint6;
-        $instance->customtext1    = $data->customtext1;
-        $instance->roleid         = $data->roleid;
-        $instance->enrolperiod    = $data->enrolperiod;
-        $instance->expirynotify   = $data->expirynotify;
-        $instance->notifyall      = $data->notifyall;
-        $instance->expirythreshold = $data->expirythreshold;
-        $instance->enrolstartdate = $data->enrolstartdate;
-        $instance->enrolenddate   = $data->enrolenddate;
+        // $instance->customint1     = $data->customint1;
+        // $instance->customint2     = $data->customint2;
+        // $instance->customint3     = $data->customint3;
+        // $instance->customint4     = $data->customint4;
+        // $instance->customint5     = $data->customint5;
+        $instance->customint6     = 1;
+        // $instance->customtext1    = $data->customtext1;
+        // $instance->roleid         = $data->roleid;
+        // $instance->enrolperiod    = $data->enrolperiod;
+        // $instance->expirynotify   = $data->expirynotify;
+        // $instance->notifyall      = $data->notifyall;
+        // $instance->expirythreshold = $data->expirythreshold;
+        // $instance->enrolstartdate = $data->enrolstartdate;
+        // $instance->enrolenddate   = $data->enrolenddate;
         $instance->timemodified   = time();
         $DB->update_record('enrol', $instance);
 
@@ -116,23 +116,24 @@ if ($mform->is_cancelled()) {
 
     } else {
         $fields = array(
-            'status'          => $data->status,
-            'name'            => $data->name,
+            'status'          => ENROL_INSTANCE_ENABLED,
+            // 'name'            => $data->name,
             'password'        => $data->password,
-            'customint1'      => $data->customint1,
-            'customint2'      => $data->customint2,
-            'customint3'      => $data->customint3,
-            'customint4'      => $data->customint4,
-            'customint5'      => $data->customint5,
-            'customint6'      => $data->customint6,
-            'customtext1'     => $data->customtext1,
-            'roleid'          => $data->roleid,
-            'enrolperiod'     => $data->enrolperiod,
-            'expirynotify'    => $data->expirynotify,
-            'notifyall'       => $data->notifyall,
-            'expirythreshold' => $data->expirythreshold,
-            'enrolstartdate'  => $data->enrolstartdate,
-            'enrolenddate'    => $data->enrolenddate);
+            // 'customint1'      => $data->customint1,
+            // 'customint2'      => $data->customint2,
+            // 'customint3'      => $data->customint3,
+            // 'customint4'      => $data->customint4,
+            // 'customint5'      => $data->customint5,
+            // 'customint6'      => $data->customint6,
+            'customint6'      => 1);
+            // 'customtext1'     => $data->customtext1,
+            // 'roleid'          => $data->roleid,
+            // 'enrolperiod'     => $data->enrolperiod,
+            // 'expirynotify'    => $data->expirynotify,
+            // 'notifyall'       => $data->notifyall,
+            // 'expirythreshold' => $data->expirythreshold,
+            // 'enrolstartdate'  => $data->enrolstartdate,
+            // 'enrolenddate'    => $data->enrolenddate);
         $plugin->add_instance($course, $fields);
     }
 

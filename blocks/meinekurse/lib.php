@@ -931,7 +931,7 @@ class meinekurse {
         if ($sortby == 'timecreated') {
             $sort = 'c.timecreated'.$sortdir;
         } else if ($sortby == 'timevisited') {
-            $sort = "(SELECT MAX(time) FROM {log} lg WHERE lg.course = c.id AND lg.action = 'view' AND lg.userid = :userid2)".$sortdir;
+            $sort = "(SELECT MAX(timecreated) FROM {logstore_standard_log} lg WHERE lg.courseid = c.id AND lg.action = 'viewed' AND lg.userid = :userid2)".$sortdir;
             $params['userid2'] = $USER->id;
         } else {
             $sort = 'c.fullname'.$sortdir;

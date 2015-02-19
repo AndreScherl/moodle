@@ -26,7 +26,7 @@ namespace block_mbsnewcourse\local;
 
 require_once($CFG->dirroot . '/course/lib.php');
 
-class mbscourse_request extends \course_request {
+class mbs_course_request extends \course_request {
 
     /**
      * Static function to create a new course request when passed an array of properties

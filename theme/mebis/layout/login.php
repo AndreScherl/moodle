@@ -7,6 +7,7 @@ $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionpost = $PAGE->blocks->is_known_region('side-post');
 
 $regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
+$PAGE->set_popup_notification_allowed(false);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
@@ -31,14 +32,13 @@ echo $OUTPUT->doctype()
 </head>
 
 <body <?php echo $OUTPUT->body_attributes($setzoom); ?>>
-
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 <nav role="navigation" class="navbar navbar-default">
     <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#moodle-navbar">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only"><?php echo get_string('toggle-navigation', 'theme_mebis');?></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>

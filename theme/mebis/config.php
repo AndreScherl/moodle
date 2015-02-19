@@ -53,5 +53,10 @@ $THEME->layouts = array(
         'file' => 'admin.php',
         'regions' => array('admin-navi'),
         'defaultregion' => 'admin-navi'
+    ),
+    'maintenance' => array(
+        'file' => 'maintenance.php',
+        'regions' => array(),
+        'renderer' => 'theme_mebis_core_renderer'
     )
 );

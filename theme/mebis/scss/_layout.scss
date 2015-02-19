@@ -27,6 +27,7 @@
 		.no-break {
 			word-wrap: normal;
 		}
+
 	}
 
 	a {
@@ -1308,7 +1309,12 @@
 			border: none;
 			padding: 42px 0 0;
 			margin: 0;
+			position: fixed;
+			width: 100%;
+			top: 0;
+			z-index: 99;
 			min-height: 135px;
+			@include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 
 			.container {
 
@@ -1345,6 +1351,22 @@
 
 		.container {
 			position: relative;
+
+			&.homepage-container {
+				margin-top: 141px;
+
+				@media only screen and (max-width: $screen-md-min) {
+					margin-top: 174px;
+				}
+
+				@media only screen and (max-width: $screen-sm-min) {
+					margin-top: 198px;
+				}
+
+				@media only screen and (max-width: $screen-xs-min) {
+					margin-top: 228px;
+				}
+			}
 		}
 
 		.me-page-headline {
@@ -3752,3 +3774,9 @@
 
 }
 
+.content:before,
+.right.side:after {
+	content: '';
+	display: block;
+	clear: both;
+}

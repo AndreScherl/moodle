@@ -49,4 +49,14 @@ if ($ADMIN->fulltree) {
     $default = new moodle_url('/login/logout.php', array('sesskey' => sesskey(), 'alt' => 'logout'));
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
     $settings->add($setting);
+
+
+    // Footer Links
+    $name = 'theme_mebis/footer_links';
+    $title = get_string('footer-links', 'theme_mebis');
+    $description = get_string('footer-links-descr', 'theme_mebis');
+    $default = 'Titel|URL';
+    $setting = new admin_setting_configtextarea($name, $title, $description, $default);
+    $settings->add($setting);
+
 }

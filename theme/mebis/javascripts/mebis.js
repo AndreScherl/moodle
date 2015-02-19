@@ -516,6 +516,26 @@ var Mebis = (function($) {
 		$(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
 	}
 
+	function handleSelectboxNavChange()
+	{
+		var $selectbox = $('[data-change]');
+
+		$selectbox.on('click', function() {
+			$(this).addClass('open');
+		});
+	}
+
+	function initStickyHeader()
+	{
+		$win.on('scroll', function() {
+			if ($(this).scrollTop() > 50) {
+				$('body').addClass('sticky-header');
+			} else {
+				$('body').removeClass('sticky-header');
+			}
+		});
+	}
+
 	return {
 		init: function() {
 			initToTop();
@@ -536,6 +556,8 @@ var Mebis = (function($) {
 			initAnchorLinks();
 			initAnchorScrolling();
 			setAnchorClass();
+			handleSelectboxNavChange();
+			initStickyHeader();
 		},
 		resize: function() {
 			initBlockLinkResize();

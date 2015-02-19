@@ -39,6 +39,10 @@ div[role="main"] > h2 {
 					width: 60px;
 					height: 100%;
 					position: relative;
+                                        
+                                        &.dropdown {
+                                            background: #ccc;
+                                        }
 
 					> a {
 						font-size: 1.5em;
@@ -224,6 +228,10 @@ div[role="main"] > h2 {
 			margin-top: 20px;
 
 			ul.nav {
+                                
+                                > li {
+                                    width: 16%;
+                                }
 
 				li.dropdown {
 					position: static;

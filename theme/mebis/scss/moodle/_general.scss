@@ -63,6 +63,79 @@ div.block,
     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 }
 
+.block-region .col-md-4 {
+    min-height: 150px;
+}
+
+
+.moodle-actionmenu {
+    width: 100%;
+
+    .toggle-display {
+        display: block;
+    }
+
+    .menu {
+        position: absolute;
+        left: auto!important;
+        display: none;
+
+        .iconsmall {
+            margin: 0;
+        }
+
+        .menu-action-text {
+            display: block;
+            font-size: 12px;
+            display: inline-block;
+        }
+    }
+
+}
+
+.block-transparent .block {
+    background: transparent;
+    border: 0;
+
+    .header {
+        padding: 0;
+        position: relative;
+
+        .moodle-actionmenu {
+            position: absolute;
+            right: 0;
+            top: 10px;
+        }
+    }
+
+    h1, label {
+        color: $white;
+    }
+}
+
+.block_mbsmycourses {
+
+    .content {
+        padding: 4px 0;
+        margin: 0;
+
+        h1 {
+            color: $white;
+        }
+    }
+
+    .singleselect {
+        margin-bottom: 20px;
+
+        select {
+            display: inline-block;
+            width: auto;
+            margin-bottom: 0;
+        }
+    }
+
+}
+
 #block-region-side-pre {
 
     .block {

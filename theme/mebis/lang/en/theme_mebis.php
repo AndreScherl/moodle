@@ -33,6 +33,9 @@ $string['url-login-descr'] = 'Login Url';
 $string['url-logout'] = 'Logout Url';
 $string['url-logout-descr'] = 'Logout Url';
 
+$string['footer-links'] = 'Footer Links';
+$string['footer-links-descr'] = 'Links in page-footer';
+
 $string['help-note-remove-permanent'] = 'dauerhaft entfernen';
 $string['help-note-close'] = 'schließen';
 $string['help-note-welcome'] = 'Herzlich willkommen%s!';
@@ -72,8 +75,12 @@ $string['advancedsearch'] = 'Advanced Search';
 
 $string['course-apps'] = 'Kurs-Apps';
 
+// My Desktop
+$string['my-courses'] = 'Meine Kurse';
+$string['my-apps'] = 'Meine Apps';
+$string['my-schools'] = 'Meine Schulen';
+
 // mbs_my_courses
-$string['my-courses'] = 'My Courses';
 $string['alwaysshowall'] = 'Always show all';
 $string['numtodisplay'] = 'Number of courses to display: ';
 $string['load_more_results'] = 'Load more results...';
@@ -83,3 +90,7 @@ $string['hiddencoursecountwithshowall'] = 'You have {$a->coursecount} hidden cou
 $string['hiddencoursecountwithshowallplural'] = 'You have {$a->coursecount} hidden courses ({$a->showalllink})';
 $string['switch_list'] = 'Listview';
 $string['switch_grid'] = 'Gridview';
+
+$string['toggle-navigation'] = 'Toggle navigation';
+
+$string['load-more-results'] = 'Load more results...';

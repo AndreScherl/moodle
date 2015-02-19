@@ -1,27 +1,27 @@
 <?php
 
 /**
- * mbs_my_courses block rendrer
+ * mbsmycourses block rendrer
  *
  * @package theme_mebis
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/blocks/mbs_my_courses/renderer.php');
+require_once($CFG->dirroot . '/blocks/mbsmycourses/renderer.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 
-class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_renderer {
+class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_renderer {
 
     /**
-     * Construct contents of mbs_my_courses block
+     * Construct contents of mbsmycourses block
      *
      * @param array $courses list of courses in sorted order
      * @param array $overviews list of course overviews
-     * @return string html to be displayed in mbs_my_courses block
+     * @return string html to be displayed in mbsmycourses block
      */
-    public function mbs_my_courses($courses, $overviews) {
+    public function mbsmycourses($courses, $overviews) {
         $html = '';
-        $config = get_config('block_mbs_my_courses');
+        $config = get_config('block_mbsmycourses');
         $ismovingcourse = false;
         $courseordernumber = 0;
         $maxcourses = count($courses);
@@ -30,7 +30,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         // Intialise string/icon etc if user is editing and courses > 1
         if ($this->page->user_is_editing() && (count($courses) > 1)) {
             $userediting = true;
-            $this->page->requires->js_init_call('M.block_mbs_my_courses.add_handles');
+            $this->page->requires->js_init_call('M.block_mbsmycourses.add_handles');
 
             // Check if course is moving
             $ismovingcourse = optional_param('movecourse', FALSE, PARAM_BOOL);
@@ -47,15 +47,15 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $a = new stdClass();
             $a->fullname = $courses[$movingcourseid]->fullname;
             $a->cancellink = html_writer::link($this->page->url, get_string('cancel'));
-            $html .= get_string('movingcourse', 'block_mbs_my_courses', $a);
+            $html .= get_string('movingcourse', 'block_mbsmycourses', $a);
             $html .= $this->output->box_end();
 
-            $moveurl = new moodle_url('/blocks/mbs_my_courses/move.php',
+            $moveurl = new moodle_url('/blocks/mbsmycourses/move.php',
                         array('sesskey' => sesskey(), 'moveto' => 0, 'courseid' => $movingcourseid));
             // Create move icon, so it can be used.
             $movetofirsticon = html_writer::empty_tag('img',
                     array('src' => $this->output->pix_url('movehere'),
-                        'alt' => get_string('movetofirst', 'block_mbs_my_courses', $courses[$movingcourseid]->fullname),
+                        'alt' => get_string('movetofirst', 'block_mbsmycourses', $courses[$movingcourseid]->fullname),
                         'title' => get_string('movehere')));
             $moveurl = html_writer::link($moveurl, $movetofirsticon);
             $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
@@ -75,7 +75,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             if ($userediting && !$ismovingcourse) {
                 $moveicon = html_writer::empty_tag('img',
                         array('src' => $this->pix_url('t/move')->out(false),
-                            'alt' => get_string('movecourse', 'block_mbs_my_courses', $course->fullname),
+                            'alt' => get_string('movecourse', 'block_mbsmycourses', $course->fullname),
                             'title' => get_string('move')));
                 $moveurl = new moodle_url($this->page->url, array('sesskey' => sesskey(), 'movecourse' => 1, 'courseid' => $course->id));
                 $moveurl = html_writer::link($moveurl, $moveicon);
@@ -132,7 +132,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
 
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
-                if ($children = mbs_my_courses::get_child_shortnames($course->id)) {
+                if ($children = mbsmycourses::get_child_shortnames($course->id)) {
                     $html .= html_writer::tag('span', $children, array('class' => 'coursechildren'));
                 }
             }
@@ -144,14 +144,14 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
 
             $courseordernumber++;
             if ($ismovingcourse) {
-                $moveurl = new moodle_url('/blocks/mbs_my_courses/move.php',
+                $moveurl = new moodle_url('/blocks/mbsmycourses/move.php',
                             array('sesskey' => sesskey(), 'moveto' => $courseordernumber, 'courseid' => $movingcourseid));
                 $a = new stdClass();
                 $a->movingcoursename = $courses[$movingcourseid]->fullname;
                 $a->currentcoursename = $course->fullname;
                 $movehereicon = html_writer::empty_tag('img',
                         array('src' => $this->output->pix_url('movehere'),
-                            'alt' => get_string('moveafterhere', 'block_mbs_my_courses', $a),
+                            'alt' => get_string('moveafterhere', 'block_mbsmycourses', $a),
                             'title' => get_string('movehere')));
                 $moveurl = html_writer::link($moveurl, $movehereicon);
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
@@ -184,7 +184,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
             $options[$i] = $i;
         }
         $url = new moodle_url('/my/index.php');
-        $select = new single_select($url, 'mynumber', $options, mbs_my_courses::get_max_user_courses(), array());
+        $select = new single_select($url, 'mynumber', $options, mbsmycourses::get_max_user_courses(), array());
         $select->set_label(get_string('numtodisplay', 'theme_mebis'), array("class" => "coursenumber-label"));
         $output .= $this->output->render($select);
         $output .= html_writer::end_div();
@@ -202,7 +202,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         require_once($CFG->libdir."/formslib.php");
 
         $schools = [];
-        foreach (mbs_my_courses::schools_of_user() as $key => $value) {
+        foreach (mbsmycourses::schools_of_user() as $key => $value) {
             $schools[$value->id] = $value->name;
         }
 
@@ -213,7 +213,7 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         $output .= html_writer::start_tag('div', array('class' => 'course-sorting'));
 
         // form [begin]
-        $output .= html_writer::start_tag('form',  array("id" => "filter_form", "action" => new moodle_url("blocks/mbs_my_courses/block_mbs_my_courses.php"), "method" => "get", 'class' => 'row form-horizontal'));
+        $output .= html_writer::start_tag('form',  array("id" => "filter_form", "action" => new moodle_url("blocks/mbsmycourses/block_mbsmycourses.php"), "method" => "get", 'class' => 'row form-horizontal'));
 
         $output .= html_writer::start_tag('div', array('class'=>'col-md-7'));
         $output .= html_writer::select($schools, "filter_school", $selected = "0", false, array('class' => 'form-control'));
@@ -257,14 +257,14 @@ class theme_mebis_block_mbs_my_courses_renderer extends block_mbs_my_courses_ren
         }
         $output = $this->output->box_start('notice margin-bottom-small');
         $plural = $total > 1 ? 'plural' : '';
-        $config = get_config('block_mbs_my_courses');
+        $config = get_config('block_mbsmycourses');
         // Show view all course link to user if forcedefaultmaxcourses is not empty.
         if (!empty($config->forcedefaultmaxcourses)) {
             $output .= get_string('hiddencoursecount'.$plural, 'theme_mebis', $total);
         } else {
             $a = new stdClass();
             $a->coursecount = $total;
-            $a->showalllink = html_writer::link(new moodle_url('/my/index.php', array('mynumber' => block_mbs_my_courses::SHOW_ALL_COURSES)),
+            $a->showalllink = html_writer::link(new moodle_url('/my/index.php', array('mynumber' => block_mbsmycourses::SHOW_ALL_COURSES)),
                     get_string('showallcourses'));
             $output .= get_string('hiddencoursecountwithshowall'.$plural, 'theme_mebis', $a);
         }

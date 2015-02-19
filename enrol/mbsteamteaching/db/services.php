@@ -15,15 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines message providers for self enrolments (ALP).
+ * mbsteamteaching enrol plugin external functions and service definitions.
  *
- * @package    enrol_selfalp
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_mbsteamteaching
+ * @copyright 2015 Andre Scherl <andre.scherl@isb.bayern.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @since     Moodle 2.6
  */
 
-$messageproviders = array (
-
-    'expiry_notification' => array(),
-
+$functions = array(
+    'enrol_mbsteamteaching_get_instance_info' => array(
+        'classname'   => 'enrol_mbsteamteaching_external',
+        'methodname'  => 'get_instance_info',
+        'classpath'   => 'enrol/mbsteamteaching/externallib.php',
+        'description' => 'mbsteamteaching enrolment instance information.',
+        'type'        => 'read'
+    )
 );

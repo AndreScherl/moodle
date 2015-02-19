@@ -15,19 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrolment (ALP) plugin.
+ * mbsteamteaching enrolment plugin.
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda  {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Self enrolment plugin implementation.
- * @author Petr Skoda
+ * mbsteamteaching enrolment plugin implementation.
+ * @author Andre Scherl
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol_selfalp_plugin extends enrol_plugin {
+class enrol_mbsteamteaching_plugin extends enrol_plugin {
 
     protected $lasternoller = null;
     protected $lasternollerinstanceid = 0;
@@ -48,6 +48,13 @@ class enrol_selfalp_plugin extends enrol_plugin {
         $key = false;
         $nokey = false;
         foreach ($instances as $instance) {
+            if ($this->can_mbsteamteaching_enrol($instance, false) !== true) {
+                // User can not enrol himmbsteamteaching.
+                // Note that we do not check here if user is already enrolled for performance reasons -
+                // such check would execute extra queries for each course in the list of courses and
+                // would hide mbsteamteaching-enrolment icons from guests.
+                continue;
+            }
             if ($instance->password or $instance->customint1) {
                 $key = true;
             } else {
@@ -56,10 +63,10 @@ class enrol_selfalp_plugin extends enrol_plugin {
         }
         $icons = array();
         if ($nokey) {
-            $icons[] = new pix_icon('withoutkey', get_string('pluginname', 'enrol_selfalp'), 'enrol_selfalp');
+            $icons[] = new pix_icon('withoutkey', get_string('pluginname', 'enrol_mbsteamteaching'), 'enrol_mbsteamteaching');
         }
         if ($key) {
-            $icons[] = new pix_icon('withkey', get_string('pluginname', 'enrol_selfalp'), 'enrol_selfalp');
+            $icons[] = new pix_icon('withkey', get_string('pluginname', 'enrol_mbsteamteaching'), 'enrol_mbsteamteaching');
         }
         return $icons;
     }
@@ -102,15 +109,11 @@ class enrol_selfalp_plugin extends enrol_plugin {
     }
 
     public function show_enrolme_link(stdClass $instance) {
-        global $CFG, $USER;
 
-        if ($instance->status != ENROL_INSTANCE_ENABLED) {
+        if (true !== $this->can_mbsteamteaching_enrol($instance, false)) {
             return false;
         }
-        if ($instance->customint5) {
-            require_once("$CFG->dirroot/cohort/lib.php");
-            return cohort_is_member($instance->customint5, $USER->id);
-        }
+
         return true;
     }
 
@@ -122,13 +125,13 @@ class enrol_selfalp_plugin extends enrol_plugin {
      * @return void
      */
     public function add_course_navigation($instancesnode, stdClass $instance) {
-        if ($instance->enrol !== 'selfalp') {
+        if ($instance->enrol !== 'mbsteamteaching') {
              throw new coding_exception('Invalid enrol instance type!');
         }
 
         $context = context_course::instance($instance->courseid);
-        if (has_capability('enrol/selfalp:config', $context)) {
-            $managelink = new moodle_url('/enrol/selfalp/edit.php', array('courseid'=>$instance->courseid, 'id'=>$instance->id));
+        if (has_capability('enrol/mbsteamteaching:config', $context)) {
+            $managelink = new moodle_url('/enrol/mbsteamteaching/edit.php', array('courseid'=>$instance->courseid, 'id'=>$instance->id));
             $instancesnode->add($this->get_instance_name($instance), $managelink, navigation_node::TYPE_SETTING);
         }
     }
@@ -141,17 +144,17 @@ class enrol_selfalp_plugin extends enrol_plugin {
     public function get_action_icons(stdClass $instance) {
         global $OUTPUT;
 
-        if ($instance->enrol !== 'selfalp') {
+        if ($instance->enrol !== 'mbsteamteaching') {
             throw new coding_exception('invalid enrol instance!');
         }
         $context = context_course::instance($instance->courseid);
 
         $icons = array();
 
-        if (has_capability('enrol/selfalp:config', $context)) {
-            $editlink = new moodle_url("/enrol/selfalp/edit.php", array('courseid'=>$instance->courseid, 'id'=>$instance->id));
+        if (has_capability('enrol/mbsteamteaching:config', $context)) {
+            $editlink = new moodle_url("/enrol/mbsteamteaching/edit.php", array('courseid'=>$instance->courseid, 'id'=>$instance->id));
             $icons[] = $OUTPUT->action_icon($editlink, new pix_icon('t/edit', get_string('edit'), 'core',
-                array('class' => 'smallicon')));
+                array('class' => 'iconsmall')));
         }
 
         return $icons;
@@ -165,11 +168,56 @@ class enrol_selfalp_plugin extends enrol_plugin {
     public function get_newinstance_link($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
 
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/selfalp:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/mbsteamteaching:config', $context)) {
             return NULL;
         }
         // Multiple instances supported - different roles with different password.
-        return new moodle_url('/enrol/selfalp/edit.php', array('courseid'=>$courseid));
+        return new moodle_url('/enrol/mbsteamteaching/edit.php', array('courseid'=>$courseid));
+    }
+
+    /**
+     * mbsteamteaching enrol user to course
+     *
+     * @param stdClass $instance enrolment instance
+     * @param stdClass $data data needed for enrolment.
+     * @return bool|array true if enroled else eddor code and messege
+     */
+    public function enrol_mbsteamteaching(stdClass $instance, $data = null) {
+        global $DB, $USER, $CFG;
+
+        // Don't enrol user if password is not passed when required.
+        if ($instance->password && !isset($data->enrolpassword)) {
+            return;
+        }
+
+        $timestart = time();
+        if ($instance->enrolperiod) {
+            $timeend = $timestart + $instance->enrolperiod;
+        } else {
+            $timeend = 0;
+        }
+
+        $this->enrol_user($instance, $USER->id, $instance->roleid, $timestart, $timeend);
+
+        if ($instance->password and $instance->customint1 and $data->enrolpassword !== $instance->password) {
+            // It must be a group enrolment, let's assign group too.
+            $groups = $DB->get_records('groups', array('courseid'=>$instance->courseid), 'id', 'id, enrolmentkey');
+            foreach ($groups as $group) {
+                if (empty($group->enrolmentkey)) {
+                    continue;
+                }
+                if ($group->enrolmentkey === $data->enrolpassword) {
+                    // Add user to group.
+                    require_once($CFG->dirroot.'/group/lib.php');
+                    groups_add_member($group->id, $USER->id);
+                    break;
+                }
+            }
+        }
+        // Send welcome message.
+        if ($instance->customint4) {
+            $this->email_welcome_message($instance, $USER);
+        }
     }
 
     /**
@@ -180,85 +228,124 @@ class enrol_selfalp_plugin extends enrol_plugin {
      * @return string html text, usually a form in a text box
      */
     public function enrol_page_hook(stdClass $instance) {
-        global $CFG, $OUTPUT, $SESSION, $USER, $DB;
+        global $CFG, $OUTPUT, $USER;
 
-        if (isguestuser()) {
-            // Can not enrol guest!!
-            return null;
+        require_once("$CFG->dirroot/enrol/mbsteamteaching/locallib.php");
+
+        $enrolstatus = $this->can_mbsteamteaching_enrol($instance);
+
+        // Don't show enrolment instance form, if user can't enrol using it.
+        if (true === $enrolstatus) {
+            $form = new enrol_mbsteamteaching_enrol_form(NULL, $instance);
+            $instanceid = optional_param('instance', 0, PARAM_INT);
+            if ($instance->id == $instanceid) {
+                if ($data = $form->get_data()) {
+                    $this->enrol_mbsteamteaching($instance, $data);
+                }
+            }
+
+            ob_start();
+            $form->display();
+            $output = ob_get_clean();
+            return $OUTPUT->box($output);
+        } else {
+            return $OUTPUT->box($enrolstatus);
         }
-        if ($DB->record_exists('user_enrolments', array('userid'=>$USER->id, 'enrolid'=>$instance->id))) {
-            //TODO: maybe we should tell them they are already enrolled, but can not access the course
-            return null;
+    }
+
+    /**
+     * Checks if user can mbsteamteaching enrol.
+     *
+     * @param stdClass $instance enrolment instance
+     * @param bool $checkuserenrolment if true will check if user enrolment is inactive.
+     *             used by navigation to improve performance.
+     * @return bool|string true if successful, else error message or false.
+     */
+    public function can_mbsteamteaching_enrol(stdClass $instance, $checkuserenrolment = true) {
+        global $DB, $USER, $CFG;
+
+        if ($checkuserenrolment) {
+            if (isguestuser()) {
+                // Can not enrol guest.
+                return get_string('noguestaccess', 'enrol');
+            }
+            // Check if user is already enroled.
+            if ($DB->get_record('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
+                return get_string('canntenrol', 'enrol_mbsteamteaching');
+            }
+        }
+
+        if ($instance->status != ENROL_INSTANCE_ENABLED) {
+            return get_string('canntenrol', 'enrol_mbsteamteaching');
         }
 
         if ($instance->enrolstartdate != 0 and $instance->enrolstartdate > time()) {
-            //TODO: inform that we can not enrol yet
-            return null;
+            return get_string('canntenrol', 'enrol_mbsteamteaching');
         }
 
         if ($instance->enrolenddate != 0 and $instance->enrolenddate < time()) {
-            //TODO: inform that enrolment is not possible any more
-            return null;
+            return get_string('canntenrol', 'enrol_mbsteamteaching');
+        }
+
+        if (!$instance->customint6) {
+            // New enrols not allowed.
+            return get_string('canntenrol', 'enrol_mbsteamteaching');
+        }
+
+        if ($DB->record_exists('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
+            return get_string('canntenrol', 'enrol_mbsteamteaching');
+        }
+
+        if ($instance->customint3 > 0) {
+            // Max enrol limit specified.
+            $count = $DB->count_records('user_enrolments', array('enrolid' => $instance->id));
+            if ($count >= $instance->customint3) {
+                // Bad luck, no more mbsteamteaching enrolments here.
+                return get_string('maxenrolledreached', 'enrol_mbsteamteaching');
+            }
         }
 
         if ($instance->customint5) {
             require_once("$CFG->dirroot/cohort/lib.php");
             if (!cohort_is_member($instance->customint5, $USER->id)) {
-                $cohort = $DB->get_record('cohort', array('id'=>$instance->customint5));
+                $cohort = $DB->get_record('cohort', array('id' => $instance->customint5));
                 if (!$cohort) {
                     return null;
                 }
-                $a = format_string($cohort->name, true, array('context'=>context::instance_by_id($cohort->contextid)));
-                return $OUTPUT->box(markdown_to_html(get_string('cohortnonmemberinfo', 'enrol_selfalp', $a)));
+                $a = format_string($cohort->name, true, array('context' => context::instance_by_id($cohort->contextid)));
+                return markdown_to_html(get_string('cohortnonmemberinfo', 'enrol_mbsteamteaching', $a));
             }
         }
 
-        require_once("$CFG->dirroot/enrol/selfalp/locallib.php");
-        require_once("$CFG->dirroot/group/lib.php");
+        return true;
+    }
 
-        $form = new enrol_selfalp_enrol_form(NULL, $instance);
-        $instanceid = optional_param('instance', 0, PARAM_INT);
+    /**
+     * Return information for enrolment instance containing list of parameters required
+     * for enrolment, name of enrolment plugin etc.
+     *
+     * @param stdClass $instance enrolment instance
+     * @return stdClass instance info.
+     */
+    public function get_enrol_info(stdClass $instance) {
 
-        if ($instance->id == $instanceid) {
-            if ($data = $form->get_data()) {
-                $enrol = enrol_get_plugin('selfalp');
-                $timestart = time();
-                if ($instance->enrolperiod) {
-                    $timeend = $timestart + $instance->enrolperiod;
-                } else {
-                    $timeend = 0;
-                }
+        $instanceinfo = new stdClass();
+        $instanceinfo->id = $instance->id;
+        $instanceinfo->courseid = $instance->courseid;
+        $instanceinfo->type = $this->get_name();
+        $instanceinfo->name = $this->get_instance_name($instance);
+        $instanceinfo->status = $this->can_mbsteamteaching_enrol($instance);
 
-                $this->enrol_user($instance, $USER->id, $instance->roleid, $timestart, $timeend);
-                add_to_log($instance->courseid, 'course', 'enrol', '../enrol/users.php?id='.$instance->courseid, $instance->courseid); //TODO: There should be userid somewhere!
-
-                if ($instance->password and $instance->customint1 and $data->enrolpassword !== $instance->password) {
-                    // It must be a group enrolment, let's assign group too.
-                    $groups = $DB->get_records('groups', array('courseid'=>$instance->courseid), 'id', 'id, enrolmentkey');
-                    foreach ($groups as $group) {
-                        if (empty($group->enrolmentkey)) {
-                            continue;
-                        }
-                        if ($group->enrolmentkey === $data->enrolpassword) {
-                    // Add user to group.
-                    require_once($CFG->dirroot.'/group/lib.php');
-                            groups_add_member($group->id, $USER->id);
-                            break;
-                        }
-                    }
-                }
-                // Send welcome message.
-                if ($instance->customint4) {
-                    $this->email_welcome_message($instance, $USER);
-                }
-            }
+        if ($instance->password) {
+            $instanceinfo->requiredparam = new stdClass();
+            $instanceinfo->requiredparam->enrolpassword = get_string('password', 'enrol_mbsteamteaching');
         }
 
-        ob_start();
-        $form->display();
-        $output = ob_get_clean();
-
-        return $OUTPUT->box($output);
+        // If enrolment is possible and password is required then return ws function name to get more information.
+        if ((true === $instanceinfo->status) && $instance->password) {
+            $instanceinfo->wsfunction = 'enrol_mbsteamteaching_get_instance_info';
+        }
+        return $instanceinfo;
     }
 
     /**
@@ -301,6 +388,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
         $fields['customint3']      = $this->get_config('maxenrolled');
         $fields['customint4']      = $this->get_config('sendcoursewelcomemessage');
         $fields['customint5']      = 0;
+        $fields['customint6']      = $this->get_config('newenrols');
 
         return $fields;
     }
@@ -336,11 +424,11 @@ class enrol_selfalp_plugin extends enrol_plugin {
                 $messagetext = html_to_text($messagehtml);
             }
         } else {
-            $messagetext = get_string('welcometocoursetext', 'enrol_selfalp', $a);
+            $messagetext = get_string('welcometocoursetext', 'enrol_mbsteamteaching', $a);
             $messagehtml = text_to_html($messagetext, null, false, true);
         }
 
-        $subject = get_string('welcometocourse', 'enrol_selfalp', format_string($course->fullname, true, array('context'=>$context)));
+        $subject = get_string('welcometocourse', 'enrol_mbsteamteaching', format_string($course->fullname, true, array('context'=>$context)));
 
         $rusers = array();
         if (!empty($CFG->coursecontact)) {
@@ -359,7 +447,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
     }
 
     /**
-     * Enrol selfalp cron support.
+     * Enrol mbsteamteaching cron support.
      * @return void
      */
     public function cron() {
@@ -378,7 +466,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
     public function sync(progress_trace $trace, $courseid = null) {
         global $DB;
 
-        if (!enrol_is_enabled('selfalp')) {
+        if (!enrol_is_enabled('mbsteamteaching')) {
             $trace->finished();
             return 2;
         }
@@ -387,7 +475,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
         core_php_time_limit::raise();
         raise_memory_limit(MEMORY_HUGE);
 
-        $trace->output('Verifying selfalp-enrolments...');
+        $trace->output('Verifying mbsteamteaching-enrolments...');
 
         $params = array('now'=>time(), 'useractive'=>ENROL_USER_ACTIVE, 'courselevel'=>CONTEXT_COURSE);
         $coursesql = "";
@@ -396,13 +484,13 @@ class enrol_selfalp_plugin extends enrol_plugin {
             $params['courseid'] = $courseid;
         }
 
-        // Note: the logic of self enrolment guarantees that user logged in at least once (=== u.lastaccess set)
+        // Note: the logic of mbsteamteaching enrolment guarantees that user logged in at least once (=== u.lastaccess set)
         //       and that user accessed course at least once too (=== user_lastaccess record exists).
 
         // First deal with users that did not log in for a really long time - they do not have user_lastaccess records.
         $sql = "SELECT e.*, ue.userid
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'selfalp' AND e.customint2 > 0)
+                  JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'mbsteamteaching' AND e.customint2 > 0)
                   JOIN {user} u ON u.id = ue.userid
                  WHERE :now - u.lastaccess > e.customint2
                        $coursesql";
@@ -411,15 +499,15 @@ class enrol_selfalp_plugin extends enrol_plugin {
             $userid = $instance->userid;
             unset($instance->userid);
             $this->unenrol_user($instance, $userid);
-                $days = $instance->customint2 / 60*60*24;
-                $trace->output("  unenrolling user $userid from course $instance->courseid as they have did not log in for at least $days days");
+            $days = $instance->customint2 / 60*60*24;
+            $trace->output("unenrolling user $userid from course $instance->courseid as they have did not log in for at least $days days", 1);
         }
         $rs->close();
 
         // Now unenrol from course user did not visit for a long time.
         $sql = "SELECT e.*, ue.userid
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'selfalp' AND e.customint2 > 0)
+                  JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'mbsteamteaching' AND e.customint2 > 0)
                   JOIN {user_lastaccess} ul ON (ul.userid = ue.userid AND ul.courseid = e.courseid)
                  WHERE :now - ul.timeaccess > e.customint2
                        $coursesql";
@@ -428,78 +516,24 @@ class enrol_selfalp_plugin extends enrol_plugin {
             $userid = $instance->userid;
             unset($instance->userid);
             $this->unenrol_user($instance, $userid);
-            $days = $instance->customint2 / 60*60*24;
-            $trace->output("  unenrolling user $userid from course $instance->courseid as they have did not access course for at least $days days");
+                $days = $instance->customint2 / 60*60*24;
+            $trace->output("unenrolling user $userid from course $instance->courseid as they have did not access course for at least $days days", 1);
         }
         $rs->close();
 
-        // Deal with expired accounts.
-        $action = $this->get_config('expiredaction', ENROL_EXT_REMOVED_KEEP);
-
-        if ($action == ENROL_EXT_REMOVED_UNENROL) {
-            $instances = array();
-            $sql = "SELECT ue.*, e.courseid, c.id AS contextid
-                      FROM {user_enrolments} ue
-                      JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'selfalp')
-                      JOIN {context} c ON (c.instanceid = e.courseid AND c.contextlevel = :courselevel)
-                     WHERE ue.timeend > 0 AND ue.timeend < :now
-                           $coursesql";
-            $rs = $DB->get_recordset_sql($sql, $params);
-            foreach ($rs as $ue) {
-                if (empty($instances[$ue->enrolid])) {
-                    $instances[$ue->enrolid] = $DB->get_record('enrol', array('id'=>$ue->enrolid));
-                }
-                $instance = $instances[$ue->enrolid];
-                if ($instance->roleid) {
-                    role_unassign($instance->roleid, $ue->userid, $ue->contextid, '', 0);
-                }
-                $this->unenrol_user($instance, $ue->userid);
-                $trace->output("  unenrolling expired user $ue->userid from course $instance->courseid");
-            }
-            $rs->close();
-            unset($instances);
-
-        } else if ($action == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
-            $instances = array();
-            $sql = "SELECT ue.*, e.courseid, c.id AS contextid
-                      FROM {user_enrolments} ue
-                      JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'selfalp')
-                      JOIN {context} c ON (c.instanceid = e.courseid AND c.contextlevel = :courselevel)
-                     WHERE ue.timeend > 0 AND ue.timeend < :now
-                           AND ue.status = :useractive
-                           $coursesql";
-            $rs = $DB->get_recordset_sql($sql, $params);
-            foreach ($rs as $ue) {
-                if (empty($instances[$ue->enrolid])) {
-                    $instances[$ue->enrolid] = $DB->get_record('enrol', array('id'=>$ue->enrolid));
-                }
-                $instance = $instances[$ue->enrolid];
-                if (1 == $DB->count_records('role_assignments', array('userid'=>$ue->userid, 'contextid'=>$ue->contextid))) {
-                    role_unassign_all(array('userid'=>$ue->userid, 'contextid'=>$ue->contextid, 'component'=>'', 'itemid'=>0), true);
-                } else if ($instance->roleid) {
-                    role_unassign($instance->roleid, $ue->userid, $ue->contextid, '', 0);
-                }
-                $this->update_user_enrol($instance, $ue->userid, ENROL_USER_SUSPENDED);
-                $trace->output("  suspending expired user $ue->userid in course $instance->courseid");
-            }
-            $rs->close();
-            unset($instances);
-
-        } else {
-            // ENROL_EXT_REMOVED_KEEP means no changes.
-        }
-
-        $trace->output('...user selfalp-enrolment updates finished.');
+        $trace->output('...user mbsteamteaching-enrolment updates finished.');
         $trace->finished();
+
+        $this->process_expirations($trace, $courseid);
 
         return 0;
     }
 
     /**
-     * Returns the user who is responsible for selfalp enrolments in given instance.
+     * Returns the user who is responsible for mbsteamteaching enrolments in given instance.
      *
      * Usually it is the first editing teacher - the person with "highest authority"
-     * as defined by sort_by_roleassignment_authority() having 'enrol/selfalp:manage'
+     * as defined by sort_by_roleassignment_authority() having 'enrol/mbsteamteaching:manage'
      * capability.
      *
      * @param int $instanceid enrolment instance id
@@ -515,7 +549,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
         $instance = $DB->get_record('enrol', array('id'=>$instanceid, 'enrol'=>$this->get_name()), '*', MUST_EXIST);
         $context = context_course::instance($instance->courseid);
 
-        if ($users = get_enrolled_users($context, 'enrol/selfalp:manage')) {
+        if ($users = get_enrolled_users($context, 'enrol/mbsteamteaching:manage')) {
             $users = sort_by_roleassignment_authority($users, $context);
             $this->lasternoller = reset($users);
             unset($users);
@@ -541,12 +575,12 @@ class enrol_selfalp_plugin extends enrol_plugin {
         $instance = $ue->enrolmentinstance;
         $params = $manager->get_moodlepage()->url->params();
         $params['ue'] = $ue->id;
-        if ($this->allow_unenrol($instance) && has_capability("enrol/selfalp:unenrol", $context)) {
+        if ($this->allow_unenrol($instance) && has_capability("enrol/mbsteamteaching:unenrol", $context)) {
             $url = new moodle_url('/enrol/unenroluser.php', $params);
             $actions[] = new user_enrolment_action(new pix_icon('t/delete', ''), get_string('unenrol', 'enrol'), $url, array('class'=>'unenrollink', 'rel'=>$ue->id));
         }
-        if ($this->allow_manage($instance) && has_capability("enrol/selfalp:manage", $context)) {
-            $url = new moodle_url('/enrol/selfalp/editenrolment.php', $params);
+        if ($this->allow_manage($instance) && has_capability("enrol/mbsteamteaching:manage", $context)) {
+            $url = new moodle_url('/enrol/editenrolment.php', $params);
             $actions[] = new user_enrolment_action(new pix_icon('t/edit', ''), get_string('edit'), $url, array('class'=>'editenrollink', 'rel'=>$ue->id));
         }
         return $actions;
@@ -579,7 +613,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
                 if ($step->get_task()->is_samesite()) {
                     // Keep cohort restriction unchanged - we are on the same site.
                 } else {
-                    // Use some id that can not exist in order to prevent selfalp enrolment,
+                    // Use some id that can not exist in order to prevent mbsteamteaching enrolment,
                     // because we do not know what cohort it is in this site.
                     $data->customint5 = -1;
                 }
@@ -612,7 +646,7 @@ class enrol_selfalp_plugin extends enrol_plugin {
      */
     public function restore_role_assignment($instance, $roleid, $userid, $contextid) {
         // This is necessary only because we may migrate other types to this instance,
-        // we do not use component in manual or selfalp enrol.
+        // we do not use component in manual or mbsteamteaching enrol.
         role_assign($roleid, $userid, $contextid, '', 0);
     }
 }

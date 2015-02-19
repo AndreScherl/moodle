@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol (ALP) plugin installation script
+ * mbsteamteaching enrol plugin installation script
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_enrol_selfalp_install() {
+function xmldb_enrol_mbsteamteaching_install() {
     global $CFG, $DB;
 
 }

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol plugin implementation.
+ * mbsteamteaching enrol plugin implementation.
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda  {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,12 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/formslib.php");
 
-class enrol_selfalp_enrol_form extends moodleform {
+class enrol_mbsteamteaching_enrol_form extends moodleform {
     protected $instance;
     protected $toomany = false;
 
     /**
-     * Overriding this function to get unique form id for multiple selfalp enrolments.
+     * Overriding this function to get unique form id for multiple mbsteamteaching enrolments.
      *
      * @return string form identifier
      */
@@ -41,41 +41,23 @@ class enrol_selfalp_enrol_form extends moodleform {
     }
 
     public function definition() {
-        global $DB;
-
         $mform = $this->_form;
         $instance = $this->_customdata;
         $this->instance = $instance;
-        $plugin = enrol_get_plugin('selfalp');
+        $plugin = enrol_get_plugin('mbsteamteaching');
 
         $heading = $plugin->get_instance_name($instance);
-        $mform->addElement('header', 'selfalpheader', $heading);
-
-        if ($instance->customint3 > 0) {
-            // Max enrol limit specified.
-            $count = $DB->count_records('user_enrolments', array('enrolid'=>$instance->id));
-            if ($count >= $instance->customint3) {
-                // Bad luck, no more selfalp enrolments here.
-                $this->toomany = true;
-                $mform->addElement('static', 'notice', '', get_string('maxenrolledreached', 'enrol_selfalp'));
-                return;
-            }
-        }
+        $mform->addElement('header', 'mbsteamteachingheader', $heading);
 
         if ($instance->password) {
-            // Change the id of selfalp enrolment key input as there can be multiple selfalp enrolment methods.
-            $mform->addElement('passwordunmask', 'enrolpassword', get_string('password', 'enrol_selfalp'),
+            // Change the id of mbsteamteaching enrolment key input as there can be multiple mbsteamteaching enrolment methods.
+            $mform->addElement('passwordunmask', 'enrolpassword', get_string('password', 'enrol_mbsteamteaching'),
                     array('id' => 'enrolpassword_'.$instance->id));
-
-            if ($instance->customint6) {
-                $mform->addElement('static', 'passworddisplay', get_string('currentpassword', 'enrol_selfalp'),
-                                   $instance->password);
-            }
         } else {
-            $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_selfalp'));
+            $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_mbsteamteaching'));
         }
 
-        $this->add_action_buttons(false, get_string('enrolme', 'enrol_selfalp'));
+        $this->add_action_buttons(false, get_string('enrolme', 'enrol_mbsteamteaching'));
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
@@ -113,16 +95,16 @@ class enrol_selfalp_enrol_form extends moodleform {
                     }
                     if (!$found) {
                         // We can not hint because there are probably multiple passwords.
-                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_selfalp');
+                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_mbsteamteaching');
                     }
 
                 } else {
-                    $plugin = enrol_get_plugin('selfalp');
+                    $plugin = enrol_get_plugin('mbsteamteaching');
                     if ($plugin->get_config('showhint')) {
                         $hint = core_text::substr($instance->password, 0, 1);
-                        $errors['enrolpassword'] = get_string('passwordinvalidhint', 'enrol_selfalp', $hint);
+                        $errors['enrolpassword'] = get_string('passwordinvalidhint', 'enrol_mbsteamteaching', $hint);
                     } else {
-                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_selfalp');
+                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_mbsteamteaching');
                     }
                 }
             }

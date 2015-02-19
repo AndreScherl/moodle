@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CLI update for self enrolments (ALP), use for debugging or immediate update
+ * CLI update for mbsteamteaching enrolments, use for debugging or immediate update
  * of all courses.
  *
  * Notes:
@@ -23,15 +23,15 @@
  *   - you need to change the "www-data" to match the apache user account
  *   - use "su" if "sudo" not available
  *
- * @package    enrol_selfalp
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define('CLI_SCRIPT', true);
 
-require(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-require_once($CFG->libdir.'/clilib.php');
+require(__DIR__.'/../../../config.php');
+require_once("$CFG->libdir/clilib.php");
 
 // Now get cli options.
 list($options, $unrecognized) = cli_get_params(array('verbose'=>false, 'help'=>false), array('v'=>'verbose', 'h'=>'help'));
@@ -43,22 +43,22 @@ if ($unrecognized) {
 
 if ($options['help']) {
     $help =
-        "Execute selfalp course enrol updates.
+        "Execute mbsteamteaching course enrol updates.
 
 Options:
 -v, --verbose         Print verbose progress information
 -h, --help            Print out this help
 
 Example:
-\$sudo -u www-data /usr/bin/php enrol/selfalp/cli/sync.php
+\$ sudo -u www-data /usr/bin/php enrol/mbsteamteaching/cli/sync.php
 ";
 
     echo $help;
     die;
 }
 
-if (!enrol_is_enabled('selfalp')) {
-    cli_error('enrol_selfalp plugin is disabled, synchronisation stopped', 2);
+if (!enrol_is_enabled('mbsteamteaching')) {
+    cli_error('enrol_mbsteamteaching plugin is disabled, synchronisation stopped', 2);
 }
 
 if (empty($options['verbose'])) {
@@ -67,8 +67,8 @@ if (empty($options['verbose'])) {
     $trace = new text_progress_trace();
 }
 
-/** @var $plugin enrol_selfalp_plugin */
-$plugin = enrol_get_plugin('selfalp');
+/** @var $plugin enrol_mbsteamteaching_plugin */
+$plugin = enrol_get_plugin('mbsteamteaching');
 
 $result = $plugin->sync($trace, null);
 $plugin->send_expiry_notifications($trace);

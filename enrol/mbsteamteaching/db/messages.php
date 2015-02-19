@@ -15,16 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrolment plugin version specification.
+ * Defines message providers for mbsteamteaching enrolments.
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda  {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$messageproviders = array (
 
-$plugin->version   = 2013041600;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2012112900;        // Requires this Moodle version
-$plugin->component = 'enrol_selfalp';      // Full name of the plugin (used for diagnostics)
-$plugin->cron      = 600;
+    'expiry_notification' => array(),
+
+);

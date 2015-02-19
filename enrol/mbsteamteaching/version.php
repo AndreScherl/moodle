@@ -15,35 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the self enrolment (ALP) plugin
+ * mbsteamteaching enrolment plugin version specification.
  *
- * @package    enrol_selfalp
- * @copyright  2012 Petr Skoda {@link http://skodak.org
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_enrol_selfalp_upgrade($oldversion) {
-    global $CFG, $DB, $OUTPUT;
-
-    $dbman = $DB->get_manager();
-
-    // Moodle v2.3.0 release upgrade line
-    // Put any upgrade step following this
-
-    if ($oldversion < 2012101400) {
-        // Set default expiry threshold to 1 day.
-        $DB->execute("UPDATE {enrol} SET expirythreshold = 86400 WHERE enrol = 'selfalp' AND expirythreshold = 0");
-        upgrade_plugin_savepoint(true, 2012101400, 'enrol', 'selfalp');
-    }
-
-
-    // Moodle v2.4.0 release upgrade line
-    // Put any upgrade step following this
-
-
-    return true;
-}
-
-
+$plugin->version   = 2015021700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014050800;        // Requires this Moodle version
+$plugin->component = 'enrol_mbsteamteaching';      // Full name of the plugin (used for diagnostics)
+$plugin->cron      = 600;

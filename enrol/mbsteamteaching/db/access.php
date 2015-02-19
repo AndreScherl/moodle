@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for self enrolment (ALP) plugin.
+ * Capabilities for mbsteamteaching enrolment plugin.
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,8 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    /* Add or edit enrol-selfalp instance in course. */
-    'enrol/selfalp:config' => array(
+    /* Add or edit enrol-mbsteamteaching instance in course. */
+    'enrol/mbsteamteaching:config' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -37,8 +37,8 @@ $capabilities = array(
         )
     ),
 
-    /* Manage user selfalp-enrolments. */
-    'enrol/selfalp:manage' => array(
+    /* Manage user mbsteamteaching-enrolments. */
+    'enrol/mbsteamteaching:manage' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -48,8 +48,8 @@ $capabilities = array(
         )
     ),
 
-    /* Voluntarily unenrol selfalp from course - watch out for data loss. */
-    'enrol/selfalp:unenrolself' => array(
+    /* Voluntarily unenrol mbsteamteaching from course - watch out for data loss. */
+    'enrol/mbsteamteaching:unenrolmbsteamteaching' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -57,8 +57,8 @@ $capabilities = array(
         )
     ),
 
-    /* Unenrol anybody from course (including self) -  watch out for data loss. */
-    'enrol/selfalp:unenrol' => array(
+    /* Unenrol anybody from course (including mbsteamteaching) -  watch out for data loss. */
+    'enrol/mbsteamteaching:unenrol' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

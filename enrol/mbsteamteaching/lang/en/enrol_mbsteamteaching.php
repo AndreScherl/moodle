@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'enrol_selfalp', language 'en'.
+ * Strings for component 'enrol_mbsteamteaching', language 'en'.
  *
- * @package    enrol_selfalp
- * @copyright  2010 Petr Skoda  {@link http://skodak.org}
+ * @package    enrol_mbsteamteaching
+ * @copyright  2015 Andre Scherl <andre.scherl@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['cohortnonmemberinfo'] = 'Only members of cohort \'{$a}\' can self-enrol.';
+$string['canntenrol'] = 'Enrolment is disabled or inactive';
+$string['cohortnonmemberinfo'] = 'Only members of cohort \'{$a}\' can mbsteamteaching-enrol.';
 $string['cohortonly'] = 'Only cohort members';
-$string['cohortonly_help'] = 'Self enrolment may be restricted to members of a specified cohort only. Note that changing this setting has no effect on existing enrolments.';
-$string['currentpassword'] = 'Current enrolment key';
+$string['cohortonly_help'] = 'mbsteamteaching enrolment may be restricted to members of a specified cohort only. Note that changing this setting has no effect on existing enrolments.';
 $string['customwelcomemessage'] = 'Custom welcome message';
 $string['customwelcomemessage_help'] = 'A custom welcome message may be added as plain text or Moodle-auto format, including HTML tags and multi-lang tags.
 
@@ -34,8 +34,7 @@ The following placeholders may be included in the message:
 * Course name {$a->coursename}
 * Link to user\'s profile page {$a->profileurl}';
 $string['defaultrole'] = 'Default role assignment';
-$string['defaultrole_desc'] = 'Select role which should be assigned to users during self enrolment';
-$string['editenrolment'] = 'Edit enrolment';
+$string['defaultrole_desc'] = 'Select role which should be assigned to users during mbsteamteaching enrolment';
 $string['enrolenddate'] = 'End date';
 $string['enrolenddate_help'] = 'If enabled, users can enrol themselves until this date only.';
 $string['enrolenddaterror'] = 'Enrolment end date cannot be earlier than start date';
@@ -47,13 +46,13 @@ $string['enrolstartdate'] = 'Start date';
 $string['enrolstartdate_help'] = 'If enabled, users can enrol themselves from this date onward only.';
 $string['expiredaction'] = 'Enrolment expiration action';
 $string['expiredaction_help'] = 'Select action to carry out when user enrolment expires. Please note that some user data and settings are purged from course during course unenrolment.';
-$string['expirymessageenrollersubject'] = 'Self enrolment expiry notification';
-$string['expirymessageenrollerbody'] = 'Self enrolment in the course \'{$a->course}\' will expire within the next {$a->threshold} for the following users:
+$string['expirymessageenrollersubject'] = 'mbsteamteaching enrolment expiry notification';
+$string['expirymessageenrollerbody'] = 'mbsteamteaching enrolment in the course \'{$a->course}\' will expire within the next {$a->threshold} for the following users:
 
 {$a->users}
 
 To extend their enrolment, go to {$a->extendurl}';
-$string['expirymessageenrolledsubject'] = 'Self enrolment expiry notification';
+$string['expirymessageenrolledsubject'] = 'mbsteamteaching enrolment expiry notification';
 $string['expirymessageenrolledbody'] = 'Dear {$a->user},
 
 This is a notification that your enrolment in the course \'{$a->course}\' is due to expire on {$a->timeend}.
@@ -61,15 +60,18 @@ This is a notification that your enrolment in the course \'{$a->course}\' is due
 If you need help, please contact {$a->enroller}.';
 $string['groupkey'] = 'Use group enrolment keys';
 $string['groupkey_desc'] = 'Use group enrolment keys by default.';
-$string['groupkey_help'] = 'In addition to restricting access to the course to only those who know the key, use of a group enrolment key means users are automatically added to the group when they enrol in the course.
+$string['groupkey_help'] = 'In addition to restricting access to the course to only those who know the key, use of group enrolment keys means users are automatically added to groups when they enrol in the course.
 
-To use a group enrolment key, an enrolment key must be specified in the course settings as well as the group enrolment key in the group settings.';
+Note: An enrolment key for the course must be specified in the mbsteamteaching enrolment settings as well as group enrolment keys in the group settings.';
 $string['longtimenosee'] = 'Unenrol inactive after';
 $string['longtimenosee_help'] = 'If users haven\'t accessed a course for a long time, then they are automatically unenrolled. This parameter specifies that time limit.';
 $string['maxenrolled'] = 'Max enrolled users';
-$string['maxenrolled_help'] = 'Specifies the maximum number of users that can self enrol. 0 means no limit.';
-$string['maxenrolledreached'] = 'Maximum number of users allowed to self-enrol was already reached.';
-$string['messageprovider:expiry_notification'] = 'Self enrolment expiry notifications';
+$string['maxenrolled_help'] = 'Specifies the maximum number of users that can mbsteamteaching enrol. 0 means no limit.';
+$string['maxenrolledreached'] = 'Maximum number of users allowed to mbsteamteaching-enrol was already reached.';
+$string['messageprovider:expiry_notification'] = 'mbsteamteaching enrolment expiry notifications';
+$string['newenrols'] = 'Allow new enrolments';
+$string['newenrols_desc'] = 'Allow users to mbsteamteaching enrol into new courses by default.';
+$string['newenrols_help'] = 'This setting determines whether a user can enrol into this course.';
 $string['nopassword'] = 'No enrolment key required.';
 $string['password'] = 'Enrolment key';
 $string['password_help'] = 'An enrolment key enables access to the course to be restricted to only those who know the key.
@@ -77,28 +79,27 @@ $string['password_help'] = 'An enrolment key enables access to the course to be 
 If the field is left blank, any user may enrol in the course.
 
 If an enrolment key is specified, any user attempting to enrol in the course will be required to supply the key. Note that a user only needs to supply the enrolment key ONCE, when they enrol in the course.';
-$string['passworddisplay'] = 'Display key on enrolment';
 $string['passwordinvalid'] = 'Incorrect enrolment key, please try again';
 $string['passwordinvalidhint'] = 'That enrolment key was incorrect, please try again<br />
 (Here\'s a hint - it starts with \'{$a}\')';
-$string['pluginname'] = 'Self enrolment (ALP)';
-$string['pluginname_desc'] = 'The self enrolment (ALP) plugin allows users to choose which courses they want to participate in. The courses may be protected by an enrolment key. Internally the enrolment is done via the manual enrolment plugin which has to be enabled in the same course.';
+$string['pluginname'] = 'mebis team teaching enrolment';
+$string['pluginname_desc'] = 'The mebis team teaching enrolment plugin is a modified clone of the self enrollment plugin and allows teachers to choose which courses they want to participate in. The courses may be protected by an enrolment key. Internally the enrolment is done via the manual enrolment plugin which has to be enabled in the same course.';
 $string['requirepassword'] = 'Require enrolment key';
 $string['requirepassword_desc'] = 'Require enrolment key in new courses and prevent removing of enrolment key from existing courses.';
 $string['role'] = 'Default assigned role';
-$string['selfalp:config'] = 'Configure self enrol (ALP) instances';
-$string['selfalp:manage'] = 'Manage enrolled users';
-$string['selfalp:unenrol'] = 'Unenrol users from course';
-$string['selfalp:unenrolself'] = 'Unenrol self from the course';
+$string['mbsteamteaching:config'] = 'Configure mbsteamteaching enrol instances';
+$string['mbsteamteaching:manage'] = 'Manage enrolled users';
+$string['mbsteamteaching:unenrol'] = 'Unenrol users from course';
+$string['mbsteamteaching:unenrolmbsteamteaching'] = 'Unenrol mbsteamteaching from the course';
 $string['sendcoursewelcomemessage'] = 'Send course welcome message';
-$string['sendcoursewelcomemessage_help'] = 'If enabled, users receive a welcome message via email when they self-enrol in a course.';
+$string['sendcoursewelcomemessage_help'] = 'If enabled, users receive a welcome message via email when they mbsteamteaching-enrol in a course.';
 $string['showhint'] = 'Show hint';
 $string['showhint_desc'] = 'Show first letter of the guest access key.';
-$string['status'] = 'Allow self enrolments (ALP)';
-$string['status_desc'] = 'Allow users to self enrol into course by default.';
-$string['status_help'] = 'This setting determines whether a user can enrol (and also unenrol if they have the appropriate permission) themselves from the course.';
+$string['status'] = 'Enable existing enrolments';
+$string['status_desc'] = 'Enable mbsteamteaching enrolment method in new courses.';
+$string['status_help'] = 'If disabled all existing mbsteamteaching enrolments are suspended and new users can not enrol.';
 $string['unenrol'] = 'Unenrol user';
-$string['unenrolselfconfirm'] = 'Do you really want to unenrol yourself from course "{$a}"?';
+$string['unenrolmbsteamteachingconfirm'] = 'Do you really want to unenrol yourmbsteamteaching from course "{$a}"?';
 $string['unenroluser'] = 'Do you really want to unenrol "{$a->user}" from course "{$a->course}"?';
 $string['usepasswordpolicy'] = 'Use password policy';
 $string['usepasswordpolicy_desc'] = 'Use standard password policy for enrolment keys.';

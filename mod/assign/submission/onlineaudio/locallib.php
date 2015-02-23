@@ -207,7 +207,7 @@ class assign_submission_onlineaudio extends assign_submission_plugin {
                     $output .= '<a href="'.$delurl.'">&nbsp;'
                               .'<img title="'.$strdelete.'" src="'.$OUTPUT->pix_url('/t/delete').'" class="iconsmall" alt="" /></a> ';
                 }
-                if ($CFG->enableportfolios && has_capability('mod/assign:exportownsubmission', $this->$this->assignment->get_context())) {
+                if ($CFG->enableportfolios && has_capability('mod/assign:exportownsubmission', $this->assignment->get_context())) {
                     $button->set_callback_options('assign_portfolio_caller', array('cmid' => $this->assignment->get_course_module()->id, 'sid'=>$submissionid, 'area'=>ASSIGN_FILEAREA_SUBMISSION_ONLINEAUDIO), '/mod/assign/portfolio_callback.php');
                     $button->set_format_by_file($file);
                     $output .= $button->to_html(PORTFOLIO_ADD_ICON_LINK);
@@ -219,7 +219,7 @@ class assign_submission_onlineaudio extends assign_submission_plugin {
                 }
                 $output .= '<br />';
             }
-            if ($CFG->enableportfolios && count($files) > 1  && has_capability('mod/assign:exportownsubmission', $this->$this->assignment->get_context())) {
+            if ($CFG->enableportfolios && count($files) > 1  && has_capability('mod/assign:exportownsubmission', $this->assignment->get_context())) {
                 $button->set_callback_options('assign_portfolio_caller', array('cmid' => $this->assignment->get_course_module()->id, 'sid'=>$submissionid, 'area'=>ASSIGN_FILEAREA_SUBMISSION_ONLINEAUDIO), '/mod/assign/portfolio_callback.php');
                 $output .= '<br />'  . $button->to_html(PORTFOLIO_ADD_TEXT_LINK);
             }
@@ -276,7 +276,7 @@ class assign_submission_onlineaudio extends assign_submission_plugin {
                         <object type="application/x-shockwave-flash" data="'.$url.$flashvars.'" width="215" height="138">
                         <!--<![endif]-->
                         <div>
-                                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="//www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
                         </div>
                         <!--[if !IE]>-->
                         </object>

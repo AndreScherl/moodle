@@ -244,6 +244,13 @@ Known Issues
 
 History
 =============
+21st December 2014 Version 2.7.2
+  1. Revamped the arrows such that they are always visible.
+  2. Arrow and close image size responsive to screen size.
+  3. Changed the arrow images to FontAwesome: http://fontawesome.io/license/ and extracted with: https://icomoon.io/app/#/select.
+  4. Added change in cursor for the arrow areas.
+  5. Fix CONTRIB-5511: Navigation arrows should be hidden when only one section.
+
 14th November 2014 Version 2.7.1.5
   1.  Always show shadebox arrows on Tablets and Mobiles with the latter being half size.
 

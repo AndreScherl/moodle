@@ -4,6 +4,13 @@
     }
 }
 
-.block-regions [data-block] {
-	min-height: 215px;
-}
+/*.block-regions{
+    &.editing {
+        > div {
+            border: 1px dashed $brand-primary;
+        }
+    }
+    > div {
+        min-height: 215px;
+    }
+}*/

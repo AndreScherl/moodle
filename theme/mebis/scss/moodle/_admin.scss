@@ -112,8 +112,8 @@
 
 	            .helptooltip {
                         position: absolute;
-                        left: 210px;
-                        top: 20px;
+                        right: 50px;
+                        top: 19px;
 
 	            	a {
 						color: $white;
@@ -208,24 +208,24 @@
 	}
 
 	#course-category-listings {
-            
+
             .listitem > div .idnumber {
                 color: $brand-gray-dark !important;
             }
-            
+
             .course-count span {
                 color: $brand-gray-dark !important;
             }
-            
+
             h3 {
                 background: $brand-primary;
                 margin: 0;
                 padding: 20px;
             }
-            
+
             .listing-actions .moodle-actionmenu {
                 display: inline !important;
-                
+
                 .caret {
                     vertical-align: text-top;
                 }
@@ -298,7 +298,7 @@
         margin-left: 0px !important;
         vertical-align: top;
     }
-    
+
     select {
         margin-right: 5px !important;
     }
@@ -306,7 +306,7 @@
 
 #id_submissiontypes fieldset > span {
     margin-right: 30px !important;
-    
+
     & > input {
         vertical-align: sub;
         margin-right: 5px;

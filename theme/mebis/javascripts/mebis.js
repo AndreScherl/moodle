@@ -483,6 +483,8 @@ var Mebis = (function($) {
 
 			var anchor = $(this).attr('href');
 			var anchorTop = $(anchor).offset().top-85;
+//            var anchorOffset = isMobile() ? 380 : 300;
+//			var anchorTop = $(anchor).offset().top - anchorOffset;
 			$('body, html')
 				.velocity('stop')
 				.velocity('scroll', {duration: 800, offset: anchorTop});

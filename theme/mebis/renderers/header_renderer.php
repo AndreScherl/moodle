@@ -375,23 +375,23 @@ class theme_mebis_header_renderer extends renderer_base
             $block_menu .= html_writer::end_tag('li');
         }
 
-        // temp code, needs to be removed later on
         $menu_items = '';
         $id = optional_param('id', 1, PARAM_INT);
-        if (!$PAGE->user_is_editing()) {
-            if($PAGE->user_allowed_editing()) {
+        if($PAGE->user_allowed_editing()) {
+            if (!$PAGE->user_is_editing()) {
                 $url = clone $PAGE->url;
-                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on'));
+                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on', 'adminedit' => 1));
                 $menu_items .= html_writer::start_tag('li');
                 $menu_items .= html_writer::tag('a', get_string('menu-edit-activate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
                 $menu_items .= html_writer::end_tag('li');
+
+            } else {
+                $url = clone $PAGE->url;
+                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off', 'adminedit' => 0));
+                $menu_items .= html_writer::start_tag('li');
+                $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
+                $menu_items .= html_writer::end_tag('li');
             }
-        } else {
-            $url = clone $PAGE->url;
-            $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off'));
-            $menu_items .= html_writer::start_tag('li');
-            $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
-            $menu_items .= html_writer::end_tag('li');
         }
 
         $node = $PAGE->settingsnav->get('usercurrentsettings');

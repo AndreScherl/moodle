@@ -43,13 +43,13 @@ echo $OUTPUT->doctype()
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
+    <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
         <!-- HOMEPAGE-WRAPPER [start] -->
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
             <!-- Top-Navigation [start] -->
             <?php echo $OUTPUT->main_navbar(); ?>
-
             <!-- Top-Navigation [end] -->
 
             <!-- Side-Navigation [start] -->
@@ -69,66 +69,58 @@ echo $OUTPUT->doctype()
                 <?php
 
                 if ($knownregiontop) {
-                    echo $OUTPUT->blocks('top');
+                    echo $OUTPUT->mebis_blocks('top');
                 }
 
                 // echo $OUTPUT->course_content_header();
                 echo $OUTPUT->main_content();
                 // echo $OUTPUT->course_content_footer();
                 ?>
-                <div class="row">
-                    <?php
-                    if ($hassidepre) {
-                        ?>
 
-                        <div class="col-lg-12 col-sm-12">
-                            <h1>Meine Apps</h1>
+                <?php if ($hassidepre) : ?>
+                    <div class="row">
+
+                        <div class="col-lg-12 col-sm-12 margin-bottom-small">
+                            <h1><?php echo get_string('my-apps', 'theme_mebis');?></h1>
                         </div>
 
-                        <div class="col-lg-12 col-sm-12">
-                        <?php
-                            $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
-                            $classes = array();
-                            $classes[] = 'row block-region';
-                            $attributes = array(
-                                'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-                                'data-blockregion' => $displayregion,
-                                'data-droptarget' => '1'
-                            );
-                            echo html_writer::start_tag('aside', $attributes);
-                            echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
-
-                            if ($knownregionsidepre) {
-                                echo $OUTPUT->blocks('side-pre');
-                            }
-
-                            echo html_writer::end_div();
-                            echo html_writer::end_tag('aside');
-
-                    ?>
                     </div>
-                    <?php
-                    }
-                    ?>
 
-                        <?php
-                        if ($knownregionsidepost && $hassidepost) {
-                        ?>
+                    <?php
+                        $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
+                        $classes = array();
+                        $classes[] = 'row block-regions';
+                        $attributes = array(
+                            'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
+                            'data-blockregion' => $displayregion,
+                            'data-droptarget' => '1'
+                        );
+                        echo html_writer::start_tag('aside', $attributes);
+                        echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
+
+                        if ($knownregionsidepre) {
+                            echo $OUTPUT->mebis_blocks('side-pre');
+                        }
+
+                        echo html_writer::end_div();
+                        echo html_writer::end_tag('aside');
+                    ?>
+                <?php endif; ?>
+
+                <?php if ($knownregionsidepost && $hassidepost) : ?>
+                    <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="row">
-                                <div class="col-lg-12 col-sm-12">
-                                    <h1 class="pull-left">Meine Schulen</h1>
+                                <div class="col-lg-12 col-sm-12 margin-bottom-small">
+                                    <h1 class="pull-left"><?php echo get_string('my-schools', 'theme_mebis');?></h1>
                                 </div>
                                 <?php
-
-                                    echo $OUTPUT->blocks('side-post');
+                                    echo $OUTPUT->mebis_blocks('side-post');
                                 ?>
                             </div>
                         </div>
-                        <?php
-                        }
-                        ?>
-                </div>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <div id="root-footer"></div>

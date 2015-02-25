@@ -1,4 +1,14 @@
 @font-face {
+    font-family: 'Glyphicons Halflings';
+    font-weight: 400;
+    src: url($font-path + 'bootstrap/glyphicons-halflings-regular.eot');
+    src: url($font-path + 'bootstrap/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+             url($font-path + 'bootstrap/glyphicons-halflings-regular.svg#glyphicons-halflings') format('svg'),
+             url($font-path + 'bootstrap/glyphicons-halflings-regular.woff') format('woff'),
+             url($font-path + 'bootstrap/glyphicons-halflings-regular.ttf')  format('truetype');
+}
+
+@font-face {
 		font-family: 'Titillium Web';
 		font-style: normal;
 		font-weight: 200;
@@ -100,6 +110,240 @@
 				 url($font-path + 'titillium-web/titillium-web-bold.svg#titillium_webbold') format('svg'),
 				 url($font-path + 'titillium-web/titillium-web-bold.ttf')  format('truetype');
 }
+
+
+@font-face {
+    font-family: 'Amaranth-Bold';
+    src: url($font-path + 'amaranth-bold-webfont.eot');
+    src: url($font-path + 'amaranth-bold-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'amaranth-bold-webfont.woff') format('woff'),
+    url($font-path + 'amaranth-bold-webfont.ttf') format('truetype'),
+    url($font-path + 'amaranth-bold-webfont.svg#amaranth-bold-webfont') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Amaranth-BoldItalic';
+    src: url($font-path + 'amaranth-bold-italic-webfont.eot');
+    src: url($font-path + 'amaranth-bold-italic-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'amaranth-bold-italic-webfont.woff') format('woff'),
+    url($font-path + 'amaranth-bold-italic-webfont.ttf') format('truetype'),
+    url($font-path + 'amaranth-bold-italic-webfont.svg#amaranth-bold-italic-webfont') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Amaranth-Italic';
+    src: url($font-path + 'amaranth-italic-webfont.eot');
+    src: url($font-path + 'amaranth-italic-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'amaranth-italic-webfont.woff') format('woff'),
+    url($font-path + 'amaranth-italic-webfont.ttf') format('truetype'),
+    url($font-path + 'amaranth-italic-webfont.svg#amaranth-italic-webfont') format('svg');
+    font-weight: none;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url($font-path + 'amaranth-webfont.eot');
+    src: url($font-path + 'amaranth-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'amaranth-webfont.woff') format('woff'),
+    url($font-path + 'amaranth-webfont.ttf') format('truetype'),
+    url($font-path + 'amaranth-webfont.svg#amaranth-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Bienchen_a';
+    src: url($font-path + 'bienchen_a-webfont.eot');
+    src: url($font-path + 'bienchen_a-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'bienchen_a-webfont.woff') format('woff'),
+    url($font-path + 'bienchen_a-webfont.ttf') format('truetype'),
+    url($font-path + 'bienchen_a-webfont.svg#bienchen_a-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Bienchen_b';
+    src: url($font-path + 'bienchen_b-webfont.eot');
+    src: url($font-path + 'bienchen_b-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'bienchen_b-webfont.woff') format('woff'),
+    url($font-path + 'bienchen_b-webfont.ttf') format('truetype'),
+    url($font-path + 'bienchen_b-webfont.svg#bienchen_b-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold_Oblique';
+    src: url($font-path + 'quicksand_bold_oblique-webfont.eot');
+    src: url($font-path + 'quicksand_bold_oblique-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_bold_oblique-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_bold_oblique-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_bold_oblique-webfont.svg#quicksand_bold_oblique-webfont') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold';
+    src: url($font-path + 'quicksand_bold-webfont.eot');
+    src: url($font-path + 'quicksand_bold-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_bold-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_bold-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_bold-webfont.svg#quicksand_bold-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book_Oblique';
+    src: url($font-path + 'quicksand_book_oblique-webfont.eot');
+    src: url($font-path + 'quicksand_book_oblique-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_book_oblique-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_book_oblique-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_book_oblique-webfont.svg#quicksand_book_oblique-webfont') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book';
+    src: url($font-path + 'quicksand_book-webfont.eot');
+    src: url($font-path + 'quicksand_book-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_book-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_book-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_book-webfont.svg#quicksand_book-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Dash';
+    src: url($font-path + 'quicksand_dash-webfont.eot');
+    src: url($font-path + 'quicksand_dash-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_dash-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_dash-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_dash-webfont.svg#quicksand_dash-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light_Oblique';
+    src: url($font-path + 'quicksand_light_oblique-webfont.eot');
+    src: url($font-path + 'quicksand_light_oblique-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_light_oblique-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_light_oblique-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_light_oblique-webfont.svg#quicksand_light_oblique-webfont') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light';
+    src: url($font-path + 'quicksand_light-webfont.eot');
+    src: url($font-path + 'quicksand_light-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'quicksand_light-webfont.woff') format('woff'),
+    url($font-path + 'quicksand_light-webfont.ttf') format('truetype'),
+    url($font-path + 'quicksand_light-webfont.svg#quicksand_light-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern-bold';
+    src: url($font-path + 'schulbuchbayerncomp-bold-webfont.eot');
+    src: url($font-path + 'schulbuchbayerncomp-bold-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'schulbuchbayerncomp-bold-webfont.woff') format('woff'),
+    url($font-path + 'schulbuchbayerncomp-bold-webfont.ttf') format('truetype'),
+    url($font-path + 'schulbuchbayerncomp-bold-webfont.svg#schulbuchbayerncomp-bold-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern';
+    src: url($font-path + 'schulbuchbayerncomp-webfont.eot');
+    src: url($font-path + 'schulbuchbayerncomp-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'schulbuchbayerncomp-webfont.woff') format('woff'),
+    url($font-path + 'schulbuchbayerncomp-webfont.ttf') format('truetype'),
+    url($font-path + 'schulbuchbayerncomp-webfont.svg#schulbuchbayerncomp-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2';
+    src: url($font-path + 'VA2.eot');
+    src: url($font-path + 'VA2.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'VA2.woff') format('woff'),
+    url($font-path + 'VA2.ttf') format('truetype'),
+    url($font-path + 'VA2.svg#VA2') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2_i';
+    src: url($font-path + 'va2_i.eot');
+    src: url($font-path + 'va2_i.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'va2_i.woff') format('woff'),
+    url($font-path + 'va2_i.ttf') format('truetype'),
+    url($font-path + 'va2_i.svg#va2_i') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    src: url($font-path + 'va2_b.eot');
+    src: url($font-path + 'va2_b.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'va2_b.woff') format('woff'),
+    url($font-path + 'va2_b.ttf') format('truetype'),
+    url($font-path + 'va2_b.svg#va2_b') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VAU30k';
+    src: url($font-path + 'vau30k-webfont.eot');
+    src: url($font-path + 'vau30k-webfont.eot#iefix') format('embedded-opentype'),
+    url($font-path + 'vau30k-webfont.woff') format('woff'),
+    url($font-path + 'vau30k-webfont.ttf') format('truetype'),
+    url($font-path + 'vau30k-webfont.svg#vau30k-webfont') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SAS';
+    src: url([[fonts:SAS|eot]]);
+    src: url([[fonts:SAS|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:SAS|woff]]) format('woff'),
+    url([[fonts:SAS|ttf]]) format('truetype'),
+    url([[fonts:SAS|svg#SAS]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SASB';
+    src: url([[fonts:SASB|eot]]);
+    src: url([[fonts:SASB|eot?#iefix]]) format('embedded-opentype'),
+    url([[fonts:SASB|woff]]) format('woff'),
+    url([[fonts:SASB|ttf]]) format('truetype'),
+    url([[fonts:SASB|svg#SASB]]) format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+
 
 // Mebis Webfonts
 

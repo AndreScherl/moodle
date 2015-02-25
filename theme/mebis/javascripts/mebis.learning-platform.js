@@ -39,39 +39,10 @@ var MebisLearningPlatform = (function ($) {
         }
     }
 
-    /**
-     * Sets onclick eventhandler for the jumpnavigation
-     */
-    function scrollToTopic () {
-        //check if jumpnavigation exists
-        if ($('ul.jumpnavigation').length) {
-            //set click on each node
-            $('ul.jumpnavigation').on('click', 'li.jumpnavigation-point', function () {
-                //if data-scroll attribute is set
-                if ($(this).is('[data-scroll]')) {
-                    //if data-scroll is top, scroll to top of the page
-                    if ($(this).attr('data-scroll') === 'top') {
-                        $("html, body").animate({scrollTop: 0}, 1000);
-                    } else {
-                        //else scroll to selected resource, provided it exists
-                        if ($($(this).attr('data-scroll')).length) {
-                            $("html, body").animate({scrollTop: $($(this).attr('data-scroll')).offset().top - 50}, 1000);
-                            //if topic is closed, open it
-                            if(!($($(this).attr('data-scroll')).find('.the_toggle').is('.toggle_open'))){
-                                $($(this).attr('data-scroll')).find('.sectionhead.toggle').trigger("click");
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }
-
     return {
         init: function () {
             preventLinkDefault();
             initHelpNote();
-            scrollToTopic();
         }
     }
 

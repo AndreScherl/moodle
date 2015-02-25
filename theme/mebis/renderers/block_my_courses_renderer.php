@@ -167,6 +167,9 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
 
         // Wrap course list in a div and return.
         $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
+
+        $html .= html_writer::end_tag('div');
+
         return html_writer::tag('div', $course_list, array('class' => 'row course_list'));
     }
 
@@ -177,8 +180,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @return string html of header bar.
      */
     public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('notice');
-        $output .= html_writer::start_tag('div', array('class' => 'col-md-12 margin-top-small'));
+        $output = $this->output->box_start('row notice');
+        $output .= html_writer::start_tag('div');
         $options = array('0' => get_string('alwaysshowall', 'theme_mebis'));
         for ($i = 1; $i <= $max; $i++) {
             $options[$i] = $i;
@@ -201,14 +204,14 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         global $CFG;
         require_once($CFG->libdir."/formslib.php");
 
+        $output = html_writer::start_tag('div', array('class' => 'my-courses'));
+
         $schools = [];
         foreach (mbsmycourses::schools_of_user() as $key => $value) {
             $schools[$value->id] = $value->name;
         }
 
-        $output = $this->load_block_headline();
-
-        $output .= html_writer::start_tag('div', array('class' => 'row my-courses-filter margin-top-small'));
+        $output .= html_writer::start_tag('div', array('class' => 'row my-courses-filter'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag('div', array('class' => 'course-sorting'));
 
@@ -242,6 +245,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
+
         return $output;
     }
 
@@ -285,12 +289,6 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
         return $output;
-    }
-
-    public function load_block_headline()
-    {
-        $headline = html_writer::tag('h1', get_string('my-courses', 'theme_mebis'), array());
-        return $headline;
     }
 
     /**

@@ -23,6 +23,11 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
     public function __construct(moodle_page $page, $target) {
         parent::__construct($page, $target);
 
+
+
+        if(!defined('PAGE_MENU_SET'))
+            define('PAGE_MENU_SET', true);
+
         // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
         // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
         $page->set_other_editing_capability('moodle/course:setcurrentsection');
@@ -177,21 +182,6 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
         $url->param('sesskey', sesskey());
 
         $controls = array();
-        if (has_capability('moodle/course:setcurrentsection', $coursecontext)) {
-            if ($course->marker == $section->section) {  // Show the "light globe" on/off.
-                $url->param('marker', 0);
-                $controls[] = html_writer::link($url,
-                                    html_writer::empty_tag('img', array('src' => $this->output->pix_url('i/marked'),
-                                        'class' => 'icon ', 'alt' => get_string('markedthistopic'))),
-                                    array('title' => get_string('markedthistopic'), 'class' => 'editing_highlight'));
-            } else {
-                $url->param('marker', $section->section);
-                $controls[] = html_writer::link($url,
-                                html_writer::empty_tag('img', array('src' => $this->output->pix_url('i/marker'),
-                                    'class' => 'icon', 'alt' => get_string('markthistopic'))),
-                                array('title' => get_string('markthistopic'), 'class' => 'editing_highlight'));
-            }
-        }
 
         return array_merge($controls, parent::section_edit_controls($course, $section, $onsectionpage));
     }
@@ -272,7 +262,7 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
             for($i = 1;$i <= $course->numsections;$i++){
                 if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available ){
                     $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
-                        array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
+                        array());
                 }
             }
         }
@@ -292,7 +282,7 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
         $output .= html_writer::end_tag('ul');
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 

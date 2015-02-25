@@ -51,3 +51,19 @@ function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)
     }
     return $regions;
 }
+
+function theme_mebis_get_footer_links()
+{
+    global $PAGE;
+    $links = $PAGE->theme->settings->footer_links;
+    $links = explode("\n", $links);
+
+    $footer_links = array();
+
+    foreach($links as $link) {
+        $footer_link = explode('|', $link);
+        $footer_links[$footer_link[0]] = $footer_link[1];
+    }
+
+    return $footer_links;
+}

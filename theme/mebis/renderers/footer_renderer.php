@@ -70,14 +70,18 @@ class theme_mebis_footer_renderer extends renderer_base
         $output .= html_writer::end_div();
 
         $output .= html_writer::start_div('col-xs-12 col-md-6 copyright text-right');
-        $output .= html_writer::tag('a', get_string('footer-imprint', 'theme_mebis'),
-                array('href' => '#', 'class' => 'internal'));
-        $output .= html_writer::tag('span', '|', array('class' => 'space'));
-        $output .= html_writer::tag('a', get_string('footer-data_privacy', 'theme_mebis'),
-                array('href' => '#', 'class' => 'internal'));
-        $output .= html_writer::tag('span', '|', array('class' => 'space'));
-        $output .= html_writer::tag('a', get_string('footer-terms_of_use', 'theme_mebis'),
-                array('href' => '#', 'class' => 'internal'));
+
+        $footer_links = theme_mebis_get_footer_links();
+
+        $i = 0;
+        foreach($footer_links as $title => $url) {
+            $output .= html_writer::tag('a', $title,
+                array('href' => $url, 'class' => 'internal'));
+            if($i < (count($footer_links) - 1)) {
+                $output .= html_writer::tag('span', '|', array('class' => 'space'));
+            }
+            $i++;
+        }
         $output .= html_writer::end_div();
 
         $output .= html_writer::end_div();

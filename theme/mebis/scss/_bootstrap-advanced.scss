@@ -28,9 +28,9 @@
 @mixin block-grid ($per-row) {
 
     & > li {
-        width: (100%/$per-row);
+        width: (100%/$per-row) !important;
         list-style: none;
-        padding: 0 20px 1.11111em;
+        padding: 0 20px 1.11111em !important;
 
         $nth-equation: #{$per-row}n+'+'+1;
         &:nth-of-type(n) { clear: none; }

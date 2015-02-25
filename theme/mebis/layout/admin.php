@@ -15,10 +15,10 @@ if ($knownregionpre || $knownregionpost) {
 // define additional css classes that should be set on the body element. text-center is needed to center the main
 // content block
 $bodycls = theme_bootstrap_get_zoom();
-
+$htmlattrib = $OUTPUT->htmlattributes() . ' class="admin-layout"';
 echo $OUTPUT->doctype()
 ?>
-<html <?php echo $OUTPUT->htmlattributes(); ?>>
+<html <?php echo $htmlattrib; ?>>
     <head>
         <title><?php echo $OUTPUT->page_title(); ?></title>
 
@@ -35,6 +35,7 @@ echo $OUTPUT->doctype()
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
+    <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
         <!-- HOMEPAGE-WRAPPER [start] -->
         <div class="me-wrapper wrapper-learning-platform" role="main">
@@ -53,21 +54,32 @@ echo $OUTPUT->doctype()
             <!-- PAGE HEADER [end] -->
 
             <!-- CONTENT -->
-            <div class="container homepage-container">
 
+            <div class="container">
                 <!-- Breadcrums -->
                 <?php echo $OUTPUT->main_breadcrumbs() ?>
+            </div>
+
+            <div class="container homepage-container admin-container">
+
                 <div class="row">
-                    <div class="col-md-4">
+
+                    <div class="col-md-12 hidden-lg">
+                        <div class="admin-navigation">
+                            <?php echo $OUTPUT->render_adminnav_selectbox();?>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 visible-lg">
                         <div class="row">
                             <?php
                             if ($knownregionadminnavi) {
-                                echo $OUTPUT->blocks('admin-navi');
+                                echo $OUTPUT->mebis_blocks('admin-navi');
                             }
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-lg-9 col-md-12 col-sm-12">
                         <div class="admin-content">
                             <?php
                             // echo $OUTPUT->course_content_header();

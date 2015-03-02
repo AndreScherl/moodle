@@ -84,7 +84,6 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
         // Show the sections when editing.
         Y.all(".grid_section").removeClass('hide_section');
     } else {
-
         Y.delegate('click', this.icon_click, Y.config.doc, 'ul.gridicons a.gridicon_link', this);
 
         var shadeboxtoggleone = Y.one("#gridshadebox_overlay");
@@ -99,10 +98,12 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
         var shadeboxarrowleft = Y.one("#gridshadebox_left");
         if (shadeboxarrowleft) {
             shadeboxarrowleft.on('click', this.arrow_left, this);
+            document.getElementById("gridshadebox_left").style.display = "";
         }
         var shadeboxarrowright = Y.one("#gridshadebox_right");
         if (shadeboxarrowright) {
             shadeboxarrowright.on('click', this.arrow_right, this);
+            document.getElementById("gridshadebox_right").style.display = "";
         }
         // Remove href link from icon anchors so they don't compete with JavaScript onlick calls.
         var icon_links = getElementsByClassName(document.getElementById("gridiconcontainer"), "a", "gridicon_link");

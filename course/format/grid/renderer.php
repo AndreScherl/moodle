@@ -119,12 +119,12 @@ class format_grid_renderer extends format_section_renderer_base {
         echo html_writer::start_tag('div', array('id' => 'gridiconcontainer', 'role' => 'navigation',
             'aria-label' => get_string('gridimagecontainer', 'format_grid')));
         echo html_writer::start_tag('ul', array('class' => 'gridicons'));
-        // Print all of the imaege containers.
+        // Print all of the image containers.
         $this->make_block_icon_topics($context->id, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit);
         echo html_writer::end_tag('ul');
         echo html_writer::end_tag('div');
         echo html_writer::start_tag('div', array('id' => 'gridshadebox'));
-        echo html_writer::tag('div', '', array('id' => 'gridshadebox_overlay', 'style' => 'display:none;'));
+        echo html_writer::tag('div', '', array('id' => 'gridshadebox_overlay', 'style' => 'display: none;'));
         echo html_writer::start_tag('div', array('id' => 'gridshadebox_content', 'class' => 'hide_content',
             'role' => 'region',
             'aria-label' => get_string('shadeboxcontent', 'format_grid')));
@@ -140,7 +140,7 @@ class format_grid_renderer extends format_section_renderer_base {
             default:
             break;
         }
-        echo html_writer::tag('img', '', array('id' => 'gridshadebox_close', 'style' => 'display:none;',
+        echo html_writer::tag('img', '', array('id' => 'gridshadebox_close', 'style' => 'display: none;',
             'class' => $deviceextra,
             'src' => $this->output->pix_url('close', 'format_grid'),
             'role' => 'link',
@@ -150,6 +150,7 @@ class format_grid_renderer extends format_section_renderer_base {
         if (($course->numsections > 1) || (($course->numsections == 1) && (!$this->topic0_at_top))) {
             echo html_writer::start_tag('div', array('id' => 'gridshadebox_left',
                 'class' => 'gridshadebox_left_area',
+                'style' => 'display: none;',
                 'role' => 'link',
                 'aria-label' => get_string('previoussection', 'format_grid')));
             echo html_writer::tag('img', '', array('class' => 'gridshadebox_arrow gridshadebox_left'.$deviceextra,
@@ -157,6 +158,7 @@ class format_grid_renderer extends format_section_renderer_base {
             echo html_writer::end_tag('div');
             echo html_writer::start_tag('div', array('id' => 'gridshadebox_right',
                 'class' => 'gridshadebox_right_area',
+                'style' => 'display: none;',
                 'role' => 'link',
                 'aria-label' => get_string('nextsection', 'format_grid')));
             echo html_writer::tag('img', '', array('class' => 'gridshadebox_arrow gridshadebox_right'.$deviceextra,

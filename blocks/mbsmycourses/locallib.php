@@ -22,8 +22,17 @@
  * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class mbsmycourses {
+
+    public static function get_coursesortorder_menu() {
+        
+        $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
+            'fullname' => get_string('fullname', 'block_mbsmycourses'),
+            'lastaccess' => get_string('lastaccess', 'block_mbsmycourses'),
+            'startdate' => get_string('startdate', 'block_mbsmycourses'));
+        
+        return $sortmenu;
+    }
 
     /**
      * Display overview for courses
@@ -143,10 +152,10 @@ class mbsmycourses {
 
         $limit = self::get_max_user_courses($showallcourses);
 
-        $courses = enrol_get_my_courses();
+        $courses = enrol_get_my_courses('*');
         $site = get_site();
 
-        if (array_key_exists($site->id,$courses)) {
+        if (array_key_exists($site->id, $courses)) {
             unset($courses[$site->id]);
         }
 
@@ -202,12 +211,16 @@ class mbsmycourses {
 
         // From list extract site courses for overview
         $sitecourses = array();
+        // collect categories for schoolcatinformation.
+        $categoryids = array();
         foreach ($sortedcourses as $key => $course) {
             if ($course->id > 0) {
                 $sitecourses[$key] = $course;
             }
+            $categoryids[$course->category] = $course->category;
         }
-        return array($sortedcourses, $sitecourses, count($courses));
+
+        return array($sortedcourses, $sitecourses, count($courses), $categoryids);
     }
 
     /**
@@ -232,11 +245,20 @@ class mbsmycourses {
     }
 
     /**
-     * Get all schools of an user
+     * Get all schools of an user as a menu for select element.
      *
-     * @return array schools (id, name, viewurl)
+     * @return array schools (id, name)
      */
-    public static function schools_of_user() {
-        return meineschulen::get_my_schools();
+    public static function get_users_school_menu() {
+
+        $usersschools = \local_mbs\local\schoolcategory::get_users_schools();
+
+        $schools = array();
+        foreach ($usersschools as $value) {
+            $schools[$value->id] = $value->name;
+        }
+
+        return $schools;
     }
+
 }

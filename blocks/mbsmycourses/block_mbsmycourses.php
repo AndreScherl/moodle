@@ -18,16 +18,18 @@
  * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once($CFG->dirroot.'/blocks/mbsmycourses/locallib.php');
-require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+require_once($CFG->dirroot . '/blocks/mbsmycourses/locallib.php');
+
+//require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
 
 class block_mbsmycourses extends block_base {
     /**
      * If this is passed as mynumber then showallcourses, irrespective of limit by user.
      */
+
     const SHOW_ALL_COURSES = -2;
 
     /**
@@ -43,10 +45,10 @@ class block_mbsmycourses extends block_base {
      * @return stdClass contents of block
      */
     public function get_content() {
-        global $USER, $CFG, $DB;
-        require_once($CFG->dirroot.'/user/profile/lib.php');
+        global $USER, $CFG, $DB, $PAGE;
+        require_once($CFG->dirroot . '/user/profile/lib.php');
 
-        if($this->content !== NULL) {
+        if ($this->content !== NULL) {
             return $this->content;
         }
 
@@ -66,9 +68,16 @@ class block_mbsmycourses extends block_base {
 
         profile_load_custom_fields($USER);
 
+        // Load search params.
         $showallcourses = ($updatemynumber === self::SHOW_ALL_COURSES);
-        list($sortedcourses, $sitecourses, $totalcourses) = mbsmycourses::get_sorted_courses($showallcourses);
+        $selectedschool = $this->load_page_params('filter_school', 0, PARAM_INT);
+        $sortorder = $this->load_page_params('sort_type', 'manual', PARAM_ALPHA);
+        $viewtype = $this->load_page_params('switch_view', 'grid', PARAM_ALPHA);
+
+
+        list($sortedcourses, $sitecourses, $totalcourses, $categoryids) = mbsmycourses::get_sorted_courses($showallcourses);
         $overviews = mbsmycourses::get_overviews($sitecourses);
+        $schoolcategories = \local_mbs\local\schoolcategory::get_schoolcategories($categoryids);
 
         $renderer = $this->page->get_renderer('block_mbsmycourses');
 
@@ -76,19 +85,40 @@ class block_mbsmycourses extends block_base {
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
             $this->content->text .= $renderer->editing_bar_head($totalcourses);
         }
-        $this->content->text .= $renderer->filter_form();
+
+        $usersschools = mbsmycourses::get_users_school_menu();
+        $this->content->text .= $renderer->filter_form($usersschools, $selectedschool, $sortorder, $viewtype);
+
+        $opts = array();
+        $PAGE->requires->yui_module('moodle-block_mbsmycourses-searchform', 'M.block_mbsmycourses.searchform', array($opts));
+
 
         if (empty($sortedcourses)) {
-            $this->content->text .= get_string('nocourses','my');
+            $this->content->text .= get_string('nocourses', 'my');
         } else {
             // For each course, build category cache.
-            $this->content->text .= $renderer->mbsmycourses($sortedcourses, $overviews);
+            $this->content->text .= $renderer->mbsmycourses($sortedcourses, $overviews, $schoolcategories);
             $this->content->text .= $renderer->hidden_courses($totalcourses - count($sortedcourses));
         }
 
         $this->content->text .= $renderer->load_more_button();
 
         return $this->content;
+    }
+
+    /** load all the search params from request or userprefs
+     * 
+     */
+    private function load_page_params($name, $default, $type) {
+        global $USER;
+
+        if (!isset($USER->preference['block_mbsmycourses' . $name])) {
+            $USER->preference['block_mbsmycourses' . $name] = $default;
+        }
+
+        $USER->preference['block_mbsmycourses' . $name] = optional_param($name, $USER->preference['block_mbsmycourses' . $name], $type);
+
+        return $USER->preference['block_mbsmycourses' . $name];
     }
 
     /**
@@ -119,4 +149,5 @@ class block_mbsmycourses extends block_base {
         $config = get_config('block_mbsmycourses');
         return !empty($config->showwelcomearea);
     }
+
 }

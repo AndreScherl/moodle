@@ -30,7 +30,7 @@ require_login();
 $coursetomove = required_param('courseid', PARAM_INT);
 $moveto = required_param('moveto', PARAM_INT);
 
-list($courses, $sitecourses, $coursecount) = mbsmycourses::get_sorted_courses();
+list($courses, $sitecourses, $coursecount, $catids) = mbsmycourses::get_sorted_courses();
 $sortedcourses = array_keys($courses);
 
 $currentcourseindex = array_search($coursetomove, $sortedcourses);

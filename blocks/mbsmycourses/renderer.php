@@ -40,7 +40,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
      * @param array $overviews list of course overviews
      * @return string html to be displayed in mbsmycourses block
      */
-    public function mbsmycourses($courses, $overviews) {
+    public function mbsmycourses($courses, $overviews, $schoolcategories) {
         $html = '';
         $config = get_config('block_mbsmycourses');
         $ismovingcourse = false;
@@ -115,8 +115,12 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                     new moodle_url('/auth/mnet/jump.php', array('hostid' => $course->hostid, 'wantsurl' => '/course/view.php?id='.$course->remoteid)),
                     format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 2, 'title');
             }
+            
             $html .= $this->output->box('', 'flush');
             $html .= html_writer::end_tag('div');
+            if (isset($schoolcategories[$course->category]->name)) {
+                $html .= html_writer::tag('div', $schoolcategories[$course->category]->name, array('class' => 'schoolcategory'));
+            }
 
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
@@ -147,6 +151,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
         }
+        $html .= html_writer::tag('div', '', array('class' => 'clearfix'));
         // Wrap course list in a div and return.
         return html_writer::tag('div', $html, array('class' => 'course_list'));
     }
@@ -298,35 +303,44 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         return $output;
     }
 
-    /**
-     * Construct form to filter courses
-     *
-     * @return string return the HTML as a string, rather than printing it.
+    /** render form to filter courses
+     * 
+     * @global type $CFG
+     * @param type $userschools
+     * @param type $filteroption
+     * @return type
      */
-    public function filter_form() {
-        global $CFG;
-        require_once($CFG->libdir."/formslib.php");
-        //! ToDo: language strings
+    public function filter_form($usersschools, $selectedschool, $sortorder, $viewtype) {
+       
         $form = '';
+        
+        // Render schoolmenu.
+        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => 'choosedots'), array('id' => 'mbsmycourses_filterschool'));
+        $form .= html_writer::tag('div', $select);
+        
+        // Render sortmenu.
         $form .= html_writer::start_tag('div');
-        $schools = [];
-        foreach (mbsmycourses::schools_of_user() as $key => $value) {
-            $schools[$value->id] = $value->name;
+        $choices = mbsmycourses::get_coursesortorder_menu();
+        $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
+        $form .= html_writer::tag('div', $select);
+        
+        // Render radio switch.
+        $radiogroup = '';
+        
+        foreach (array('list', 'grid') as $type) {
+        
+            $label = html_writer::tag('label', get_string($type, 'block_mbsmycourses'));
+            $params = array('type' => 'radio', 'name' => 'switch_view', 'value' => $type);
+            
+            if ($type == $viewtype) {
+                $params['checked'] = 'checked';
+            }
+            $radiogroup .= html_writer::tag('input', $label, $params);
         }
-        $form .= html_writer::select($schools, "filter_school", $selected = "0");
-        $form .= html_writer::end_tag('div');
-        $form .= html_writer::start_tag('div');
-        $form .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...");
-        $form .= html_writer::end_tag('div');
-        $form .= html_writer::start_tag('div');
-        $form .= html_writer::start_tag('input', array("type" => "radio", "name" => "switch_view", "value" => "list"));
-        $form .= "list";
-        $form .= html_writer::end_tag('input');
-        $form .= html_writer::start_tag('input', array("type" => "radio", "name" => "switch_view", "value" => "grid", "checked" => "checked"));
-        $form .= "grid";
-        $form .= html_writer::end_tag('input');
-        $form .= html_writer::end_tag('div');
-        $output = html_writer::tag('form', $form, array("id" => "filter_form", "action" => new moodle_url("blocks/mbsmycourses/block_mbsmycourses.php"), "method" => "get"));
+            
+        $form .= html_writer::tag('div', $radiogroup, array('id' => 'mbsmycourses_viewtype'));
+        
+        $output = html_writer::tag('form', $form, array('id' => 'filter_form', 'action' => new moodle_url('/my/index.php')));
         return $output;
     }
 

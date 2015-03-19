@@ -19,18 +19,18 @@
  * Put into a mbsmycourses class by Andre Scherl
  *
  * @package    block_mbsmycourses
- * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
+ * @copyright  2015 Andreas Wagner <andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mbsmycourses {
 
     public static function get_coursesortorder_menu() {
-        
+
         $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
             'fullname' => get_string('fullname', 'block_mbsmycourses'),
             'lastaccess' => get_string('lastaccess', 'block_mbsmycourses'),
             'startdate' => get_string('startdate', 'block_mbsmycourses'));
-        
+
         return $sortmenu;
     }
 
@@ -75,6 +75,16 @@ class mbsmycourses {
      */
     public static function update_myorder($sortorder) {
         set_user_preference('mbsmycourses_course_order', serialize($sortorder));
+    }
+
+    /**
+     * Sets user category sorting preference (for list view) in mbsmycourses block
+     *
+     * @param array $sortorder sort order of course
+     */
+    public static function update_mycategoryorder($sortorder) {
+        
+        set_user_preference('mbsmycourses_category_order', serialize($sortorder));
     }
 
     /**
@@ -141,24 +151,136 @@ class mbsmycourses {
         return $limit;
     }
 
+    /* $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
+      'fullname' => get_string('fullname', 'block_mbsmycourses'),
+      'lastaccess' => get_string('lastaccess', 'block_mbsmycourses'),
+      'startdate' => get_string('startdate', 'block_mbsmycourses')); */
+
+    protected static function order_by_sortorder($a, $b) {
+        if ($a->sortorder == $b->sortorder) {
+            return 0;
+        }
+        return ($a->sortorder > $b->sortorder) ? +1 : -1;
+    }
+
+    protected static function order_by_lastaccess($a, $b) {
+
+        if ($a->lastaccess == $b->lastaccess) {
+            return 0;
+        }
+
+        if ($a->lastaccess == 0) {
+            return +1;
+        }
+
+        if ($b->lastaccess == 0) {
+            return -1;
+        }
+
+        return ($a->lastaccess > $b->lastaccess) ? -1 : +1;
+    }
+
+    protected static function sort_courses($courses, $sortorder) {
+
+        switch ($sortorder) {
+
+            case 'manual' :
+
+                // ... if there is a userdefined sortorder, add it to courses.
+                if (!is_null($usersortorder = get_user_preferences('mbsmycourses_course_order'))) {
+
+                    $order = unserialize($usersortorder);
+
+                    $i = 0;
+                    foreach ($courses as $course) {
+
+                        $idtoorder = array_flip($order);
+                        if (isset($idtoorder[$course->id])) {
+
+                            $course->sortorder = $idtoorder[$course->id];
+                        } else {
+                            $course->sortorder = MAX_COURSES_IN_CATEGORY + $i;
+                            $i++;
+                        }
+                    }
+
+                    usort($courses, array('mbsmycourses', 'order_by_sortorder'));
+                    return $courses;
+                } else {
+                    return $courses;
+                }
+
+                break;
+
+            case 'lastaccess' :
+
+                usort($courses, array('mbsmycourses', 'order_by_lastaccess'));
+                return $courses;
+                break;
+
+            default:
+                return $courses;
+        }
+
+        return $courses;
+    }
+
+    protected static function filter_school($selectedschool, $courses,
+                                            $schoolcategories) {
+
+        $schoolcourses = array();
+        foreach ($courses as $course) {
+
+            if ($selectedschool == $schoolcategories[$course->category]->id) {
+                $schoolcourses[$course->id] = $course;
+            }
+        }
+        return $schoolcourses;
+    }
+
     /**
      * Return sorted list of user courses
      *
      * @param bool $showallcourses if set true all courses will be visible.
      * @return array list of sorted courses and count of courses.
      */
-    public static function get_sorted_courses($showallcourses = false) {
+    public static function get_sorted_courses($sortorder, $selectedschool,
+                                              $showallcourses = false) {
         global $USER;
 
-        $limit = self::get_max_user_courses($showallcourses);
+        $result = new stdClass();
 
-        $courses = enrol_get_my_courses('*');
+        // ... we can do only order by startdate and fullname by SQL.
+        // Other sorting is done with usort later.
+        if (in_array($sortorder, array('startdate', 'fullname'))) {
+            $courses = enrol_get_my_courses('*', $sortorder);
+        } else {
+            $courses = enrol_get_my_courses('*');
+        }
+
+        // ...unset site course.
         $site = get_site();
 
         if (array_key_exists($site->id, $courses)) {
             unset($courses[$site->id]);
         }
 
+        // ...filter courses by school.
+        if ($selectedschool > 0) {
+
+            $categoryids = array();
+
+            foreach ($courses as $key => $course) {
+                $categoryids[$course->category] = $course->category;
+            }
+
+            $result->schoolcategories = \local_mbs\local\schoolcategory::get_schoolcategories($categoryids);
+
+            // Cannot be done by SQL, if we use enrol_get_my_courses.
+            $courses = self::filter_school($selectedschool, $courses, $result->schoolcategories);
+        }
+
+        // ...add last access info for courses.
         foreach ($courses as $c) {
             if (isset($USER->lastcourseaccess[$c->id])) {
                 $courses[$c->id]->lastaccess = $USER->lastcourseaccess[$c->id];
@@ -167,81 +289,98 @@ class mbsmycourses {
             }
         }
 
-        // Get remote courses.
-        $remotecourses = array();
-        if (is_enabled_auth('mnet')) {
-            $remotecourses = get_myremotecourses();
-        }
-        // Remote courses will have -ve remoteid as key, so it can be differentiated from normal courses
-        foreach ($remotecourses as $id => $val) {
-            $remoteid = $val->remoteid * -1;
-            $val->id = $remoteid;
-            $courses[$remoteid] = $val;
-        }
+        // ... try to sort by manual or last access.
+        $sortedcourses = self::sort_courses($courses, $sortorder);
 
-        $order = array();
-        if (!is_null($usersortorder = get_user_preferences('mbsmycourses_course_order'))) {
-            $order = unserialize($usersortorder);
-        }
+        // ..limit courses.
+        $limit = self::get_max_user_courses($showallcourses);
 
-        $sortedcourses = array();
-        $counter = 0;
-        // Get courses in sort order into list.
-        foreach ($order as $key => $cid) {
-            if (($counter >= $limit) && ($limit != 0)) {
-                break;
-            }
-
-            // Make sure user is still enroled.
-            if (isset($courses[$cid])) {
-                $sortedcourses[$cid] = $courses[$cid];
-                $counter++;
-            }
-        }
-        // Append unsorted courses if limit allows
-        foreach ($courses as $c) {
-            if (($limit != 0) && ($counter >= $limit)) {
-                break;
-            }
-            if (!in_array($c->id, $order)) {
-                $sortedcourses[$c->id] = $c;
-                $counter++;
-            }
+        if ($limit > 0) {
+            $sortedcourses = array_slice($sortedcourses, 0, $limit, true);
         }
 
         // From list extract site courses for overview
-        $sitecourses = array();
+        $result->sitecourses = array();
+
         // collect categories for schoolcatinformation.
         $categoryids = array();
-        foreach ($sortedcourses as $key => $course) {
+        foreach ($sortedcourses as $course) {
             if ($course->id > 0) {
-                $sitecourses[$key] = $course;
+                $result->sitecourses[$course->id] = $course;
             }
             $categoryids[$course->category] = $course->category;
         }
 
-        return array($sortedcourses, $sitecourses, count($courses), $categoryids);
+        // Ensure that schoolcategories are set correctly.
+        if (!isset($result->schoolcategories)) {
+            $result->schoolcategories = \local_mbs\local\schoolcategory::get_schoolcategories($categoryids);
+        }
+
+        $result->total = count($courses);
+        $result->sortedcourses = $sortedcourses;
+
+        return $result;
     }
 
-    /**
-     * Check if the user has the right to create a course in any of his schools
-     *
-     * @param int userid
-     * @return bool
+    /** add sortorder attribute to all recordes (grouped and indexed by category and sort them
+     * 
+     * @param array $groupedcourses (catid => object)
+     * @return array $groupedcourses
      */
-    public static function can_create_some_course($userid) {
-        // check for every school and return true for first success
-        return true;
+    protected static function sort_groupedcourses($groupedcourses) {
+
+        // ... if there is a userdefined sortorder, add it to courses.
+        if (!is_null($usersortorder = get_user_preferences('mbsmycourses_category_order'))) {
+
+            $order = unserialize($usersortorder);
+
+            $i = 0;
+            foreach ($groupedcourses as $catid => $categorycourses) {
+
+                $idtoorder = array_flip($order);
+                if (isset($idtoorder[$catid])) {
+
+                    $categorycourses->sortorder = $idtoorder[$catid];
+                } else {
+                    $categorycourses->sortorder = MAX_COURSE_CATEGORIES + $i;
+                    $i++;
+                }
+            }
+
+            uasort($groupedcourses, array('mbsmycourses', 'order_by_sortorder'));
+        }
+        return $groupedcourses;
     }
 
-    /**
-     * Check if the user has the right to request a course in his home school
-     *
-     * @return bool
-     */
-    public static function can_request_home_course() {
-        // ToDo
-        return true;
+    public static function get_sorted_courses_group_by_school($sortorder,
+                                                              $selectedschool) {
+        global $DB;
+
+        // Get courses information.
+        $courses = self::get_sorted_courses($sortorder, $selectedschool, true);
+
+        // Group courses by school and add schoolcatinformation.
+        $groupedcourses = array();
+        foreach ($courses->sortedcourses as $course) {
+
+            if (isset($courses->schoolcategories[$course->category])) {
+                $schoolcategory = $courses->schoolcategories[$course->category];
+            } else {
+                
+                // Should only happen for courses in categories with depth < 3;
+                $schoolcategory = $DB->get_record('course_categories', array('id' => $course->category));
+            }
+
+            if (!isset($groupedcourses[$schoolcategory->id])) {
+                $groupedcourses[$schoolcategory->id] = new stdClass();
+                $groupedcourses[$schoolcategory->id]->category = $schoolcategory;
+                $groupedcourses[$schoolcategory->id]->courses = array();
+            }
+            $groupedcourses[$schoolcategory->id]->courses[] = $course;
+        }
+        
+        $courses->groupedcourses = self::sort_groupedcourses($groupedcourses);
+        return $courses;
     }
 
     /**

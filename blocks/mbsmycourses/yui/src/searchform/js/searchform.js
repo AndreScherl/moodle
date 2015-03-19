@@ -28,7 +28,7 @@ M.block_mbsmycourses.searchform = function (data) {
                 form.submit();   
             }
             
-            );        
+            );    
                 
     }
     

@@ -70,6 +70,8 @@ $string['grid'] = 'Grid view';
 $string['lastaccess'] = 'Last access';
 $string['list'] = 'Listview';
 $string['manual'] = 'Users sortorder';
+$string['movecategory'] = 'You are moving: {$a->fullname} ({$a->cancellink})';
+$string['movecatafterhere'] = 'Move {$a->movingcategoryname} category after {$a->currentcategoryname}';
 $string['orderby'] = 'Order by...';
 $string['startdate'] = 'Start date';
-
+$string['new'] = 'New';

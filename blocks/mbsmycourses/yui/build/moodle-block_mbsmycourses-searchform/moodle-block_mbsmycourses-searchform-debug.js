@@ -30,11 +30,11 @@ M.block_mbsmycourses.searchform = function (data) {
                 form.submit();   
             }
             
-            );        
+            );    
                 
     }
     
     initialize();
 };
 
-}, '@VERSION@', {"requires": ["base", "node"]});
+}, '@VERSION@', {"requires": ["base", "node", "io"]});

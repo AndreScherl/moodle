@@ -23,8 +23,6 @@
  */
 require_once($CFG->dirroot . '/blocks/mbsmycourses/locallib.php');
 
-//require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
-
 class block_mbsmycourses extends block_base {
     /**
      * If this is passed as mynumber then showallcourses, irrespective of limit by user.
@@ -45,22 +43,19 @@ class block_mbsmycourses extends block_base {
      * @return stdClass contents of block
      */
     public function get_content() {
-        global $USER, $CFG, $DB, $PAGE;
+        global $USER, $CFG, $PAGE;
+
         require_once($CFG->dirroot . '/user/profile/lib.php');
 
         if ($this->content !== NULL) {
             return $this->content;
         }
 
-        $config = get_config('block_mbsmycourses');
-
         $this->content = new stdClass();
         $this->content->text = '';
         $this->content->footer = '';
 
-        $content = array();
-
-        // number of visible listed courses
+        // Number of visible listed courses in grid view.
         $updatemynumber = optional_param('mynumber', -1, PARAM_INT);
         if ($updatemynumber >= 0) {
             mbsmycourses::update_mynumber($updatemynumber);
@@ -68,40 +63,41 @@ class block_mbsmycourses extends block_base {
 
         profile_load_custom_fields($USER);
 
-        // Load search params.
-        $showallcourses = ($updatemynumber === self::SHOW_ALL_COURSES);
+        // ...filter by schoolid.
         $selectedschool = $this->load_page_params('filter_school', 0, PARAM_INT);
+
+        // ...order by sort_type.
         $sortorder = $this->load_page_params('sort_type', 'manual', PARAM_ALPHA);
+
+        // ...need group by school, if type is list.
         $viewtype = $this->load_page_params('switch_view', 'grid', PARAM_ALPHA);
 
+        // ...check, whether to limit courses.
+        $showallcourses = (isset($_REQUEST['showallcourses']));
 
-        list($sortedcourses, $sitecourses, $totalcourses, $categoryids) = mbsmycourses::get_sorted_courses($showallcourses);
-        $overviews = mbsmycourses::get_overviews($sitecourses);
-        $schoolcategories = \local_mbs\local\schoolcategory::get_schoolcategories($categoryids);
+        if ($viewtype == 'grid') {
+            $courses = mbsmycourses::get_sorted_courses($sortorder, $selectedschool, $showallcourses);
+        } else {
+            $courses = mbsmycourses::get_sorted_courses_group_by_school($sortorder, $selectedschool);
+        }
 
         $renderer = $this->page->get_renderer('block_mbsmycourses');
 
         // Number of sites to display.
+        $config = get_config('block_mbsmycourses');
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
-            $this->content->text .= $renderer->editing_bar_head($totalcourses);
+            $this->content->text .= $renderer->editing_bar_head($courses->total);
         }
 
+        // For each course, build category cache.
+        $overviews = mbsmycourses::get_overviews($courses->sitecourses);
+        $content = $renderer->render_courses_content($courses, $viewtype, $overviews);
+
         $usersschools = mbsmycourses::get_users_school_menu();
-        $this->content->text .= $renderer->filter_form($usersschools, $selectedschool, $sortorder, $viewtype);
+        $this->content->text .= $renderer->filter_form($content, $usersschools, $selectedschool, $sortorder, $viewtype);
 
         $opts = array();
         $PAGE->requires->yui_module('moodle-block_mbsmycourses-searchform', 'M.block_mbsmycourses.searchform', array($opts));
-
-
-        if (empty($sortedcourses)) {
-            $this->content->text .= get_string('nocourses', 'my');
-        } else {
-            // For each course, build category cache.
-            $this->content->text .= $renderer->mbsmycourses($sortedcourses, $overviews, $schoolcategories);
-            $this->content->text .= $renderer->hidden_courses($totalcourses - count($sortedcourses));
-        }
-
-        $this->content->text .= $renderer->load_more_button();
 
         return $this->content;
     }
@@ -113,10 +109,16 @@ class block_mbsmycourses extends block_base {
         global $USER;
 
         if (!isset($USER->preference['block_mbsmycourses' . $name])) {
-            $USER->preference['block_mbsmycourses' . $name] = $default;
+            $USER->preference['block_mbsmycourses' . $name] = get_user_preferences('block_mbsmycourses' . $name, $default);
         }
 
-        $USER->preference['block_mbsmycourses' . $name] = optional_param($name, $USER->preference['block_mbsmycourses' . $name], $type);
+        $value = optional_param($name, $USER->preference['block_mbsmycourses' . $name], $type);
+
+        if ($value <> $USER->preference['block_mbsmycourses' . $name]) {
+
+            $USER->preference['block_mbsmycourses' . $name] = $value;
+            set_user_preference('block_mbsmycourses' . $name, $value);
+        }
 
         return $USER->preference['block_mbsmycourses' . $name];
     }
@@ -145,7 +147,7 @@ class block_mbsmycourses extends block_base {
      * @return bool if true then header will be visible.
      */
     public function hide_header() {
-        // Hide header if welcome area is show.
+// Hide header if welcome area is show.
         $config = get_config('block_mbsmycourses');
         return !empty($config->showwelcomearea);
     }

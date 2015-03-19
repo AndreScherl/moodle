@@ -63,3 +63,13 @@ $string['view_edit_profile'] = '(View and edit your profile.)';
 $string['welcome'] = 'Welcome {$a}';
 $string['youhavemessages'] = 'You have {$a} unread ';
 $string['youhavenomessages'] = 'You have no unread ';
+
+//additional strings from customizing.
+$string['fullname'] = 'Course name';
+$string['grid'] = 'Grid view';
+$string['lastaccess'] = 'Last access';
+$string['list'] = 'Listview';
+$string['manual'] = 'Users sortorder';
+$string['orderby'] = 'Order by...';
+$string['startdate'] = 'Start date';
+

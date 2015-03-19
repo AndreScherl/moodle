@@ -1,0 +1,8 @@
+{
+    "moodle-block_mbsmycourses-overlay": {
+        "requires": [
+            "base",
+            "node"
+        ]
+    }
+}

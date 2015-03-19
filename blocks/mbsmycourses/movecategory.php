@@ -27,34 +27,36 @@ require_once(dirname(__FILE__) . '/locallib.php');
 require_sesskey();
 require_login();
 
-$coursetomove = required_param('courseid', PARAM_INT);
+$categorytomove = required_param('categoryid', PARAM_INT);
 $moveto = required_param('moveto', PARAM_INT);
 
 $sortedcourses = mbsmycourses::get_sorted_courses_group_by_school('', 0);
-$sortedcourses = array_keys($sortedcourses->sitecourses);
 
-$currentcourseindex = array_search($coursetomove, $sortedcourses);
-// If coursetomove is not found or moveto < 0 or > count($sortedcourses) then throw error.
-if ($currentcourseindex === false) {
-    print_error("invalidcourseid", null, null, $coursetomove);
-} else if (($moveto < 0) || ($moveto >= count($sortedcourses))) {
+$sortedcategorys = array_keys($sortedcourses->groupedcourses);
+
+$currentcategoryindex = array_search($categorytomove, $sortedcategorys);
+
+// If categorytomove is not found or moveto < 0 or > count($sortedcategorys) then throw error.
+if ($currentcategoryindex === false) {
+    print_error("invalidcategoryid", null, null, $categorytomove);
+} else if (($moveto < 0) || ($moveto >= count($sortedcategorys))) {
     print_error("invalidaction");
 }
 
-// If current course index is same as destination index then don't do anything.
-if ($currentcourseindex === $moveto) {
+// If current category index is same as destination index then don't do anything.
+if ($currentcategoryindex === $moveto) {
     redirect(new moodle_url('/my/index.php'));
 }
 
-// Create neworder list for courses.
+// Create neworder list for categorys.
 $neworder = array();
 
-unset($sortedcourses[$currentcourseindex]);
-$neworder = array_slice($sortedcourses, 0, $moveto, true);
-$neworder[] = $coursetomove;
-$remaningcourses = array_slice($sortedcourses, $moveto);
-foreach ($remaningcourses as $courseid) {
-    $neworder[] = $courseid;
+unset($sortedcategorys[$currentcategoryindex]);
+$neworder = array_slice($sortedcategorys, 0, $moveto, true);
+$neworder[] = $categorytomove;
+$remaningcategorys = array_slice($sortedcategorys, $moveto);
+foreach ($remaningcategorys as $categoryid) {
+    $neworder[] = $categoryid;
 }
-mbsmycourses::update_myorder(array_values($neworder));
+mbsmycourses::update_mycategoryorder(array_values($neworder));
 redirect(new moodle_url('/my/index.php'));

@@ -90,15 +90,15 @@ if ($mform->is_cancelled()) {
     if ($instance->id) {
         $reset = ($instance->status != $data->status);
 
-        $instance->status         = ENROL_INSTANCE_ENABLED;
+        $instance->status            = $data->status;
         // $instance->name           = $data->name;
-        $instance->password       = $data->password;
+        $instance->password          = $data->password;
         // $instance->customint1     = $data->customint1;
         // $instance->customint2     = $data->customint2;
         // $instance->customint3     = $data->customint3;
         // $instance->customint4     = $data->customint4;
         // $instance->customint5     = $data->customint5;
-        $instance->customint6     = 1;
+        $instance->customint6        = 1;
         // $instance->customtext1    = $data->customtext1;
         // $instance->roleid         = $data->roleid;
         // $instance->enrolperiod    = $data->enrolperiod;
@@ -116,16 +116,16 @@ if ($mform->is_cancelled()) {
 
     } else {
         $fields = array(
-            'status'          => ENROL_INSTANCE_ENABLED,
+            'status'             => $data->status,
             // 'name'            => $data->name,
-            'password'        => $data->password,
+            'password'           => $data->password,
             // 'customint1'      => $data->customint1,
             // 'customint2'      => $data->customint2,
             // 'customint3'      => $data->customint3,
             // 'customint4'      => $data->customint4,
             // 'customint5'      => $data->customint5,
             // 'customint6'      => $data->customint6,
-            'customint6'      => 1);
+            'customint6'         => 1);
             // 'customtext1'     => $data->customtext1,
             // 'roleid'          => $data->roleid,
             // 'enrolperiod'     => $data->enrolperiod,

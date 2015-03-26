@@ -366,33 +366,40 @@ class theme_mebis_header_renderer extends renderer_base
                 array('class' => 'dropdown-menu dropdown-right', 'role' => 'menu')
             );
             $block_menu .= html_writer::start_tag('li');
-            $block_menu .= html_writer::start_tag('div', array('class' => 'dropdown-inner'));
+            $block_menu .= html_writer::start_div();
+            $block_menu .= html_writer::start_div('dropdown-inner');
             $addblocks = block_add_block_ui($this->page, $OUTPUT);
             $block_menu .= $addblocks->content;
-            $block_menu .= html_writer::end_tag('div');
+            $block_menu .= html_writer::end_div();
+            $block_menu .= html_writer::end_div();
             $block_menu .= html_writer::end_tag('li');
             $block_menu .= html_writer::end_tag('ul');
             $block_menu .= html_writer::end_tag('li');
         }
 
         $menu_items = '';
-        $id = optional_param('id', 1, PARAM_INT);
-        if($PAGE->user_allowed_editing()) {
-            if (!$PAGE->user_is_editing()) {
-                $url = clone $PAGE->url;
-                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'on', 'adminedit' => 1));
-                $menu_items .= html_writer::start_tag('li');
-                $menu_items .= html_writer::tag('a', get_string('menu-edit-activate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
-                $menu_items .= html_writer::end_tag('li');
 
-            } else {
-                $url = clone $PAGE->url;
-                $url->params(array('id' => $id, 'sesskey' => sesskey(), 'edit' => 'off', 'adminedit' => 0));
-                $menu_items .= html_writer::start_tag('li');
-                $menu_items .= html_writer::tag('a', get_string('menu-edit-deactivate', 'theme_mebis'), array('href' => $url, 'class' => 'internal'));
-                $menu_items .= html_writer::end_tag('li');
+        $pageHeadingButtons = $OUTPUT->page_heading_button();
+        if(false !== stripos($pageHeadingButtons, '<input')){
+            $pageHeadingButtons = '';
+
+            $node = $PAGE->settingsnav->get('courseadmin');
+            if ($node instanceof navigation_node) {
+                $editing = $node->children->get('turneditingonoff');
+                if ($editing->display && null !== $editing->action) {
+                    if ($editing->text instanceof lang_string) {
+                        $edittxt = $editing->text->out();
+                    } else {
+                        $edittxt = $editing->text;
+                    }
+                    $pageHeadingButtons .= html_writer::start_tag('li');
+                    $pageHeadingButtons .= html_writer::tag('a', $edittxt, array('href' => $editing->action, 'class' => 'internal'));
+                    $pageHeadingButtons .= html_writer::end_tag('li');
+                }
             }
         }
+
+        $menu_items .= $pageHeadingButtons;
 
         $node = $PAGE->settingsnav->get('usercurrentsettings');
         if($node instanceof navigation_node) {
@@ -455,7 +462,9 @@ class theme_mebis_header_renderer extends renderer_base
                 array('class' => 'extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
             );
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
-            $content .= html_writer::tag('li', $user_menu . $admin_menu);
+            $content .= html_writer::start_tag('li');
+            $content .= html_writer::div($user_menu . $admin_menu, 'cogmenu');
+            $content .= html_writer::end_tag('li');
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('li');
         }
@@ -474,11 +483,13 @@ class theme_mebis_header_renderer extends renderer_base
                     $content .= html_writer::end_tag('a');
                     $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
                     $content .= html_writer::start_tag('li');
+                    $content .= html_writer::start_div('coursemenu');
                     $content .= html_writer::start_div('dropdown-inner');
                     $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
                     $content .= $course_menu;
                     $content .= html_writer::end_tag('ul');
-                    $content .= html_writer::end_tag('div');
+                    $content .= html_writer::end_div();
+                    $content .= html_writer::end_div();
                     $content .= html_writer::end_tag('li');
                     $content .= html_writer::end_tag('ul');
                     $content .= html_writer::end_tag('li');
@@ -509,7 +520,7 @@ class theme_mebis_header_renderer extends renderer_base
                 $link = '#';
                 $linktxt = '';
                 if (null !== $navchild->action) {
-                    $link = $navchild->action->__toString();
+                    $link = htmlspecialchars_decode ($navchild->action->__toString());
                 }
 
                 // skip all the links which contain on the given $linkfilters
@@ -528,15 +539,27 @@ class theme_mebis_header_renderer extends renderer_base
                         $linktxt = $navchild->text;
                     }
 
-                    // links  with no link target should not be displayed as they do not represent an own "page" but
-                    // are used only for structuring the menu. As we currently do not deal with submenus in the menu
-                    // bar there is no need to display those links.
-                    if($link !== '#') {
-                        $menuitems .= '<li><a href="' . $link . '" class="internal block-icon">' . $linktxt . '</a></li>';
-                    }
-
                     if ($navchild->has_children()) {
+                        if ($link !== '#') {
+                            $menuitems .= html_writer::start_tag('li', array('class' => 'hiddennavnode'));
+                            $menuitems .= html_writer::start_tag('span', array('class' => 'internal hiddennavbutton'));
+                            $menuitems .= html_writer::tag('a', $linktxt . ':', array('href' => $link));
+                            $menuitems .= html_writer::end_tag('span');
+                            $menuitems .= html_writer::start_tag('ul', array('class' => 'hiddennavleaf'));
+                        } else {
+                            if ($linktxt !== '') {
+                                $menuitems .= html_writer::start_tag('li', array('class' => 'hiddennavnode'));
+                                $menuitems .= html_writer::tag('span', $linktxt, array('class' => 'internal hiddennavbutton'));
+                                $menuitems .= html_writer::start_tag('ul', array('class' => 'hiddennavleaf'));
+                            }
+                        }
                         $menuitems .= $this->generateMenuContentFor($navchild);
+                        $menuitems .= html_writer::end_tag('ul');
+                        $menuitems .= html_writer::end_tag('li');
+                    } else {
+                        $menuitems .= html_writer::start_tag('li');
+                        $menuitems .= html_writer::tag('a', $linktxt, array('class' => 'internal', 'href' => $link));
+                        $menuitems .= html_writer::end_tag('li');
                     }
                 }
             }

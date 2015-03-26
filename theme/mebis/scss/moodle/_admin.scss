@@ -312,3 +312,67 @@
         margin-right: 5px;
     }
 }
+
+
+/** Custom YUI grid CSS **/
+.grid-col {
+    display: inline-block;
+    zoom: 1; *display: inline;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    text-rendering: auto;
+}
+.grid-col-1{display:block;}
+.grid-col-1-2{width: 50%;}
+.grid-col-1-3{width: 33.33333%;}
+.grid-col-2-3{width: 66.66667%;}
+.grid-col-1-4{width: 25%;}
+.grid-col-3-4{width: 75%;}
+.grid-col-1-5{width: 20%;}
+.grid-col-2-5{width: 40%;}
+.grid-col-3-5{width: 60%;}
+.grid-col-4-5{width: 80%;}
+.grid-col-1-6{width: 16.66667%;}
+.grid-col-5-6{width: 83.33333%;}
+.grid-col-1-7{width: 14.28571%;}
+.grid-col-2-7{width: 28.57143%;}
+.grid-col-3-7{width: 42.85714%;}
+.grid-col-4-7{width: 57.14286%;}
+.grid-col-5-7{width: 71.42857%;}
+.grid-col-6-7{width: 85.71429%;}
+.grid-col-1-8{width: 12.5%;}
+.grid-col-3-8{width: 37.5%;}
+.grid-col-5-8{width: 62.5%;}
+.grid-col-7-8{width: 87.5%;}
+.grid-col-1-9{width: 11.11111%;}
+.grid-col-2-9{width: 22.22222%;}
+.grid-col-4-9{width: 44.44444%;}
+.grid-col-5-9{width: 55.55556%;}
+.grid-col-6-9{width: 66.66667%;}
+.grid-col-7-9{width: 77.77778%;}
+.grid-col-8-9{width: 88.88889%;}
+.grid-col-1-10{width: 10%;}
+.grid-col-3-10{width: 30%;}
+.grid-col-7-10{width: 70%;}
+.grid-col-9-10{width: 90%;}
+.grid-col-1-11{width: 9.09091%;}
+.grid-col-2-11{width: 18.18182%;}
+.grid-col-3-11{width: 27.27273%;}
+.grid-col-4-11{width: 36.36364%;}
+.grid-col-5-11{width: 45.45455%;}
+.grid-col-6-11{width: 54.54545%;}
+.grid-col-7-11{width: 63.63636%;}
+.grid-col-8-11{width: 72.72727%;}
+.grid-col-9-11{width: 81.81818%;}
+.grid-col-10-11{width: 90.90909%;}
+.grid-col-1-12{padding-left: 20px; width: 8.33333%;}
+.grid-col-5-12{padding-left: 20px; width: 41.66667%;}
+.grid-col-7-12{padding-left: 20px; width: 58.33333%;}
+.grid-col-9-12{padding-left: 20px; width: 75%;}
+.grid-col-11-12{padding-left: 20px; width: 91.66667%;}
+.grid-row-r {
+    letter-spacing: -0.31em;
+    *letter-spacing: normal;
+    word-spacing: -0.43em;
+}

@@ -78,6 +78,7 @@ $PAGE->set_pagelayout('embedded');
 if ( $theme != 'course_theme') {
     $PAGE->requires->css('/mod/chat/gui_ajax/theme/'.$theme.'/chat.css');
 }
+    $PAGE->requires->css('/theme/mebis/style/mebis.css');
 
 echo $OUTPUT->header();
 echo $OUTPUT->box(html_writer::tag('h2',  get_string('participants'), array('class' => 'accesshide')) .

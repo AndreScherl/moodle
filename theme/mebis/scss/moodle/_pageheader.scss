@@ -36,35 +36,50 @@ div[role="main"] {
                 border: none;
                 font-size: emCalc(14px);
             }
-
-            div {
-                background-color: $gray-lighter;
-                font-family: 'Titillium Web';
-                font-size: emCalc(16px);
-                color: $gray-dark;
-                text-align: left;
-                line-height: normal;
-
-                &.dropdown-inner div {
-                    background: transparent;
-
-                    select {
-                        width: 100%;
-                        margin-bottom: 0;
-                    }
+            .cogmenu, .coursemenu {
+                @media only screen and (max-width: $screen-xs) {
+                    height: 265px;
+                    overflow-y: scroll;
+                }
+                @media only screen and (max-width: $screen-xc) {
+                    height: 300px;
+                    overflow-y: scroll;
                 }
 
-                &.admin-dropdown {
-                    background-color: $gray-dark;
-                    color: $white;
+                div {
+                    background-color: $gray-lighter;
+                    font-family: 'Titillium Web';
+                    font-size: emCalc(16px);
+                    color: $gray-dark;
+                    text-align: left;
+                    line-height: normal;
 
-                    a {
+                    @media only screen and (max-width: $screen-xc) {
+                        font-size: emCalc(19px);
+                        line-height: 200%;
+                    }
+
+                    &.dropdown-inner div {
+                        background: transparent;
+
+                        select {
+                            width: 100%;
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    &.admin-dropdown {
+                        background-color: $gray-dark;
                         color: $white;
-                    }
-                }
 
-                ul {
-                    list-style: none;
+                        a {
+                            color: $white;
+                        }
+                    }
+
+                    ul {
+                        list-style: none;
+                    }
                 }
             }
         }

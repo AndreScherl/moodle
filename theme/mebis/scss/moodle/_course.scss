@@ -50,7 +50,7 @@
             visibility: hidden;
         }
     }
-    
+
     li.current {
         background-color: #e6e6e6 !important;
     }
@@ -667,4 +667,8 @@
 
 .me-course-action-links a {
     margin-left: 10px;
+}
+
+.path-course-view .completionprogress {
+    z-index:1;
 }

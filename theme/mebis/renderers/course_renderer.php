@@ -209,6 +209,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
     {
         global $CFG;
         require_once($CFG->libdir . '/coursecatlib.php');
+        require_once($CFG->libdir . '/enrollib.php');
 
         $chelper = new coursecat_helper();
         $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_EXPANDED)->
@@ -231,19 +232,22 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
             // Print link to create a new course, for the 1st available category.
             return $this->add_new_course_button();
         }
-        return $result; //$this->coursecat_courses($chelper, $courses, $totalcount);
+        return $result;
     }
 
     public function getCategoryTree($categoryId)
     {
+        global $CFG;
         $result = '';
         $categories = coursecat::get($categoryId)->get_children();
         foreach ($categories as $category) {
             $result .= html_writer::start_div('category-container');
             $result .= html_writer::start_div('category-title');
-            $result .= html_writer::span($category->name);
+            $result .= html_writer::start_span('category-title-name');
+            $result .= html_writer::link(new moodle_url('/course/index.php?categoryid='.$category->id), $category->name);
+            $result .= html_writer::end_span();
             if ($category->has_children() || $category->has_courses()) {
-                $result .= html_writer::span('','category-toggle open');
+                $result .= html_writer::span('','category-toggle');
             }
             $result .= html_writer::end_div();
             if ($category->has_children() || $category->has_courses()) {
@@ -266,8 +270,22 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
                     if ($course->has_summary()) {
                         $result .= html_writer::span('','infoToggle icon-me-infoportal');
                     }
-                    if ($course->can_access()) {
-                        $result .= html_writer::span('','accessible icon-me-stern_komplett');
+                    $icons = enrol_get_course_info_icons($course);
+                    if ($icons) {
+                        //var_dump($icons);
+                        foreach ($icons as $pix_icon){
+                            $result .= html_writer::span($this->render($pix_icon), 'accessible');
+                        }
+//                        if (isset($icons[0]) && $icons[0]->pix === 'withkey'){
+//                            $result .= html_writer::span('', 'accessible icon-me-einschreibung-mit-schluessel');
+//
+//                        }elseif (isset($icons[0]) && $icons[0]->pix === 'withoutkey')
+//                        {
+//                            $result .= html_writer::span('', 'accessible icon-me-einschreibung-ohne-schluessel');
+//                        } else
+//                        {
+//                            $result .= html_writer::span('', 'accessible icon-me-gastzugang');
+//                        }
                     }
                     $result .= html_writer::end_div();
                     if ($course->has_summary()) {
@@ -400,7 +418,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
-        $output .= $this->render_category_headline($coursecat->name);
+        //$output .= $this->render_category_headline($coursecat->name);
 
         // Display course category tree
         $output .= $this->coursecat_tree($chelper, $coursecat);
@@ -411,6 +429,43 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
 
         return $output;
+    }
+
+
+    /**
+     * Returns HTML to display a tree of subcategories and courses in the given category
+     *
+     * @param coursecat_helper $chelper various display options
+     * @param coursecat $coursecat top category (this category's name and description will NOT be added to the tree)
+     * @return string
+     */
+    protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
+        global $CFG, $PAGE, $OUTPUT;
+
+        $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);
+        if (empty($categorycontent)) {
+            return '';
+        }
+
+        // Start content generation
+        $content = '';
+        $attributes = $chelper->get_and_erase_attributes('course_category_tree clearfix');
+        $content .= html_writer::start_tag('div', $attributes);
+
+        require_once($CFG->libdir.'/blocklib.php');
+
+        //$courseblock = new block_mbsnewcourse();
+
+        $bm = new block_manager($PAGE);
+
+        $bm->add_region('mbscoord');
+        $bm->load_blocks();
+
+        $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
+
+        $content .= html_writer::end_tag('div'); // .course_category_tree
+
+        return $content;
     }
 
     /**

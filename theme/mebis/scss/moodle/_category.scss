@@ -10,17 +10,23 @@
                 margin-right: 20px;
             }
             .infoToggle {
+                color: $white;
                 float: right;
                 margin-right: 20px;
             }
             span.category-course-title-name {
                 margin-left: 5px;
                 a {
-                    color: $brand-gray-dark;
+                    color: $white;
                 }
+            }
+            i {
+                color: $white;
+                font-size: 1.25em;
             }
         }
         .category-course-info {
+            color: $white;
             display: none;
             padding: 0 15px 1px 41px;
         }
@@ -33,73 +39,79 @@
             background-color: $white !important;
             padding: 20px !important;
             margin-bottom: 1px !important;
+            > span.category-title-name a {
+                color: $brand-gray-dark !important;
+            }
+            >.category-toggle {
+                color: $brand-gray-dark !important;
+            }
         }
         > .category-body {
             background-color: $white !important;
             margin-top: 0px !important;
             padding: 20px !important;
             >.category-course {
-                background-color:rgba(0,0,0,.1);
+                background-color: rgba(0, 168, 213, 1.0);
             }
             >.category-container {
                 >.category-title {
-                    background-color:rgba(0,0,0,.1);
+                    background-color: rgba(0, 168, 213, 1.0);
                 }
                 >.category-body {
                     >.category-course {
-                        background-color:rgba(0,0,0,.2);
+                        background-color: rgba(0, 168, 213, 0.85);
                     }
                     >.category-container  {
                         >.category-title{
-                            background-color:rgba(0,0,0,.2);
+                            background-color: rgba(0, 168, 213, 0.85);
                         }
                         >.category-body {
                             >.category-course {
-                                background-color:rgba(0,0,0,.3);
+                                background-color: rgba(0, 168, 213, 0.7);
                             }
                             >.category-container  {
                                 >.category-title{
-                                    background-color:rgba(0,0,0,.3);
+                                    background-color: rgba(0, 168, 213, 0.7);
                                 }
                                 >.category-body {
                                     >.category-course {
-                                        background-color:rgba(0,0,0,.4);
+                                        background-color: rgba(0, 168, 213, 0.55);
                                     }
                                     >.category-container  {
                                         >.category-title{
-                                            background-color:rgba(0,0,0,.4);
+                                            background-color: rgba(0, 168, 213, 0.55);
                                         }
                                         >.category-body {
                                             >.category-course {
-                                                background-color:rgba(0,0,0,.5);
+                                                background-color:rgba(0, 168, 213, 0.4);
                                             }
                                             >.category-container  {
                                                 >.category-title{
-                                                    background-color:rgba(0,0,0,.5);
+                                                    background-color: rgba(0, 168, 213, 0.4);
                                                 }
                                                 >.category-body {
                                                     >.category-course {
-                                                        background-color:rgba(0,0,0,.6);
+                                                        background-color: rgba(0, 168, 213, 0.25);
                                                     }
                                                     >.category-container  {
                                                         >.category-title{
-                                                            background-color:rgba(0,0,0,.6);
+                                                            background-color: rgba(0, 168, 213, 0.25);
                                                         }
                                                         >.category-body {
                                                             >.category-course {
-                                                                background-color:rgba(0,0,0,.7);
+                                                                background-color: rgba(0, 168, 213, 0.1);
                                                             }
                                                             >.category-container  {
                                                                 >.category-title{
-                                                                    background-color:rgba(0,0,0,.7);
+                                                                    background-color: rgba(0, 168, 213, 0.1);
                                                                 }
                                                                 >.category-body {
                                                                     >.category-course {
-                                                                        background-color:rgba(0,0,0,.8);
+                                                                        background-color: rgba(0, 168, 213, 0.05);
                                                                     }
                                                                     >.category-container  {
                                                                         >.category-title{
-                                                                            background-color:rgba(0,0,0,.8);
+                                                                            background-color: rgba(0, 168, 213, 0.05);
                                                                         }
                                                                     }
                                                                 }
@@ -125,9 +137,22 @@
         margin: 5px 0 !important;
         padding: 20px !important;
         >.category-course-title {
-
+            span.category-course-title-name {
+                margin-left: 5px;
+                a {
+                    color: $brand-gray-dark;
+                }
+            }
+            .infoToggle {
+                color: rgba(0, 168, 213, 1.0);
+            }
+            i {
+                color: $brand-gray-dark;
+                font-size: 1.25em;
+            }
         }
         >.category-course-info {
+            color: $brand-gray-dark;
         }
     }
     .category-container {
@@ -136,6 +161,7 @@
             margin: 2px 0;
             .category-toggle {
                 float: right;
+                color: $white;
                 margin-right: 20px;
                 &::before {
                     font-family: 'mebis-icons';
@@ -148,13 +174,57 @@
                     }
                 }
             }
-            span a {
-                color: $brand-gray-dark;
+            span.category-title-name {
+                margin-left: 5px;
+                a {
+                    color: $white;
+                }
             }
         }
         .category-body {
+            display: none;
             margin: 2px 0;
             padding: 0 0 0 20px;
+            @media only screen and (max-width: $screen-xc) {
+                padding: 0;
+            }
+        }
+    }
+}
+
+.mbscoordinators {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 30px;
+    > div {
+        float: left;
+    }
+    > ul {
+        list-style: none;
+        > li {
+            float: left;
+            margin-left: 10px;
+        }
+    }
+}
+
+.mbsnewcourse {
+    padding-bottom: 30px;
+    > ul {
+        list-style: none;
+        > li {
+            float: right;
+            margin-left: 50px;
+            a.requestcourse::before {
+                font-family: 'mebis-icons';
+                content: '\e631';
+                padding-right: 5px;
+            }
+            a.createcourse::before {
+                font-family: 'mebis-icons';
+                content: '\e633';
+                padding-right: 5px;
+            }
         }
     }
 }

@@ -44,6 +44,11 @@ $THEME->layouts = array(
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre'
     ),
+    'coursecategory' => array(
+        'file' => 'category.php',
+        'regions' => array('side-pre', 'top'),
+        'defaultregion' => 'side-pre',
+    ),
     'incourse' => array(
         'file' => 'default.php',
         'regions' => array('side-pre'),

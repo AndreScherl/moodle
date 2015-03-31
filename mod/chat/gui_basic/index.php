@@ -107,7 +107,11 @@ if (!empty($refresh) and data_submitted()) {
 }
 
 $PAGE->set_title("$strchat: $course->shortname: ".format_string($chat->name,true)."$groupname");
+// ADDED MEBIS THEME TO MAKE CHAT READABLE
+$PAGE->requires->css('/theme/mebis/style/mebis.css');
 echo $OUTPUT->header();
+
+
 echo $OUTPUT->container_start(null, 'page-mod-chat-gui_basic');
 
 echo $OUTPUT->heading(format_string($course->shortname), 1);

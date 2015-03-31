@@ -39,10 +39,10 @@ div[role="main"] > h2 {
 					width: 60px;
 					height: 100%;
 					position: relative;
-                                        
-                                        &.dropdown {
-                                            background: #ccc;
-                                        }
+
+                    &.dropdown {
+                        background: #ccc;
+                    }
 
 					> a {
 						font-size: 1.5em;
@@ -97,6 +97,21 @@ div[role="main"] > h2 {
 					}
 				}
 			}
+            .hiddennavnode {
+                color: $white;
+                font-weight: bold;
+                cursor: pointer;
+
+                &.open > span.internal:before { content: "\e662"; }
+
+                > span.internal:before { content: "\e63d"; }
+
+                .hiddennavleaf {
+                    display: none;
+                    margin-left: 15px;
+                    font-weight: normal;
+                }
+            }
 		}
 
 		.me-help-note {
@@ -211,6 +226,16 @@ div[role="main"] > h2 {
 	@media only screen and (min-width: $screen-sm-min) {
 
 	}
+    @media only screen and (max-width: $screen-md-min) {
+        .me-learning-platform-header-nav {
+			margin-top: 20px;
+        }
+	}
+    @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
+        .breadcrumb.text-left {
+			padding: 50px 0 20px;
+        }
+	}
 
 	/////////////////////
 	// LARGE [Desktop] //
@@ -225,13 +250,8 @@ div[role="main"] > h2 {
 	@media only screen and (max-width: $screen-xc-min) {
 
 		.me-learning-platform-header-nav {
-			margin-top: 20px;
 
 			ul.nav {
-                                
-                                > li {
-                                    width: 16%;
-                                }
 
 				li.dropdown {
 					position: static;

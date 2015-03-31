@@ -1306,6 +1306,7 @@
 
 		// page header in normal view
 		.me-page-header {
+            font-size: $font-size-base !important;
 			border: none;
 			padding: 42px 0 0;
 			margin: 0;
@@ -1315,6 +1316,11 @@
 			z-index: 99;
 			min-height: 135px;
 			@include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+
+
+            @media only screen and (max-width: $screen-md) {
+                position: absolute;
+            }
 
 			.container {
 
@@ -1364,7 +1370,7 @@
 				}
 
 				@media only screen and (max-width: $screen-xs-min) {
-					margin-top: 228px;
+					margin-top: 203px;
 				}
 			}
 		}

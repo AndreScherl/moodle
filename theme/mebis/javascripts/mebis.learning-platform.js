@@ -39,10 +39,29 @@ var MebisLearningPlatform = (function ($) {
         }
     }
 
+    function hiddennav() {
+        $('span.hiddennavbutton').click(function () {
+            $(this).parent().children('ul.hiddennavleaf').toggle(200);
+            $(this).parent().toggleClass('open');
+        })
+    }
+
+    function categorytoggles() {
+        $('span.category-toggle').click(function(){
+            $(this).parent().parent().children('.category-body').slideToggle(200);
+            $(this).toggleClass('open');
+        })
+        $('span.infoToggle').click(function(){
+            $(this).parent().parent().children('.category-course-info').slideToggle(200);
+        })
+    }
+
     return {
         init: function () {
             preventLinkDefault();
             initHelpNote();
+            hiddennav();
+            categorytoggles();
         }
     }
 

@@ -213,6 +213,18 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         return $content;
     }
 
+    /**
+     * Renders a "single button" widget for insertion into the menu bar
+     *
+     * @param single_button $button
+     * @return string HTML fragment
+     */
+    protected function render_single_button(single_button $button) {
+        $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
+
+        return html_writer::tag('li', $output);
+    }
+
 }
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion

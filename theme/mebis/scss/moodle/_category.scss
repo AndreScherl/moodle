@@ -10,6 +10,7 @@
                 margin-right: 20px;
             }
             .infoToggle {
+                cursor: pointer;
                 color: $white;
                 float: right;
                 margin-right: 20px;
@@ -35,15 +36,16 @@
     > .category-container {
         padding: 0 !important;
         > .category-title {
+
             font-weight: bold;
-            background-color: $white !important;
+            background-color: $brand-primary !important;
             padding: 20px !important;
-            margin-bottom: 1px !important;
+            margin-bottom: 0!important;
             > span.category-title-name a {
-                color: $brand-gray-dark !important;
+                color: $white;
             }
             >.category-toggle {
-                color: $brand-primary !important;
+                color: $white;
             }
         }
         > .category-body {
@@ -51,67 +53,73 @@
             margin-top: 0px !important;
             padding: 20px !important;
             >.category-course {
-                background-color: rgba(0, 168, 213, 1.0);
+                background-color: rgba($brand-primary, 1.0);
             }
             >.category-container {
                 >.category-title {
-                    background-color: rgba(0, 168, 213, 1.0);
+                    background-color: rgba($brand-primary, 1.0);
                 }
                 >.category-body {
                     >.category-course {
-                        background-color: rgba(0, 168, 213, 0.85);
+                        background-color: rgba($brand-primary, 0.85);
                     }
                     >.category-container  {
                         >.category-title{
-                            background-color: rgba(0, 168, 213, 0.85);
+                            background-color: rgba($brand-primary, 0.85);
                         }
                         >.category-body {
                             >.category-course {
-                                background-color: rgba(0, 168, 213, 0.7);
+                                background-color: rgba($brand-primary, 0.7);
                             }
                             >.category-container  {
                                 >.category-title{
-                                    background-color: rgba(0, 168, 213, 0.7);
+                                    background-color: rgba($brand-primary, 0.7);
                                 }
                                 >.category-body {
                                     >.category-course {
-                                        background-color: rgba(0, 168, 213, 0.55);
+                                        background-color: rgba($brand-primary, 0.55);
                                     }
                                     >.category-container  {
                                         >.category-title{
-                                            background-color: rgba(0, 168, 213, 0.55);
+                                            background-color: rgba($brand-primary, 0.55);
                                         }
                                         >.category-body {
                                             >.category-course {
-                                                background-color:rgba(0, 168, 213, 0.4);
+                                                background-color: rgba($brand-primary, 0.4);
                                             }
                                             >.category-container  {
                                                 >.category-title{
-                                                    background-color: rgba(0, 168, 213, 0.4);
+                                                    background-color: rgba($brand-primary, 0.4);
                                                 }
                                                 >.category-body {
                                                     >.category-course {
-                                                        background-color: rgba(0, 168, 213, 0.25);
+                                                        color: $brand-gray-dark;
+                                                        background-color: rgba($brand-primary, 0.25);
                                                     }
                                                     >.category-container  {
                                                         >.category-title{
-                                                            background-color: rgba(0, 168, 213, 0.25);
+                                                            color: $brand-gray-dark;
+                                                            background-color: rgba($brand-primary, 0.25);
                                                         }
                                                         >.category-body {
                                                             >.category-course {
-                                                                background-color: rgba(0, 168, 213, 0.1);
+                                                                color: $brand-gray-dark;
+                                                                background-color: rgba($brand-primary, 0.1);
                                                             }
                                                             >.category-container  {
                                                                 >.category-title{
-                                                                    background-color: rgba(0, 168, 213, 0.1);
+                                                                    color: $brand-gray-dark;
+                                                                    background-color: rgba($brand-primary, 0.1);
                                                                 }
                                                                 >.category-body {
                                                                     >.category-course {
-                                                                        background-color: rgba(0, 168, 213, 0.05);
+                                                                        color: $brand-gray-dark;
+                                                                        background-color: rgba($brand-primary, 0.05);
                                                                     }
                                                                     >.category-container  {
                                                                         >.category-title{
-                                                                            background-color: rgba(0, 168, 213, 0.05);
+                                                                            color: $brand-gray-dark;
+                                                                            background-color: rgba($brand-primary, 0.05);
                                                                         }
                                                                     }
                                                                 }
@@ -133,26 +141,27 @@
     }
 
     >.category-course {
-        background-color: $white !important;
+        background-color: $brand-primary !important;
         margin: 5px 0 !important;
         padding: 20px !important;
         >.category-course-title {
+            padding: 0 !important;
             span.category-course-title-name {
                 margin-left: 5px;
                 a {
-                    color: $brand-gray-dark;
+                    color: $white;
                 }
             }
             .infoToggle {
-                color: rgba(0, 168, 213, 1.0);
+                color: $white;
             }
             i {
-                color: $brand-gray-dark;
+                color: $white;
                 font-size: 1.25em;
             }
         }
         >.category-course-info {
-            color: $brand-gray-dark;
+            color: $white;
         }
     }
     .category-container {
@@ -160,6 +169,7 @@
             padding: 15px 0 15px 10px;
             margin: 2px 0;
             .category-toggle {
+                cursor: pointer;
                 float: right;
                 color: $white;
                 margin-right: 20px;
@@ -215,15 +225,8 @@
         > li {
             float: right;
             margin-left: 50px;
-            a.requestcourse::before {
-                font-family: 'mebis-icons';
-                content: '\e631';
-                padding-right: 5px;
-            }
-            a.createcourse::before {
-                font-family: 'mebis-icons';
-                content: '\e633';
-                padding-right: 5px;
+            a i {
+                font-size: 1.25em !important;
             }
         }
     }

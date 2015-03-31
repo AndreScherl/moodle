@@ -24,8 +24,7 @@ class theme_mebis_block_mbscoordinators_renderer extends block_mbscoordinators_r
             //$messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_mbscoordinators'));
             $messageicon = html_writer::tag('i', '', array('class' => 'icon-me-email'));
 
-            $li = html_writer::link($messageurl, $messageicon);
-            $li .= html_writer::link($messageurl, fullname($coordinator));
+            $li = html_writer::link($messageurl, $messageicon.fullname($coordinator));
 
             $outli .= html_writer::tag('li', $li);
         }

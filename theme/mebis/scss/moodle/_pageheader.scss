@@ -37,15 +37,6 @@ div[role="main"] {
                 font-size: emCalc(14px);
             }
             .cogmenu, .coursemenu {
-                @media only screen and (max-width: $screen-xs) {
-                    height: 265px;
-                    overflow-y: scroll;
-                }
-                @media only screen and (max-width: $screen-xc) {
-                    height: 300px;
-                    overflow-y: scroll;
-                }
-
                 div {
                     background-color: $gray-lighter;
                     font-family: 'Titillium Web';

@@ -17383,21 +17383,7 @@ div[role="main"] ul, div[role="main"] ol {
   border: none;
   font-size: 0.875em;
 }
-@media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000339}}
-  .moodle-menu .nav > li.dropdown ul .cogmenu, .moodle-menu .nav > li.dropdown ul .coursemenu {
-    height: 265px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000339}}
-  .moodle-menu .nav > li.dropdown ul .cogmenu, .moodle-menu .nav > li.dropdown ul .coursemenu {
-    height: 300px;
-    overflow-y: scroll;
-  }
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000340}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
   background-color: #eeeeee;
   font-family: 'Titillium Web';
@@ -17407,31 +17393,31 @@ div[role="main"] ul, div[role="main"] ol {
   line-height: normal;
 }
 @media only screen and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000340}}
   .moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
     font-size: 1.1875em;
     line-height: 200%;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000353}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div {
   background: transparent;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000356}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div select, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div select {
   width: 100%;
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000362}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown {
   background-color: #333333;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000366}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown a, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown a {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000380}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000371}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div ul, .moodle-menu .nav > li.dropdown ul .coursemenu div ul {
   list-style: none;
 }
@@ -19495,230 +19481,234 @@ h2.header {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000312}}
 .category-box .category-course .category-course-title .infoToggle {
+  cursor: pointer;
   color: #fff;
   float: right;
   margin-right: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000318}}
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000319}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000320}}
 .category-box .category-course .category-course-title span.category-course-title-name a {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000324}}
 .category-box .category-course .category-course-title i {
   color: #fff;
   font-size: 1.25em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000329}}
 .category-box .category-course .category-course-info {
   color: #fff;
   display: none;
   padding: 0 15px 1px 41px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000336}}
 .category-box > .category-container {
   padding: 0 !important;
   margin: 0 0 5px !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000338}}
 .category-box > .category-container > .category-title {
   font-weight: bold;
-  background-color: #fff !important;
+  background-color: #00a8d5 !important;
   padding: 20px !important;
-  margin-bottom: 1px !important;
+  margin-bottom: 0 !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000344}}
 .category-box > .category-container > .category-title > span.category-title-name a {
-  color: #333333 !important;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000347}}
 .category-box > .category-container > .category-title > .category-toggle {
-  color: #00a8d5 !important;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000351}}
 .category-box > .category-container > .category-body {
   background-color: #fff !important;
   margin-top: 0px !important;
   padding: 20px !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000355}}
 .category-box > .category-container > .category-body > .category-course {
   background-color: #00a8d5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000359}}
 .category-box > .category-container > .category-body > .category-container > .category-title {
   background-color: #00a8d5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000361}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000363}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-course {
   background-color: rgba(0, 168, 213, 0.85);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000367}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
   background-color: rgba(0, 168, 213, 0.85);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000371}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
   background-color: rgba(0, 168, 213, 0.7);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000375}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
   background-color: rgba(0, 168, 213, 0.7);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000377}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000379}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
   background-color: rgba(0, 168, 213, 0.55);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000383}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
   background-color: rgba(0, 168, 213, 0.55);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000387}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
   background-color: rgba(0, 168, 213, 0.4);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000391}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
   background-color: rgba(0, 168, 213, 0.4);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000395}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
+  color: #333333;
   background-color: rgba(0, 168, 213, 0.25);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003100}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
+  color: #333333;
   background-color: rgba(0, 168, 213, 0.25);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003101}}
-.category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
-  background-color: rgba(0, 168, 213, 0.1);
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003105}}
-.category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
+.category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
+  color: #333333;
   background-color: rgba(0, 168, 213, 0.1);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003110}}
+.category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
+  color: #333333;
+  background-color: rgba(0, 168, 213, 0.1);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003115}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-course {
+  color: #333333;
   background-color: rgba(0, 168, 213, 0.05);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003113}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003120}}
 .category-box > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-body > .category-container > .category-title {
+  color: #333333;
   background-color: rgba(0, 168, 213, 0.05);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003135}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003143}}
 .category-box > .category-course {
-  background-color: #fff !important;
+  background-color: #00a8d5 !important;
   margin: 5px 0 !important;
   padding: 20px !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003147}}
+.category-box > .category-course > .category-course-title {
+  padding: 0 !important;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003149}}
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003142}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003151}}
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
-  color: #333333;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003155}}
 .category-box > .category-course > .category-course-title .infoToggle {
-  color: #00a8d5;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003149}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003158}}
 .category-box > .category-course > .category-course-title i {
-  color: #333333;
+  color: #fff;
   font-size: 1.25em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003163}}
 .category-box > .category-course > .category-course-info {
-  color: #333333;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003159}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003168}}
 .category-box .category-container .category-title {
   padding: 15px 0 15px 10px;
   margin: 2px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003162}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003171}}
 .category-box .category-container .category-title .category-toggle {
+  cursor: pointer;
   float: right;
   color: #fff;
   margin-right: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003176}}
 .category-box .category-container .category-title .category-toggle::before {
   font-family: 'mebis-icons';
   content: "\e63d";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003181}}
 .category-box .category-container .category-title .category-toggle.open::before {
   font-family: 'mebis-icons';
   content: "\e662";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003177}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003187}}
 .category-box .category-container .category-title span.category-title-name {
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003179}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003189}}
 .category-box .category-container .category-title span.category-title-name a {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003184}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003194}}
 .category-box .category-container .category-body {
   display: none;
   margin: 2px 0;
   padding: 0 0 0 20px;
 }
 @media only screen and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003184}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003194}}
   .category-box .category-container .category-body {
     padding: 0;
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003195}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003205}}
 .mbscoordinators {
   clear: both;
   overflow: hidden;
   margin-bottom: 30px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003199}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003209}}
 .mbscoordinators > div {
   float: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003212}}
 .mbscoordinators > ul {
   list-style: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003204}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003214}}
 .mbscoordinators > ul > li {
   float: left;
   margin-left: 10px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003211}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003221}}
 .mbsnewcourse {
   padding-bottom: 30px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003213}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003223}}
 .mbsnewcourse > ul {
   list-style: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003215}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003225}}
 .mbsnewcourse > ul > li {
   float: right;
   margin-left: 50px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003218}}
-.mbsnewcourse > ul > li a.requestcourse::before {
-  font-family: 'mebis-icons';
-  content: '\e631';
-  padding-right: 5px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003223}}
-.mbsnewcourse > ul > li a.createcourse::before {
-  font-family: 'mebis-icons';
-  content: '\e633';
-  padding-right: 5px;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/creiser\/NetBeansProjects\/dlbmoodle\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003228}}
+.mbsnewcourse > ul > li a i {
+  font-size: 1.25em !important;
 }

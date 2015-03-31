@@ -1306,6 +1306,7 @@
 
 		// page header in normal view
 		.me-page-header {
+            font-size: $font-size-base !important;
 			border: none;
 			padding: 42px 0 0;
 			margin: 0;
@@ -1369,7 +1370,7 @@
 				}
 
 				@media only screen and (max-width: $screen-xs-min) {
-					margin-top: 228px;
+					margin-top: 203px;
 				}
 			}
 		}

@@ -133,7 +133,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
         if ($section->section != 0) {
             $controls = $this->section_edit_controls($course, $section, $onsectionpage);
             if (!empty($controls)) {
-                $o .= implode('<br />', $controls);
+                $o .= implode('', $controls);  // No 'br' as done in styles.css with a 'display:block' so will not have to many of them when the up arrow is removed by JS.
             } else {
                 if (empty($this->tcsettings)) {
                     $this->tcsettings = $this->courseformat->get_settings();
@@ -355,7 +355,6 @@ class format_topcoll_renderer extends format_section_renderer_base {
                                     array('src' => $this->output->pix_url('t/edit'),
                                           'class' => 'icon edit tceditsection', 'alt' => get_string('edit'))),
                                     array('title' => get_string('editsummary'), 'class' => 'tceditsection'));
-                $rightcontent .= html_writer::empty_tag('br');
             }
             $rightcontent .= $this->section_right_content($section, $course, $onsectionpage);
             $o .= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
@@ -391,6 +390,11 @@ class format_topcoll_renderer extends format_section_renderer_base {
 
             $o .= html_writer::end_tag('a');
             $o .= html_writer::end_tag('div');
+
+            if ($this->tcsettings['showsectionsummary'] == 2) {
+                $o .= $this->section_summary_container($section);
+            }
+
             $o .= html_writer::start_tag('div', array('class' => 'sectionbody toggledsection'.$sectionclass,
                                                       'id' => 'toggledsection-' . $section->section));
 
@@ -401,10 +405,9 @@ class format_topcoll_renderer extends format_section_renderer_base {
                                     array('title' => get_string('editsummary')));
             }
 
-            $o .= html_writer::start_tag('div', array('class' => 'summary'));
-            $o .= $this->format_summary_text($section);
-
-            $o .= html_writer::end_tag('div');
+            if ($this->tcsettings['showsectionsummary'] == 1) {
+                $o .= $this->section_summary_container($section);
+            }
 
             $o .= $this->section_availability_message($section, has_capability('moodle/course:viewhiddensections', $context));
         } else {
@@ -426,6 +429,19 @@ class format_topcoll_renderer extends format_section_renderer_base {
             $o .= html_writer::end_tag('div');
 
             $o .= $this->section_availability_message($section, has_capability('moodle/course:viewhiddensections', $context));
+        }
+        return $o;
+    }
+
+    protected function section_summary_container($section) {
+        $summarytext = $this->format_summary_text($section);
+        if ($summarytext) {
+            $classextra = ($this->tcsettings['showsectionsummary'] == 1) ? '' : ' summaryalwaysshown' ;
+            $o = html_writer::start_tag('div', array('class' => 'summary'.$classextra));
+            $o .= $this->format_summary_text($section);
+            $o .= html_writer::end_tag('div');
+        } else {
+            $o = '';
         }
         return $o;
     }
@@ -566,7 +582,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
             }
 
             $numsections = $course->numsections; // Because we want to manipulate this for column breakpoints.
-            if (($this->tcsettings['layoutstructure'] == 3) && ($userisediting == false)) {
+            if (($this->tcsettings['layoutstructure'] == 3) && ($this->userisediting == false)) {
                 $loopsection = 1;
                 $numsections = 0;
                 while ($loopsection <= $course->numsections) {

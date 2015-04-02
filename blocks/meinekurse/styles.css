@@ -80,6 +80,7 @@
 
 .mycoursestabs table tr.hover {
 	background: #d6ebf5;
+	border:0;
 }
 
 .mycoursestabs .coursecontainer {

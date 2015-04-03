@@ -30,9 +30,20 @@ class block_mbsgettingstarted extends block_base {
         $this->title = get_string('pluginname', 'block_mbsgettingstarted');
     }
 
+    function get_required_javascript() {
+        parent::get_required_javascript();
+ 
+        $this->page->requires->jquery();
+        $this->page->requires->jquery_plugin('ui');
+        $this->page->requires->jquery_plugin('ui-css');
+        $this->page->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/wizzard/wizzard.js'));
+    }
+
     function get_content() {
         global $CFG, $OUTPUT;
 		
+        
+
 		$this->content = new stdClass();
         $this->content->text = "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
 

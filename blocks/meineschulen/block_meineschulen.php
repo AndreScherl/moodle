@@ -53,5 +53,5 @@ class block_meineschulen extends block_base {
 
     function has_config() {return true;}
 
-    function hide_header() {return true;}
+    //function hide_header() {return true;}
 }

@@ -45,6 +45,8 @@ class enrol_mbsteamteaching_edit_form extends moodleform {
         //                  ENROL_INSTANCE_DISABLED => get_string('no'));
         // $mform->addElement('select', 'status', get_string('status', 'enrol_mbsteamteaching'), $options);
         // $mform->addHelpButton('status', 'status', 'enrol_mbsteamteaching');
+        $mform->addElement('hidden', 'status', 'ENROL_INSTANCE_ENABLED');
+        $mform->setType('status', PARAM_TEXT);
 
         // $options = array(1 => get_string('yes'), 0 => get_string('no'));
         // $mform->addElement('select', 'customint6', get_string('newenrols', 'enrol_mbsteamteaching'), $options);

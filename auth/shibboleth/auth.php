@@ -73,6 +73,12 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             // Set shibboleth session ID for logout
             $SESSION->shibboleth_session_id  = $sessionkey;
 
+            //+++ Andre Scherl, add conditions to restrict the access of the mebis beta lms
+            if($_SESSION["Shib-Application-ID"] == "beta") {
+                return ((strtolower($_SERVER[$this->config->user_attribute]) == strtolower($username)) && ($_SESSION["mebisBetaAccess"] == "TRUE"));
+            }
+            //---
+
             return (strtolower($_SERVER[$this->config->user_attribute]) == strtolower($username));
         } else {
             // If we are not, the user has used the manual login and the login name is

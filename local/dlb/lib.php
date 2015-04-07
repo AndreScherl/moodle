@@ -73,9 +73,18 @@ function local_dlb_extends_settings_navigation(settings_navigation $navigation) 
 
 /** called, when user is correcty loggedin */
 function local_dlb_user_loggedin($event) {
-
+    global $DB, $USER, $COURSE;
+    
     // set up the isTeacher - flag, we do this here for all auth types.
     local_dlb::setup_teacher_flag();
+    
+    // assign beta tester role in system context
+    if($_SESSION["mebisBetaAccess"] == "TRUE") {
+        if ($role = $DB->get_record('role', array('shortname' => 'betatester'))) {
+            role_assign($role->id, $USER->id, context_system::instance()->id);
+        }  
+    }
+    
 }
 
 /** called, when user created a course */

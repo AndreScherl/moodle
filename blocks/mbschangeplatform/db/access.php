@@ -41,7 +41,7 @@ $capabilities = array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
  
         'captype' => 'write',
-        'contextlevel' => CONTEXT_BLOCK,
+        'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
@@ -49,4 +49,19 @@ $capabilities = array(
  
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+	
+	'block/mbschangeplatform:view' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+ 
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'betatester' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+ 
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    )
+	
+	
 );

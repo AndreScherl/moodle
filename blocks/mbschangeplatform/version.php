@@ -24,7 +24,7 @@
  
  defined('MOODLE_INTERNAL') || die();
  
-$plugin->version = 2015032701;    // YYYYMMDDHH (year, month, day, 24-hr time)
+$plugin->version = 2015032704;    // YYYYMMDDHH (year, month, day, 24-hr time)
 $plugin->requires = 2012112900;    // YYYYMMDDHH (Requires this Moodle version)
 $plugin->component = 'block_mbschangeplatform';    // Full name of the plugin (It is used during the installation and 
 											// upgrade process for diagnostics and validation purposes to make sure 

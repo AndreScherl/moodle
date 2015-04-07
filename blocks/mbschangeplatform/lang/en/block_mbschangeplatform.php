@@ -28,12 +28,15 @@ $string['mbschangeplatform'] = 'Change Platform';
 $string['mbschangeplatform:addinstance'] = 'Add a Change Platform block';
 $string['mbschangeplatform:myaddinstance'] = 'Add a Change Platform block to the My Moodle page';
 
-$string['link'] = '<a href=\"https://docs.moodle.org/20/en/HTML_linking\">A link to Beta Platform.</a>';
-
-//edit_form.php
-//$string['blockstring'] = 'Block string';
-//$string['blocktitle'] = 'Block title';
+$string['linkdefault'] = 'https://docs.moodle.org/20/en/HTML_linking';
+$string['linktextdefault'] = 'A link to Beta Platform.';
+$string['imgpathdefault'] = '/blocks/mbschangeplatform/images/mebis_beta_icon.png';
+$string['imgalttext'] = 'Platform icon';
 
 //settings.php
-$string['changeurl'] = 'Link to platform';
+$string['changeurl'] = 'Destination address';
 $string['changeurl_expl'] = 'Link to another platform';
+$string['linktext'] = 'Link text';
+$string['linktext_expl'] = 'The link text is the visible part of a hyperlink.';
+$string['imgpath'] = 'Path name';
+$string['imgpath_expl'] = 'Instead of a link text, an image can be used. The path name must be specified realtiv to <em>moodle_url</em>.';

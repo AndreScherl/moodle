@@ -37,15 +37,62 @@ class block_mbschangeplatform extends block_base {
         if ($this->content !== null) {
 		    return $this->content;
 		}
- 
-		$this->content         = new stdClass();
-		$this->content->text   = get_string('link','block_mbschangeplatform');
+
+		$this->content = new stdClass();		
+		
+		$changeurl = get_config('block_mbschangeplatform', 'changeurl');
+		$linktext = get_config('block_mbschangeplatform', 'linktext');
+		$imgpath = get_config('block_mbschangeplatform', 'imgpath');
+		if(empty($changeurl) && empty($linktext) && empty($imgpath)){ //default-settings
+			$img = $this->block_mbschangeplatform_set_imgtag(get_string('imgpathdefault','block_mbschangeplatform'));
+			$this->block_mbschangeplatform_set_link(get_string('linkdefault','block_mbschangeplatform'), $img);
+		} else if(empty($changeurl) && empty($imgpath)) { //new link text
+			$this->block_mbschangeplatform_set_link(get_string('linkdefault','block_mbschangeplatform'), $linktext);
+		} else if(empty($changeurl) && empty($linktext)) { //new img-path
+			$this->block_mbschangeplatform_set_link(get_string('linkdefault','block_mbschangeplatform'), $this->block_mbschangeplatform_set_imgtag($imgpath));
+		} else if(empty($imgpath) && empty($linktext)) { //new url
+			$img = $this->block_mbschangeplatform_set_imgtag(get_string('imgpathdefault','block_mbschangeplatform'));
+			$this->block_mbschangeplatform_set_link($changeurl, $img);
+		} else if(empty($linktext)) { //new img-path and new url
+			$this->block_mbschangeplatform_set_link($changeurl, $this->block_mbschangeplatform_set_imgtag($imgpath));
+		} else if(empty($imgpath)) { //new link text and new url
+			$this->block_mbschangeplatform_set_link($changeurl, $linktext);
+		}			
+		
 		return $this->content;
 	}
 	
 	// Enabling Global Configuration
 	
-	// Means: a blocks/.../settings.php file exists
-	function has_config() { return true; }
+	 /**
+     * Allow the block to have a configuration page
+     * Means: a blocks/.../settings.php file exists
+	 *
+     * @return boolean
+     */
+	public function has_config() { return true; }
+	
+	 /**
+     * Set a hyperlink  as content text
+	 *
+     * @param string $link - destination address
+	 * @param string $text - link text
+     */
+	public function block_mbschangeplatform_set_link($link, $text){
+		$this->content->text = html_writer::link($link, $text);
+	}
+	
+	 /**
+     * Set a image html tag
+	 *
+     * @param string $img - Path to image. The path name must be specified realtiv to moodle_url.
+	 * @return string $imgtag - A html <img> tag.
+     */
+	public function block_mbschangeplatform_set_imgtag($img){
+		$imgtag = html_writer::empty_tag('img', array(
+			'src' => new moodle_url($img),
+			'alt' => get_string('imgalttext', 'block_mbschangeplatform')));
+		return $imgtag;
+	}
 	
 }   // END class block_mbschangeplatform

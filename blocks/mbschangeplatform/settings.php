@@ -27,11 +27,23 @@
  
  
  
-//($name, $visiblename, $description, $defaultsetting, $paramtype=PARAM_RAW, $size=null)
+//admin_setting_configtext($name, $visiblename, $description, $defaultsetting, $paramtype=PARAM_RAW, $size=null)
 $settings->add(new admin_setting_configtext('block_mbschangeplatform/changeurl',
             get_string('changeurl', 'block_mbschangeplatform'),
             get_string('changeurl_expl', 'block_mbschangeplatform'),
-			get_string('link', 'block_mbschangeplatform'),
+			'',
 			PARAM_RAW));
+			
+$settings->add(new admin_setting_configtext('block_mbschangeplatform/linktext',
+            get_string('linktext', 'block_mbschangeplatform'),
+            get_string('linktext_expl', 'block_mbschangeplatform'),
+			'',
+			PARAM_RAW));
+
+$settings->add(new admin_setting_configtext('block_mbschangeplatform/imgpath',
+            get_string('imgpath', 'block_mbschangeplatform'),
+            get_string('imgpath_expl', 'block_mbschangeplatform'),
+			'',
+			PARAM_RAW));			
 
 			

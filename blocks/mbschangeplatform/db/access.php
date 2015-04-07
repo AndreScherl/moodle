@@ -31,37 +31,22 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'user' => CAP_ALLOW
+            'betatester' => CAP_ALLOW,
+            'user' => CAP_PROHIBIT
         ),
  
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
  
     'block/mbschangeplatform:addinstance' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
- 
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
- 
-        'clonepermissionsfrom' => 'moodle/site:manageblocks'
-    ),
-	
-	'block/mbschangeplatform:view' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
- 
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
             'betatester' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'user' => CAP_PROHIBIT
         ),
  
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
-    )
-	
-	
+        )
+    
 );

@@ -79,9 +79,11 @@ function local_dlb_user_loggedin($event) {
     local_dlb::setup_teacher_flag();
     
     // assign beta tester role in system context
-    if($_SESSION["mebisBetaAccess"] == "TRUE") {
-        if ($role = $DB->get_record('role', array('shortname' => 'betatester'))) {
-            role_assign($role->id, $USER->id, context_system::instance()->id);
+    if ($role = $DB->get_record('role', array('shortname' => 'betatester'))) {
+        $ctx = context_system::instance();
+        $userroles = get_user_roles($ctx, $USER->id);
+        if($_SESSION["mebisBetaAccess"] == "TRUE" && !array_key_exists($role->id, $userroles)) {
+            role_assign($role->id, $USER->id, $ctx->id);
         }  
     }
     

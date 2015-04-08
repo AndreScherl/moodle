@@ -75,7 +75,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
             //+++ Andre Scherl, add conditions to restrict the access of the mebis beta lms
             if($_SERVER["Shib-Application-ID"] == "beta") {
-                return ((strtolower($_SERVER[$this->config->user_attribute]) == strtolower($username)) && ($_SESSION["mebisBetaAccess"] == "TRUE"));
+                return ((strtolower($_SERVER[$this->config->user_attribute]) == strtolower($username)) && ($_SERVER["mebisBetaAccess"] == "TRUE"));
             }
             //---
 

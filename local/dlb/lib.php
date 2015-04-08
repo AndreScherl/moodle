@@ -77,16 +77,6 @@ function local_dlb_user_loggedin($event) {
     
     // set up the isTeacher - flag, we do this here for all auth types.
     local_dlb::setup_teacher_flag();
-    
-    // assign beta tester role in system context
-    if ($role = $DB->get_record('role', array('shortname' => 'betatester'))) {
-        $ctx = context_system::instance();
-        $userroles = get_user_roles($ctx, $USER->id);
-        if($_SESSION["mebisBetaAccess"] == "TRUE" && !array_key_exists($role->id, $userroles)) {
-            role_assign($role->id, $USER->id, $ctx->id);
-        }  
-    }
-    
 }
 
 /** called, when user created a course */

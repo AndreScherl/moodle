@@ -28,7 +28,7 @@ $string['mbschangeplatform'] = 'Change Platform';
 $string['mbschangeplatform:addinstance'] = 'Add a Change Platform block';
 $string['mbschangeplatform:myaddinstance'] = 'Add a Change Platform block to the My Moodle page';
 
-$string['linkdefault'] = 'https://docs.moodle.org/20/en/HTML_linking';
+$string['linkdefault'] = 'https://lernplattform-beta.mebis.bayern.de';
 $string['linktextdefault'] = 'A link to Beta Platform.';
 $string['imgpathdefault'] = '/blocks/mbschangeplatform/images/mebis_beta_icon.png';
 $string['imgalttext'] = 'Platform icon';

@@ -28,7 +28,7 @@ $string['mbschangeplatform'] = 'Plattformwechsel';
 $string['mbschangeplatform:addinstance'] = 'Hinzufügen eines Plattformwechsel-Blocks';
 $string['mbschangeplatform:myaddinstance'] = 'Hinzufügen eines Plattformwechsel-Blocks zu meinem Schreibtisch';
 
-$string['linkdefault'] = 'https://docs.moodle.org/20/en/HTML_linking';
+$string['linkdefault'] = 'https://lernplattform-beta.mebis.bayern.de';
 $string['linktextdefault'] = 'Hier geht es zur Beta Plattform.';
 $string['imgpathdefault'] = '/blocks/mbschangeplatform/images/mebis_beta_icon.png';
 $string['imgalttext'] = 'Plattform icon';

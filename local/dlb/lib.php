@@ -73,8 +73,6 @@ function local_dlb_extends_settings_navigation(settings_navigation $navigation) 
 
 /** called, when user is correcty loggedin */
 function local_dlb_user_loggedin($event) {
-    global $DB, $USER, $COURSE;
-    
     // set up the isTeacher - flag, we do this here for all auth types.
     local_dlb::setup_teacher_flag();
 }

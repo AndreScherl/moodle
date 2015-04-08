@@ -69,7 +69,8 @@ echo $OUTPUT->doctype()
                 <?php
 
                 if ($knownregiontop) {
-                    echo $OUTPUT->mebis_blocks('top');
+                    //echo $OUTPUT->mebis_blocks('top');
+                    echo $OUTPUT->blocks('top');
                 }
 
                 // echo $OUTPUT->course_content_header();
@@ -77,7 +78,7 @@ echo $OUTPUT->doctype()
                 // echo $OUTPUT->course_content_footer();
                 ?>
 
-                <?php if ($hassidepre) : ?>
+                <?php if ($hassidepre || $hassidepost) : ?>
                     <div class="row">
 
                         <div class="col-lg-12 col-sm-12 margin-bottom-small">
@@ -96,13 +97,16 @@ echo $OUTPUT->doctype()
                             'data-droptarget' => '1'
                         );
                         echo html_writer::start_tag('aside', $attributes);
-                        echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
+                        //echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
 
                         if ($knownregionsidepre) {
-                            echo $OUTPUT->mebis_blocks('side-pre');
+                            echo $OUTPUT->blocks('side-pre', array('class' => join(' ', $classes)), 'div');
+                        }
+                        if ($knownregionsidepost) {
+                            echo $OUTPUT->blocks('side-post', array('class' => join(' ', $classes)), 'div');
                         }
 
-                        echo html_writer::end_div();
+                        //echo html_writer::end_div();
                         echo html_writer::end_tag('aside');
                     ?>
                 <?php endif; ?>
@@ -115,7 +119,7 @@ echo $OUTPUT->doctype()
                                     <h1 class="pull-left"><?php echo get_string('my-schools', 'theme_mebis');?></h1>
                                 </div>
                                 <?php
-                                    echo $OUTPUT->mebis_blocks('side-post');
+                                    //echo $OUTPUT->mebis_blocks('side-post');
                                 ?>
                             </div>
                         </div>

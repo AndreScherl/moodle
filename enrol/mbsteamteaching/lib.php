@@ -263,7 +263,11 @@ class enrol_mbsteamteaching_plugin extends enrol_plugin {
      */
     public function can_mbsteamteaching_enrol(stdClass $instance, $checkuserenrolment = true) {
         global $DB, $USER, $CFG;
-
+        
+        if ($USER->isTeacher != TRUE) {
+            return get_string('onlyteachercanenrol', 'enrol_mbsteamteaching');;
+        }
+        
         if ($checkuserenrolment) {
             if (isguestuser()) {
                 // Can not enrol guest.

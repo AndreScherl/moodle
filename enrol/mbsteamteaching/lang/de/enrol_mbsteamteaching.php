@@ -73,6 +73,7 @@ $string['newenrols'] = 'Selbsteinschreibung erlauben';
 $string['newenrols_desc'] = 'Nutzer/innen dürfen sich standardmäßig selbst einschreiben';
 $string['newenrols_help'] = 'Diese Einstellung legt fest, ob Nutzer/innen sich in diesen Kurs einschreiben dürfen.';
 $string['nopassword'] = 'Kein Einschreibeschlüssel notwendig';
+$string['onlyteachercanenrol'] = 'Nur Lehrer können sich in diesen Kurs selbst einschreiben. Nehmen Sie Kontakt mit dem Kursbesitzer auf, um Zugang zum Kurs zu erhalten.';
 $string['password'] = 'Einschreibeschlüssel';
 $string['password_help'] = 'Ein Einschreibeschlüssel erlaubt den Kurszugriff ausschließlich für diejenigen, die den Einschreibeschlüssel kennen.
 

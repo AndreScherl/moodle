@@ -73,6 +73,7 @@ $string['newenrols'] = 'Allow new enrolments';
 $string['newenrols_desc'] = 'Allow users to mbsteamteaching enrol into new courses by default.';
 $string['newenrols_help'] = 'This setting determines whether a user can enrol into this course.';
 $string['nopassword'] = 'No enrolment key required.';
+$string['onlyteachercanenrol'] = 'Self enrolement is only available for teachers. Please contact the course owner to get access to this course.';
 $string['password'] = 'Enrolment key';
 $string['password_help'] = 'An enrolment key enables access to the course to be restricted to only those who know the key.
 

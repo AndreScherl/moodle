@@ -86,7 +86,7 @@ if ($mform->is_cancelled()) {
         // Add previous value of newenrols if disabled.
         $data->customint6 = $instance->customint6;
     }
-
+    $defaultrole = get_config('enrol_mbsteamteaching', 'roleid');
     if ($instance->id) {
         $reset = ($instance->status != $data->status);
 
@@ -100,7 +100,7 @@ if ($mform->is_cancelled()) {
         // $instance->customint5     = $data->customint5;
         $instance->customint6        = 1;
         // $instance->customtext1    = $data->customtext1;
-        // $instance->roleid         = $data->roleid;
+        $instance->roleid            = $defaultrole;
         // $instance->enrolperiod    = $data->enrolperiod;
         // $instance->expirynotify   = $data->expirynotify;
         // $instance->notifyall      = $data->notifyall;
@@ -125,9 +125,9 @@ if ($mform->is_cancelled()) {
             // 'customint4'      => $data->customint4,
             // 'customint5'      => $data->customint5,
             // 'customint6'      => $data->customint6,
-            'customint6'         => 1);
+            'customint6'         => 1,
             // 'customtext1'     => $data->customtext1,
-            // 'roleid'          => $data->roleid,
+            'roleid'             => $defaultrole);
             // 'enrolperiod'     => $data->enrolperiod,
             // 'expirynotify'    => $data->expirynotify,
             // 'notifyall'       => $data->notifyall,

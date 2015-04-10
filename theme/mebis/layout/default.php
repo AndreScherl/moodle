@@ -78,7 +78,7 @@ echo $OUTPUT->doctype()
                 // echo $OUTPUT->course_content_footer();
                 ?>
 
-                <?php if ($hassidepre || $hassidepost) : ?>
+                <?php if ($hassidepre || $hassidepost) { ?>
                     <div class="row">
 
                         <div class="col-lg-12 col-sm-12 margin-bottom-small">
@@ -96,35 +96,27 @@ echo $OUTPUT->doctype()
                             'data-blockregion' => $displayregion,
                             'data-droptarget' => '1'
                         );
-                        echo html_writer::start_tag('aside', $attributes);
-                        //echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
+                        echo html_writer::start_tag('aside');
 
                         if ($knownregionsidepre) {
                             echo $OUTPUT->blocks('side-pre', array('class' => join(' ', $classes)), 'div');
                         }
+                        
+                        $displayregion = $this->page->apply_theme_region_manipulations('side-post');
+                        $classes = array();
+                        $classes[] = 'row block-regions';
+                        $attributes = array(
+                            'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
+                            'data-blockregion' => $displayregion,
+                            'data-droptarget' => '1'
+                        );
                         if ($knownregionsidepost) {
                             echo $OUTPUT->blocks('side-post', array('class' => join(' ', $classes)), 'div');
                         }
-
-                        //echo html_writer::end_div();
                         echo html_writer::end_tag('aside');
                     ?>
-                <?php endif; ?>
+                <?php } ?>
 
-                <?php if ($knownregionsidepost && $hassidepost) : ?>
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 margin-bottom-small">
-                                    <h1 class="pull-left"><?php echo get_string('my-schools', 'theme_mebis');?></h1>
-                                </div>
-                                <?php
-                                    //echo $OUTPUT->mebis_blocks('side-post');
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
 
             <div id="root-footer"></div>

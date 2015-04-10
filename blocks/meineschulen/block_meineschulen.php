@@ -50,8 +50,11 @@ class block_meineschulen extends block_base {
     public function instance_can_be_docked() {
         return false;
     }
-
-    function has_config() {return true;}
+    
+    public function instance_can_be_collapsed() {
+        return false;
+    }
+            function has_config() {return true;}
 
     //function hide_header() {return true;}
 }

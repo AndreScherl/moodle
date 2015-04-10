@@ -59,6 +59,9 @@ div.block,
     padding: 0;
 }
 
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post {
+    padding: 0;
+}
 .moodle-dialogue-base .moodle-dialogue-wrap {
     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 }
@@ -137,7 +140,7 @@ div.block,
 
 }
 
-#block-region-side-pre {
+#block-region-side-pre, #block-region-side-post {
 
     .block {
         margin-bottom: 40px;

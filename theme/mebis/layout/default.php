@@ -90,13 +90,13 @@ echo $OUTPUT->doctype()
                     <?php
                         $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
                         $classes = array();
-                        $classes[] = 'row block-regions';
+                        $classes[] = 'block-regions';
                         $attributes = array(
                             'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
                             'data-blockregion' => $displayregion,
                             'data-droptarget' => '1'
                         );
-                        echo html_writer::start_tag('aside');
+                        echo html_writer::start_tag('aside', array('class' => 'row'));
 
                         if ($knownregionsidepre) {
                             echo $OUTPUT->blocks('side-pre', array('class' => join(' ', $classes)), 'div');
@@ -104,7 +104,7 @@ echo $OUTPUT->doctype()
                         
                         $displayregion = $this->page->apply_theme_region_manipulations('side-post');
                         $classes = array();
-                        $classes[] = 'row block-regions';
+                        $classes[] = 'block-regions';
                         $attributes = array(
                             'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
                             'data-blockregion' => $displayregion,

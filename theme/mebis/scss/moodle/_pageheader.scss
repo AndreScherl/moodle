@@ -1,0 +1,78 @@
+
+div[role="main"] {
+
+    ul, ol {
+        padding: initial;
+        overflow: initial;
+    }
+}
+
+.moodle-menu .nav > li {
+    font-weight: 400;
+    font-style: normal;
+    float: right;
+    width: 50px;
+    height: 60px;
+
+    > a {
+        font-size: emCalc(18px);
+
+        &:hover {
+            background: transparent;
+        }
+    }
+
+    &.dropdown {
+
+        &:hover > a {
+            background: $brand-secondary;
+            color: $white;
+        }
+
+        ul {
+            min-width: 255px;
+
+            &.dropdown-menu {
+                border: none;
+                font-size: emCalc(14px);
+            }
+            .cogmenu, .coursemenu {
+                div {
+                    background-color: $gray-lighter;
+                    font-family: 'Titillium Web';
+                    font-size: emCalc(16px);
+                    color: $gray-dark;
+                    text-align: left;
+                    line-height: normal;
+
+                    @media only screen and (max-width: $screen-xc) {
+                        font-size: emCalc(19px);
+                        line-height: 200%;
+                    }
+
+                    &.dropdown-inner div {
+                        background: transparent;
+
+                        select {
+                            width: 100%;
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    &.admin-dropdown {
+                        background-color: $gray-dark;
+                        color: $white;
+
+                        a {
+                            color: $white;
+                        }
+                    }
+
+                    ul {
+                        list-style: none;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -463,9 +463,9 @@ class format_grid extends format_base {
                     'element_attributes' => array(self::$imagecontainerratios)
                 );
             } else {
-                $courseformatoptionsedit['imagecontainerwidth'] = array('label' => 
+                $courseformatoptionsedit['imagecontainerwidth'] = array('label' =>
                     get_config('format_grid', 'defaultimagecontainerwidth'), 'element_type' => 'hidden');
-                $courseformatoptionsedit['imagecontainerratio'] = array('label' => 
+                $courseformatoptionsedit['imagecontainerratio'] = array('label' =>
                     get_config('format_grid', 'defaultimagecontainerratio'), 'element_type' => 'hidden');
             }
 
@@ -677,7 +677,7 @@ class format_grid extends format_base {
 
         return $elements;
     }
-    
+
     /**
      * Override if you need to perform some extra validation of the format options
      *
@@ -690,7 +690,7 @@ class format_grid extends format_base {
      */
     public function edit_form_validation($data, $files, $errors) {
         $retr = array();
-        
+
         if ($this->validate_colour($data['bordercolour']) === false) {
             $retr['bordercolour'] = get_string('colourrule', 'format_grid');
         }
@@ -703,26 +703,26 @@ class format_grid extends format_base {
         if ($this->validate_colour($data['currentselectedimagecontainercolour']) === false) {
             $retr['currentselectedimagecontainercolour'] = get_string('colourrule', 'format_grid');
         }
-        
+
         return $retr;
     }
 
     /**
      * Validates the colour that was entered by the user.
      * Borrowed from 'admin_setting_configcolourpicker' in '/lib/adminlib.php'.
-     * 
+     *
      * I'm not completely happy with this solution as would rather embed in the colour
      * picker code in the form, however I find this area rather fraut and I hear that
      * Dan Poltawski (via MDL-42270) will be re-writing the forms lib so hopefully more
      * developer friendly.
-     * 
+     *
      * Note: Colour names removed, but might consider putting them back in if asked, but
      *       at the moment that would require quite a few changes and coping with existing
      *       settings.  Either convert the names to hex or allow them as valid values and
      *       fix the colour picker code and the CSS code in 'format.php' for the setting.
-     * 
+     *
      * Colour name to hex on: http://www.w3schools.com/cssref/css_colornames.asp.
-     * 
+     *
      * @param string $data the colour string to validate.
      * @return true|false
      */
@@ -1728,7 +1728,7 @@ function format_grid_delete_course($courseid) {
        Done this way so will work if the course has
        been a grid format course in the past even if
        it is not now. */
-    $courseformat = format_grid::get_instance($courseid); // 
+    $courseformat = format_grid::get_instance($courseid); //
     $courseformat->delete_images();
     unset($courseformat);  // Destruct.
 

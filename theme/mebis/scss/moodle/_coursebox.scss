@@ -1,0 +1,101 @@
+.block_mbsmycourses .course_list {
+    width: auto;
+}
+
+.courses {
+    margin-top: 20px;
+}
+
+.coursenumber-label {
+    margin-right: 8px;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.coursebox {
+
+    .course_title {
+        position: absolute;
+        right: 34px;
+        top: 45px;
+        z-index: 9;
+    }
+
+    .coursebox-meta {
+        background: $brand-primary;
+
+        .course-is-new span,
+        .box-type i {
+            display: inline-block;
+            background: $brand-primary-dark;
+            color: $white;
+            line-height: 40px;
+            text-align: center;
+            margin-right: 0;
+        }
+
+        .course-is-new span {
+            padding: 0 10px;
+            line-height: 28px;
+            font-size: emCalc(14px);
+            margin-left: 10px;
+        }
+
+        .box-type i {
+            width: 40px;
+            margin-right: 10px;
+            font-size: emCalc(24px);
+        }
+    }
+
+    .coursebox-inner {
+        padding: 0;
+        border: 0;
+        position: relative;
+        margin-bottom: 20px;
+
+        .coursebox-link {
+            min-height: 165px;
+            padding: 20px;
+            text-align: left;
+            display: block;
+            background: $white;
+
+            font-weight: 400;
+
+            .coursename{
+                font-size: emCalc(20px);
+                color: $gray-dark;
+
+                &:before {
+                    color: $brand-primary;
+                }
+            }
+
+            .coursetype {
+                font-size: emCalc(12px);
+                color: $gray-dark;
+            }
+
+        }
+
+        &:hover {
+
+            .coursebox-link {
+                background: $brand-secondary;
+                color: $white;
+
+                .coursename, .coursename:before {
+                    color: $white;
+                }
+
+                .coursetype {
+                    color: $white;
+                }
+            }
+        }
+
+    }
+
+}
+

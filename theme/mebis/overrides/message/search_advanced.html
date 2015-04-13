@@ -1,0 +1,79 @@
+<form id="personsearch" method="post" class="form-horizontal" role="form">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h3><?php echo get_string('advancedsearch', 'theme_mebis') ?></h3>
+            <a href="index.php?usergroup=<?php echo MESSAGE_VIEW_SEARCH ?>" id="combinedcontactsearchlink"><?php print_string('hideadvanced','form') ?></a>
+        </div>
+
+        <div class="col-md-12">
+            <h4 class="heading"><?php echo get_string('searchforperson', 'message') ?></h4>
+
+            <div class="input-group">
+                <input type="text" name="name" id="name" value="<?php p($personsearch) ?>" class="form-control" />
+                <span class="input-group-btn">
+                    <button type="submit" name="personsubmit" class="btn btn-primary btn-search">
+                       <span class="hidden-xs">
+                            <?php print_string('searchforperson','message') ?>
+                        </span>
+                        <i class="icon-me-suchbegriff-bestaetigen visible-xs"></i>
+                    </button>
+                 </span>
+            </div>
+
+            <input type="checkbox" name="mycourses" id="mycourses" />
+            <label for="mycourses"><?php print_string('onlymycourses', 'message') ?></label>
+            <input type="hidden" name="sesskey" value="<?php p(sesskey()); ?>" />
+
+        </div>
+
+        <div class="col-md-12">
+            <h4 class="heading"><?php echo get_string('searchmessages', 'message') ?></h4>
+
+            <div class="input-group">
+                <input type="text" name="keywords" id="keywords" value="<?php p($messagesearch) ?>" class="form-control" />
+                <span class="input-group-btn">
+                    <button type="submit" name="keywordssubmit" class="btn btn-primary btn-search">
+                       <span class="hidden-xs">
+                            <?php print_string('searchmessages','message') ?>
+                        </span>
+                        <i class="icon-me-suchbegriff-bestaetigen visible-xs"></i>
+                    </button>
+                 </span>
+            </div>
+
+            <input type="checkbox" name="includeblocked" id="includeblocked" />
+            <label for="includeblocked"><?php print_string('includeblockedusers', 'message') ?></label>
+
+            <div class="checkboxes">
+                <div>
+                    <input type="radio" name="keywordsoption" id="keywordsoption1" value="tome" />
+                    <label for="keywordsoption1"><?php print_string('onlytome', 'message') ?></label>
+                </div>
+                <div>
+                    <input type="radio" name="keywordsoption" id="keywordsoption2" value="fromme" />
+                    <label for="keywordsoption2"><?php print_string('onlyfromme', 'message') ?></label>
+                </div>
+                <div>
+                    <input type="radio" checked="checked" name="keywordsoption" id="keywordsoption3" value="allmine" />
+                     <label for="keywordsoption3"><?php print_string('allmine', 'message') ?></label>
+                </div>
+                <?php if (has_capability('moodle/site:readallmessages', context_system::instance())) : ?>
+                <div>
+                    <input type="radio" name="keywordsoption" id="keywordsoption4" value="allusers" />
+                    <label for="keywordsoption4"><?php print_string('allusers', 'message') ?></label>
+                </div>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+
+
+        <tr><td>&nbsp;</td><td colspan="2"></td></tr>
+        <tr><td>&nbsp;</td><td colspan="2"></td></tr>
+        <tr><td>&nbsp;</td><td colspan="2"></td></tr>
+
+
+
+</form>

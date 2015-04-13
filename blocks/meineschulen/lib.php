@@ -167,6 +167,7 @@ class meineschulen {
      *
      * @return moodle_url
      */
+     
     public static function get_search_url() {
         return new moodle_url('/blocks/meineschulen/search.php');
     }
@@ -1386,52 +1387,6 @@ class meineschulen {
         $out .= $OUTPUT->single_button($backurl, get_string('backschool', 'block_meineschulen'));
 
         return $out;
-    }
-
-    /** returns html code for a search form used directly in block meineschulen */
-    public static function output_block_search_form() {
-        global $OUTPUT, $PAGE;
-        
-        $output = '';
-
-        $searchtype = get_user_preferences('block_meineschulen_searchtype', 'course');
-        foreach (self::get_search_types() as $st) {
-            $id = 'searchtype_'.$st;
-            $attrib = array('type' => 'radio', 'name' => 'searchtype', 'id' => $id, 'value' => $st, 'data-action' => get_string($st.'search', 'block_meineschulen').'...');
-            if ($st == $searchtype) {
-                $attrib['checked'] = 'checked';
-            }
-            $output .= html_writer::empty_tag('input', $attrib);
-            $output .= html_writer::tag('label', get_string('searchtype_'.$st, 'block_meineschulen'),
-                                      array('for' => $id, 'class' => 'radiolabel'));
-        }
-        $output = html_writer::div($output, 'searchtype');
-
-        $output .= html_writer::empty_tag('input', array( 'id' => 'schoolname',
-                                                          'type' => 'text',
-                                                          'name' => 'schoolname',
-                                                          'value' => '',
-                                                          'placeholder' => get_string($searchtype.'search', 'block_meineschulen').' ...'));
-        
-        $action = self::get_search_url();
-        $output .= html_writer::empty_tag('input', array('type' => 'image',
-                                                         'id' => 'schoolsearch_submitbutton',
-                                                         'name' => 'search',
-                                                         'src' => $OUTPUT->pix_url('a/search')));
-
-        $output .= html_writer::empty_tag('br', array('class' => 'clearer'));
-        
-        $output = html_writer::tag('form', $output,
-                array('id' => 'meineschulen_school_form', 'action' => $action, 'method' => 'get'));
-        
-        $output = html_writer::div($output, '', array('id' => 'meineschulen_school_form_wrapper'));
-
-        $ajaxurl = new moodle_url('/blocks/meineschulen/ajax.php');
-        $opts = array('url' => $ajaxurl->out());
-        $PAGE->requires->yui_module('moodle-block_meineschulen-blocksearch', 'M.block_meineschulen.blocksearch.init', array($opts));
-        user_preference_allow_ajax_update('block_meineschulen_searchtype', PARAM_ALPHA);
-        
-        return $output;
     }
 
     public static function extend_course_overview($content) {

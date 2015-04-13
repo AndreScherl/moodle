@@ -1,0 +1,28 @@
+<form method="post" class="form-horizontal margin-bottom-small" role="form">
+
+    <div class="row">
+        <div class="col-md-12">
+        	<div>
+                <div class="input-group">
+                    <input type="text" name="combinedsearch" id="combinedsearch" value="<?php p($combinedsearchstring); ?>" class="form-control" placeholder=""/>
+                    <span class="input-group-btn">
+                        <button type="submit" name="combinedsubmit" class="btn btn-primary btn-search" value="<?php print_string('searchcombined','message') ?>">
+                               <span class="hidden-xs">
+                                <?php print_string('searchcombined','message') ?>
+                            </span>
+                            <i class="icon-me-suchbegriff-bestaetigen visible-xs"></i>
+                        </button>
+                     </span>
+                </div>
+
+                <input type="hidden" name="sesskey" value="<?php p(sesskey()); ?>" />
+                <label for="combinedsearch" class="accesshide"><?php print_string('searchcombined', 'message'); ?></label>
+
+                <a href="index.php?usergroup=<?php echo MESSAGE_VIEW_SEARCH ?>&advanced=1" id="advancedcontactsearchlink">
+                    <?php print_string('advancedsearch', 'theme_mebis') ?>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</form>

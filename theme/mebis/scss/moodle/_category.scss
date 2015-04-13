@@ -1,0 +1,233 @@
+.category-box {
+    color: $brand-gray-dark;
+
+    .category-course {
+        .category-course-title {
+            padding: 15px 0 15px 20px;
+            margin: 2px 0;
+            .accessible {
+                float: right;
+                margin-right: 20px;
+            }
+            .infoToggle {
+                cursor: pointer;
+                color: $white;
+                float: right;
+                margin-right: 20px;
+            }
+            span.category-course-title-name {
+                margin-left: 5px;
+                a {
+                    color: $white;
+                }
+            }
+            i {
+                color: $white;
+                font-size: 1.25em;
+            }
+        }
+        .category-course-info {
+            color: $white;
+            display: none;
+            padding: 0 15px 1px 41px;
+        }
+    }
+
+    > .category-container {
+        padding: 0 !important;
+        > .category-title {
+
+            font-weight: bold;
+            background-color: $brand-primary !important;
+            padding: 20px !important;
+            margin-bottom: 0!important;
+            > span.category-title-name a {
+                color: $white;
+            }
+            >.category-toggle {
+                color: $white;
+            }
+        }
+        > .category-body {
+            background-color: $white !important;
+            margin-top: 0px !important;
+            padding: 20px !important;
+            >.category-course {
+                background-color: rgba($brand-primary, 1.0);
+            }
+            >.category-container {
+                >.category-title {
+                    background-color: rgba($brand-primary, 1.0);
+                }
+                >.category-body {
+                    >.category-course {
+                        background-color: rgba($brand-primary, 0.85);
+                    }
+                    >.category-container  {
+                        >.category-title{
+                            background-color: rgba($brand-primary, 0.85);
+                        }
+                        >.category-body {
+                            >.category-course {
+                                background-color: rgba($brand-primary, 0.7);
+                            }
+                            >.category-container  {
+                                >.category-title{
+                                    background-color: rgba($brand-primary, 0.7);
+                                }
+                                >.category-body {
+                                    >.category-course {
+                                        background-color: rgba($brand-primary, 0.55);
+                                    }
+                                    >.category-container  {
+                                        >.category-title{
+                                            background-color: rgba($brand-primary, 0.55);
+                                        }
+                                        >.category-body {
+                                            >.category-course {
+                                                background-color: rgba($brand-primary, 0.4);
+                                            }
+                                            >.category-container  {
+                                                >.category-title{
+                                                    background-color: rgba($brand-primary, 0.4);
+                                                }
+                                                >.category-body {
+                                                    >.category-course {
+                                                        color: $brand-gray-dark;
+                                                        background-color: rgba($brand-primary, 0.25);
+                                                    }
+                                                    >.category-container  {
+                                                        >.category-title{
+                                                            color: $brand-gray-dark;
+                                                            background-color: rgba($brand-primary, 0.25);
+                                                        }
+                                                        >.category-body {
+                                                            >.category-course {
+                                                                color: $brand-gray-dark;
+                                                                background-color: rgba($brand-primary, 0.1);
+                                                            }
+                                                            >.category-container  {
+                                                                >.category-title{
+                                                                    color: $brand-gray-dark;
+                                                                    background-color: rgba($brand-primary, 0.1);
+                                                                }
+                                                                >.category-body {
+                                                                    >.category-course {
+                                                                        color: $brand-gray-dark;
+                                                                        background-color: rgba($brand-primary, 0.05);
+                                                                    }
+                                                                    >.category-container  {
+                                                                        >.category-title{
+                                                                            color: $brand-gray-dark;
+                                                                            background-color: rgba($brand-primary, 0.05);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        margin: 0 0 5px !important;
+    }
+
+    >.category-course {
+        background-color: $brand-primary !important;
+        margin: 5px 0 !important;
+        padding: 20px !important;
+        >.category-course-title {
+            padding: 0 !important;
+            span.category-course-title-name {
+                margin-left: 5px;
+                a {
+                    color: $white;
+                }
+            }
+            .infoToggle {
+                color: $white;
+            }
+            i {
+                color: $white;
+                font-size: 1.25em;
+            }
+        }
+        >.category-course-info {
+            color: $white;
+        }
+    }
+    .category-container {
+        .category-title {
+            padding: 15px 0 15px 10px;
+            margin: 2px 0;
+            .category-toggle {
+                cursor: pointer;
+                float: right;
+                color: $white;
+                margin-right: 20px;
+                &::before {
+                    font-family: 'mebis-icons';
+                    content: "\e63d";
+                }
+                &.open {
+                    &::before{
+                        font-family: 'mebis-icons';
+                        content: "\e662";
+                    }
+                }
+            }
+            span.category-title-name {
+                margin-left: 5px;
+                a {
+                    color: $white;
+                }
+            }
+        }
+        .category-body {
+            display: none;
+            margin: 2px 0;
+            padding: 0 0 0 20px;
+            @media only screen and (max-width: $screen-xc) {
+                padding: 0;
+            }
+        }
+    }
+}
+
+.mbscoordinators {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 30px;
+    > div {
+        float: left;
+    }
+    > ul {
+        list-style: none;
+        > li {
+            float: left;
+            margin-left: 10px;
+        }
+    }
+}
+
+.mbsnewcourse {
+    padding-bottom: 30px;
+    > ul {
+        list-style: none;
+        > li {
+            float: right;
+            margin-left: 50px;
+            a i {
+                font-size: 1.25em !important;
+            }
+        }
+    }
+}

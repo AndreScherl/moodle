@@ -157,11 +157,19 @@ M.format_topcoll.toggle_topic = function(targetNode, toggleNum) {
     var state;
     if (!targetLink.hasClass('toggle_open')) {
         targetLink.addClass('toggle_open').removeClass('toggle_closed');
-        targetNode.next('.toggledsection').addClass('sectionopen');
+        //changed toggle targets
+        targetLink.one('.closebutton').setHTML('');
+        $('#toggledsection-'+toggleNum).parent().parent().show();
+        $('#toggledsection-'+toggleNum).parent().show();
+        $('#toggledsection-'+toggleNum).addClass('sectionopen');
         state = true;
     } else {
         targetLink.addClass('toggle_closed').removeClass('toggle_open');
-        targetNode.next('.toggledsection').removeClass('sectionopen');
+        //changed toggle targets
+        targetLink.one('.closebutton').setHTML('');
+        $('#toggledsection-'+toggleNum).removeClass('sectionopen');
+        $('#toggledsection-'+toggleNum).parent().hide();
+        $('#toggledsection-'+toggleNum).parent().parent().hide();
         state = false;
     }
     //IE 8 Hack/workaround to force IE8 to repaint everything

@@ -678,9 +678,7 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
 }
-
-
-
+require_once($CFG->dirroot . '/theme/mebis/renderers/core_renderer.php');
 class theme_dlb_core_media_renderer extends core_media_renderer {
 
     protected function get_players_raw() {

@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Helper functions for mbsmycourses block
- * Put into a mbsmycourses class by Andre Scherl
+ * Renderer for block_mbsmycourses (based on block course_overview)
  *
  * @package    block_mbsmycourses
  * @copyright  2015 Andreas Wagner <andreas.wagner@isb.bayern.de>
@@ -28,38 +27,42 @@ require_once($CFG->dirroot . '/blocks/mbsmycourses/locallib.php');
 
 class block_mbsmycourses_renderer extends plugin_renderer_base {
 
+    /** render the list of courses displaying in listview
+     * 
+     * @param record $coursesinfo data of courses (i. e. attribute groupedcourses of this
+     *               record contains the courses grouped by schools.
+     * @param array $overviews 'news' from the activities within a course, if there are some
+     * @return string HTML for the courses list (grouped by school).
+     */
     public function mbsmycourses_list($coursesinfo, $overviews) {
 
         $o = '';
         $userediting = false;
         $ismovingcategory = false;
         $categoryordernumber = 0;
-        
+
         if ($this->page->user_is_editing() && (count($coursesinfo->groupedcourses) > 1)) {
-            
+
             $userediting = true;
-            
-            // Check if course is moving
-            $ismovingcategory = optional_param('movecategory', FALSE, PARAM_BOOL);
+
+            // Check if course is moving.
+            $ismovingcategory = optional_param('movecategory', false, PARAM_BOOL);
             $movingcategoryid = optional_param('categoryid', 0, PARAM_INT);
-            
-            //$opts = array();
-            //$this->page->requires->yui_module('moodle-block_mbsmycourses-overlay', 'M.block_mbsmycourses.overlay', array($opts));
         }
-        
+
         // Render first movehere icon.
         if ($ismovingcategory) {
-            
+
             // Remove movecourse param from url.
             $this->page->ensure_param_not_in_url('movecategory');
 
             // Show moving category notice, so user knows what is being moved.
-            $o  .= $this->output->box_start('notice');
+            $o .= $this->output->box_start('notice');
             $a = new stdClass();
             $a->fullname = $coursesinfo->groupedcourses[$movingcategoryid]->category->name;
             $a->cancellink = html_writer::link($this->page->url, get_string('cancel'));
-            $o  .= get_string('movecategory', 'block_mbsmycourses', $a);
-            $o  .= $this->output->box_end();
+            $o .= get_string('movecategory', 'block_mbsmycourses', $a);
+            $o .= $this->output->box_end();
 
             $moveurl = new moodle_url('/blocks/mbsmycourses/movecategory.php',
                             array('sesskey' => sesskey(), 'moveto' => 0, 'categoryid' => $movingcategoryid));
@@ -72,7 +75,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         }
 
         foreach ($coursesinfo->groupedcourses as $catid => $categoryinfo) {
-            
+
             // If moving category, then don't show category which needs to be moved.
             if ($ismovingcategory && ($catid == $movingcategoryid)) {
                 continue;
@@ -88,10 +91,10 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $moveurl = html_writer::link($moveurl, $moveicon);
                 $header .= html_writer::tag('div', $moveurl, array('class' => 'move'));
             }
-            
+
             $caturl = new moodle_url('/course/index.php', array('categoryid' => $catid));
             $header .= html_writer::link($caturl, $categoryinfo->category->name);
-                        
+
             $c = '';
             $newcount = 0;
             foreach ($categoryinfo->courses as $course) {
@@ -105,9 +108,9 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $content = '';
                 if (isset($overviews[$course->id]) && !$ismovingcategory) {
 
-                    $new = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-'.$course->id));
+                    $new = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
                     $moreinfo = html_writer::tag('div', $new, array('class' => 'mbsmycourses-new'));
-                    
+
                     $content = $this->activity_display($course, $overviews[$course->id]);
                     $newcount++;
                 }
@@ -115,18 +118,18 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $name .= html_writer::tag('div', $moreinfo, array('class' => 'moreinfo'));
                 $name .= html_writer::tag('div', '', array('class' => 'clearfix'));
                 $info = html_writer::tag('div', $name, array('class' => 'info'));
-                
+
                 $c .= html_writer::tag('div', $info . $content, array('class' => 'col-lg-12 coursebox'));
             }
 
             if ($newcount > 0) {
-                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses')." (".$newcount.")", array('class' => 'mbsmycourses-newinfo'));
+                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
-            $o .= $this->collapsible_region($c, 'col-lg-12 category-box','category-box_'.$catid, $header, 'mbscourse-catcoll_'.$catid);
-            
+            $o .= $this->collapsible_region($c, 'col-lg-12 category-box', 'category-box_' . $catid, $header, 'mbscourse-catcoll_' . $catid);
+
             $categoryordernumber++;
             if ($ismovingcategory) {
-                
+
                 $moveurl = new moodle_url('/blocks/mbsmycourses/movecategory.php',
                                 array('sesskey' => sesskey(), 'moveto' => $categoryordernumber, 'categoryid' => $movingcategoryid));
                 $a = new stdClass();
@@ -138,7 +141,6 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $moveurl = html_writer::link($moveurl, $movehereicon);
                 $o .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
-            
         }
 
         $o = html_writer::tag('div', $o, array('class' => 'mbsmycourses-list'));
@@ -146,7 +148,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Construct contents of mbsmycourses block
+     * render contents of mbsmycourses block
      *
      * @param array $courses list of courses in sorted order
      * @param array $overviews list of course overviews
@@ -169,7 +171,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
             $this->page->requires->js_init_call('M.block_mbsmycourses.add_handles');
 
             // Check if course is moving
-            $ismovingcourse = optional_param('movecourse', FALSE, PARAM_BOOL);
+            $ismovingcourse = optional_param('movecourse', false, PARAM_BOOL);
             $movingcourseid = optional_param('courseid', 0, PARAM_INT);
         }
 
@@ -206,10 +208,9 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
             // If user is moving courses, then down't show overview.
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
 
-                $new = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-'.$course->id));
+                $new = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
                 $html .= html_writer::tag('div', $new, array('class' => 'mbsmycourses-new'));
                 $html .= $this->activity_display($course, $overviews[$course->id]);
-                
             }
 
             $html .= html_writer::start_tag('div', array('class' => 'course_title'));
@@ -234,8 +235,9 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
                 $link = html_writer::link($courseurl, $coursefullname, $attributes);
                 $html .= $this->output->heading($link, 2, 'title');
             } else {
-                $html .= $this->output->heading(html_writer::link(
-                                new moodle_url('/auth/mnet/jump.php', array('hostid' => $course->hostid, 'wantsurl' => '/course/view.php?id=' . $course->remoteid)), format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 2, 'title');
+                $url = new moodle_url('/auth/mnet/jump.php', array('hostid' => $course->hostid, 'wantsurl' => '/course/view.php?id=' . $course->remoteid));
+                $link = html_writer::link($url, format_string($course->shortname, true), $attributes);
+                $html .= $this->output->heading($link . ' (' . format_string($course->hostname) . ')', 2, 'title');
             }
 
             $html .= $this->output->box('', 'flush');
@@ -280,11 +282,11 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
      * @return string html of activities overview
      */
     protected function activity_display($course, $overview) {
-        
-        $output = html_writer::start_tag('div', array('id' => "mbsmycourses-overlay-".$course->id ,'class' => 'yui3-overlay-loading'));
-        
+
+        $output = html_writer::start_tag('div', array('id' => "mbsmycourses-overlay-" . $course->id, 'class' => 'yui3-overlay-loading'));
+
         foreach (array_keys($overview) as $module) {
-            
+
             $url = new moodle_url("/mod/$module/index.php", array('id' => $course->id));
             $modulename = get_string('modulename', $module);
             $icontext = html_writer::link($url, $this->output->pix_icon('icon', $modulename, 'mod_' . $module, array('class' => 'iconlarge')));
@@ -295,15 +297,15 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
             }
 
             $closebutton = html_writer::tag('a', 'X', array('class' => 'mbscourses-hide-overlay', 'href' => '#'));
-            
-            $output .= html_writer::tag('div', $closebutton. $course->fullname, array('class' => 'yui3-widget-hd'));
-            $output .= html_writer::tag('div', $icontext.$overview[$module], array('class' => 'yui3-widget-bd'));
+
+            $output .= html_writer::tag('div', $closebutton . $course->fullname, array('class' => 'yui3-widget-hd'));
+            $output .= html_writer::tag('div', $icontext . $overview[$module], array('class' => 'yui3-widget-bd'));
             $output .= html_writer::tag('div', '', array('class' => 'yui3-widget-ft', 'style' => 'display:none'));
         }
         $output .= html_writer::end_tag('div');
-        
-        $output = html_writer::tag('div', $output, array('id' => 'mbsmycourses-overlay-position-'.$course->id));
-        
+
+        $output = html_writer::tag('div', $output, array('id' => 'mbsmycourses-overlay-position-' . $course->id));
+
         $this->page->requires->js_init_call('M.block_mbsmycourses.add_overlay', array($course->id));
         return $output;
     }
@@ -391,7 +393,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
      * @param bool $default Initial collapsed state to use if the user_preference it not set.
      * @return bool if true, return the HTML as a string, rather than printing it.
      */
-    protected function collapsible_region_start($classes, $id, $caption, 
+    protected function collapsible_region_start($classes, $id, $caption,
                                                 $userpref = '', $default = false) {
         // Work out the initial state.
         if (!empty($userpref) and is_string($userpref)) {
@@ -410,7 +412,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         $output .= '<div id="' . $id . '" class="collapsibleregion ' . $classes . '">';
         $output .= '<div id="' . $id . '_sizer">';
         $output .= '<div id="' . $id . '_caption" class="collapsibleregioncaption"></div>';
-        $output .= '<div>'.$caption.'</div>';
+        $output .= '<div>' . $caption . '</div>';
         $output .= '<div id="' . $id . '_inner" class="collapsibleregioninner">';
         $this->page->requires->js_init_call('M.block_mbsmycourses.collapsible', array($id, $userpref, get_string('clicktohideshow')));
 
@@ -471,16 +473,26 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Construct button to load more results
+     * render button to load more results
      *
      * @return string return the HTML as a string, rather than printing it.
      */
     public function load_more_button() {
         $output = '';
-        $output .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'showallcourses', 'class' => 'btn_load_more_results', 'value' => get_string('load_more_results', 'block_mbsmycourses')));
+        $output .= html_writer::empty_tag('input', array('type' => 'submit',
+                    'name' => 'showallcourses',
+                    'class' => 'btn_load_more_results',
+                    'value' => get_string('load_more_results', 'block_mbsmycourses')));
         return $output;
     }
 
+    /** render the the courses content area as list or grid
+     * 
+     * @param record $courses data of courses depending on viewtype mode.
+     * @param string $viewtype 'list' or 'grid'
+     * @param string $overviews 'news' grouped by courses, if there are some. 
+     * @return string html for the courses list of grid list.
+     */
     public function render_courses_content($courses, $viewtype, $overviews) {
         $content = '';
 

@@ -200,7 +200,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      *
      * @return string return the HTML as a string, rather than printing it.
      */
-    public function filter_form() {
+    public function filter_form($content, $usersschools, $selectedschool,
+                                $sortorder, $viewtype) {
         global $CFG;
         require_once($CFG->libdir."/formslib.php");
 

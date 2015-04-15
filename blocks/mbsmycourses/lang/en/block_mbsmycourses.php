@@ -15,10 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings for mbsmycourses block
+ * Mainly taken from block course_overview, additional lang strings for this
+ * block at the end (which is easier to maintain new translations)
+ * 
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -64,7 +67,7 @@ $string['welcome'] = 'Welcome {$a}';
 $string['youhavemessages'] = 'You have {$a} unread ';
 $string['youhavenomessages'] = 'You have no unread ';
 
-//additional strings from customizing.
+//  Additional strings from customizing.
 $string['fullname'] = 'Course name';
 $string['grid'] = 'Grid view';
 $string['lastaccess'] = 'Last access';

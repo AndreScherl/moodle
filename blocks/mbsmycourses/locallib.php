@@ -24,6 +24,10 @@
  */
 class mbsmycourses {
 
+    /** Get the menu for select element to sortorder courses.
+     * 
+     * @return array of sortorder types.
+     */
     public static function get_coursesortorder_menu() {
 
         $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
@@ -35,7 +39,8 @@ class mbsmycourses {
     }
 
     /**
-     * Display overview for courses
+     * get overviews for courses, get all the "news" which should be displayed for
+     * a course from plugins supportin this feature.
      *
      * @param array $courses courses for which overview needs to be shown
      * @return array html overview
@@ -83,7 +88,7 @@ class mbsmycourses {
      * @param array $sortorder sort order of course
      */
     public static function update_mycategoryorder($sortorder) {
-        
+
         set_user_preference('mbsmycourses_category_order', serialize($sortorder));
     }
 
@@ -136,11 +141,11 @@ class mbsmycourses {
      * @return int maximum number of courses
      */
     public static function get_max_user_courses($showallcourses = false) {
-        // Get block configuration
+        // Get block configuration.
         $config = get_config('block_mbsmycourses');
         $limit = $config->defaultmaxcourses;
 
-        // If max course is not set then try get user preference
+        // If max course is not set then try get user preference.
         if (empty($config->forcedefaultmaxcourses)) {
             if ($showallcourses) {
                 $limit = 0;
@@ -151,18 +156,25 @@ class mbsmycourses {
         return $limit;
     }
 
-    /* $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
-      'fullname' => get_string('fullname', 'block_mbsmycourses'),
-      'lastaccess' => get_string('lastaccess', 'block_mbsmycourses'),
-      'startdate' => get_string('startdate', 'block_mbsmycourses')); */
-
-    protected static function order_by_sortorder($a, $b) {
+    /** helper to uasort by users sortorder of course (type manual).
+     * 
+     * @param record $a course1 
+     * @param record $b course2
+     * @return int
+     */
+    protected static function order_by_userssortorder($a, $b) {
         if ($a->sortorder == $b->sortorder) {
             return 0;
         }
-        return ($a->sortorder > $b->sortorder) ? +1 : -1;
+        return ($a->sortorder > $b->sortorder) ? 1 : -1;
     }
 
+    /** helper to uasort by lastacces of course.
+     * 
+     * @param record $a course1 
+     * @param record $b course2
+     * @return int
+     */
     protected static function order_by_lastaccess($a, $b) {
 
         if ($a->lastaccess == $b->lastaccess) {
@@ -170,19 +182,25 @@ class mbsmycourses {
         }
 
         if ($a->lastaccess == 0) {
-            return +1;
+            return 1;
         }
 
         if ($b->lastaccess == 0) {
             return -1;
         }
 
-        return ($a->lastaccess > $b->lastaccess) ? -1 : +1;
+        return ($a->lastaccess > $b->lastaccess) ? -1 : 1;
     }
 
-    protected static function sort_courses($courses, $sortorder) {
+    /** sort courses using uasort
+     * 
+     * @param array $courses list or users courses
+     * @param string $sorttype key of sort type (manual or lastaccess)
+     * @return array sorted list of courses
+     */
+    protected static function sort_courses($courses, $sorttype) {
 
-        switch ($sortorder) {
+        switch ($sorttype) {
 
             case 'manual' :
 
@@ -204,7 +222,7 @@ class mbsmycourses {
                         }
                     }
 
-                    usort($courses, array('mbsmycourses', 'order_by_sortorder'));
+                    uasort($courses, array('mbsmycourses', 'order_by_userssortorder'));
                     return $courses;
                 } else {
                     return $courses;
@@ -214,7 +232,7 @@ class mbsmycourses {
 
             case 'lastaccess' :
 
-                usort($courses, array('mbsmycourses', 'order_by_lastaccess'));
+                uasort($courses, array('mbsmycourses', 'order_by_lastaccess'));
                 return $courses;
                 break;
 
@@ -225,6 +243,17 @@ class mbsmycourses {
         return $courses;
     }
 
+    /** retrieve courses belonging to selected school from courses. Unfortunately
+     *  this cannot be done by SQL as we use moodle core function enrol_get_my_courses()
+     *  to get users courses.
+     * 
+     * @param int $selectedschool id of selected school
+     * @param array $courses all courses where this users is enrolled
+     * @param array $schoolcategories all schoolcategories (i. e. coursecategory with depth = 3)
+     *              where courses are in. This array provides a relation from
+     *              course category id to schoolcategory id array(course->category => schoolcategoryid)
+     * @return array all courses belonging to selected school
+     */
     protected static function filter_school($selectedschool, $courses,
                                             $schoolcategories) {
 
@@ -239,7 +268,10 @@ class mbsmycourses {
     }
 
     /**
-     * Return sorted list of user courses
+     * Return sorted list of user courses. Note there are two ways of sorting:
+     * 
+     * 1) Sorting that can be done via SQL (order by startdate, fullname)
+     * 2) Sorting that must be done by uasort 
      *
      * @param bool $showallcourses if set true all courses will be visible.
      * @return array list of sorted courses and count of courses.
@@ -251,7 +283,7 @@ class mbsmycourses {
         $result = new stdClass();
 
         // ... we can do only order by startdate and fullname by SQL.
-        // Other sorting is done with usort later.
+        // Other sorting is done with uasort later.
         if (in_array($sortorder, array('startdate', 'fullname'))) {
             $courses = enrol_get_my_courses('*', $sortorder);
         } else {
@@ -292,17 +324,17 @@ class mbsmycourses {
         // ... try to sort by manual or last access.
         $sortedcourses = self::sort_courses($courses, $sortorder);
 
-        // ..limit courses.
+        // ...limit courses.
         $limit = self::get_max_user_courses($showallcourses);
 
         if ($limit > 0) {
             $sortedcourses = array_slice($sortedcourses, 0, $limit, true);
         }
 
-        // From list extract site courses for overview
+        // From list extract site courses for overview.
         $result->sitecourses = array();
 
-        // collect categories for schoolcatinformation.
+        // ...collect categories for schoolcatinformation.
         $categoryids = array();
         foreach ($sortedcourses as $course) {
             if ($course->id > 0) {
@@ -347,11 +379,18 @@ class mbsmycourses {
                 }
             }
 
-            uasort($groupedcourses, array('mbsmycourses', 'order_by_sortorder'));
+            uasort($groupedcourses, array('mbsmycourses', 'order_by_userssortorder'));
         }
         return $groupedcourses;
     }
 
+    /** get all the courses (sorted by sortorder) and grouped by school for use in list view.
+     * 
+     * @global object $DB
+     * @param  string $sortorder one of the sortorder keys, see get_coursesortorder_menu()
+     * @param int $selectedschool id of selected school or 0 when not filtered.
+     * @return record attribute groupedcourses contains the courses grouped by school.
+     */
     public static function get_sorted_courses_group_by_school($sortorder,
                                                               $selectedschool) {
         global $DB;
@@ -366,8 +405,8 @@ class mbsmycourses {
             if (isset($courses->schoolcategories[$course->category])) {
                 $schoolcategory = $courses->schoolcategories[$course->category];
             } else {
-                
-                // Should only happen for courses in categories with depth < 3;
+
+                // Should only happen for courses in categories with depth < 3!
                 $schoolcategory = $DB->get_record('course_categories', array('id' => $course->category));
             }
 
@@ -378,7 +417,7 @@ class mbsmycourses {
             }
             $groupedcourses[$schoolcategory->id]->courses[] = $course;
         }
-        
+
         $courses->groupedcourses = self::sort_groupedcourses($groupedcourses);
         return $courses;
     }

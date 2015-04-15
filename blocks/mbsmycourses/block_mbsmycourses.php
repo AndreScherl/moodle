@@ -47,7 +47,7 @@ class block_mbsmycourses extends block_base {
 
         require_once($CFG->dirroot . '/user/profile/lib.php');
 
-        if ($this->content !== NULL) {
+        if ($this->content !== null) {
             return $this->content;
         }
 
@@ -147,7 +147,8 @@ class block_mbsmycourses extends block_base {
      * @return bool if true then header will be visible.
      */
     public function hide_header() {
-// Hide header if welcome area is show.
+
+        // Hide header if welcome area is show.
         $config = get_config('block_mbsmycourses');
         return !empty($config->showwelcomearea);
     }

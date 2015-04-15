@@ -2,35 +2,34 @@ M.block_mbsmycourses = M.block_mbsmycourses || {};
 M.block_mbsmycourses.searchform = function (data) {
 
     function initialize() {
-        
+
         var form = Y.one('#filter_form');
-        
-        
-        Y.one('#mbsmycourses_filterschool').on('change', 
-    
+
+        Y.one('#mbsmycourses_filterschool').on('change',
+
             function(e) {
-                form.submit();   
+                form.submit();
             }
-            
+
             );
-            
-        Y.one('#mbsmycourses_sorttype').on('change', 
-    
+
+        Y.one('#mbsmycourses_sorttype').on('change',
+
             function(e) {
-                form.submit();   
+                form.submit();
             }
-            
+
             );
-                
-        Y.all('#mbsmycourses_viewtype input').on('click', 
-    
+
+        Y.all('#mbsmycourses_viewtype input').on('click',
+
             function(e) {
-                form.submit();   
+                form.submit();
             }
-            
-            );    
-                
+
+            );
+
     }
-    
+
     initialize();
 };

@@ -173,7 +173,7 @@
     position:absolute;
     z-index:1000;
 }
- 
+
 /* Overlay Look/Feel */
 .yui3-overlay-content {
     background-color: #ffffff;
@@ -183,19 +183,18 @@
     margin: 0;
     padding: 0;
 }
- 
-.yui3-overlay-content .yui3-widget-hd, 
+
+.yui3-overlay-content .yui3-widget-hd,
 .yui3-overlay-content .yui3-widget-bd {
     padding: 10px;
 }
 
 .yui3-overlay-content .yui3-widget-hd {
     font-weight: bold;
-    cursor:move; 
+    cursor:move;
     border-bottom:1px solid  #e3e3e3;
 }
 
 #mbsmycourses_viewtype label {
     margin-right:10px;
 }
-

@@ -57,7 +57,11 @@ class block_meinekurse extends block_base {
      */
     public function get_content() {
         global $USER, $PAGE;
-
+        
+        $PAGE->requires->js('/blocks/meinekurse/javascript/jquery.js');
+        $PAGE->requires->js('/blocks/meinekurse/javascript/jqueryui.js');
+        $PAGE->requires->js('/blocks/meinekurse/javascript/meinekurse.js');
+        
         if ($this->content !== null) {
             return $this->content;
         }

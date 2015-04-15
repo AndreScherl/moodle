@@ -26,17 +26,14 @@ defined('MOODLE_INTERNAL') || die();
 class block_mbsschooltitle extends block_base {
     
     public function init() {
+        
         $this->title = get_string('pluginname', 'block_mbsschooltitle');
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
             return $this->content;
         }
 
@@ -44,7 +41,7 @@ class block_mbsschooltitle extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $renderer = $this->page->get_renderer('block_mbsschooltitle');
+        $renderer = $PAGE->get_renderer('block_mbsschooltitle');
         $this->content->text .= $renderer->render_content($this->get_titledata());
 
         return $this->content;
@@ -59,9 +56,9 @@ class block_mbsschooltitle extends block_base {
      *                    which contains the current category.
      */
     public function get_titledata() {
-        global $COURSE, $USER, $DB;
+        global $COURSE, $DB, $PAGE;
 
-        $contextlevel = $this->page->context->contextlevel;
+        $contextlevel = $PAGE->context->contextlevel;
         
         // ...get the id for users school, may be false!
         $usersschoolcatid = \local_mbs\local\schoolcategory::get_users_schoolcatid();
@@ -80,7 +77,7 @@ class block_mbsschooltitle extends block_base {
                 break;
 
             case CONTEXT_COURSECAT:
-                $categoryid = $this->page->context->instanceid;
+                $categoryid = $PAGE->context->instanceid;
                 $schoolcatid = \local_mbs\local\schoolcategory::get_schoolcategoryid($categoryid);
                 break;
 
@@ -102,7 +99,7 @@ class block_mbsschooltitle extends block_base {
                 
                 if ($showeditinglink) {
                     
-                    $redirecturl = base64_encode($this->page->url->out());
+                    $redirecturl = base64_encode($PAGE->url->out());
                     $params = array('categoryid' => $schoolcatid, 'redirecturl' => $redirecturl);
                     
                     $editurl = new moodle_url('/blocks/mbsschooltitle/edittitle.php',$params);
@@ -130,6 +127,6 @@ class block_mbsschooltitle extends block_base {
     }
     
     public function applicable_formats() {
-        return array('all' => true, 'my-index' => false);
+        return array('all' => false);
     }
 }

@@ -31,13 +31,9 @@ class block_mbssearch extends block_base {
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
             return $this->content;
         }
 
@@ -49,14 +45,19 @@ class block_mbssearch extends block_base {
             return $this->content;
         }
 
-        $renderer = $this->page->get_renderer('block_mbssearch');
+        $renderer = $PAGE->get_renderer('block_mbssearch');
         $this->content->text .= $renderer->render_block_content();
 
         return $this->content;
     }
 
     public function has_config() {
-        return true;
+        return false;
+    }
+    
+    function applicable_formats() {
+        // Default case: the block can be used in courses and site index, but not in activities
+        return array('all' => false);
     }
 
 }

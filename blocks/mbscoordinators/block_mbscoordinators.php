@@ -141,6 +141,6 @@ class block_mbscoordinators extends block_base {
 
     public function applicable_formats() {
 
-        return array('all' => false);
+        return array('all' => true, 'my' => false, '*category' => false);
     }
 }

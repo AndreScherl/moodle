@@ -127,6 +127,8 @@ class block_mbsschooltitle extends block_base {
     }
     
     public function applicable_formats() {
-        return array('all' => false);
+        // self test of block base class will fail if sum of the format array is zero
+        // workaround: set format true for unimportant context
+        return array('all' => false, 'site-index' => true);
     }
 }

@@ -82,7 +82,8 @@ class block_mbsnewcourse extends block_base {
     }
 
     public function applicable_formats() {
-        return array('course-index' => true, 'my-index' => true);
+        // block should not be set on sites with fix rendered version of this block
+        return array('all' => true, 'my' => false, 'course-index-category' => false);
     }
 
 }

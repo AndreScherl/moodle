@@ -57,7 +57,9 @@ class block_mbssearch extends block_base {
     
     function applicable_formats() {
         // Default case: the block can be used in courses and site index, but not in activities
-        return array('all' => false);
+        // self test of block base class will fail if sum of the format array is zero
+        // workaround: set format true for unimportant context
+        return array('all' => false, 'site-index' => true);
     }
 
 }

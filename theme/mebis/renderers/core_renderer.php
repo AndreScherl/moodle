@@ -217,6 +217,16 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return html_writer::tag('li', $output);
     }
 
+    /** create a fake block in given region. This is a approach to embed blocks
+     *  without creating an instance by using database table "mdl_block_instances".
+     * 
+     *  awag: Temporarily NOT used and can be removed, when redesing is finished.
+     * 
+     * @global type $PAGE
+     * @param type $blockname
+     * @param type $region
+     * @return boolean
+     */
     public function add_fake_block($blockname, $region) {
         global $PAGE;
 
@@ -229,6 +239,17 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return true;
     }
     
+    /** get the raw content (i. e. text) of a block, without creating an instance by using
+     * database table "mdl_block_instances".
+     * This is used to generate "sticky" blocks, which are outputted on every page in the
+     * layout file.
+     * 
+     * Note that capabilities and return value of method applicable_formats() 
+     * of these blocks should prevent users from creating instances on special pages.
+     * 
+     * @param type $blockname
+     * @return string
+     */
     public function raw_block($blockname) {
         if (!$blockinstance = block_instance($blockname)) {
             return '';

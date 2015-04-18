@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A layout for the category pages in theme mebis
+ * A layout for the category pages in  mebis theme
  *
  * @package   theme_mebis
  * @copyright 2015 ISB Bayern
@@ -105,6 +105,9 @@ echo $OUTPUT->doctype()
 
                     echo html_writer::end_div();
                     echo html_writer::end_tag('aside');
+                    
+                    // awag: Alternative mit standard Methode?
+                    // echo html_writer::tag('div', $OUTPUT->blocks('side-pre'), array('class' => 'row'));
                     ?>
                 <?php endif; ?>
             </div>
@@ -123,7 +126,8 @@ echo $OUTPUT->doctype()
         $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
         $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
         $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.js"));
-
+        $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
+        
         echo $OUTPUT->standard_end_of_body_html();
         ?>
 

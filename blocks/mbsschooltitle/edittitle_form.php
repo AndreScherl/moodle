@@ -35,7 +35,9 @@ class edittitle_form extends moodleform {
         $mform->addElement('header', 'headersettings', get_string('settings', 'block_mbsschooltitle'));
 
         $mform->addElement('text', 'headline', get_string('headline', 'block_mbsschooltitle'), array('size' => '70'));
-        $mform->setDefault('headline', $titledata->headline);
+        if (isset($titledata->headline)) {
+            $mform->setDefault('headline', $titledata->headline);
+        }
         $mform->setType('headline', PARAM_TEXT);
 
         $file = false;

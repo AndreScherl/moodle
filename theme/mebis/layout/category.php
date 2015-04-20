@@ -111,8 +111,7 @@ echo $OUTPUT->doctype()
 
             <div id="root-footer"></div>
             <?php 
-            echo $OUTPUT->raw_block('mbssearch');
-            echo $OUTPUT->raw_block('mbsschooltitle')
+            echo $OUTPUT->mebis_footer();
             ?>
         </div>
 

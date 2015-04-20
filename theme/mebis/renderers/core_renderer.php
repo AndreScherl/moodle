@@ -219,7 +219,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
     public function add_fake_block($blockname, $region) {
         global $PAGE;
-
+        
         if (!$blockinstance = block_instance($blockname)) {
             return false;
         }
@@ -234,6 +234,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             return '';
         }
         return $blockinstance->get_content()->text;
+    }
+    
+    public function mebis_footer() {
+        $output = '';
+        $output .= $this->raw_block('mbssearch');
+        $output .= $this->raw_block('mbsschooltitle');
+        return $output;
     }
 }
 

@@ -80,17 +80,3 @@ $string['my-courses'] = 'Meine Kurse';
 $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
-// mbs_my_courses
-$string['alwaysshowall'] = 'Always show all';
-$string['numtodisplay'] = 'Number of courses to display: ';
-$string['load_more_results'] = 'Load more results...';
-$string['hiddencoursecount'] = 'You have {$a} hidden course';
-$string['hiddencoursecountplural'] = 'You have {$a} hidden courses';
-$string['hiddencoursecountwithshowall'] = 'You have {$a->coursecount} hidden course ({$a->showalllink})';
-$string['hiddencoursecountwithshowallplural'] = 'You have {$a->coursecount} hidden courses ({$a->showalllink})';
-$string['switch_list'] = 'Listview';
-$string['switch_grid'] = 'Gridview';
-
-$string['toggle-navigation'] = 'Toggle navigation';
-
-$string['load-more-results'] = 'Load more results...';

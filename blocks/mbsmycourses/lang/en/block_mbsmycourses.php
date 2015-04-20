@@ -26,7 +26,7 @@
  */
 
 $string['activityoverview'] = 'You have {$a}s that need attention';
-$string['alwaysshowall'] = 'Always show all';
+$string['alwaysshowall'] = 'All';
 $string['collapseall'] = 'Collapse all course lists';
 $string['configotherexpanded'] = 'If enabled, other courses will be expanded by default unless overriden by user preferences.';
 $string['configpreservestates'] = 'If enabled, the collapsed/expanded states set by the user are stored and used on each load.';
@@ -69,12 +69,14 @@ $string['youhavenomessages'] = 'You have no unread ';
 
 //  Additional strings from customizing.
 $string['fullname'] = 'Course name';
-$string['grid'] = 'Grid view';
+$string['grid'] = 'Gridview';
 $string['lastaccess'] = 'Last access';
 $string['list'] = 'Listview';
 $string['manual'] = 'Users sortorder';
 $string['movecategory'] = 'You are moving: {$a->fullname} ({$a->cancellink})';
 $string['movecatafterhere'] = 'Move {$a->movingcategoryname} category after {$a->currentcategoryname}';
+$string['new'] = 'NEW';
 $string['orderby'] = 'Order by...';
 $string['startdate'] = 'Start date';
-$string['new'] = 'New';
+$string['toggle-navigation'] = 'Toggle navigation';
+

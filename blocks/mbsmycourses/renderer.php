@@ -446,7 +446,6 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         $form .= html_writer::tag('div', $select);
 
         // Render sortmenu.
-        $form .= html_writer::start_tag('div');
         $choices = mbsmycourses::get_coursesortorder_menu();
         $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
         $form .= html_writer::tag('div', $select);

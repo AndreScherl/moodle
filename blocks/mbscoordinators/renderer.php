@@ -50,5 +50,9 @@ class block_mbscoordinators_renderer extends plugin_renderer_base {
 
         return html_writer::tag('div', $out, array('class' => 'mbscoordinators'));
     }
+    
+    public function render_categoryheader($category) {
+        return html_writer::tag('h2', $category->name);
+    }
 
 }

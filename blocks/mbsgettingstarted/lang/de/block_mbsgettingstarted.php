@@ -30,4 +30,4 @@ $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
 $string['mbsgettingstarted:addinstance'] = 'Hinzufügen der Starthilfe';
 $string['mbsgettingstarted:myaddinstance'] = 'Hinzufügen der Starthilfe zu meinem Schreibtisch';
-$string['pluginname'] = 'Starthilfe';
+$string['pluginname'] = 'mebis Starthilfe';

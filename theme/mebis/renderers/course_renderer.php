@@ -242,9 +242,9 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $categories = coursecat::get($categoryId)->get_children();
         foreach ($categories as $category) {
             $result .= html_writer::start_div('category-container');
-            $result .= html_writer::start_div('category-title');
+            $result .= html_writer::start_div('category-title category-toggle');
             $result .= html_writer::start_span('category-title-name');
-            $result .= html_writer::link(new moodle_url('/course/index.php?categoryid='.$category->id), $category->name);
+            $result .= html_writer::link(new moodle_url('#'), $category->name);
             $result .= html_writer::end_span();
             if ($category->has_children() || $category->has_courses()) {
                 $result .= html_writer::span('','category-toggle');
@@ -365,18 +365,17 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      *
      * @param int|stdClass|coursecat $category
      */
-    public function course_category($category)
-    {
+    public function course_category($category) {
         global $CFG;
+
         require_once($CFG->libdir . '/coursecatlib.php');
         $coursecat = coursecat::get(is_object($category) ? $category->id : $category);
-        $site = get_site();
+     
         $output = '';
-
-        $this->page->set_button($this->course_search_form('', 'navbar'));
 
         // Print current category description
         $chelper = new coursecat_helper();
+
         if ($description = $chelper->get_category_formatted_description($coursecat)) {
             $output .= $this->box($description, array('class' => 'generalbox info'));
         }
@@ -418,15 +417,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
-        //$output .= $this->render_category_headline($coursecat->name);
-
         // Display course category tree
         $output .= $this->coursecat_tree($chelper, $coursecat);
-
-        // Add course search form (if we are inside category it was already added to the navbar)
-        if (!$coursecat->id) {
-            $output .= $this->course_search_form();
-        }
 
         return $output;
     }
@@ -440,32 +432,18 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      * @return string
      */
     protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
-        global $CFG, $PAGE, $OUTPUT;
-
+        
         $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);
+
         if (empty($categorycontent)) {
             return '';
         }
 
         // Start content generation
-        $content = '';
+        $content = html_writer::tag('div', $categorycontent, array('class' => 'content'));
+        
         $attributes = $chelper->get_and_erase_attributes('course_category_tree clearfix');
-        $content .= html_writer::start_tag('div', $attributes);
-
-        require_once($CFG->libdir.'/blocklib.php');
-
-        //$courseblock = new block_mbsnewcourse();
-
-        $bm = new block_manager($PAGE);
-
-        $bm->add_region('mbscoord');
-        $bm->load_blocks();
-
-        $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
-
-        $content .= html_writer::end_tag('div'); // .course_category_tree
-
-        return $content;
+        return html_writer::tag('div', $content, $attributes);
     }
 
     /**

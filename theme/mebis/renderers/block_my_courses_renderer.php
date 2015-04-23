@@ -229,13 +229,9 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right text-mobile-left'));
         $output .= html_writer::start_tag('label', array("for"=>"switch_list"));
         $output .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_list", "value" => "list"));
-        $switchList = html_writer::tag('span', get_string('switch_list', 'theme_mebis'), array('class' => 'visible-xs'));
-        $output .= html_writer::tag('span', $switchList);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::start_tag('label', array("for"=>"switch_grid"));
         $output .= html_writer::tag('input', '<i class="icon-me-kachelansicht"></i>', array("type" => "radio", "name" => "switch_view", "id" => "switch_grid", "value" => "grid", "class" => "grid-switch", "checked" => "checked"));
-        $switchGrid = html_writer::tag('span', get_string('switch_grid', 'theme_mebis'), array('class' => 'visible-xs'));
-        $output .= html_writer::tag('span', $switchGrid);
         $output .= html_writer::end_tag('label');
         $output .= html_writer::end_tag('div');
 

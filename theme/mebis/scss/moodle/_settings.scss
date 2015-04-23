@@ -13,6 +13,11 @@
 .detail-pair {
     color: $white;
 }
+
+.detail-pair-value {
+    color: $black;
+}
+
 th {
     color: $white;
 }
@@ -30,9 +35,7 @@ label {
 }
 
 .backup_stage {
-    &.backup_stage_current {
-        color: $white !important;
-    }
+    &.backup_stage_current,
     &.backup_stage_complete {
         color: #999 !important;
     }

@@ -256,3 +256,33 @@ ul, li {
 .jsenabled .choosercontainer #chooseform .alloptions {
     box-shadow: none;
 }
+
+.import-course-selector {
+    .detail-pair-value {
+        color: $white;
+
+        // got rid of the margin of the "next" button but this also affects the "search" button above
+        input[type="submit"] {
+            margin-left: 0px;
+        }
+    }
+
+    // "push" the search button a few pixel to the right by adding a margin to the search box itself
+    input[type="text"] {
+        margin-right: 5px;
+    }
+
+    input[type="text"]+input[type="submit"] {
+        margin-top: -2px;
+    }
+}
+
+.path-backup {
+    legend {
+        color: $white;
+    }
+
+    form {
+        color: #666;
+    }
+}

@@ -880,7 +880,7 @@ function chat_format_message($message, $courseid, $currentuser, $chat_lastrow=NU
     $strchat = $CFG->chat_anon;
 
     if ($strchat==='anony') {
-        return \block_dlb\local\datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
+        return \local_mbs\local\datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
     }
     //---DS21
     return chat_format_message_manually($message, $courseid, $user, $currentuser, $chat_lastrow);

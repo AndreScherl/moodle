@@ -54,7 +54,7 @@ class cohort_candidate_selector extends user_selector_base {
         $countfields = 'SELECT COUNT(1)';
         
         //+++ awag DS08:Sichtbarkeitstrennung-Zuweisung zu einer Kohorte
-        $wherecondition = \block_dlb\local\datenschutz::hook_cohort_lib_find_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_cohort_lib_find_users($wherecondition);
         //--- awag
 
         $sql = " FROM {user} u

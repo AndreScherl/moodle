@@ -220,7 +220,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     /** create a fake block in given region. This is a approach to embed blocks
      *  without creating an instance by using database table "mdl_block_instances".
      * 
-     *  awag: Temporarily NOT used and can be removed, when redesing is finished.
+     *  awag: Temporarily NOT used and can be removed, when redesign is finished.
      * 
      * @global type $PAGE
      * @param type $blockname
@@ -302,7 +302,8 @@ class core_media_player_mediathek extends core_media_player_external {
 
 }
 
-/** Note, that there is another constant in block/meineschule, which holds the catdepth of school categories.
+/** Note, that there is another constant in local_mbs\local\schoolcategory,
+ *  which holds the catdepth of school categories.
  *  if category structure would be changed, both constants must be adapted!
  */
 define('DLB_SCHOOL_CAT_DEPTH', 3);

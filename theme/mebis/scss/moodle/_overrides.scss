@@ -240,3 +240,19 @@ ul, li {
     font-weight: normal;
     padding-right: 0.5em;
 }
+
+// made labels readble on question type chooser page
+.choosercontainer label {
+    color: $white;
+}
+
+// turned background of instruction element transparent to make the content readable
+.jsenabled .choosercontainer #chooseform .instruction,
+.jsenabled .choosercontainer #chooseform .typesummary {
+    background-color: transparent;
+}
+
+// disabled box shadow for the question type element
+.jsenabled .choosercontainer #chooseform .alloptions {
+    box-shadow: none;
+}

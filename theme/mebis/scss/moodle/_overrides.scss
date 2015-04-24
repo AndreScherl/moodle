@@ -210,6 +210,7 @@
     }
 }
 
+// fixed color of fieldset heading
 .mform {
     legend {
         a, a:hover {
@@ -218,6 +219,7 @@
     }
 }
 
+// fixed color in text fields
 .form-item .form-setting,
 .form-item .form-description,
 .mform .fitem .felement,
@@ -227,4 +229,14 @@
 
 ul, li {
     list-style-type: none;
+}
+
+// no highlighting of the table rows
+.user-grade td.oddd1, .user-grade th.oddd1 {
+    background-color: transparent;
+}
+
+#graded_users_selector .singleselect label {
+    font-weight: normal;
+    padding-right: 0.5em;
 }

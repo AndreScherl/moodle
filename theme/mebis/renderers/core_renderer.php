@@ -210,13 +210,24 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      *
      * @param single_button $button
      * @return string HTML fragment
+     * 
+     * awag - 24.04.2015: overriding this method leads get calls. In many cases moodle
+     * expected a post via a form, so this will break functionality.
+     * 
+     * I have done a little investigation to see, why this was done by trio and 
+     * cannot see a case where this should be necessary.
+     *  
+     * For the first step i decided to keep the old code as a reference.
+     * 
+     * DO NOT COMMENT that in!!!
+     * 
+     * @TODO delete this commented code fragment.
      */
-    protected function render_single_button(single_button $button) {
+    /*protected function render_single_button(single_button $button) {
         $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
-
         return html_writer::tag('li', $output);
-    }
-
+    }*/
+    
     /** create a fake block in given region. This is a approach to embed blocks
      *  without creating an instance by using database table "mdl_block_instances".
      * 

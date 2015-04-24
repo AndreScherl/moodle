@@ -471,7 +471,7 @@ class theme_mebis_header_renderer extends renderer_base
 
         $isCourse = ($COURSE->id !== '1');
         if ($isCourse) {
-            $node = $PAGE->settingsnav->get('courseadmin');
+            $node = $PAGE->settingsnav;
             if ($node instanceof navigation_node) {
                 $course_menu = $this->generateMenuContentFor($node, array('edit='));
                 if ($course_menu) {

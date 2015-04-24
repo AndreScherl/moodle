@@ -331,6 +331,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     $showimg = false;
+                    $imgurl = null;
+                    $localImageUrl = '';
                     if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
                         $imgurl = moodle_url::make_pluginfile_url(
                                 $contextid, 'course', 'section', $thissection->id, $gridimagepath,
@@ -342,9 +344,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     /* ToDo: If image is portrait-view */
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!
-                    $localImageUrl = $imgurl->out();
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!!
+                    if (is_object($imgurl)) {
+                        $localImageUrl = $imgurl->out();
+                    }
+
+                    if (empty($localImageUrl)) {
+                        $showimg = false;
+                    }
 
                     if($showimg && @file_get_contents($localImageUrl)) {
                         list($imgWidth, $imgHeight) = getimagesize($localImageUrl);

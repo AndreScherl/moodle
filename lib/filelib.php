@@ -2451,7 +2451,7 @@ function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownloa
     }
     
      //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
-    \block_dlb\local\datenschutz::hook_filelib_send_stored_file($stored_file);
+    \local_mbs\local\datenschutz::hook_filelib_send_stored_file($stored_file);
     //--- awag
     
 

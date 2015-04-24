@@ -1,70 +1,58 @@
 <?php
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/theme/bootstrap/renderers/core_renderer.php");
 
-class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
-{
+class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
+
     protected $header_renderer;
     protected $footer_renderer;
     protected $help_renderer;
 
-    public function __construct(\moodle_page $page, $target)
-    {
+    public function __construct(\moodle_page $page, $target) {
         parent::__construct($page, $target);
         $this->header_renderer = new theme_mebis_header_renderer($page, $target);
         $this->footer_renderer = new theme_mebis_footer_renderer($page, $target);
         $this->help_renderer = new theme_mebis_help_renderer($page, $target);
     }
 
-    public function main_navbar()
-    {
+    public function main_navbar() {
         return $this->header_renderer->main_navbar();
     }
 
-    public function main_sidebar()
-    {
+    public function main_sidebar() {
         return $this->header_renderer->main_sidebar();
     }
 
-    public function main_header($isCourse = false)
-    {
+    public function main_header($isCourse = false) {
         return $this->header_renderer->main_header($isCourse);
     }
 
-    public function main_footer()
-    {
+    public function main_footer() {
         return $this->footer_renderer->main_footer();
     }
 
-    public function main_eventfooter()
-    {
+    public function main_eventfooter() {
         return $this->footer_renderer->main_eventfooter();
     }
 
-    public function main_searchbar()
-    {
+    public function main_searchbar() {
         return $this->footer_renderer->main_searchbar();
     }
 
-    public function main_breadcrumbs()
-    {
+    public function main_breadcrumbs() {
         return $this->header_renderer->main_breadcrumbs();
     }
 
-    public function main_menubar($isCourse)
-    {
+    public function main_menubar($isCourse) {
         return $this->header_renderer->main_menubar($isCourse);
     }
 
-    public function page_action_navigation()
-    {
+    public function page_action_navigation() {
         return $this->help_renderer->page_action_navigation();
     }
 
-    public function render_adminnav_selectbox()
-    {
+    public function render_adminnav_selectbox() {
         return $this->help_renderer->get_adminnav_selectbox();
     }
 
@@ -74,10 +62,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
      * @param type $region
      * @return String Html string of the block
      */
-    public function block(block_contents $bc, $region)
-    {
+    public function block(block_contents $bc, $region) {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if($region === 'top') {
+        if ($region === 'top') {
             return $bc->content;
         }
 
@@ -85,7 +72,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         $bc->tag = 'h2';
         $bc->action_toggle = true;
 
-        if($bc->attributes['data-block'] == 'mbsmycourses') {
+        if ($bc->attributes['data-block'] == 'mbsmycourses') {
             $bc->title = get_string('my-courses', 'theme_mebis');
             $bc->tag = 'h1';
             $bc->action_toggle = false;
@@ -113,11 +100,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             $bc->add_class('block_with_controls');
         }
 
-        if($bc->attributes['data-block'] == 'mbsmycourses') {
+        if ($bc->attributes['data-block'] == 'mbsmycourses') {
             $bc->add_class('row');
         }
-        
-        if($bc->attributes['data-block'] == 'meineschulen') {
+
+        if ($bc->attributes['data-block'] == 'meineschulen') {
             $bc->attributes['class'] = 'block_meineschulen row';
         }
 
@@ -125,21 +112,20 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             $output = '';
             $skipdest = '';
         } else {
-            $output = html_writer::tag('a', get_string('skipa', 'access', $skiptitle),
-                array('href' => '#sb-' . $bc->skipid, 'class' => 'skip-block')
+            $output = html_writer::tag('a', get_string('skipa', 'access', $skiptitle), array('href' => '#sb-' . $bc->skipid, 'class' => 'skip-block')
             );
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
         $full = array('mbsmycourses', 'meineschulen');
 
-        if($region === 'admin-navi') {
+        if ($region === 'admin-navi') {
             array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');
         }
 
         $transparent = array('mbsmycourses');
 
-        if(in_array($bc->attributes['data-block'], $full)){
+        if (in_array($bc->attributes['data-block'], $full)) {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {
@@ -162,27 +148,26 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         return $output;
     }
 
-    public function mebis_block_header($bc)
-    {
+    public function mebis_block_header($bc) {
         $title = '';
 
         if ($bc->title) {
             if ($bc->attributes['data-block'] == 'meineschulen') {
                 $title = html_writer::tag($bc->tag, $bc->title, array('style' => 'padding-left:20px;padding-bottom:20px;'));
             } else {
-            $title = html_writer::tag($bc->tag, $bc->title, null);
-        }
+                $title = html_writer::tag($bc->tag, $bc->title, null);
+            }
         }
 
         $controlshtml = $this->block_controls($bc->controls);
 
         $output = '';
 
-        if($title || $controlshtml) {
+        if ($title || $controlshtml) {
             $output .= html_writer::start_div('header');
             $output .= html_writer::start_div('title');
-            if($bc->action_toggle) {
-                $output .= html_writer::tag('div', '', array('class'=>'block_action'));
+            if ($bc->action_toggle) {
+                $output .= html_writer::tag('div', '', array('class' => 'block_action'));
             }
             $output .= $title;
             $output .= $controlshtml;
@@ -200,8 +185,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
      * @param type $tag
      * @return String Html string of the block region
      */
-    public function mebis_blocks($region, $classes = array(), $tag = 'aside')
-    {
+    public function mebis_blocks($region, $classes = array(), $tag = 'aside') {
         $displayregion = $this->page->apply_theme_region_manipulations($region);
         $classes = (array) $classes;
         $classes[] = 'block-region';
@@ -233,6 +217,52 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
         return html_writer::tag('li', $output);
     }
 
+    /** create a fake block in given region. This is a approach to embed blocks
+     *  without creating an instance by using database table "mdl_block_instances".
+     * 
+     *  awag: Temporarily NOT used and can be removed, when redesign is finished.
+     * 
+     * @global type $PAGE
+     * @param type $blockname
+     * @param type $region
+     * @return boolean
+     */
+    public function add_fake_block($blockname, $region) {
+        global $PAGE;
+        
+        if (!$blockinstance = block_instance($blockname)) {
+            return false;
+        }
+        $bc = new block_contents();
+        $bc->content = $blockinstance->get_content()->text;
+        $PAGE->blocks->add_fake_block($bc, $region);
+        return true;
+    }
+    
+    /** get the raw content (i. e. text) of a block, without creating an instance by using
+     * database table "mdl_block_instances".
+     * This is used to generate "sticky" blocks, which are outputted on every page in the
+     * layout file.
+     * 
+     * Note that capabilities and return value of method applicable_formats() 
+     * of these blocks should prevent users from creating instances on special pages.
+     * 
+     * @param type $blockname
+     * @return string
+     */
+    public function raw_block($blockname) {
+        if (!$blockinstance = block_instance($blockname)) {
+            return '';
+        }
+        return $blockinstance->get_content()->text;
+    }
+    
+    public function mebis_footer() {
+        $output = '';
+        $output .= $this->raw_block('mbssearch');
+        $output .= $this->raw_block('mbsschooltitle');
+        return $output;
+    }
 }
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion
@@ -240,7 +270,8 @@ require_once($CFG->libdir . '/medialib.php');
 
 class core_media_player_mediathek extends core_media_player_external {
 
-    protected function embed_external(moodle_url $url, $name, $width, $height, $options) {
+    protected function embed_external(moodle_url $url, $name, $width, $height,
+                                      $options) {
         global $DB;
         $hash = $this->matches[1];
         if ($desturl = $DB->get_field('repository_mediathek_link', 'url', array('hash' => $hash))) {
@@ -271,7 +302,8 @@ class core_media_player_mediathek extends core_media_player_external {
 
 }
 
-/** Note, that there is another constant in block/meineschule, which holds the catdepth of school categories.
+/** Note, that there is another constant in local_mbs\local\schoolcategory,
+ *  which holds the catdepth of school categories.
  *  if category structure would be changed, both constants must be adapted!
  */
 define('DLB_SCHOOL_CAT_DEPTH', 3);
@@ -397,7 +429,6 @@ class theme_mebis_core_course_management_renderer extends core_course_management
         if (is_siteadmin()) {
 
             $listings[] = coursecat::get(0)->get_children();
-
         } else { // non site admins.
             // get schoolids (category of level 3), which contains elements (category, subcategories or courses) this user can edit.
             $editableschoolids = $this->get_editable_schoolids();
@@ -464,9 +495,9 @@ class theme_mebis_core_course_management_renderer extends core_course_management
         $html .= html_writer::end_div();
 
         if ($perfdebug) {
-            echo "<br/>category_listing: ".(microtime(true) - $starttime);
-            echo "<br/>datatime: ".$datatime;
-            echo "<br/>renderttime: ".$rendertime;
+            echo "<br/>category_listing: " . (microtime(true) - $starttime);
+            echo "<br/>datatime: " . $datatime;
+            echo "<br/>renderttime: " . $rendertime;
         }
 
         return $html;
@@ -474,4 +505,6 @@ class theme_mebis_core_course_management_renderer extends core_course_management
 
 }
 
-class theme_mebis_core_renderer_maintenance extends theme_mebis_core_renderer {}
+class theme_mebis_core_renderer_maintenance extends theme_mebis_core_renderer {
+    
+}

@@ -156,7 +156,7 @@ if (!empty($messagebody) && !$edit && !$deluser && ($preview || $send)) {
             $good = 1;
             foreach ($SESSION->emailto[$id] as $user) {
                 //+++ asch DS27, avoid message interruption if an user has no email address
-                $good = \block_dlb\local\datenschutz::hook_user_messageselect_avoid_message_interruption($user, $messagebody, $format, $good);
+                $good = \local_mbs\local\datenschutz::hook_user_messageselect_avoid_message_interruption($user, $messagebody, $format, $good);
                 //---
             }
             if (!empty($good)) {

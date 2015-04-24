@@ -182,7 +182,7 @@ $url = new moodle_url('/enrol/instances.php', array('sesskey'=>sesskey(), 'id'=>
 
 //+++ awag DS19, verhindern, dass sich ein Trainer durch Verbergen bzw. Löschen der Einschreibemethode ausschließt
 // Translation: prevent a trainer from excluding themselves from a course by disabling the enrolment method they are using.
-$enrolmentmethods = \block_dlb\local\datenschutz::hook_enrol_instances_get_user_enrolmentmethods($course);
+$enrolmentmethods = \local_mbs\local\datenschutz::hook_enrol_instances_get_user_enrolmentmethods($course);
 //--- awag DS19
 
 foreach ($instances as $instance) {

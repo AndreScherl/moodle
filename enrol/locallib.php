@@ -195,7 +195,7 @@ class course_enrolment_manager {
             $params['courseid'] = $this->course->id;
             
              //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_other_users();
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
             //--- awag      
             
             $sql = "SELECT COUNT(DISTINCT u.id)
@@ -344,7 +344,7 @@ class course_enrolment_manager {
             $params['cid'] = $this->course->id;
             
              //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_other_users();
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
             //--- awag      
             
             $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, u.*, ue.lastseen
@@ -459,7 +459,7 @@ class course_enrolment_manager {
         $countfields = 'SELECT COUNT(1)';
 
         //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
         //--- awag            
 
         $sql = " FROM {user} u
@@ -487,7 +487,7 @@ class course_enrolment_manager {
         list($ufields, $params, $wherecondition) = $this->get_basic_search_conditions($search, $searchanywhere);
 
         //+++ awag DS24:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
         //--- awag     
         
         $fields      = 'SELECT ' . $ufields;

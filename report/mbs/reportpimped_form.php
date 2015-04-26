@@ -42,6 +42,7 @@ class reportpimped_form extends moodleform {
         $mform->addElement('text', 'searchpattern', get_string('searchpattern', 'report_mbs'));
         $mform->setDefault('searchpattern', $searchpattern);
         $mform->setType('searchpattern', PARAM_RAW);
+        $mform->addHelpButton('searchpattern', 'searchpattern', 'report_mbs');
 
         $buttonarray = array();
         $buttonarray[] = &$mform->createElement('submit', 'search', get_string('search', 'report_mbs'));

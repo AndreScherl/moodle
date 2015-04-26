@@ -29,10 +29,14 @@ $string['courseid'] = 'Kurs-ID';
 $string['coursename'] = 'Kursname';
 $string['coordinators'] = 'Koordinator';
 $string['pluginname'] = 'mebis - Bericht';
-$string['reportpimped'] = 'Bericht gepimpter Kurse';
+$string['reportpimped'] = 'Bericht gepimpte Kurse';
+$string['reportpimpeddesc'] = 'Es wird im HTML Code von {$a} HTML-Blöcken nach den eingegebenen Suchmuster gesucht.';
 $string['school'] = 'Schule';
 $string['search'] = 'Suchen';
 $string['searchpattern'] = 'Suchmuster';
 $string['searchpatterndesc'] = 'Nach diesen Suchmustern wird in den HTML-Blöcken gesucht,
     mehrere Suchmuster können mit einer Pipe | getrennt werden.';
+$string['searchpattern_help'] = 'Nach diesen Suchmustern wird in den HTML-Blöcken gesucht,
+    mehrere Suchmuster können mit einer Pipe | getrennt werden.';
 $string['trainer'] = 'Trainer';
+$string['viewhtml'] = 'HTML Code anzeigen';

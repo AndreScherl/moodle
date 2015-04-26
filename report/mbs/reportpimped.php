@@ -105,7 +105,8 @@ foreach ($statsdata as $data) {
 
         if (isset($data->blockscontent)) {
             $contents = implode('<br /><br />', $data->blockscontent);
-            $icon = $OUTPUT->pix_icon('i/info', 'info', 'moodle', array('class' => 'smallicon', 'id' => 'info_' . $data->id));
+            $icon = $OUTPUT->pix_icon('i/info', get_string('viewhtml', 'report_mbs'),
+                    'moodle', array('class' => 'smallicon', 'id' => 'info_' . $data->id));
             $course .= html_writer::link('#', $icon);
             $course .= html_writer::tag('div', $contents, array('style' => 'display:none', 'id' => 'content_' . $data->id));
         }

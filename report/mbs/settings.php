@@ -32,7 +32,7 @@ $ADMIN->add('reports', new admin_externalpage('reportpimpedcourses', get_string(
 
 if ($ADMIN->fulltree) {
 
-    $settings = new admin_settingpage('report_mbs',
+    $settings = new admin_settingpage('reportmbs',
                     get_string('pluginname', 'report_mbs'));
 
     $settings->add(

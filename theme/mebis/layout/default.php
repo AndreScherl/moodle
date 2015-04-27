@@ -72,7 +72,7 @@ echo $OUTPUT->doctype()
                     //echo $OUTPUT->mebis_blocks('top');
                     echo $OUTPUT->blocks('top');
                 }
-
+                echo $OUTPUT->raw_block('mbsnewcourse');
                 // echo $OUTPUT->course_content_header();
                 echo $OUTPUT->main_content();
                 // echo $OUTPUT->course_content_footer();

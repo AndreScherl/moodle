@@ -122,9 +122,9 @@ echo $OUTPUT->doctype()
             <div id="root-footer"></div>
 
             <!-- CONTENT [end] -->
-            <?php echo $OUTPUT->main_searchbar(); ?>
-
-            <?php echo $OUTPUT->main_eventfooter(); ?>
+            <?php 
+            echo $OUTPUT->mebis_footer();
+            ?>
 
         </div>
 

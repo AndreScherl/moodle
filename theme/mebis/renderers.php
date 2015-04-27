@@ -11,7 +11,7 @@ require_once('renderers/format_topics_renderer.php');
 require_once('renderers/format_onetopic_renderer.php');
 require_once('renderers/format_grid_renderer.php');
 require_once('renderers/format_topcoll_renderer.php');
-//require_once('renderers/block_mbsmycourses_renderer.php');
+require_once('renderers/block_mbsmycourses_renderer.php');
 require_once('renderers/block_meineschulen_renderer.php');
 require_once('renderers/block_mbscoordinators_renderer.php');
 require_once('renderers/block_mbsnewcourse_renderer.php');

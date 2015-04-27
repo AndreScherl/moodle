@@ -488,7 +488,7 @@ class theme_mebis_header_renderer extends renderer_base
         if ($isCourse) {
             $node = $PAGE->settingsnav;
             if ($node instanceof navigation_node) {
-                $course_menu = $this->generateMenuContentFor($node, array('edit='));
+                $course_menu = $this->generateMenuContentFor($node, array('admin'));
                 if ($course_menu) {
                     $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
                     $content .= html_writer::start_tag('a',

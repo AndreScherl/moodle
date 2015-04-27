@@ -268,6 +268,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $blockinstance->get_content()->text;
     }
     
+    /**
+     * Print the mebis footer containing the search and schooltitle block
+     * 
+     * @return string
+     */
     public function mebis_footer() {
         $output = '';
         $output .= $this->raw_block('mbssearch');

@@ -52,9 +52,6 @@ class block_mbsmyschools extends block_base {
         $usersschools = \local_mbs\local\schoolcategory::get_users_schools();
         $this->content->text .= $renderer->schoollist($usersschools);
 
-        $opts = array();
-        $PAGE->requires->yui_module('moodle-block_mbsmyschools-searchform', 'M.block_mbsmyschools.searchform', array($opts));
-
         return $this->content;
     }
 

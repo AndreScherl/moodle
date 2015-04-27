@@ -5,10 +5,7 @@ $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
 if($knownregiontop) {
-    $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
-    $fakeBlock = new block_contents();
-    $fakeBlock->content = $help_renderer->helpnote();
-    $PAGE->blocks->add_fake_block($fakeBlock, 'top');
+    $PAGE->blocks->add_block('mbsgettingstarted', 'top', 0, false);
 }
 
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
@@ -72,7 +69,7 @@ echo $OUTPUT->doctype()
                     //echo $OUTPUT->mebis_blocks('top');
                     echo $OUTPUT->blocks('top');
                 }
-
+                echo $OUTPUT->raw_block('mbsnewcourse');
                 // echo $OUTPUT->course_content_header();
                 echo $OUTPUT->main_content();
                 // echo $OUTPUT->course_content_footer();
@@ -122,9 +119,9 @@ echo $OUTPUT->doctype()
             <div id="root-footer"></div>
 
             <!-- CONTENT [end] -->
-            <?php echo $OUTPUT->main_searchbar(); ?>
-
-            <?php echo $OUTPUT->main_eventfooter(); ?>
+            <?php 
+            echo $OUTPUT->mebis_footer();
+            ?>
 
         </div>
 

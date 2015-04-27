@@ -72,4 +72,12 @@ class block_mbsmyschools extends block_base {
     public function applicable_formats() {
         return array('my-index' => true);
     }
+    
+    public function instance_can_be_docked() {
+        return false;
+    }
+    
+    public function instance_can_be_collapsed() {
+        return false;
+    }
 }

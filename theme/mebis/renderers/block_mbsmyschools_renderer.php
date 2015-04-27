@@ -1,20 +1,19 @@
 <?php
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/blocks/meineschulen/renderer.php');
+require_once($CFG->dirroot . '/blocks/mbsmyschools/renderer.php');
 
-class theme_mebis_block_meineschulen_renderer extends block_meineschulen_renderer {
+class theme_mebis_block_mbsmyschools_renderer extends block_mbsmyschools_renderer {
 
     /**
      * Construct list of users schools
      *
      * @return string html to be displayed
      */
-    public function schoollist() {
+    public function schoollist($userschools) {
         $output = html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag("ul", array("class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3 list_myschools"));
-        $schools = meineschulen::get_my_schools();
-        foreach ($schools as $key => $value) {
+        foreach ($userschools as $key => $value) {
             $output .= html_writer::start_tag("li", array('class' => 'schoolbox'));
             $output .= html_writer::start_div('schoolbox-meta');
             $output .= html_writer::start_div('row');

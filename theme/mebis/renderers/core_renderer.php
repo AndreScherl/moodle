@@ -104,7 +104,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $bc->add_class('row');
         }
 
-        if ($bc->attributes['data-block'] == 'meineschulen') {
+        if ($bc->attributes['data-block'] == 'mbsmyschools') {
             $bc->attributes['class'] = 'block_meineschulen row';
         }
 
@@ -117,7 +117,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
-        $full = array('mbsmycourses', 'meineschulen');
+        $full = array('mbsmycourses', 'mbsmyschools');
 
         if ($region === 'admin-navi') {
             array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');
@@ -152,7 +152,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $title = '';
 
         if ($bc->title) {
-            if ($bc->attributes['data-block'] == 'meineschulen') {
+            if ($bc->attributes['data-block'] == 'mbsmyschools') {
                 $title = html_writer::tag($bc->tag, $bc->title, array('style' => 'padding-left:20px;padding-bottom:20px;'));
             } else {
                 $title = html_writer::tag($bc->tag, $bc->title, null);
@@ -268,6 +268,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $blockinstance->get_content()->text;
     }
     
+    /**
+     * Print the mebis footer containing the search and schooltitle block
+     * 
+     * @return string
+     */
     public function mebis_footer() {
         $output = '';
         $output .= $this->raw_block('mbssearch');

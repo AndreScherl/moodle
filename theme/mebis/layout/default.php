@@ -5,10 +5,7 @@ $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
 if($knownregiontop) {
-    $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
-    $fakeBlock = new block_contents();
-    $fakeBlock->content = $help_renderer->helpnote();
-    $PAGE->blocks->add_fake_block($fakeBlock, 'top');
+    $PAGE->blocks->add_block('mbsgettingstarted', 'top', 0, false);
 }
 
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);

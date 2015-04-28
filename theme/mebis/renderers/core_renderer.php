@@ -230,9 +230,10 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion
 require_once($CFG->libdir . '/medialib.php');
 
-class core_media_player_mediathek extends core_media_player_external {
-
-    protected function embed_external(moodle_url $url, $name, $width, $height, $options) {
+class core_media_player_mediathek extends core_media_player_external
+{
+    protected function embed_external(moodle_url $url, $name, $width, $height, $options)
+    {
         global $DB;
         $hash = $this->matches[1];
         if ($desturl = $DB->get_field('repository_mediathek_link', 'url', array('hash' => $hash))) {
@@ -242,22 +243,26 @@ class core_media_player_mediathek extends core_media_player_external {
         return core_media_player::PLACEHOLDER;
     }
 
-    protected function get_regex() {
+    protected function get_regex()
+    {
         global $CFG;
         $basepath = preg_quote("{$CFG->wwwroot}/repository/mediathek/link.php?hash=");
         $regex = "%{$basepath}([a-z0-9]*)(&|&amp;)embed=1%";
         return $regex;
     }
 
-    public function get_rank() {
+    public function get_rank()
+    {
         return 1020;
     }
 
-    public function get_embeddable_markers() {
+    public function get_embeddable_markers()
+    {
         return array('repository/mediathek/link.php');
     }
 
-    public function is_enabled() {
+    public function is_enabled()
+    {
         return true;
     }
 
@@ -268,15 +273,16 @@ class core_media_player_mediathek extends core_media_player_external {
  */
 define('DLB_SCHOOL_CAT_DEPTH', 3);
 
-class theme_mebis_core_course_management_renderer extends core_course_management_renderer {
-
+class theme_mebis_core_course_management_renderer extends core_course_management_renderer
+{
     /** get (and cache) the category ids below an optional level (level == 3 for school-catgories), where
      *  the user has the capability moodle/category:manage or moodle/course:create
      *
      * @global type $USER
      * @param type $category
      */
-    protected function get_editable_schoolids($level = DLB_SCHOOL_CAT_DEPTH) {
+    protected function get_editable_schoolids($level = DLB_SCHOOL_CAT_DEPTH)
+    {
         global $USER, $DB;
 
         if (!empty($USER->editableschoolids)) {
@@ -333,8 +339,8 @@ class theme_mebis_core_course_management_renderer extends core_course_management
      * @param array $parentids, list of possible parents.
      * @return boolean, true if one of the parent id is in the parent list of the category.
      */
-    protected function can_manage_category($category, $editablecatids) {
-
+    protected function can_manage_category($category, $editablecatids)
+    {
         if (empty($category)) {
             return false;
         }
@@ -355,7 +361,8 @@ class theme_mebis_core_course_management_renderer extends core_course_management
      * @param coursecat $category The currently selected category. Also the category to highlight in the listing.
      * @return string
      */
-    public function category_listing(coursecat $category = null) {
+    public function category_listing(coursecat $category = null)
+    {
         global $PAGE;
 
         $perfdebug = optional_param('perfdebug', 0, PARAM_INT);
@@ -466,4 +473,6 @@ class theme_mebis_core_course_management_renderer extends core_course_management
 
 }
 
-class theme_mebis_core_renderer_maintenance extends theme_mebis_core_renderer {}
+class theme_mebis_core_renderer_maintenance extends theme_mebis_core_renderer
+{
+}

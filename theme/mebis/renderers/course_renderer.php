@@ -7,7 +7,6 @@ require_once($CFG->libdir . '/coursecatlib.php');
 
 class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_renderer
 {
-
     /**
      * Returns HTML to print list of available courses for the frontpage
      *
@@ -439,7 +438,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      * @param coursecat $coursecat top category (this category's name and description will NOT be added to the tree)
      * @return string
      */
-    protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
+    protected function coursecat_tree(coursecat_helper $chelper, $coursecat)
+    {
         global $CFG, $PAGE, $OUTPUT;
 
         $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);

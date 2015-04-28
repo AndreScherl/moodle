@@ -56,5 +56,3 @@ class theme_mebis_send_form extends moodleform {
         $mform->addElement('submit', 'submitbutton', get_string('sendmessage', 'message'), array('class' => 'btn btn-primary'));
     }
 }
-
-?>

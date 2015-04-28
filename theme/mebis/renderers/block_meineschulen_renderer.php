@@ -3,14 +3,15 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/meineschulen/renderer.php');
 
-class theme_mebis_block_meineschulen_renderer extends block_meineschulen_renderer {
-
+class theme_mebis_block_meineschulen_renderer extends block_meineschulen_renderer
+{
     /**
      * Construct list of users schools
      *
      * @return string html to be displayed
      */
-    public function schoollist() {
+    public function schoollist()
+    {
         $output = html_writer::start_tag('div', array('class' => 'col-md-12'));
         $output .= html_writer::start_tag("ul", array("class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3 list_myschools"));
         $schools = meineschulen::get_my_schools();
@@ -36,5 +37,4 @@ class theme_mebis_block_meineschulen_renderer extends block_meineschulen_rendere
         $output .= html_writer::end_tag('div');
         return $output;
     }
-
 }

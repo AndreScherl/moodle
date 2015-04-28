@@ -13,14 +13,14 @@ require_once($CFG->dirroot . '/course/format/topics/renderer.php');
  */
 class theme_mebis_format_topics_renderer extends format_topics_renderer
 {
-
     /**
      * Constructor method, calls the parent constructor
      *
      * @param moodle_page $page
      * @param string $target one of rendering target constants
      */
-    public function __construct(moodle_page $page, $target) {
+    public function __construct(moodle_page $page, $target)
+    {
         parent::__construct($page, $target);
 
 
@@ -41,8 +41,8 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
      * @param array    $mods (argument not used)
      * @return string HTML to output.
      */
-    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused) {
-
+    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused)
+    {
         global $PAGE;
 
         $modinfo = get_fast_modinfo($course);
@@ -165,7 +165,8 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
      * @param bool $onsectionpage true if being printed on a section page
      * @return array of links with edit controls
      */
-    protected function section_edit_controls($course, $section, $onsectionpage = false) {
+    protected function section_edit_controls($course, $section, $onsectionpage = false)
+    {
         global $PAGE;
 
         if (!$PAGE->user_is_editing()) {
@@ -196,7 +197,8 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
      * @param int $sectionreturn The section to return to after an action
      * @return string HTML to output.
      */
-    protected function custom_section_header($section, $course, $onsectionpage, $sectionreturn=null) {
+    protected function custom_section_header($section, $course, $onsectionpage, $sectionreturn=null)
+    {
         global $PAGE;
 
         $o = '';
@@ -254,7 +256,8 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
         return $o;
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
 
@@ -294,11 +297,11 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer
      * @param  string
      * @return string
      */
-    protected function render_course_headline($headline) {
+    protected function render_course_headline($headline)
+    {
         $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
         $course_headline .= html_writer::tag('h1', $headline);
         $course_headline .= html_writer::end_tag('div');
         return $course_headline;
     }
-
 }

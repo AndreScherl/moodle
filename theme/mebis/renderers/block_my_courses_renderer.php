@@ -10,8 +10,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/mbsmycourses/renderer.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 
-class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_renderer {
-
+class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_renderer
+{
     /**
      * Construct contents of mbsmycourses block
      *
@@ -19,7 +19,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param array $overviews list of course overviews
      * @return string html to be displayed in mbsmycourses block
      */
-    public function mbsmycourses($courses, $overviews) {
+    public function mbsmycourses($courses, $overviews)
+    {
         $html = '';
         $config = get_config('block_mbsmycourses');
         $ismovingcourse = false;
@@ -179,7 +180,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param int $max maximum number of courses
      * @return string html of header bar.
      */
-    public function editing_bar_head($max = 0) {
+    public function editing_bar_head($max = 0)
+    {
         $output = $this->output->box_start('row notice');
         $output .= html_writer::start_tag('div');
         $options = array('0' => get_string('alwaysshowall', 'theme_mebis'));
@@ -200,7 +202,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      *
      * @return string return the HTML as a string, rather than printing it.
      */
-    public function filter_form() {
+    public function filter_form()
+    {
         global $CFG;
         require_once($CFG->libdir."/formslib.php");
 
@@ -251,7 +254,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param int $total count of hidden courses
      * @return string html
      */
-    public function hidden_courses($total) {
+    public function hidden_courses($total)
+    {
         if ($total <= 0) {
             return;
         }
@@ -278,7 +282,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      *
      * @return string return the HTML as a string, rather than printing it.
      */
-    public function load_more_button() {
+    public function load_more_button()
+    {
         $output = html_writer::start_tag('div', array('class' => 'row'));
         $output .= html_writer::start_tag('div', array('class' => 'col-md-12 add-more-results margin-bottom-medium'));
         $output .= html_writer::tag("button", get_string("load_more_results", "theme_mebis"), array("class" => "btn load-more-results"));
@@ -292,9 +297,9 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * This is not actually used and only a blueprint. 12345 is used as a standin for an actual id.  and  may be
      * replaced with icon classes. Javascript has to be added to collape the schoolbox and change the icon (or class)
      */
-    public function listView() {
-
-        foreach($schools as $school){
+    public function listView()
+    {
+        foreach($schools as $school) {
             //start schoolbox
             $list = html_writer::start_div('col-sm-12 categorybox text-left', array('data-categoryid' => '12345', 'data-type' => '1'));
             $list .= html_writer::start_div('row');
@@ -308,7 +313,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $list .= html_writer::start_div('category-container', array('id' => 'cat-12345'));
             $list .= html_writer::start_div('row');
 
-            foreach($courses as $course){
+            foreach($courses as $course) {
                 //start coursebox
                 $list .= html_writer::start_div('col-sm-12');
                 $list .= html_writer::start_div('category-coursebox');
@@ -329,5 +334,4 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         }
         return $list;
     }
-
 }

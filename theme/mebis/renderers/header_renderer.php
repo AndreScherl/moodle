@@ -11,7 +11,6 @@ require_once($CFG->dirroot . "/lib/outputrenderers.php");
 
 class theme_mebis_header_renderer extends renderer_base
 {
-
     /**
      * Renders the main navbar. Is to be replaced by an ajax javascript version
      *

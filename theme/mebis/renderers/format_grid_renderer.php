@@ -704,7 +704,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         return $sectionsedited;
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
 

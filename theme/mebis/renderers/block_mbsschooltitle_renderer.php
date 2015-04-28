@@ -5,8 +5,8 @@ require_once($CFG->dirroot . '/blocks/mbsschooltitle/renderer.php');
 
 class theme_mebis_block_mbsschooltitle_renderer extends block_mbsschooltitle_renderer
 {
-
-    public function render_content($titledata) {
+    public function render_content($titledata)
+    {
         global $OUTPUT, $PAGE;
 
         $o = '';

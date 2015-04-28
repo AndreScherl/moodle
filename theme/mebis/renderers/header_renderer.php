@@ -14,6 +14,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     /**
      * Renders the main navbar. Is to be replaced by an ajax javascript version
+     *
      * @global type $USER
      * @global type $PAGE
      * @global type $OUTPUT
@@ -209,6 +210,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     /**
      * Renders the main sidebar navigation. Is to be replaced by an ajax javascript version
+     *
      * @return String Html string of the sidebar
      */
     public function main_sidebar()
@@ -221,6 +223,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     /**
      * Renders the moodle header including the menu bar
+     *
      * @return String Html string of the header
      */
     public function main_header()
@@ -316,6 +319,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     /**
      * Renders the breadcrumb navigation
+     *
      * @global type $OUTPUT
      * @return String Html string of the breadcrumb navigation
      */
@@ -342,6 +346,7 @@ class theme_mebis_header_renderer extends renderer_base
 
     /**
      * Renders the main menubar inside the header
+     *
      * @global type $PAGE
      * @global type $OUTPUT
      * @global type $COURSE
@@ -380,7 +385,11 @@ class theme_mebis_header_renderer extends renderer_base
         $menu_items = '';
 
         $pageHeadingButtons = $OUTPUT->page_heading_button();
-        if(false !== stripos($pageHeadingButtons, '<input')){
+        if (false !== strpos($pageHeadingButtons, 'edit=')) {
+            $pageHeadingButtons = str_replace('class="internal"', 'class="internal strong"', $pageHeadingButtons);
+        }
+
+        if (false !== stripos($pageHeadingButtons, '<input')) {
             $pageHeadingButtons = '';
 
             $node = $PAGE->settingsnav->get('courseadmin');
@@ -392,8 +401,14 @@ class theme_mebis_header_renderer extends renderer_base
                     } else {
                         $edittxt = $editing->text;
                     }
+
+                    $editCls = '';
+                    if (false === strpos($editing->action, 'edit=')) {
+                        $editCls = ' strong';
+                    }
+
                     $pageHeadingButtons .= html_writer::start_tag('li');
-                    $pageHeadingButtons .= html_writer::tag('a', $edittxt, array('href' => $editing->action, 'class' => 'internal'));
+                    $pageHeadingButtons .= html_writer::tag('a', $edittxt, array('href' => $editing->action, 'class' => 'internal' . $editCls));
                     $pageHeadingButtons .= html_writer::end_tag('li');
                 }
             }
@@ -402,7 +417,7 @@ class theme_mebis_header_renderer extends renderer_base
         $menu_items .= $pageHeadingButtons;
 
         $node = $PAGE->settingsnav->get('usercurrentsettings');
-        if($node instanceof navigation_node) {
+        if ($node instanceof navigation_node) {
             $menu_items .= $this->generateMenuContentFor($node);
             if (!empty($menu_items)) {
                 $user_menu = html_writer::start_div('dropdown-inner');
@@ -471,9 +486,9 @@ class theme_mebis_header_renderer extends renderer_base
 
         $isCourse = ($COURSE->id !== '1');
         if ($isCourse) {
-            $node = $PAGE->settingsnav->get('courseadmin');
+            $node = $PAGE->settingsnav;
             if ($node instanceof navigation_node) {
-                $course_menu = $this->generateMenuContentFor($node, array('edit='));
+                $course_menu = $this->generateMenuContentFor($node, array('admin'));
                 if ($course_menu) {
                     $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
                     $content .= html_writer::start_tag('a',
@@ -519,37 +534,42 @@ class theme_mebis_header_renderer extends renderer_base
             if ($navchild->display) {
                 $link = '#';
                 $linktxt = '';
+                $linkCls = '';
                 if (null !== $navchild->action) {
-                    $link = htmlspecialchars_decode ($navchild->action->__toString());
+                    $link = htmlspecialchars_decode($navchild->action->__toString());
                 }
 
                 // skip all the links which contain on the given $linkfilters
                 $skipLink = false;
-                foreach($linkfilters as $filter) {
-                    if(false !== strpos($link, $filter)) {
+                foreach ($linkfilters as $filter) {
+                    if (false !== strpos($link, $filter)) {
                         $skipLink = true;
                         break;
                     }
                 }
 
-                if(!$skipLink) {
+                if (!$skipLink) {
                     if ($navchild->text instanceof lang_string) {
                         $linktxt = $navchild->text->out();
                     } else {
                         $linktxt = $navchild->text;
                     }
 
+                    if (false !== strpos($link, 'edit=')) {
+                        $linkCls = ' strong';
+                    }
+
                     if ($navchild->has_children()) {
                         if ($link !== '#') {
                             $menuitems .= html_writer::start_tag('li', array('class' => 'hiddennavnode'));
                             $menuitems .= html_writer::start_tag('span', array('class' => 'internal hiddennavbutton'));
-                            $menuitems .= html_writer::tag('a', $linktxt . ':', array('href' => $link));
+                            $menuitems .= html_writer::tag('a', $linktxt, array('href' => $link, 'class' => $linkCls));
                             $menuitems .= html_writer::end_tag('span');
                             $menuitems .= html_writer::start_tag('ul', array('class' => 'hiddennavleaf'));
                         } else {
                             if ($linktxt !== '') {
                                 $menuitems .= html_writer::start_tag('li', array('class' => 'hiddennavnode'));
-                                $menuitems .= html_writer::tag('span', $linktxt, array('class' => 'internal hiddennavbutton'));
+                                $menuitems .= html_writer::tag('span', $linktxt, array('class' => 'internal hiddennavbutton' . $linkCls));
                                 $menuitems .= html_writer::start_tag('ul', array('class' => 'hiddennavleaf'));
                             }
                         }
@@ -558,7 +578,7 @@ class theme_mebis_header_renderer extends renderer_base
                         $menuitems .= html_writer::end_tag('li');
                     } else {
                         $menuitems .= html_writer::start_tag('li');
-                        $menuitems .= html_writer::tag('a', $linktxt, array('class' => 'internal', 'href' => $link));
+                        $menuitems .= html_writer::tag('a', $linktxt, array('class' => 'internal' . $linkCls, 'href' => $link));
                         $menuitems .= html_writer::end_tag('li');
                     }
                 }

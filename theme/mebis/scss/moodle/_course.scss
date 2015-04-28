@@ -11,7 +11,7 @@
                     border: none;
                 }
             }
-            background-color: #FFF;
+            background-color: $white;
             padding: 10px 20px;
             margin-bottom: 20px;
         }
@@ -22,7 +22,7 @@
         > div > div {
             margin-top:1px;
             padding: 20px;
-            background-color: #FFF;
+            background-color: $white;
             text-align: center;
         }
     }
@@ -30,7 +30,7 @@
 .course-content{
 
     .section.main {
-        background-color: #FFF;
+        background-color: $white;
         margin-top: 30px !important;
         padding: 20px !important;
         h3 {
@@ -75,7 +75,7 @@
                 }
             }
             .icon_content {
-                background-color: #FFF;
+                background-color: $white;
                 padding: 10px;
                 font-family: "Titillium Web SemiBold","Titillium Web";
                 font-weight: 600;
@@ -389,7 +389,7 @@
                 padding: 20px !important;
             }
             padding: 60px!important;
-            background: #fff;
+            background: $white;
             margin-bottom: 20px;
             @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
             position: relative;
@@ -448,7 +448,7 @@
                                 display: block;
                                 padding: 20px;
                                 cursor: pointer;
-                                color: #fff;
+                                color: $white;
                                 -webkit-transition: all 0.25s;
                                 transition: all 0.25s;
                                 text-align: right;

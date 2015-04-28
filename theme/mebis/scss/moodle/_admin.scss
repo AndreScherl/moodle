@@ -19,7 +19,7 @@
 
 		.form-submit,
 		[type="submit"] {
-			color: #fff;
+			color: $white;
 			background: $brand-primary;
 		}
 
@@ -195,7 +195,7 @@
 
 	fieldset.hidden > div {
 		padding: 20px;
-		background: #fff;
+		background: $white;
 	}
 
 	.mform .fitem_actionbuttons>div.felement {

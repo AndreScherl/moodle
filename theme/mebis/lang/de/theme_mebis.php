@@ -57,9 +57,6 @@ $string['footer-my-school'] = 'Meine Schule';
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
 $string['menu-administration-link'] = 'Webseiten Administration';
 
-$string['menu-edit-activate'] = 'Bearbeitung aktivieren';
-$string['menu-edit-deactivate'] = 'Bearbeitung deaktivieren';
-
 $string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
@@ -80,6 +77,16 @@ $string['my-courses'] = 'Meine Kurse';
 $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
+// mbs_my_courses
 
+$string['alwaysshowall'] = 'Alle';
+$string['numtodisplay'] = 'Angezeigte Kurse: ';
+$string['load_more_results'] = 'Weitere Ergebnisse laden...';
+$string['hiddencoursecount'] = 'Zur Zeit ist {$a} Kurs versteckt';
+$string['hiddencoursecountplural'] = 'Zur Zeit sind {$a} Kurse versteckt';
+$string['hiddencoursecountwithshowall'] = 'Zur Zeit ist {$a->coursecount} Kurs versteckt ({$a->showalllink})';
+$string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount} Kurse versteckt ({$a->showalllink})';
 
+$string['toggle-navigation'] = 'Navigation ein-/ausblenden';
 
+$string['load-more-results'] = 'Weitere Ergebnisse laden...';

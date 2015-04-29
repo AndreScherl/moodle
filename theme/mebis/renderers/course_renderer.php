@@ -7,7 +7,6 @@ require_once($CFG->libdir . '/coursecatlib.php');
 
 class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_renderer
 {
-
     /**
      * Returns HTML to print list of available courses for the frontpage
      *
@@ -79,9 +78,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         $content .= html_writer::start_div('row');
 
-        //TODO: figure out if new or not, gettext ?
         $content .= html_writer::start_div('col-md-6 col-xs-6 course-is-new');
-        $content .= html_writer::tag('span', 'NEU');
+        $content .= html_writer::tag('span', get_string('new', 'theme_mebis'));
         $content .= html_writer::end_div();
 
         //TODO: If is not new, pull-right-class is needed (or change to col-12)
@@ -148,11 +146,11 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_tag('a',
                 array('href' => new moodle_url('/course/edit.php', array('category' => '1', 'returnto' => 'category'))));
         $sortbox .= html_writer::tag('i', '', array('class' => 'fa fa-plus-circle'));
-        $sortbox .= 'Kurs erstellen';
+        $sortbox .= get_string('course-create', 'theme_mebis');
         $sortbox .= html_writer::end_tag('a');
         $sortbox .= html_writer::start_tag('a', array('href' => '#'));
         $sortbox .= html_writer::tag('i', '', array('class' => 'fa fa-dot-circle-o'));
-        $sortbox .= 'Kurs anfordern';
+        $sortbox .= get_string('course-request', 'theme_mebis');
         $sortbox .= html_writer::end_tag('a');
         $sortbox .= html_writer::end_div();
         $sortbox .= html_writer::start_div('course-sorting');
@@ -161,7 +159,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_div('col-md-6');
         $sortbox .= html_writer::start_tag('select',
                 array('name' => '', 'id' => 'me-select-schools', 'class' => 'form-control'));
-        $sortbox .= html_writer::tag('option', 'Alle meine Schulen', array('value' => 'all'));
+        $sortbox .= html_writer::tag('option', get_string('all-schools', 'theme_mebis'), array('value' => 'all'));
         foreach ($cats as $catId => $catName) {
             $sortbox .= html_writer::tag('option', $catName, array('value' => $catId));
         }
@@ -170,12 +168,12 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_div('col-md-4');
         $sortbox .= html_writer::start_tag('select',
                 array('name' => '', 'id' => 'me-order-results', 'class' => 'form-control'));
-        $sortbox .= html_writer::tag('option', 'Sortieren nach...', array('value' => ''));
-        $sortbox .= html_writer::tag('option', 'manuelle Reihenfolge', array('value' => 'manual'));
-        $sortbox .= html_writer::tag('option', 'Name', array('value' => 'name'));
-        $sortbox .= html_writer::tag('option', 'Schule', array('value' => 'school'));
-        $sortbox .= html_writer::tag('option', 'Zeit des Besuches', array('value' => 'time-visited'));
-        $sortbox .= html_writer::tag('option', 'Zeit der Erstellung', array('value' => 'time-created'));
+        $sortbox .= html_writer::tag('option', get_string('sort-default', 'theme_mebis'), array('value' => ''));
+        $sortbox .= html_writer::tag('option', get_string('sort-manual', 'theme_mebis'), array('value' => 'manual'));
+        $sortbox .= html_writer::tag('option', get_string('sort-name', 'theme_mebis'), array('value' => 'name'));
+        $sortbox .= html_writer::tag('option', get_string('sort-school', 'theme_mebis'), array('value' => 'school'));
+        $sortbox .= html_writer::tag('option', get_string('sort-visit', 'theme_mebis'), array('value' => 'time-visited'));
+        $sortbox .= html_writer::tag('option', get_string('sort-created2', 'theme_mebis'), array('value' => 'time-created'));
         $sortbox .= html_writer::end_tag('select');
         $sortbox .= html_writer::end_div();
         $sortbox .= html_writer::start_div('col-md-2 me-render-results text-right');
@@ -242,9 +240,9 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $categories = coursecat::get($categoryId)->get_children();
         foreach ($categories as $category) {
             $result .= html_writer::start_div('category-container');
-            $result .= html_writer::start_div('category-title category-toggle');
+            $result .= html_writer::start_div('category-title');
             $result .= html_writer::start_span('category-title-name');
-            $result .= html_writer::link(new moodle_url('#'), $category->name);
+            $result .= html_writer::link(new moodle_url('/course/index.php?categoryid='.$category->id), $category->name);
             $result .= html_writer::end_span();
             if ($category->has_children() || $category->has_courses()) {
                 $result .= html_writer::span('','category-toggle');
@@ -364,18 +362,20 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      * Invoked from /course/index.php
      *
      * @param int|stdClass|coursecat $category
+     * @return string
      */
-    public function course_category($category) {
+    public function course_category($category)
+    {
         global $CFG;
-
         require_once($CFG->libdir . '/coursecatlib.php');
         $coursecat = coursecat::get(is_object($category) ? $category->id : $category);
-     
+        $site = get_site();
         $output = '';
+
+        $this->page->set_button($this->course_search_form('', 'navbar'));
 
         // Print current category description
         $chelper = new coursecat_helper();
-
         if ($description = $chelper->get_category_formatted_description($coursecat)) {
             $output .= $this->box($description, array('class' => 'generalbox info'));
         }
@@ -417,8 +417,15 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
+        //$output .= $this->render_category_headline($coursecat->name);
+
         // Display course category tree
         $output .= $this->coursecat_tree($chelper, $coursecat);
+
+        // Add course search form (if we are inside category it was already added to the navbar)
+        if (!$coursecat->id) {
+            $output .= $this->course_search_form();
+        }
 
         return $output;
     }
@@ -431,19 +438,34 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      * @param coursecat $coursecat top category (this category's name and description will NOT be added to the tree)
      * @return string
      */
-    protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
-        
-        $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);
+    protected function coursecat_tree(coursecat_helper $chelper, $coursecat)
+    {
+        global $CFG, $PAGE, $OUTPUT;
 
+        $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);
         if (empty($categorycontent)) {
             return '';
         }
 
         // Start content generation
-        $content = html_writer::tag('div', $categorycontent, array('class' => 'content'));
-        
+        $content = '';
         $attributes = $chelper->get_and_erase_attributes('course_category_tree clearfix');
-        return html_writer::tag('div', $content, $attributes);
+        $content .= html_writer::start_tag('div', $attributes);
+
+        require_once($CFG->libdir.'/blocklib.php');
+
+        //$courseblock = new block_mbsnewcourse();
+
+        $bm = new block_manager($PAGE);
+
+        $bm->add_region('mbscoord');
+        $bm->load_blocks();
+
+        $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
+
+        $content .= html_writer::end_tag('div'); // .course_category_tree
+
+        return $content;
     }
 
     /**

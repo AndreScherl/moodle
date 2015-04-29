@@ -60,6 +60,7 @@ $string['menu-administration-link'] = 'Webseiten Administration';
 $string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
+$string['nav-login'] = 'Login';
 $string['nav-logout'] = 'Logout';
 $string['nav-contrast'] = 'Kontrast';
 $string['nav-support'] = 'Support';
@@ -90,3 +91,18 @@ $string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount}
 $string['toggle-navigation'] = 'Navigation ein-/ausblenden';
 
 $string['load-more-results'] = 'Weitere Ergebnisse laden...';
+
+$string['new'] = 'NEU';
+
+$string['all-schools'] = 'Alle meine Schulen';
+$string['sort-manual'] = 'Manuell';
+$string['sort-name'] = 'Name';
+$string['sort-school'] = 'Schule';
+$string['sort-created'] = 'Erstellt am...';
+$string['sort-created2'] = 'Zeit der Erstellung';
+$string['sort-visit'] = 'Zeit des Besuches';
+$string['sort-modified'] = 'Geändert am...';
+$string['sort-default'] = 'Sortieren nach...';
+
+$string['course-create'] = 'Kurs erstellen';
+$string['course-request'] = 'Kurs anfordern';

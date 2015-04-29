@@ -60,6 +60,7 @@ $string['menu-administration-link'] = 'Webseiten Administration';
 $string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
+$string['nav-login'] = 'Login';
 $string['nav-logout'] = 'Logout';
 $string['nav-contrast'] = 'Kontrast';
 $string['nav-support'] = 'Support';
@@ -77,3 +78,32 @@ $string['my-courses'] = 'Meine Kurse';
 $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
+// mbs_my_courses
+$string['alwaysshowall'] = 'Always show all';
+$string['numtodisplay'] = 'Number of courses to display: ';
+$string['load_more_results'] = 'Load more results...';
+$string['hiddencoursecount'] = 'You have {$a} hidden course';
+$string['hiddencoursecountplural'] = 'You have {$a} hidden courses';
+$string['hiddencoursecountwithshowall'] = 'You have {$a->coursecount} hidden course ({$a->showalllink})';
+$string['hiddencoursecountwithshowallplural'] = 'You have {$a->coursecount} hidden courses ({$a->showalllink})';
+$string['switch_list'] = 'Listview';
+$string['switch_grid'] = 'Gridview';
+
+$string['toggle-navigation'] = 'Toggle navigation';
+
+$string['load-more-results'] = 'Load more results...';
+
+$string['new'] = 'NEU';
+
+$string['all-schools'] = 'Alle meine Schulen';
+$string['sort-manual'] = 'Manuell';
+$string['sort-name'] = 'Name';
+$string['sort-school'] = 'Schule';
+$string['sort-created'] = 'Erstellt am...';
+$string['sort-created2'] = 'Zeit der Erstellung';
+$string['sort-visit'] = 'Zeit des Besuches';
+$string['sort-modified'] = 'Geändert am...';
+$string['sort-default'] = 'Sortieren nach...';
+
+$string['course-create'] = 'Kurs erstellen';
+$string['course-request'] = 'Kurs anfordern';

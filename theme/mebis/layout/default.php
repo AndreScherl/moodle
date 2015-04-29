@@ -4,10 +4,6 @@ $knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
-if($knownregiontop) {
-    $PAGE->blocks->add_block('mbsgettingstarted', 'top', 0, false);
-}
-
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);

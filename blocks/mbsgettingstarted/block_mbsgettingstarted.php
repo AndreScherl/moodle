@@ -60,20 +60,4 @@ class block_mbsgettingstarted extends block_base {
                      'mod' => true, 
                      'mod-quiz' => false);
     }
-
-    public function instance_allow_multiple() {
-          return true;
-    }
-
-    function has_config() {return true;}
-	
-	/*
-    public function cron() {
-            mtrace( "Hey, my cron script is running" );
-             
-                 // do something
-                  
-                      return true;
-    }
-    */
 }

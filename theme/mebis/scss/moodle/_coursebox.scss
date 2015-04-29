@@ -6,6 +6,10 @@
     margin: 0px;
 }
 
+.editing .block_mbsmycourses .move {
+  padding: 2px 0 0 10px;
+}
+
 .courses {
     margin-top: 20px;
 }
@@ -19,9 +23,9 @@
 .coursebox {
 
     .course_title {
-        position: absolute;
-        right: 34px;
-        top: 45px;
+        position: inherit;
+        right: 0px;
+        top: 0px;
         z-index: 9;
     }
 

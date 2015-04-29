@@ -29,6 +29,7 @@ class block_mbsmyschools extends block_base {
      */
     public function init() {
         $this->title = get_string('pluginname', 'block_mbsmyschools');
+        $this->defaultweight = 100;
     }
 
     /**

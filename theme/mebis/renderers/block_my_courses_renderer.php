@@ -91,9 +91,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
 
             $html .= html_writer::start_div('row');
 
-            //TODO: figure out if new or not, gettext ?
             $html .= html_writer::start_div('col-xs-6 course-is-new');
-            $html .= html_writer::tag('span', 'NEU');
+            $html .= html_writer::tag('span', get_string('new', 'theme_mebis'));
             $html .= html_writer::end_div();
 
             //TODO: If is not new, pull-right-class is needed (or change to col-12)
@@ -226,7 +225,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= html_writer::end_tag('div');
 
         $output .= html_writer::start_tag('div', array('class'=>'col-md-3'));
-        $output .= html_writer::select(array("Manuell", "Name", "Erstellt am...", "Geändert am..."), "sort_type", $selected = false, $nothing = "Sortieren nach...", array('class' => 'form-control'));
+        $output .= html_writer::select(array(get_string('sort-manual', 'theme_mebis'), get_string('sort-name', 'theme_mebis'), get_string('sort-created', 'theme_mebis'), get_string('sort-modified', 'theme_mebis')), "sort_type", $selected = false, $nothing = get_string('sort-default', 'theme_mebis'), array('class' => 'form-control'));
         $output .= html_writer::end_tag('div');
 
         $output .= html_writer::start_tag('div', array('class'=>'col-md-2 text-right text-mobile-left'));
@@ -318,7 +317,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $list .= html_writer::start_div('col-sm-12');
                 $list .= html_writer::start_div('category-coursebox');
                 $list .= html_writer::div('','iconbox');
-                $list .= html_writer::div('NEU','newbox');
+                $list .= html_writer::div(get_string('new', 'theme_mebis'),'newbox');
                 $list .= $courseName;
                 $list .= html_writer::end_div();
                 $list .= html_writer::end_div();

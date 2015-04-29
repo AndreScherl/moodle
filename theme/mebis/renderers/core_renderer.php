@@ -113,7 +113,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer
             $bc->add_class('block_with_controls');
         }
 
-        if($bc->attributes['data-block'] == 'mbsmycourses' || $bc->title == 'Meine Schulen'){
+        if($bc->attributes['data-block'] == 'mbsmycourses' || $bc->title == get_string('my-schools', 'theme_mebis')) {
             $bc->add_class('row');
         }
 

@@ -52,7 +52,7 @@ class theme_mebis_header_renderer extends renderer_base
                     'href' => $url_logout
                 )
             );
-            $userBar .= html_writer::tag('span', 'Logout');
+            $userBar .= html_writer::tag('span', get_string('nav-logout', 'theme_mebis'));
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 
@@ -65,7 +65,7 @@ class theme_mebis_header_renderer extends renderer_base
 
             $userBar .= html_writer::start_tag('li');
             $userBar .= html_writer::start_tag('a', array('href' => $url_login));
-            $userBar .= html_writer::tag('span', 'Login');
+            $userBar .= html_writer::tag('span', get_string('nav-login', 'theme_mebis'));
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 

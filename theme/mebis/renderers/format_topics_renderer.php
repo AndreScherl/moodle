@@ -7,9 +7,6 @@ require_once($CFG->dirroot . '/course/format/topics/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_topics_renderer extends format_topics_renderer
 {

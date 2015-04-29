@@ -78,9 +78,8 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         $content .= html_writer::start_div('row');
 
-        //TODO: figure out if new or not, gettext ?
         $content .= html_writer::start_div('col-md-6 col-xs-6 course-is-new');
-        $content .= html_writer::tag('span', 'NEU');
+        $content .= html_writer::tag('span', get_string('new', 'theme_mebis'));
         $content .= html_writer::end_div();
 
         //TODO: If is not new, pull-right-class is needed (or change to col-12)
@@ -147,11 +146,11 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_tag('a',
                 array('href' => new moodle_url('/course/edit.php', array('category' => '1', 'returnto' => 'category'))));
         $sortbox .= html_writer::tag('i', '', array('class' => 'fa fa-plus-circle'));
-        $sortbox .= 'Kurs erstellen';
+        $sortbox .= get_string('course-create', 'theme_mebis');
         $sortbox .= html_writer::end_tag('a');
         $sortbox .= html_writer::start_tag('a', array('href' => '#'));
         $sortbox .= html_writer::tag('i', '', array('class' => 'fa fa-dot-circle-o'));
-        $sortbox .= 'Kurs anfordern';
+        $sortbox .= get_string('course-request', 'theme_mebis');
         $sortbox .= html_writer::end_tag('a');
         $sortbox .= html_writer::end_div();
         $sortbox .= html_writer::start_div('course-sorting');
@@ -160,7 +159,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_div('col-md-6');
         $sortbox .= html_writer::start_tag('select',
                 array('name' => '', 'id' => 'me-select-schools', 'class' => 'form-control'));
-        $sortbox .= html_writer::tag('option', 'Alle meine Schulen', array('value' => 'all'));
+        $sortbox .= html_writer::tag('option', get_string('all-schools', 'theme_mebis'), array('value' => 'all'));
         foreach ($cats as $catId => $catName) {
             $sortbox .= html_writer::tag('option', $catName, array('value' => $catId));
         }
@@ -169,12 +168,12 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $sortbox .= html_writer::start_div('col-md-4');
         $sortbox .= html_writer::start_tag('select',
                 array('name' => '', 'id' => 'me-order-results', 'class' => 'form-control'));
-        $sortbox .= html_writer::tag('option', 'Sortieren nach...', array('value' => ''));
-        $sortbox .= html_writer::tag('option', 'manuelle Reihenfolge', array('value' => 'manual'));
-        $sortbox .= html_writer::tag('option', 'Name', array('value' => 'name'));
-        $sortbox .= html_writer::tag('option', 'Schule', array('value' => 'school'));
-        $sortbox .= html_writer::tag('option', 'Zeit des Besuches', array('value' => 'time-visited'));
-        $sortbox .= html_writer::tag('option', 'Zeit der Erstellung', array('value' => 'time-created'));
+        $sortbox .= html_writer::tag('option', get_string('sort-default', 'theme_mebis'), array('value' => ''));
+        $sortbox .= html_writer::tag('option', get_string('sort-manual', 'theme_mebis'), array('value' => 'manual'));
+        $sortbox .= html_writer::tag('option', get_string('sort-name', 'theme_mebis'), array('value' => 'name'));
+        $sortbox .= html_writer::tag('option', get_string('sort-school', 'theme_mebis'), array('value' => 'school'));
+        $sortbox .= html_writer::tag('option', get_string('sort-visit', 'theme_mebis'), array('value' => 'time-visited'));
+        $sortbox .= html_writer::tag('option', get_string('sort-created2', 'theme_mebis'), array('value' => 'time-created'));
         $sortbox .= html_writer::end_tag('select');
         $sortbox .= html_writer::end_div();
         $sortbox .= html_writer::start_div('col-md-2 me-render-results text-right');
@@ -363,6 +362,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
      * Invoked from /course/index.php
      *
      * @param int|stdClass|coursecat $category
+     * @return string
      */
     public function course_category($category)
     {

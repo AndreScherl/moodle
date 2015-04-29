@@ -196,7 +196,7 @@ class mebis_admin_nav
         $nav = $this->page->settingsnav;
 
         foreach($nav->children as $key => $children) {
-            if(!$children->id && $children->key == 'root' && $children->text == 'Website-Administration') {
+            if(!$children->id && $children->key == 'root' && $children->text == get_string('administrationsite')) {
                 return $children->children;
             }
         }

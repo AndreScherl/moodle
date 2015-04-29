@@ -442,7 +442,9 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         $form = '';
 
         // Render schoolmenu.
-        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => 'choosedots'), array('id' => 'mbsmycourses_filterschool'));
+        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, 
+                array('' => get_string('selectschool', 'block_mbsmycourses')),
+                array('id' => 'mbsmycourses_filterschool'));
         $form .= html_writer::tag('div', $select);
 
         // Render sortmenu.

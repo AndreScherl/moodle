@@ -78,5 +78,6 @@ $string['movecatafterhere'] = 'Move {$a->movingcategoryname} category after {$a-
 $string['new'] = 'NEW';
 $string['orderby'] = 'Order by...';
 $string['startdate'] = 'Start date';
+$string['selectschool'] = 'Select school';
 $string['toggle-navigation'] = 'Toggle navigation';
 

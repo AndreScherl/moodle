@@ -76,4 +76,5 @@ $string['movecatafterhere'] = 'Verschiebe {$a->movingcategoryname} Bereich hinte
 $string['new'] = 'NEU';
 $string['orderby'] = 'Sortieren...';
 $string['startdate'] = 'Kursbeginn';
+$string['selectschool'] = 'Schule wählen';
 $string['toggle-navigation'] = 'Navigation ein-/ausblenden';

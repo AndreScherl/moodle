@@ -200,7 +200,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
                 $html .= html_writer::start_div('row');
                 $html .= html_writer::start_div('col-xs-6 course-is-new');
-                $html .= html_writer::tag('span', 'NEU');
+                $html .= html_writer::tag('span', get_string('new', 'block_mbsmycourses'));
                 $html .= html_writer::end_div(); //class 'col-xs-6 course-is-new'
                 $html .= html_writer::start_div('col-xs-6 box-type text-right');
                 $html .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
@@ -457,24 +457,27 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param $viewtype e.g. grid or list
      * @return string return the HTML as a string
      */
-    public function course_filter($usersschools, $selectedschool, $sortorder, $viewtype){
+    public function course_filter($usersschools, $selectedschool, $sortorder, $viewtype) {
+
         $form = '';
         $form .= html_writer::start_tag('div', array('class' => 'row my-courses-filter'));
         $form .= html_writer::start_tag('div', array('class' => 'col-md-12 course-sorting')); 
         
         // Render schoolmenu.
-        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => 'choosedots'), array('id' => 'mbsmycourses_filterschool'));
-        $form .= html_writer::tag('div', $select, array('class'=>'col-md-7'));
+        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, 
+                array('' => get_string('selectschool', 'block_mbsmycourses')),
+                array('id' => 'mbsmycourses_filterschool'));$form .= html_writer::tag('div', $select, array('class'=>'col-md-7'));
 
         // Render sortmenu.
         $choices = mbsmycourses::get_coursesortorder_menu();
         $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
         $form .= html_writer::tag('div', $select, array('class'=>'col-md-3'));
 
-        // Render radio switch
+        // Render radio switch.
         $radiogroup = '';
         $radiogroup .= html_writer::start_tag('div', array('class' => 'col-md-2 text-right text-mobile-left')); //classes for radiogroup
-        //list view
+
+        // List view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_list'));
         $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_list", 'value' => 'list');
         if ('list' == $viewtype) {
@@ -483,7 +486,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $radiogroup .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', $params);
         $radiogroup .= html_writer::end_tag('label');
 
-        //grid view
+        // Grid view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_grid'));
         $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_grid", 'value' => 'grid');
         if ('grid' == $viewtype) {
@@ -493,6 +496,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $radiogroup .= html_writer::end_tag('label');
         $radiogroup .= html_writer::end_tag('div'); //end classes for radiogroup
         // End renderer radio switch
+
         $form .= html_writer::tag('div', $radiogroup, array('id' => 'mbsmycourses_viewtype'));
 
         $output = html_writer::tag('form', $form, array('id' => 'filter_form', 'action' => new moodle_url('/my/index.php'), 'class' => 'row form-horizontal'));

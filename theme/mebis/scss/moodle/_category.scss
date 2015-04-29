@@ -17,13 +17,13 @@
             }
             span.category-course-title-name {
                 margin-left: 5px;
-                a {
-                    color: $white;
-                }
             }
             i {
                 color: $white;
                 font-size: 1.25em;
+            }
+            a {
+                color: $white;
             }
         }
         .category-course-info {
@@ -168,10 +168,10 @@
         .category-title {
             padding: 15px 0 15px 10px;
             margin: 2px 0;
+            color: $white;
             .category-toggle {
                 cursor: pointer;
                 float: right;
-                color: $white;
                 margin-right: 20px;
                 &::before {
                     font-family: 'mebis-icons';

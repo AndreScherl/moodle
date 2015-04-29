@@ -95,7 +95,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $content = '';
                 if (isset($overviews[$course->id]) && !$ismovingcategory) {
 
-                    $moreinfo = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('style' => "color:white", 'id' => 'mbsmycourses-new-' . $course->id));
+                    $moreinfo = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
 
                     $content = $this->activity_display($course, $overviews[$course->id]);
                     $newcount++;
@@ -108,7 +108,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             }
 
             if ($newcount > 0) {
-                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo', 'style' => "color:white"));
+                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
             $header .= html_writer::span('','category-toggle');
             $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title'));

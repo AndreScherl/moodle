@@ -240,9 +240,9 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         $categories = coursecat::get($categoryId)->get_children();
         foreach ($categories as $category) {
             $result .= html_writer::start_div('category-container');
-            $result .= html_writer::start_div('category-title');
+            $result .= html_writer::start_div('category-title category-toggle');
             $result .= html_writer::start_span('category-title-name');
-            $result .= html_writer::link(new moodle_url('/course/index.php?categoryid='.$category->id), $category->name);
+            $result .= html_writer::link(new moodle_url('#'), $category->name);
             $result .= html_writer::end_span();
             if ($category->has_children() || $category->has_courses()) {
                 $result .= html_writer::span('','category-toggle');

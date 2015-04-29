@@ -17126,8 +17126,8 @@ button.close {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033283}}
   .me-wrapper {
     /* .me-process-crumbs {
-    	width: 105%;
-    	margin-left: -2.5%;
+        width: 105%;
+        margin-left: -2.5%;
     } */
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033290}}
@@ -17584,185 +17584,181 @@ div[role="main"] > h2 {
     position: relative;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000343}}
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown {
-    background: #ccc;
-  }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000347}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li > a {
     font-size: 1.5em;
     display: block;
     padding: 5px 15px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000355}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000351}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open > a, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open .dropdown-toggle, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover > a, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover .dropdown-toggle {
     background: #ff6600;
     color: #fff;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000356}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open ul.dropdown-menu, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover ul.dropdown-menu {
     display: block;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000362}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li {
     padding: 0;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000365}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li:after {
     content: '';
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000369}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner {
     padding: 20px;
     background: #ff6600;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000377}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000373}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner a {
     color: #fff;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000380}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000376}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner a:hover {
     color: #333333;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000382}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner.admin-dropdown {
     background: #222222;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000386}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .admin-dropdown a:hover {
     color: #ff6600;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000390}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li strong {
     font-size: 1em;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\0000396}}
   .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode {
     color: #fff;
     font-weight: bold;
     cursor: pointer;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003101}}
   .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode.open > span.internal:before {
     content: "\e662";
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003107}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003103}}
   .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode > span.internal:before {
     content: "\e63d";
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003105}}
   .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode .hiddennavleaf {
     display: none;
     margin-left: 15px;
     font-weight: normal;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003115}}
   .wrapper-learning-platform .me-help-note .me-help-note-container {
     background: #000000;
     color: #fff;
     padding-top: 10px;
     padding-bottom: 30px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003127}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003123}}
   .wrapper-learning-platform .me-help-note .me-help-note-container .text-right a {
     color: #eeeeee;
     display: inline-block;
     margin-left: 10px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003132}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003128}}
   .wrapper-learning-platform .me-help-note .me-help-note-container .text-right a:hover {
     color: #fff;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003138}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003134}}
   .wrapper-learning-platform .me-help-note .me-help-note-container h3 {
     margin-top: 0;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003145}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003141}}
   .wrapper-learning-platform .me-page-headline {
     color: #fff;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003149}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003145}}
   .wrapper-learning-platform .me-course-links {
     padding-top: 60px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003152}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003148}}
   .wrapper-learning-platform .me-course-links a {
     display: inline-block;
     margin-left: 10px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003158}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003154}}
   .wrapper-learning-platform .me-render-results {
     padding-top: 5px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003161}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003157}}
   .wrapper-learning-platform .me-render-results a {
     color: #333333;
     font-size: 1.5em;
     display: inline-block;
     margin-left: 10px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003163}}
   .wrapper-learning-platform .me-render-results a.current {
     color: #000000;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003167}}
   .wrapper-learning-platform .me-render-results a:hover {
     color: #ff6600;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003182}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003178}}
   .wrapper-learning-platform .me-courses [data-layout="grid"] .me-course {
     background: #fff;
     padding: 10px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003188}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003184}}
   .wrapper-learning-platform .me-courses [data-layout="list"] {
     display: none;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003197}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003193}}
   .wrapper-learning-platform .me-apps .me-app {
     background: #fff;
     padding: 10px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003204}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003200}}
   .wrapper-learning-platform .me-schools {
     margin-bottom: 40px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003208}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003204}}
   .wrapper-learning-platform .me-schools .me-school a {
     display: block;
     padding: 10px;
     background: #333333;
     color: #fff;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003214}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003210}}
   .wrapper-learning-platform .me-schools .me-school a:hover {
     background: #ff6600;
   }
 }
 @media only screen and (max-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003230}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003226}}
   .wrapper-learning-platform .me-learning-platform-header-nav {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003235}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003231}}
   .wrapper-learning-platform .breadcrumb.text-left {
     padding: 50px 0 20px;
   }
 }
 @media only screen and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003256}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003252}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav li.dropdown {
     position: static;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003260}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003256}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu {
     margin-top: 0;
     top: 100%;
     position: absolute;
     min-width: 100%;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003266}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/pages\/_learning-platform\.scss}line{font-family:\00003262}}
   .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu.dropdown-right {
     right: auto;
     left: 0;
@@ -17864,7 +17860,7 @@ div[role="main"] ul, div[role="main"] ol {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\0000314}}
 .block {
-  background-color: #FFF;
+  background-color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\0000316}}
 .block .header {
@@ -17878,29 +17874,34 @@ div[role="main"] ul, div[role="main"] ol {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000035}}
+.block_mbsmycourses .coursebox {
+  margin: 0px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000039}}
 .courses {
   margin-top: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000039}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000313}}
 .coursenumber-label {
   margin-right: 8px;
   margin-left: 20px;
   display: inline-block;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000321}}
 .coursebox .course_title {
   position: absolute;
   right: 34px;
   top: 45px;
   z-index: 9;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000328}}
 .coursebox .coursebox-meta {
   background: #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000331}}
 .coursebox .coursebox-meta .course-is-new span,
 .coursebox .coursebox-meta .box-type i {
   display: inline-block;
@@ -17910,27 +17911,27 @@ div[role="main"] ul, div[role="main"] ol {
   text-align: center;
   margin-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000341}}
 .coursebox .coursebox-meta .course-is-new span {
   padding: 0 10px;
   line-height: 28px;
   font-size: 0.875em;
   margin-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000348}}
 .coursebox .coursebox-meta .box-type i {
   width: 40px;
   margin-right: 10px;
   font-size: 1.5em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000355}}
 .coursebox .coursebox-inner {
   padding: 0;
   border: 0;
   position: relative;
   margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000361}}
 .coursebox .coursebox-inner .coursebox-link {
   min-height: 165px;
   padding: 20px;
@@ -17939,50 +17940,56 @@ div[role="main"] ul, div[role="main"] ol {
   background: #fff;
   font-weight: 400;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000370}}
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000374}}
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000379}}
 .coursebox .coursebox-inner .coursebox-link .coursetype {
   font-size: 0.75em;
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000388}}
 .coursebox .coursebox-inner:hover .coursebox-link {
   background: #ff6600;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000388}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000392}}
 .coursebox .coursebox-inner:hover .coursebox-link .coursename, .coursebox .coursebox-inner:hover .coursebox-link .coursename:before {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000392}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000396}}
 .coursebox .coursebox-inner:hover .coursebox-link .coursetype {
   color: #fff;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000031}}
+.block_mbsmycourses .category-box {
+  border: 0px;
+  background-color: transparent;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000036}}
 .categorybox {
   padding: 15px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000039}}
 .categorybox .category-container {
-  background-color: #FFF;
+  background-color: #fff;
   margin: 1px 20px;
   padding: 20px 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000039}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000314}}
 .categorybox .category-container.category-name {
   padding-left: 20px;
   padding-right: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000313}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000318}}
 .categorybox .category-container.category-name .closebutton {
   font-family: FontAwesome;
   position: absolute;
@@ -17991,13 +17998,13 @@ div[role="main"] ul, div[role="main"] ol {
   color: #333333;
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000328}}
 .categorybox .category-container .category-coursebox {
   padding: 17px 60px;
   margin: 0px 40px 1px 0;
   background-color: #CCC;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000333}}
 .categorybox .category-container .category-coursebox .iconbox {
   font-family: FontAwesome;
   position: absolute;
@@ -18013,7 +18020,7 @@ div[role="main"] ul, div[role="main"] ol {
   color: #E4E4E4;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000349}}
 .categorybox .category-container .category-coursebox .newbox {
   position: absolute;
   top: 0px;
@@ -18025,7 +18032,7 @@ div[role="main"] ul, div[role="main"] ol {
   font-weight: 400;
   font-style: normal;
   font-size: 10px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
 }
 
@@ -18122,7 +18129,7 @@ footer .footer-copyright {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\000033}}
 .single-section.onetopic .nav.nav-tabs.nav-justified {
-  background-color: #FFF;
+  background-color: #fff;
   padding: 10px 20px;
   margin-bottom: 20px;
 }
@@ -18147,13 +18154,13 @@ footer .footer-copyright {
 .single-section .section-navigation > div > div {
   margin-top: 1px;
   padding: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   text-align: center;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000332}}
 .course-content .section.main {
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: 30px !important;
   padding: 20px !important;
 }
@@ -18203,7 +18210,7 @@ footer .footer-copyright {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000377}}
 #gridiconcontainer .gridicons > div > div .icon_content {
-  background-color: #FFF;
+  background-color: #fff;
   padding: 10px;
   font-family: "Titillium Web SemiBold","Titillium Web";
   font-weight: 600;
@@ -19014,19 +19021,19 @@ div.block,
   border-radius: 5px;
   font-size: 11px;
   bottom: 5px;
-  color: #FFF;
+  color: #fff;
   left: 30px;
   padding: 2px 5px;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\000031}}
 .category-listing, .course-listing, .course-detail {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\000036}}
 #coursesearch label {
-  color: #FFF;
+  color: #fff;
   font-size: 1.5em;
   font-weight: 200;
   margin-right: 20px;
@@ -19034,63 +19041,64 @@ div.block,
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000313}}
 .detail-pair {
-  color: #FFF;
+  color: #fff;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000316}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000317}}
+.detail-pair-value {
+  color: #000;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000321}}
 th {
-  color: #FFF;
+  color: #fff;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000325}}
 label {
-  color: #FFF;
+  color: #fff;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000329}}
 .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > td, table#explaincaps > tbody > tr:nth-child(2n+1) > td, table#defineroletable > tbody > tr:nth-child(2n+1) > td, table.grading-report > tbody > tr:nth-child(2n+1) > td, table#listdirectories > tbody > tr:nth-child(2n+1) > td, table.rolecaps > tbody > tr:nth-child(2n+1) > td, table.userenrolment > tbody > tr:nth-child(2n+1) > td, table#form > tbody > tr:nth-child(2n+1) > td, form#movecourses table > tbody > tr:nth-child(2n+1) > td, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > td, .forumheaderlist > tbody > tr:nth-child(2n+1) > td, table.flexible > tbody > tr:nth-child(2n+1) > td, .generaltable > tbody > tr:nth-child(2n+1) > td, .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > th, table#explaincaps > tbody > tr:nth-child(2n+1) > th, table#defineroletable > tbody > tr:nth-child(2n+1) > th, table.grading-report > tbody > tr:nth-child(2n+1) > th, table#listdirectories > tbody > tr:nth-child(2n+1) > th, table.rolecaps > tbody > tr:nth-child(2n+1) > th, table.userenrolment > tbody > tr:nth-child(2n+1) > th, table#form > tbody > tr:nth-child(2n+1) > th, form#movecourses table > tbody > tr:nth-child(2n+1) > th, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > th, .forumheaderlist > tbody > tr:nth-child(2n+1) > th, table.flexible > tbody > tr:nth-child(2n+1) > th, .generaltable > tbody > tr:nth-child(2n+1) > th {
   background-color: transparent;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000333}}
 .user-enroller-panel .uep-search-results .users > tbody > tr:hover > td, table.grading-report > tbody > tr:hover > td, .forumheaderlist > tbody > tr:hover > td, .generaltable > tbody > tr:hover > td, table.flexible > tbody > tr:hover > td, table#permissions > tbody > tr:hover > td, .user-enroller-panel .uep-search-results .users > tbody > tr:hover > th, table.grading-report > tbody > tr:hover > th, .forumheaderlist > tbody > tr:hover > th, .generaltable > tbody > tr:hover > th, table.flexible > tbody > tr:hover > th, table#permissions > tbody > tr:hover > th {
   background-color: transparent;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000333}}
-.backup_stage.backup_stage_current {
-  color: #fff !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000336}}
-.backup_stage.backup_stage_complete {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000338}}
+.backup_stage.backup_stage_current, .backup_stage.backup_stage_complete {
   color: #999 !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000344}}
 h2.header {
   color: #fff !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000348}}
 .arrow.sep {
   color: #999;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000352}}
 .grouped_settings label {
   color: #666;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000356}}
 .generaltable {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000356}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000359}}
 .generaltable .disabled .availability {
   background-color: transparent !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000366}}
 .box .info.total {
   color: #fff;
 }
@@ -19298,6 +19306,93 @@ h2.header {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003207}}
 .block_messages .content .info {
   text-align: left;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003216}}
+.mform legend a, .mform legend a:hover {
+  color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003223}}
+.form-item .form-setting,
+.form-item .form-description,
+.mform .fitem .felement,
+#page-mod-forum-search .c1 {
+  color: #555;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003230}}
+ul, li {
+  list-style-type: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003235}}
+.user-grade td.oddd1, .user-grade th.oddd1 {
+  background-color: transparent;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003239}}
+#graded_users_selector .singleselect label {
+  font-weight: normal;
+  padding-right: 0.5em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003245}}
+.choosercontainer label {
+  color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003250}}
+.jsenabled .choosercontainer #chooseform .instruction,
+.jsenabled .choosercontainer #chooseform .typesummary {
+  background-color: transparent;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003256}}
+.jsenabled .choosercontainer #chooseform .alloptions {
+  box-shadow: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003261}}
+.import-course-selector .detail-pair-value {
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003265}}
+.import-course-selector .detail-pair-value input[type="submit"] {
+  margin-left: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003271}}
+.import-course-selector input[type="text"] {
+  margin-right: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003275}}
+.import-course-selector input[type="text"] + input[type="submit"] {
+  margin-top: -2px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003281}}
+.path-backup legend {
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003285}}
+.path-backup form {
+  color: #666;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003290}}
+.strong {
+  font-weight: bold;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003294}}
+#page-mod-chat-gui_basic #participants ul li .userinfo {
+  margin-left: 10px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003298}}
+#page-mod-chat-gui_basic input#newonly {
+  margin-left: 10px;
+  margin-right: 6px;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -19889,7 +19984,7 @@ h2.header {
   color: #333333;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_lightbox\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_lightbox\.scss}line{font-family:\000035}}
 .nav-justified > li, .nav-tabs.nav-justified > li, .nav-tabs.nav-justified > li {
   background-color: #fff;
 }
@@ -19919,14 +20014,14 @@ h2.header {
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000320}}
-.category-box .category-course .category-course-title span.category-course-title-name a {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000321}}
 .category-box .category-course .category-course-title i {
   color: #fff;
   font-size: 1.25em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000325}}
+.category-box .category-course .category-course-title a {
+  color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\0000329}}
 .category-box .category-course .category-course-info {
@@ -20065,12 +20160,12 @@ h2.header {
 .category-box .category-container .category-title {
   padding: 15px 0 15px 10px;
   margin: 2px 0;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003172}}
 .category-box .category-container .category-title .category-toggle {
   cursor: pointer;
   float: right;
-  color: #fff;
   margin-right: 20px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/WebServer\/Documents\/mbsredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003176}}

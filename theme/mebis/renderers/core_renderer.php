@@ -105,7 +105,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
 
         if ($bc->attributes['data-block'] == 'mbsmyschools') {
-            $bc->attributes['class'] = 'block_meineschulen row';
+            $bc->attributes['class'] = 'row';
         }
 
         if (empty($skiptitle)) {
@@ -134,7 +134,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         $output .= html_writer::start_tag('div', $bc->attributes);
 
-        $output .= $this->mebis_block_header($bc);
+        //$output .= $this->mebis_block_header($bc);
+        $output .= $this->block_header($bc);
         $output .= $this->block_content($bc);
 
         $output .= html_writer::end_div();
@@ -147,7 +148,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $this->init_block_hider_js($bc);
         return $output;
     }
-
+    
+    /* no need to use a special renderer anymore?
     public function mebis_block_header($bc) {
         $title = '';
 
@@ -177,6 +179,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         return $output;
     }
+    */
 
     /**
      * Renders a block region in bootstrap in the new mebis design

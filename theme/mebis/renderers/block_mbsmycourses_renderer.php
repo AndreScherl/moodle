@@ -75,7 +75,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $header .= html_writer::tag('div', $moveurl, array('class' => 'move'));
             }
 
-            $caturl = new moodle_url('/course/index.php', array('categoryid' => $catid));
+            $caturl = new moodle_url('#');
             $header .= html_writer::start_span('category-title-name');
             $header .= html_writer::link($caturl, $categoryinfo->category->name);
             $header .= html_writer::end_span();
@@ -111,7 +111,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
             $header .= html_writer::span('','category-toggle');
-            $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title'));
+            $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
             $o .= $this->collapsible_region($c, 'category-container', '', $headercontainer, 'mbscourse-catcoll_' . $catid);
 
             $categoryordernumber++;

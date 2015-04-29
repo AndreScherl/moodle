@@ -214,7 +214,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $html .= html_writer::end_div(); //end class 'coursebox-meta'
             // .coursebox-inner
             $html .= html_writer::start_div('coursebox-inner');
-
+            $html .= html_writer::start_div('course_title');
             // If user is editing, then add move icons.
             if ($userediting && !$ismovingcourse) {
                 $moveicon = html_writer::empty_tag('img', array('src' => $this->pix_url('t/move')->out(false),
@@ -266,7 +266,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $moveurl = html_writer::link($moveurl, $movehereicon);
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
-
+            $html .= html_writer::end_tag('div');//end class 'course_title'
+            $html .= html_writer::end_tag('div');//end class 'coursebox-inner'
             $html .= html_writer::end_tag('li');
         }
 

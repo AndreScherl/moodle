@@ -67,16 +67,12 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         if ($region === 'top') {
             return $bc->content;
         }
-
+        
         $bc = clone($bc); // Avoid messing up the object passed in.
+        /*
         $bc->tag = 'h2';
         $bc->action_toggle = true;
-
-        if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->title = get_string('my-courses', 'theme_mebis');
-            $bc->tag = 'h1';
-            $bc->action_toggle = false;
-        }
+        */
 
         if (empty($bc->blockinstanceid) || !strip_tags($bc->title)) {
             $bc->collapsible = block_contents::NOT_HIDEABLE;
@@ -101,7 +97,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
 
         if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->add_class('row');
+            $bc->attributes['class'] = 'block_mbsmycourses row';
         }
 
         if ($bc->attributes['data-block'] == 'mbsmyschools') {

@@ -34,7 +34,7 @@ class block_mbsmycourses extends block_base {
      * Block initialization
      */
     public function init() {
-        $this->title = get_string('pluginname', 'block_mbsmycourses');
+        $this->title = get_string('displayname', 'block_mbsmycourses');
     }
 
     /**

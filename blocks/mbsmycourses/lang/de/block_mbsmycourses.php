@@ -34,6 +34,7 @@ $string['course_overview:addinstance'] = 'Neuen Block \'Kursüberblick\' hinzuf�
 $string['course_overview:myaddinstance'] = 'Block \'Kursübersicht\' für \'Meine Startseite\' hinzufügen';
 $string['defaultmaxcourses'] = 'Standardmäßige Höchstzahl der Kurse';
 $string['defaultmaxcoursesdesc'] = 'Maximalzahl der Kurse, die im Kursübersichtsblock angezeigt wird. \'0\' zeigt alle Kurse an.';
+$string['displayname'] = 'Meine Kurse';
 $string['expandall'] = 'Kursliste aufklappen';
 $string['forcedefaultmaxcourses'] = 'Festlegung der Höchstzahl der Kurse erzwingen';
 $string['forcedefaultmaxcoursesdesc'] = 'Wenn diese Option aktiviert wird, können Nutzer/innen keine individuellen Einstellungen vornehmen';

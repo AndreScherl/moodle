@@ -35,6 +35,7 @@ $string['mbsmycourses:addinstance'] = 'Add a new course overview block';
 $string['mbsmycourses:myaddinstance'] = 'Add a new course overview block to My home';
 $string['defaultmaxcourses'] = 'Default maximum courses';
 $string['defaultmaxcoursesdesc'] = 'Maximum courses which should be displayed on course overview block, 0 will show all courses';
+$string['displayname'] = 'My Courses';
 $string['expandall'] = 'Expand all course lists';
 $string['forcedefaultmaxcourses'] = 'Force maximum courses';
 $string['forcedefaultmaxcoursesdesc'] = 'If set then user will not be able to change his/her personal setting';

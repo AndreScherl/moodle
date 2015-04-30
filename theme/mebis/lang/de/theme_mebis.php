@@ -36,20 +36,14 @@ $string['url-logout-descr'] = 'Logout Url';
 $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links im Seiten-Footer - Ein Link pro Zeile im Schema: Titel|Url';
 
-$string['help-note-remove-permanent'] = 'dauerhaft entfernen';
-$string['help-note-close'] = 'schließen';
-$string['help-note-welcome'] = 'Herzlich willkommen%s!';
-$string['help-note-content'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
-$string['help-note-tutorial-link'] = 'Tutorials';
-
 $string['footer-newsletter'] = 'Newsletter';
-$string['footer-about'] = 'Ueber Mebis';
+$string['footer-about'] = 'Über Mebis';
 $string['footer-contact'] = 'Kontakt';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
 $string['footer-terms_of_use'] = 'Nutzungsbedingungen';
 
-$string['footer-search-schooltypes'] = 'Pruefungstermine für alle Schularten';
+$string['footer-search-schooltypes'] = 'Prüfungstermine für alle Schularten';
 $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Was suchen Sie?';
 $string['footer-my-school'] = 'Meine Schule';
@@ -79,21 +73,6 @@ $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
 // mbs_my_courses
-
-$string['alwaysshowall'] = 'Alle';
-$string['numtodisplay'] = 'Angezeigte Kurse: ';
-$string['load_more_results'] = 'Weitere Ergebnisse laden...';
-$string['hiddencoursecount'] = 'Zur Zeit ist {$a} Kurs versteckt';
-$string['hiddencoursecountplural'] = 'Zur Zeit sind {$a} Kurse versteckt';
-$string['hiddencoursecountwithshowall'] = 'Zur Zeit ist {$a->coursecount} Kurs versteckt ({$a->showalllink})';
-$string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount} Kurse versteckt ({$a->showalllink})';
-
-$string['toggle-navigation'] = 'Navigation ein-/ausblenden';
-
-$string['load-more-results'] = 'Weitere Ergebnisse laden...';
-
-$string['new'] = 'NEU';
-
 $string['all-schools'] = 'Alle meine Schulen';
 $string['sort-manual'] = 'Manuell';
 $string['sort-name'] = 'Name';

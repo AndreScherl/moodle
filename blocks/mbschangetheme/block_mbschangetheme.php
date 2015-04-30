@@ -47,7 +47,7 @@ class block_mbschangetheme extends block_base {
 
         if (!get_user_preferences('mbschangethemealerthide', false)) {
 
-            $this->content->text .= $renderer->render_alert();
+            $this->content->text .= $renderer->render_notification();
 
             user_preference_allow_ajax_update('mbschangethemealerthide', PARAM_BOOL);
 

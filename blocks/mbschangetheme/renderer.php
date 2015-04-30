@@ -25,6 +25,14 @@ defined('MOODLE_INTERNAL') || die;
 
 class block_mbschangetheme_renderer extends plugin_renderer_base {
 
+    /** render the content of the block (i. e. the button to change the theme by calling
+     * changetheme.php
+     * 
+     * @global record $USER
+     * @global object $PAGE
+     * @global object $OUTPUT
+     * @return string HTML of block content.
+     */
     public function render_content() {
         global $USER, $PAGE, $OUTPUT;
 
@@ -55,15 +63,18 @@ class block_mbschangetheme_renderer extends plugin_renderer_base {
         return html_writer::tag('div', $button, array('class' => 'change-theme'));
     }
 
-    
-    public function render_alert() {
+    /** render the content of notification for the change option
+     * 
+     * @return string content of dialogue
+     */
+    public function render_notification() {
         
         $o = html_writer::tag('h2', get_string('newalertheading', 'block_mbschangetheme'));
         $o .= html_writer::tag('p', get_string('newalertexpl', 'block_mbschangetheme'));
-        
+ 
         $o .= html_writer::checkbox('newalerthideme', '1', 
                 true, get_string('newalerthideme', 'block_mbschangetheme'),
-                array('id' => 'newalerthideme', 'class' => ''));
+                array('id' => 'newalerthideme'));
         $b  = html_writer::tag('button', get_string('newalertclose', 'block_mbschangetheme'), array('id' => 'newalertclose'));  
         $o .= html_writer::tag('div', $b);
         return html_writer::tag('div', $o, array('id' => 'newalertoverlay'));

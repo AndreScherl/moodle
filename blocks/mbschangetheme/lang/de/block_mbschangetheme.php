@@ -27,15 +27,20 @@ $string['changetotheme1'] = 'Neues Theme wählen';
 $string['changetotheme2'] = 'Altes Theme wählen';
 $string['mbschangetheme:addinstance'] = 'Hinzufügen des Blocks mebis Themewechsel';
 $string['mbschangetheme:myaddinstance'] = 'Hinzufügen des Blocks mebis Themewechsel zu meinem Schreibtisch';
+$string['newalertheading'] = 'Themewechsel möglich!';
+$string['newalertexpl'] = 'Vorübergehend ist es möglich noch mit dem alten Theme zu arbeiten. Auf Ihrer persönlichen Startseite finden Sie einen Bereich mit einer Schaltfläche zum Wechseln auf das alte Theme von mebis.';
+$string['newalerthideme'] = 'Diesen Hinweis nicht mehr anzeigen.';
+$string['newalertclose'] = 'Schließen';
 $string['notconfiguredproperly'] = 'Das Plugin ist nicht richtig konfiguriert!';
 $string['pluginname'] = 'mebis Themewechsel';
 $string['requireallowusertheme'] = 'Um einen Themewechsel zu ermöglichen, muss die Option allowuserthemes in der Website-Administration erlaubt werden ({$a}).';
 $string['theme1'] = 'Theme 1 (Mebis)';
 $string['theme1desc'] = 'Sie können insgesamt zwei Themeeinstellungen vornehmen, zwischen diesen Themes wird gewechselt.<br />
-    Hinweis: Für folgende Bereiche können Themes ausgewählt sein: gesamte Webseite, Kategorieseiten Kursseiten.
-    Die Einstellung für den User erhält höchste Priorität und überschreibt alle anderen Einstellungen, d. h. insbesondere dass die
-    Theme-Einstellung im Kursformular für einen User nicht wirksam ist, der in seinen Profileinstellungen einen von
-    "Grundeinstellung" verschiedenen Wert gewählt hat oder Userthemes plattformweit verboten werden (setze allowusertheme auf false)';
+    <b>Hinweis</b>: Für folgende Bereiche können Themes ausgewählt sein: gesamte Webseite, Kategorieseiten Kursseiten.<br />< br/>
+    Damit Einstellung für den User wirksam wird, muss die Konfiguration allowuserthemes aktiviert sein ({$a}) und in der config.php <br />
+    $CFG->themeorder = array("user", "page", "course", "category", "session", site"); <br />eingetragen werden, um die Priorität der Themes zu ändern.
+    (Details siehe <a href="https://docs.moodle.org/22/en/Theme_settings">Moodle theme settings</a>)';
+    
 $string['theme2'] = 'Theme 2 (DLB)';
 $string['theme2desc'] = '';
 $string['unknowntheme'] = 'Unbekanntes Theme';

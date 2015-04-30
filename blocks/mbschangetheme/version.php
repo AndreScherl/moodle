@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015043002;
+$plugin->version   = 2015043003;
 $plugin->requires  = 2014051201;
 $plugin->component = 'block_mbschangetheme';
 $plugin->maturity = MATURITY_RC;

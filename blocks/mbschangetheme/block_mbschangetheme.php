@@ -45,6 +45,16 @@ class block_mbschangetheme extends block_base {
         $renderer = $PAGE->get_renderer('block_mbschangetheme');
         $this->content->text .= $renderer->render_content();
 
+        if (!get_user_preferences('mbschangethemealerthide', false)) {
+
+            $this->content->text .= $renderer->render_alert();
+
+            user_preference_allow_ajax_update('mbschangethemealerthide', PARAM_BOOL);
+
+            $opts = array('userpreference' => 'mbschangethemealerthide');
+            $PAGE->requires->yui_module('moodle-block_mbschangetheme-newalert', 'M.block_mbschangetheme.newalert', array($opts));
+        }
+
         return $this->content;
     }
 

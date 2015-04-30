@@ -25,15 +25,13 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
+    $url = new moodle_url('/admin/settings.php', array('section' => 'themesettings'));
+    $link = html_writer::link($url, new lang_string('changeallowusertheme', 'block_mbschangetheme'), array('target' => '_blank'));
+
     if (empty($CFG->allowuserthemes)) {
 
-        $url = new moodle_url('/admin/settings.php', array('section' => 'themesettings'));
-        $link = html_writer::link($url,
-                new lang_string('changeallowusertheme', 'block_mbschangetheme'), array('target' => '_blank'));
-        
         $settings->add(new admin_setting_heading('block_mbschangetheme/requireallowusertheme', '',
                         new lang_string('requireallowusertheme', 'block_mbschangetheme', $link)));
-
     } else {
 
         $choices = array();
@@ -46,7 +44,7 @@ if ($ADMIN->fulltree) {
 
         $settings->add(new admin_setting_configselect('block_mbschangetheme/theme1',
                         new lang_string('theme1', 'block_mbschangetheme'),
-                        new lang_string('theme1desc', 'block_mbschangetheme'), 'mebis', $choices));
+                        new lang_string('theme1desc', 'block_mbschangetheme', $link), 'mebis', $choices));
 
         $settings->add(new admin_setting_configselect('block_mbschangetheme/theme2',
                         new lang_string('theme2', 'block_mbschangetheme'),

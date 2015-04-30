@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbschangetheme-newalert",
+    "builds": {
+        "moodle-block_mbschangetheme-newalert": {
+            "jsfiles": [
+                "newalert.js"
+            ]
+        }
+    }
+}

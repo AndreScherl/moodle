@@ -525,13 +525,9 @@
             a {
                 display: block;
                 padding: 20px;
-                background: $brand-secondary;
+                background: $brand-primary;
                 color: $white;
                 width: 100%;
-
-                &:hover {
-                    background: $brand-primary;
-                }
             }
         }
 

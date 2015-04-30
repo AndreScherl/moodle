@@ -6,9 +6,6 @@ require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
 {
@@ -19,7 +16,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
      * @param moodle_page $page
      * @param string $target one of rendering target constants
      */
-    public function __construct(moodle_page $page, $target) {
+    public function __construct(moodle_page $page, $target)
+    {
         parent::__construct($page, $target);
 
         if(!defined('PAGE_MENU_SET'))
@@ -288,7 +286,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         echo html_writer::end_tag('div');
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
         $output = '';
@@ -332,7 +331,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
      * @param  string
      * @return string
      */
-    protected function render_course_headline($headline) {
+    protected function render_course_headline($headline)
+    {
         $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
         $course_headline .= html_writer::tag('h1', $headline);
         $course_headline .= html_writer::end_tag('div');

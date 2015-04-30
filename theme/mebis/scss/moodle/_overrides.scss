@@ -290,3 +290,16 @@ ul, li {
 .strong {
     font-weight: bold;
 }
+
+#page-mod-chat-gui_basic #participants ul li .userinfo {
+    margin-left: 10px;
+}
+
+#page-mod-chat-gui_basic input#newonly {
+    margin-left: 10px;
+    margin-right: 6px;
+}
+
+.move-list-box {
+    color: $white;
+}

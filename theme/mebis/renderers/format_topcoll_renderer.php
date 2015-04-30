@@ -6,13 +6,9 @@ require_once($CFG->dirroot . '/course/format/topcoll/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
 {
-
     private $tccolumnwidth = 100; // Default width in percent of the column(s).
     private $tccolumnpadding = 0; // Default padding in pixels of the column(s).
     private $mobiletheme = false; // As not using a mobile theme we can react to the number of columns setting.
@@ -32,7 +28,8 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
      * @param moodle_page $page
      * @param string $target one of rendering target constants
      */
-    public function __construct(moodle_page $page, $target) {
+    public function __construct(moodle_page $page, $target)
+    {
         parent::__construct($page, $target);
         $this->togglelib = new topcoll_togglelib;
         $this->courseformat = course_get_format($page->course); // Needed for collapsed topics settings retrieval.
@@ -51,7 +48,7 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
     }
 
 
-/**
+    /**
      * Generate the display of the header part of a section before
      * course modules are included
      *
@@ -61,7 +58,8 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
      * @param int $sectionreturn The section to return to after an action
      * @return string HTML to output.
      */
-    protected function section_header($section, $course, $onsectionpage, $sectionreturn = null) {
+    protected function section_header($section, $course, $onsectionpage, $sectionreturn = null)
+    {
         $o = '';
 
         $sectionstyle = '';
@@ -204,8 +202,8 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
      * @param array $modnames (argument not used)
      * @param array $modnamesused (argument not used)
      */
-    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused) {
-
+    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused)
+    {
         echo html_writer::start_tag('div', array('class' => 'course course-format-topcoll'));
 
         echo $this->render_course_headline($course->fullname);
@@ -533,7 +531,8 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
         echo html_writer::end_tag('div');
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
 
@@ -569,7 +568,8 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer
      * @param  string
      * @return string
      */
-    protected function render_course_headline($headline) {
+    protected function render_course_headline($headline)
+    {
         $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
         $course_headline .= html_writer::tag('h1', $headline);
         $course_headline .= html_writer::end_tag('div');

@@ -28,9 +28,10 @@ class block_mbsgettingstarted extends block_base {
 
     function init() {
         $this->title = get_string('pluginname', 'block_mbsgettingstarted');
+        $this->defaultweight = -100;
     }
 
-    function get_required_javascript() {
+   function get_required_javascript() {
         parent::get_required_javascript();
  
         $this->page->requires->jquery();
@@ -40,24 +41,33 @@ class block_mbsgettingstarted extends block_base {
     }
 
     function get_content() {
-        global $CFG, $OUTPUT;
-		
-        
+        if ($this->content !== null) {
+		    return $this->content;
+		}        
 
-		$this->content = new stdClass();
-        $this->content->text = "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
+	$this->content = new stdClass();
+        $this->content->text = '';
+        
+        $renderer = $this->page->get_renderer('block_mbsgettingstarted');
+        $this->content->text .= $renderer->all();
+       // $this->content->text .= "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
 
         return $this->content;
     }
 
-    // my moodle can only have SITEID and it's redundant here, so take it away
     public function applicable_formats() {
-        return array('all' => true,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true, 
-                     'course-view-social' => false,
-                     'mod' => true, 
-                     'mod-quiz' => false);
+        return array('my-index' => true);
+    }
+    
+    public function instance_can_be_docked() {
+        return false;
+    }
+    
+    /**
+     * Default return is false - header will be shown
+     * @return boolean
+     */
+    function hide_header() {
+        return true;
     }
 }

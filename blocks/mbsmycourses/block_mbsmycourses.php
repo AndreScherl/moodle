@@ -34,7 +34,7 @@ class block_mbsmycourses extends block_base {
      * Block initialization
      */
     public function init() {
-        $this->title = get_string('pluginname', 'block_mbsmycourses');
+        $this->title = get_string('displayname', 'block_mbsmycourses');
     }
 
     /**
@@ -153,4 +153,12 @@ class block_mbsmycourses extends block_base {
         return !empty($config->showwelcomearea);
     }
 
+    /**
+     * The block will not be collapsible.
+     *
+     * @return bool if false the block will not be collapsible.
+     */
+    public function instance_can_be_collapsed() {
+        return false;
+    }
 }

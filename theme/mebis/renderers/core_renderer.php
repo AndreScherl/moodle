@@ -67,16 +67,12 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         if ($region === 'top') {
             return $bc->content;
         }
-
+        
         $bc = clone($bc); // Avoid messing up the object passed in.
+        /*
         $bc->tag = 'h2';
         $bc->action_toggle = true;
-
-        if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->title = get_string('my-courses', 'theme_mebis');
-            $bc->tag = 'h1';
-            $bc->action_toggle = false;
-        }
+        */
 
         if (empty($bc->blockinstanceid) || !strip_tags($bc->title)) {
             $bc->collapsible = block_contents::NOT_HIDEABLE;
@@ -101,11 +97,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
 
         if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->add_class('row');
+            $bc->attributes['class'] = 'block_mbsmycourses row';
         }
 
         if ($bc->attributes['data-block'] == 'mbsmyschools') {
-            $bc->attributes['class'] = 'block_meineschulen row';
+            $bc->attributes['class'] = 'row';
         }
 
         if (empty($skiptitle)) {
@@ -117,7 +113,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
-        $full = array('mbsmycourses', 'mbsmyschools');
+        $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
         if ($region === 'admin-navi') {
             array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');
@@ -135,6 +131,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $output .= html_writer::start_tag('div', $bc->attributes);
 
         $output .= $this->mebis_block_header($bc);
+        //$output .= $this->block_header($bc);
         $output .= $this->block_content($bc);
 
         $output .= html_writer::end_div();
@@ -147,30 +144,35 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $this->init_block_hider_js($bc);
         return $output;
     }
-
+    
     public function mebis_block_header($bc) {
+        $noactionblocks = array('mbsmycourses', 'mbsnewcourse');
+        if(in_array($bc->attributes['data-block'], $noactionblocks) == FALSE) {
+            return parent::block_header($bc);
+        }
+        
         $title = '';
-
         if ($bc->title) {
-            if ($bc->attributes['data-block'] == 'mbsmyschools') {
-                $title = html_writer::tag($bc->tag, $bc->title, array('style' => 'padding-left:20px;padding-bottom:20px;'));
-            } else {
-                $title = html_writer::tag($bc->tag, $bc->title, null);
+            $attributes = array();
+            if ($bc->blockinstanceid) {
+                $attributes['id'] = 'instance-'.$bc->blockinstanceid.'-header';
             }
+            $title = html_writer::tag('h2', $bc->title, $attributes);
         }
 
-        $controlshtml = $this->block_controls($bc->controls);
+        //$controlshtml = $this->block_controls($bc->controls);
 
         $output = '';
 
-        if ($title || $controlshtml) {
+        //if ($title) || $controlshtml) {
+        if($title) {
             $output .= html_writer::start_div('header');
             $output .= html_writer::start_div('title');
-            if ($bc->action_toggle) {
+            /*if ($bc->action_toggle) {
                 $output .= html_writer::tag('div', '', array('class' => 'block_action'));
-            }
+            }*/
             $output .= $title;
-            $output .= $controlshtml;
+            //$output .= $controlshtml;
             $output .= html_writer::end_div();
             $output .= html_writer::end_div();
         }

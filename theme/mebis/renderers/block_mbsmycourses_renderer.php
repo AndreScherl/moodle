@@ -1,10 +1,28 @@
 <?php
 
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * mbsmycourses block rendrer
+ * Renderer for block_mbsmycourses (based on block course_overview)
  *
- * @package theme_mebis
+ * @package    theme_mebis
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/mbsmycourses/renderer.php');
 require_once($CFG->libdir . '/coursecatlib.php');
@@ -75,7 +93,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $header .= html_writer::tag('div', $moveurl, array('class' => 'move'));
             }
 
-            $caturl = new moodle_url('/course/index.php', array('categoryid' => $catid));
+            $caturl = new moodle_url('#');
             $header .= html_writer::start_span('category-title-name');
             $header .= html_writer::link($caturl, $categoryinfo->category->name);
             $header .= html_writer::end_span();
@@ -95,7 +113,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $content = '';
                 if (isset($overviews[$course->id]) && !$ismovingcategory) {
 
-                    $moreinfo = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('style' => "color:white", 'id' => 'mbsmycourses-new-' . $course->id));
+                    $moreinfo = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
 
                     $content = $this->activity_display($course, $overviews[$course->id]);
                     $newcount++;
@@ -108,10 +126,10 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             }
 
             if ($newcount > 0) {
-                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo', 'style' => "color:white"));
+                $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
             $header .= html_writer::span('','category-toggle');
-            $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title'));
+            $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
             $o .= $this->collapsible_region($c, 'category-container', '', $headercontainer, 'mbscourse-catcoll_' . $catid);
 
             $categoryordernumber++;
@@ -214,7 +232,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $html .= html_writer::end_div(); //end class 'coursebox-meta'
             // .coursebox-inner
             $html .= html_writer::start_div('coursebox-inner');
-
+            $html .= html_writer::start_div('course_title');
             // If user is editing, then add move icons.
             if ($userediting && !$ismovingcourse) {
                 $moveicon = html_writer::empty_tag('img', array('src' => $this->pix_url('t/move')->out(false),
@@ -266,7 +284,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $moveurl = html_writer::link($moveurl, $movehereicon);
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
-
+            $html .= html_writer::end_tag('div');//end class 'course_title'
+            $html .= html_writer::end_tag('div');//end class 'coursebox-inner'
             $html .= html_writer::end_tag('li');
         }
 

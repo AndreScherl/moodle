@@ -2,212 +2,212 @@
 
 .admin-layout {
 
-	@media only screen and (min-width: $screen-lg-min) {
-		.admin-container {
-			width: 100%;
-			max-width: 1680px;
-			padding-left: 100px;
+    @media only screen and (min-width: $screen-lg-min) {
+        .admin-container {
+            width: 100%;
+            max-width: 1680px;
+            padding-left: 100px;
 
-			table {
-				width: 100%!important;
-			}
+            table {
+                width: 100%!important;
+            }
 
-		}
-	}
+        }
+    }
 
-	input {
+    input {
 
-		.form-submit,
-		[type="submit"] {
-			color: $white;
-			background: $brand-primary;
-		}
+        .form-submit,
+        [type="submit"] {
+            color: $white;
+            background: $brand-primary;
+        }
 
-	}
+    }
 
-	.admin-navigation {
-		margin: 10px 0 25px;
-	}
+    .admin-navigation {
+        margin: 10px 0 25px;
+    }
 
-	.admin-content {
-		color: $gray-dark;
-		font-size: emCalc(14px);
+    .admin-content {
+        color: $gray-dark;
+        font-size: emCalc(14px);
 
-		h2 {
-			color: $gray-dark!important;
-			margin-top: 0;
-		}
+        h2 {
+            color: $gray-dark!important;
+            margin-top: 0;
+        }
 
-		div[role="main"] {
-			color: $gray-dark;
-			background: $white;
-			padding: 20px;
+        div[role="main"] {
+            color: $gray-dark;
+            background: $white;
+            padding: 20px;
 
-			label, .header {
-				color: $gray-dark!important;
-				margin-top: 0;
-			}
+            label, .header {
+                color: $gray-dark!important;
+                margin-top: 0;
+            }
 
-			.form-item .form-setting > input[type="text"],
-			.mform .fcontainer .fitem .felement > input[type="text"],
-			.form-item .form-setting > input[type="password"],
-			.mform .fcontainer .fitem .felement>input[type="password"] {
-				min-width: 0;
-				width: 100%;
-				max-width: 100%;
-			}
+            .form-item .form-setting > input[type="text"],
+            .mform .fcontainer .fitem .felement > input[type="text"],
+            .form-item .form-setting > input[type="password"],
+            .mform .fcontainer .fitem .felement>input[type="password"] {
+                min-width: 0;
+                width: 100%;
+                max-width: 100%;
+            }
 
-			.form-label, .form-setting, .form-description {
-				color: $gray-dark;
-			}
+            .form-label, .form-setting, .form-description {
+                color: $gray-dark;
+            }
 
-			.fitemtitle, .felement {
-				width: 100%;
-				float: none;
-				text-align: left;
-				color: $gray-dark;
-			}
+            .fitemtitle, .felement {
+                width: 100%;
+                float: none;
+                text-align: left;
+                color: $gray-dark;
+            }
 
-			input[type="submit"]#id_submitbutton,
+            input[type="submit"]#id_submitbutton,
                         input[type="submit"]#id_submitbutton2 {
-				color: $white!important;
-			}
+                color: $white!important;
+            }
 
-		}
-	}
+        }
+    }
 
-	.boxwidthnormal, table#user-grades  {
-		width: 100%;
-	}
+    .boxwidthnormal, table#user-grades  {
+        width: 100%;
+    }
 
-	.right_scroller.topscroll {
-		display: none;
-	}
+    .right_scroller.topscroll {
+        display: none;
+    }
 
-	.choosercontainer #chooseform .option label, label, .text_to_html {
-		color: $gray-dark;
-	}
+    .choosercontainer #chooseform .option label, label, .text_to_html {
+        color: $gray-dark;
+    }
 
-	.alloptions {
-		overflow: auto;
-	}
+    .alloptions {
+        overflow: auto;
+    }
 
-	.instruction {
-		padding: 10px;
-	}
+    .instruction {
+        padding: 10px;
+    }
 
-	.collapsed .collapsibleregioninner {
-		display: none;
-	}
+    .collapsed .collapsibleregioninner {
+        display: none;
+    }
 
-	.mform {
+    .mform {
 
-	    fieldset {
+        fieldset {
 
-	        .ftoggler {
-	            background: $brand-primary;
-	            padding: 20px;
-	            margin-bottom: 0;
-	            position: relative;
+            .ftoggler {
+                background: $brand-primary;
+                padding: 20px;
+                margin-bottom: 0;
+                position: relative;
 
-	            .helptooltip {
+                .helptooltip {
                         position: absolute;
                         right: 50px;
                         top: 19px;
 
-	            	a {
-						color: $white;
-						font-size: emCalc(11px);
+                    a {
+                        color: $white;
+                        font-size: emCalc(11px);
 
-						&:after {
-							font-family: 'mebis-icons';
-							speak: none;
-							font-style: normal;
-							font-weight: normal;
-							font-variant: normal;
-							text-transform: none;
-							line-height: 1;
-							font-size: 0.875em;
-							-webkit-font-smoothing: antialiased;
-							-moz-osx-font-smoothing: grayscale;
-							content: "\e62f";
+                        &:after {
+                            font-family: 'mebis-icons';
+                            speak: none;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-variant: normal;
+                            text-transform: none;
+                            line-height: 1;
+                            font-size: 0.875em;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            content: "\e62f";
 
-						}
+                        }
 
-						&:hover {
-							color: $brand-secondary;
-						}
+                        &:hover {
+                            color: $brand-secondary;
+                        }
 
-	            		img { display: none; }
-	            	}
-	            }
-	        }
+                        img { display: none; }
+                    }
+                }
+            }
 
-	        a.fheader {
-	            display: block;
-	            position: relative;
-	            color: $white;
+            a.fheader {
+                display: block;
+                position: relative;
+                color: $white;
 
-	            &:after {
-	                font-family: 'mebis-icons';
-	                speak: none;
-	                font-style: normal;
-	                font-weight: normal;
-	                font-variant: normal;
-	                text-transform: none;
-	                line-height: 1em;
-	                font-size: emCalc(10px);
-	                -webkit-font-smoothing: antialiased;
-	                position: absolute;
-	                right: 0;
-	                top: 8px;
-	                content: "\e63d";
-	            }
-	        }
+                &:after {
+                    font-family: 'mebis-icons';
+                    speak: none;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1em;
+                    font-size: emCalc(10px);
+                    -webkit-font-smoothing: antialiased;
+                    position: absolute;
+                    right: 0;
+                    top: 8px;
+                    content: "\e63d";
+                }
+            }
 
-	        &.collapsed, &.collapsible {
-	            margin-bottom: 40px;
+            &.collapsed, &.collapsible {
+                margin-bottom: 40px;
 
-	            legend {
-	                color: $white;
-	                border: 0;
-	                line-height: 1em;
+                legend {
+                    color: $white;
+                    border: 0;
+                    line-height: 1em;
 
-	                a.fheader {
-	                    background-image: none;
-	                    line-height: 1em;
-	                }
+                    a.fheader {
+                        background-image: none;
+                        line-height: 1em;
+                    }
 
-	            }
+                }
 
-	            .fcontainer  {
-	                background: $white;
-	                padding: 20px;
-	            }
+                .fcontainer  {
+                    background: $white;
+                    padding: 20px;
+                }
 
-	        }
+            }
 
-	        &.collapsible a.fheader:after { content: "\e662"; }
-	        &.collapsible.collapsed a.fheader:after { content: "\e63d"; }
+            &.collapsible a.fheader:after { content: "\e662"; }
+            &.collapsible.collapsed a.fheader:after { content: "\e63d"; }
 
-	    }
-	}
+        }
+    }
 
-	fieldset.hidden > div {
-		padding: 20px;
-		background: $white;
-	}
+    fieldset.hidden > div {
+        padding: 20px;
+        background: $white;
+    }
 
-	.mform .fitem_actionbuttons>div.felement {
-		margin-left: 0;
-		text-align: right;
-	}
+    .mform .fitem_actionbuttons>div.felement {
+        margin-left: 0;
+        text-align: right;
+    }
 
-	#course-category-listings>div>div {
-		border: 0;
-	}
+    #course-category-listings>div>div {
+        border: 0;
+    }
 
-	#course-category-listings {
+    #course-category-listings {
 
             .listitem > div .idnumber {
                 color: $brand-gray-dark !important;
@@ -232,65 +232,65 @@
             }
         }
 
-	.box.generalbox {
-		color: $gray-dark;
+    .box.generalbox {
+        color: $gray-dark;
 
-		th,td, label, .cap-name {
-			color: $gray-dark;
-		}
+        th,td, label, .cap-name {
+            color: $gray-dark;
+        }
 
-	}
+    }
 
-	.block-region .box.generalbox {
-		padding: 0;
-	}
+    .block-region .box.generalbox {
+        padding: 0;
+    }
 
-	.admintable.generaltable, .userenrolment.otheruserenrolment {
-		background: $white;
+    .admintable.generaltable, .userenrolment.otheruserenrolment {
+        background: $white;
 
-		th, td {
-			padding: 10px;
-			color: $gray-dark;
-		}
-	}
+        th, td {
+            padding: 10px;
+            color: $gray-dark;
+        }
+    }
 
-	.questionbankwindow {
-		background: $white;
-		padding: 20px;
+    .questionbankwindow {
+        background: $white;
+        padding: 20px;
 
-		h2 {
-			color: $gray-dark!important;
-		}
-	}
+        h2 {
+            color: $gray-dark!important;
+        }
+    }
 
-	#page-enrol-users .enrol_user_buttons {
-		float: none;
-		text-align: right;
-	}
+    #page-enrol-users .enrol_user_buttons {
+        float: none;
+        text-align: right;
+    }
 
-	#groupeditform, .generaltable {
-		background: $white;
+    #groupeditform, .generaltable {
+        background: $white;
 
-		.header  {
-			color: $gray-dark;
-		}
+        .header  {
+            color: $gray-dark;
+        }
 
-		select {
-			width: 100%;
-		}
-	}
+        select {
+            width: 100%;
+        }
+    }
 
-	.cell, #livelogs-pause-button, .fitemtitle  {
-		color: $gray-dark;
-	}
+    .cell, #livelogs-pause-button, .fitemtitle  {
+        color: $gray-dark;
+    }
 
-	.singleselect label {
-		color: $white;
-	}
+    .singleselect label {
+        color: $white;
+    }
 
-	.course-detail span {
-		color: $gray-dark;
-	}
+    .course-detail span {
+        color: $gray-dark;
+    }
 }
 
 .bulk-actions {

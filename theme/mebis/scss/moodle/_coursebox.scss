@@ -1,5 +1,22 @@
+.block_mbsmycourses .header { 
+    margin-bottom: 20px; 
+        
+    h2 {
+        margin-bottom: 12.5px;
+        margin-top: 0px;
+    }
+}
+
 .block_mbsmycourses .course_list {
     width: auto;
+}
+
+.block_mbsmycourses .coursebox {
+    margin: 0px;
+}
+
+.editing .block_mbsmycourses .move {
+  padding: 2px 0 0 10px;
 }
 
 .courses {
@@ -15,9 +32,9 @@
 .coursebox {
 
     .course_title {
-        position: absolute;
-        right: 34px;
-        top: 45px;
+        position: inherit;
+        right: 0px;
+        top: 0px;
         z-index: 9;
     }
 
@@ -96,6 +113,4 @@
         }
 
     }
-
 }
-

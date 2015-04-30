@@ -36,14 +36,8 @@ $string['url-logout-descr'] = 'Logout Url';
 $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links in page-footer';
 
-$string['help-note-remove-permanent'] = 'dauerhaft entfernen';
-$string['help-note-close'] = 'schließen';
-$string['help-note-welcome'] = 'Herzlich willkommen%s!';
-$string['help-note-content'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
-$string['help-note-tutorial-link'] = 'Tutorials';
-
 $string['footer-newsletter'] = 'Newsletter';
-$string['footer-about'] = 'Ueber Mebis';
+$string['footer-about'] = 'About Mebis';
 $string['footer-contact'] = 'Kontakt';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
@@ -60,6 +54,7 @@ $string['menu-administration-link'] = 'Webseiten Administration';
 $string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
+$string['nav-login'] = 'Login';
 $string['nav-logout'] = 'Logout';
 $string['nav-contrast'] = 'Kontrast';
 $string['nav-support'] = 'Support';
@@ -77,3 +72,16 @@ $string['my-courses'] = 'Meine Kurse';
 $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
+// mbs_my_courses
+$string['all-schools'] = 'Alle meine Schulen';
+$string['sort-manual'] = 'Manuell';
+$string['sort-name'] = 'Name';
+$string['sort-school'] = 'Schule';
+$string['sort-created'] = 'Erstellt am...';
+$string['sort-created2'] = 'Zeit der Erstellung';
+$string['sort-visit'] = 'Zeit des Besuches';
+$string['sort-modified'] = 'Geändert am...';
+$string['sort-default'] = 'Sortieren nach...';
+
+$string['course-create'] = 'Kurs erstellen';
+$string['course-request'] = 'Kurs anfordern';

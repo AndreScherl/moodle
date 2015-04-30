@@ -19,7 +19,7 @@
  * Strings for component 'block_mbsgettingstarted', language 'en'
  *
  * @package   block_mbsgettingstarted
- * @copyright Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,6 +28,18 @@ $string['descconfig'] = 'Description of the config section';
 $string['descfoo'] = 'Config description';
 $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
+
+$string['contactlink'] = 'Contact Form';
+$string['helpnoteremovepermanent'] = 'remove';
+$string['helpnoteclose'] = 'close';
+$string['helpnotewelcome'] = 'Welcome %s!';
+$string['helpnotecontent'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
 $string['mbsgettingstarted:addinstance'] = 'Add a mbsgettingstarted block';
 $string['mbsgettingstarted:myaddinstance'] = 'Add a mbsgettingstarted block to my moodle';
 $string['pluginname'] = 'Getting Started';
+$string['tutoriallink'] = 'Tutorials';
+$string['traininglink'] = 'Advanced Training';
+$string['videoalttext'] = 'Explanatory video my dashboard';
+$string['wizzardcoursecreate'] = 'My first Course';
+$string['wizzardcoursesetup'] = 'Organise Learning';
+$string['wizzardfirstlearningsequenz'] = 'Create Learning';

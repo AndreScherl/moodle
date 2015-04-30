@@ -5,7 +5,6 @@ require_once($CFG->dirroot . '/blocks/mbsnewcourse/renderer.php');
 
 class theme_mebis_block_mbsnewcourse_renderer extends block_mbsnewcourse_renderer
 {
-
     /** render all coordinators for a school in a unordered list
      *
      * @global record $OUTPUT

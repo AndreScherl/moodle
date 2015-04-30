@@ -73,8 +73,8 @@ class theme_mebis_help_renderer extends renderer_base
 
 }
 
-class mebis_admin_nav {
-
+class mebis_admin_nav
+{
     public $navigation;
 
     public function __construct()
@@ -100,8 +100,8 @@ class mebis_admin_nav {
         }
     }
 
-    public function render_option( $nav, $lvl = 0 ){
-
+    public function render_option( $nav, $lvl = 0 )
+    {
         $url = $this->get_item_url($nav->action);
         $title = (gettype($nav->text) === 'string') ? $nav->text : $this->get_item_title($nav->text);
         $output = '';
@@ -196,12 +196,11 @@ class mebis_admin_nav {
         $nav = $this->page->settingsnav;
 
         foreach($nav->children as $key => $children) {
-            if(!$children->id && $children->key == 'root' && $children->text == 'Website-Administration') {
+            if(!$children->id && $children->key == 'root' && $children->text == get_string('administrationsite')) {
                 return $children->children;
             }
         }
 
         return false;
     }
-
 }

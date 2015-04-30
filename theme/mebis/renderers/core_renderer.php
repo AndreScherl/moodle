@@ -113,7 +113,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
-        $full = array('mbsmycourses', 'mbsmyschools');
+        $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
         if ($region === 'admin-navi') {
             array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');

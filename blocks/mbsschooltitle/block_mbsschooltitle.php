@@ -86,7 +86,7 @@ class block_mbsschooltitle extends block_base {
                 break;
         }
 
-        if ($schoolcatid) {
+        if (!empty($schoolcatid)) {
 
             if ($titledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $schoolcatid))) {
 
@@ -103,7 +103,7 @@ class block_mbsschooltitle extends block_base {
         $titledata->imageurl = '';
         $titledata->headline = '';
         $titledata->usersschoolid = $usersschoolcatid;
-        $titledata->editurl = $this->get_editurl($schoolcatid);
+        $titledata->editurl = '';
 
         return $titledata;
     }

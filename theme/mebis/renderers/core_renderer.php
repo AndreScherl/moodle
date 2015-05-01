@@ -67,12 +67,12 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         if ($region === 'top') {
             return $bc->content;
         }
-        
+
         $bc = clone($bc); // Avoid messing up the object passed in.
         /*
-        $bc->tag = 'h2';
-        $bc->action_toggle = true;
-        */
+          $bc->tag = 'h2';
+          $bc->action_toggle = true;
+         */
 
         if (empty($bc->blockinstanceid) || !strip_tags($bc->title)) {
             $bc->collapsible = block_contents::NOT_HIDEABLE;
@@ -144,18 +144,18 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $this->init_block_hider_js($bc);
         return $output;
     }
-    
+
     public function mebis_block_header($bc) {
         $noactionblocks = array('mbsmycourses', 'mbsnewcourse');
-        if(in_array($bc->attributes['data-block'], $noactionblocks) == FALSE) {
+        if (in_array($bc->attributes['data-block'], $noactionblocks) == FALSE) {
             return parent::block_header($bc);
         }
-        
+
         $title = '';
         if ($bc->title) {
             $attributes = array();
             if ($bc->blockinstanceid) {
-                $attributes['id'] = 'instance-'.$bc->blockinstanceid.'-header';
+                $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
             }
             $title = html_writer::tag('h2', $bc->title, $attributes);
         }
@@ -165,12 +165,12 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $output = '';
 
         //if ($title) || $controlshtml) {
-        if($title) {
+        if ($title) {
             $output .= html_writer::start_div('header');
             $output .= html_writer::start_div('title');
-            /*if ($bc->action_toggle) {
-                $output .= html_writer::tag('div', '', array('class' => 'block_action'));
-            }*/
+            /* if ($bc->action_toggle) {
+              $output .= html_writer::tag('div', '', array('class' => 'block_action'));
+              } */
             $output .= $title;
             //$output .= $controlshtml;
             $output .= html_writer::end_div();
@@ -225,11 +225,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * 
      * @TODO delete this commented code fragment.
      */
-    /*protected function render_single_button(single_button $button) {
-        $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
-        return html_writer::tag('li', $output);
-    }*/
-    
+    /* protected function render_single_button(single_button $button) {
+      $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
+      return html_writer::tag('li', $output);
+      } */
+
     /** create a fake block in given region. This is a approach to embed blocks
      *  without creating an instance by using database table "mdl_block_instances".
      * 
@@ -242,7 +242,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */
     public function add_fake_block($blockname, $region) {
         global $PAGE;
-        
+
         if (!$blockinstance = block_instance($blockname)) {
             return false;
         }
@@ -251,7 +251,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $PAGE->blocks->add_fake_block($bc, $region);
         return true;
     }
-    
+
     /** get the raw content (i. e. text) of a block, without creating an instance by using
      * database table "mdl_block_instances".
      * This is used to generate "sticky" blocks, which are outputted on every page in the
@@ -269,7 +269,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
         return $blockinstance->get_content()->text;
     }
-    
+
     /**
      * Print the mebis footer containing the search and schooltitle block
      * 
@@ -281,6 +281,34 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $output .= $this->raw_block('mbsschooltitle');
         return $output;
     }
+
+    /** adding debug output for profile form, this is very useful to check, whether 
+     * sessionvariables are correctly retrieved from IDM.
+     *  
+     * To output $USER object you have to turn on debug mode and visit users 
+     * profile edit page. 
+     * 
+     * Originally there was a similar option up to moodle 2.5, but unfortunately it was
+     * removed for this version of moodle.
+     */
+
+    public function standard_footer_html() {
+        global $CFG, $USER, $PAGE, $OUTPUT;
+
+        if ($CFG->debugdisplay && debugging('', DEBUG_DEVELOPER)) {  // Show user object
+            if (($PAGE->pagetype == 'user-edit') or ($PAGE->pagetype == 'user-editadvanced')) {
+
+                echo html_writer::tag('div', '', array('class' => 'clearfix'));
+                echo $OUTPUT->heading('DEBUG MODE:  User session variables');
+                echo html_writer::start_tag('div', array('style' => 'text-align:left'));
+                print_object($USER);
+                echo html_writer::end_tag('div');
+            }
+        }
+
+        return parent::standard_footer_html();
+    }
+
 }
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion

@@ -13,19 +13,30 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
+ 
 /**
- * version information for Block mbschangetheme
+ * The themechanged event.
  *
  * @package    block_mbschangetheme
- * @copyright  Andreas Wagner <andreas.wagner@isb.bayern.de>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2015 Andreas Wagner
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace block_mbschangetheme\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015050101;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbschangetheme';
-$plugin->maturity = MATURITY_RC;
-$plugin->release = '2.7 (Build: 2015043001)';
+class theme_changed extends \core\event\base {
+    
+    protected function init() {
+        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_OTHER;
+    }
+    
+    public static function get_name() {
+        return get_string('eventthemechanged', 'block_mbschangetheme');
+    }
+ 
+    public function get_description() {
+        return "The user with id {$this->userid} changed the Theme to {$this->data['other']['selectedtheme']}.";
+    }
+}

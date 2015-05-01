@@ -39,4 +39,11 @@ if (!empty($theme) and !in_array($theme, array_keys($themes))) {
 
 $USER->theme = $theme;
 $DB->set_field('user', 'theme', $theme, array('id' => $USER->id));
+
+$context = context_user::instance($USER->id);
+$event = \block_mbschangetheme\event\theme_changed::create(
+                array('context' => $context, 'relateduserid' => $USER->id,
+                    'other' => array('selectedtheme' => $theme)));
+$event->trigger();
+
 redirect($redirect);

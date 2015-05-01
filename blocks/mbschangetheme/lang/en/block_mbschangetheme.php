@@ -25,6 +25,7 @@
 $string['changeallowusertheme'] = 'Setting allowusertheme';
 $string['changetotheme1'] = 'Select old theme';
 $string['changetotheme2'] = 'Select new theme';
+$string['eventthemechanged'] = 'User has changed theme';
 $string['mbschangetheme:addinstance'] = 'Add block mebis changetheme';
 $string['mbschangetheme:myaddinstance'] = 'Add block mebis changetheme to my dashboard';
 $string['newalertheading'] = 'You may change the theme!';

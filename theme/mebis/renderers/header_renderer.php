@@ -417,7 +417,7 @@ class theme_mebis_header_renderer extends renderer_base
 
         $node = $PAGE->settingsnav->get('usercurrentsettings');
         if ($node instanceof navigation_node) {
-            $menu_items .= $this->generateMenuContentFor($node);
+            $menu_items .= $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
             if (!empty($menu_items)) {
                 $user_menu = html_writer::start_div('dropdown-inner');
                 $user_menu .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
@@ -487,7 +487,7 @@ class theme_mebis_header_renderer extends renderer_base
         if ($isCourse) {
             $node = $PAGE->settingsnav;
             if ($node instanceof navigation_node) {
-                $course_menu = $this->generateMenuContentFor($node, array('admin'));
+                $course_menu = $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
                 if ($course_menu) {
                     $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
                     $content .= html_writer::start_tag('a',
@@ -522,10 +522,10 @@ class theme_mebis_header_renderer extends renderer_base
      * bar.
      *
      * @param $node navigation_node
-     * @param $linkfilters array
+     * @param $nodeFilter array
      * @return String Html string of the Menu Content
      */
-    protected function generateMenuContentFor(navigation_node $node, array $linkfilters = array())
+    protected function generateMenuContentFor(navigation_node $node, array $nodeFilter = array())
     {
         $menuitems = '';
         foreach ($node->children as $navchild) {
@@ -538,10 +538,10 @@ class theme_mebis_header_renderer extends renderer_base
                     $link = htmlspecialchars_decode($navchild->action->__toString());
                 }
 
-                // skip all the links which contain on the given $linkfilters
+                // skip all nodes which contain one of the given $nodeFilter
                 $skipLink = false;
-                foreach ($linkfilters as $filter) {
-                    if (false !== strpos($link, $filter)) {
+                foreach ($nodeFilter as $filter) {
+                    if (false !== strpos($navchild->id, $filter)) {
                         $skipLink = true;
                         break;
                     }

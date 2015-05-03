@@ -98,8 +98,15 @@ echo $OUTPUT->doctype()
             $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
             $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
             $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-
-            echo $OUTPUT->standard_footer_html();
+        ?>
+        
+        <div class="container"> 
+            <footer id="page-footer">
+                <?php  echo $OUTPUT->standard_footer_html(); ?>
+            </footer>
+        </div>
+        
+        <?php
             echo $OUTPUT->standard_end_of_body_html();
         ?>
     </body>

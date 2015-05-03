@@ -122,17 +122,26 @@ echo $OUTPUT->doctype()
         </div>
 
         <!-- HOMEPAGE-WRAPPER [end] -->
-        <?php echo $OUTPUT->main_footer(); ?>
-
-        <?php echo $OUTPUT->page_action_navigation();?>
-
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-            
-            echo $OUTPUT->standard_footer_html();
+        
+        echo $OUTPUT->main_footer(); 
+        echo $OUTPUT->page_action_navigation();
+        
+        $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
+        $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+        $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
+        $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
+        ?>
+
+        <div class="container"> 
+            <footer id="page-footer">
+                <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
+                <?php
+                echo $OUTPUT->standard_footer_html();
+                ?>
+            </footer>
+        </div>
+        <?php    
             echo $OUTPUT->standard_end_of_body_html();
         ?>
 

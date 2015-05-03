@@ -24,18 +24,18 @@ echo $OUTPUT->doctype()
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
         <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
-        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png','mebis');?>">
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
         <?php echo $OUTPUT->standard_head_html(); ?>
 
-        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
-        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
+        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css"); ?>" data-mode="default">
+        <?php $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
-    <?php echo $OUTPUT->standard_top_of_body_html() ?>
+        <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
         <!-- HOMEPAGE-WRAPPER [start] -->
         <div class="me-wrapper wrapper-learning-platform" role="main">
@@ -66,7 +66,7 @@ echo $OUTPUT->doctype()
 
                     <div class="col-md-12 hidden-lg">
                         <div class="admin-navigation">
-                            <?php echo $OUTPUT->render_adminnav_selectbox();?>
+                            <?php echo $OUTPUT->render_adminnav_selectbox(); ?>
                         </div>
                     </div>
 
@@ -83,7 +83,7 @@ echo $OUTPUT->doctype()
                         <div class="admin-content">
                             <?php
                             // echo $OUTPUT->course_content_header();
-                                echo $OUTPUT->main_content();
+                            echo $OUTPUT->main_content();
                             // echo $OUTPUT->course_content_footer();
                             ?>
                         </div>
@@ -106,13 +106,23 @@ echo $OUTPUT->doctype()
         </a>
 
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-
-            echo $OUTPUT->standard_footer_html();
-            echo $OUTPUT->standard_end_of_body_html();
+        $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
+        ?>
+        
+        <div class="container"> 
+            <footer id="page-footer">
+                <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
+                <?php
+                echo $OUTPUT->standard_footer_html();
+                ?>
+            </footer>
+        </div>
+        
+        <?php
+        echo $OUTPUT->standard_end_of_body_html();
         ?>
     </body>
 </html>

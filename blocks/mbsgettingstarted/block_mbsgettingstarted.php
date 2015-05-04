@@ -32,15 +32,17 @@ class block_mbsgettingstarted extends block_base {
     }
 
    function get_required_javascript() {
+        global $PAGE;
         parent::get_required_javascript();
  
-        $this->page->requires->jquery();
-        $this->page->requires->jquery_plugin('ui');
-        $this->page->requires->jquery_plugin('ui-css');
-        $this->page->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/wizzard/wizzard.js'));
+        $PAGE->requires->jquery();
+        $PAGE->requires->jquery_plugin('ui');
+        $PAGE->requires->jquery_plugin('ui-css');
+        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/wizzard/wizzard.js'));
     }
 
     function get_content() {
+        global $PAGE;
         if ($this->content !== null) {
 		    return $this->content;
 		}        
@@ -48,7 +50,7 @@ class block_mbsgettingstarted extends block_base {
 	$this->content = new stdClass();
         $this->content->text = '';
         
-        $renderer = $this->page->get_renderer('block_mbsgettingstarted');
+        $renderer = $PAGE->get_renderer('block_mbsgettingstarted');
         $this->content->text .= $renderer->all();
        // $this->content->text .= "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
 

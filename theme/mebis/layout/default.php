@@ -5,6 +5,11 @@ $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
+if($knownregiontop) {
+    $attributes['data-block'] = 'mbsgettingstarted';
+    $attributes['class'] = 'mbsgettingstarted';
+    echo $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
+}
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 

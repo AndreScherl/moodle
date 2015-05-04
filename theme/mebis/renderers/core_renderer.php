@@ -64,9 +64,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */
     public function block(block_contents $bc, $region) {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if ($region === 'top') {
+        /*if ($region === 'top') {
             return $bc->content;
-        }
+        }*/
 
         $bc = clone($bc); // Avoid messing up the object passed in.
         /*
@@ -240,7 +240,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * @param type $region
      * @return boolean
      */
-    public function add_fake_block($blockname, $region) {
+    public function add_fake_block($blockname, $region, array $attributes = null) {
         global $PAGE;
 
         if (!$blockinstance = block_instance($blockname)) {
@@ -248,6 +248,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
         $bc = new block_contents();
         $bc->content = $blockinstance->get_content()->text;
+        if ($attributes != null) {
+            $bc->attributes = $attributes;
+        }
         $PAGE->blocks->add_fake_block($bc, $region);
         return true;
     }

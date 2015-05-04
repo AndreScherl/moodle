@@ -140,6 +140,26 @@ div.block,
 
 }
 
+.block_mbsgettingstarted {
+    
+    .btn .btn-secondary {
+        margin: 2px, 0px;
+        
+        .btn-lg {
+            font-size: 23px;            
+        }
+    }
+    
+    .wizzardlinks ul {
+        margin-top: 6px;
+    }
+    
+    .aidlinks ul {
+        margin-top: 12px;
+    }
+    
+}
+
 #block-region-side-pre, #block-region-side-post {
 
     .block {

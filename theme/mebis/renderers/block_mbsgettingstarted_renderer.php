@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/mbsgettingstarted/renderer.php');
+require_once($CFG->libdir . '/blocklib.php');
 
 class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstarted_renderer {
     
@@ -52,8 +53,8 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output = '';
         $wizzard = '';
         $aid = '';
+        $aidlinks = '';
         $video = '';
-        
         
         $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link(new moodle_url("/my"), get_string('wizzardcoursecreate', 'block_mbsgettingstarted'), array('id' => 'link_assistant_course_create','class' => 'btn btn-secondary btn-lg link_assistant'));
@@ -62,18 +63,17 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link(new moodle_url("/my"),  get_string('wizzardfirstlearningsequenz', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
         $wizzard .= html_writer::end_tag('li');
-        $wizzards = html_writer::tag('ul', $wizzard, array('class' => 'text-right wizzardlinks'));
-        $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-4'));
+        $wizzards = html_writer::tag('ul', $wizzard, array('class' => 'text-right text-mobile-left'));
+        $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-3 col-xs-6 wizzardlinks'));
         
-        $aid .= html_writer::start_tag('li');
-        $aid .= html_writer::link(new moodle_url("/my"),  get_string('tutoriallink', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
-        $aid .= html_writer::end_tag('li'); $aid .= html_writer::start_tag('li');
-        $aid .= html_writer::link(new moodle_url("/my"),  get_string('traininglink', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
-        $aid .= html_writer::end_tag('li'); $aid .= html_writer::start_tag('li');
-        $aid .= html_writer::link(new moodle_url("/my"),  get_string('contactlink', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
-        $aid .= html_writer::end_tag('li');
-        $support = html_writer::tag('ul', $aid, array('class' => 'text-right aidlinks'));
-        $support = html_writer::tag('div', $support, array('class' => 'col-md-3'));
+        $aidlinks = array('tutoriallink', 'traininglink', 'contactlink');
+        foreach($aidlinks as $link ){
+            $aid .= html_writer::start_tag('li');
+            $aid .= html_writer::link(new moodle_url("/my"),  get_string($link, 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
+            $aid .= html_writer::end_tag('li');
+        }                
+        $support = html_writer::tag('ul', $aid, array('class' => 'text-left'));
+        $support = html_writer::tag('div', $support, array('class' => 'col-md-3 col-xs-6 aidlinks'));
         
         /*$video .= html_writer::empty_tag('iframe', array(
 			'src' => new moodle_url('https://www.youtube.com/embed/c-ysQD2enLg'),
@@ -83,7 +83,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= $support;
         
         
-        $output .= html_writer::tag('div', $video, array('class' => 'col-md-5')); 
+        $output .= html_writer::tag('div', $video, array('class' => 'col-md-6 col-xs-12')); 
         return $output;
     }
     
@@ -92,7 +92,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $close = $this->close();
         $content = $this->content();
         
-        $output = html_writer::tag('div', $close . $welcome . $content, array('class' => 'me-help-note-container clearfix'));
+        $output = html_writer::tag('div', $close . $welcome . $content, array('class' => 'me-help-note-container container-fluid'));
         
         $output = html_writer::tag('div', $output, array('class' => 'row me-help-note', 'id' => 'me-help-box'));
         return $output;  

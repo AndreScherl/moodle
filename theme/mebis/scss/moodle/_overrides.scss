@@ -303,3 +303,16 @@ ul, li {
 .move-list-box {
     color: $white;
 }
+
+.course-content .section.main .content .page.modtype_page,
+.course-content .section.main .content .imscp.modtype_imscp,
+.course-content .section.main .content .resource.modtype_resource,
+.course-content .section.main .content .quiz.modtype_quiz {
+    background-color: $white;
+}
+
+// Fixed with for input fields on the course > manual enrolement page
+#id_enrolperiod_number,
+#id_expirythreshold_number {
+    width: auto;
+}

@@ -115,13 +115,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
-        if ($region === 'admin-navi') {
-            array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');
-        }
-
         $transparent = array('mbsmycourses');
 
-        if (in_array($bc->attributes['data-block'], $full)) {
+        if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {

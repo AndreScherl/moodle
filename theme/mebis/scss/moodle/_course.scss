@@ -52,7 +52,9 @@
     }
 
     li.current {
-        background-color: #e6e6e6 !important;
+        border-left: 1em !important;
+        border-left-color: #00a8d5 !important;
+        border-left-style: solid !important;
     }
 }
 

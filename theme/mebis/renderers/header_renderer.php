@@ -473,7 +473,7 @@ class theme_mebis_header_renderer extends renderer_base
         if (!empty($user_menu) || !empty($admin_menu)) {
             $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
             $content .= html_writer::tag('a', '<i class="fa fa-cog"></i>',
-                array('class' => 'extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+                array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
             );
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
             $content .= html_writer::start_tag('li');

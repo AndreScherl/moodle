@@ -45,10 +45,6 @@ div.block,
 	display: none;
 }
 
-.block_tree .collapsed .tree_item.branch {
-	background-image: url(/theme/image.php/mebis/core/1417680712/t/collapsed)!important;
-}
-
 .text-mobile-left {
     @media only screen and (max-width: $screen-xs-min) {
         text-align: left!important;
@@ -138,6 +134,10 @@ div.block,
         }
     }
 
+    .mbsnewcourse {
+        float: right;
+        padding: 20px 0 0;
+    }
 }
 
 .block_mbsgettingstarted {
@@ -230,4 +230,21 @@ div.block,
 
 #page-footer .performanceinfo {
     background: #ffffff;
+}
+
+.path-mod .homepage-container div[role="main"] {
+
+    color: #333;
+    background: #ffffff;
+
+    h2 {
+        background:$bg-dark;
+        color:#ffffff;
+        margin-top:0px;
+        padding:4px;
+    }
+}
+
+#maincontent {
+  height : 0px;
 }

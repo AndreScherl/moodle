@@ -316,3 +316,18 @@ ul, li {
 #id_expirythreshold_number {
     width: auto;
 }
+
+// Fixed with for input fields in feedback activity
+#id_name,
+#id_site_after_submit,
+#id_cmidnumber {
+    width: auto;
+}
+
+.availability-field {
+    padding-left: 0px !important;
+}
+
+#fitem_id_availabilityconditionsjson .availability-button {
+    margin-left: 24px;
+}

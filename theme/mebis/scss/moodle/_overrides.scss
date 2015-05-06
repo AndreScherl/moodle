@@ -246,12 +246,6 @@ ul, li {
     color: $white;
 }
 
-// turned background of instruction element transparent to make the content readable
-.jsenabled .choosercontainer #chooseform .instruction,
-.jsenabled .choosercontainer #chooseform .typesummary {
-    background-color: transparent;
-}
-
 // disabled box shadow for the question type element
 .jsenabled .choosercontainer #chooseform .alloptions {
     box-shadow: none;

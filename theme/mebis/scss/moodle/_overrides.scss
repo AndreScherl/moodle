@@ -324,6 +324,16 @@ ul, li {
     width: auto;
 }
 
+// Fixed with for input fields in geobra activity
+#id_introeditor,
+#id_geogebraurl,
+#id_width,
+#id_height,
+#id_modgrade_point {
+    width: auto;
+}
+
+// fixed positioning of availability box in feedback and geobra activity
 .availability-field {
     padding-left: 0px !important;
 }

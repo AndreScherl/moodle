@@ -17,27 +17,11 @@ var MebisLearningPlatform = (function ($) {
     }
 
     function initHelpNote() {
-        $('div#me-help-box a#me-help-box-closeforever').click(function (e) {
-            if(hasLocalStorage()) {
-                localStorage['helpnote-hidden'] = '1';
-            }
-
-            $('#me-help-box').remove();
-            return false;
-        });
-
         $('div#me-help-box a#me-help-box-close').click(function (e) {
             $('#me-help-box').remove();
             return false;
         });
-
-        if(hasLocalStorage()) {
-            var hidden = localStorage['helpnote-hidden'];
-            if('1' === hidden) {
-                $('#me-help-box').remove();
-            }
-        }
-    }
+   }
 
     function hiddennav() {
         $('span.hiddennavbutton').click(function () {

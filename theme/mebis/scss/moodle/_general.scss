@@ -230,21 +230,31 @@ div.block,
 
 #page-footer .performanceinfo {
     background: #ffffff;
+    font-size: 0.75em;
 }
 
-.path-mod .homepage-container div[role="main"] {
+.path-mod.pagelayout-incourse .homepage-container div[role="main"] {
 
     color: #333;
     background: #ffffff;
-
+    padding: 10px;
+    
     h2 {
         background:$bg-dark;
         color:#ffffff;
-        margin-top:0px;
-        padding:4px;
+        margin: -10px;
+        padding-bottom: 10px;
+    }
+
+    label {
+        color: $black;
+    }
+
+    .generaltable {
+        color : $black;
     }
 }
 
 #maincontent {
-  height : 0px;
+    height : 0px;
 }

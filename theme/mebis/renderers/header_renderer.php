@@ -437,7 +437,7 @@ class theme_mebis_header_renderer extends renderer_base {
             $coursemenu = $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
 
             if ($coursemenu) {
-                $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
+                $content = html_writer::start_tag('li', array('class' => 'dropdown'));
                 $content .= html_writer::start_tag('a', array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default'));
                 $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
                 $content .= html_writer::end_tag('a');

@@ -250,12 +250,6 @@ ul, li {
     color: $white;
 }
 
-// turned background of instruction element transparent to make the content readable
-.jsenabled .choosercontainer #chooseform .instruction,
-.jsenabled .choosercontainer #chooseform .typesummary {
-    background-color: transparent;
-}
-
 // disabled box shadow for the question type element
 .jsenabled .choosercontainer #chooseform .alloptions {
     box-shadow: none;
@@ -319,4 +313,29 @@ ul, li {
 #id_enrolperiod_number,
 #id_expirythreshold_number {
     width: auto;
+}
+
+// Fixed with for input fields in feedback activity
+#id_name,
+#id_site_after_submit,
+#id_cmidnumber {
+    width: auto;
+}
+
+// Fixed with for input fields in geobra activity
+#id_introeditor,
+#id_geogebraurl,
+#id_width,
+#id_height,
+#id_modgrade_point {
+    width: auto;
+}
+
+// fixed positioning of availability box in feedback and geobra activity
+.availability-field {
+    padding-left: 0px !important;
+}
+
+#fitem_id_availabilityconditionsjson .availability-button {
+    margin-left: 24px;
 }

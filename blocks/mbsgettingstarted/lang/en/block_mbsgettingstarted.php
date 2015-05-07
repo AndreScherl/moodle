@@ -30,7 +30,7 @@ $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
 
 $string['contactlink'] = 'Contact Form';
-$string['helpnoteremovepermanent'] = 'remove';
+$string['helpnoteremovepermanent'] = 'remove forever';
 $string['helpnoteclose'] = 'close';
 $string['helpnotewelcome'] = 'Welcome %s!';
 $string['helpnotecontent'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';

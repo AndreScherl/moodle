@@ -30,13 +30,13 @@ $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 $ismydashboard = ($PAGE->pagetype == 'my-index');
 
 $showmbsgettingstarted = ($ismydashboard
-        and (get_user_preferences('notshowmbsgettingstarted', 1))
+        and (get_user_preferences('mbsgettingstartednotshow', 1))
         and $knownregiontop);
 
 // Add mbsgettingstarted to my dashboard.
 if ($showmbsgettingstarted) {
     $attributes['data-block'] = 'mbsgettingstarted';
-    $attributes['class'] = 'mbsgettingstarted';
+    $attributes['class'] = 'block_mbsgettingstarted';
     $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
 }
 

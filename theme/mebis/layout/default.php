@@ -87,12 +87,12 @@ echo $OUTPUT->doctype()
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($setzoom); ?>>
-        
+
         <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
-            <?php 
+            <?php
             // Print out the top navbar containing fontsize switch, user login etc.
             echo $OUTPUT->main_navbar();
             // Print out the side navbar to navigate between subsystems of mebis.
@@ -104,57 +104,46 @@ echo $OUTPUT->doctype()
             <!-- CONTENT -->
             <div class="container homepage-container">
 
-                <!-- Breadcrums -->
-                <?php echo $OUTPUT->main_breadcrumbs() ?>
+                <!-- Breadcrumbs and page-heading-button -->
+                <div id="page-navbar" class="clearfix">
+                    <div class="row">
+                        <nav class="breadcrumb-nav" role="navigation" aria-label="breadcrumb">
+                            <?php echo $OUTPUT->main_breadcrumbs(); ?>
+                        </nav>    
+                        <div class="breadcrumb-button"><?php echo $OUTPUT->page_heading_button(); ?></div>
+                    </div>
+                </div>
 
                 <?php
                 if ($knownregiontop) {
-                    //echo $OUTPUT->mebis_blocks('top');
-                    echo $OUTPUT->blocks('top');
+                    echo $OUTPUT->mebis_blocks('top', array(), 'aside', '0');
                 }
-                echo $OUTPUT->raw_block('mbsnewcourse');
-                // echo $OUTPUT->course_content_header();
+
+                echo $OUTPUT->course_content_header();
                 echo $OUTPUT->main_content();
-                // echo $OUTPUT->course_content_footer();
+                echo $OUTPUT->course_content_footer();
                 ?>
 
                 <?php if ($hassidepre || $hassidepost) { ?>
+                
                     <div class="row">
-
                         <div class="col-lg-12 col-sm-12 margin-bottom-small">
                             <h1><?php echo get_string('my-apps', 'theme_mebis'); ?></h1>
                         </div>
-
                     </div>
 
-    <?php
-    $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
-    $classes = array();
-    $classes[] = 'block-regions';
-    $attributes = array(
-        'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-        'data-blockregion' => $displayregion,
-        'data-droptarget' => '1'
-    );
-    echo html_writer::start_tag('aside', array('class' => 'row'));
+                    <?php
+                    echo html_writer::start_tag('aside', array('class' => 'row'));
 
-    if ($knownregionsidepre) {
-        echo $OUTPUT->blocks('side-pre', array('class' => join(' ', $classes)), 'div');
-    }
+                    if ($knownregionsidepre) {
+                        echo $OUTPUT->blocks('side-pre', array(), 'div');
+                    }
 
-    $displayregion = $this->page->apply_theme_region_manipulations('side-post');
-    $classes = array();
-    $classes[] = 'block-regions';
-    $attributes = array(
-        'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-        'data-blockregion' => $displayregion,
-        'data-droptarget' => '1'
-    );
-    if ($knownregionsidepost) {
-        echo $OUTPUT->blocks('side-post', array('class' => join(' ', $classes)), 'div');
-    }
-    echo html_writer::end_tag('aside');
-    ?>
+                    if ($knownregionsidepost) {
+                        echo $OUTPUT->blocks('side-post', array(), 'div');
+                    }
+                    echo html_writer::end_tag('aside');
+                    ?>
                 <?php } ?>
 
             </div>
@@ -162,34 +151,31 @@ echo $OUTPUT->doctype()
             <div id="root-footer"></div>
 
             <!-- CONTENT [end] -->
-<?php
-echo $OUTPUT->mebis_footer();
-?>
+            <?php echo $OUTPUT->mebis_footer(); ?>
 
         </div>
 
-        <!-- HOMEPAGE-WRAPPER [end] -->
-<?php
-echo $OUTPUT->main_footer();
-echo $OUTPUT->page_action_navigation();
+        <?php
+        echo $OUTPUT->main_footer();
+        echo $OUTPUT->page_action_navigation();
 
-$PAGE->requires->js(new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
-$PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-$PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.js"));
-$PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-?>
+        $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
+        ?>
 
         <div class="container"> 
             <footer id="page-footer">
                 <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
-<?php
-echo $OUTPUT->standard_footer_html();
-?>
+                <?php
+                echo $OUTPUT->standard_footer_html();
+                ?>
             </footer>
         </div>
-                <?php
-                echo $OUTPUT->standard_end_of_body_html();
-                ?>
+        <?php
+        echo $OUTPUT->standard_end_of_body_html();
+        ?>
 
     </body>
 </html>

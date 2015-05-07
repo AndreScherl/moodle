@@ -30,10 +30,14 @@ $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
 
 $string['contactlink'] = 'Persönlicher Kontak';
+$string['closealertdelete'] = 'Ja';
+$string['closealertexpl'] = 'Wollen Sie die Starthilfe wirklich dauerhaft entfernen? Dieser Vorgang ist nicht rückgängig zu machen!';
+$string['closealertheading'] = 'Achtung!';
+$string['closealertnodelete'] = 'Nein';
+$string['eventlinkused'] = 'Ein Link des Starthilfeblocks wurde verwendet';
 $string['helpnoteremovepermanent'] = 'dauerhaft entfernen';
 $string['helpnoteclose'] = 'schließen';
 $string['helpnotewelcome'] = 'Herzlich willkommen %s!';
-$string['helpnotecontent'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
 $string['mbsgettingstarted:addinstance'] = 'Hinzufügen der Starthilfe';
 $string['mbsgettingstarted:myaddinstance'] = 'Hinzufügen der Starthilfe zu meinem Schreibtisch';
 $string['pluginname'] = 'mebis Starthilfe';

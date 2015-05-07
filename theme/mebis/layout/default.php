@@ -29,14 +29,24 @@ $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 
 $ismydashboard = ($PAGE->pagetype == 'my-index');
 
+// Add mbsgettingstarted to my dashboard?
+if (!isset($USER->mbsgettingstartedhide)){
+    $hidembsgettingstarted = false;
+} else if (isset($USER->mbsgettingstartedhide) && !$USER->mbsgettingstartedhide) {
+    $hidembsgettingstarted = false;
+} else {
+    $hidembsgettingstarted = true;
+}
+
 $showmbsgettingstarted = ($ismydashboard 
         and (get_user_preferences('mbsgettingstartednotshow', 1))
+        and !$hidembsgettingstarted 
         and $knownregiontop);
 
-// Add mbsgettingstarted to my dashboard.
 if ($showmbsgettingstarted) {
     $attributes['data-block'] = 'mbsgettingstarted';
     $attributes['class'] = 'block_mbsgettingstarted';
+    $attributes['id'] = 'block_mbsgettingstarted';
     echo $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
 }
 

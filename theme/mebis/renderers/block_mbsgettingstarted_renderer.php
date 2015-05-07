@@ -39,12 +39,12 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= html_writer::tag('div', $message, array('class' => 'col-md-12 text-left'));
         return $output;
     }
-    
+        
     public function close(){
         $output = '';
         $output .= html_writer::start_div('col-md-12 text-right', array('id' => 'me-help-box'));
-        $output .= html_writer::link('#', '<i class="fa fa-ban"></i> ' . get_string('helpnoteremovepermanent', 'block_mbsgettingstarted'), array('id' => 'me-help-box-closeforever', 'data-close' => 'me-help-box', 'data-close-type' => 'forever'));
-        $output .= html_writer::link('#', '<i class="fa fa-close"></i> ' . get_string('helpnoteclose', 'block_mbsgettingstarted'), array('id' => 'me-help-box-close', 'data-close' => 'me-help-box', 'data-close-type' => 'simple'));
+        $output .= html_writer::link('#', '<i class="fa fa-ban"></i> ' . get_string('helpnoteremovepermanent', 'block_mbsgettingstarted'), array('id' => 'mbsgettingstarted_closeforever'));
+        $output .= html_writer::link('#', '<i class="fa fa-close"></i> ' . get_string('helpnoteclose', 'block_mbsgettingstarted'), array('id' => 'mbsgettingstarted_closeforsession'));
         $output .= html_writer::end_div();
         return $output;       
     }
@@ -57,14 +57,14 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $video = '';
         
         $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link(new moodle_url("/my"), get_string('wizzardcoursecreate', 'block_mbsgettingstarted'), array('id' => 'link_assistant_course_create','class' => 'btn btn-secondary btn-lg link_assistant'));
+        $wizzard .= html_writer::link(new moodle_url("/my"), get_string('wizzardcoursecreate', 'block_mbsgettingstarted'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link(new moodle_url("/my"),  get_string('wizzardcoursesetup', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
+        $wizzard .= html_writer::link(new moodle_url("/my"),  get_string('wizzardcoursesetup', 'block_mbsgettingstarted'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link(new moodle_url("/my"),  get_string('wizzardfirstlearningsequenz', 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary'));
+        $wizzard .= html_writer::link(new moodle_url("/my"),  get_string('wizzardfirstlearningsequenz', 'block_mbsgettingstarted'), array('data-wizzard' => 'first_learningsequenz', 'class' => 'btn btn-secondary link_wizzard'));
         $wizzard .= html_writer::end_tag('li');
         $wizzards = html_writer::tag('ul', $wizzard, array('class' => 'text-right text-mobile-left'));
-        $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-3 col-xs-6 wizzardlinks'));
+        $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-4 col-xs-6 wizzardlinks'));
         
         $aidlinks = array('tutoriallink', 'traininglink', 'contactlink');
         foreach($aidlinks as $link ){
@@ -83,7 +83,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= $support;
         
         
-        $output .= html_writer::tag('div', $video, array('class' => 'col-md-6 col-xs-12')); 
+        $output .= html_writer::tag('div', $video, array('class' => 'col-md-5 col-xs-12')); 
         return $output;
     }
     

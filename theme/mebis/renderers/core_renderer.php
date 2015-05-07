@@ -141,12 +141,39 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $output;
     }
 
+    /** render a block for the mebis design.
+     * 
+     * This method is based on block_header method and does some different rendering
+     * on special blocks, which are:
+     * 
+     * - noactionblocks: hide action menu by resetting block controls.
+     * - combine rendering of headers for mbsmycourses and mbsnewcourse blocks
+     * 
+     * @param block_content $bc
+     * @return string HTML for the header of the block
+     */
     public function mebis_block_header($bc) {
+        global $OUTPUT;
+        
+        // Unset block actions for special blocks.
         $noactionblocks = array('mbsmycourses', 'mbsnewcourse');
-        if (in_array($bc->attributes['data-block'], $noactionblocks) == FALSE) {
+        
+        if (in_array($bc->attributes['data-block'], $noactionblocks)) {
+            $bc->controls = array();
+        }
+        
+        // Use core methode to render blocks.
+        if ($bc->attributes['data-block'] != 'mbsmycourses') {
             return parent::block_header($bc);
         }
-
+        
+        // From here on: Special rendering of mbsmycourses 
+        // for proper position of mbsnecourses block
+        // 
+        // This is exceptionally done for this theme, so we decided to do this in the
+        // renderer and do intentionally not create a general dependency between the
+        // block mbsmycourses and mbs newcourse.
+        
         $title = '';
         if ($bc->title) {
             $attributes = array();
@@ -156,26 +183,19 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $title = html_writer::tag('h2', $bc->title, $attributes);
         }
 
-        //$controlshtml = $this->block_controls($bc->controls);
-
         $output = '';
-
-        //if ($title) || $controlshtml) {
+        
         if ($title) {
             $output .= html_writer::start_div('header');
             $output .= html_writer::start_div('title');
-            /* if ($bc->action_toggle) {
-              $output .= html_writer::tag('div', '', array('class' => 'block_action'));
-              } */
+            $output .= $OUTPUT->raw_block('mbsnewcourse');
             $output .= $title;
-            //$output .= $controlshtml;
             $output .= html_writer::end_div();
             $output .= html_writer::end_div();
         }
-
         return $output;
     }
-
+    
     /**
      * Renders a block region in bootstrap in the new mebis design
      * @param type $region
@@ -183,7 +203,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * @param type $tag
      * @return String Html string of the block region
      */
-    public function mebis_blocks($region, $classes = array(), $tag = 'aside') {
+    public function mebis_blocks($region, $classes = array(), $tag = 'aside', $droptarget = '1') {
+        
         $displayregion = $this->page->apply_theme_region_manipulations($region);
         $classes = (array) $classes;
         $classes[] = 'block-region';
@@ -191,7 +212,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
             'class' => join(' ', $classes),
             'data-blockregion' => $displayregion,
-            'data-droptarget' => '1'
+            'data-droptarget' => $droptarget
         );
         $content = '';
         if ($this->page->blocks->region_has_content($displayregion, $this)) {
@@ -229,8 +250,6 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     /** create a fake block in given region. This is a approach to embed blocks
      *  without creating an instance by using database table "mdl_block_instances".
      * 
-     *  awag: Temporarily NOT used and can be removed, when redesign is finished.
-     * 
      * @global type $PAGE
      * @param type $blockname
      * @param type $region
@@ -238,7 +257,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */
     public function add_fake_block($blockname, $region, array $attributes = null) {
         global $PAGE;
-
+        
         if (!$blockinstance = block_instance($blockname)) {
             return false;
         }

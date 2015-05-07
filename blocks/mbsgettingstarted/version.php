@@ -18,13 +18,13 @@
  * Version details
  *
  * @package    block_mbsgettingstarted
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014102800;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2015050601;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2012112900;        // Requires this Moodle version
 $plugin->component = 'block_mbsgettingstarted'; // Full name of the plugin (used for diagnostics)
 // $plugin->cron = 300;

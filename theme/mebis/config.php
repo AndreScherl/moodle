@@ -35,7 +35,7 @@ $THEME->layouts = array(
     ),
     'login' => array(
         'file' => 'login.php',
-        'regions' => array('side-pre', 'top'),
+        'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('langmenu' => false, 'nonavbar' => true),
     ),

@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,61 +16,58 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbsgettingstarted block caps.
+ * Main class for block mbsgettingstarted
  *
  * @package    block_mbsgettingstarted
- * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 class block_mbsgettingstarted extends block_base {
 
     function init() {
         $this->title = get_string('pluginname', 'block_mbsgettingstarted');
-        $this->defaultweight = -100;
     }
 
-   function get_required_javascript() {
+    function get_required_javascript() {
         global $PAGE;
         parent::get_required_javascript();
- 
+
         $PAGE->requires->jquery();
         $PAGE->requires->jquery_plugin('ui');
         $PAGE->requires->jquery_plugin('ui-css');
-        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/wizzard/wizzard.js'));
-    }
+        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/blockvisibility/blockvisibility.js'));
+}
 
     function get_content() {
         global $PAGE;
         if ($this->content !== null) {
-		    return $this->content;
-		}        
+            return $this->content;
+        }
 
-	$this->content = new stdClass();
+        $this->content = new stdClass();
         $this->content->text = '';
-        
+
         $renderer = $PAGE->get_renderer('block_mbsgettingstarted');
         $this->content->text .= $renderer->all();
-       // $this->content->text .= "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
 
+        if ((!get_user_preferences('mbsgettingstartednotshow', false)) || get_user_preferences('mbsgettingstartednotshow') == 1) {
+            user_preference_allow_ajax_update('mbsgettingstartednotshow', PARAM_BOOL);
+            $this->get_required_javascript();
+        }
+                
         return $this->content;
     }
 
     public function applicable_formats() {
-        return array('my-index' => true);
+        return array('all' => false, 'my' => true);
     }
-    
+
     public function instance_can_be_docked() {
         return false;
     }
-    
-    /**
-     * Default return is false - header will be shown
-     * @return boolean
-     */
-    function hide_header() {
-        return true;
-    }
+
+  
+
 }

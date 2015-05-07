@@ -214,9 +214,13 @@
 .mform {
     legend {
         a, a:hover {
-            color: $white;
+            color: $black;
         }
     }
+}
+
+.mform fieldset.collapsible legend a.fheader {
+margin-left: 0px;
 }
 
 // fixed color in text fields

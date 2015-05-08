@@ -41,13 +41,13 @@ M.block_mbswizzard.wizzard.init = function() {
 		this.sequence.current_step = parseInt(this.sequence.current_step);
 	    }
 	    // store the name of the current sequence
-	    localStorage.setItem("current_sequence", seqname);
+	    localStorage.setItem("mbswizzard_current_sequence", seqname);
 	}, this));
     }, this));
 	    	
     // Load current sequence from localStorage, if the current sequence ist null 
-    if (!this.sequence.name && localStorage.getItem("current_sequence")) {
-  	this.sequence = this.get_sequence(localStorage.getItem("current_sequence"));
+    if (!this.sequence.name && localStorage.getItem("mbswizzard_current_sequence")) {
+  	this.sequence = this.get_sequence(localStorage.getItem("mbswizzard_current_sequence"));
   	this.sequence.current_step = parseInt(this.sequence.current_step);
     }
     
@@ -65,8 +65,8 @@ M.block_mbswizzard.wizzard.init = function() {
  * @callback bool success
  */
 M.block_mbswizzard.wizzard.copy_sequence_from_json = function(sname, callback) {
-    $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/"+sname+".json", $.proxy(function(jsonstring){
-	localStorage.setItem(sname, jsonstring);
+    $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/"+sname+".json", $.proxy(function(jsonobject){
+	localStorage.setItem(sname, JSON.stringify(jsonobject));
 	callback(true);
     }, this))
     .fail(function(){
@@ -83,7 +83,7 @@ M.block_mbswizzard.wizzard.copy_sequence_from_json = function(sname, callback) {
 M.block_mbswizzard.wizzard.get_sequence = function(sname) {
     var seq = localStorage.getItem(sname);
     if (seq) {
-	return JSON.parse(seq);	
+	return JSON.parse(seq);
     }
 	return null;	
 };

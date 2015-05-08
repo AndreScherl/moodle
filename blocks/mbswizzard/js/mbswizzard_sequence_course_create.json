@@ -1,5 +1,5 @@
 {
-	"name": "course_create",
+	"name": "mbswizzard_sequence_course_create",
 	"steps": [{
 		"url": "/my",
 		"sel": ".icon-me-kurs-erstellen",

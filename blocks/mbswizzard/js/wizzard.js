@@ -32,8 +32,9 @@ M.block_mbswizzard.wizzard = M.block_mbswizzard.wizzard || {
 M.block_mbswizzard.wizzard.init = function() {
     // On click of an assistant link, load sequence data from json file and set sequence data into browers local storage
     // Note! The id of the link and the json file name should meet each other, e.g. link_assistant_course_create and sequence_course_create.json
-    $('#block_mbsgettingstarted .link_wizzard').on('click', $.proxy(function(e){
-	var seqname = e.target.get("data-wizzard");
+    $('#block_mbsgettingstarted .link_wizzard').on('click', $.proxy(function(event){
+        this.event = event;
+	var seqname = "mbswizzard_sequence_"+$(event.target).attr("data-wizzard");
   	this.copy_sequence_from_json(seqname, $.proxy(function(success){
             if (success) {
 		this.sequence = this.get_sequence(seqname);
@@ -64,7 +65,7 @@ M.block_mbswizzard.wizzard.init = function() {
  * @callback bool success
  */
 M.block_mbswizzard.wizzard.copy_sequence_from_json = function(sname, callback) {
-    $.get(M.cfg['wwwroot']+"/blocks/mbsgettingstarted/yui/assistant/sequence_"+sname+".json", $.proxy(function(jsonstring){
+    $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/"+sname+".json", $.proxy(function(jsonstring){
 	localStorage.setItem(sname, jsonstring);
 	callback(true);
     }, this))

@@ -96,7 +96,9 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer {
                                                 $modnames, $modnamesused) {
 
         // Render the action menu.
-        echo $this->render_page_action_menu($course, $sections);
+        $modinfo = get_fast_modinfo($course);
+        $sectioninfo = $modinfo->get_section_info_all();
+        echo $this->render_page_action_menu($course, $sectioninfo);
 
         echo html_writer::start_div('course course-format-topics');
         

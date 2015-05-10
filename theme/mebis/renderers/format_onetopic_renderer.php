@@ -11,24 +11,6 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
 {
 
     /**
-     * Constructor method, calls the parent constructor
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-    public function __construct(moodle_page $page, $target)
-    {
-        parent::__construct($page, $target);
-
-        if(!defined('PAGE_MENU_SET'))
-            define('PAGE_MENU_SET', true);
-
-        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
-        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
-        $page->set_other_editing_capability('moodle/course:setcurrentsection');
-    }
-
-    /**
      * Generate next/previous section links for navigation
      *
      * @param stdClass $course The course entry from DB
@@ -326,16 +308,14 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         return $output;
     }
 
-    /**
-     * Renders course headline
-     * @param  string
+    /** Renders course headline
+     * 
+     * @param  string headline (i. e. the courses fullname)
      * @return string
      */
-    protected function render_course_headline($headline)
-    {
-        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
-        $course_headline .= html_writer::tag('h1', $headline);
-        $course_headline .= html_writer::end_tag('div');
-        return $course_headline;
+    protected function render_course_headline($headline) {
+
+        $o = html_writer::tag('h1', $headline);
+        return html_writer::div($o, 'course-headline');
     }
 }

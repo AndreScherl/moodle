@@ -85,3 +85,6 @@ $string['sort-default'] = 'Sortieren nach...';
 
 $string['course-create'] = 'Kurs erstellen';
 $string['course-request'] = 'Kurs anfordern';
+
+$string['new'] = 'Neu';
+$string['load-more-results'] = 'Mehr Ergebnisse laden';

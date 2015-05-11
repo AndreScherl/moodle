@@ -28,7 +28,6 @@ class block_mbsgettingstarted extends block_base {
 
     function init() {
         $this->title = get_string('pluginname', 'block_mbsgettingstarted');
-        $this->defaultweight = -100;
     }
 
     function get_required_javascript() {
@@ -38,8 +37,8 @@ class block_mbsgettingstarted extends block_base {
         $PAGE->requires->jquery();
         $PAGE->requires->jquery_plugin('ui');
         $PAGE->requires->jquery_plugin('ui-css');
-        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/hideblock/hideblock.js'));
-    }
+        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/blockvisibility/blockvisibility.js'));
+}
 
     function get_content() {
         global $PAGE;
@@ -52,7 +51,6 @@ class block_mbsgettingstarted extends block_base {
 
         $renderer = $PAGE->get_renderer('block_mbsgettingstarted');
         $this->content->text .= $renderer->all();
-        // $this->content->text .= "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
 
         if ((!get_user_preferences('mbsgettingstartednotshow', false)) || get_user_preferences('mbsgettingstartednotshow') == 1) {
             user_preference_allow_ajax_update('mbsgettingstartednotshow', PARAM_BOOL);
@@ -63,7 +61,7 @@ class block_mbsgettingstarted extends block_base {
     }
 
     public function applicable_formats() {
-        return array('all' => false);
+        return array('my' => true);
     }
 
     public function instance_can_be_docked() {

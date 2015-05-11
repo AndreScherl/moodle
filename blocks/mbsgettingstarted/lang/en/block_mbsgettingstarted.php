@@ -30,10 +30,14 @@ $string['headerconfig'] = 'Config section header';
 $string['labelfoo'] = 'Config label';
 
 $string['contactlink'] = 'Contact Form';
+$string['closealertdelete'] = 'Yes';
+$string['closealertexpl'] = 'Do you really want to delete Getting Started content? It\'s not possible to undo this!';
+$string['closealertheading'] = 'Attention!';
+$string['closealertnodelete'] = 'No';
+$string['eventlinkused'] = 'A link of block mbsgettingstarted was used';
 $string['helpnoteremovepermanent'] = 'remove forever';
 $string['helpnoteclose'] = 'close';
 $string['helpnotewelcome'] = 'Welcome %s!';
-$string['helpnotecontent'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
 $string['mbsgettingstarted:addinstance'] = 'Add a mbsgettingstarted block';
 $string['mbsgettingstarted:myaddinstance'] = 'Add a mbsgettingstarted block to my moodle';
 $string['pluginname'] = 'Getting Started';

@@ -8,21 +8,6 @@ var MebisLearningPlatform = (function ($) {
         });
     }
 
-    function hasLocalStorage() {
-        try {
-            return 'localStorage' in window && window['localStorage'] !== null;
-        } catch (e) {
-            return false;
-        }
-    }
-
-    function initHelpNote() {
-        $('div#me-help-box a#me-help-box-close').click(function (e) {
-            $('#me-help-box').remove();
-            return false;
-        });
-   }
-
     function hiddennav() {
         $('span.hiddennavbutton').click(function () {
             $(this).parent().children('ul.hiddennavleaf').toggle(200);
@@ -50,7 +35,6 @@ var MebisLearningPlatform = (function ($) {
     return {
         init: function () {
             preventLinkDefault();
-            initHelpNote();
             hiddennav();
             categorytoggles();
         }

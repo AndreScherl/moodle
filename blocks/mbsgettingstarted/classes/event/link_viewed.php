@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,16 +16,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Class for event to be triggered when a link in block mbsgettingstarted is used.
+ *
+ * @property-read array $other {
+ *      Extra information about event.
+ *      - string selectedlink: id of the selected link.
+ * }
  *
  * @package    block_mbsgettingstarted
+ * @since      Moodle 2.7
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbsgettingstarted\event;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015050601;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2012112900;        // Requires this Moodle version
-$plugin->component = 'block_mbsgettingstarted'; // Full name of the plugin (used for diagnostics)
-// $plugin->cron = 300;
+class link_viewed extends \core\event\base {
+    
+    protected function init() {
+        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_OTHER;
+    }
+    
+    public static function get_name() {
+        return get_string('eventlinkused', 'block_mbsgettingstarted');
+    }
+ 
+    public function get_description() {
+        return "The user with id {$this->userid} used the link to {$this->data['other']['selectedlink']}.";
+    }
+}

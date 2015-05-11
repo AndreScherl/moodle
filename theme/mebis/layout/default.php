@@ -22,6 +22,9 @@
  * @copyright 2015 ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+require_once($CFG->dirroot.'/user/profile/lib.php'); //required for profile_load_data
+
 // Check existing regions.
 $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
@@ -38,8 +41,11 @@ if (!isset($USER->mbsgettingstartedhide)){
     $hidembsgettingstarted = true;
 }
 
+$theuser = clone($USER); 
+profile_load_data($theuser);
+        
 $showmbsgettingstarted = ($ismydashboard 
-        and (get_user_preferences('mbsgettingstartednotshow', 1))
+        and ($theuser->profile_field_mbsgettingstartedshow)
         and !$hidembsgettingstarted 
         and $knownregiontop);
 

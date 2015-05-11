@@ -23,24 +23,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['blockstring'] = 'Block string';
-$string['descconfig'] = 'Description of the config section';
-$string['descfoo'] = 'Config description';
-$string['headerconfig'] = 'Config section header';
-$string['labelfoo'] = 'Config label';
-
 $string['contactlink'] = 'Contact Form';
-$string['closealertdelete'] = 'Yes';
-$string['closealertexpl'] = 'Do you really want to delete Getting Started content? It\'s not possible to undo this!';
-$string['closealertheading'] = 'Attention!';
-$string['closealertnodelete'] = 'No';
+$string['closealert'] = 'Ok';
+$string['closealertexpl'] = 'The Getting Started content will now be permanently removed. Under "Edit profile > More profile settings > Starthilfe" you can undo this.';
 $string['eventlinkused'] = 'A link of block mbsgettingstarted was used';
 $string['helpnoteremovepermanent'] = 'remove forever';
 $string['helpnoteclose'] = 'close';
 $string['helpnotewelcome'] = 'Welcome %s!';
 $string['mbsgettingstarted:addinstance'] = 'Add a mbsgettingstarted block';
 $string['mbsgettingstarted:myaddinstance'] = 'Add a mbsgettingstarted block to my moodle';
-$string['pluginname'] = 'Getting Started';
+$string['pluginname'] = 'mebis Getting Started';
 $string['tutoriallink'] = 'Tutorials';
 $string['traininglink'] = 'Advanced Training';
 $string['videoalttext'] = 'Explanatory video my dashboard';

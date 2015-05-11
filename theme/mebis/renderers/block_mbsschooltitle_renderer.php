@@ -38,16 +38,16 @@ class theme_mebis_block_mbsschooltitle_renderer extends block_mbsschooltitle_ren
             $o = html_writer::tag('div', $schoollink, array('class' => 'col-md-4'));
         }
 
-        // Editlink, capability is already checked.
-        if (!empty($titledata->editurl)) {
-            $editlink = $OUTPUT->action_icon($titledata->editurl, new pix_icon('t/edit', get_string('edit')));
-            $o .= html_writer::tag('div', $editlink, array('class' => 'mbs-schooltitle-editlink pull-left btn'));
-        }
-
         // Headline of page.
         $headline = (!empty($titledata->headline)) ? $titledata->headline : $PAGE->heading;
         $headlinetag = html_writer::tag('h3', $headline);
         $o .= html_writer::tag('div', $headlinetag, array('class' => 'mbs-schooltitle-headline pull-left'));
+        
+        // Editlink, capability is already checked.
+        if (!empty($titledata->editurl)) {
+            $editlink = $OUTPUT->action_icon($titledata->editurl, new pix_icon('editgray', get_string('edit'), 'theme_mebis'));
+            $o .= html_writer::tag('div', $editlink, array('class' => 'mbs-schooltitle-editlink pull-left'));
+        }
 
         // Image.
         if (!empty($titledata->imageurl)) {

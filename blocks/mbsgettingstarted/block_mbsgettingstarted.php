@@ -61,7 +61,7 @@ class block_mbsgettingstarted extends block_base {
     }
 
     public function applicable_formats() {
-        return array('all' => false, 'my' => true);
+        return array('my' => true);
     }
 
     public function instance_can_be_docked() {

@@ -1,6 +1,6 @@
 // Not final - only to give admin-layout basic style
 
-.admin-layout {
+.pagelayout-admin {
 
     @media only screen and (min-width: $screen-lg-min) {
         .admin-container {
@@ -10,6 +10,11 @@
 
             table {
                 width: 100%!important;
+                
+                // awag: ugly override with important, must table be streched to 100%?
+                .mceToolbar {
+                    width : auto !important;
+                }
             }
 
         }

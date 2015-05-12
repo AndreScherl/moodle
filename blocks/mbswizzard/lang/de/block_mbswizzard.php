@@ -24,10 +24,10 @@
  */
 
 $string['displayname'] = 'Wizzards';
-$string['mbswizzard:addinstance'] = 'Add a mbswizzard block';
-$string['mbswizzard:myaddinstance'] = 'Add a mbswizzard block to my moodle';
-$string['onlymebistheme'] = 'Wizzards are only available within the new mebis theme.';
+$string['mbswizzard:addinstance'] = 'Block mebis Wizzards hinzufügen';
+$string['mbswizzard:myaddinstance'] = 'Block mebis Wizzards zum Schreibtisch hinzufügen';
+$string['onlymebistheme'] = 'Wizzards stehen nur im neuen Design von mebis zur Verfügung.';
 $string['pluginname'] = 'mebis Wizzards';
-$string['sequence_course_create'] = 'My first course';
-$string['sequence_course_setup'] = 'Organize Learning';
-$string['sequence_first_learningsequence'] = 'Design Learning';
+$string['sequence_course_create'] = 'Mein erster Kurs';
+$string['sequence_course_setup'] = 'Lernen organisieren';
+$string['sequence_first_learningsequence'] = 'Lernen gestalten';

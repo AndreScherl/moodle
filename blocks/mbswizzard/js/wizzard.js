@@ -65,7 +65,7 @@ M.block_mbswizzard.wizzard.init = function() {
  * @callback bool success
  */
 M.block_mbswizzard.wizzard.copy_sequence_from_json = function(sname, callback) {
-    $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/"+sname+".json", $.proxy(function(jsonobject){
+    $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/sequences/"+sname+".json", $.proxy(function(jsonobject){
 	localStorage.setItem(sname, JSON.stringify(jsonobject));
 	callback(true);
     }, this))

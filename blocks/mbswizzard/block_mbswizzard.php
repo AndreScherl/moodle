@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 class block_mbswizzard extends block_base {
 
     function init() {
-        $this->title = get_string('pluginname', 'block_mbswizzard');
+        $this->title = get_string('displayname', 'block_mbswizzard');
     }
     
     function get_required_javascript() {
@@ -41,52 +41,33 @@ class block_mbswizzard extends block_base {
     }
 
     function get_content() {
-        global $CFG, $OUTPUT;
-
+        global $CFG, $OUTPUT, $PAGE;
+        
         if ($this->content !== null) {
             return $this->content;
         }
 
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
+        $this->content->text = '';
         $this->content->footer = '';
-
-        // user/index.php expect course context, so get one if page has module context.
-        $currentcontext = $this->page->context->get_course_context(false);
-
-        if (! empty($this->config->text)) {
-            $this->content->text = $this->config->text;
-        }
-
-        $this->content = '';
-        if (empty($currentcontext)) {
+        
+        $renderer = $PAGE->get_renderer('block_mbswizzard');
+        
+        if($PAGE->theme->name != 'mebis') {
+            $this->content->text = get_string('onlymebistheme', 'block_mbswizzard');
             return $this->content;
         }
-        if ($this->page->course->id == SITEID) {
-            $this->context->text .= "site context";
+        
+        if($this->instance === null) {
+            $this->content->text .= $renderer->render_title();
         }
-
-        if (! empty($this->config->text)) {
-            $this->content->text .= $this->config->text;
-        }
+        $this->content->text .= $renderer->render_content();
 
         return $this->content;
     }
 
     // my moodle can only have SITEID and it's redundant here, so take it away
     public function applicable_formats() {
-        return array('all' => true,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true, 
-                     'course-view-social' => false,
-                     'mod' => true, 
-                     'mod-quiz' => true);
+        return array('my' => true);
     }
 }

@@ -31,3 +31,4 @@ $string['pluginname'] = 'mebis Wizzards';
 $string['sequence_course_create'] = 'Mein erster Kurs';
 $string['sequence_course_setup'] = 'Lernen organisieren';
 $string['sequence_first_learningsequence'] = 'Lernen gestalten';
+$string['unknownaction'] = 'unbekannte Aktion';

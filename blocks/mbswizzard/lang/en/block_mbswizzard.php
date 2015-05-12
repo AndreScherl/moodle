@@ -31,3 +31,4 @@ $string['pluginname'] = 'mebis Wizzards';
 $string['sequence_course_create'] = 'My first course';
 $string['sequence_course_setup'] = 'Organize Learning';
 $string['sequence_first_learningsequence'] = 'Design Learning';
+$string['unknownaction'] = 'unknown action';

@@ -1,9 +1,10 @@
 /**
  * helper functions to handle events triggered by user interface
  *
- * @package   block_mbswizzard
- * @copyright Andre Scherl <andre.scherl@isb.bayern.de>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_mbswizzard
+ * @author      Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright   2015, ISB Bayern
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $(document).ready(function() {
@@ -30,22 +31,24 @@ M.block_mbswizzard.wizzard = M.block_mbswizzard.wizzard || {
  * Intitialize the wizzard
  */
 M.block_mbswizzard.wizzard.init = function() {
-    // On click of an assistant link, load sequence data from json file and set sequence data into browers local storage
-    // Note! The id of the link and the json file name should meet each other, e.g. link_assistant_course_create and sequence_course_create.json
-    $('#block_mbsgettingstarted .link_wizzard').on('click', $.proxy(function(event){
+    // On click of an assistant link, load sequence data from json file and set sequence data into browers local storage.
+    // Note! The attribute data-wizzard of the link and the json file name should meet each other,
+    // e.g. course_create and mbswizzard_sequence_course_create.json
+    $('.link_wizzard').on('click', $.proxy(function(event){
         this.event = event;
 	var seqname = "mbswizzard_sequence_"+$(event.target).attr("data-wizzard");
   	this.copy_sequence_from_json(seqname, $.proxy(function(success){
             if (success) {
 		this.sequence = this.get_sequence(seqname);
 		this.sequence.current_step = parseInt(this.sequence.current_step);
+                this.set_wizzard_state('start');
 	    }
 	    // store the name of the current sequence
 	    localStorage.setItem("mbswizzard_current_sequence", seqname);
 	}, this));
     }, this));
 	    	
-    // Load current sequence from localStorage, if the current sequence ist null 
+    // Load current sequence from localStorage, if the current sequence is null 
     if (!this.sequence.name && localStorage.getItem("mbswizzard_current_sequence")) {
   	this.sequence = this.get_sequence(localStorage.getItem("mbswizzard_current_sequence"));
   	this.sequence.current_step = parseInt(this.sequence.current_step);
@@ -118,6 +121,7 @@ M.block_mbswizzard.wizzard.show_tip = function(step) {
 M.block_mbswizzard.wizzard.prepare_next_step = function(cs) {
     if (this.sequence.steps.length == cs+1) {
 	// the end, there is no next step
+        this.set_wizzard_state('finish');
 	return;
     }
 	
@@ -137,3 +141,16 @@ M.block_mbswizzard.wizzard.prepare_next_step = function(cs) {
     }
 };
 
+/*
+ * Set state of wizzard in user session object
+ * @param string state - "start" or "finish"
+ */
+M.block_mbswizzard.wizzard.set_wizzard_state = function(state) {
+    $.ajax({
+        url: M.cfg['wwwroot']+'/blocks/mbswizzard/ajax.php',
+        method: "POST",
+        data: {
+            action: state+"wizzard"
+        }
+    });
+};

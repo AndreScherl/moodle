@@ -299,7 +299,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */    
     public function add_block_mbswizzard_if_needed($region, $blockdependency = false) {
         global $USER, $PAGE;
-        if(($blockdependency || (isset($USER->mbswizzard_isactive) && ($USER->mbswizzard_isactive == true)))
+        if(($blockdependency || (isset($USER->mbswizzard_activesequence) && ($USER->mbswizzard_activesequence != false)))
             && !$PAGE->blocks->is_block_present('mbswizzard')) {
             $attr['data-block'] = 'block_mbswizzard';
             $attr['class'] = 'block_mbswizzard block';

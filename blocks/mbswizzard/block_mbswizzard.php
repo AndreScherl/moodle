@@ -59,9 +59,9 @@ class block_mbswizzard extends block_base {
         }
         
         if($this->instance === null) {
-            $this->content->text .= $renderer->render_title();
+            $this->content->text .= $renderer->title();
         }
-        $this->content->text .= $renderer->render_content();
+        $this->content->text .= $renderer->content();
 
         return $this->content;
     }

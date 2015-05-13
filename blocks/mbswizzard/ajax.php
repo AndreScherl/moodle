@@ -12,6 +12,7 @@ define('AJAX_SCRIPT', true);
 require_once(dirname(__FILE__) . '/../../config.php');
 
 $action = required_param('action', PARAM_ALPHA);
+$sequence = required_param('sequence', PARAM_ALPHAEXT);
 
 require_login();
 
@@ -23,13 +24,13 @@ switch ($action) {
 
     case 'startwizzard':
 
-        $USER->mbswizzard_isactive = true;
+        $USER->mbswizzard_activesequence = $sequence;
 
         break;
 
     case 'finishwizzzard':
 
-        $USER->mbswizzard_isactive = false;
+        $USER->mbswizzard_activesequence = false;
 
         break;
 

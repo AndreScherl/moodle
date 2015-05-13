@@ -23,6 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['activewizzard'] = 'Aktiver Wizzard';
 $string['displayname'] = 'Wizzards';
 $string['mbswizzard:addinstance'] = 'Block mebis Wizzards hinzufügen';
 $string['mbswizzard:myaddinstance'] = 'Block mebis Wizzards zum Schreibtisch hinzufügen';

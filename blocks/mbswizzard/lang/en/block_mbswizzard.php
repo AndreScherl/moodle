@@ -23,6 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['activewizzard'] = 'Active Wizzard';
 $string['displayname'] = 'Wizzards';
 $string['mbswizzard:addinstance'] = 'Add a mbswizzard block';
 $string['mbswizzard:myaddinstance'] = 'Add a mbswizzard block to my moodle';

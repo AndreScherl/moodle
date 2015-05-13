@@ -41,7 +41,7 @@ M.block_mbswizzard.wizzard.init = function() {
             if (success) {
 		this.sequence = this.get_sequence(seqname);
 		this.sequence.current_step = parseInt(this.sequence.current_step);
-                this.set_wizzard_state('start');
+                this.set_wizzard_state('start', seqname);
 	    }
 	    // store the name of the current sequence
 	    localStorage.setItem("mbswizzard_current_sequence", seqname);
@@ -145,12 +145,13 @@ M.block_mbswizzard.wizzard.prepare_next_step = function(cs) {
  * Set state of wizzard in user session object
  * @param string state - "start" or "finish"
  */
-M.block_mbswizzard.wizzard.set_wizzard_state = function(state) {
+M.block_mbswizzard.wizzard.set_wizzard_state = function(state, sequence) {
     $.ajax({
         url: M.cfg['wwwroot']+'/blocks/mbswizzard/ajax.php',
         method: "POST",
         data: {
-            action: state+"wizzard"
+            action: state+"wizzard",
+            sequence: sequence
         }
     });
 };

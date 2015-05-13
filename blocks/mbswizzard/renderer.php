@@ -30,7 +30,7 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
      * @global object $OUTPUT
      * @return string HTML of block content.
      */
-    public function render_title() {
+    public function title() {
         global $OUTPUT;
         $htmlstring = '';
         
@@ -51,8 +51,27 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
      * @global object $OUTPUT
      * @return string HTML of block content.
      */
-    public function render_content() {
+    public function content() {
         global $USER, $PAGE, $OUTPUT;
+        $htmlstring = '';
+        
+        if(isset($USER->mbswizzard_activesequence) && $USER->mbswizzard_activesequence != false) {
+            $sequencename = get_string(explode('wizzard_', $USER->mbswizzard_activesequence)[1], 'block_mbswizzard');
+            $htmlstring .= html_writer::tag('p', get_string('activewizzard', 'block_mbswizzard').': "'.$sequencename.'"');
+            $htmlstring .= $this->progressbar();
+        } else {
+            $htmlstring .= $this->sequencelist();
+        }
+        
+        return $htmlstring;
+    }
+    
+    /**
+     * renders the list of links to start the wizzards (sequences)
+     * 
+     * @return string htmlstring of sequence list links
+     */
+    public function sequencelist() {
         $htmlstring = '';
         
         $sequences = \block_mbswizzard\local\mbswizzard::sequencefiles();
@@ -67,5 +86,30 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
         
         return $htmlstring;
     }
+    
+    /**
+     * renders the progress bar of the current wizzard (sequence)
+     * 
+     * @return string htmlsstring to display the sequence progress bar
+     */
+    public function progressbar() {
+        $htmlstring = '';
+        
+        $htmlstring .= html_writer::start_div('progress'); //outer div
+            $attr = array(
+                'role' => 'progressbar',
+                'aria-valuenow' => '0', // current sequence step
+                'aria-valuemin' => '0', // first sequence step
+                'aria-valuemax' => '10', // last sequence step
+                'style' => 'width: 0%' // width of filled bar
+            );
+            $htmlstring .= html_writer::start_div('progress-bar progress-bar-striped active', $attr); // inner div
+                $htmlstring .= html_writer::span('0% Complete', 'sr-only');
+            $htmlstring .= html_writer::end_div(); //inner div
+        $htmlstring .= html_writer::end_div(); //outer div
+        
+        return $htmlstring;
+    }
+    
 }
 

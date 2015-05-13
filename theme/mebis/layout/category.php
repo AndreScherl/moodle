@@ -24,6 +24,9 @@
 // Check existing regions.
 $knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 
+// Add mbswizzard to page to get its javascript and show the sequence progress bar
+$OUTPUT->add_block_mbswizzard_if_needed('side-pre');
+
 // Check whether regions has content.
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 

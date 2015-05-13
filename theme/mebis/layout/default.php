@@ -47,17 +47,11 @@ if ($showmbsgettingstarted) {
     $attributes['data-block'] = 'mbsgettingstarted';
     $attributes['class'] = 'block_mbsgettingstarted';
     $attributes['id'] = 'block_mbsgettingstarted';
-    echo $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
+    $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
 }
 
 // Add mbswizzard to my dashboard if mbsgettingstarted is visible (because the user can click wizzard link within this block)
-if(($showmbsgettingstarted || (isset($USER->mbswizzard_isactive) && ($USER->mbswizzard_isactive == true)))
-        && !$PAGE->blocks->is_block_present('mbswizzard')) {
-    $attr['data-block'] = 'block_mbswizzard';
-    $attr['class'] = 'block_mbswizzard block';
-    echo $OUTPUT->add_fake_block('mbswizzard', 'side-pre', $attr);
-    //echo $PAGE->blocks->add_block('mbswizzard', 'side-pre', 1, true);
-}
+$OUTPUT->add_block_mbswizzard_if_needed('side-pre', $showmbsgettingstarted);
 
 // Allow popup - notification for my dashboard.
 $PAGE->set_popup_notification_allowed($ismydashboard);

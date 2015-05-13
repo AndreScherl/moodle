@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// Add mbswizzard to page to get its javascript and show the sequence progress bar
+$OUTPUT->add_block_mbswizzard_if_needed('admin-navi');
 // Check existing regions.
 $knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
 

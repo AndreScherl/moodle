@@ -27,3 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version   = 2015050500;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2014051203;        // Requires this Moodle version
 $plugin->component = 'block_mbswizzard'; // Full name of the plugin (used for diagnostics)
+$plugin->dependencies  = array(
+    'theme_mebis' => 2015033100
+);

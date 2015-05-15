@@ -37,6 +37,7 @@ class block_mbswizzard extends block_base {
         $PAGE->requires->jquery();
         $PAGE->requires->jquery_plugin('ui');
         $PAGE->requires->jquery_plugin('ui-css');
+        $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/jquery.scrollTo.min.js'));
         $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
     }
 
@@ -59,6 +60,12 @@ class block_mbswizzard extends block_base {
         }
         
         if($this->instance === null) {
+            $PAGE->requires->jquery();
+            $PAGE->requires->jquery_plugin('ui');
+            $PAGE->requires->jquery_plugin('ui-css');
+            $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/jquery.scrollTo.min.js'));
+            $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
+            
             $this->content->text .= $renderer->title();
         }
         $this->content->text .= $renderer->content();

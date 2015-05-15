@@ -24,12 +24,19 @@
  */
 
 $string['activewizzard'] = 'Aktiver Wizzard';
+$string['cancel'] = 'Wizzard abbrechen';
 $string['displayname'] = 'Wizzards';
+$string['eventwizzardstatechanged'] = 'Änderung des Wizzard Status';
 $string['mbswizzard:addinstance'] = 'Block mebis Wizzards hinzufügen';
 $string['mbswizzard:myaddinstance'] = 'Block mebis Wizzards zum Schreibtisch hinzufügen';
+$string['of'] = 'von';   
 $string['onlymebistheme'] = 'Wizzards stehen nur im neuen Design von mebis zur Verfügung.';
 $string['pluginname'] = 'mebis Wizzards';
 $string['sequence_course_create'] = 'Mein erster Kurs';
+$string['sequence_course_create_help'] = 'Erstellen Sie ihren ersten Kurs in nur 4 Schritten.';
 $string['sequence_course_setup'] = 'Lernen organisieren';
+$string['sequence_course_setup_help'] = 'Fügen Sie ihrem Kurs Teilnehmer hinzu und bearbeiten Sie beispielhaft eine Überschrift.';
 $string['sequence_first_learningsequence'] = 'Lernen gestalten';
+$string['sequence_first_learningsequence_help'] = 'Erstellen Sie Ihre erste kleine Lernsequenz für den Unterricht.';
+$string['step'] = 'Schritt';
 $string['unknownaction'] = 'unbekannte Aktion';

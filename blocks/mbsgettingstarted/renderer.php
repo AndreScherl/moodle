@@ -55,11 +55,11 @@ class block_mbsgettingstarted_renderer extends plugin_renderer_base {
         $video = '';
         
         $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#', get_string('wizzardcoursecreate', 'block_mbsgettingstarted'), array('id' => 'link_assistant_course_create','class' => 'btn btn-lg link_assistant'));
+        $wizzard .= html_writer::link(new moodle_url('/my'), get_string('sequence_course_create', 'block_mbswizzard'), array('id' => 'link_assistant_course_create','class' => 'btn btn-lg link_assistant'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('wizzardcoursesetup', 'block_mbsgettingstarted'), array('class' => 'btn'));
+        $wizzard .= html_writer::link(new moodle_url('/my'),  get_string('sequence_course_setup', 'block_mbswizzard'), array('class' => 'btn'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('wizzardfirstlearningsequenz', 'block_mbsgettingstarted'), array('class' => 'btn'));
+        $wizzard .= html_writer::link(new moodle_url('/my'),  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('class' => 'btn'));
         $wizzard .= html_writer::end_tag('li');
         $wizzards = html_writer::tag('ul', $wizzard);
         $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-4'));

@@ -24,12 +24,19 @@
  */
 
 $string['activewizzard'] = 'Active Wizzard';
+$string['cancel'] = 'Cancel Wizzard';
 $string['displayname'] = 'Wizzards';
+$string['eventwizzardstatechanged'] = 'Change of wizzard state';
 $string['mbswizzard:addinstance'] = 'Add a mbswizzard block';
 $string['mbswizzard:myaddinstance'] = 'Add a mbswizzard block to my moodle';
+$string['of'] = 'of';
 $string['onlymebistheme'] = 'Wizzards are only available within the new mebis theme.';
 $string['pluginname'] = 'mebis Wizzards';
 $string['sequence_course_create'] = 'My first course';
+$string['sequence_course_create_help'] = 'Your first course in only 4 steps.';
 $string['sequence_course_setup'] = 'Organize Learning';
+$string['sequence_course_setup_help'] = 'Add students to your course and edit a headline.';
 $string['sequence_first_learningsequence'] = 'Design Learning';
+$string['sequence_first_learningsequence_help'] = 'Create your first little learning sequence to use in class.';
+$string['step'] = 'Step';
 $string['unknownaction'] = 'unknown action';

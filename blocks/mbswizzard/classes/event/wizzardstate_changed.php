@@ -13,20 +13,32 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
+ 
 /**
- * Version details
+ * The wizzard changed state event.
  *
  * @package    block_mbswizzard
- * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
+ * @author     AndreScherl <andre.scherl@isb.bayern.de>
+ * @copyright  2015, ISB Bayern
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace block_mbswizzard\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015051500;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014051203;        // Requires this Moodle version
-$plugin->component = 'block_mbswizzard'; // Full name of the plugin (used for diagnostics)
-$plugin->dependencies  = array(
-    'theme_mebis' => 2015033100
-);
+class wizzardstate_changed extends \core\event\base {
+    
+    protected function init() {
+        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_OTHER;
+    }
+    
+    public static function get_name() {
+        return get_string('eventwizzardstatechanged', 'block_mbswizzard');
+    }
+ 
+    public function get_description() {
+        return "The user with id {$this->userid} {$this->data['other']['useraction']} the wizzard {$this->data['other']['wizzardname']}.";
+    }
+}
+

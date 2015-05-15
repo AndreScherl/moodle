@@ -57,8 +57,14 @@ M.block_mbswizzard.wizzard.init = function() {
     if (this.sequence.name) {
 	// Show tooltip
 	this.show_tip(this.sequence.current_step);
-	// Prepare next step
-	this.prepare_next_step(this.sequence.current_step);	
+        	
+        // Prepare next step
+	this.prepare_next_step(this.sequence.current_step);
+        
+        //Listen to cancel button
+        $('div[data-block=block_mbswizzard] .cancel').on('click', $.proxy(function() {
+            this.finish_sequence('cancel')
+        }, this));
     }
 };
 
@@ -112,6 +118,8 @@ M.block_mbswizzard.wizzard.show_tip = function(step) {
     });
     $(cs.sel).tooltip('show');
     $(cs.sel).focus();
+    //$.scrollTo(cs.sel);
+    this.update_progressbar();
 };
 	
 /*
@@ -121,13 +129,13 @@ M.block_mbswizzard.wizzard.show_tip = function(step) {
 M.block_mbswizzard.wizzard.prepare_next_step = function(cs) {
     if (this.sequence.steps.length == cs+1) {
 	// the end, there is no next step
-        this.set_wizzard_state('finish');
+        this.prepare_finish_sequence('finish');
 	return;
     }
 	
     if (window.location.pathname.search(this.sequence.steps[cs+1].url) != -1) {
 	// next link of tip
-	$("#wizzard_next_step_"+cs).on('click', $.proxy(function(e) {
+	$('.wizzard_next_step').on('click', $.proxy(function(e) {
             this.sequence.current_step = cs+1;
             this.store_sequence(this.sequence);
             this.show_tip(cs+1);
@@ -151,7 +159,43 @@ M.block_mbswizzard.wizzard.set_wizzard_state = function(state, sequence) {
         method: "POST",
         data: {
             action: state+"wizzard",
-            sequence: sequence
+            sequence: sequence,
+            sesskey: M.cfg['sesskey']
         }
     });
+};
+
+/**
+ * Update the progress bar for current sequence step
+ */
+M.block_mbswizzard.wizzard.update_progressbar = function() {
+    $('div[data-block=block_mbswizzard] .progress-bar').attr('aria-valuenow', this.sequence.current_step);
+    $('div[data-block=block_mbswizzard] .progress-bar').attr('aria-valuemax', (this.sequence.steps.length-1));
+    var percent = this.sequence.current_step/(this.sequence.steps.length-1)*100;
+    $('div[data-block=block_mbswizzard] .progress-bar').attr('style', 'width: '+percent+'%');
+    $('div[data-block=block_mbswizzard] .sr-only').text(percent+'% Complete');
+    $('div[data-block=block_mbswizzard] .currentstepnumber').text(this.sequence.current_step+1);
+    $('div[data-block=block_mbswizzard] .maxstepnumber').text(this.sequence.steps.length);
+};
+
+/**
+ * Prepare the finish of the sequence by the action the last step
+ * 
+ * @param string $state - finish or cancel
+ */
+M.block_mbswizzard.wizzard.prepare_finish_sequence = function($state) {
+    $(this.sequence.steps[this.sequence.current_step].sel).on('click', $.proxy(function() {
+        this.finish_sequence($state);
+    }, this));
+};
+
+/**
+ * Finish sequence
+ * 
+ * @param string $state - finish or cancel
+ */
+M.block_mbswizzard.wizzard.finish_sequence = function($state) {
+    this.set_wizzard_state($state, this.sequence.name);
+    localStorage.removeItem(this.sequence.name);
+    localStorage.removeItem('mbswizzard_current_sequence');
 };

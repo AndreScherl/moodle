@@ -47,18 +47,17 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
     /** render the content of the block 
      * 
      * @global record $USER
-     * @global object $PAGE
-     * @global object $OUTPUT
      * @return string HTML of block content.
      */
     public function content() {
-        global $USER, $PAGE, $OUTPUT;
+        global $USER;
         $htmlstring = '';
-        
-        if(isset($USER->mbswizzard_activesequence) && $USER->mbswizzard_activesequence != false) {
+        if(isset($USER->mbswizzard_activesequence) && ($USER->mbswizzard_activesequence != false)) {
             $sequencename = get_string(explode('wizzard_', $USER->mbswizzard_activesequence)[1], 'block_mbswizzard');
             $htmlstring .= html_writer::tag('p', get_string('activewizzard', 'block_mbswizzard').': "'.$sequencename.'"');
             $htmlstring .= $this->progressbar();
+            $htmlstring .= $this->stepcounter();
+            $htmlstring .= $this->abortbutton();
         } else {
             $htmlstring .= $this->sequencelist();
         }
@@ -79,7 +78,10 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
         $htmlstring .= html_writer::start_tag('ul');
         foreach ($sequences as $sequence) {
             $htmlstring .= html_writer::start_tag('li');
-            $htmlstring .= html_writer::link('#', get_string('sequence_'.$sequence, 'block_mbswizzard'), array('class' => 'link_wizzard', 'data-wizzard' => 'course_create'));
+            $htmlstring .= html_writer::link(new moodle_url('/my'), get_string('sequence_'.$sequence, 'block_mbswizzard'),
+                    array('class' => 'link_wizzard', 'data-wizzard' => $sequence));
+            $helpicon = new help_icon('sequence_'.$sequence, 'block_mbswizzard');
+            $htmlstring .= ' '.$this->render($helpicon);
             $htmlstring .= html_writer::end_tag('li');
         }
         $htmlstring .= html_writer::end_tag('ul');
@@ -111,5 +113,36 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
         return $htmlstring;
     }
     
+    /**
+     * renders html to display the curent position of a runnning wizzard
+     * 
+     * @return string - htmlstring of stepcounter
+     */
+    public function stepcounter() {
+        $htmlstring = '';
+        
+        $htmlstring .= html_writer::start_div('stepcounter');
+            $htmlstring .= get_string('step', 'block_mbswizzard').' ';
+            $htmlstring .= html_writer::span('?', 'currentstepnumber').' ';
+            $htmlstring .= get_string('of', 'block_mbswizzard').' ';
+            $htmlstring .= html_writer::span('?', 'maxstepnumber').'.';
+        $htmlstring .= html_writer::end_div();
+        
+        return $htmlstring;
+    }
+    
+    /**
+     * renders a button to abort an active wizzard sequence
+     * 
+     * return string - htmlstring
+     */
+    public function abortbutton() {
+        $htmlstring = '';
+        
+        $htmlstring .= html_writer::link(new moodle_url('/my'), get_string('cancel', 'block_mbswizzard'),
+                array('class' => 'cancel btn btn-cancel'));
+        
+        return $htmlstring;
+    }
 }
 

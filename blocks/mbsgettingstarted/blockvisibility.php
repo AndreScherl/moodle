@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
+require_once($CFG->dirroot . '/user/profile/lib.php'); //required for profile_load_data and other
 
 require_sesskey();
 require_login();
@@ -32,6 +33,7 @@ $hide = optional_param('hide', 0, PARAM_BOOL);
 
 if ($forever) {
     echo render_notification();
+    update_profile_field();
 }
 if ($hide) {
     global $USER;
@@ -40,10 +42,20 @@ if ($hide) {
 }
 
 function render_notification() {
-    $o = html_writer::tag('h2', get_string('closealertheading', 'block_mbsgettingstarted'));
-    $o .= html_writer::tag('p', get_string('closealertexpl', 'block_mbsgettingstarted'));
-    $b1 = html_writer::tag('button', get_string('closealertdelete', 'block_mbsgettingstarted'), array('id' => 'closealertdelete'));
-    $b2 = html_writer::tag('button', get_string('closealertnodelete', 'block_mbsgettingstarted'), array('id' => 'closealertnodelete'));
-    $o .= html_writer::tag('div', $b1 . $b2);
+    $o = html_writer::tag('p', get_string('closealertexpl', 'block_mbsgettingstarted'));
+    $b = html_writer::tag('button', get_string('closealert', 'block_mbsgettingstarted'), array('id' => 'closealert'));
+    $o .= html_writer::tag('div', $b);
     return html_writer::tag('div', $o, array('id' => 'closealertoverlay'));
+}
+
+/**
+ * Change profile_field_mbsgettingstartedshow to false, means the block mbsgettingstarted will not be shown
+ * @global type $USER
+ */
+function update_profile_field() {
+    global $USER;
+    $theuser = clone($USER);
+    profile_load_data($theuser);
+    $theuser->profile_field_mbsgettingstartedshow = 0;
+    profile_save_data($theuser);
 }

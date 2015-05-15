@@ -23,17 +23,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['blockstring'] = 'Block string';
-$string['descconfig'] = 'Description of the config section';
-$string['descfoo'] = 'Config description';
-$string['headerconfig'] = 'Config section header';
-$string['labelfoo'] = 'Config label';
-
 $string['contactlink'] = 'Persönlicher Kontak';
-$string['closealertdelete'] = 'Ja';
-$string['closealertexpl'] = 'Wollen Sie die Starthilfe wirklich dauerhaft entfernen? Dieser Vorgang ist nicht rückgängig zu machen!';
-$string['closealertheading'] = 'Achtung!';
-$string['closealertnodelete'] = 'Nein';
+$string['closealert'] = 'Ok';
+$string['closealertexpl'] = 'Die Starthilfe wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
+        . 'Starthilfe" können Sie diesen Vorgang rückgängig machen.';
 $string['eventlinkused'] = 'Ein Link des Starthilfeblocks wurde verwendet';
 $string['helpnoteremovepermanent'] = 'dauerhaft entfernen';
 $string['helpnoteclose'] = 'schließen';

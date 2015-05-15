@@ -86,13 +86,9 @@ M.block_mbsgettingstarted.visibility.closealert = function (data) {
     dialog.render();
     dialog.show();
 
-    $('#closealertdelete').on('click', function () {
-        M.util.set_user_preference('mbsgettingstartednotshow', 0);
+    $('#closealert').on('click', function () {
+        dialog.hide();
         $('#block_mbsgettingstarted').remove();
-        dialog.hide();
-    });
-    $('#closealertnodelete').on('click', function () {
-        dialog.hide();
     });
 };
 

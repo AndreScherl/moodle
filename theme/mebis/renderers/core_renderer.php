@@ -156,7 +156,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         global $OUTPUT;
         
         // Unset block actions for special blocks.
-        $noactionblocks = array('mbsmycourses', 'mbsnewcourse');
+        $noactionblocks = array('mbsmycourses');
         
         if (in_array($bc->attributes['data-block'], $noactionblocks)) {
             $bc->controls = array();

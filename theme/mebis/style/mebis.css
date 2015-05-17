@@ -17766,13 +17766,7 @@ div[role="main"] > h2 {
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\000034}}
-div[role="main"] ul, div[role="main"] ol {
-  padding: initial;
-  overflow: initial;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\000031}}
 .moodle-menu .nav > li {
   font-weight: 400;
   font-style: normal;
@@ -17780,29 +17774,29 @@ div[role="main"] ul, div[role="main"] ol {
   width: 50px;
   height: 60px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\000038}}
 .moodle-menu .nav > li > a {
   font-size: 1.125em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000311}}
 .moodle-menu .nav > li > a:hover {
   background: transparent;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000318}}
 .moodle-menu .nav > li.dropdown:hover > a {
   background: #ff6600;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000323}}
 .moodle-menu .nav > li.dropdown ul {
   min-width: 255px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000326}}
 .moodle-menu .nav > li.dropdown ul.dropdown-menu {
   border: none;
   font-size: 0.875em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000331}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
   background-color: #eeeeee;
   font-family: 'Titillium Web';
@@ -17812,41 +17806,41 @@ div[role="main"] ul, div[role="main"] ol {
   line-height: normal;
 }
 @media only screen and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000331}}
   .moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
     font-size: 1.1875em;
     line-height: 200%;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000344}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div {
   background: transparent;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000356}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000347}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div select, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div select {
   width: 100%;
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000353}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown {
   background-color: #333333;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000357}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown a, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown a {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000362}}
 .moodle-menu .nav > li.dropdown ul .cogmenu div ul, .moodle-menu .nav > li.dropdown ul .coursemenu div ul {
   list-style: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000380}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000371}}
 .breadcrumb-button .singlebutton {
   float: left;
   margin-left: 4px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000376}}
 .breadcrumb-button .singlebutton input[type="submit"] {
   background-color: transparent;
   border: none;
@@ -17855,1263 +17849,12 @@ div[role="main"] ul, div[role="main"] ol {
   padding: 20px 0;
   outline: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000384}}
 .breadcrumb-button .singlebutton input[type="submit"]:hover {
   color: #ff6600 !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\000031}}
-.me-wrapper .me-sidebar-wrapper .me-sidebar-nav {
-  text-align: left;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\000035}}
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre {
-  width: 100% !important;
-  right: initial !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\000039}}
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post {
-  width: 100% !important;
-  right: initial !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\0000314}}
-.block {
-  background-color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_sidenav\.scss}line{font-family:\0000316}}
-.block .header {
-  background-color: inherit;
-  color: inherit;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000031}}
-.block_mbsmycourses .header {
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000034}}
-.block_mbsmycourses .header h2 {
-  margin-bottom: 12.5px;
-  margin-top: 0px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000310}}
-.block_mbsmycourses .course_list {
-  width: auto;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000314}}
-.block_mbsmycourses .coursebox {
-  margin: 0px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000318}}
-.editing .block_mbsmycourses .move {
-  padding: 2px 0 0 10px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000322}}
-.courses {
-  margin-top: 20px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000326}}
-.coursenumber-label {
-  margin-right: 8px;
-  margin-left: 20px;
-  display: inline-block;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000334}}
-.coursebox .course_title {
-  position: inherit;
-  right: 0px;
-  top: 0px;
-  z-index: 9;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000341}}
-.coursebox .coursebox-meta {
-  background: #00a8d5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000344}}
-.coursebox .coursebox-meta .course-is-new span,
-.coursebox .coursebox-meta .box-type i {
-  display: inline-block;
-  background: #00637d;
-  color: #fff;
-  line-height: 40px;
-  text-align: center;
-  margin-right: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000354}}
-.coursebox .coursebox-meta .course-is-new span {
-  padding: 0 10px;
-  line-height: 28px;
-  font-size: 0.875em;
-  margin-left: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000361}}
-.coursebox .coursebox-meta .box-type i {
-  width: 40px;
-  margin-right: 10px;
-  font-size: 1.5em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000368}}
-.coursebox .coursebox-inner {
-  padding: 0;
-  border: 0;
-  position: relative;
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000374}}
-.coursebox .coursebox-inner .coursebox-link {
-  min-height: 165px;
-  padding: 20px;
-  text-align: left;
-  display: block;
-  background: #fff;
-  font-weight: 400;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000383}}
-.coursebox .coursebox-inner .coursebox-link .coursename {
-  font-size: 1.25em;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000387}}
-.coursebox .coursebox-inner .coursebox-link .coursename:before {
-  color: #00a8d5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000392}}
-.coursebox .coursebox-inner .coursebox-link .coursetype {
-  font-size: 0.75em;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\00003101}}
-.coursebox .coursebox-inner:hover .coursebox-link {
-  background: #ff6600;
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\00003105}}
-.coursebox .coursebox-inner:hover .coursebox-link .coursename, .coursebox .coursebox-inner:hover .coursebox-link .coursename:before {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\00003109}}
-.coursebox .coursebox-inner:hover .coursebox-link .coursetype {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000031}}
-.block_mbsmycourses .category-box {
-  border: 0px;
-  background-color: transparent;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000036}}
-.categorybox {
-  padding: 15px 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\000039}}
-.categorybox .category-container {
-  background-color: #fff;
-  margin: 1px 20px;
-  padding: 20px 0px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000314}}
-.categorybox .category-container.category-name {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000318}}
-.categorybox .category-container.category-name .closebutton {
-  font-family: FontAwesome;
-  position: absolute;
-  right: 60px;
-  top: 23px;
-  color: #333333;
-  cursor: pointer;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000328}}
-.categorybox .category-container .category-coursebox {
-  padding: 17px 60px;
-  margin: 0px 40px 1px 0;
-  background-color: #CCC;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000333}}
-.categorybox .category-container .category-coursebox .iconbox {
-  font-family: FontAwesome;
-  position: absolute;
-  top: 10px;
-  left: 30px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  background-color: #858585;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 18px;
-  color: #E4E4E4;
-  text-align: center;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_categorybox\.scss}line{font-family:\0000349}}
-.categorybox .category-container .category-coursebox .newbox {
-  position: absolute;
-  top: 0px;
-  right: 60px;
-  width: 40px;
-  height: 30px;
-  line-height: 30px;
-  background-color: #A0A0A0;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 10px;
-  color: #fff;
-  text-align: center;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\000033}}
-div[data-block=mbsmyschools] .title h2 {
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 32.5px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000312}}
-.schoolbox .schoolbox-meta {
-  background: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000315}}
-.schoolbox .schoolbox-meta .box-type i {
-  display: inline-block;
-  background: #999999;
-  color: #fff;
-  line-height: 40px;
-  text-align: center;
-  margin-right: 0;
-  width: 40px;
-  margin-right: 10px;
-  font-size: 1.5em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000329}}
-.schoolbox .schoolbox-inner {
-  padding: 0;
-  position: relative;
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000334}}
-.schoolbox .schoolbox-inner .schoolbox-link {
-  display: block;
-  background-color: #ff6600;
-  -webkit-transition: color 0.25s;
-  -o-transition: color 0.25s;
-  transition: color 0.25s;
-  min-height: 150px;
-  padding: 20px;
-  text-align: left;
-  font-weight: 400;
-  font-style: normal;
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000346}}
-.schoolbox .schoolbox-inner .schoolbox-link .schoolname {
-  font-size: 1.25em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000353}}
-.schoolbox .schoolbox-inner:hover .schoolbox-link {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000357}}
-.schoolbox .schoolbox-inner:hover .vbox {
-  color: #333333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\000031}}
-#page-footer {
-  border-top: none;
-  margin-top: 110px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\000035}}
-.me-wrapper .me-search-box {
-  margin-bottom: 0px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\000038}}
-.me-wrapper .me-search-box label {
-  color: #333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\0000313}}
-.me-event-footer {
-  margin-bottom: -80px;
-  margin-top: 0px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\0000318}}
-footer .footer-copyright {
-  margin-top: 22px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\000031}}
-.course-sorting {
-  padding: 15px 0;
-  border-top: dotted 1px rgba(230, 230, 230, 0.3);
-  border-bottom: dotted 1px rgba(230, 230, 230, 0.3);
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\000037}}
-.course-sorting input, .course-sorting select, .course-sorting label {
-  margin-bottom: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursesorting\.scss}line{font-family:\0000311}}
-.course-sorting label {
-  margin-top: 10px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\000033}}
-.single-section.onetopic .nav.nav-tabs.nav-justified {
-  background-color: #fff;
-  padding: 10px 20px;
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\000034}}
-.single-section.onetopic .nav.nav-tabs.nav-justified li {
-  background-color: inherit !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\000037}}
-.single-section.onetopic .nav.nav-tabs.nav-justified li .active {
-  background-color: #999;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000310}}
-.single-section.onetopic .nav.nav-tabs.nav-justified li a {
-  border: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000319}}
-.single-section .section-navigation {
-  overflow: hidden;
-  padding: 1em 0 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000322}}
-.single-section .section-navigation > div > div {
-  margin-top: 1px;
-  padding: 20px;
-  background-color: #fff;
-  text-align: center;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000332}}
-.course-content .section.main {
-  background-color: #fff;
-  margin-top: 30px !important;
-  padding: 20px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000336}}
-.course-content .section.main h3 {
-  text-align: left;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000339}}
-.course-content .section.main .content {
-  padding: 20px !important;
-  color: #333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000343}}
-.course-content .section.main .content .page.modtype_page, .course-content .section.main .content .imscp.modtype_imscp, .course-content .section.main .content .resource.modtype_resource, .course-content .section.main .content .quiz.modtype_quiz {
-  background-color: #F0F0F0;
-  margin-top: 1px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000348}}
-.course-content .section.main.hide_section {
-  display: none;
-  visibility: hidden;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000354}}
-.course-content li.current {
-  border-left: 1em !important;
-  border-left-color: #00a8d5 !important;
-  border-left-style: solid !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000363}}
-#gridiconcontainer .gridicons > div > div {
-  min-height: 220px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000366}}
-#gridiconcontainer .gridicons > div > div.currentselected {
-  background-color: transparent !important;
-  opacity: 1;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000370}}
-#gridiconcontainer .gridicons > div > div .image_holder {
-  background-color: #999;
-  border: none;
-  border-radius: 0px;
-  min-height: 150px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000375}}
-#gridiconcontainer .gridicons > div > div .image_holder:hover {
-  border: none !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000379}}
-#gridiconcontainer .gridicons > div > div .icon_content {
-  background-color: #fff;
-  padding: 10px;
-  font-family: "Titillium Web SemiBold","Titillium Web";
-  font-weight: 600;
-  font-style: normal;
-  font-size: 20px;
-  text-align: left;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000393}}
-#gridshadebox #gridshadebox_overlay {
-  z-index: 2;
-  opacity: 0.5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\0000398}}
-#gridshadebox #gridshadebox_content {
-  position: absolute !important;
-  left: 0 !important;
-  top: 150px !important;
-  right: 0;
-  border: none;
-  z-index: 999 !important;
-  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003107}}
-#gridshadebox #gridshadebox_content .gtopics {
-  margin: 0 0 10px;
-  max-height: 560px;
-  overflow: auto;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003113}}
-#gridshadebox #gridshadebox_content div div ul li, #gridshadebox #gridshadebox_content div div ol li {
-  border-bottom: none;
-  padding-bottom: 4px;
-  padding-top: 2px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003119}}
-#gridshadebox #gridshadebox_content div div ul li {
-  list-style: disc outside none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003122}}
-#gridshadebox #gridshadebox_content div div ol li {
-  list-style: decimal outside none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003127}}
-#gridshadebox #gridshadebox_content .section.main .content {
-  padding: 20px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003129}}
-#gridshadebox #gridshadebox_content .section.main .content .activity {
-  border-bottom: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003132}}
-#gridshadebox #gridshadebox_content .section.main .content .page.modtype_page, #gridshadebox #gridshadebox_content .section.main .content .imscp.modtype_imscp, #gridshadebox #gridshadebox_content .section.main .content .resource.modtype_resource, #gridshadebox #gridshadebox_content .section.main .content .quiz.modtype_quiz {
-  background-color: #F0F0F0;
-  margin-top: 1px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003137}}
-#gridshadebox #gridshadebox_content .section.main.hide_section {
-  display: none;
-  visibility: hidden;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003142}}
-#gridshadebox #gridshadebox_content .section.main .side.right {
-  float: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003145}}
-#gridshadebox #gridshadebox_content .section.main .side.left {
-  float: left;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003151}}
-#gridshadebox #gridshadebox_content .gridshadebox-close-button {
-  position: relative;
-  text-align: right;
-  padding-top: 5px;
-  padding-right: 5px;
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003158}}
-#gridshadebox #gridshadebox_content .gridshadebox-close-button #gridshadebox_close {
-  position: relative;
-  top: auto;
-  left: auto;
-  color: #00a8d5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003164}}
-#gridshadebox #gridshadebox_content .gridshadebox-close-button #gridshadebox_close:hover {
-  color: #ff6600;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003170}}
-#gridshadebox #gridshadebox_content .gridshadebox_arrow {
-  position: relative;
-  cursor: pointer;
-  padding: 20px;
-  opacity: 1;
-  text-align: center;
-  background: #ff6600;
-  color: #fff;
-  -webkit-transition: background 0.25s;
-  -o-transition: background 0.25s;
-  transition: background 0.25s;
-  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003181}}
-#gridshadebox #gridshadebox_content .gridshadebox_arrow#gridshadebox_right {
-  top: inherit;
-  right: inherit;
-  top: 80px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003187}}
-#gridshadebox #gridshadebox_content .gridshadebox_arrow#gridshadebox_left {
-  top: inherit;
-  left: inherit;
-  top: 80px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003193}}
-#gridshadebox #gridshadebox_content .gridshadebox_arrow:hover {
-  background: #00a8d5;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003202}}
-.course-content ul.topics li.section .content:before {
-  clear: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003207}}
-.course-content ul.ctopics li.section {
-  /*        &.main .content {
-              margin: 0px -20px !important;
-          }*/
-  padding: 0px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003212}}
-.course-content ul.ctopics li.section .content {
-  color: #333;
-  margin: 0px;
-  padding: 10px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003214}}
-.course-content ul.ctopics li.section .content .toggledsection {
-  display: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003216}}
-.course-content ul.ctopics li.section .content .toggledsection.sectionopen {
-  display: inline-block;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003221}}
-.course-content ul.ctopics li.section .content .sectionhead {
-  position: relative;
-  background-color: transparent !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003224}}
-.course-content ul.ctopics li.section .content .sectionhead h3 {
-  font-family: "Titillium Web SemiBold","Titillium Web";
-  font-weight: 600;
-  font-style: normal;
-  font-size: 1.125em;
-  text-align: left;
-  line-height: 24px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003232}}
-.course-content ul.ctopics li.section .content .sectionhead .closebutton {
-  font-family: FontAwesome;
-  position: absolute;
-  right: 0px;
-  top: 12px;
-  color: #333333;
-  cursor: pointer;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003244}}
-.course-content ul.ctopics li.section.body {
-  background-color: #fff;
-  padding: 20px !important;
-  margin: 2px 1px 1px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003253}}
-ul.jumpnavigation {
-  position: fixed;
-  top: 40%;
-  right: 0;
-  z-index: 5;
-  list-style: none;
-  color: #fff;
-  padding: 50px 0 50px 100px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003261}}
-ul.jumpnavigation li.jumpnavigation-point {
-  background-color: #ff6600;
-  padding: 0px 15px;
-  margin-top: 2px;
-  height: 26px;
-  cursor: pointer;
-  min-width: 50px;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003274}}
-ul.jumpnavigation li.jumpnavigation-point span {
-  font-family: "Titillium Web Light","Titillium Web";
-  font-weight: 300;
-  font-style: normal;
-  font-size: calcEm(16px);
-  text-align: center;
-  line-height: normal;
-  display: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003283}}
-ul.jumpnavigation li.jumpnavigation-point:hover {
-  background-color: #00a8d5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003286}}
-ul.jumpnavigation li.jumpnavigation-point.up-arrow {
-  height: 50px;
-  width: 50px;
-  margin-top: 7px;
-  float: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003291}}
-ul.jumpnavigation li.jumpnavigation-point.up-arrow span {
-  font-size: 32px;
-  display: inline-block;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003300}}
-ul.jumpnavigation:hover li.jumpnavigation-point span {
-  display: inline-block;
-}
-
-@media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003309}}
-  .my-courses-filter select {
-    margin-bottom: 10px;
-    max-width: none;
-  }
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003316}}
-.my-courses-filter label {
-  position: relative;
-  cursor: pointer;
-  color: #333333;
-  margin-left: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003324}}
-.my-courses-filter label:hover i, .my-courses-filter label:hover span {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003329}}
-.my-courses-filter label input {
-  opacity: 0;
-  position: absolute;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003334}}
-.my-courses-filter label i, .my-courses-filter label span > span {
-  color: #fff;
-  font-size: 1.375em;
-  -webkit-transition: color 0.25s;
-  -o-transition: color 0.25s;
-  transition: color 0.25s;
-  text-align: center;
-  margin: 0 auto;
-  display: inline-block;
-  margin-right: 5px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003344}}
-.my-courses-filter label > span {
-  display: inline-block;
-  vertical-align: middle;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003348}}
-.my-courses-filter label > span span {
-  font-size: 1.125em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003353}}
-.my-courses-filter label input:checked + i, .my-courses-filter label input:checked ~ span > span {
-  color: #ff6600;
-}
-@media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003316}}
-  .my-courses-filter label {
-    display: inline-block;
-    margin-right: 35px;
-    margin-left: 0;
-    margin-top: 15px;
-  }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003363}}
-  .my-courses-filter label i {
-    vertical-align: middle;
-  }
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003374}}
-.course .activityinstance {
-  padding-top: 5px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003380}}
-.course .course-headline h1 {
-  color: #fff;
-  margin-bottom: 25px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003386}}
-.course .spacer {
-  display: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003390}}
-.course h2 {
-  margin-top: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003396}}
-.course.course-format-topics .section.main {
-  background: #fff;
-  margin-bottom: 20px;
-  -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-  position: relative;
-  border: 0;
-  border-left: 1em solid #ffffff;
-}
-@media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003396}}
-  .course.course-format-topics .section.main {
-    padding: 20px !important;
-  }
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003408}}
-.course.course-format-topics .section.main .content {
-  padding: 0 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003411}}
-.course.course-format-topics .section.main .content .mod-indent-1 {
-  display: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003417}}
-.course.course-format-topics .section.main .mod-indent-outer table td {
-  padding: 40px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003426}}
-.course.course-format-topcoll .ctopics li.section.main .content {
-  padding: 0 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003430}}
-.course.course-format-topcoll .ctopics .section.main {
-  border: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003433}}
-.course.course-format-topcoll .ctopics .section.main.summary {
-  padding: 60px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003437}}
-.course.course-format-topcoll .ctopics .section.main .content {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003441}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header {
-  background: #00a8d5;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003444}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header h2 {
-  color: #fff;
-  padding: 20px;
-  margin-bottom: 0;
-  font-size: 1.25em;
-  font-weight: 700;
-  margin: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003453}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header .toggle {
-  width: 25% !important;
-  padding: 0 20px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003457}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header .toggle .the_toggle {
-  display: block;
-  padding: 20px;
-  cursor: pointer;
-  color: #fff;
-  -webkit-transition: all 0.25s;
-  transition: all 0.25s;
-  text-align: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003466}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header .toggle .the_toggle .closebutton {
-  position: relative;
-  color: #fff;
-  top: 0;
-  text-indent: -999em;
-  font-size: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003473}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header .toggle .the_toggle .closebutton:before {
-  font-family: 'mebis-icons';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  font-size: 0.875em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\e63d";
-  font-size: 18px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003489}}
-.course.course-format-topcoll .ctopics .section.main .content .section-header .toggle .the_toggle.toggle_open .closebutton:before {
-  content: "\e662";
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003502}}
-.course.course-format-onetopic .single-section.onetopic .nav.nav-tabs {
-  background: transparent;
-  border-top: dotted 1px rgba(230, 230, 230, 0.3);
-  border-bottom: dotted 1px rgba(230, 230, 230, 0.3);
-  padding-top: 20px;
-  padding-bottom: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003509}}
-.course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li {
-  padding: 0 20px 10px 0;
-  border: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003513}}
-.course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li a {
-  color: #fff;
-  border: 0;
-  text-align: center;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003518}}
-.course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li a .marker {
-  font-style: normal;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003523}}
-.course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li.active a, .course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li a:hover, .course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li a:active, .course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li a:focus {
-  color: #fff;
-  background: #ff6600;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003530}}
-.course.course-format-onetopic .single-section .section-navigation > div > div {
-  padding: 0;
-  margin-top: 0;
-  background: transparent;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003535}}
-.course.course-format-onetopic .single-section .section-navigation > div > div a {
-  display: block;
-  padding: 20px;
-  background: #00a8d5;
-  color: #fff;
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003548}}
-.course.course-format-grid .me-block-inner {
-  background: #fff;
-  margin-bottom: 20px;
-  position: relative;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003553}}
-.course.course-format-grid .me-block-inner .edit-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  text-align: right;
-  background: rgba(51, 51, 51, 0.35);
-  font-size: 0.75em;
-  display: block;
-  padding: 5px 10px;
-  z-index: 9;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003564}}
-.course.course-format-grid .me-block-inner .edit-image img {
-  margin-top: -3px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003568}}
-.course.course-format-grid .me-block-inner .edit-image span {
-  display: inline-block;
-  margin-left: 3px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003573}}
-.course.course-format-grid .me-block-inner .edit-image:hover {
-  background: rgba(51, 51, 51, 0.75);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003578}}
-.course.course-format-grid .me-block-inner .me-block-link {
-  overflow: hidden;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003581}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image {
-  position: relative;
-  width: 101%;
-  padding: 0;
-  overflow: hidden;
-  background: #999;
-  text-align: center;
-  height: 160px;
-  display: table;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003591}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image .helper {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003597}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image img {
-  vertical-align: middle;
-  position: relative;
-  z-index: 7;
-  max-width: none;
-  width: 100%;
-  -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003607}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image.portrait img {
-  width: auto;
-  max-height: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003612}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image .img-replace {
-  height: 160px;
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003617}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-image .block-blur-bg {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  white-space: nowrap;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003628}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-content {
-  padding: 20px;
-  text-align: left;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003632}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-content h3 {
-  font-weight: 400;
-  font-size: 1.25em;
-  line-height: 24px;
-  margin-bottom: 5px;
-  position: relative;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003640}}
-.course.course-format-grid .me-block-inner .me-block-link .format-grid-content h3:before {
-  font-size: 1.125em;
-  color: #00a8d5;
-  vertical-align: middle;
-  margin-top: -12px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003653}}
-.course.course-format-grid .me-block-inner:hover .me-block-link {
-  background: #ff6600;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003658}}
-.course.course-format-grid .me-block-inner:hover .format-grid-content h3, .course.course-format-grid .me-block-inner:hover .format-grid-content h3:before {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003669}}
-.choosercontainer label {
-  color: #333333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003674}}
-.me-course-action-links a {
-  margin-left: 10px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_course\.scss}line{font-family:\00003678}}
-.path-course-view .completionprogress {
-  z-index: 1;
-  top: 20px;
-  right: 20px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\000031}}
-.highlight {
-  display: inline-block;
-  padding: 0 2px;
-  background: #00a8d5;
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\000038}}
-.pagination-row {
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000313}}
-div[role=main] {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000317}}
-.block h2,
-.dndsupported .dndupload-message,
-p.tree_item,
-.singlebutton,
-.fp-btn-choose,
-.form-submit,
-select,
-input[type=submit],
-.course-content,
-div.block,
-.loginbox,
-.loginbox label,
-.que,
-.que .formulation,
-.que label,
-.forumpost {
-  color: #333333 !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000336}}
-.hiddenelement {
-  display: none;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000340}}
-.tree_item span, .tree_item span:focus {
-  outline: 0;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000344}}
-.collapsed .fcontainer, .collapsed ul {
-  display: none;
-}
-
-@media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000348}}
-  .text-mobile-left {
-    text-align: left !important;
-  }
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000354}}
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre {
-  padding: 0;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000358}}
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post {
-  padding: 0;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000361}}
-.moodle-dialogue-base .moodle-dialogue-wrap {
-  -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000365}}
-.block-region .col-md-4 {
-  min-height: 150px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000370}}
-.moodle-actionmenu {
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000373}}
-.moodle-actionmenu .toggle-display {
-  display: block;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000377}}
-.moodle-actionmenu .menu {
-  position: absolute;
-  left: auto !important;
-  display: none;
-  min-width: 260px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000383}}
-.moodle-actionmenu .menu .iconsmall {
-  margin: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000387}}
-.moodle-actionmenu .menu .menu-action-text {
-  display: block;
-  font-size: 12px;
-  display: inline-block;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\0000396}}
-.block-transparent .block {
-  background: transparent;
-  border: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003100}}
-.block-transparent .block .header {
-  padding: 0;
-  position: relative;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003104}}
-.block-transparent .block .header .moodle-actionmenu {
-  position: absolute;
-  right: 0;
-  top: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003111}}
-.block-transparent .block h1, .block-transparent .block label {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003118}}
-.block_mbsmycourses .content {
-  padding: 4px 0;
-  margin: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003122}}
-.block_mbsmycourses .content h1 {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003127}}
-.block_mbsmycourses .singleselect {
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003130}}
-.block_mbsmycourses .singleselect select {
-  display: inline-block;
-  width: auto;
-  margin-bottom: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003137}}
-.block_mbsmycourses .mbsnewcourse {
-  float: right;
-  padding: 20px 0 0;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003143}}
-.block_mbsgettingstarted {
-  margin-bottom: 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003146}}
-.block_mbsgettingstarted .btn .btn-secondary {
-  margin: 2px 0px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003149}}
-.block_mbsgettingstarted .btn .btn-secondary .btn-lg, .block_mbsgettingstarted .btn .btn-secondary .btn-group-lg > .btn {
-  font-size: 23px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003154}}
-.block_mbsgettingstarted .wizzardlinks ul {
-  margin-top: 6px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003158}}
-.block_mbsgettingstarted .aidlinks ul {
-  margin-top: 12px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003166}}
-#block-region-side-pre .block, #block-region-side-post .block {
-  margin-bottom: 40px;
-  padding: 20px 5px;
-  border: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003171}}
-#block-region-side-pre .block .header, #block-region-side-post .block .header {
-  padding-top: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003179}}
-#block-region-side-pre .block.block_calendar_month .arrow_link .arrow, #block-region-side-post .block.block_calendar_month .arrow_link .arrow {
-  font-size: 0;
-  text-indent: -999em;
-  font-family: 'mebis-icons';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003193}}
-#block-region-side-pre .block.block_calendar_month .arrow_link.previous .arrow:before, #block-region-side-post .block.block_calendar_month .arrow_link.previous .arrow:before {
-  content: "\e646";
-  font-size: 18px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003194}}
-#block-region-side-pre .block.block_calendar_month .arrow_link.next .arrow:before, #block-region-side-post .block.block_calendar_month .arrow_link.next .arrow:before {
-  content: "\e645";
-  font-size: 18px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003201}}
-#block-region-side-pre .block.block_private_files ul, #block-region-side-post .block.block_private_files ul {
-  list-style: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003205}}
-#block-region-side-pre .block.block_private_files img.icon, #block-region-side-post .block.block_private_files img.icon {
-  vertical-align: middle;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003207}}
-#block-region-side-pre .block.block_private_files .singlebutton, #block-region-side-post .block.block_private_files .singlebutton {
-  margin-top: 15px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003210}}
-#block-region-side-pre .block.block_private_files .singlebutton div,
-#block-region-side-pre .block.block_private_files .singlebutton input[type="submit"], #block-region-side-post .block.block_private_files .singlebutton div,
-#block-region-side-post .block.block_private_files .singlebutton input[type="submit"] {
-  margin: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003215}}
-#block-region-side-pre .block.block_private_files .singlebutton input[type="submit"], #block-region-side-post .block.block_private_files .singlebutton input[type="submit"] {
-  background: #00a8d5;
-  color: #fff !important;
-  border: 1px solid #00a8d5;
-  -webkit-transition: all 0.25s;
-  -o-transition: all 0.25s;
-  transition: all 0.25s;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003221}}
-#block-region-side-pre .block.block_private_files .singlebutton input[type="submit"]:hover, #block-region-side-post .block.block_private_files .singlebutton input[type="submit"]:hover {
-  background: #ff6600;
-  border: 1px solid #ff6600;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003232}}
-#page-footer .performanceinfo {
-  background: #ffffff;
-  font-size: 0.75em;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003237}}
-.path-mod.pagelayout-incourse .homepage-container div[role="main"] {
-  color: #333;
-  background: #ffffff;
-  padding: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003243}}
-.path-mod.pagelayout-incourse .homepage-container div[role="main"] h2 {
-  background: url(../pix/bg-dark.jpg);
-  color: #ffffff;
-  margin: -10px;
-  padding-bottom: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003250}}
-.path-mod.pagelayout-incourse .homepage-container div[role="main"] label {
-  color: #000;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003254}}
-.path-mod.pagelayout-incourse .homepage-container div[role="main"] .generaltable {
-  color: #000;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_general\.scss}line{font-family:\00003259}}
-#maincontent {
-  height: 0px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_menu\.scss}line{font-family:\000031}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000390}}
 .me-msg-count {
   position: absolute;
   background: none repeat scroll 0% 0% #ff6600;
@@ -19123,540 +17866,177 @@ div.block,
   padding: 2px 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\000031}}
-.category-listing, .course-listing, .course-detail {
-  background-color: #fff;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\000031}}
+#page-footer {
+  border-top: none;
+  margin-top: 110px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\000035}}
+#page-footer .performanceinfo {
+  background: #ffffff;
+  font-size: 0.75em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\000036}}
-#coursesearch label {
-  color: #fff;
-  font-size: 1.5em;
-  font-weight: 200;
-  margin-right: 20px;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\0000311}}
+.me-event-footer {
+  margin-bottom: -80px;
+  margin-top: 0px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000313}}
-.detail-pair {
-  color: #fff;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\0000316}}
+.me-wrapper .me-search-box {
+  margin-bottom: 0px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000317}}
-.detail-pair-value {
-  color: #000;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_footer\.scss}line{font-family:\0000320}}
+footer .footer-copyright {
+  margin-top: 22px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000321}}
-th {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000325}}
-label {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000329}}
-.path-rating .ratingtable > tbody > tr:nth-child(2n+1) > td, table#explaincaps > tbody > tr:nth-child(2n+1) > td, table#defineroletable > tbody > tr:nth-child(2n+1) > td, table.grading-report > tbody > tr:nth-child(2n+1) > td, table#listdirectories > tbody > tr:nth-child(2n+1) > td, table.rolecaps > tbody > tr:nth-child(2n+1) > td, table.userenrolment > tbody > tr:nth-child(2n+1) > td, table#form > tbody > tr:nth-child(2n+1) > td, form#movecourses table > tbody > tr:nth-child(2n+1) > td, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > td, .forumheaderlist > tbody > tr:nth-child(2n+1) > td, table.flexible > tbody > tr:nth-child(2n+1) > td, .generaltable > tbody > tr:nth-child(2n+1) > td, .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > th, table#explaincaps > tbody > tr:nth-child(2n+1) > th, table#defineroletable > tbody > tr:nth-child(2n+1) > th, table.grading-report > tbody > tr:nth-child(2n+1) > th, table#listdirectories > tbody > tr:nth-child(2n+1) > th, table.rolecaps > tbody > tr:nth-child(2n+1) > th, table.userenrolment > tbody > tr:nth-child(2n+1) > th, table#form > tbody > tr:nth-child(2n+1) > th, form#movecourses table > tbody > tr:nth-child(2n+1) > th, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > th, .forumheaderlist > tbody > tr:nth-child(2n+1) > th, table.flexible > tbody > tr:nth-child(2n+1) > th, .generaltable > tbody > tr:nth-child(2n+1) > th {
-  background-color: transparent;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000333}}
-.user-enroller-panel .uep-search-results .users > tbody > tr:hover > td, table.grading-report > tbody > tr:hover > td, .forumheaderlist > tbody > tr:hover > td, .generaltable > tbody > tr:hover > td, table.flexible > tbody > tr:hover > td, table#permissions > tbody > tr:hover > td, .user-enroller-panel .uep-search-results .users > tbody > tr:hover > th, table.grading-report > tbody > tr:hover > th, .forumheaderlist > tbody > tr:hover > th, .generaltable > tbody > tr:hover > th, table.flexible > tbody > tr:hover > th, table#permissions > tbody > tr:hover > th {
-  background-color: transparent;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000338}}
-.backup_stage.backup_stage_current, .backup_stage.backup_stage_complete {
-  color: #999 !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000344}}
-h2.header {
-  color: #fff !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000348}}
-.arrow.sep {
-  color: #999;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000352}}
-.grouped_settings label {
-  color: #666;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000356}}
-.generaltable {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000359}}
-.generaltable .disabled .availability {
-  background-color: transparent !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_settings\.scss}line{font-family:\0000366}}
-.box .info.total {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_apps\.scss}line{font-family:\000032}}
-.block label, .block th {
-  color: #333;
-}
-
-/*.block-regions{
-    &.editing {
-        > div {
-            border: 1px dashed $brand-primary;
-        }
-    }
-    > div {
-        min-height: 215px;
-    }
-}*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\000031}}
-.usermessages {
-  padding-top: 20px;
-  margin-bottom: 20px;
-  background: #fff;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\000037}}
-.usermessages .usermessages-head h3 {
-  padding: 0 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000313}}
-.usermessages .usermessages-left form#usergroupform {
-  padding: 0 20px 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000317}}
-.usermessages .usermessages-left .userlist {
-  padding: 0 20px 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000325}}
-.usermessages .usermessages-right .messages-area {
-  padding: 0 20px 20px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000333}}
-.usermessages .usermessages-right .messagehistory .user-correspondence .spacing-top {
-  padding-top: 30px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000339}}
-.usermessages .usermessages-right .messagehistory .messagehistorytype {
-  padding: 15px 0 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000343}}
-.usermessages .usermessages-right .messagehistory .messagehistory {
-  margin-bottom: 15px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000348}}
-.usermessages .usermessages-right input[type="submit"] {
-  color: #fff !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000353}}
-.usermessages h3, .usermessages h4 {
-  margin-top: 0;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000358}}
-.usermessages h4.heading {
-  font-size: 1em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000362}}
-.usermessages label {
-  color: #333333;
-  font-weight: 400;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000367}}
-.usermessages table.messagesearchresults, .usermessages table#message_contacts {
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000370}}
-.usermessages table.messagesearchresults td, .usermessages table#message_contacts td {
-  padding: 5px;
-  -webkit-transition: background 0.25s;
-  -o-transition: background 0.25s;
-  transition: background 0.25s;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000374}}
-.usermessages table.messagesearchresults td.heading, .usermessages table#message_contacts td.heading {
-  color: #333333;
-  background: transparent !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000379}}
-.usermessages table.messagesearchresults td img, .usermessages table#message_contacts td img {
-  max-width: none;
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000384}}
-.usermessages table.messagesearchresults td span, .usermessages table#message_contacts td span {
-  display: inline-block;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000390}}
-.usermessages table.messagesearchresults tr:hover > td, .usermessages table#message_contacts tr:hover > td {
-  background: #eeeeee;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\0000395}}
-.usermessages .mdl-left .heading {
-  margin-top: 5px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003101}}
-.user-filemanager {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background: #fff;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003109}}
-.user-filemanager #fitem_id_files_filemanager {
-  margin-bottom: 20px;
-  min-height: 320px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003113}}
-.user-filemanager #fitem_id_files_filemanager .filemanager-container {
-  min-height: 175px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003118}}
-.user-filemanager label {
-  color: #333333;
-  padding-top: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003123}}
-.user-filemanager #id_submitbutton {
-  color: #fff !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003127}}
-.user-filemanager .fp-viewbar {
-  border-radius: 0;
-  overflow: hidden;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003132}}
-.user-filemanager .fp-toolbar .fp-btn-add,
-.user-filemanager .fp-toolbar .fp-btn-download,
-.user-filemanager .fp-toolbar .fp-btn-mkdir,
-.user-filemanager .fp-toolbar .fp-tb-help,
-.user-filemanager .fp-toolbar .fp-tb-manage,
-.user-filemanager .fp-toolbar .fp-tb-logout,
-.user-filemanager .fp-toolbar .fp-tb-refresh {
-  border-radius: 0;
-  overflow: hidden;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003145}}
-.user-filemanager .mform .fitem {
-  width: 100%;
-  margin: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003150}}
-.user-filemanager .mform .fitem .fitemtitle {
-  float: none;
-  width: 100%;
-  text-align: left;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003156}}
-.user-filemanager .mform .fitem .felement {
-  float: none;
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003162}}
-.user-filemanager .mform .fitem_actionbuttons > div.felement {
-  margin: 0;
-  text-align: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003166}}
-.user-filemanager .mform .fitem_actionbuttons > div.felement input {
-  margin: 0;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003174}}
-.moodle-dialogue-base {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003177}}
-.moodle-dialogue-base .moodle-dialogue-wrap {
-  border-radius: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003180}}
-.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.moodle-dialogue-hd {
-  background: #eeeeee;
-  text-shadow: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003185}}
-.moodle-dialogue-base .moodle-dialogue-wrap input[type="text"] {
-  max-width: 0;
-  min-width: 100%;
-  display: block;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003191}}
-.moodle-dialogue-base .moodle-dialogue-wrap .yui3-button.closebutton {
-  border-radius: 0;
-  box-shadow: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003196}}
-.moodle-dialogue-base .moodle-dialogue-wrap label.control-label {
-  color: #333333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003207}}
-.block_messages .content .info {
-  text-align: left;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003216}}
-.mform legend a, .mform legend a:hover {
-  color: #000;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003222}}
-.mform fieldset.collapsible legend a.fheader {
-  margin-left: 0px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003227}}
-.form-item .form-setting,
-.form-item .form-description,
-.mform .fitem .felement,
-#page-mod-forum-search .c1 {
-  color: #555;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003234}}
-ul, li {
-  list-style-type: none;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003239}}
-.user-grade td.oddd1, .user-grade th.oddd1 {
-  background-color: transparent;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003243}}
-#graded_users_selector .singleselect label {
-  font-weight: normal;
-  padding-right: 0.5em;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003249}}
-#chooseqtypebox .choosercontainer label {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003254}}
-.jsenabled .choosercontainer #chooseform .alloptions {
-  box-shadow: none;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003259}}
-.import-course-selector .detail-pair-value {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003263}}
-.import-course-selector .detail-pair-value input[type="submit"] {
-  margin-left: 0px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003269}}
-.import-course-selector input[type="text"] {
-  margin-right: 5px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003273}}
-.import-course-selector input[type="text"] + input[type="submit"] {
-  margin-top: -2px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003279}}
-.path-backup legend {
-  color: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003283}}
-.path-backup form {
-  color: #666;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003288}}
-.strong {
-  font-weight: bold;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003292}}
-#page-mod-chat-gui_basic #participants ul li .userinfo {
-  margin-left: 10px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003296}}
-#page-mod-chat-gui_basic input#newonly {
-  margin-left: 10px;
-  margin-right: 6px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003301}}
-.move-list-box {
-  color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003305}}
-.course-content .section.main .content .page.modtype_page,
-.course-content .section.main .content .imscp.modtype_imscp,
-.course-content .section.main .content .resource.modtype_resource,
-.course-content .section.main .content .quiz.modtype_quiz {
-  background-color: #fff;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003313}}
-#id_enrolperiod_number,
-#id_expirythreshold_number {
-  width: auto;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003319}}
-#id_name,
-#id_site_after_submit,
-#id_cmidnumber {
-  width: auto;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003326}}
-#id_introeditor,
-#id_geogebraurl,
-#id_width,
-#id_height,
-#id_modgrade_point {
-  width: auto;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003335}}
-.availability-field {
-  padding-left: 0px !important;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003339}}
-#fitem_id_availabilityconditionsjson .availability-button {
-  margin-left: 24px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_overrides\.scss}line{font-family:\00003344}}
-.loginbox .desc {
-  color: #000;
-}
-
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17.05.2015, 08:47:11
+    Author     : Admin
+*/
 @media only screen and (min-width: 1200px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\000036}}
-  .pagelayout-admin .admin-container {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-admin\.scss}line{font-family:\0000315}}
+  .pagelayout-admin .admin-container, .pagelayout-report .admin-container {
     width: 100%;
     max-width: 1680px;
     padding-left: 100px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000311}}
-  .pagelayout-admin .admin-container table {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-admin\.scss}line{font-family:\0000321}}
+  .pagelayout-admin .admin-container table, .pagelayout-report .admin-container table {
     width: 100% !important;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000315}}
-  .pagelayout-admin .admin-container table .mceToolbar {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-admin\.scss}line{font-family:\0000326}}
+  .pagelayout-admin .admin-container table .mceToolbar, .pagelayout-report .admin-container table .mceToolbar {
     width: auto !important;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000325}}
-.pagelayout-admin input .form-submit,
-.pagelayout-admin input [type="submit"] {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-admin\.scss}line{font-family:\0000334}}
+.pagelayout-admin .admin-navigation, .pagelayout-report .admin-navigation {
   color: #fff;
-  background: #00a8d5;
+  margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000333}}
-.pagelayout-admin .admin-navigation {
-  margin: 10px 0 25px;
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.05.2015, 18:52:40
+    Author     : Andreas Wagner, ISB Bayern
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000311}}
+#maincontent {
+  height: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000337}}
-.pagelayout-admin .admin-content {
-  color: #333333;
-  font-size: 0.875em;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000341}}
-.pagelayout-admin .admin-content h2 {
-  color: #333333 !important;
-  margin-top: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000346}}
-.pagelayout-admin .admin-content div[role="main"] {
-  color: #333333;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000316}}
+#main-content-wrapper {
   background: #fff;
-  padding: 20px;
+  padding: 0 20px 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000351}}
-.pagelayout-admin .admin-content div[role="main"] label, .pagelayout-admin .admin-content div[role="main"] .header {
-  color: #333333 !important;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000321}}
+#main-content-wrapper div[role="main"] #maincontent {
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000325}}
+#main-content-wrapper #maincontent + h2 {
+  color: white;
+  background: url(../pix/bg-dark.jpg);
+  line-height: 1.5em;
+  margin: -20px -20px 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000332}}
+#main-content-wrapper .col-md-12.block-transparent .header {
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000338}}
+#main-content-wrapper #adminsettings h2 {
   margin-top: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000356}}
-.pagelayout-admin .admin-content div[role="main"] .form-item .form-setting > input[type="text"],
-.pagelayout-admin .admin-content div[role="main"] .mform .fcontainer .fitem .felement > input[type="text"],
-.pagelayout-admin .admin-content div[role="main"] .form-item .form-setting > input[type="password"],
-.pagelayout-admin .admin-content div[role="main"] .mform .fcontainer .fitem .felement > input[type="password"] {
-  min-width: 0;
-  width: 100%;
-  max-width: 100%;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000342}}
+#main-content-wrapper #adminsettings fieldset {
+  margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000365}}
-.pagelayout-admin .admin-content div[role="main"] .form-label, .pagelayout-admin .admin-content div[role="main"] .form-setting, .pagelayout-admin .admin-content div[role="main"] .form-description {
-  color: #333333;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000351}}
+.no-background {
+  background: tranparent;
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000369}}
-.pagelayout-admin .admin-content div[role="main"] .fitemtitle, .pagelayout-admin .admin-content div[role="main"] .felement {
-  width: 100%;
-  float: none;
-  text-align: left;
-  color: #333333;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000358}}
+div[role="main"] ul, div[role="main"] ol {
+  padding: initial;
+  overflow: initial;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000376}}
-.pagelayout-admin .admin-content div[role="main"] input[type="submit"]#id_submitbutton,
-.pagelayout-admin .admin-content div[role="main"] input[type="submit"]#id_submitbutton2 {
-  color: #fff !important;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000367}}
+.breadcrumb-nav {
+  margin-bottom: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000384}}
-.pagelayout-admin .boxwidthnormal, .pagelayout-admin table#user-grades {
-  width: 100%;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000371}}
+.clearer {
+  height: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000388}}
-.pagelayout-admin .right_scroller.topscroll {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000375}}
+.collapsed .fcontainer, .collapsed ul {
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000392}}
-.pagelayout-admin .choosercontainer #chooseform .option label, .pagelayout-admin label, .pagelayout-admin .text_to_html {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\0000396}}
-.pagelayout-admin .alloptions {
-  overflow: auto;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003100}}
-.pagelayout-admin .instruction {
-  padding: 10px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003104}}
-.pagelayout-admin .collapsed .collapsibleregioninner {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000379}}
+.hiddenelement {
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003112}}
-.pagelayout-admin .mform fieldset .ftoggler {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000383}}
+.highlight {
+  display: inline-block;
+  padding: 0 2px;
+  background: #00a8d5;
+  color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000390}}
+.mform .felement.fstatic, .form-item .form-description {
+  color: #333;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\0000394}}
+input[type="checkbox"] + label {
+  margin-left: 5px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003102}}
+.mform fieldset .ftoggler {
   background: #00a8d5;
   padding: 20px;
   margin-bottom: 0;
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003118}}
-.pagelayout-admin .mform fieldset .ftoggler .helptooltip {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003109}}
+.mform fieldset .ftoggler .helptooltip {
   position: absolute;
   right: 50px;
   top: 19px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003123}}
-.pagelayout-admin .mform fieldset .ftoggler .helptooltip a {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003114}}
+.mform fieldset .ftoggler .helptooltip a {
   color: #fff;
   font-size: 0.6875em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003127}}
-.pagelayout-admin .mform fieldset .ftoggler .helptooltip a:after {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003118}}
+.mform fieldset .ftoggler .helptooltip a:after {
   font-family: 'mebis-icons';
   speak: none;
   font-style: normal;
@@ -19669,22 +18049,22 @@ ul, li {
   -moz-osx-font-smoothing: grayscale;
   content: "\e62f";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003142}}
-.pagelayout-admin .mform fieldset .ftoggler .helptooltip a:hover {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003133}}
+.mform fieldset .ftoggler .helptooltip a:hover {
   color: #ff6600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003146}}
-.pagelayout-admin .mform fieldset .ftoggler .helptooltip a img {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003137}}
+.mform fieldset .ftoggler .helptooltip a img {
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003151}}
-.pagelayout-admin .mform fieldset a.fheader {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003142}}
+.mform fieldset a.fheader {
   display: block;
   position: relative;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003156}}
-.pagelayout-admin .mform fieldset a.fheader:after {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003147}}
+.mform fieldset a.fheader:after {
   font-family: 'mebis-icons';
   speak: none;
   font-style: normal;
@@ -19699,444 +18079,546 @@ ul, li {
   top: 8px;
   content: "\e63d";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003173}}
-.pagelayout-admin .mform fieldset.collapsed, .pagelayout-admin .mform fieldset.collapsible {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003164}}
+.mform fieldset.collapsed, .mform fieldset.collapsible {
   margin-bottom: 40px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003176}}
-.pagelayout-admin .mform fieldset.collapsed legend, .pagelayout-admin .mform fieldset.collapsible legend {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003167}}
+.mform fieldset.collapsed legend, .mform fieldset.collapsible legend {
   color: #fff;
   border: 0;
   line-height: 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003181}}
-.pagelayout-admin .mform fieldset.collapsed legend a.fheader, .pagelayout-admin .mform fieldset.collapsible legend a.fheader {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003172}}
+.mform fieldset.collapsed legend a.fheader, .mform fieldset.collapsible legend a.fheader {
   background-image: none;
   line-height: 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003188}}
-.pagelayout-admin .mform fieldset.collapsed .fcontainer, .pagelayout-admin .mform fieldset.collapsible .fcontainer {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003179}}
+.mform fieldset.collapsed .fcontainer, .mform fieldset.collapsible .fcontainer {
   background: #fff;
   padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003195}}
-.pagelayout-admin .mform fieldset.collapsible a.fheader:after {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003186}}
+.mform fieldset.collapsible a.fheader:after {
   content: "\e662";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003196}}
-.pagelayout-admin .mform fieldset.collapsible.collapsed a.fheader:after {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003187}}
+.mform fieldset.collapsible.collapsed a.fheader:after {
   content: "\e63d";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003201}}
-.pagelayout-admin fieldset.hidden > div {
-  padding: 20px;
-  background: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003206}}
-.pagelayout-admin .mform .fitem_actionbuttons > div.felement {
-  margin-left: 0;
-  text-align: right;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003211}}
-.pagelayout-admin #course-category-listings > div > div {
-  border: 0;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003217}}
-.pagelayout-admin #course-category-listings .listitem > div .idnumber {
-  color: #333333 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003221}}
-.pagelayout-admin #course-category-listings .course-count span {
-  color: #333333 !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003225}}
-.pagelayout-admin #course-category-listings h3 {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003193}}
+.mform input .form-submit,
+.mform input [type="submit"] {
+  color: #fff;
   background: #00a8d5;
-  margin: 0;
-  padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003231}}
-.pagelayout-admin #course-category-listings .listing-actions .moodle-actionmenu {
-  display: inline !important;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003202}}
+.moodle-dialogue-base .moodle-dialogue-wrap {
+  -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003234}}
-.pagelayout-admin #course-category-listings .listing-actions .moodle-actionmenu .caret {
-  vertical-align: text-top;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003206}}
+.pagination-row {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003240}}
-.pagelayout-admin .box.generalbox {
-  color: #333333;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003213}}
+.tree_item span, .tree_item span:focus {
+  outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003243}}
-.pagelayout-admin .box.generalbox th, .pagelayout-admin .box.generalbox td, .pagelayout-admin .box.generalbox label, .pagelayout-admin .box.generalbox .cap-name {
-  color: #333333;
+
+@media only screen and (max-width: 480px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003217}}
+  .text-mobile-left {
+    text-align: left !important;
+  }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003249}}
-.pagelayout-admin .block-region .box.generalbox {
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.05.2015, 19:46:57
+    Author     : Andreas Wagner
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000313}}
+.path-course-view #main-content-wrapper {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003253}}
-.pagelayout-admin .admintable.generaltable, .pagelayout-admin .userenrolment.otheruserenrolment {
-  background: #fff;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000319}}
+.path-course-view .course-headline h2 {
+  color: #fff;
+  margin-bottom: 25px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003256}}
-.pagelayout-admin .admintable.generaltable th, .pagelayout-admin .admintable.generaltable td, .pagelayout-admin .userenrolment.otheruserenrolment th, .pagelayout-admin .userenrolment.otheruserenrolment td {
-  padding: 10px;
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003262}}
-.pagelayout-admin .questionbankwindow {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000329}}
+#page-course-index-category div[role="main"] > .generalbox {
   background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 0;
   padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003266}}
-.pagelayout-admin .questionbankwindow h2 {
-  color: #333333 !important;
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000339}}
+#page-course-view-topics #main-content-wrapper {
+  background: transparent;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003271}}
-.pagelayout-admin #page-enrol-users .enrol_user_buttons {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000343}}
+#page-enrol-users .enrol_user_buttons {
   float: none;
   text-align: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003276}}
-.pagelayout-admin #groupeditform, .pagelayout-admin .generaltable {
-  background: #fff;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003279}}
-.pagelayout-admin #groupeditform .header, .pagelayout-admin .generaltable .header {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003283}}
-.pagelayout-admin #groupeditform select, .pagelayout-admin .generaltable select {
-  width: 100%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003288}}
-.pagelayout-admin .cell, .pagelayout-admin #livelogs-pause-button, .pagelayout-admin .fitemtitle {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003292}}
-.pagelayout-admin .singleselect label {
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000351}}
+#page-my-index #main-content-wrapper {
+  background: transparent;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003296}}
-.pagelayout-admin .course-detail span {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000356}}
+#page-my-index #main-content-wrapper h2 {
+  background: transparent;
+  color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000366}}
+#page-course-management #course-category-listings {
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000369}}
+#page-course-management #course-category-listings > div > div {
+  border: none;
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000374}}
+#page-course-management #course-category-listings h3 {
+  background: #00a8d5;
+  padding: 20px;
+}
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.05.2015, 19:53:35
+    Author     : Andreas Wagner, ISB Bayern
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000311}}
+.block {
+  background-color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000315}}
+.block .header {
+  background-color: inherit;
+  color: inherit;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000321}}
+.block-transparent {
+  background: transparent;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000325}}
+.block-transparent .header {
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000328}}
+.block-transparent .header .commands img.actionmenu {
+  width: auto;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000333}}
+.block-transparent .moodle-actionmenu {
+  text-align: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000340}}
+.col-md-12.block-transparent .header {
+  margin: 0 20px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000346}}
+.block-region .col-md-4 {
+  min-height: 150px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000353}}
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre, .dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post {
+  width: 100%;
+  right: initial;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000361}}
+.mbscoordinators {
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000365}}
+.mbscoordinators > div {
+  float: left;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000368}}
+.mbscoordinators > ul {
+  list-style: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000370}}
+.mbscoordinators > ul > li {
+  float: left;
+  margin-left: 10px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000378}}
+.mbsnewcourse {
+  padding-bottom: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000380}}
+.mbsnewcourse > ul {
+  list-style: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000382}}
+.mbsnewcourse > ul > li {
+  float: right;
+  margin-left: 50px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000385}}
+.mbsnewcourse > ul > li a i {
+  font-size: 1.25em !important;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000392}}
+.block_mbsgettingstarted {
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000395}}
+.block_mbsgettingstarted .btn .btn-secondary {
+  margin: 2px 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\0000398}}
+.block_mbsgettingstarted .btn .btn-secondary .btn-lg, .block_mbsgettingstarted .btn .btn-secondary .btn-group-lg > .btn {
+  font-size: 23px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003103}}
+.block_mbsgettingstarted .wizzardlinks ul {
+  margin-top: 6px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003107}}
+.block_mbsgettingstarted .aidlinks ul {
+  margin-top: 12px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003117}}
+.block_mbsmycourses .mbsnewcourse {
+  float: right;
+  padding: 20px 0 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003123}}
+.block_mbsmycourses .header {
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003127}}
+.block_mbsmycourses .header h2 {
+  margin-bottom: 12.5px;
+  margin-top: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003134}}
+.block_mbsmycourses .course-sorting {
+  padding: 15px 0;
+  border-top: dotted 1px rgba(230, 230, 230, 0.3);
+  border-bottom: dotted 1px rgba(230, 230, 230, 0.3);
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003141}}
+.block_mbsmycourses .course-sorting input, .block_mbsmycourses .course-sorting select, .block_mbsmycourses .course-sorting label {
+  margin-bottom: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003145}}
+.block_mbsmycourses .course-sorting label {
+  margin-top: 10px;
+}
+@media only screen and (max-width: 480px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003154}}
+  .block_mbsmycourses .my-courses-filter select {
+    margin-bottom: 10px;
+    max-width: none;
+  }
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003161}}
+.block_mbsmycourses .my-courses-filter label {
+  position: relative;
+  cursor: pointer;
   color: #333333;
+  margin-left: 10px;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003302}}
-.bulk-actions input {
-  margin-left: 0px !important;
-  vertical-align: top;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003169}}
+.block_mbsmycourses .my-courses-filter label:hover i, .block_mbsmycourses .my-courses-filter label:hover span {
+  color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003307}}
-.bulk-actions select {
-  margin-right: 5px !important;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003174}}
+.block_mbsmycourses .my-courses-filter label input {
+  opacity: 0;
+  position: absolute;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003312}}
-#id_submissiontypes fieldset > span {
-  margin-right: 30px !important;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003315}}
-#id_submissiontypes fieldset > span > input {
-  vertical-align: sub;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003179}}
+.block_mbsmycourses .my-courses-filter label i, .block_mbsmycourses .my-courses-filter label span > span {
+  color: #fff;
+  font-size: 1.375em;
+  -webkit-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block;
   margin-right: 5px;
 }
-
-/** Custom YUI grid CSS **/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003323}}
-.grid-col {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003189}}
+.block_mbsmycourses .my-courses-filter label > span {
   display: inline-block;
-  zoom: 1;
-  *display: inline;
-  letter-spacing: normal;
-  word-spacing: normal;
-  vertical-align: top;
-  text-rendering: auto;
+  vertical-align: middle;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003193}}
+.block_mbsmycourses .my-courses-filter label > span span {
+  font-size: 1.125em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003198}}
+.block_mbsmycourses .my-courses-filter label input:checked + i, .block_mbsmycourses .my-courses-filter label input:checked ~ span > span {
+  color: #ff6600;
+}
+@media only screen and (max-width: 480px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003161}}
+  .block_mbsmycourses .my-courses-filter label {
+    display: inline-block;
+    margin-right: 35px;
+    margin-left: 0;
+    margin-top: 15px;
+  }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003208}}
+  .block_mbsmycourses .my-courses-filter label i {
+    vertical-align: middle;
+  }
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003216}}
+.block_mbsmycourses .content {
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003220}}
+.block_mbsmycourses .course_list {
+  width: auto;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003224}}
+.block_mbsmycourses .coursebox {
+  margin: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003228}}
+.block_mbsmycourses .move {
+  padding: 2px 0 0 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003232}}
+.block_mbsmycourses .category-box {
+  border: 0px;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003331}}
-.grid-col-1 {
-  display: block;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003332}}
-.grid-col-1-2 {
-  width: 50%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003333}}
-.grid-col-1-3 {
-  width: 33.33333%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003334}}
-.grid-col-2-3 {
-  width: 66.66667%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003335}}
-.grid-col-1-4 {
-  width: 25%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003336}}
-.grid-col-3-4 {
-  width: 75%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003337}}
-.grid-col-1-5 {
-  width: 20%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003338}}
-.grid-col-2-5 {
-  width: 40%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003339}}
-.grid-col-3-5 {
-  width: 60%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003340}}
-.grid-col-4-5 {
-  width: 80%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003341}}
-.grid-col-1-6 {
-  width: 16.66667%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003342}}
-.grid-col-5-6 {
-  width: 83.33333%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003343}}
-.grid-col-1-7 {
-  width: 14.28571%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003344}}
-.grid-col-2-7 {
-  width: 28.57143%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003345}}
-.grid-col-3-7 {
-  width: 42.85714%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003346}}
-.grid-col-4-7 {
-  width: 57.14286%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003347}}
-.grid-col-5-7 {
-  width: 71.42857%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003348}}
-.grid-col-6-7 {
-  width: 85.71429%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003349}}
-.grid-col-1-8 {
-  width: 12.5%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003350}}
-.grid-col-3-8 {
-  width: 37.5%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003351}}
-.grid-col-5-8 {
-  width: 62.5%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003352}}
-.grid-col-7-8 {
-  width: 87.5%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003353}}
-.grid-col-1-9 {
-  width: 11.11111%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003354}}
-.grid-col-2-9 {
-  width: 22.22222%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003355}}
-.grid-col-4-9 {
-  width: 44.44444%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003356}}
-.grid-col-5-9 {
-  width: 55.55556%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003357}}
-.grid-col-6-9 {
-  width: 66.66667%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003358}}
-.grid-col-7-9 {
-  width: 77.77778%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003359}}
-.grid-col-8-9 {
-  width: 88.88889%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003360}}
-.grid-col-1-10 {
-  width: 10%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003361}}
-.grid-col-3-10 {
-  width: 30%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003362}}
-.grid-col-7-10 {
-  width: 70%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003363}}
-.grid-col-9-10 {
-  width: 90%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003364}}
-.grid-col-1-11 {
-  width: 9.09091%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003365}}
-.grid-col-2-11 {
-  width: 18.18182%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003366}}
-.grid-col-3-11 {
-  width: 27.27273%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003367}}
-.grid-col-4-11 {
-  width: 36.36364%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003368}}
-.grid-col-5-11 {
-  width: 45.45455%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003369}}
-.grid-col-6-11 {
-  width: 54.54545%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003370}}
-.grid-col-7-11 {
-  width: 63.63636%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003371}}
-.grid-col-8-11 {
-  width: 72.72727%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003372}}
-.grid-col-9-11 {
-  width: 81.81818%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003373}}
-.grid-col-10-11 {
-  width: 90.90909%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003374}}
-.grid-col-1-12 {
-  padding-left: 20px;
-  width: 8.33333%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003375}}
-.grid-col-5-12 {
-  padding-left: 20px;
-  width: 41.66667%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003376}}
-.grid-col-7-12 {
-  padding-left: 20px;
-  width: 58.33333%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003377}}
-.grid-col-9-12 {
-  padding-left: 20px;
-  width: 75%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003378}}
-.grid-col-11-12 {
-  padding-left: 20px;
-  width: 91.66667%;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_admin\.scss}line{font-family:\00003379}}
-.grid-row-r {
-  letter-spacing: -0.31em;
-  *letter-spacing: normal;
-  word-spacing: -0.43em;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_chat\.scss}line{font-family:\000031}}
-.path-mod-chat-gui_basic {
-  background: url(../pix/bg-dark.jpg);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_chat\.scss}line{font-family:\000033}}
-.path-mod-chat-gui_basic .generaltable {
-  color: #333333;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_chat\.scss}line{font-family:\000036}}
-.path-mod-chat-gui_basic #messages dl {
-  background: #999999;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_chat\.scss}line{font-family:\0000311}}
-.path-mod-chat-gui_ajax {
-  background: url(../pix/bg-dark.jpg);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_chat\.scss}line{font-family:\0000313}}
-.path-mod-chat-gui_ajax #input-message, .path-mod-chat-gui_ajax #choosetheme {
-  color: #333333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_lightbox\.scss}line{font-family:\000031}}
-.generaltable textarea {
-  color: #333333;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_lightbox\.scss}line{font-family:\000035}}
-.nav-justified > li, .nav-tabs.nav-justified > li, .nav-tabs.nav-justified > li {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\000034}}
+.course-content ul li.section.main {
   background-color: #fff;
+  margin-top: 30px;
+  padding: 20px 20px 20px 10px;
+  border-bottom: none;
+  border-left: 1em solid #ffffff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000315}}
+.course-content ul li.section.main.current {
+  border-left-color: #00a8d5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000319}}
+.course-content ul li.section.main .content {
+  padding: 20px !important;
+  color: #333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000324}}
+.course-content ul li.section.main .content > h3 {
+  margin-top: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000329}}
+.course-content ul li.section.main .content .activity {
+  background-color: #F0F0F0;
+  margin-top: 1px;
+  padding: 0.5em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000334}}
+.course-content ul li.section.main .content .activity .activityinstance {
+  min-height: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000338}}
+.course-content ul li.section.main .content .activity.label {
+  background-color: transparent;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000341}}
+.course-content ul li.section.main .content .activity.label .no-overflow {
+  margin-bottom: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000347}}
+.course-content ul li.section.main .content.hide_section {
+  display: none;
+  visibility: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000355}}
+ul.jumpnavigation {
+  position: fixed;
+  top: 40%;
+  right: 0;
+  z-index: 5;
+  list-style: none;
+  color: #fff;
+  padding: 50px 0 50px 100px !important;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000365}}
+ul.jumpnavigation li.jumpnavigation-point {
+  background-color: #ff6600;
+  padding: 0px 15px;
+  margin-top: 2px;
+  height: 26px;
+  cursor: pointer;
+  min-width: 50px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000378}}
+ul.jumpnavigation li.jumpnavigation-point span {
+  font-family: "Titillium Web Light","Titillium Web";
+  font-weight: 300;
+  font-style: normal;
+  font-size: calcEm(16px);
+  text-align: center;
+  line-height: normal;
+  display: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000387}}
+ul.jumpnavigation li.jumpnavigation-point:hover {
+  background-color: #00a8d5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000390}}
+ul.jumpnavigation li.jumpnavigation-point.up-arrow {
+  height: 50px;
+  width: 50px;
+  margin-top: 7px;
+  float: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000395}}
+ul.jumpnavigation li.jumpnavigation-point.up-arrow span {
+  font-size: 32px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003104}}
+ul.jumpnavigation:hover li.jumpnavigation-point span {
+  display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000031}}
+.courses {
+  margin-top: 20px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\000035}}
+.coursenumber-label {
+  margin-right: 8px;
+  margin-left: 20px;
+  display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000313}}
+.coursebox .course_title {
+  position: inherit;
+  right: 0px;
+  top: 0px;
+  z-index: 9;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000320}}
+.coursebox .coursebox-meta {
+  background: #00a8d5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000323}}
+.coursebox .coursebox-meta .course-is-new span,
+.coursebox .coursebox-meta .box-type i {
+  display: inline-block;
+  background: #00637d;
+  color: #fff;
+  line-height: 40px;
+  text-align: center;
+  margin-right: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000333}}
+.coursebox .coursebox-meta .course-is-new span {
+  padding: 0 10px;
+  line-height: 28px;
+  font-size: 0.875em;
+  margin-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000340}}
+.coursebox .coursebox-meta .box-type i {
+  width: 40px;
+  margin-right: 10px;
+  font-size: 1.5em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000347}}
+.coursebox .coursebox-inner {
+  padding: 0;
+  border: 0;
+  position: relative;
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000353}}
+.coursebox .coursebox-inner .coursebox-link {
+  min-height: 165px;
+  padding: 20px;
+  text-align: left;
+  display: block;
+  background: #fff;
+  font-weight: 400;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000362}}
+.coursebox .coursebox-inner .coursebox-link .coursename {
+  font-size: 1.25em;
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000366}}
+.coursebox .coursebox-inner .coursebox-link .coursename:before {
+  color: #00a8d5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000371}}
+.coursebox .coursebox-inner .coursebox-link .coursetype {
+  font-size: 0.75em;
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000380}}
+.coursebox .coursebox-inner:hover .coursebox-link {
+  background: #ff6600;
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000384}}
+.coursebox .coursebox-inner:hover .coursebox-link .coursename, .coursebox .coursebox-inner:hover .coursebox-link .coursename:before {
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000388}}
+.coursebox .coursebox-inner:hover .coursebox-link .coursetype {
+  color: #fff;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\000031}}
@@ -20350,39 +18832,119 @@ ul, li {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003205}}
-.mbscoordinators {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 30px;
+.categorybox {
+  padding: 15px 0;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003209}}
-.mbscoordinators > div {
-  float: left;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003212}}
-.mbscoordinators > ul {
-  list-style: none;
+.categorybox .category-container {
+  background-color: #fff;
+  margin: 1px 20px;
+  padding: 20px 0px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003214}}
-.mbscoordinators > ul > li {
-  float: left;
-  margin-left: 10px;
+.categorybox .category-container.category-name {
+  padding-left: 20px;
+  padding-right: 20px;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003221}}
-.mbsnewcourse {
-  padding-bottom: 30px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003223}}
-.mbsnewcourse > ul {
-  list-style: none;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003225}}
-.mbsnewcourse > ul > li {
-  float: right;
-  margin-left: 50px;
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003218}}
+.categorybox .category-container.category-name .closebutton {
+  font-family: FontAwesome;
+  position: absolute;
+  right: 60px;
+  top: 23px;
+  color: #333333;
+  cursor: pointer;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003228}}
-.mbsnewcourse > ul > li a i {
-  font-size: 1.25em !important;
+.categorybox .category-container .category-coursebox {
+  padding: 17px 60px;
+  margin: 0px 40px 1px 0;
+  background-color: #CCC;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003233}}
+.categorybox .category-container .category-coursebox .iconbox {
+  font-family: FontAwesome;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #858585;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  color: #E4E4E4;
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_category\.scss}line{font-family:\00003249}}
+.categorybox .category-container .category-coursebox .newbox {
+  position: absolute;
+  top: 0px;
+  right: 60px;
+  width: 40px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #A0A0A0;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\000033}}
+.schoolbox .schoolbox-meta {
+  background: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\000036}}
+.schoolbox .schoolbox-meta .box-type i {
+  display: inline-block;
+  background: #999999;
+  color: #fff;
+  line-height: 40px;
+  text-align: center;
+  margin-right: 0;
+  width: 40px;
+  margin-right: 10px;
+  font-size: 1.5em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000320}}
+.schoolbox .schoolbox-inner {
+  padding: 0;
+  position: relative;
+  margin-bottom: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000325}}
+.schoolbox .schoolbox-inner .schoolbox-link {
+  display: block;
+  background-color: #ff6600;
+  -webkit-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  min-height: 150px;
+  padding: 20px;
+  text-align: left;
+  font-weight: 400;
+  font-style: normal;
+  color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000337}}
+.schoolbox .schoolbox-inner .schoolbox-link .schoolname {
+  font-size: 1.25em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000344}}
+.schoolbox .schoolbox-inner:hover .schoolbox-link {
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Admin\/xampp183\/htdocs\/dlbredesign\/theme\/mebis\/scss\/moodle\/_schoolbox\.scss}line{font-family:\0000348}}
+.schoolbox .schoolbox-inner:hover .vbox {
+  color: #333333;
+}
+
+/*
+@import "moodle/course";
+@import "moodle/settings";
+@import "moodle/overrides";
+@import "moodle/lightbox";
+*/

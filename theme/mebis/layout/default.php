@@ -120,15 +120,20 @@ echo $OUTPUT->doctype()
                 }
 
                 echo $OUTPUT->course_content_header();
-                echo $OUTPUT->main_content();
+                ?>
+                <div id="main-content-wrapper">
+                        <?php echo $OUTPUT->main_content(); ?>
+                    
+                </div>
+                <?php
                 echo $OUTPUT->course_content_footer();
                 ?>
 
                 <?php if ($hassidepre || $hassidepost) { ?>
                 
                     <div class="row">
-                        <div class="col-lg-12 col-sm-12 margin-bottom-small">
-                            <h1><?php echo get_string('my-apps', 'theme_mebis'); ?></h1>
+                        <div class="col-lg-12 col-sm-12 no-background">
+                            <h2><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
                         </div>
                     </div>
 

@@ -27,36 +27,6 @@
         }
     }
 }
-.course-content{
-
-    .section.main {
-        background-color: $white;
-        margin-top: 30px !important;
-        padding: 20px !important;
-        h3 {
-            text-align: left;
-        }
-        .content {
-            padding: 20px !important;
-            color: #333;
-
-            .page.modtype_page, .imscp.modtype_imscp,.resource.modtype_resource,.quiz.modtype_quiz {
-                background-color: #F0F0F0;
-                margin-top: 1px;
-            }
-        }
-        &.hide_section {
-            display: none;
-            visibility: hidden;
-        }
-    }
-
-    li.current {
-        border-left: 1em !important;
-        border-left-color: #00a8d5 !important;
-        border-left-style: solid !important;
-    }
-}
 
 #gridiconcontainer {
     .gridicons {
@@ -197,17 +167,24 @@
     }
 }
 
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17.05.2015, 09:11:09
+    Author     : Andreas Wagner, ISB Bayern
+*/
+
 .course-content {
 
     ul.topics li.section .content:before  {
-  
+
         clear: none;
     }
 
     ul.ctopics li.section{
-        /*        &.main .content {
-                    margin: 0px -20px !important;
-                }*/
 
         .content{
             color: #333;
@@ -250,137 +227,11 @@
     }
 }
 
-    ul.jumpnavigation {
-    position:fixed;
-    top:40%;
-    right:0;
-    z-index:5;
-    list-style:none;
-    color: $white;
-    padding: 50px 0 50px 100px !important;
-    li.jumpnavigation-point {
-        background-color:$brand-secondary;
-        padding: 0px 15px ;
-        margin-top:2px;
-        height: 26px;
-        cursor: pointer;
-        min-width: 50px;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        text-align: right;
-        span {
-            font-family: "Titillium Web Light","Titillium Web";
-            font-weight: 300;
-            font-style: normal;
-            font-size: calcEm(16px);
-            text-align: center;
-            line-height: normal;
-            display: none;
-        }
-        &:hover {
-            background-color:$brand-primary;
-        }
-        &.up-arrow {
-            height: 50px;
-            width: 50px;
-            margin-top:7px;
-            float: right;
-            span {
-                font-size: 32px;
-                display: inline-block;
-            }
-        }
-    }
-    &:hover {
-
-        li.jumpnavigation-point {
-            span {
-                display: inline-block;
-            }
-        }
-    }
-}
-
-.my-courses-filter {
-
-    select {
-        @media only screen and (max-width: $screen-xs-min) {
-            margin-bottom: 10px;
-            max-width: none;
-        }
-    }
-
-    label {
-        position: relative;
-        cursor: pointer;
-        color: $gray-dark;
-        margin-left: 10px;
-
-        &:hover {
-
-            i, span {
-                color: $white;
-           }
-        }
-
-        input {
-            opacity: 0;
-            position: absolute;
-        }
-
-        i, span > span {
-            color: $white;
-            font-size: emCalc(22px);
-            @include transition(color .25s);
-            text-align: center;
-            margin: 0 auto;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        > span {
-            display: inline-block;
-            vertical-align: middle;
-
-            span {
-                font-size: emCalc(18px);
-            }
-        }
-
-        input:checked + i, input:checked ~ span > span {
-            color: $brand-secondary;
-        }
-
-        @media only screen and (max-width: $screen-xs-min) {
-            display: inline-block;
-            margin-right: 35px;
-            margin-left: 0;
-            margin-top: 15px;
-
-            i {
-                vertical-align: middle;
-            }
-        }
-    }
-
-}
-
 
 .course {
 
     .activityinstance {
         padding-top: 5px;
-    }
-
-    .course-headline {
-
-        h1 {
-            color: $white;
-            margin-bottom: 25px;
-        }
     }
 
     .spacer {

@@ -1,0 +1,109 @@
+.course-content {
+
+    // Styles for all section based formats.
+    ul li.section.main {
+
+        background-color: $white;
+        
+        margin-top: 30px;
+        padding: 20px 20px 20px 10px;
+        
+        border-bottom: none;
+        border-left: 1em solid #ffffff;
+
+        // Highlight current section.
+        &.current {
+            border-left-color: #00a8d5;
+        }
+
+        .content {
+
+            padding: 20px !important;
+            color: #333;
+
+            > h3 {
+                margin-top : 0px;
+            }
+
+            // Background of list items, no background for mod_label
+            .activity  {
+                background-color: #F0F0F0;
+                margin-top: 1px;
+                padding: 0.5em;
+
+                .activityinstance {
+                    min-height:0px;
+                }
+
+                &.label {
+                    background-color: transparent;
+                    
+                    .no-overflow {
+                        margin-bottom: 0px;
+                    }
+                }
+            }
+
+            &.hide_section {
+                display: none;
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+ul.jumpnavigation {
+
+    position:fixed;
+    top:40%;
+    right:0;
+    z-index:5;
+    list-style:none;
+    color: $white;
+    padding: 50px 0 50px 100px !important;
+
+    li.jumpnavigation-point {
+        background-color:$brand-secondary;
+        padding: 0px 15px ;
+        margin-top:2px;
+        height: 26px;
+        cursor: pointer;
+        min-width: 50px;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: right;
+        span {
+            font-family: "Titillium Web Light","Titillium Web";
+            font-weight: 300;
+            font-style: normal;
+            font-size: calcEm(16px);
+            text-align: center;
+            line-height: normal;
+            display: none;
+        }
+        &:hover {
+            background-color:$brand-primary;
+        }
+        &.up-arrow {
+            height: 50px;
+            width: 50px;
+            margin-top:7px;
+            float: right;
+            span {
+                font-size: 32px;
+                display: inline-block;
+            }
+        }
+    }
+    &:hover {
+
+        li.jumpnavigation-point {
+            span {
+                display: inline-block;
+            }
+        }
+    }
+}

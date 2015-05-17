@@ -95,8 +95,11 @@ echo $OUTPUT->doctype()
                     <div class="col-lg-9 col-md-12 col-sm-12">
                         <div class="admin-content">
                             <?php
-                            echo $OUTPUT->course_content_header();
-                            echo $OUTPUT->main_content();
+                            echo $OUTPUT->course_content_header(); ?>
+                             <div id="main-content-wrapper">
+                            <?php echo $OUTPUT->main_content(); ?>
+                             </div>
+                            <?php
                             echo $OUTPUT->course_content_footer();
                             ?>
                         </div>

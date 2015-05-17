@@ -69,7 +69,7 @@ class theme_mebis_block_mbssearch_renderer extends block_mbssearch_renderer {
                             'value' => $schoolcat->id, ));
 
                 $checkbox .= html_writer::tag('label', get_string('searchonlyin', 'block_mbssearch', $schoolcat->name), array('for' => 'search_schoolcatid'));
-                $output .= html_writer::tag('div', $checkbox, array('class' => 'col-md-8 pull-left'));
+                $output .= html_writer::tag('div', $checkbox, array('class' => 'col-md-12 pull-left'));
             }
         }
         

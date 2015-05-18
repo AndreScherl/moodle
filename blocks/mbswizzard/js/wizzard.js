@@ -110,6 +110,12 @@ M.block_mbswizzard.wizzard.store_sequence = function(seq) {
  * @param number step
  */
 M.block_mbswizzard.wizzard.show_tip = function(step) {
+    // Destroy the previous tooltip.
+    if(step > 0) {
+        $(this.sequence.steps[step-1].sel).tooltip('destroy');
+    }
+        
+    // Show the current tooltip.
     var cs = this.sequence.steps[step];
     $(cs.sel).tooltip({
 	html: true,
@@ -117,8 +123,12 @@ M.block_mbswizzard.wizzard.show_tip = function(step) {
 	trigger: 'manual'
     });
     $(cs.sel).tooltip('show');
+    
+    var offsettop = $('#topbar').height() + $('header.me-page-header.full').height() + 150;
+    $.scrollTo(cs.sel, 1000, {
+        offset: {top:-offsettop}
+    });
     $(cs.sel).focus();
-    //$.scrollTo(cs.sel);
     this.update_progressbar();
 };
 	

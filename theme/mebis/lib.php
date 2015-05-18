@@ -6,6 +6,10 @@
  * @package theme_mebis
  */
 
+function theme_mebis_page_init(moodle_page $page) {
+    $page->requires->jquery();
+}
+
 function theme_mebis_process_css($css, $theme)
 {
     // run compass compile during the css processing phase...

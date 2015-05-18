@@ -584,7 +584,7 @@ $(function() {
 
     $(window).on('resize', function() {
         Mebis.resize();
-    })
+    });
 
     $(window).on('orientationchange', function(){
         Mebis.orientationchange();

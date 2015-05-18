@@ -1,32 +1,4 @@
-.single-section  {
-    &.onetopic {
-        .nav.nav-tabs.nav-justified {
-            li {
-                background-color: inherit !important;
 
-                .active {
-                    background-color: #999;
-                }
-                a {
-                    border: none;
-                }
-            }
-            background-color: $white;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-    }
-    .section-navigation{
-        overflow: hidden;
-        padding: 1em 0 !important;
-        > div > div {
-            margin-top:1px;
-            padding: 20px;
-            background-color: $white;
-            text-align: center;
-        }
-    }
-}
 
 #gridiconcontainer {
     .gridicons {
@@ -167,15 +139,7 @@
     }
 }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 17.05.2015, 09:11:09
-    Author     : Andreas Wagner, ISB Bayern
-*/
+
 
 .course-content {
 
@@ -184,63 +148,11 @@ and open the template in the editor.
         clear: none;
     }
 
-    ul.ctopics li.section{
-
-        .content{
-            color: #333;
-            .toggledsection {
-                display: none;
-                &.sectionopen{
-                    display: inline-block;
-                }
-            }
-
-            .sectionhead {
-                position:relative;
-                background-color: transparent !important;
-                h3{
-                    font-family: "Titillium Web SemiBold","Titillium Web";
-                    font-weight: 600;
-                    font-style: normal;
-                    font-size: emCalc(18px);
-                    text-align: left;
-                    line-height: 24px;
-                }
-                .closebutton {
-                    font-family: FontAwesome;
-                    position: absolute;
-                    right: 0px;
-                    top: 12px;
-                    color: #333333;
-                    cursor: pointer;
-                }
-            }
-            margin: 0px;
-            padding: 10px !important;
-        }
-        &.body {
-            background-color: $white;
-            padding: 20px !important;
-            margin: 2px 1px 1px;
-        }
-        padding: 0px !important;
-    }
+    
 }
 
 
 .course {
-
-    .activityinstance {
-        padding-top: 5px;
-    }
-
-    .spacer {
-        display: none;
-    }
-
-    h2 {
-        margin-top: 0;
-    }
 
     &.course-format-topics {
 
@@ -272,127 +184,8 @@ and open the template in the editor.
 
     }
 
-    &.course-format-topcoll {
-
-        .ctopics li.section.main .content { padding: 0!important; }
-
-        .ctopics {
-
-            .section.main {
-                border: 0;
-
-                &.summary {
-                    padding: 60px!important;
-                }
-
-                .content {
-                    padding: 0!important;
-                    margin: 0!important;
-
-                    .section-header {
-                        background: $brand-primary;
-
-                        h2 {
-                            color: $white;
-                            padding: 20px;
-                            margin-bottom: 0;
-                            font-size: 1.25em;
-                            font-weight: 700;
-                            margin: 0;
-                        }
-
-                        .toggle {
-                            width: 25%!important;
-                            padding: 0 20px!important;
-
-                            .the_toggle {
-                                display: block;
-                                padding: 20px;
-                                cursor: pointer;
-                                color: $white;
-                                -webkit-transition: all 0.25s;
-                                transition: all 0.25s;
-                                text-align: right;
-
-                                .closebutton {
-                                    position: relative;
-                                    color: $white;
-                                    top: 0;
-                                    text-indent: -999em;
-                                    font-size: 0;
-
-                                    &:before {
-                                        font-family: 'mebis-icons';
-                                        speak: none;
-                                        font-style: normal;
-                                        font-weight: normal;
-                                        font-variant: normal;
-                                        text-transform: none;
-                                        line-height: 1;
-                                        font-size: 0.875em;
-                                        -webkit-font-smoothing: antialiased;
-                                        -moz-osx-font-smoothing: grayscale;
-                                        content: "\e63d";
-                                        font-size: 18px;
-                                    }
-                                }
-
-                                &.toggle_open .closebutton:before { content: "\e662"; }
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-    }
-
-    &.course-format-onetopic {
-
-        .single-section.onetopic .nav.nav-tabs {
-            background: transparent;
-            border-top: dotted 1px rgba(230,230,230,0.3);
-            border-bottom: dotted 1px rgba(230,230,230,0.3);
-            padding-top: 20px;
-            padding-bottom: 10px;
-
-            li {
-                padding: 0 20px 10px 0;
-                border: 0;
-
-                a {
-                    color: $white;
-                    border: 0;
-                    text-align: center;
-
-                   .marker {
-                        font-style: normal;
-                    }
-                }
-
-                &.active a, a:hover, a:active, a:focus {
-                    color: $white;
-                    background: $brand-secondary;
-                }
-            }
-        }
-
-        .single-section .section-navigation > div > div {
-            padding: 0;
-            margin-top: 0;
-            background: transparent;
-
-            a {
-                display: block;
-                padding: 20px;
-                background: $brand-primary;
-                color: $white;
-                width: 100%;
-            }
-        }
-
-    }
+    
+    
 
     &.course-format-grid {
 
@@ -526,8 +319,4 @@ and open the template in the editor.
     margin-left: 10px;
 }
 
-.path-course-view .completionprogress {
-    z-index:1;
-    top: 20px;
-    right: 20px;
-}
+

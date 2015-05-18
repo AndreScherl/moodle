@@ -33,8 +33,9 @@
 @import "moodle/cu-course";
 @import "moodle/cu-pages";
 @import "moodle/cu-general";
+@import "moodle/cu-courseformats";
 
-/* 
+/**
 To check whether styles are necessary:
 @import "moodle/admin" (need to check whether some style are necessary, kept for documentation)
 @import "moodle/settings";

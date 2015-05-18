@@ -45,6 +45,8 @@ M.block_mbswizzard.wizzard.init = function() {
 	    }
 	    // store the name of the current sequence
 	    localStorage.setItem("mbswizzard_current_sequence", seqname);
+            // redirect force rendering of block to get the progress bar
+            window.location.replace(M.cfg['wwwroot']+'/my');
 	}, this));
     }, this));
 	    	
@@ -77,7 +79,7 @@ M.block_mbswizzard.wizzard.copy_sequence_from_json = function(sname, callback) {
     $.get(M.cfg['wwwroot']+"/blocks/mbswizzard/js/sequences/"+sname+".json", $.proxy(function(jsonobject){
 	localStorage.setItem(sname, JSON.stringify(jsonobject));
 	callback(true);
-    }, this))
+    }, this), 'json')
     .fail(function(){
 	alert("Sequence loading from json failed.");
 	callback(false);
@@ -167,6 +169,7 @@ M.block_mbswizzard.wizzard.set_wizzard_state = function(state, sequence) {
     $.ajax({
         url: M.cfg['wwwroot']+'/blocks/mbswizzard/ajax.php',
         method: "POST",
+        async: false,
         data: {
             action: state+"wizzard",
             sequence: sequence,

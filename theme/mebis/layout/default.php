@@ -53,8 +53,11 @@ if ($showmbsgettingstarted) {
     $attributes['data-block'] = 'mbsgettingstarted';
     $attributes['class'] = 'block_mbsgettingstarted';
     $attributes['id'] = 'block_mbsgettingstarted';
-    echo $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
+    $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
 }
+
+// Add mbswizzard to my dashboard if mbsgettingstarted is visible (because the user can click wizzard link within this block)
+$OUTPUT->add_block_mbswizzard_if_needed('side-pre', $showmbsgettingstarted);
 
 // Allow popup - notification for my dashboard.
 $PAGE->set_popup_notification_allowed($ismydashboard);
@@ -165,7 +168,6 @@ echo $OUTPUT->doctype()
         echo $OUTPUT->main_footer();
         echo $OUTPUT->page_action_navigation();
 
-        $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
         $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
         $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.js"));
         $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));

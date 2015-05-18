@@ -57,11 +57,11 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $video = '';
         
         $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#', get_string('wizzardcoursecreate', 'block_mbsgettingstarted'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard', 'id' => 'mbswizzard_course_create'));
+        $wizzard .= html_writer::link(new moodle_url('/my'), get_string('sequence_course_create', 'block_mbswizzard'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard', 'id' => 'mbswizzard_course_create'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('wizzardcoursesetup', 'block_mbsgettingstarted'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizzard_course_setup'));
+        $wizzard .= html_writer::link(new moodle_url('/my'),  get_string('sequence_course_setup', 'block_mbswizzard'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizzard_course_setup'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('wizzardfirstlearningsequenz', 'block_mbsgettingstarted'), array('data-wizzard' => 'first_learningsequenz', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizzard_first_learningsequenz'));
+        $wizzard .= html_writer::link(new moodle_url('/my'),  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequenz', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizzard_first_learningsequenz'));
         $wizzard .= html_writer::end_tag('li');
         $wizzards = html_writer::tag('ul', $wizzard, array('class' => 'text-right text-mobile-left'));
         $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-md-4 col-xs-6 wizzardlinks'));

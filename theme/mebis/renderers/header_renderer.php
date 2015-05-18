@@ -73,7 +73,7 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the navbar
      */
     public function main_navbar() {
-        global $USER, $PAGE, $OUTPUT;
+        global $USER, $PAGE, $CFG;
         $output = '';
         $userBar = '';
 
@@ -90,7 +90,9 @@ class theme_mebis_header_renderer extends renderer_base {
             $userBar .= html_writer::start_tag('span', array('class' => 'me-username'));
             $userBar .= html_writer::tag('span', fullname($USER));
             $userBar .= html_writer::end_tag('span');
-            $userBar .= $OUTPUT->user_picture($USER, array('size' => '40', 'class' => 'user-avatar', 'link' => false));
+            $userBar .= html_writer::tag('img', '',
+                array('class' => 'user-avatar', 'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
+                'alt' => 'Avatar', 'size' => '40', 'link' => false));
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 

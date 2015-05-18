@@ -22,11 +22,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 function local_mbs_extends_navigation($navigation) {
-    global $CFG, $PAGE;
-    //remove the node "Site Home" from the navigation menu
+    global $PAGE;
+    //remove the node "Home" from the navigation menu
     $node = $navigation->get('home');
     if ($node) {
         $node->remove();
+    }
+    //remove the node "Website" from the navigation menu
+    $nodeSite = $navigation->find('site',navigation_node::COURSE_OTHER);
+    if ($nodeSite) {
+        $nodeSite->remove();
     }
     //add node "My schools" to navigation menu
     $schoolnode = $PAGE->navigation->add(get_string('schoolnode', 'local_mbs'), navigation_node::TYPE_CONTAINER);

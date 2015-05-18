@@ -47,8 +47,8 @@ $string['local_mbs_mebis_sites'] = 'Navigationslinks';
 $string['local_mbs_mebis_sites_expl'] = 'Diese Navigationselemente erscheinen in der sidebar-Navigation.'.
         'Die Element werden zeilenweise in der Form <b>Link,URL;</b> angegeben.';
 $string['local_mbs_mebis_sites_default'] =
-        'Startseite,/views/startseite.php;'.
-        'Infoportal,https://mebis.bayern.de;'.
+        'Startseite,https://mebis.bayern.de;'.
+        'Infoportal,https://mebis.bayern.de/infoportal;'.
         'Mediathek,https://mediathek.mebis.bayern.de;'.
         'Lernplattform,https://lernplattform.mebis.bayern.de;'.        
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';

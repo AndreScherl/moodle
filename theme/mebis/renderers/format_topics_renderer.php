@@ -79,7 +79,7 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer {
      */
     protected function render_course_headline($headline) {
 
-        $o = html_writer::tag('h1', $headline);
+        $o = html_writer::tag('h2', $headline);
         return html_writer::div($o, 'course-headline');
     }
 

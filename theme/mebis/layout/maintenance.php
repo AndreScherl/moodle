@@ -7,7 +7,7 @@ $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
-$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
+//$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }

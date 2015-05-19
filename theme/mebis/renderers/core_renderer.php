@@ -115,7 +115,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
-        $transparent = array('mbsmycourses');
+        $transparent = array('mbsmycourses', 'mbsmyschools');
 
         if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';

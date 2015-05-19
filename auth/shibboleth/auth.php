@@ -474,8 +474,10 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      * @return moodle_url url of the profile page or null if standard used
      */
     function change_password_url() {
-
-        return $this->config->changepasswordurl;
+        if (!empty($this->config->changepasswordurl)) {
+            return $this->config->changepasswordurl;
+        }
+        return '';
     }
 
     /**
@@ -484,7 +486,10 @@ class auth_plugin_shibboleth extends auth_plugin_base {
      *  are synchronized to the internal profile.
      */
     function edit_mebis_profile() {
-        return $this->config->editmebisprofileurl;
+        if (!empty($this->config->editmebisprofileurl)) {
+            return $this->config->editmebisprofileurl;
+        }
+        return '';
     }
 
     /**

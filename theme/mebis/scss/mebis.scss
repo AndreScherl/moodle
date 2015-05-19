@@ -20,20 +20,29 @@
 @import "pages/learning-platform";
 
 // Moodle Style Overwrites
-@import "moodle/pageheader";
-@import "moodle/sidenav";
-@import "moodle/coursebox";
-@import "moodle/categorybox";
-@import "moodle/schoolbox";
-@import "moodle/footer";
-@import "moodle/coursesorting";
-@import "moodle/course";
-@import "moodle/general";
-@import "moodle/menu";
-@import "moodle/settings";
-@import "moodle/apps";
-@import "moodle/overrides";
-@import "moodle/admin";
-@import "moodle/chat";
-@import "moodle/lightbox";
+// Finished styles
 @import "moodle/category";
+@import "moodle/coursebox";
+@import "moodle/footer";
+@import "moodle/pageheader";
+@import "moodle/schoolbox";
+
+// Need more work.
+@import "moodle/cu-admin";
+@import "moodle/cu-blocks";
+@import "moodle/cu-course";
+@import "moodle/cu-pages";
+@import "moodle/cu-general";
+@import "moodle/cu-courseformats";
+
+/**
+To check whether styles are necessary:
+@import "moodle/admin" (need to check whether some style are necessary, kept for documentation)
+@import "moodle/settings";
+
+TODO: need separate thematically and to style the main page for course formats) 
+=> page specific type move into _cu-pages.scss
+@import "moodle/course"; 
+@import "moodle/overrides";
+@import "moodle/lightbox";
+*/

@@ -83,23 +83,25 @@ echo $OUTPUT->doctype()
                         </nav>    
                     </div>
                 </div>
-                <?php
-                echo $OUTPUT->raw_block('mbscoordinators');
-                echo $OUTPUT->raw_block('mbsnewcourse');
+                <div class="no-background">
+                    <?php
+                    echo $OUTPUT->raw_block('mbscoordinators');
+                    echo $OUTPUT->raw_block('mbsnewcourse');
+                    ?>
+                </div>
 
-                echo $OUTPUT->course_content_header();
-                echo $OUTPUT->main_content();
-                echo $OUTPUT->course_content_footer();
-                ?>
+                <?php echo $OUTPUT->course_content_header(); ?>
+                <div class="no-background">
+                    <?php echo $OUTPUT->main_content(); ?>
+                </div>
+                <?php echo $OUTPUT->course_content_footer(); ?>
 
                 <?php if ($hassidepre) { ?>
 
-                    <div class="row">
-
-                        <div class="col-lg-12 col-sm-12 margin-bottom-small">
-                            <h1><?php echo get_string('my-apps', 'theme_mebis'); ?></h1>
+                     <div class="row">
+                        <div class="col-lg-12 col-sm-12 no-background">
+                            <h2><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
                         </div>
-
                     </div>
 
                     <?php
@@ -111,7 +113,7 @@ echo $OUTPUT->doctype()
             </div>
 
             <div id="root-footer"></div>
-            
+
             <?php echo $OUTPUT->mebis_footer(); ?>
         </div>
 

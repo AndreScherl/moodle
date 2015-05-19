@@ -1,0 +1,240 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.05.2015, 19:53:35
+    Author     : Andreas Wagner, ISB Bayern
+*/
+
+.block {
+
+    background-color: $white;
+
+    .header {
+        background-color: inherit;
+        color: inherit;
+    }
+}
+
+.block-transparent {
+
+    background: transparent;
+
+    .header {
+        color: $white;
+
+        .commands img.actionmenu {
+            width: auto;
+        }
+    }
+
+    .moodle-actionmenu {
+        text-align: right;
+    }
+
+
+}
+
+.col-md-12.block-transparent .header {
+    margin: 0 20px;
+}
+
+
+// Block regions.
+.block-region .col-md-4 {
+    min-height: 150px;
+}
+
+// Layout in edit mode!
+.dir-ltr.editing.used-region-side-post.used-region-side-pre {
+
+    #block-region-side-pre, #block-region-side-post {
+        width: 100%;
+        right: initial;
+        padding : 0;
+    }
+}
+
+// Block mbscoordinators.
+.mbscoordinators {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 30px;
+    > div {
+        float: left;
+    }
+    > ul {
+        list-style: none;
+        > li {
+            float: left;
+            margin-left: 10px;
+        }
+    }
+}
+
+// Block mbsnewcourse.
+.mbsnewcourse {
+    padding-bottom: 30px;
+    > ul {
+        list-style: none;
+        > li {
+            float: right;
+            margin-left: 50px;
+            a i {
+                font-size: 1.25em !important;
+            }
+        }
+    }
+}
+
+.block_mbsgettingstarted {
+    margin-bottom: 20px;
+
+    .btn .btn-secondary {
+        margin: 2px 0px;
+
+        .btn-lg {
+            font-size: 23px;            
+        }
+    }
+
+    .wizzardlinks ul {
+        margin-top: 6px;
+    }
+
+    .aidlinks ul {
+        margin-top: 12px;
+    }
+
+}
+
+// Block mbsmycourses.
+.block_mbsmycourses {
+
+    // Content of mbsnewcourse is nested in header!
+    .mbsnewcourse {
+        float: right;
+        padding: 20px 0 0;
+    }
+
+    // Headline.
+    .header { 
+
+        margin-bottom: 20px; 
+
+        h2 {
+            margin-bottom: 12.5px;
+            margin-top: 0px;
+        }
+    }
+
+    // Form.
+    .course-sorting {
+
+        padding: 15px 0;
+        border-top: dotted 1px rgba(230,230,230,0.3);
+        border-bottom: dotted 1px rgba(230,230,230,0.3);
+        margin-bottom: 20px;
+
+        input, select, label {
+            margin-bottom: 0;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+    }
+
+    // Radiobuttons as Icons.
+    .my-courses-filter {
+
+        select {
+            @media only screen and (max-width: $screen-xs-min) {
+                margin-bottom: 10px;
+                max-width: none;
+            }
+        }
+
+        label {
+            position: relative;
+            cursor: pointer;
+            color: $gray-dark;
+            margin-left: 10px;
+
+            &:hover {
+
+                i, span {
+                    color: $white;
+                }
+            }
+
+            input {
+                opacity: 0;
+                position: absolute;
+            }
+
+            i, span > span {
+                color: $white;
+                font-size: emCalc(22px);
+                @include transition(color .25s);
+                text-align: center;
+                margin: 0 auto;
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            > span {
+                display: inline-block;
+                vertical-align: middle;
+
+                span {
+                    font-size: emCalc(18px);
+                }
+            }
+
+            input:checked + i, input:checked ~ span > span {
+                color: $brand-secondary;
+            }
+
+            @media only screen and (max-width: $screen-xs-min) {
+                display: inline-block;
+                margin-right: 35px;
+                margin-left: 0;
+                margin-top: 15px;
+
+                i {
+                    vertical-align: middle;
+                }
+            }
+        }
+
+    }
+
+    .content {
+        margin:0;
+    }
+
+    .course_list {
+        width: auto;
+    }
+
+    .coursebox {
+        margin: 0px;
+    }
+
+    .move {
+        padding: 2px 0 0 10px;
+    }
+
+    .category-box {
+        border: 0px;
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+    }
+
+}

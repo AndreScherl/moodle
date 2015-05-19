@@ -1,0 +1,510 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.05.2015, 18:40:03
+    Author     : Andreas Wagner
+
+Collect all unecessary (?) css in this file.
+
+*/
+
+.me-wrapper .me-search-box {
+    margin-bottom: 0px;
+
+    label {
+        color: #333;
+    }
+}
+
+div[role=main] {
+    color: $white;
+}
+
+div[data-block=mbsmyschools] {
+
+    .title h2 {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 32.5px;
+    }
+
+}
+
+.block {
+    label, th {
+        color: #333;
+    }
+}
+
+.block_mbsmycourses {
+
+    .content {
+        padding: 4px 0;
+        margin: 0;
+
+        h1 {
+            color: $white;
+        }
+    }
+
+    .singleselect {
+        margin-bottom: 20px;
+
+        select {
+            display: inline-block;
+            width: auto;
+            margin-bottom: 0;
+        }
+    }
+
+
+}
+
+.generaltable textarea {
+    color: $brand-gray-dark;
+}
+
+.block h2,
+.dndsupported .dndupload-message,
+p.tree_item,
+.singlebutton,
+.fp-btn-choose,
+.form-submit,
+select,
+input[type=submit],
+.course-content,
+div.block,
+.loginbox,
+.loginbox label,
+.que,
+.que .formulation,
+.que label,
+.forumpost {
+    color: $brand-gray-dark !important;
+}
+
+.path-mod.pagelayout-incourse .homepage-container div[role="main"] {
+
+    color: #333;
+    background: #ffffff;
+    padding: 10px;
+
+    h2 {
+        background:$bg-dark;
+        color:#ffffff;
+        margin: -10px;
+        padding-bottom: 10px;
+    }
+
+    label {
+        color: $black;
+    }
+
+    .generaltable {
+        color : $black;
+    }
+}
+
+
+.block-transparent .block {
+    background: transparent;
+    border: 0;
+
+    .header {
+        padding: 0;
+        position: relative;
+
+        .moodle-actionmenu {
+            position: absolute;
+            right: 0;
+            top: 10px;
+        }
+    }
+
+    h1, label {
+        color: $white;
+    }
+}
+
+#block-region-side-pre, #block-region-side-post {
+
+    .block {
+        margin-bottom: 40px;
+        padding: 20px 5px;
+        border: 0;
+
+        .header {
+            padding-top: 0;
+        }
+
+        &.block_calendar_month {
+
+            .arrow_link {
+
+                .arrow {
+                    font-size: 0;
+                    text-indent: -999em;
+                    font-family: 'mebis-icons';
+                    speak: none;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+
+                &.previous .arrow:before { content: "\e646"; font-size: 18px; }
+                &.next .arrow:before { content: "\e645"; font-size: 18px; }
+
+            }
+        }
+
+        &.block_private_files {
+
+            ul {
+                list-style: none;
+            }
+
+            img.icon { vertical-align: middle; }
+
+            .singlebutton {
+                margin-top: 15px;
+
+                div,
+                input[type="submit"] {
+                    margin: 0;
+                }
+
+                input[type="submit"] {
+                    background: $brand-primary;
+                    color: $white !important;
+                    border: 1px solid $brand-primary;
+                    @include transition(all .25s);
+
+                    &:hover {
+                        background: $brand-secondary;
+                        border: 1px solid $brand-secondary;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.moodle-actionmenu {
+    width: 100%;
+
+    .toggle-display {
+        display: block;
+    }
+
+    .menu {
+        position: absolute;
+        left: auto!important;
+        display: none;
+        min-width: 260px;
+
+        .iconsmall {
+            margin: 0;
+        }
+
+        .menu-action-text {
+            display: block;
+            font-size: 12px;
+            display: inline-block;
+        }
+    }
+
+}
+
+.box.generalbox {
+    color: $gray-dark;
+
+    th,td, label, .cap-name {
+        color: $gray-dark;
+    }
+
+}
+
+.block-region .box.generalbox {
+    padding: 0;
+}
+
+.pagelayout-admin {
+
+    @media only screen and (min-width: $screen-lg-min) {
+        .admin-container {
+            width: 100%;
+            max-width: 1680px;
+            padding-left: 100px;
+
+            table {
+                width: 100%!important;
+
+                // awag: ugly override with important, must table be streched to 100%?
+                .mceToolbar {
+                    width : auto !important;
+                }
+            }
+
+        }
+
+
+        .admintable.generaltable, .userenrolment.otheruserenrolment {
+            background: $white;
+
+            th, td {
+                padding: 10px;
+                color: $gray-dark;
+            }
+        }
+
+        .questionbankwindow {
+            background: $white;
+            padding: 20px;
+
+            h2 {
+                color: $gray-dark!important;
+            }
+        }
+
+        #groupeditform, .generaltable {
+            background: $white;
+
+            .header  {
+                color: $gray-dark;
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+
+        .cell, #livelogs-pause-button, .fitemtitle  {
+            color: $gray-dark;
+        }
+
+
+    }
+    h2 {
+        color: $gray-dark!important;
+        margin-top: 0;
+    }
+}
+
+.me-wrapper .me-sidebar-wrapper .me-sidebar-nav {
+    text-align: left;
+}
+
+.path-mod-chat-gui_basic {
+    background: $bg-dark;
+    .generaltable {
+        color: $brand-gray-dark;
+    }
+    #messages dl {
+        background: $brand-gray-medium;
+    }
+}
+
+.path-mod-chat-gui_ajax {
+    background: $bg-dark;
+    #input-message, #choosetheme {
+        color: $brand-gray-dark;
+    }
+}
+
+.category-listing, .course-listing, .course-detail{
+    background-color: $white;
+}
+
+.single-section  {
+
+    &.onetopic {
+
+        .nav.nav-tabs.nav-justified {
+
+            li {
+                background-color: inherit !important;
+
+                .active {
+                    background-color: #999;
+                }
+                a {
+                    border: none;
+                }
+            }
+            background-color: $white;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+    }
+    .section-navigation{
+        overflow: hidden;
+        padding: 1em 0 !important;
+        > div > div {
+            margin-top:1px;
+            padding: 20px;
+            background-color: $white;
+            text-align: center;
+        }
+    }
+}
+
+.course {
+
+    .activityinstance {
+        padding-top: 5px;
+    }
+
+    .spacer {
+        display: none;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+}
+
+#page-course-view-topcoll {
+
+    .ctopics {
+
+        // Section header with toggle button.
+        .section.main {
+
+            padding: 0;
+            border : 0;
+            margin : 0 0 20px 0;
+
+            &.summary {
+                padding: 60px !important;
+            }
+
+            .content {
+                padding: 0  !important;
+                margin: 0;
+
+                .section-header {
+
+                    background: $brand-primary;
+
+                    h2 {
+                        color: $white;
+                        padding: 20px;
+                        margin-bottom: 0;
+                        font-size: 1.25em;
+                        font-weight: 700;
+                        margin: 0;
+                    }
+
+                    .toggle {
+                        
+                        width: 25%;
+                        padding: 0 20px;
+                        background : transparent;
+
+                        .the_toggle {
+
+                            display: block;
+                            padding: 20px;
+                            cursor: pointer;
+                            color: $white;
+                            -webkit-transition: all 0.25s;
+                            transition: all 0.25s;
+                            text-align: right;
+
+                            .closebutton {
+                                position: relative;
+                                color: $white;
+                                top: 0;
+                                text-indent: -999em;
+                                font-size: 0;
+
+                                &:before {
+                                    font-family: 'mebis-icons';
+                                    speak: none;
+                                    font-style: normal;
+                                    font-weight: normal;
+                                    font-variant: normal;
+                                    text-transform: none;
+                                    line-height: 1;
+                                    font-size: 0.875em;
+                                    -webkit-font-smoothing: antialiased;
+                                    -moz-osx-font-smoothing: grayscale;
+                                    content: "\e63d";
+                                    font-size: 18px;
+                                }
+                            }
+
+                            &.toggle_open .closebutton:before { content: "\e662"; }
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
+
+}
+
+.course2 {
+
+    &.course-format-topcoll {
+
+        /* .ctopics li.section.main .content { padding: 0!important; }*/
+
+        /*   ul.ctopics li.section{
+   
+               .content{
+                    color: #333; 
+                   .toggledsection {
+                       
+                       display: none;
+                       
+                       &.sectionopen{
+                           display: inline-block;
+                       }
+                   }
+   
+                   .sectionhead {
+                       position:relative;
+                       background-color: transparent !important;
+                       h3 {
+                           font-family: "Titillium Web SemiBold","Titillium Web";
+                           font-weight: 600;
+                           font-style: normal;
+                           font-size: emCalc(18px);
+                           text-align: left;
+                           line-height: 24px;
+                       }
+                       .closebutton {
+                           font-family: FontAwesome;
+                           position: absolute;
+                           right: 0px;
+                           top: 12px;
+                           color: #333333;
+                           cursor: pointer;
+                       }
+                   }
+                   margin: 0px;
+                   padding: 10px !important;
+               }
+               &.body {
+                   background-color: $white;
+                   padding: 20px !important;
+                   margin: 2px 1px 1px;
+               }
+               padding: 0px !important;
+           }*/
+
+
+    }
+}

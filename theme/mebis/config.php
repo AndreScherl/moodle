@@ -68,6 +68,12 @@ $THEME->layouts = array(
         'regions' => array('admin-navi'),
         'defaultregion' => 'admin-navi'
     ),
+    
+    'report' => array(
+        'file' => 'admin.php',
+        'regions' => array('admin-navi'),
+        'defaultregion' => 'admin-navi'
+    ),
     'maintenance' => array(
         'file' => 'maintenance.php',
         'regions' => array(),

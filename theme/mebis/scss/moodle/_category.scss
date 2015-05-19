@@ -1,3 +1,20 @@
+/* This file contains Styles related to categories.
+
+Please note that unfortunately there are two differnet category (box) containers:
+
+category-box: 
+ This box ist used to display a (hierarchical) ordered List of categories 
+ (for example for a school category on category pages)
+
+categorybox: 
+  This box is only used in the block_mbsmycourses within a category-box container
+  Is this realy needed? Should'nt we move this into _cu-blocks?
+*/
+/* 
+    Created on : 19.05.2015
+    Author     : Andreas Wagner, ISB Bayern.
+*/
+
 .category-box {
     color: $brand-gray-dark;
 
@@ -203,7 +220,7 @@
 }
 
 .categorybox {
-    
+
     padding: 15px 0;
 
     .category-container {

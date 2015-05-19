@@ -1,6 +1,7 @@
 /* 
     This file contains style customizations for the course formats:
 
+    - topics format
     - collapsed topics.
     - one topic.
 
@@ -10,6 +11,11 @@
     Created on : 18.05.2015, 08:22:35
     Author     : Andreas Wagner, ISB Bayern
 */
+
+// +++++++From here on: special styles for topics format. ++++++++++++
+#page-course-view-topics #main-content-wrapper  {
+    background: transparent;
+}
 
 // +++++++From here on: special styles for collapsed topic format. ++++++++++++
 #page-course-view-topcoll #main-content-wrapper  {

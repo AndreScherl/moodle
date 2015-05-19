@@ -1,7 +1,12 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Here are to go all styles, which are NOT:
+
+- depending on special Page
+- depending on course format
+- depending on special Page layout
+- only used within course 
+- only used related to categories
+ 
 */
 /* 
     Created on : 16.05.2015, 18:52:40
@@ -12,7 +17,7 @@ and open the template in the editor.
     height : 0px;
 }
 
-// Wrap content standard moodle pages to ensure solid styles (NOT inverted!)
+// Wrap content of standard moodle pages to ensure solid styles (NOT inverted!)
 #main-content-wrapper {
 
     background: $white;
@@ -47,7 +52,7 @@ and open the template in the editor.
 }
 
 // body color is intentionally NOT white, use this style to print outside of elements
-// with no background (for example: outside of main-content-wrapper)
+// with no background (for example: outside areas of main-content-wrapper)
 .no-background {
     background: tranparent;
     color : $white;
@@ -62,8 +67,7 @@ div[role="main"] {
 }
 
 
-// general styles.
-
+// general styles ordered alphabetically.
 .breadcrumb-nav {
     margin-bottom: 0px;
 }
@@ -95,10 +99,12 @@ input[type="checkbox"] + label {
     margin-left:5px;
 }
 
+// Style form elements.
 .mform {
 
     fieldset {
 
+        // style fieldset toggler with primary brand color and plus/minus icon.
         .ftoggler {
 
             background: $brand-primary;
@@ -208,14 +214,12 @@ input[type="checkbox"] + label {
     margin-bottom: 25px;
 }
 
-
-
 .tree_item  span, .tree_item span:focus {
     outline: 0;
 }
 
 .text-mobile-left {
     @media only screen and (max-width: $screen-xs-min) {
-        text-align: left!important;
+        text-align: left !important;
     }
 }

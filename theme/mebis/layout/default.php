@@ -45,7 +45,7 @@ $theuser = clone($USER);
 profile_load_data($theuser);
         
 $showmbsgettingstarted = ($ismydashboard 
-        and (!isset($theuser->profile_field_mbsgettingstartedshow) || !$theuser->profile_field_mbsgettingstartedshow)
+        and (!isset($theuser->profile_field_mbsgettingstartedshow) || $theuser->profile_field_mbsgettingstartedshow)
         and !$hidembsgettingstarted 
         and $knownregiontop);
 

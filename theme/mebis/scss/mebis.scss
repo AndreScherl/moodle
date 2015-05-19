@@ -20,20 +20,29 @@
 @import "pages/learning-platform";
 
 // Moodle Style Overwrites
-@import "moodle/pageheader";
-@import "moodle/sidenav";
-@import "moodle/coursebox";
-@import "moodle/categorybox";
-@import "moodle/schoolbox";
-@import "moodle/footer";
-@import "moodle/coursesorting";
-@import "moodle/course";
-@import "moodle/general";
-@import "moodle/menu";
-@import "moodle/settings";
-@import "moodle/apps";
-@import "moodle/overrides";
-@import "moodle/admin";
-@import "moodle/chat";
-@import "moodle/lightbox";
+// Finished styles
 @import "moodle/category";
+@import "moodle/coursebox";
+@import "moodle/pageheader";
+@import "moodle/pagefooter";
+@import "moodle/schoolbox";
+
+// Need more work?
+@import "moodle/cu-admin";
+@import "moodle/cu-blocks";
+@import "moodle/cu-course";
+@import "moodle/cu-pages";
+@import "moodle/cu-general";
+@import "moodle/cu-courseformats";
+
+/** To check whether styles are necessary:
+
+TODO: need to check whether some style are necessary, kept for documentation
+@import "moodle/admin" 
+@import "moodle/settings";
+
+TODO: need separate thematically 
+@import "moodle/course"; 
+@import "moodle/overrides";
+@import "moodle/lightbox";
+*/

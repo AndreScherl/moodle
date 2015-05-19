@@ -12,7 +12,7 @@ var MebisLearningPlatform = (function ($) {
         $('span.hiddennavbutton').click(function () {
             $(this).parent().children('ul.hiddennavleaf').toggle(200);
             $(this).parent().toggleClass('open');
-        })
+        });
     }
 
     function categorytoggles() {
@@ -20,16 +20,16 @@ var MebisLearningPlatform = (function ($) {
             evt.stopPropagation();
             $(this).parent().parent().children('.category-body').slideToggle(200);
             $(this).toggleClass('open');
-        })
+        });
         
-         $('div.category-toggle').click(function(){
+        $('div.category-toggle').click(function(){
             $(this).parent().children('.category-body').slideToggle(200);
             $(this).toggleClass('open');
-        })
+        });
         
         $('span.infoToggle').click(function(){
             $(this).parent().parent().children('.category-course-info').slideToggle(200);
-        })
+        });
     }
 
     return {

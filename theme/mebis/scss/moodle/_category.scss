@@ -1,3 +1,20 @@
+/* This file contains Styles related to categories.
+
+Please note that unfortunately there are two differnet category (box) containers:
+
+category-box: 
+ This box ist used to display a (hierarchical) ordered List of categories 
+ (for example for a school category on category pages)
+
+categorybox: 
+  This box is only used in the block_mbsmycourses within a category-box container
+  Is this realy needed? Should'nt we move this into _cu-blocks?
+*/
+/* 
+    Created on : 19.05.2015
+    Author     : Andreas Wagner, ISB Bayern.
+*/
+
 .category-box {
     color: $brand-gray-dark;
 
@@ -202,31 +219,63 @@
     }
 }
 
-.mbscoordinators {
-    clear: both;
-    overflow: hidden;
-    margin-bottom: 30px;
-    > div {
-        float: left;
-    }
-    > ul {
-        list-style: none;
-        > li {
-            float: left;
-            margin-left: 10px;
-        }
-    }
-}
+.categorybox {
 
-.mbsnewcourse {
-    padding-bottom: 30px;
-    > ul {
-        list-style: none;
-        > li {
-            float: right;
-            margin-left: 50px;
-            a i {
-                font-size: 1.25em !important;
+    padding: 15px 0;
+
+    .category-container {
+        background-color: $white;
+        margin: 1px 20px;
+        padding: 20px 0px;
+
+        &.category-name {
+            padding-left: 20px;
+            padding-right: 20px;
+
+            .closebutton {
+                font-family: FontAwesome;
+                position: absolute;
+                right: 60px;
+                top: 23px;
+                color: #333333;
+                cursor: pointer;
+            }
+        }
+
+        .category-coursebox {
+            padding: 17px 60px;
+            margin: 0px 40px 1px 0;
+            background-color: #CCC;
+
+            .iconbox {
+                font-family: FontAwesome;
+                position: absolute;
+                top: 10px;
+                left: 30px;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                background-color: #858585;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 18px;
+                color: #E4E4E4;
+                text-align: center;
+            }
+
+            .newbox {
+                position: absolute;
+                top: 0px;
+                right: 60px;
+                width: 40px;
+                height: 30px;
+                line-height: 30px;
+                background-color: #A0A0A0;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 10px;
+                color: $white;
+                text-align: center;
             }
         }
     }

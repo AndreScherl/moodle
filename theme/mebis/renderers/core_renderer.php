@@ -115,7 +115,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
-        $transparent = array('mbsmycourses');
+        $transparent = array('mbsmycourses', 'mbsmyschools');
 
         if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
@@ -287,7 +287,28 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
         return $blockinstance->get_content()->text;
     }
-
+    
+    /**
+     * render the mbswizzard block, if needed
+     * 
+     * @global object $USER
+     * @global object $PAGE
+     * @param string $region Region to Render the block
+     * @param bool $blockdependency - block is needed by other block, e.g. mbsgettingstarted
+     * @return string - htmlstring of block contents 
+     */    
+    public function add_block_mbswizzard_if_needed($region, $blockdependency = false) {
+        global $USER, $PAGE;
+        if(($blockdependency || (isset($USER->mbswizzard_activesequence) && ($USER->mbswizzard_activesequence != false)))
+            && !$PAGE->blocks->is_block_present('mbswizzard')) {
+            $attr['data-block'] = 'block_mbswizzard';
+            $attr['class'] = 'block_mbswizzard block';
+            return $this->add_fake_block('mbswizzard', $region, $attr);
+        } else {
+            return '';
+        }
+    }
+    
     /**
      * Print the mebis footer containing the search and schooltitle block
      * 

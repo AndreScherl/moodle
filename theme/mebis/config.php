@@ -7,13 +7,24 @@
  */
 $THEME->name = 'mebis';
 $THEME->parents = array('bootstrap');
-
 $THEME->doctype = 'html5';
+
+// awag: This is commented out from trio, as they decided NOT to use recommende approach to
+// include CSS sheets (because they want to include contrast css on the fly?),
+// Can be changed, when there is a better way to include contrast theme.
 // $THEME->sheets = array('mebis');
+
+// awag: user moodle less file to include fonts?
 $THEME->lessfile = 'moodle';
+
+// awag: As this theme doesn't use the recommended approach to include sheets, 
+// next line should not be necessary.
 $THEME->parents_exclude_sheets = array('bootstrap' => array('moodle'));
-$THEME->lessvariablescallback = 'theme_mebis_less_variables';
-$THEME->extralesscallback = 'theme_mebis_extra_less';
+
+// awag: removed unnecessate callbacks
+// $THEME->lessvariablescallback = 'theme_mebis_less_variables';
+// $THEME->extralesscallback = 'theme_mebis_extra_less';
+
 $THEME->supportscssoptimisation = false;
 $THEME->yuicssmodules = array();
 $THEME->enable_dock = false;
@@ -35,9 +46,7 @@ $THEME->layouts = array(
     ),
     'login' => array(
         'file' => 'login.php',
-        'regions' => array('side-pre'),
-        'defaultregion' => 'side-pre',
-        'options' => array('langmenu' => false, 'nonavbar' => true),
+        'regions' => array()
     ),
     'course' => array(
         'file' => 'default.php',
@@ -55,6 +64,12 @@ $THEME->layouts = array(
         'defaultregion' => 'side-pre'
     ),
     'admin' => array(
+        'file' => 'admin.php',
+        'regions' => array('admin-navi'),
+        'defaultregion' => 'admin-navi'
+    ),
+    
+    'report' => array(
         'file' => 'admin.php',
         'regions' => array('admin-navi'),
         'defaultregion' => 'admin-navi'

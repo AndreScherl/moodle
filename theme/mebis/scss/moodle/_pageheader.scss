@@ -1,12 +1,8 @@
-
-div[role="main"] {
-
-    ul, ol {
-        padding: initial;
-        overflow: initial;
-    }
-}
-
+/* Styles, used in header */
+/* 
+    Created on : 17.05.2015, 09:11:09
+    Author     : Andreas Wagner, ISB Bayern
+*/
 .moodle-menu .nav > li {
     font-weight: 400;
     font-style: normal;
@@ -94,4 +90,15 @@ div[role="main"] {
             color:#ff6600 !important;
         }
     }
+}
+
+.me-msg-count {
+    position: absolute;
+    background: none repeat scroll 0% 0% $brand-secondary;
+    border-radius: 5px;
+    font-size: 11px;
+    bottom: 5px;
+    color: $white;
+    left: 30px;
+    padding: 2px 5px;
 }

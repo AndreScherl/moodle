@@ -1,0 +1,74 @@
+/*
+All Styles related to special Pages.
+*/
+/* 
+    Created on : 16.05.2015, 19:46:57
+    Author     : Andreas Wagner
+*/
+
+.path-course-view {
+
+    #main-content-wrapper {
+        padding:0;
+    }
+
+    .course-headline {
+
+        h2, h1 {
+            color: $white;
+            margin-bottom: 25px;
+        }
+    }
+
+}
+
+#page-course-index-category {
+
+    div[role="main"] > .generalbox {
+
+        background: $white;
+        color : $black;
+        border : none;
+        border-radius: 0;
+        padding:20px;
+    }
+}
+
+#page-enrol-users .enrol_user_buttons {
+    float: none;
+    text-align: right;
+}
+
+// My Dashboard my/index.php
+#page-my-index {
+
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+
+        h2 {
+            background: transparent;
+            color : $white;
+        }
+    }
+}
+
+// Page course/management.php
+#page-course-management {
+
+    #course-category-listings {
+        margin-bottom: 20px;
+
+        > div > div {
+            border: none;
+            margin-bottom : 20px;
+        }
+
+        h3 {
+
+            background: $brand-primary;
+            padding: 20px;
+        }
+    }
+}

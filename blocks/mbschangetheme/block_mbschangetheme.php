@@ -28,7 +28,7 @@ require_once($CFG->dirroot . '/blocks/mbschangetheme/renderer.php');
 class block_mbschangetheme extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_mbschangetheme');
+        $this->title = get_string('displayname', 'block_mbschangetheme');
     }
 
     public function get_content() {

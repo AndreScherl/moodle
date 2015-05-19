@@ -1,12 +1,11 @@
-div[data-block=mbsmyschools] {
-    
-    .title h2 {
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-bottom: 32.5px;
-    }
-      
-}
+/* schoolbox: 
+  
+  This box is only used in the block_mbssearch and block_mbsmyschools 
+  to display a category box (school category) in grid style. 
+
+  Shouldn't this go to _cu-blocks'?
+*/
+
 .schoolbox {
 
     .schoolbox-meta {

@@ -1,3 +1,9 @@
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into a _cu-.. Sheet.
+
 .usermessages {
     padding-top: 20px;
     margin-bottom: 20px;
@@ -87,8 +93,11 @@
 
         }
 
-        tr:hover > td {
+        tr:hover {
+            
+          > td {
             background: $gray-lighter;
+          }
         }
     }
 
@@ -338,4 +347,9 @@ ul, li {
 
 #fitem_id_availabilityconditionsjson .availability-button {
     margin-left: 24px;
+}
+
+// Font Colors.
+.loginbox .desc {
+    color: $black;
 }

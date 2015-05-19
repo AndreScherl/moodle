@@ -13,6 +13,9 @@ require_once($CFG->dirroot . "/lib/outputrenderers.php");
 
 class theme_mebis_help_renderer extends renderer_base
 {
+    
+    private $pageactionnavigation = false;
+    
     public function helpnote()
     {
         global $USER;
@@ -49,7 +52,7 @@ class theme_mebis_help_renderer extends renderer_base
     public function page_action_navigation()
     {
 
-        if(!defined('PAGE_MENU_SET')) {
+        if (!$this->pageactionnavigation) {
             $menu_items = array(
                 html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top'))
             );
@@ -61,6 +64,8 @@ class theme_mebis_help_renderer extends renderer_base
             }
             $output .= html_writer::end_tag('ul');
             $output .= html_writer::end_tag('div');
+            
+            $this->pageactionnavigation = true;
             return $output;
         }
     }

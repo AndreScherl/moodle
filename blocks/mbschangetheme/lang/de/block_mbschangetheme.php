@@ -25,6 +25,7 @@
 $string['changeallowusertheme'] = 'Einstellung allowusertheme';
 $string['changetotheme1'] = 'Neues Theme wählen';
 $string['changetotheme2'] = 'Altes Theme wählen';
+$string['displayname'] = 'Designwechsel';
 $string['mbschangetheme:addinstance'] = 'Hinzufügen des Blocks mebis Themewechsel';
 $string['mbschangetheme:myaddinstance'] = 'Hinzufügen des Blocks mebis Themewechsel zu meinem Schreibtisch';
 $string['newalertheading'] = 'Themewechsel möglich!';

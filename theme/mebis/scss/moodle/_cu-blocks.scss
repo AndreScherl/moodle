@@ -116,6 +116,17 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 
 }
 
+// Block mbswizzard
+.block_mbswizzard {
+    > .content > .header {
+        padding: 4px 1px;
+    }
+    
+    > .content > ul {
+        list-style: none;
+    }
+}
+
 // Block mbsmycourses.
 .block_mbsmycourses {
 

@@ -23,11 +23,11 @@
 // Finished styles
 @import "moodle/category";
 @import "moodle/coursebox";
-@import "moodle/footer";
 @import "moodle/pageheader";
+@import "moodle/pagefooter";
 @import "moodle/schoolbox";
 
-// Need more work.
+// Need more work?
 @import "moodle/cu-admin";
 @import "moodle/cu-blocks";
 @import "moodle/cu-course";
@@ -35,13 +35,13 @@
 @import "moodle/cu-general";
 @import "moodle/cu-courseformats";
 
-/**
-To check whether styles are necessary:
-@import "moodle/admin" (need to check whether some style are necessary, kept for documentation)
+/** To check whether styles are necessary:
+
+TODO: need to check whether some style are necessary, kept for documentation
+@import "moodle/admin" 
 @import "moodle/settings";
 
-TODO: need separate thematically and to style the main page for course formats) 
-=> page specific type move into _cu-pages.scss
+TODO: need separate thematically 
 @import "moodle/course"; 
 @import "moodle/overrides";
 @import "moodle/lightbox";

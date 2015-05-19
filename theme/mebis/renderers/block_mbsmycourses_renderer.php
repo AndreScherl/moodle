@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -97,17 +96,17 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $header .= html_writer::start_span('category-title-name');
             $header .= html_writer::link($caturl, $categoryinfo->category->name);
             $header .= html_writer::end_span();
-             
+
             $c = '';
             $newcount = 0;
             foreach ($categoryinfo->courses as $course) {
 
                 $url = new moodle_url('/course/view.php?', array('id' => $course->id));
                 $courselink = html_writer::link($url, $course->fullname);
-                
-                $name = html_writer::tag('i','',array('class' => 'icon-me-lernplattform'));
+
+                $name = html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
                 $name .= html_writer::tag('span', $courselink, array('class' => 'category-course-title-name'));
-                
+
                 // If user is moving categories, then down't show overview.
                 $moreinfo = '';
                 $content = '';
@@ -119,7 +118,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                     $newcount++;
                 }
 
-                $name .= html_writer::tag('span', $moreinfo, array('class' => 'infoToggle'));//new-link
+                $name .= html_writer::tag('span', $moreinfo, array('class' => 'infoToggle')); //new-link
                 $info = html_writer::tag('div', $name, array('class' => 'category-course-title'));
 
                 $c .= html_writer::tag('div', $info . $content, array('class' => 'category-course'));
@@ -128,7 +127,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             if ($newcount > 0) {
                 $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
-            $header .= html_writer::span('','category-toggle');
+            $header .= html_writer::span('', 'category-toggle');
             $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
             $o .= $this->collapsible_region($c, 'category-container', '', $headercontainer, 'mbscourse-catcoll_' . $catid);
 
@@ -284,8 +283,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $moveurl = html_writer::link($moveurl, $movehereicon);
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
-            $html .= html_writer::end_tag('div');//end class 'course_title'
-            $html .= html_writer::end_tag('div');//end class 'coursebox-inner'
+            $html .= html_writer::end_tag('div'); //end class 'course_title'
+            $html .= html_writer::end_tag('div'); //end class 'coursebox-inner'
             $html .= html_writer::end_tag('li');
         }
 
@@ -395,7 +394,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param bool $default Initial collapsed state to use if the user_preference it not set.
      * @return bool if true, return the HTML as a string, rather than printing it.
      */
-    protected function collapsible_region($contents, $classes, $id, $caption, $userpref = '', $default = false) {
+    protected function collapsible_region($contents, $classes, $id, $caption,
+                                          $userpref = '', $default = false) {
         $output = $this->collapsible_region_start($classes, $id, $caption, $userpref, $default);
         $output .= $contents;
         $output .= $this->collapsible_region_end();
@@ -416,7 +416,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param bool $default Initial collapsed state to use if the user_preference it not set.
      * @return bool if true, return the HTML as a string, rather than printing it.
      */
-    protected function collapsible_region_start($classes, $id = '', $caption, $userpref = '', $default = false) {
+    protected function collapsible_region_start($classes, $id = '', $caption,
+                                                $userpref = '', $default = false) {
         // Work out the initial state.
         if (!empty($userpref) and is_string($userpref)) {
             user_preference_allow_ajax_update($userpref, PARAM_BOOL);
@@ -434,9 +435,10 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= '<div class="' . $classes . '">';
         $output .= $caption;
         $output .= '<div class="category-body">';
-       
+
         return $output;
     }
+
     /**
      * Close a region started with print_collapsible_region_start.
      *
@@ -456,7 +458,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param $viewtype e.g. grid or list
      * @return string return the HTML as a string
      */
-    public function filter_form($content, $usersschools, $selectedschool, $sortorder, $viewtype) {
+    public function filter_form($content, $usersschools, $selectedschool,
+                                $sortorder, $viewtype) {
 
         $form = '';
         $form .= html_writer::start_tag('div', array('class' => 'my-courses'));
@@ -476,26 +479,25 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param $viewtype e.g. grid or list
      * @return string return the HTML as a string
      */
-    public function course_filter($usersschools, $selectedschool, $sortorder, $viewtype) {
+    public function course_filter($usersschools, $selectedschool, $sortorder,
+                                  $viewtype) {
 
         $form = '';
         $form .= html_writer::start_tag('div', array('class' => 'row my-courses-filter'));
-        $form .= html_writer::start_tag('div', array('class' => 'col-md-12 course-sorting')); 
-        
+        $form .= html_writer::start_tag('div', array('class' => 'col-md-12 course-sorting'));
+
         // Render schoolmenu.
-        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, 
-                array('' => get_string('selectschool', 'block_mbsmycourses')),
-                array('id' => 'mbsmycourses_filterschool'));$form .= html_writer::tag('div', $select, array('class'=>'col-md-7'));
+        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => get_string('selectschool', 'block_mbsmycourses')), array('id' => 'mbsmycourses_filterschool'));
+        $form .= html_writer::tag('div', $select, array('class' => 'col-md-7'));
 
         // Render sortmenu.
         $choices = mbsmycourses::get_coursesortorder_menu();
         $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
-        $form .= html_writer::tag('div', $select, array('class'=>'col-md-3'));
+        $form .= html_writer::tag('div', $select, array('class' => 'col-md-3'));
 
         // Render radio switch.
         $radiogroup = '';
         $radiogroup .= html_writer::start_tag('div', array('class' => 'col-md-2 text-right text-mobile-left')); //classes for radiogroup
-
         // List view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_list'));
         $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_list", 'value' => 'list');
@@ -523,8 +525,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $output .= html_writer::end_tag('div'); //end class 'row my-courses-filter'      
         return $output;
     }
-    
-    
+
     /**
      * render button to load more results
      *

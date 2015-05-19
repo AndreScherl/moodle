@@ -29,6 +29,10 @@ function theme_mebis_process_css($css, $theme) {
     return $css;
 }
 
+function theme_mebis_page_init(moodle_page $page) {
+    $page->requires->jquery();
+}
+
 /*function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)
 {
     if ($hassidepre && $hassidepost) {

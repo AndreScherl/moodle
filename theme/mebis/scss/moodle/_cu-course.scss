@@ -24,7 +24,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 
         // Highlight current section.
         &.current {
-            border-left-color: #00a8d5;
+            border-left-color: $brand-primary;
         }
 
         .content {

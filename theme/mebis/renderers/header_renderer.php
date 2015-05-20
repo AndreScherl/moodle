@@ -27,7 +27,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         foreach ($navItems as $navItem) {
             list($name, $url) = explode(',', $navItem);
-            if (!empty($name) and ! empty($url)) {
+            if (!empty($name) and !empty($url)) {
                 $iconClass = '';
                 $liClass = '';
                 switch ($name) {

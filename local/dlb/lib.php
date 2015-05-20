@@ -21,7 +21,9 @@
  * @copyright 2014 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-function local_dlb_extends_navigation($navigation) {
+
+//fhüb: moved to local_mbs
+/*function local_dlb_extends_navigation($navigation) {
     global $CFG, $PAGE;
 
     if (!empty($CFG->local_dlb_mebis_sites)) {
@@ -69,7 +71,7 @@ function local_dlb_extends_settings_navigation(settings_navigation $navigation) 
             $node->remove();
         }
     }
-}
+}*/
 
 /** called, when user is correcty loggedin */
 function local_dlb_user_loggedin($event) {

@@ -96,12 +96,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $bc->add_class('block_with_controls');
         }
 
-        if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->attributes['class'] = 'block_mbsmycourses row';
-        }
-
-        if ($bc->attributes['data-block'] == 'mbsmyschools') {
-            $bc->attributes['class'] = 'row';
+        $rowblocks = array('mbsmycourses', 'mbsmyschools');
+        foreach($rowblocks as $block){
+            if ($bc->attributes['data-block'] == $block) {
+                $bc->attributes['class'] = 'block_'.$block.' row';
+            }
         }
 
         if (empty($skiptitle)) {

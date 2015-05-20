@@ -43,8 +43,14 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 
 }
 
-.col-md-12.block-transparent .header {
-    margin: 0 20px;
+.col-md-12.block-transparent {
+    
+    padding-left: 0;
+    padding-right: 0;
+
+    .header {
+        margin: 0 20px;
+    }
 }
 
 
@@ -143,7 +149,7 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 
         h2 {
             margin-bottom: 12.5px;
-            margin-top: 0px;
+            margin-top: 0;
         }
     }
 
@@ -239,7 +245,7 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     }
 
     .coursebox {
-        margin: 0px;
+        margin: 0;
     }
 
     .move {
@@ -247,11 +253,28 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     }
 
     .category-box {
-        border: 0px;
+        border: 0;
         background-color: transparent;
         box-shadow: none;
         padding: 0;
         margin: 0;
     }
+    
+    .add-more-results {
+        
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        
+        .load-more-results {            
+            margin-left: 0;
+        }        
+    }
+}
 
+// Block mbsmyschools.
+.block_mbsmyschools {
+    margin-left: 0;
+    margin-right: 0;
 }

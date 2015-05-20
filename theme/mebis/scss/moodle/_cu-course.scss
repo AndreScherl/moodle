@@ -20,7 +20,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
         padding: 20px 20px 20px 10px;
         
         border-bottom: none;
-        border-left: 1em solid #ffffff;
+        border-left: 1em solid $white;
 
         // Highlight current section.
         &.current {

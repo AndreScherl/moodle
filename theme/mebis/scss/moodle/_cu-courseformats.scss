@@ -42,7 +42,13 @@
         color: $white;
     }
     
+    // Highlight current section.
+    .course-content ul li.section.main.current {
+            border-left-color: #00a8d5;
+            border-left-width: 18px;
+            border-left-style: solid;
     
+    }
     // Toggle icons.
     .the_toggle:before {
 

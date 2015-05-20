@@ -20,6 +20,10 @@
 // +++++++From here on: special styles for collapsed topic format. ++++++++++++
 #page-course-view-topcoll #main-content-wrapper  {
     background: transparent;
+
+    .sectionname {
+        color: $white;
+    }
 }
 
 // Collapse and expand.
@@ -29,6 +33,16 @@
         color: $white;
     }
 
+    //Completionprogress
+    .section .completionprogress {
+        padding-right: 40px;
+    }
+    
+    .course-format-topcoll > .completionprogress {
+        color: $white;
+    }
+    
+    
     // Toggle icons.
     .the_toggle:before {
 
@@ -70,7 +84,7 @@
                 background-image:none;
             }
         }
-        
+
         a.off {
             background-image:none;
             &:hover {
@@ -78,59 +92,74 @@
             }
         }
     }
-}
 
-// Toggle switch with headline
-#page-course-view-topcoll .ctopics li.section .content .toggle {
+    // Toggle switch with headline
+    .ctopics li.section .content .toggle {
 
-    background: $brand-primary;
-    padding: 10px 10px 10px 0;
-    border-radius: 0;
+        background: $brand-primary;
+        padding: 10px 10px 10px 0;
+        border-radius: 0;
 
-    a {
-        text-align:left;
-        color:white;
+        a {
+            text-align:left;
+            color:white;
+
+            &:hover {
+                color: $white;
+            }
+        }
+
+        h3 {
+            font-weight: 700;
+        }
 
         &:hover {
-            color: $white;
+            background: $brand-secondary;
         }
     }
 
-    h3 {
-        font-weight: 700;
+    // Other sections.
+    .ctopics .toggledsection {
+
+        padding : 20px;
+
+        .section {
+            margin-top : 0;
+        }
     }
 
-    &:hover {
-        background: $brand-secondary;
-    }
-}
+    // Content Area.
+    .ctopics li.section.main {
 
-// Top section content.
-#page-course-view-topcoll #section-0 {
-    padding: 20px;
-}
+        border: none;
+        margin-bottom: 20px;
 
-// Other sections.
-#page-course-view-topcoll .ctopics .toggledsection {
-
-    padding : 20px;
-
-    .section {
-        margin-top : 0;
-    }
-}
-
-
-
-// Content Area.
-#page-course-view-topcoll .ctopics li.section.main {
-
-    border: none;
-    margin-bottom: 20px;
-
-    .content {
-        margin: 0px;
-        padding: 0px !important;
+        .content {
+            margin: 0px;
+            padding: 0px !important;
+            
+            // One section per page
+            > .section-title {
+                padding: 40px 40px 0px 40px;
+                margin-bottom: 12.5px;
+            }
+            
+            > .summarytext {
+                padding : 0 40px;            
+            }
+            
+            > .section-summary-activities {
+                padding : 0 40px;            
+            }
+            
+            > .summary {
+                padding: 40px 40px 0px 40px;
+            }
+            
+            > ul {
+                padding: 0px 40px 40px 40px;
+            }
+        }
     }
 }
 

@@ -201,7 +201,7 @@ class block_mbssearch_renderer extends plugin_renderer_base {
                     'name' => 'search',
                     'src' => $OUTPUT->pix_url('a/search')));
 
-        $output = html_writer::tag('div', $s, array('class' => 'mbssearch_imputwrapper'));
+        $output = html_writer::tag('div', $s, array('class' => 'mbssearch_inputwrapper'));
 
         // ... input order by.
         $options = array(

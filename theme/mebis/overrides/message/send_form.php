@@ -17,7 +17,7 @@
 /**
  * Contains the definition of the form used to send messages
  *
- * @package    core_message
+ * @package    theme_mebis_overrides_message
  * @copyright  2009 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

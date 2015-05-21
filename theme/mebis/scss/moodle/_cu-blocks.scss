@@ -101,16 +101,21 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     }
 }
 
+// Block mbsgettingstarted
 .block_mbsgettingstarted {
     margin-bottom: 20px;
 
-    .btn .btn-secondary {
-        margin: 2px 0px;
-
-        .btn-lg {
-            font-size: 23px;            
+    > .content .me-help-note-container ul {
+        list-style: none;
+        
+        .btn.btn-secondary {
+            margin: 2px 0px;
         }
-    }
+        
+        .btn.btn-lg {
+            font-size: 23px;            
+        } 
+    }  
 
     .wizzardlinks ul {
         margin-top: 6px;
@@ -252,6 +257,10 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         padding: 2px 0 0 10px;
     }
 
+    .row.categorybox{
+        margin: 0;
+    }
+    
     .category-box {
         border: 0;
         background-color: transparent;

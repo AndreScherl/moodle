@@ -95,8 +95,6 @@ echo $OUTPUT->doctype()
 
         <?php
             $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
         ?>
         
         <div class="container"> 

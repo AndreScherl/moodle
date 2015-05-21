@@ -60,7 +60,7 @@ var Mebis = (function($) {
                     var offset = $jumpmark.data('offset');
                     window.scrollTo(0, 0);
                     $('html, body').animate({
-                        scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0)
+                        scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0) - $('.me-page-header full').offset().top
                     }, 800);
                 }
             }, 1);

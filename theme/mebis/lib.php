@@ -31,6 +31,7 @@ function theme_mebis_process_css($css, $theme) {
 
 function theme_mebis_page_init(moodle_page $page) {
     $page->requires->jquery();
+    $page->requires->jquery_plugin('mebis-mebis', 'theme_mebis');
 }
 
 /*function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)

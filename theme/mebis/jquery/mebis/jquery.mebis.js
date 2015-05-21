@@ -47,26 +47,27 @@ var Mebis = (function($) {
         });
     }
 
+// method in use? 
     /**
      * Init smooth scrolling-effect to hash
      */
-    function initSmoothscrolling() {
+/*    function initSmoothscrolling() {
 
         // init smooth scrolling to window.hash
         var $jumpmark = $(window.location.hash);
         if ($jumpmark.length) {
             setTimeout(function () {
-                if (location.hash) {
-                    var offset = $jumpmark.data('offset');
+                if (window.location.hash) {
+                    var offset = $jumpmark.data('offset') - $('#topbar').height() - $('header.me-page-header.full').height() - 150;
                     window.scrollTo(0, 0);
                     $('html, body').animate({
-                        scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0) - $('.me-page-header full').offset().top
+                        scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0)
                     }, 800);
                 }
             }, 1);
         }
     }
-
+*/
     function initCarousel() {
         var $carousel = $('[data-me-carousel]');
         var $controls = $('.carousel-control');
@@ -482,10 +483,13 @@ var Mebis = (function($) {
             e.preventDefault();
 
             var anchor = $(this).attr('href');
-            var anchorTop = $(anchor).offset().top-85;
-//            var anchorOffset = isMobile() ? 380 : 300;
-//            var anchorTop = $(anchor).offset().top - anchorOffset;
-            $('body, html')
+            var anchorTop = $(anchor).offset().top - $('body').offset().top;
+            var anchorOffset = parseInt($(anchor).css('margin-top'))/2 + $('#topbar').height();
+            if($('header.me-page-header').css('position') == 'fixed') {
+                anchorOffset += $('header.me-page-header').height();
+            }
+            anchorTop -= anchorOffset;
+            $('body')
                 .velocity('stop')
                 .velocity('scroll', {duration: 800, offset: anchorTop});
 
@@ -544,6 +548,7 @@ var Mebis = (function($) {
             initInvertContrastSwitch();
             handleFontSizeSwitch();
             initTooltips();
+//            initSmoothscrolling();
             initCarousel();
             initToggleAllCheckboxes();
             initMobileFunctions();

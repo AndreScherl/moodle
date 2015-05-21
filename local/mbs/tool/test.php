@@ -1,7 +1,7 @@
 <?php
 
 require('../../../config.php');
-require_once($CFG->dirroot.'/local/dlb/lib.php');
+require_once($CFG->dirroot.'/local/mbs/lib.php');
 
 require_once($CFG->libdir . '/adminlib.php');
 
@@ -12,5 +12,5 @@ for ($i = 0; $i < 500; $i++) {
 }
 
 
-//local_dlb::fix_catgeorie_sortorder(4);
+//local_mbs::fix_catgeorie_sortorder(4);
 

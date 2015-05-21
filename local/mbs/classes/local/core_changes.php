@@ -18,12 +18,12 @@
 /**
  * To store core changes linked to this pluign.
  *
- * @package   local_dlb
+ * @package   local_mbs
  * @copyright 2014 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_dlb\local;
+namespace local_mbs\local;
 
 use context_system;
 use moodle_url;
@@ -34,13 +34,17 @@ class core_changes {
 
     public static function check_view_courses() {
         $context = context_system::instance();
-        if (!has_capability('local/dlb:viewcourselist', $context)) {
+        if (!has_capability('local/mbs:viewcourselist', $context)) {
             redirect(new moodle_url('/')); // Redirect to front page.
         }
     }
 
+    /**
+     * called from \course\edit_form.php function definition() 
+     * @global type $PAGE
+     */
     public static function add_shortname_check() {
         global $PAGE;
-        $PAGE->requires->yui_module('moodle-local_dlb-shortname', 'M.local_dlb.shortname.init');
+        $PAGE->requires->yui_module('moodle-local_mbs-shortname', 'M.local_mbs.shortname.init');
     }
 }

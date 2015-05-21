@@ -18,14 +18,14 @@
 /**
  * To store core changes linked to this pluign.
  *
- * @package   local_dlb
+ * @package   local_mbs
  * @copyright 2014 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $tasks = array(
     array(
-        'classname' => 'local_dlb\task\fix_gap_categories',
+        'classname' => 'local_mbs\task\fix_gap_categories',
         'blocking' => 0,
         'minute' => '0',
         'hour' => '*',

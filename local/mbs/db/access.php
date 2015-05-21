@@ -36,7 +36,23 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
+    
+    'local/mbs:editschoolid' => array(
+        'captype' => 'write',
+        'riskbitmask' => RISK_CONFIG,
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW
+        )
+    ),
 
+    'local/mbs:viewcourselist' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW,
+        )
+    )
 );
 
 

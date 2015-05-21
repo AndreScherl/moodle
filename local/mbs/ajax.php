@@ -17,7 +17,7 @@
 /**
  * Handle AJAX requests
  *
- * @package   local_dlb
+ * @package   local_mbs
  * @copyright 2014 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -53,5 +53,5 @@ switch ($action) {
         echo json_encode($resp);
         break;
     default:
-        throw new moodle_exception('unknownaction', 'local_dlb');
+        throw new moodle_exception('unknownaction', 'local_mbs');
 }

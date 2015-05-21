@@ -22,6 +22,9 @@
  * @copyright  Andreas Wagner, ISB Bayern
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['fixgapcategories'] = 'Sortierung in Kursbereichen korrigieren';
+$string['mbs:editschoolid'] = 'ID-Number der Schule bearbeiten';
+$string['mbs:viewcourselist'] = 'View list of courses';
 $string['pluginname'] = 'Mebis - Anpassungen';
 $string['schoolnode'] = 'Meine Schulen';
 

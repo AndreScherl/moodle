@@ -18,8 +18,7 @@
 /**
  * Main login page.
  *
- * @package    core
- * @subpackage auth
+ * @package    local_mbs
  * @copyright  1999 onwards Martin Dougiamas  http://dougiamas.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,7 +37,7 @@ if ($cancel) {
 $PAGE->https_required();
 
 $context = context_system::instance();
-$PAGE->set_url("$CFG->httpswwwroot/local/dlb/login.php");
+$PAGE->set_url("$CFG->httpswwwroot/local/mbs/login.php");
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('login');
 
@@ -339,3 +338,4 @@ if (isloggedin() and !isguestuser()) {
 }
 
 echo $OUTPUT->footer();
+

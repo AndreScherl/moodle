@@ -19,7 +19,7 @@
  * To store information and all code related to performance improvement of
  * handling course categories of moodle.
  *
- * @package   local_dlb
+ * @package   local_mbs
  * @copyright 2014 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -43,7 +43,7 @@
  * 
  */
 
-namespace local_dlb\performance;
+namespace local_mbs\performance;
 
 use cache_helper;
 

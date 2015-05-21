@@ -24,7 +24,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 
         // Highlight current section.
         &.current {
-            border-left-color: #00a8d5;
+            border-left-color: $brand-primary;
         }
 
         .content {
@@ -33,7 +33,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
             color: #333;
 
             > h3 {
-                margin-top : 0px;
+                margin-top : 0;
             }
 
             // Background of list items, no background for mod_label
@@ -50,7 +50,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
                     background-color: transparent;
                     
                     .no-overflow {
-                        margin-bottom: 0px;
+                        margin-bottom: 0;
                     }
                 }
             }
@@ -74,9 +74,9 @@ ul.jumpnavigation {
     padding: 50px 0 50px 100px !important;
 
     li.jumpnavigation-point {
-        background-color:$brand-secondary;
-        padding: 0px 15px ;
-        margin-top:2px;
+        background-color: $brand-secondary;
+        padding: 0 15px ;
+        margin-top: 2px;
         height: 26px;
         cursor: pointer;
         min-width: 50px;
@@ -101,7 +101,7 @@ ul.jumpnavigation {
         &.up-arrow {
             height: 50px;
             width: 50px;
-            margin-top:7px;
+            margin-top: 7px;
             float: right;
             span {
                 font-size: 32px;

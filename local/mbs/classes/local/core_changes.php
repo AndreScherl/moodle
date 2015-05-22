@@ -32,6 +32,9 @@ defined('MOODLE_INTERNAL') || die();
 
 class core_changes {
 
+    /**
+     * called from \course\index.php function definition() 
+     */
     public static function check_view_courses() {
         $context = context_system::instance();
         if (!has_capability('local/mbs:viewcourselist', $context)) {

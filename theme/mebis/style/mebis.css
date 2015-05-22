@@ -17534,11 +17534,11 @@ button.close {
   }
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033771}}
-.touch .me-in-page-menu-mobile-trigger:hover, .touch #me-back-top:hover {
+.touch .me-in-page-menu-mobile-trigger:hover, .touch .me-back-top:hover {
   color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033775}}
-.touch .me-in-page-menu-mobile-trigger[data-status="visible"], .touch #me-back-top[data-status="visible"] {
+.touch .me-in-page-menu-mobile-trigger[data-status="visible"], .touch .me-back-top[data-status="visible"] {
   color: #ff6600;
 }
 
@@ -18492,82 +18492,95 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003111}}
 .block_mbsgettingstarted > .content .me-help-note-container ul .btn.btn-secondary {
   margin: 2px 0px;
+  width: 100%;
+  border: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003117}}
-.block_mbsgettingstarted > .content .me-help-note-container ul .btn.btn-lg, .block_mbsgettingstarted > .content .me-help-note-container ul .btn-group-lg > .btn {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003116}}
+.block_mbsgettingstarted > .content .me-help-note-container ul .btn.btn-secondary.btn-lg, .block_mbsgettingstarted > .content .me-help-note-container ul .btn-group-lg > .btn.btn-secondary {
   font-size: 23px;
+  background: #ff6600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003124}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003120}}
+.block_mbsgettingstarted > .content .me-help-note-container ul .btn.btn-secondary.btn-lg:hover, .block_mbsgettingstarted > .content .me-help-note-container ul .btn-group-lg > .btn.btn-secondary:hover {
+  background: #00c5fa;
+  -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003128}}
+.block_mbsgettingstarted .video-container {
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003132}}
 .block_mbsgettingstarted .wizzardlinks ul {
   margin-top: 6px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003128}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003136}}
 .block_mbsgettingstarted .aidlinks ul {
   margin-top: 12px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003136}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003144}}
 .block_mbswizzard > .content > .header {
   padding: 4px 1px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003148}}
 .block_mbswizzard > .content > ul {
   list-style: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003149}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003157}}
 .block_mbsmycourses .mbsnewcourse {
   float: right;
   padding: 20px 0 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003155}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003163}}
 .block_mbsmycourses .header {
   margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003159}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003167}}
 .block_mbsmycourses .header h2 {
   margin-bottom: 12.5px;
   margin-top: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003174}}
 .block_mbsmycourses .course-sorting {
   padding: 15px 0;
   border-top: dotted 1px rgba(230, 230, 230, 0.3);
   border-bottom: dotted 1px rgba(230, 230, 230, 0.3);
   margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003181}}
 .block_mbsmycourses .course-sorting input, .block_mbsmycourses .course-sorting select, .block_mbsmycourses .course-sorting label {
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003177}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003185}}
 .block_mbsmycourses .course-sorting label {
   margin-top: 10px;
 }
 @media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003186}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003194}}
   .block_mbsmycourses .my-courses-filter select {
     margin-bottom: 10px;
     max-width: none;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003193}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003201}}
 .block_mbsmycourses .my-courses-filter label {
   position: relative;
   cursor: pointer;
   color: #333333;
   margin-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003201}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003209}}
 .block_mbsmycourses .my-courses-filter label:hover i, .block_mbsmycourses .my-courses-filter label:hover span {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003206}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003214}}
 .block_mbsmycourses .my-courses-filter label input {
   opacity: 0;
   position: absolute;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003211}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003219}}
 .block_mbsmycourses .my-courses-filter label i, .block_mbsmycourses .my-courses-filter label span > span {
   color: #fff;
   font-size: 1.375em;
@@ -18579,53 +18592,53 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
   display: inline-block;
   margin-right: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003221}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003229}}
 .block_mbsmycourses .my-courses-filter label > span {
   display: inline-block;
   vertical-align: middle;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003225}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003233}}
 .block_mbsmycourses .my-courses-filter label > span span {
   font-size: 1.125em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003230}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003238}}
 .block_mbsmycourses .my-courses-filter label input:checked + i, .block_mbsmycourses .my-courses-filter label input:checked ~ span > span {
   color: #ff6600;
 }
 @media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003193}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003201}}
   .block_mbsmycourses .my-courses-filter label {
     display: inline-block;
     margin-right: 35px;
     margin-left: 0;
     margin-top: 15px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003240}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003248}}
   .block_mbsmycourses .my-courses-filter label i {
     vertical-align: middle;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003248}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003256}}
 .block_mbsmycourses .content {
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003252}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003260}}
 .block_mbsmycourses .course_list {
   width: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003256}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003264}}
 .block_mbsmycourses .coursebox {
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003260}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003268}}
 .block_mbsmycourses .move {
   padding: 2px 0 0 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003264}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003272}}
 .block_mbsmycourses .row.categorybox {
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003268}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003276}}
 .block_mbsmycourses .category-box {
   border: 0;
   background-color: transparent;
@@ -18633,22 +18646,51 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
   padding: 0;
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003276}}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003288}}
+.path-blocks-mbssearch .add-more-results,
 .block_mbsmycourses .add-more-results {
   margin-left: 0;
   margin-right: 0;
   padding-left: 0;
   padding-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003283}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003295}}
+.path-blocks-mbssearch .add-more-results .load-more-results,
 .block_mbsmycourses .add-more-results .load-more-results {
   margin-left: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003290}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003301}}
 .block_mbsmyschools {
   margin-left: 0;
   margin-right: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003308}}
+.path-blocks-mbssearch #main-content-wrapper {
+  background-color: transparent;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003311}}
+.path-blocks-mbssearch .mbssearchpage {
+  padding: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003314}}
+.path-blocks-mbssearch .mbssearchpage form {
+  padding: 0 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003317}}
+.path-blocks-mbssearch .mbssearchpage form input[type='text'] {
+  max-width: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003321}}
+.path-blocks-mbssearch .mbssearchpage form select {
+  max-width: none;
+  width: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003328}}
+.path-blocks-mbssearch #mbssearch_result {
+  margin-top: 20px;
 }
 
 /*
@@ -18706,7 +18748,21 @@ Styles, which are specific for a special course format, should go to _ca-coursef
   visibility: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000366}}
+/*#main-content-wrapper {
+    
+    .box.generalbox {
+        background: $white;
+        color: $brand-gray-dark;
+        width: 100%;
+        margin: 20px 0;
+        padding: 6px 12px;
+    }
+    
+    fieldset .fdescription {
+        color: $white;
+    }
+}*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000382}}
 ul.jumpnavigation {
   position: fixed;
   top: 40%;
@@ -18716,7 +18772,7 @@ ul.jumpnavigation {
   color: #fff;
   padding: 50px 0 50px 100px !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000376}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000392}}
 ul.jumpnavigation li.jumpnavigation-point {
   background-color: #ff6600;
   padding: 0 15px;
@@ -18731,7 +18787,7 @@ ul.jumpnavigation li.jumpnavigation-point {
   user-select: none;
   text-align: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003105}}
 ul.jumpnavigation li.jumpnavigation-point span {
   font-family: "Titillium Web Light","Titillium Web";
   font-weight: 300;
@@ -18741,23 +18797,23 @@ ul.jumpnavigation li.jumpnavigation-point span {
   line-height: normal;
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\0000398}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003114}}
 ul.jumpnavigation li.jumpnavigation-point:hover {
   background-color: #00a8d5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003117}}
 ul.jumpnavigation li.jumpnavigation-point.up-arrow {
   height: 50px;
   width: 50px;
   margin-top: 7px;
   float: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003106}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003122}}
 ul.jumpnavigation li.jumpnavigation-point.up-arrow span {
   font-size: 32px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003115}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003131}}
 ul.jumpnavigation:hover li.jumpnavigation-point span {
   display: inline-block;
 }
@@ -19273,6 +19329,62 @@ input[type="checkbox"] + label {
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-usermessages\.scss}line{font-family:\0000332}}
 .usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
   margin-right: 10px;
+}
+
+/*
+    Styles, which are used for the user filemanager.
+*/
+/* 
+    Created on : 22.05.2015, 14:10:29
+    Author     : Franziska Hübler, ISB
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\000039}}
+#page-user-files #main-content-wrapper {
+  background-color: transparent;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000313}}
+.user-filemanager {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #fff;
+  color: #333333;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000321}}
+.user-filemanager #fitem_id_files_filemanager {
+  margin-bottom: 20px;
+  min-height: 320px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000325}}
+.user-filemanager #fitem_id_files_filemanager .filemanager-container {
+  min-height: 175px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000332}}
+.user-filemanager .mform .fitem {
+  width: 100%;
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000336}}
+.user-filemanager .mform .fitem .fitemtitle {
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000342}}
+.user-filemanager .mform .fitem .felement {
+  float: none;
+  width: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000348}}
+.user-filemanager .mform .fitem_actionbuttons > div.felement {
+  margin: 0;
+  text-align: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/triodev\/theme\/mebis\/scss\/moodle\/_cu-userfilemanager\.scss}line{font-family:\0000352}}
+.user-filemanager .mform .fitem_actionbuttons > div.felement input {
+  margin: 0;
 }
 
 /** To check whether styles are necessary:

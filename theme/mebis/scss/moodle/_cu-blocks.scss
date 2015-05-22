@@ -110,12 +110,24 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         
         .btn.btn-secondary {
             margin: 2px 0px;
-        }
-        
-        .btn.btn-lg {
-            font-size: 23px;            
-        } 
+            width: 100%;
+            border: none;
+            
+            &.btn-lg {
+                font-size: $font-size-large;
+                background: $brand-secondary;
+                
+                &:hover {
+                    background: $brand-primary-light;
+                     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                }
+            } 
+        }    
     }  
+    
+    .video-container {
+        text-align: center;
+    }
 
     .wizzardlinks ul {
         margin-top: 6px;

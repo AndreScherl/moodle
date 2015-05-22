@@ -179,16 +179,16 @@ class datenschutz {
         global $DB;
 
         // ... check read messages.
-        $sql = "SELECT count(*) FROM {message_read}
-                WHERE useridfrom = ? AND useridto = ?";
+        $sql = "SELECT count(*) FROM {message_read} "
+                . "WHERE useridfrom = ? AND useridto = ?";
 
         $count = $DB->count_records_sql($sql, [$useridfrom, $useridto]);
 
         // ... if no read messages, check unread messages.
         if ($count == 0) {
 
-            $sql = "SELECT count(*) FROM {message}
-                    WHERE useridfrom = ? AND useridto = ?";
+            $sql = "SELECT count(*) FROM {message} "
+                    . "WHERE useridfrom = ? AND useridto = ?";
 
             $count = $DB->count_records_sql($sql, [$useridfrom, $useridto]);
         }
@@ -642,7 +642,7 @@ class datenschutz {
 
             // Add a Link to edit personal data in LDAP-Portal.
             if ($user->id == $USER->id) {
-                $output = html_writer::link($editmebisprofileurl, get_string('editmebisprofile', 'theme_dlb'));
+                $output = html_writer::link($editmebisprofileurl, get_string('editmebisprofile', 'theme_mbs'));
                 $output = html_writer::tag('div', $output, ['class' => 'editprofileurl']);
 
                 $element = $mform->createElement('html', $output);
@@ -1016,7 +1016,7 @@ class datenschutz {
         } else {
             $context = context_system::instance();
         }
-        return has_capability('local/dlb:editschoolid', $context);
+        return has_capability('local/mbs:editschoolid', $context);
     }
 
     /**

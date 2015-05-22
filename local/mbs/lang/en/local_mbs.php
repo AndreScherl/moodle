@@ -21,6 +21,9 @@
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['fixgapcategories'] = 'Fix course sortorder in categories';
+$string['mbs:editschoolid'] = 'Edit school ID-Number';
+$string['mbs:viewcourselist'] = 'View list of courses';
 $string['pluginname'] = 'Mebis - Adjustments';
 $string['schoolnode'] = 'My schools';
 

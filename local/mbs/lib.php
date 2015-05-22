@@ -61,6 +61,62 @@ function local_mbs_user_loggedin($event) {
     local_mbs::setup_teacher_flag();
 }
 
+/** called, when user created a course */
+function local_mbs_course_created($events) {
+    global $DB, $USER, $COURSE;
+    // assign course owner role to course creator, to manage the right of course deletion
+    if ($role = $DB->get_record('role', array('shortname' => 'kursbesitzer'))) {
+        role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+    }
+}
+
+/** fix the sortorder of new coursecategory.
+ *  regarding performance we:
+ *  1. drop the unique sortorder or categories in fix_course_sortorder in a hack.
+ *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
+ *      a. the new categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
+ *      b. if new sortorder exceeds parentsortorder + MAX_COURSES_IN_CATEGORY, we resort all childs.  
+ * 
+ * @param type $eventdata
+ */
+function local_mbs_course_category_created($event) {
+
+    $eventdata = $event->get_data();
+    /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+     *  wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_mbs\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
+}
+
+/** fix the sortorder of moved coursecategory.
+ *  regarding performance we:
+ *  1. drop the unique sortorder or categories in fix_course_sortorder in a hack
+ *  2. ensure that within a categorie all childs have a appropriate sortorder, which means that:
+ *        a. the nmoved categorie gets sortorder = max(sortorder of childs) + MAX_COURSES_IN_CATEGORY
+ * 
+ * @param type $eventdata
+ */
+function local_mbs_course_category_updated($event) {
+
+    $eventdata = $event->get_data();
+     /** dieser Ansatz war ein Versuch (siehe Dokumentation Lösungsansatz 2)
+     *  er verbleibt zu Dokumentationszwecken oder wird neu diskutiert, 
+      * wenn der derzeit aktive Lösungsansatz bei 
+     *  zunehmender Kursbereichsanzahl verworfen werden muss.
+     */
+    //local_mbs\performance\fix_course_sortorder::fix_catgeorie_sortorder($eventdata['objectid']);
+}
+
+function local_mbs_course_deleted($event) {
+
+    $coursecatcache = cache::make('core', 'coursecat');
+    $coursecatcache->purge();
+}
+
+
+
 
 class local_mbs {
     /* check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)

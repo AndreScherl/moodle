@@ -36,6 +36,3 @@ $string['pluginname'] = 'mebis Getting Started';
 $string['tutoriallink'] = 'Tutorials';
 $string['traininglink'] = 'Advanced Training';
 $string['videoalttext'] = 'Explanatory video my dashboard';
-$string['wizzardcoursecreate'] = 'My first Course';
-$string['wizzardcoursesetup'] = 'Organise Learning';
-$string['wizzardfirstlearningsequenz'] = 'Create Learning';

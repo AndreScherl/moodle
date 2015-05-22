@@ -1,8 +1,8 @@
-YUI.add('moodle-local_dlb-shortname', function (Y, NAME) {
+YUI.add('moodle-local_mbs-shortname', function (Y, NAME) {
 
 /*global M*/
-M.local_dlb = M.local_dlb || {};
-M.local_dlb.shortname = {
+M.local_mbs = M.local_mbs || {};
+M.local_mbs.shortname = {
 
     parent: null,
     shortnamefield: null,
@@ -40,7 +40,7 @@ M.local_dlb.shortname = {
         if (!shortname) {
             return;
         }
-        Y.io(M.cfg.wwwroot+'/local/dlb/ajax.php', {
+        Y.io(M.cfg.wwwroot+'/local/mbs/ajax.php', {
             data: {
                 'id': this.id,
                 'shortname': shortname,

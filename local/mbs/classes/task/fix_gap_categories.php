@@ -18,29 +18,21 @@
 /**
  * To store core changes linked to this pluign.
  *
- * @package   local_dlb
- * @copyright 2014 Davo Smith, Synergy Learning
+ * @package   local_mbs
+ * @copyright 2014 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_dlb\local;
+namespace local_mbs\task;
 
-use context_system;
-use moodle_url;
-
-defined('MOODLE_INTERNAL') || die();
-
-class core_changes {
-
-    public static function check_view_courses() {
-        $context = context_system::instance();
-        if (!has_capability('local/dlb:viewcourselist', $context)) {
-            redirect(new moodle_url('/')); // Redirect to front page.
-        }
+class fix_gap_categories extends \core\task\scheduled_task {      
+    
+    public function get_name() {
+        // Shown in admin screens
+        return get_string('fixgapcategories', 'local_mbs');
     }
-
-    public static function add_shortname_check() {
-        global $PAGE;
-        $PAGE->requires->yui_module('moodle-local_dlb-shortname', 'M.local_dlb.shortname.init');
-    }
-}
+                                                                     
+    public function execute() {       
+        \local_mbs\performance\fix_course_sortorder::cron();
+    }                                                                                                                               
+} 

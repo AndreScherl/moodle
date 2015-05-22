@@ -1,7 +1,7 @@
 {
-    "name": "moodle-local_dlb-shortname",
+    "name": "moodle-local_mbs-shortname",
     "builds": {
-        "moodle-local_dlb-shortname": {
+        "moodle-local_mbs-shortname": {
             "jsfiles": [
                 "shortname.js"
             ]

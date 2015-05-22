@@ -18,21 +18,19 @@
 /**
  * To store core changes linked to this pluign.
  *
- * @package   local_dlb
+ * @package   local_mbs
  * @copyright 2014 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_dlb\task;
-
-class fix_gap_categories extends \core\task\scheduled_task {      
-    
-    public function get_name() {
-        // Shown in admin screens
-        return get_string('fixgapcategories', 'local_dlb');
-    }
-                                                                     
-    public function execute() {       
-        \local_dlb\performance\fix_course_sortorder::cron();
-    }                                                                                                                               
-} 
+$tasks = array(
+    array(
+        'classname' => 'local_mbs\task\fix_gap_categories',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
+);

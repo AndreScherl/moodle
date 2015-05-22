@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['contactlink'] = 'Persönlicher Kontak';
+$string['contactlink'] = 'Persönlicher Kontakt';
 $string['closealert'] = 'Ok';
 $string['closealertexpl'] = 'Die Starthilfe wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
         . 'Starthilfe" können Sie diesen Vorgang rückgängig machen.';
@@ -37,7 +37,4 @@ $string['pluginname'] = 'mebis Starthilfe';
 $string['tutoriallink'] = 'Tutorials';
 $string['traininglink'] = 'Fortbildungen';
 $string['videoalttext'] = 'Erklärvideo Mein Schreibtisch';
-$string['wizzardcoursecreate'] = 'Mein erster Kurs';
-$string['wizzardcoursesetup'] = 'Lernen organisieren';
-$string['wizzardfirstlearningsequenz'] = 'Lernen gestalten';
 

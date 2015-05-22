@@ -1,5 +1,5 @@
 {
-    "moodle-local_dlb-shortname": {
+    "moodle-local_mbs-shortname": {
         "requires": [
             "base",
             "json",

@@ -74,7 +74,7 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
         $output .= html_writer::end_tag('ul');
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top')));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 

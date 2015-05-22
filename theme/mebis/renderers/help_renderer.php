@@ -54,7 +54,7 @@ class theme_mebis_help_renderer extends renderer_base
 
         if (!$this->pageactionnavigation) {
             $menu_items = array(
-                html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top'))
+                html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top'))
             );
 
             $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));

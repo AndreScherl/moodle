@@ -17,24 +17,23 @@ var Mebis = (function($) {
 
         $win.on('scroll', function () {
             if ($(this).scrollTop() > 100) {
-                $('#me-back-top').fadeIn();
+                $('.me-back-top').fadeIn();
             } else {
                 if(!isMobile()) {
-                    $('#me-back-top').fadeOut();
+                    $('.me-back-top').fadeOut();
                 }
             }
         });
 
         // scroll body to 0px on click
-        $('#me-back-top').on('click', function (e) {
+        $('.me-back-top').on('click', function (e) {
             e.preventDefault();
 
-            $('body, html')
+            $('html')
                 .velocity('stop')
-                .velocity('scroll', {duration: 800, offset: 0}, function(){
-            });
+                .velocity('scroll', {duration: 800, offset: 0});
 
-            setAnchorClass();
+            //setAnchorClass();
 
             window.location.hash = ''; // for older browsers, leaves a # behind
 
@@ -485,7 +484,7 @@ var Mebis = (function($) {
             var anchor = $(this).attr('href');
             var anchorTop = $(anchor).offset().top - $('body').offset().top;
             var anchorOffset = parseInt($(anchor).css('margin-top'))/2 + $('#topbar').height();
-            if($('header.me-page-header').css('position') == 'fixed') {
+            if($('header.me-page-header').css('position') === 'fixed') {
                 anchorOffset += $('header.me-page-header').height();
             }
             anchorTop -= anchorOffset;
@@ -498,7 +497,7 @@ var Mebis = (function($) {
 
         });
     }
-
+/*
     function initAnchorScrolling() {
         var $headlines = $("[data-anchor-link]");
 
@@ -521,7 +520,7 @@ var Mebis = (function($) {
 
         $(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
     }
-
+*/
     function handleSelectboxNavChange()
     {
         var $selectbox = $('[data-change]');
@@ -561,8 +560,8 @@ var Mebis = (function($) {
             switchModalContents();
             initStarRating();
             initAnchorLinks();
-            initAnchorScrolling();
-            setAnchorClass();
+            //initAnchorScrolling();
+            //setAnchorClass();
             handleSelectboxNavChange();
             initStickyHeader();
         },
@@ -578,7 +577,7 @@ var Mebis = (function($) {
             },50);
         },
         scroll: function() {
-            setAnchorClass();
+            //setAnchorClass();
         }
     }
 

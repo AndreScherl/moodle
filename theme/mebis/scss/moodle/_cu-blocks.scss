@@ -259,7 +259,11 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         padding: 0;
         margin: 0;
     }
-    
+}
+
+// more results button in mbscourses and mbssearch result page
+.path-blocks-mbssearch,
+.block_mbsmycourses {
     .add-more-results {
         
         margin-left: 0;
@@ -272,9 +276,35 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         }        
     }
 }
-
 // Block mbsmyschools.
 .block_mbsmyschools {
     margin-left: 0;
     margin-right: 0;
+}
+
+// search page of block mbssearch
+.path-blocks-mbssearch {
+    #main-content-wrapper {
+        background-color: transparent;
+    }
+    .mbssearchpage {
+        padding: 0;
+        
+        form {
+            padding: 0 20px;
+            
+            input[type='text'] {
+                max-width: none;
+            }
+            
+            select {
+                max-width: none;
+                width: 100%;
+            }
+        } 
+    }
+    
+    #mbssearch_result {
+        margin-top: 20px;
+    }
 }

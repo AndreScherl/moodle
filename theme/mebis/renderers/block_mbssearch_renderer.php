@@ -223,7 +223,9 @@ class theme_mebis_block_mbssearch_renderer extends block_mbssearch_renderer {
 
         $o = html_writer::link($url, $text, array(
             'id' => 'loadmoreresults',
-            'class' => 'btn btn-primary col-lg-12'));
+            'class' => 'btn load-more-results'));
+        
+        $o = html_writer::div($o, 'row col-lg-12 add-more-results');
 
         return $o;
     }

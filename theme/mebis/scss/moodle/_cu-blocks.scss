@@ -119,16 +119,16 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
                 
                 &:hover {
                     background: $brand-primary-light;
-                     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
                 }
             } 
-        }    
-    }  
+        }        
+    } 
     
     .video-container {
         text-align: center;
     }
-
+    
     .wizzardlinks ul {
         margin-top: 6px;
     }
@@ -265,10 +265,6 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         margin: 0;
     }
 
-    .move {
-        padding: 2px 0 0 10px;
-    }
-
     .row.categorybox{
         margin: 0;
     }
@@ -280,6 +276,10 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
         padding: 0;
         margin: 0;
     }
+}
+
+.editing .block_mbsmycourses .move {
+   float: right; 
 }
 
 // more results button in mbscourses and mbssearch result page
@@ -334,4 +334,30 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     #mbssearch_result {
         margin-top: 20px;
     }
+}
+
+ // Block mbsschooltitle
+.block_mbsschooltitle {
+    
+    padding: 40px 0;
+    color: $white;
+    margin-bottom: -60px;
+    background: $brand-primary;
+             
+    .mbs-schooltitle-headline h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+    .mbs-schooltitle-image img {
+        height: 50px;
+    }
+    
+    .btn.btn-secondary {
+        @media only screen and (max-width: $screen-desktop) {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+    
 }

@@ -35,4 +35,4 @@ $string['mbsgettingstarted:myaddinstance'] = 'Add a mbsgettingstarted block to m
 $string['pluginname'] = 'mebis Getting Started';
 $string['tutoriallink'] = 'Tutorials';
 $string['traininglink'] = 'Advanced Training';
-$string['videoalttext'] = 'Explanatory video my dashboard';
+$string['videoalttext'] = 'Explanatory video my dashboard (This browser is not compatible with HTML 5)';

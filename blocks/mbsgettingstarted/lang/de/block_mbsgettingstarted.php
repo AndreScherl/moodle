@@ -36,5 +36,5 @@ $string['mbsgettingstarted:myaddinstance'] = 'Hinzufügen der Starthilfe zu mein
 $string['pluginname'] = 'mebis Starthilfe';
 $string['tutoriallink'] = 'Tutorials';
 $string['traininglink'] = 'Fortbildungen';
-$string['videoalttext'] = 'Erklärvideo Mein Schreibtisch';
+$string['videoalttext'] = 'Erklärvideo Mein Schreibtisch (Ihr Browser unterstützt kein HTML 5)';
 

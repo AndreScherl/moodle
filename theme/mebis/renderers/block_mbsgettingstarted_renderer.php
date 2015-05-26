@@ -63,7 +63,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link('#',  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequenz', 'class' => 'btn btn-secondary link_wizzard'));
         $wizzard .= html_writer::end_tag('li');
-        $wizzards = html_writer::tag('ul', $wizzard, array('class' => 'text-right'));
+        $wizzards = html_writer::tag('ul', $wizzard);
         $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-lg-4 col-md-6 col-xs-12 wizzardlinks'));
         
         $aidlinks = array('tutoriallink', 'traininglink', 'contactlink');
@@ -72,24 +72,26 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
             $aid .= html_writer::link('#',  get_string($link, 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary', 'id' => 'mbswizzard_'.$link));
             $aid .= html_writer::end_tag('li');
         }                
-        $support = html_writer::tag('ul', $aid, array('class' => 'text-left'));
+        $support = html_writer::tag('ul', $aid);
         $support = html_writer::tag('div', $support, array('class' => 'col-lg-4 col-md-6 col-xs-12 aidlinks'));
         
-        $video .= html_writer::start_div('video-container');
-            /*$video .= html_writer::empty_tag('iframe', array(
-			'src' => new moodle_url('https://www-entw.mebis.bayern.de/wp-content/uploads/sites/2/2015/03/Eu-Spot-Cyber-mobbing.mp4'),
-			'alt' => get_string('videoalttext', 'block_mbsgettingstarted')));*/
-            /*$video .= html_writer::start_tag('video', array(
-                'width' => '320',
-                'height' => '240',
-                'controls'
+        $video .= html_writer::start_div('video-container',  array('id' => 'mydashboardvideo'));
+            /*$video .= html_writer::empty_tag('img', array(
+                'src' => new moodle_url('/blocks/mbsgettingstarted/images/thumbnail.png'),
+                'width' => '100%',
+                'alt' => 'Vorschaubild'
+            ));  */      
+
+            $video .= html_writer::start_tag('video', array(
+                'width' => '100%',
+                'controls' => 'controls'
             ));  
                 $video .= html_writer::empty_tag('source',  array(
                     'src' => new moodle_url('https://www-entw.mebis.bayern.de/wp-content/uploads/sites/2/2015/03/Eu-Spot-Cyber-mobbing.mp4'),
                     'type' => 'video/mp4'
                 ));
                 $video .= get_string('videoalttext', 'block_mbsgettingstarted');
-            $video .= html_writer::end_tag('video');*/
+            $video .= html_writer::end_tag('video');
           
          $video .= html_writer::end_div();
 

@@ -17,15 +17,15 @@
 /**
  * A page displaying the user's contacts and messages
  *
- * @package    core_message
+ * @package    theme_mebis_overrides_message
  * @copyright  2010 Andrew Davis
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $overrides_path = dirname(__FILE__);
 
-require_once('../config.php');
-require_once('lib.php');
+//require_once('../config.php');
+//require_once('lib.php');
 require_once($overrides_path . '/lib.php');
 require_once($overrides_path . '/send_form.php');
 
@@ -359,5 +359,3 @@ echo html_writer::end_tag('div');
 echo $OUTPUT->box_end();
 
 echo $OUTPUT->footer();
-
-

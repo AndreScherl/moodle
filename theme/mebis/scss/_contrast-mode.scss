@@ -1,254 +1,253 @@
 html {
 
-	&.me-contrast-mode {
+    &.me-contrast-mode {
 
-		#me-invert {
-			background: $brand-secondary;
-			color: #fff;
+        #me-invert {
+            background: $brand-secondary;
+            color: #fff;
 
-			&:hover {
-				background: $brand-primary;
-			}
-		}
+            &:hover {
+                background: $brand-primary;
+            }
+        }
 
-		// ======================== NAVIGATION ======================== //
+        // ======================== NAVIGATION ======================== //
 
-		.navbar-nav {
-			li {
-				a {
-					color: $white !important;
-				}
-			}
+        .navbar-nav {
+            li {
+                a {
+                    color: $white !important;
+                }
+            }
 
-			.profile {
-				a {
-					background: $brand-gray-medium !important;
-				}
-			}		
-		}
+            .profile {
+                a {
+                    background: $brand-gray-medium !important;
+                }
+            }
+        }
 
-		// ======================== HOMEPAGE ======================== //
+        // ======================== HOMEPAGE ======================== //
 
-		.quickentry-box {
-			.me-block-inner {
-				background: $brand-gray-medium;
-			}
-		}
+        .quickentry-box {
+            .me-block-inner {
+                background: $brand-gray-medium;
+            }
+        }
 
-		.me-newsletter-box {
-			.me-newsletter-box-inner {
-				background: $brand-gray-medium;
-			}
-		}
+        .me-newsletter-box {
+            .me-newsletter-box-inner {
+                background: $brand-gray-medium;
+            }
+        }
 
-		.me-logged-out-teaser,
-		.me-maintenance-mode {
-			background: $brand-gray-medium !important;
-		}
+        .me-logged-out-teaser,
+        .me-maintenance-mode {
+            background: $brand-gray-medium !important;
+        }
 
-		#me-news-carousel {
-			.carousel-control {
-				&:hover {
-					background: $brand-secondary !important;
-				}
-					
-				&.left, 
-				&.right {
-					background: $black;
+        #me-news-carousel {
+            .carousel-control {
+                &:hover {
+                    background: $brand-secondary !important;
+                }
 
-					&:hover {
-						background: $brand-secondary !important;
-					}
-				}
-			}
-		}
+                &.left,
+                &.right {
+                    background: $black;
 
-		// ======================== INFOPORTAL ======================== //
+                    &:hover {
+                        background: $brand-secondary !important;
+                    }
+                }
+            }
+        }
 
-		.wrapper-infoportal {
-			.nav-infoportal {
-				.dropdown {
-					.dropdown-toggle {
-						color: $white;
-					}
+        // ======================== INFOPORTAL ======================== //
 
-					&:hover {
-						.dropdown-toggle {
-							background: $bg-dark;
-						}
-					}
-				}
-			}
+        .wrapper-infoportal {
+            .nav-infoportal {
+                .dropdown {
+                    .dropdown-toggle {
+                        color: $white;
+                    }
 
-			.me-article-detail {
-				a {
-					color: $white;
-					text-decoration: underline;
-				}
-			}
+                    &:hover {
+                        .dropdown-toggle {
+                            background: $bg-dark;
+                        }
+                    }
+                }
+            }
 
-			.me-address-block {
-				background: $brand-gray-medium;
-			}
-		
-		}
+            .me-article-detail {
+                a {
+                    color: $white;
+                    text-decoration: underline;
+                }
+            }
 
-		.me-in-page-menu-anchor-links {
-			li {
-				&:hover {
-					background: $black;
-				}
-			}
-		}
+            .me-address-block {
+                background: $brand-gray-medium;
+            }
 
-		.me-search-results  {
-			.me-block-inner {
-				.me-search-result-headline {
-					background: $brand-gray-light;
+        }
 
-					h3 {
-						color: $black;
-					}
-				}	
-			}	
-		}
+        .me-in-page-menu-anchor-links {
+            li {
+                &:hover {
+                    background: $black;
+                }
+            }
+        }
 
-		// ======================== MEDIATHEK ======================== //
+        .me-search-results {
+            .me-block-inner {
+                .me-search-result-headline {
+                    background: $brand-gray-light;
 
-		.me-search-result-type {
-			[class*="icon-me-"] {
-				background: $brand-gray-medium !important;
-			}	
-		}
+                    h3 {
+                        color: $black;
+                    }
+                }
+            }
+        }
 
-		.me-order-box {
-			.me-categories {
+        // ======================== MEDIATHEK ======================== //
 
-				li {
-					a {
-						&:hover {
-							background: $brand-gray-medium;
-						}
+        .me-search-result-type {
+            [class*="icon-me-"] {
+                background: $brand-gray-medium !important;
+            }
+        }
 
-						&.active {
-							background: $brand-gray-medium;
-						}
-					}
-				}
+        .me-order-box {
+            .me-categories {
 
-				.number {
-					color: $black !important;
-					background: $white !important;
-				}
-			}
-		}
+                li {
+                    a {
+                        &:hover {
+                            background: $brand-gray-medium;
+                        }
 
-		.me-collection {
-			.me-block-inner {
-				a {	
-					color: $black !important;
-					background: $white !important;
-				}
-			}
-		}
+                        &.active {
+                            background: $brand-gray-medium;
+                        }
+                    }
+                }
 
-		// ======================== IDM-PORTAL ======================== //
+                .number {
+                    color: $black !important;
+                    background: $white !important;
+                }
+            }
+        }
 
-		.wrapper-idm-portal {
-			.me-idm-portal-header-nav {
-				.num-notification {
-					background: $black;
-					color: $white;
-				}
-			}
+        .me-collection {
+            .me-block-inner {
+                a {
+                    color: $black !important;
+                    background: $white !important;
+                }
+            }
+        }
 
-			.me-process-crumbs {
-				li {
-					&.active {
-						background: $brand-gray-navi !important;
+        // ======================== IDM-PORTAL ======================== //
 
-						&:after {
-							border-left-color: $brand-gray-navi !important;
-						}
-					}	
-				}
-			}
-				
-		}
+        .wrapper-idm-portal {
+            .me-idm-portal-header-nav {
+                .num-notification {
+                    background: $black;
+                    color: $white;
+                }
+            }
 
-		@media only screen and (max-width: $screen-md-min) {
-			.wrapper-idm-portal {
-				.me-process-crumbs {
-					li {
-						&.active {
-							background: $brand-gray-navi !important;
+            .me-process-crumbs {
+                li {
+                    &.active {
+                        background: $brand-gray-navi !important;
 
-							&:after {
-								border-left-color: transparent !important;
-								border-top-color: $brand-gray-navi !important;
-							}
-						}	
-					}
-				}
-			}
-		}	
+                        &:after {
+                            border-left-color: $brand-gray-navi !important;
+                        }
+                    }
+                }
+            }
 
-		// ======================== FOOTER ======================== //
+        }
 
-		.footer-nav {
-			li.newsletter a {
-				background: $brand-gray-medium;
-			}
-		}
+        @media only screen and (max-width: $screen-md-min) {
+            .wrapper-idm-portal {
+                .me-process-crumbs {
+                    li {
+                        &.active {
+                            background: $brand-gray-navi !important;
 
-		// ======================== POPUPS ======================== //
+                            &:after {
+                                border-left-color: transparent !important;
+                                border-top-color: $brand-gray-navi !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		.modal-backdrop {
-			background: rgba(255,255,255,0.75) !important;
-			
-			&.in {
-				opacity: 0.85 !important;
-			}
-		}
+        // ======================== FOOTER ======================== //
 
-		// ======================== MISCELLANEOUS ======================== //
-		
-		.me-content-overlay {
-			@include background(radial-gradient(rgba(0,0,0,0),rgba(0,0,0,0)));
-			background: rgba(255,255,255,0.75);
-		}
+        .footer-nav {
+            li.newsletter a {
+                background: $brand-gray-medium;
+            }
+        }
 
-		.breadcrumb {
-			li {
-				&.active {
-					color: $white;
-				}
+        // ======================== POPUPS ======================== //
 
-				color: $white;
+        .modal-backdrop {
+            background: rgba(255, 255, 255, 0.75) !important;
 
-				a {
-					color: $white;
-				}
+            &.in {
+                opacity: 0.85 !important;
+            }
+        }
 
-				span {
-					color: $white;
-				}
-			}
-		}
+        // ======================== MISCELLANEOUS ======================== //
 
-		.me-content-block {
-			.breadcrumb {
-				color: $black !important;
-				a {
-					color: $black !important;
+        .me-content-overlay {
+            @include background(radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)));
+            background: rgba(255, 255, 255, 0.75);
+        }
 
-					&:hover {
-						color: $black !important;
-					}
-				}
-			}
-		}
+        .breadcrumb {
+            li {
+                &.active {
+                    color: $white;
+                }
 
-	}
+                color: $white;
 
+                a {
+                    color: $white;
+                }
+
+                span {
+                    color: $white;
+                }
+            }
+        }
+
+        .me-content-block {
+            .breadcrumb {
+                color: $black !important;
+                a {
+                    color: $black !important;
+
+                    &:hover {
+                        color: $black !important;
+                    }
+                }
+            }
+        }
+
+    }
 }

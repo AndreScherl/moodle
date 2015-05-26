@@ -32,6 +32,6 @@ $string['imgwidth'] = 'Breite des Schulbereichsbildes';
 $string['imgwidthexpl'] = 'Das Schulbereichsbild wird auf diese Breite zugeschnitten';
 $string['mbsschhooltitle:addinstance'] = 'Mebis Schultitel hinzufügen';
 $string['mbsschooltitle:edittitle'] = 'Schultitle bearbeiten';
-$string['pluginname'] = 'Mebis Schultitel';
+$string['pluginname'] = 'mebis Schultitel';
 $string['settings'] = 'Einstellungen';
 $string['toschoolcategory'] = 'zum Schulbereich';

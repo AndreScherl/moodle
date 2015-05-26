@@ -6,29 +6,9 @@ require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
 {
-
-    /**
-     * Constructor method, calls the parent constructor
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-    public function __construct(moodle_page $page, $target) {
-        parent::__construct($page, $target);
-
-        if(!defined('PAGE_MENU_SET'))
-            define('PAGE_MENU_SET', true);
-
-        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
-        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
-        $page->set_other_editing_capability('moodle/course:setcurrentsection');
-    }
 
     /**
      * Generate next/previous section links for navigation
@@ -288,7 +268,8 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         echo html_writer::end_tag('div');
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
         $output = '';
@@ -320,22 +301,21 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         $output .= html_writer::end_tag('ul');
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top', 'data-scroll' => 'top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 
         return $output;
     }
 
-    /**
-     * Renders course headline
-     * @param  string
+    /** Renders course headline
+     * 
+     * @param  string headline (i. e. the courses fullname)
      * @return string
      */
     protected function render_course_headline($headline) {
-        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
-        $course_headline .= html_writer::tag('h1', $headline);
-        $course_headline .= html_writer::end_tag('div');
-        return $course_headline;
+
+        $o = html_writer::tag('h1', $headline);
+        return html_writer::div($o, 'course-headline');
     }
 }

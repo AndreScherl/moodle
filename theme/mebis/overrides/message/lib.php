@@ -17,7 +17,7 @@
 /**
  * Library functions for messaging
  *
- * @package   core_message
+ * @package   theme_mebis_overrides_message
  * @copyright 2008 Luis Rodrigues
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -380,12 +380,12 @@ function theme_mebis_message_print_message_history($user1, $user2 ,$search = '',
             $formatted_message = $side = null;
             if ($message->useridfrom == $user1->id) {
                 $formatted_message = message_format_message($message, $messagedate, $search, 'me');
-                $side = 'left';
+                $side = 'mdl-left';
             } else {
                 $formatted_message = message_format_message($message, $messagedate, $search, 'other');
-                $side = 'right';
+                $side = 'mdl-right';
             }
-            $tablecontents .= html_writer::tag('div', $formatted_message, array('class' => "mdl-left $side $notificationclass"));
+            $tablecontents .= html_writer::tag('div', $formatted_message, array('class' => "$side $notificationclass"));
         }
 
         $tablecontents .= '<hr>';

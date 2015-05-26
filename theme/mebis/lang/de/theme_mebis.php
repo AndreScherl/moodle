@@ -1,15 +1,35 @@
 <?php
 
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Theme Mebis lang file.
+ * Strings for component 'theme_mebis', language 'de'
  *
- * @package theme-mebis
+ * @package   theme_mebis
+ * @copyright ISB
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['choosereadme'] = ' <p>Mebis Theme basierend auf Bootstrap 3</p>';
-
+$string['changepassword'] = 'Passwort';
 $string['configtitle'] = 'Mebis';
-
+$string['choosereadme'] = ' <p>Mebis Theme basierend auf Bootstrap 3</p>';
+$string['editusersurl'] = 'Nutzerverwaltung';
+$string['editmysettings'] = 'Lernplattform-Einstellungen';
+$string['editmebisprofile'] = 'Profil bearbeiten';
+$string['mebisprofile'] = 'Profil';
 $string['pluginname'] = 'Mebis';
 
 $string['region-side-post'] = 'Rechts';
@@ -36,20 +56,14 @@ $string['url-logout-descr'] = 'Logout Url';
 $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links im Seiten-Footer - Ein Link pro Zeile im Schema: Titel|Url';
 
-$string['help-note-remove-permanent'] = 'dauerhaft entfernen';
-$string['help-note-close'] = 'schließen';
-$string['help-note-welcome'] = 'Herzlich willkommen%s!';
-$string['help-note-content'] = 'Starthilfe lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.';
-$string['help-note-tutorial-link'] = 'Tutorials';
-
 $string['footer-newsletter'] = 'Newsletter';
-$string['footer-about'] = 'Ueber Mebis';
+$string['footer-about'] = 'Über Mebis';
 $string['footer-contact'] = 'Kontakt';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
 $string['footer-terms_of_use'] = 'Nutzungsbedingungen';
 
-$string['footer-search-schooltypes'] = 'Pruefungstermine für alle Schularten';
+$string['footer-search-schooltypes'] = 'Prüfungstermine für alle Schularten';
 $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Was suchen Sie?';
 $string['footer-my-school'] = 'Meine Schule';
@@ -57,12 +71,10 @@ $string['footer-my-school'] = 'Meine Schule';
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
 $string['menu-administration-link'] = 'Webseiten Administration';
 
-$string['menu-edit-activate'] = 'Bearbeitung aktivieren';
-$string['menu-edit-deactivate'] = 'Bearbeitung deaktivieren';
-
 $string['coursedialog-close'] = 'zur Übersicht';
 
 $string['nav-toggle'] = 'Toggle navigation';
+$string['nav-login'] = 'Login';
 $string['nav-logout'] = 'Logout';
 $string['nav-contrast'] = 'Kontrast';
 $string['nav-support'] = 'Support';
@@ -81,18 +93,18 @@ $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
 
 // mbs_my_courses
+$string['all-schools'] = 'Alle meine Schulen';
+$string['sort-manual'] = 'Manuell';
+$string['sort-name'] = 'Name';
+$string['sort-school'] = 'Schule';
+$string['sort-created'] = 'Erstellt am...';
+$string['sort-created2'] = 'Zeit der Erstellung';
+$string['sort-visit'] = 'Zeit des Besuches';
+$string['sort-modified'] = 'Geändert am...';
+$string['sort-default'] = 'Sortieren nach...';
 
-$string['alwaysshowall'] = 'Alle';
-$string['numtodisplay'] = 'Angezeigte Kurse: ';
-$string['load_more_results'] = 'Weitere Ergebnisse laden...';
-$string['hiddencoursecount'] = 'Zur Zeit ist {$a} Kurs versteckt';
-$string['hiddencoursecountplural'] = 'Zur Zeit sind {$a} Kurse versteckt';
-$string['hiddencoursecountwithshowall'] = 'Zur Zeit ist {$a->coursecount} Kurs versteckt ({$a->showalllink})';
-$string['hiddencoursecountwithshowallplural'] = 'Zur Zeit sind {$a->coursecount} Kurse versteckt ({$a->showalllink})';
+$string['course-create'] = 'Kurs erstellen';
+$string['course-request'] = 'Kurs anfordern';
 
-$string['switch_list'] = 'Listenansicht';
-$string['switch_grid'] = 'Gridansicht';
-
-$string['toggle-navigation'] = 'Navigation ein-/ausblenden';
-
-$string['load-more-results'] = 'Weitere Ergebnisse laden...';
+$string['new'] = 'Neu';
+$string['load-more-results'] = 'Mehr Ergebnisse laden';

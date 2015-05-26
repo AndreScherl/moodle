@@ -19,15 +19,22 @@
  * Strings for component 'block_mbsgettingstarted', language 'de'
  *
  * @package   block_mbsgettingstarted
- * @copyright Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['blockstring'] = 'Block string';
-$string['descconfig'] = 'Description of the config section';
-$string['descfoo'] = 'Config description';
-$string['headerconfig'] = 'Config section header';
-$string['labelfoo'] = 'Config label';
+$string['contactlink'] = 'Persönlicher Kontakt';
+$string['closealert'] = 'Ok';
+$string['closealertexpl'] = 'Die Starthilfe wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
+        . 'Starthilfe" können Sie diesen Vorgang rückgängig machen.';
+$string['eventlinkused'] = 'Ein Link des Starthilfeblocks wurde verwendet';
+$string['helpnoteremovepermanent'] = 'dauerhaft entfernen';
+$string['helpnoteclose'] = 'schließen';
+$string['helpnotewelcome'] = 'Herzlich willkommen %s!';
 $string['mbsgettingstarted:addinstance'] = 'Hinzufügen der Starthilfe';
 $string['mbsgettingstarted:myaddinstance'] = 'Hinzufügen der Starthilfe zu meinem Schreibtisch';
-$string['pluginname'] = 'Starthilfe';
+$string['pluginname'] = 'mebis Starthilfe';
+$string['tutoriallink'] = 'Tutorials';
+$string['traininglink'] = 'Fortbildungen';
+$string['videoalttext'] = 'Erklärvideo Mein Schreibtisch';
+

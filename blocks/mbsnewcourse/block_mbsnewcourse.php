@@ -32,13 +32,9 @@ class block_mbsnewcourse extends block_base {
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
             return $this->content;
         }
 
@@ -47,7 +43,7 @@ class block_mbsnewcourse extends block_base {
         $this->content->footer = '';
 
         // ...check context of current page and get categoryid.
-        $context = $this->page->context;
+        $context = $PAGE->context;
 
         $categoryid = 0;
         if ($context->contextlevel == CONTEXT_COURSECAT) {
@@ -71,7 +67,7 @@ class block_mbsnewcourse extends block_base {
         }
 
         if (!empty($categoryid)) {
-            $renderer = $this->page->get_renderer('block_mbsnewcourse');
+            $renderer = $PAGE->get_renderer('block_mbsnewcourse');
             $this->content->text .= $renderer->render_block_content($categoryid);
         }
         return $this->content;
@@ -86,7 +82,8 @@ class block_mbsnewcourse extends block_base {
     }
 
     public function applicable_formats() {
-        return array('course-index' => true, 'my-index' => true);
+        // block should not be set on sites with fix rendered version of this block
+        return array('all' => true, 'my' => false, 'course-index-category' => false);
     }
 
 }

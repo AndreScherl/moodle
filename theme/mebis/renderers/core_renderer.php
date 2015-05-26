@@ -64,19 +64,15 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */
     public function block(block_contents $bc, $region) {
         // top region blocks (see theme_mebis_help_renderer) are returned just the way they are
-        if ($region === 'top') {
+        /*if ($region === 'top') {
             return $bc->content;
-        }
+        }*/
 
         $bc = clone($bc); // Avoid messing up the object passed in.
-        $bc->tag = 'h2';
-        $bc->action_toggle = true;
-
-        if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->title = get_string('my-courses', 'theme_mebis');
-            $bc->tag = 'h1';
-            $bc->action_toggle = false;
-        }
+        /*
+          $bc->tag = 'h2';
+          $bc->action_toggle = true;
+         */
 
         if (empty($bc->blockinstanceid) || !strip_tags($bc->title)) {
             $bc->collapsible = block_contents::NOT_HIDEABLE;
@@ -100,12 +96,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $bc->add_class('block_with_controls');
         }
 
-        if ($bc->attributes['data-block'] == 'mbsmycourses') {
-            $bc->add_class('row');
-        }
-
-        if ($bc->attributes['data-block'] == 'meineschulen') {
-            $bc->attributes['class'] = 'block_meineschulen row';
+        $rowblocks = array('mbsmycourses', 'mbsmyschools');
+        foreach($rowblocks as $block){
+            if ($bc->attributes['data-block'] == $block) {
+                $bc->attributes['class'] = 'block_'.$block.' row';
+            }
         }
 
         if (empty($skiptitle)) {
@@ -117,15 +112,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
-        $full = array('mbsmycourses', 'meineschulen');
+        $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
 
-        if ($region === 'admin-navi') {
-            array_push($full, 'settings', 'navigation', 'admin_bookmarks', 'block_adminblock');
-        }
+        $transparent = array('mbsmycourses', 'mbsmyschools');
 
-        $transparent = array('mbsmycourses');
-
-        if (in_array($bc->attributes['data-block'], $full)) {
+        if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {
@@ -135,6 +126,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $output .= html_writer::start_tag('div', $bc->attributes);
 
         $output .= $this->mebis_block_header($bc);
+        //$output .= $this->block_header($bc);
         $output .= $this->block_content($bc);
 
         $output .= html_writer::end_div();
@@ -148,36 +140,61 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $output;
     }
 
+    /** render a block for the mebis design.
+     * 
+     * This method is based on block_header method and does some different rendering
+     * on special blocks, which are:
+     * 
+     * - noactionblocks: hide action menu by resetting block controls.
+     * - combine rendering of headers for mbsmycourses and mbsnewcourse blocks
+     * 
+     * @param block_content $bc
+     * @return string HTML for the header of the block
+     */
     public function mebis_block_header($bc) {
-        $title = '';
-
-        if ($bc->title) {
-            if ($bc->attributes['data-block'] == 'meineschulen') {
-                $title = html_writer::tag($bc->tag, $bc->title, array('style' => 'padding-left:20px;padding-bottom:20px;'));
-            } else {
-                $title = html_writer::tag($bc->tag, $bc->title, null);
-            }
+        global $OUTPUT;
+        
+        // Unset block actions for special blocks.
+        $noactionblocks = array('mbsmycourses');
+        
+        if (in_array($bc->attributes['data-block'], $noactionblocks)) {
+            $bc->controls = array();
         }
-
-        $controlshtml = $this->block_controls($bc->controls);
+        
+        // Use core methode to render blocks.
+        if ($bc->attributes['data-block'] != 'mbsmycourses') {
+            return parent::block_header($bc);
+        }
+        
+        // From here on: Special rendering of mbsmycourses 
+        // for proper position of mbsnecourses block
+        // 
+        // This is exceptionally done for this theme, so we decided to do this in the
+        // renderer and do intentionally not create a general dependency between the
+        // block mbsmycourses and mbs newcourse.
+        
+        $title = '';
+        if ($bc->title) {
+            $attributes = array();
+            if ($bc->blockinstanceid) {
+                $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
+            }
+            $title = html_writer::tag('h2', $bc->title, $attributes);
+        }
 
         $output = '';
-
-        if ($title || $controlshtml) {
+        
+        if ($title) {
             $output .= html_writer::start_div('header');
             $output .= html_writer::start_div('title');
-            if ($bc->action_toggle) {
-                $output .= html_writer::tag('div', '', array('class' => 'block_action'));
-            }
+            $output .= $OUTPUT->raw_block('mbsnewcourse');
             $output .= $title;
-            $output .= $controlshtml;
             $output .= html_writer::end_div();
             $output .= html_writer::end_div();
         }
-
         return $output;
     }
-
+    
     /**
      * Renders a block region in bootstrap in the new mebis design
      * @param type $region
@@ -185,7 +202,8 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * @param type $tag
      * @return String Html string of the block region
      */
-    public function mebis_blocks($region, $classes = array(), $tag = 'aside') {
+    public function mebis_blocks($region, $classes = array(), $tag = 'aside', $droptarget = '1') {
+        
         $displayregion = $this->page->apply_theme_region_manipulations($region);
         $classes = (array) $classes;
         $classes[] = 'block-region';
@@ -193,7 +211,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
             'class' => join(' ', $classes),
             'data-blockregion' => $displayregion,
-            'data-droptarget' => '1'
+            'data-droptarget' => $droptarget
         );
         $content = '';
         if ($this->page->blocks->region_has_content($displayregion, $this)) {
@@ -210,24 +228,33 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      *
      * @param single_button $button
      * @return string HTML fragment
+     * 
+     * awag - 24.04.2015: overriding this method leads get calls. In many cases moodle
+     * expected a post via a form, so this will break functionality.
+     * 
+     * I have done a little investigation to see, why this was done by trio and 
+     * cannot see a case where this should be necessary.
+     *  
+     * For the first step i decided to keep the old code as a reference.
+     * 
+     * DO NOT COMMENT that in!!!
+     * 
+     * @TODO delete this commented code fragment.
      */
-    protected function render_single_button(single_button $button) {
-        $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
-
-        return html_writer::tag('li', $output);
-    }
+    /* protected function render_single_button(single_button $button) {
+      $output = html_writer::tag('a', $button->label, array('class' => 'internal', 'href' => $button->url));
+      return html_writer::tag('li', $output);
+      } */
 
     /** create a fake block in given region. This is a approach to embed blocks
      *  without creating an instance by using database table "mdl_block_instances".
-     * 
-     *  awag: Temporarily NOT used and can be removed, when redesign is finished.
      * 
      * @global type $PAGE
      * @param type $blockname
      * @param type $region
      * @return boolean
      */
-    public function add_fake_block($blockname, $region) {
+    public function add_fake_block($blockname, $region, array $attributes = null) {
         global $PAGE;
         
         if (!$blockinstance = block_instance($blockname)) {
@@ -235,10 +262,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         }
         $bc = new block_contents();
         $bc->content = $blockinstance->get_content()->text;
+        if ($attributes != null) {
+            $bc->attributes = $attributes;
+        }
         $PAGE->blocks->add_fake_block($bc, $region);
         return true;
     }
-    
+
     /** get the raw content (i. e. text) of a block, without creating an instance by using
      * database table "mdl_block_instances".
      * This is used to generate "sticky" blocks, which are outputted on every page in the
@@ -257,12 +287,66 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $blockinstance->get_content()->text;
     }
     
+    /**
+     * render the mbswizzard block, if needed
+     * 
+     * @global object $USER
+     * @global object $PAGE
+     * @param string $region Region to Render the block
+     * @param bool $blockdependency - block is needed by other block, e.g. mbsgettingstarted
+     * @return string - htmlstring of block contents 
+     */    
+    public function add_block_mbswizzard_if_needed($region, $blockdependency = false) {
+        global $USER, $PAGE;
+        if(($blockdependency || (isset($USER->mbswizzard_activesequence) && ($USER->mbswizzard_activesequence != false)))
+            && !$PAGE->blocks->is_block_present('mbswizzard')) {
+            $attr['data-block'] = 'block_mbswizzard';
+            $attr['class'] = 'block_mbswizzard block';
+            return $this->add_fake_block('mbswizzard', $region, $attr);
+        } else {
+            return '';
+        }
+    }
+    
+    /**
+     * Print the mebis footer containing the search and schooltitle block
+     * 
+     * @return string
+     */
     public function mebis_footer() {
         $output = '';
         $output .= $this->raw_block('mbssearch');
         $output .= $this->raw_block('mbsschooltitle');
         return $output;
     }
+
+    /** adding debug output for profile form, this is very useful to check, whether 
+     * sessionvariables are correctly retrieved from IDM.
+     *  
+     * To output $USER object you have to turn on debug mode and visit users 
+     * profile edit page. 
+     * 
+     * Originally there was a similar option up to moodle 2.5, but unfortunately it was
+     * removed for this version of moodle.
+     */
+
+    public function standard_footer_html() {
+        global $CFG, $USER, $PAGE, $OUTPUT;
+
+        if ($CFG->debugdisplay && debugging('', DEBUG_DEVELOPER)) {  // Show user object
+            if (($PAGE->pagetype == 'user-edit') or ($PAGE->pagetype == 'user-editadvanced')) {
+
+                echo html_writer::tag('div', '', array('class' => 'clearfix'));
+                echo $OUTPUT->heading('DEBUG MODE:  User session variables');
+                echo html_writer::start_tag('div', array('style' => 'text-align:left'));
+                print_object($USER);
+                echo html_writer::end_tag('div');
+            }
+        }
+
+        return parent::standard_footer_html();
+    }
+
 }
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion

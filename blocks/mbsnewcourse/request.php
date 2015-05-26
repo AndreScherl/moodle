@@ -44,7 +44,7 @@ if ($categoryid == 0) {
 
 $category = $DB->get_record('course_categories', array('id' => $categoryid), '*', MUST_EXIST);
 
-$url = new moodle_url('/blocks/mbsnew_course/request.php', array('category' => $category->id));
+$url = new moodle_url('/blocks/mbsnewcourse/request.php', array('category' => $category->id));
 $PAGE->set_url($url);
 
 // Where we came from. Used in a number of redirects.

@@ -1,0 +1,232 @@
+/* 
+    This file contains style customizations for the course formats:
+
+    - topics format
+    - collapsed topics.
+    - one topic.
+
+    Note that customizations for section based course formats are located
+    in _course.scss when definitions are made for all formats!
+
+    Created on : 18.05.2015, 08:22:35
+    Author     : Andreas Wagner, ISB Bayern
+*/
+
+// +++++++From here on: special styles for topics format. ++++++++++++
+#page-course-view-topics #main-content-wrapper  {
+    background: transparent;
+}
+
+// +++++++From here on: special styles for collapsed topic format. ++++++++++++
+#page-course-view-topcoll #main-content-wrapper  {
+    background: transparent;
+
+    .sectionname {
+        color: $white;
+    }
+}
+
+// Collapse and expand.
+#page-course-view-topcoll {
+
+    #topcoll-display-instructions {
+        color: $white;
+    }
+
+    //Completionprogress
+    .section .completionprogress {
+        padding-right: 40px;
+    }
+
+    .course-format-topcoll > .completionprogress {
+        color: $white;
+    }
+
+    // Highlight current section.
+    .course-content ul li.section.main.current {
+        border-left-color: $brand-primary;
+        border-left-width: 18px;
+        border-left-style: solid;
+
+    }
+    // Toggle icons.
+    .the_toggle:before {
+
+        float:right;
+        font-family: 'mebis-icons';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        font-size: 0.875em;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 18px;
+    }
+
+    .toggle_closed {
+        background-image: none;
+
+        &:before {
+            content: "\e63d";
+        }
+    }
+
+    .toggle_open {
+        background-image: none;
+
+        &:before {
+            content: "\e662";
+        }
+    }
+
+    // Remove background;
+    #toggle-all .content .toggle-arrow-hover h4 {
+
+        a.on {
+            background-image:none;
+            &:hover {
+                background-image:none;
+            }
+        }
+
+        a.off {
+            background-image:none;
+            &:hover {
+                background-image:none;
+            }
+        }
+    }
+
+    // Toggle switch with headline
+    .ctopics li.section .content .toggle {
+
+        background: $brand-primary;
+        padding: 10px 10px 10px 0;
+        border-radius: 0;
+
+        a {
+            text-align:left;
+            color:white;
+
+            &:hover {
+                color: $white;
+            }
+        }
+
+        h3 {
+            font-weight: 700;
+        }
+
+        &:hover {
+            background: $brand-secondary;
+        }
+    }
+
+    // Other sections.
+    .ctopics .toggledsection {
+
+        padding : 20px;
+
+        .section {
+            margin-top : 0;
+        }
+    }
+
+    // Content Area.
+    .ctopics li.section.main {
+
+        border: none;
+        margin-bottom: 20px;
+
+        .content {
+            margin: 0;
+            padding: 0 !important;
+
+            // One section per page
+            > .section-title {
+                padding: 40px 40px 0 40px;
+                margin-bottom: 12.5px;
+            }
+
+            > .summarytext {
+                padding : 0 40px;            
+            }
+
+            > .section-summary-activities {
+                padding : 0 40px;            
+            }
+
+            > .summary {
+                padding: 40px 40px 0 40px;
+            }
+
+            > ul {
+                padding: 0 40px 40px 40px;
+            }
+        }
+    }
+}
+
+// +++++++++  From here on: special styles for one-topic format +++++++++++++++.
+#page-course-view-onetopic #main-content-wrapper  {
+    background: transparent;
+}
+
+#page-course-view-onetopic .course {
+
+    &.course-format-onetopic {
+
+        // Navigation above the topic.
+        .single-section.onetopic .nav.nav-tabs {
+
+            background: transparent;
+            border-top: dotted 1px rgba(230,230,230,0.3);
+            border-bottom: dotted 1px rgba(230,230,230,0.3);
+            padding-top: 20px;
+            padding-bottom: 10px;
+
+            li {
+                padding: 0 20px 10px 0;
+                border: 0;
+
+                a {
+                    color: $white;
+                    border: 0;
+                    text-align: center;
+
+                    .marker {
+                        font-style: normal;
+                    }
+                }
+
+                &.active a, a:hover, a:active, a:focus {
+                    color: $white;
+                    background: $brand-secondary;
+                }
+            }
+        }
+
+        // Navigation below the topic.
+        .single-section .section-navigation {
+
+            margin: 0 10px;
+
+            > div > div {
+
+                padding: 0;
+                margin-top: 0;
+                background: transparent;
+
+                a {
+                    display: block;
+                    padding: 20px;
+                    background: $brand-primary;
+                    color: $white;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

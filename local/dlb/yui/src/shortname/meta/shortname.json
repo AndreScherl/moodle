@@ -1,9 +1,0 @@
-{
-    "moodle-local_dlb-shortname": {
-        "requires": [
-            "base",
-            "json",
-            "event-valuechange"
-        ]
-    }
-}

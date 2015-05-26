@@ -40,7 +40,7 @@ require_capability('moodle/site:approvecourse', $context);
 $strtitle = format_string($schoolcat->name);
 $PAGE->set_title($strtitle);
 $PAGE->set_heading($strtitle);
-$PAGE->set_pagelayout('coursecategory');
+$PAGE->set_pagelayout('admin');
 
 // ... add to breadcrumb.
 $schoolurl = new moodle_url('/course/index.php', array('id' => $schoolcat->id));

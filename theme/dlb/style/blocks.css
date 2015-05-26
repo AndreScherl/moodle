@@ -457,3 +457,52 @@
 #frontpage .notloggedin .block_navigation {
 	display: none;
 }
+
+/* additional style (temporarily used) for styling blocks in dlb theme */
+
+/** block_mycourses */
+.mbsmycourses-newinfo {
+    margin-left:20px;
+    
+}
+
+.mbsmycourses-new {
+    background: #356379;
+    padding: 3px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    float:right;
+    margin-left: 10px;
+}
+
+.mbsmycourses-new a {
+    color: #ffffff;
+}
+
+.block_mbsmycourses .course_title {
+    position:static;
+}
+
+.block_mbsmycourses .content h2.title {
+    float:none;
+     position:static;
+}
+
+.block_mbsmycourses .mbsmycourses-grid .coursebox {
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    width: 190px;
+    height: auto;
+    min-height: 100px;
+}
+
+.block_mbsmycourses #filter_form select {
+    margin : 3px;
+}
+
+#mbsmycourses_viewtype {
+    margin-left: 5px;
+}

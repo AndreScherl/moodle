@@ -5,18 +5,18 @@ $base-font-size: 16px!default;
 }
 
 @mixin hypens($value) {
-	-webkit-hyphens: $value;
-	-moz-hyphens: $value;
-	-ms-hyphens: $value;
-	hyphens: $value;
+    -webkit-hyphens: $value;
+    -moz-hyphens: $value;
+    -ms-hyphens: $value;
+    hyphens: $value;
 }
 
 @mixin word-wrap($value){
-	-ms-word-break: $value;
-	word-break: $value;
+    -ms-word-break: $value;
+    word-break: $value;
 
-	@if $value == "break-all" {
-		/* Non standard for webkit */
-		word-break: break-word;
-	}
+    @if $value == "break-all" {
+        /* Non standard for webkit */
+        word-break: break-word;
+    }
 }

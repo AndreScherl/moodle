@@ -442,11 +442,12 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         $form = '';
 
         // Render schoolmenu.
-        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => 'choosedots'), array('id' => 'mbsmycourses_filterschool'));
+        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, 
+                array('' => get_string('selectschool', 'block_mbsmycourses')),
+                array('id' => 'mbsmycourses_filterschool'));
         $form .= html_writer::tag('div', $select);
 
         // Render sortmenu.
-        $form .= html_writer::start_tag('div');
         $choices = mbsmycourses::get_coursesortorder_menu();
         $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
         $form .= html_writer::tag('div', $select);

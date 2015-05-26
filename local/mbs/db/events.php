@@ -27,5 +27,34 @@ $observers = array(
         'callback' => '\local_mbs\local\datenschutz::user_deleted',
         'includefile' => '/local/mbs/classes/local/datenschutz.php',
         'internal' => true
-    )
+    ),
+    array(
+        'eventname' => '\core\event\user_loggedin',
+        'callback' => 'local_mbs_user_loggedin',
+        'includefile' => '/local/mbs/lib.php',
+        'internal' => true
+    ), 
+    array(
+        'eventname' => '\core\event\course_category_created',
+        'callback' => 'local_mbs_course_category_created',
+        'includefile' => '/local/mbs/lib.php',
+        'internal' => true
+    ),     
+    array(
+        'eventname' => '\core\event\course_category_updated',
+        'callback' => 'local_mbs_course_category_updated',
+        'includefile' => '/local/mbs/lib.php',
+        'internal' => true
+    ),
+    array(
+    	'eventname' => 'core\event\course_created',
+    	'callback' => 'local_mbs_course_created',
+    	'includefile' => '/local/mbs/lib.php'
+    ), 
+    array(
+    	'eventname' => 'core\event\course_deleted',
+    	'callback' => 'local_mbs_course_deleted',
+    	'includefile' => '/local/mbs/lib.php', 
+        'internal' => true
+    )  
 );

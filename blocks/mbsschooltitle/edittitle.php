@@ -41,7 +41,7 @@ $PAGE->set_url($pageurl);
 
 $PAGE->set_context($catcontext);
 $PAGE->set_heading($category->name . ": " . get_string('edittitle', 'block_mbsschooltitle'));
-$PAGE->set_pagelayout('coursecategory');
+$PAGE->set_pagelayout('admin');
 
 $titledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $categoryid));
 
@@ -79,5 +79,7 @@ if ($edittitleform->is_cancelled()) {
 }
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(get_string('edittitle', 'block_mbsschooltitle'));
+
 $edittitleform->display();
 echo $OUTPUT->footer();

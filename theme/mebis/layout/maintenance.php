@@ -7,7 +7,7 @@ $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
-$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
+//$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
@@ -94,11 +94,16 @@ echo $OUTPUT->doctype()
         </a>
 
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
             $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-
+        ?>
+        
+        <div class="container"> 
+            <footer id="page-footer">
+                <?php  echo $OUTPUT->standard_footer_html(); ?>
+            </footer>
+        </div>
+        
+        <?php
             echo $OUTPUT->standard_end_of_body_html();
         ?>
     </body>

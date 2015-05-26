@@ -23,7 +23,7 @@ class course_edit_form extends moodleform {
         $PAGE->requires->yui_module('moodle-course-formatchooser', 'M.course.init_formatchooser',
                 array(array('formid' => $mform->getAttribute('id'))));
 
-        local_dlb\local\core_changes::add_shortname_check(); // SYNERGY LEARNING - javascript to check for duplicate shortnames.
+        local_mbs\local\core_changes::add_shortname_check(); // SYNERGY LEARNING - javascript to check for duplicate shortnames.
 
         $course        = $this->_customdata['course']; // this contains the data of this form
         $category      = $this->_customdata['category'];

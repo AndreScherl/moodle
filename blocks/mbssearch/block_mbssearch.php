@@ -31,13 +31,9 @@ class block_mbssearch extends block_base {
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
             return $this->content;
         }
 
@@ -49,7 +45,7 @@ class block_mbssearch extends block_base {
             return $this->content;
         }
 
-        $renderer = $this->page->get_renderer('block_mbssearch');
+        $renderer = $PAGE->get_renderer('block_mbssearch');
         $this->content->text .= $renderer->render_block_content();
 
         return $this->content;
@@ -57,6 +53,13 @@ class block_mbssearch extends block_base {
 
     public function has_config() {
         return true;
+    }
+    
+    function applicable_formats() {
+        // Default case: the block can be used in courses and site index, but not in activities
+        // self test of block base class will fail if sum of the format array is zero
+        // workaround: set format true for unimportant context
+        return array('all' => false, 'site-index' => true);
     }
 
 }

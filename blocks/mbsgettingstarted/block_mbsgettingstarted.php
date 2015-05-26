@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,13 +16,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbsgettingstarted block caps.
+ * Main class for block mbsgettingstarted
  *
  * @package    block_mbsgettingstarted
- * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 class block_mbsgettingstarted extends block_base {
@@ -31,49 +31,43 @@ class block_mbsgettingstarted extends block_base {
     }
 
     function get_required_javascript() {
+        global $PAGE;
         parent::get_required_javascript();
- 
-        $this->page->requires->jquery();
-        $this->page->requires->jquery_plugin('ui');
-        $this->page->requires->jquery_plugin('ui-css');
-        $this->page->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/wizzard/wizzard.js'));
-    }
+
+        $PAGE->requires->jquery();
+        $PAGE->requires->jquery_plugin('ui');
+        $PAGE->requires->jquery_plugin('ui-css');
+        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/blockvisibility/blockvisibility.js'));
+}
 
     function get_content() {
-        global $CFG, $OUTPUT;
-		
-        
+        global $PAGE;
+        if ($this->content !== null) {
+            return $this->content;
+        }
 
-		$this->content = new stdClass();
-        $this->content->text = "<a id=\"link_assistant_course_create\" class=\"link_assistant\" href=\"".new moodle_url("/my")."\">Assistent zum Kurs anlegen starten</a>";        
+        $this->content = new stdClass();
+        $this->content->text = '';
 
+        $renderer = $PAGE->get_renderer('block_mbsgettingstarted');
+        $this->content->text .= $renderer->all();
+
+        if ((!get_user_preferences('mbsgettingstartednotshow', false)) || get_user_preferences('mbsgettingstartednotshow') == 1) {
+            user_preference_allow_ajax_update('mbsgettingstartednotshow', PARAM_BOOL);
+            $this->get_required_javascript();
+        }
+                
         return $this->content;
     }
 
-    // my moodle can only have SITEID and it's redundant here, so take it away
     public function applicable_formats() {
-        return array('all' => true,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true, 
-                     'course-view-social' => false,
-                     'mod' => true, 
-                     'mod-quiz' => false);
+        return array('my' => true);
     }
 
-    public function instance_allow_multiple() {
-          return true;
+    public function instance_can_be_docked() {
+        return false;
     }
 
-    function has_config() {return true;}
-	
-	/*
-    public function cron() {
-            mtrace( "Hey, my cron script is running" );
-             
-                 // do something
-                  
-                      return true;
-    }
-    */
+  
+
 }

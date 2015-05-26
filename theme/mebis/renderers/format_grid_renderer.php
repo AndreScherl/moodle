@@ -7,9 +7,6 @@ require_once($CFG->dirroot . '/course/format/grid/lib.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_grid_renderer extends format_grid_renderer
 {
@@ -17,21 +14,12 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     private $courseformat; // Our course format object as defined in lib.php.
     private $settings; // Settings array.
     private $shadeboxshownarray = array(); // Value of 1 = not shown, value of 2 = shown - to reduce ambiguity in JS.
-    /**
-     * Constructor method, calls the parent constructor - MDL-21097
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-
+    
     public function __construct(moodle_page $page, $target)
     {
         parent::__construct($page, $target);
         $this->courseformat = course_get_format($page->course);
         $this->settings = $this->courseformat->get_settings();
-
-        if(!defined('PAGE_MENU_SET'))
-            define('PAGE_MENU_SET', true);
 
         /* Since format_grid_renderer::section_edit_controls() only displays the 'Set current section' control when editing
           mode is on we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any
@@ -331,6 +319,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     $showimg = false;
+                    $imgurl = null;
+                    $localImageUrl = '';
                     if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
                         $imgurl = moodle_url::make_pluginfile_url(
                                 $contextid, 'course', 'section', $thissection->id, $gridimagepath,
@@ -342,9 +332,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     /* ToDo: If image is portrait-view */
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!
-                    $localImageUrl = $imgurl->out();
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!!
+                    if (is_object($imgurl)) {
+                        $localImageUrl = $imgurl->out();
+                    }
+
+                    if (empty($localImageUrl)) {
+                        $showimg = false;
+                    }
 
                     if($showimg && @file_get_contents($localImageUrl)) {
                         list($imgWidth, $imgHeight) = getimagesize($localImageUrl);
@@ -698,7 +692,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         return $sectionsedited;
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile=false)
+    {
         //Add side jump-navigation
         $menu_items = array();
 
@@ -726,24 +721,22 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         $output .= html_writer::end_tag('ul');
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top', 'data-scroll' => 'top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 
         return $output;
     }
 
-    /**
-     * Renders course headline
-     * @param  string
+    /** Renders course headline
+     * 
+     * @param  string headline (i. e. the courses fullname)
      * @return string
      */
-    protected function render_course_headline($headline)
-    {
-        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
-        $course_headline .= html_writer::tag('h1', $headline);
-        $course_headline .= html_writer::end_tag('div');
-        return $course_headline;
+    protected function render_course_headline($headline) {
+
+        $o = html_writer::tag('h1', $headline);
+        return html_writer::div($o, 'course-headline');
     }
 
 }

@@ -15,30 +15,30 @@ $font-path: '/theme/mebis/fonts/';
 
 //== Colors
 $brand-primary:         #000000; // blue
-$brand-primary-dark:	#505050; // = $brand-gray-medium
-$brand-primary-light:	#00c5fa;
+$brand-primary-dark:    #505050; // = $brand-gray-medium
+$brand-primary-light:   #00c5fa;
 
 $brand-secondary:       #ff6600; // orange
 
-$brand-gray-navi:		#111111;
-$brand-gray-dark:		#333333;
-$brand-gray-medium:		#505050;
-$brand-gray-light:		#e6e6e6;
+$brand-gray-navi:       #111111;
+$brand-gray-dark:       #333333;
+$brand-gray-medium:     #505050;
+$brand-gray-light:      #e6e6e6;
 
-$white:          		#fff;
-$black:					#000;
+$white:                 #fff;
+$black:                 #000;
 
 
 //== Background-Images
-$bg-dark:				url(#{$img-path}/bg-dark.jpg);
-$bg-light:				url(#{$img-path}/bg-light.jpg);
+$bg-dark:               url(#{$img-path}/bg-dark.jpg);
+$bg-light:              url(#{$img-path}/bg-light.jpg);
 
 
 //== Spaces
-$space-xsmall:			10px;
-$space-small:			20px;
-$space-medium:			40px;
-$space-large:			60px;
+$space-xsmall:          10px;
+$space-small:           20px;
+$space-medium:          40px;
+$space-large:           60px;
 
 
 //== Scaffolding
@@ -57,7 +57,7 @@ $font-family-sans-serif-kids:  "Comic Sans MS", Arial sans-serif;
 //* Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 //$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 $font-family-base:          $font-family-sans-serif;
-$font-family-kids:			$font-family-sans-serif-kids;
+$font-family-kids:            $font-family-sans-serif-kids;
 
 $font-size-base:            18px;
 $font-size-base-small:      14px;
@@ -343,7 +343,7 @@ $container-lg:                 $container-large-desktop;
 //$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2);
 //$navbar-collapse-max-height:       340px;
 
-$navbar-default-color:          	#777;
+$navbar-default-color:              #777;
 $navbar-default-bg:                 $brand-gray-dark;
 $navbar-default-border:             darken($navbar-default-bg, 29.5%);
 

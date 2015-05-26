@@ -1,0 +1,7 @@
+{
+    "moodle-block_mbschangetheme-newalert": {
+        "requires": [
+            "moodle-core-notification"
+        ]
+    }
+}

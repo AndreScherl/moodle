@@ -1,0 +1,44 @@
+/*
+Most of the pages containing a form, which ist editable by teachers or admins has
+the page layout "admin" or "report"
+
+This page layouts should be fully flexible to large screens.
+Put all the pagelayout specific styles here.
+
+*/
+/* 
+    Created on : 17.05.2015, 08:47:11
+    Author     : Admin
+*/
+
+.pagelayout-admin, .pagelayout-report {
+
+    @media only screen and (min-width: $screen-lg-min) {
+
+        .admin-container {
+
+            width: 100%;
+            max-width: 1680px;
+            padding-left: 100px;
+
+            table {
+
+                width: 100% !important;
+
+                .mceToolbar {
+                    width : auto !important;
+                }
+            }
+
+        }
+    }
+
+    .admin-navigation {
+
+        margin-bottom: 20px;
+
+        h3 {
+            color: $white;
+        }
+    }
+}

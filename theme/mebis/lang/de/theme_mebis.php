@@ -66,7 +66,6 @@ $string['footer-terms_of_use'] = 'Nutzungsbedingungen';
 $string['footer-search-schooltypes'] = 'Prüfungstermine für alle Schularten';
 $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Was suchen Sie?';
-$string['footer-my-school'] = 'Meine Schule';
 
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
 $string['menu-administration-link'] = 'Webseiten Administration';

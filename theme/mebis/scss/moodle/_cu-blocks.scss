@@ -307,12 +307,13 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 .path-blocks-mbssearch {
     #main-content-wrapper {
         background-color: transparent;
+        padding-left: 0;
+        padding-right: 0; 
     }
     .mbssearchpage {
         padding: 0;
         
         form {
-            padding: 0 20px;
             
             input[type='text'] {
                 max-width: none;
@@ -323,6 +324,11 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
                 width: 100%;
             }
         } 
+        
+        div.col-md-12 {
+            padding-left: 0;
+            padding-right: 0; 
+        }
     }
     
     #mbssearch_result {

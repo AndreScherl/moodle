@@ -35,7 +35,7 @@ class theme_mebis_block_mbsschooltitle_renderer extends block_mbsschooltitle_ren
         if (!empty($titledata->usersschoolid)) {
             $schoolurl = new moodle_url('/course/index.php', array('categoryid' => $titledata->usersschoolid));
             $schoollink = html_writer::link($schoolurl, get_string('toschoolcategory', 'block_mbsschooltitle'), array('class' => 'btn btn-secondary'));
-            $o = html_writer::tag('div', $schoollink, array('class' => 'col-md-4 col-xs-12'));
+            $o = html_writer::tag('div', $schoollink, array('class' => 'col-md-3 col-xs-12'));
         }
 
         // Headline of page.
@@ -48,12 +48,12 @@ class theme_mebis_block_mbsschooltitle_renderer extends block_mbsschooltitle_ren
             $editlink = $OUTPUT->action_icon($titledata->editurl, new pix_icon('editgray', get_string('edit'), 'theme_mebis'));
             $headlinecontainer .= html_writer::tag('div', $editlink, array('class' => 'mbs-schooltitle-editlink pull-left'));
         }
-        $o .= html_writer::tag('div', $headlinecontainer, array('class' => 'col-md-4 col-xs-6'));
+        $o .= html_writer::tag('div', $headlinecontainer, array('class' => 'col-md-7 col-xs-6'));
 
         // Image.
         if (!empty($titledata->imageurl)) {   
             $imagetag = html_writer::empty_tag('img', array('src' => $titledata->imageurl, 'alt' => get_string('imageofcategory', 'block_mbsschooltitle')));
-            $o .= html_writer::tag('div', $imagetag, array('class' => 'col-md-4 col-xs-6 mbs-schooltitle-image pull-right text-right'));
+            $o .= html_writer::tag('div', $imagetag, array('class' => 'col-md-2 col-xs-6 mbs-schooltitle-image pull-right text-right'));
         }
 
         $o = html_writer::tag('div', $o, array('class' => 'row'));

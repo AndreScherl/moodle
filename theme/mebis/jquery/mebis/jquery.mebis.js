@@ -166,7 +166,8 @@ var Mebis = (function($) {
                 $('[data-target=".js-navbar-collapse"]').trigger('click');
             }
 
-            $styles.attr('href', assets + style);
+            var path = M.cfg['wwwroot'] + assets + style;
+            $styles.attr('href', path);
 
             $('html').toggleClass('me-contrast-mode');
 

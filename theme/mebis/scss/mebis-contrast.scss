@@ -34,6 +34,20 @@
 @import "moodle/admin";
 @import "moodle/chat";
 @import "moodle/lightbox";
-@import "moodle/category";
+@import "moodle/category";*/
 
-@import "contrast-mode";*/
+@import "contrast-mode";
+
+@import "moodle/category";
+@import "moodle/coursebox";
+@import "moodle/pageheader";
+@import "moodle/pagefooter";
+@import "moodle/schoolbox";
+@import "moodle/cu-admin";
+@import "moodle/cu-blocks";
+@import "moodle/cu-course";
+@import "moodle/cu-pages";
+@import "moodle/cu-general";
+@import "moodle/cu-courseformats";
+@import "moodle/cu-usermessages";
+@import "moodle/cu-userfilemanager";

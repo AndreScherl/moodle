@@ -146,7 +146,7 @@ class theme_mebis_header_renderer extends renderer_base {
         //TODO Logout on small devices not possible
         //$output .= $userBar;
         $output .= html_writer::start_tag('li');
-        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => '#', 'class' => 'dropdown-toggle active'));
+        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => new moodle_url('/login/logout.php'), 'class' => 'dropdown-toggle active'));
         $output .= html_writer::end_tag('li');      
         
         $output .= html_writer::end_tag('ul');
@@ -158,7 +158,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::tag('ul', $this->buildNavStructure(), array('class' => 'nav'));
         $output .= html_writer::end_div();
 
-        $output .= html_writer::start_div('collapse navbar-collapse hidden-xs hidden-md');
+        $output .= html_writer::start_div('collapse navbar-collapse hidden-xs hidden-sm hidden-md');
         $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav'));
         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
 

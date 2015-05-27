@@ -390,7 +390,8 @@ class theme_mebis_header_renderer extends renderer_base {
      */
     protected function render_menubar_courseadmin_menu() {
         global $PAGE, $COURSE;
-
+        $content ='';
+        
         // Show only in real courses.
         if ($COURSE->id == SITEID) {
             return '';

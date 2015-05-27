@@ -39,6 +39,39 @@ All Styles related to special Pages.
     text-align: right;
 }
 
+// enrol page after search
+#page-enrol-index {
+    
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+        padding-left: 0;
+        padding-right: 0; 
+
+        h2 {
+            background: transparent;
+            color : $white;
+            padding-left: 20px;
+        }
+    }
+    
+    .box.generalbox.info {
+    
+        li {
+            list-style: none;
+        }
+    }
+    
+    fieldset .fcontainer {
+        color: $black;
+    }
+    
+    #notice {
+        padding-bottom: 20px;
+    }
+}
+
 // My Dashboard my/index.php
 #page-my-index {
 

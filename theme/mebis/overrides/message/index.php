@@ -24,8 +24,6 @@
 
 $overrides_path = dirname(__FILE__);
 
-//require_once('../config.php');
-//require_once('lib.php');
 require_once($overrides_path . '/lib.php');
 require_once($overrides_path . '/send_form.php');
 
@@ -359,3 +357,5 @@ echo html_writer::end_tag('div');
 echo $OUTPUT->box_end();
 
 echo $OUTPUT->footer();
+
+exit();

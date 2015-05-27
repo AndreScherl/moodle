@@ -223,3 +223,54 @@ input[type="checkbox"] + label {
         text-align: left !important;
     }
 }
+
+// default tooltip of bootstrap
+.tooltip {
+    z-index: 1080;
+    opacity: 1;
+    .tooltip-inner {
+        background-color: $brand-secondary;
+        color: $white;
+        border: 2px solid $brand-secondary;
+        
+        a {
+            color: $brand-primary-dark;
+        }
+        
+        a:hover {
+            color: $white;
+        }
+    }
+}
+
+.tooltip.in {
+    opacity: 1;
+}
+
+.tooltip.top,
+.tooltip.top-left,
+.tooltip.top-right { 
+    .tooltip-arrow {
+        border-top-color: $brand-secondary;
+    }
+}
+
+.tooltip.left { 
+    .tooltip-arrow {
+        border-left-color: $brand-secondary;
+    }
+}
+
+.tooltip.bottom,
+.tooltip.bottom-left,
+.tooltip.bottom-right { 
+    .tooltip-arrow {
+        border-bottom-color: $brand-secondary;
+    }
+}
+
+.tooltip.right { 
+    .tooltip-arrow {
+        border-right-color: $brand-secondary;
+    }
+}

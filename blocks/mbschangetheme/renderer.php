@@ -73,7 +73,7 @@ class block_mbschangetheme_renderer extends plugin_renderer_base {
         $o .= html_writer::tag('p', get_string('newalertexpl', 'block_mbschangetheme'));
  
         $o .= html_writer::checkbox('newalerthideme', '1', 
-                true, get_string('newalerthideme', 'block_mbschangetheme'),
+                false, get_string('newalerthideme', 'block_mbschangetheme'),
                 array('id' => 'newalerthideme'));
         $b  = html_writer::tag('button', get_string('newalertclose', 'block_mbschangetheme'), array('id' => 'newalertclose'));  
         $o .= html_writer::tag('div', $b);

@@ -2,24 +2,63 @@
 	"name": "mbswizzard_sequence_course_setup",
 	"steps": [{
 		"url": "/my",
-		"sel": ".icon-me-kurs-erstellen",
-		"tip": "Klicken Sie hier, um einen Kurs zu erstellen." 	
+		"sel": "div.row.course_list",
+		"tip": "Klicken Sie einen Ihrer Kurse an."            
 		},{
-		"url": "/course/edit.php",
-		"sel": "#id_fullname",
-		"tip": "Geben Sie einen Namen für den Kurs ein.<br /><a id=\"wizzard_next_step_2\" href=\"#\"> weiter >> </a>"	
+		"url": "/course/view.php",
+		"sel": "#coursedropdownmenu",
+		"tip": "Fahren Sie mit der Maus über das Hutsymbol, Klicken Sie auf \"Kursadministration\", danach auf \"Nutzer/innen\" und anschließend auf \"Eingeschriebene Nutzer/innen\".",
+                "placement": "left",
+                "viewport": { "selector": "body", "padding": 50 }
 		},{
-		"url": "/course/edit.php",
-		"sel": "#id_shortname",
-		"tip": "Geben Sie einen Kurznamen für den Kurs ein.<br /><a id=\"wizzard_next_step_3\" href=\"#\"> weiter >> </a>"	
+		"url": "/enrol/users.php",
+		"sel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin input[type=submit]",
+		"tip": "Hier klicken, um einen User einzuschreiben.",
+                "actionsel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin input[type=submit]"
 		},{
-		"url": "/course/edit.php",
-		"sel": "#id_category",
-		"tip": "Wählen Sie einen Kursbereich aus, in dem Sie Ihren Kurs anlegen möchten.<br /><a id=\"wizzard_next_step_4\" href=\"#\"> weiter >> </a>"	
+		"url": "/enrol/users.php",
+		"sel": "select#id_enrol_manual_assignable_roles",
+		"tip": "Wählen Sie aus, welche Berechtigungen der User im Kurs bekommen soll.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "placement": "right",
+                "actionsel": ".wizzard_next_step"
 		},{
-		"url": "/course/edit.php",
+		"url": "/enrol/users.php",
+		"sel": "div.user-enroller-panel .uep-ajax-content",
+		"tip": "Klicken Sie \"Einschreiben\" hinter dem Namen des gewünschten Users. Sie können auch nach jemandem suchen.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "actionsel": ".wizzard_next_step",
+                "placement": "left"
+		},{
+		"url": "/enrol/users.php",
+		"sel": "div.user-enroller-panel .close-button input[type=button]",
+		"tip": "Hier klicken, um die Einschreibung zu beenden.",
+                "actionsel": "div.user-enroller-panel .close-button input[type=button]"
+		},{
+		"url": "/enrol/users.php",
+		"sel": "nav.breadcrumb-nav",
+		"tip": "Über einen Klick auf Ihren Kursnamen gelangen Sie zurück in den Kurs."	
+		},{
+		"url": "/course/view.php",
+		"sel": "div.singlebutton input[type=submit]",
+		"tip": "Hier klicken, um in den Bearbeitungsmodus zu wechseln.",
+                "actionsel": "div.singlebutton input[type=submit]"
+		},{
+		"url": "/course/view.php",
+		"sel": "div.content .summary a",
+		"tip": "Klicken Sie auf das Zahnrad um eine eigene Überschrift zu erstellen."	
+		},{
+		"url": "/course/editsection.php",
+		"sel": "fieldset.felement.fgroup",
+		"tip": "Entfernen sie das Häkchen bei \"Standard verwenden\" und geben Sie eine gewünschte Überschrift ein.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "actionsel": ".wizzard_next_step"
+		},{
+		"url": "/course/editsection.php",
 		"sel": "#id_submitbutton",
-		"tip": "Klicken Sie hier, um den Kurs anzulegen."	
+		"tip": "Hier klicken, um Ihre Änderungen zu speichern."
+		},{
+		"url": "/course/view.php",
+		"sel": "div.singlebutton input[type=submit]",
+		"tip": "Hier klicken, um den Bearbeitungsmodus zu verlassen.",
+                "actionsel": "div.singlebutton input[type=submit]"
 		}	
 	],
 	"current_step": "0"

@@ -1,25 +1,10 @@
 {
-	"name": "mbswizzard_sequence_first_learningsequence",
+	"name": "mbswizzard_sequence_first_learningsequence_preview",
 	"steps": [{
 		"url": "/my",
-		"sel": ".icon-me-kurs-erstellen",
-		"tip": "Klicken Sie hier, um einen Kurs zu erstellen." 	
-		},{
-		"url": "/course/edit.php",
-		"sel": "#id_fullname",
-		"tip": "Geben Sie einen Namen für den Kurs ein.<br /><a id=\"wizzard_next_step_2\" href=\"#\"> weiter >> </a>"	
-		},{
-		"url": "/course/edit.php",
-		"sel": "#id_shortname",
-		"tip": "Geben Sie einen Kurznamen für den Kurs ein.<br /><a id=\"wizzard_next_step_3\" href=\"#\"> weiter >> </a>"	
-		},{
-		"url": "/course/edit.php",
-		"sel": "#id_category",
-		"tip": "Wählen Sie einen Kursbereich aus, in dem Sie Ihren Kurs anlegen möchten.<br /><a id=\"wizzard_next_step_4\" href=\"#\"> weiter >> </a>"	
-		},{
-		"url": "/course/edit.php",
-		"sel": "#id_submitbutton",
-		"tip": "Klicken Sie hier, um den Kurs anzulegen."	
+		"sel": "a[data-wizzard=first_learningsequence]",
+		"tip": "Folgt in Kürze.",
+                "actionsel": "body"                 
 		}	
 	],
 	"current_step": "0"

@@ -7,15 +7,18 @@
 		},{
 		"url": "/course/edit.php",
 		"sel": "input[name=fullname]",
-		"tip": "Geben Sie einen Namen für den Kurs ein.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>"	
+		"tip": "Geben Sie einen Namen für den Kurs ein.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "actionsel": ".wizzard_next_step"
 		},{
 		"url": "/course/edit.php",
 		"sel": "input[name=shortname]",
-		"tip": "Geben Sie einen Kurznamen für den Kurs ein.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>"	
+		"tip": "Geben Sie einen Kurznamen für den Kurs ein.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "actionsel": ".wizzard_next_step"
 		},{
 		"url": "/course/edit.php",
 		"sel": "select[name=category]",
-		"tip": "Wählen Sie einen Kursbereich aus, in dem Sie Ihren Kurs anlegen möchten.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>"	
+		"tip": "Wählen Sie einen Kursbereich aus, in dem Sie Ihren Kurs anlegen möchten.<br /><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+                "actionsel": ".wizzard_next_step"
 		},{
 		"url": "/course/edit.php",
 		"sel": "input[name=submitbutton]",

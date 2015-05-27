@@ -17534,11 +17534,11 @@ button.close {
   }
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033771}}
-.touch .me-in-page-menu-mobile-trigger:hover, .touch #me-back-top:hover {
+.touch .me-in-page-menu-mobile-trigger:hover, .touch .me-back-top:hover {
   color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000033775}}
-.touch .me-in-page-menu-mobile-trigger[data-status="visible"], .touch #me-back-top[data-status="visible"] {
+.touch .me-in-page-menu-mobile-trigger[data-status="visible"], .touch .me-back-top[data-status="visible"] {
   color: #ff6600;
 }
 

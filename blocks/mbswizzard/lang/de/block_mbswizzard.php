@@ -33,9 +33,12 @@ $string['of'] = 'von';
 $string['onlymebistheme'] = 'Wizzards stehen nur im neuen Design von mebis zur Verfügung.';
 $string['pluginname'] = 'mebis Wizzards';
 $string['sequence_course_create'] = 'Mein erster Kurs';
-$string['sequence_course_create_help'] = 'Erstellen Sie ihren ersten Kurs in nur 4 Schritten.';
+$string['sequence_course_create_help'] = 'Mit diesem Wizzard erstellen Sie in nur 5 Schritten Ihren eigenen Kurs. Sie müssen nur '
+        . 'Schritt für Schritt den Anweisungen folgen.';
 $string['sequence_course_setup'] = 'Lernen organisieren';
-$string['sequence_course_setup_help'] = 'Fügen Sie ihrem Kurs Teilnehmer hinzu und bearbeiten Sie beispielhaft eine Überschrift.';
+$string['sequence_course_setup_help'] = 'Dieser Wizzard hilft Ihnen bei den ersten Schritten in einem Ihrer Kurse. Sie lernen, wie '
+        . 'man Teilnehmer hinzufügt, in den Bearbeitungsmodus wechselt, eine Überschrift bearbeiten, den Bearbeitungsmodus wieder '
+        . 'verlässt';
 $string['sequence_first_learningsequence'] = 'Lernen gestalten';
 $string['sequence_first_learningsequence_help'] = 'Erstellen Sie Ihre erste kleine Lernsequenz für den Unterricht.';
 $string['step'] = 'Schritt';

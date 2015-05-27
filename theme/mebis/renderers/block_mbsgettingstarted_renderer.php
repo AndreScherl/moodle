@@ -61,7 +61,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link('#',  get_string('sequence_course_setup', 'block_mbswizzard'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequenz', 'class' => 'btn btn-secondary link_wizzard'));
+        $wizzard .= html_writer::link('#',  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequence', 'class' => 'btn btn-secondary link_wizzard'));
         $wizzard .= html_writer::end_tag('li');
         $wizzards = html_writer::tag('ul', $wizzard);
         $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-lg-4 col-md-6 col-xs-12 wizzardlinks'));

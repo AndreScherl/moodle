@@ -24,12 +24,12 @@
 
 $string['edittitle'] = 'Edit school logo and title';
 $string['headline'] = 'Title';
-$string['imgheight'] = 'Height and Width of Image';
-$string['imgheightexpl'] = 'Image would be scaled to this height';
+$string['imgheight'] = 'Height of Category - Image';
+$string['imgheightexpl'] = 'Image would be scaled to this height.';
 $string['imageofcategory'] = 'Image for Category';
 $string['imagepreview'] = 'Preview';
 $string['imgwidth'] = 'Width of Category - Image';
-$string['imgwidthexpl'] = 'Image would be scaled to this width';
+$string['imgwidthexpl'] = 'Image would be scaled to this width.';
 $string['mbsschooltitle:addinstance'] = 'Add mebis school title';
 $string['mbsschooltitle:edittitle'] = 'Edit the title for a school';
 $string['pluginname'] = 'Mebis title for School';

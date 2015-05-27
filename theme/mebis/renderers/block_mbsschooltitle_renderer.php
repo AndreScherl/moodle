@@ -34,31 +34,31 @@ class theme_mebis_block_mbsschooltitle_renderer extends block_mbsschooltitle_ren
         // Link to School.
         if (!empty($titledata->usersschoolid)) {
             $schoolurl = new moodle_url('/course/index.php', array('categoryid' => $titledata->usersschoolid));
-            $schoollink = html_writer::link($schoolurl, get_string('footer-my-school', 'theme_mebis'), array('class' => 'btn btn-full'));
-            $o = html_writer::tag('div', $schoollink, array('class' => 'col-md-4'));
+            $schoollink = html_writer::link($schoolurl, get_string('toschoolcategory', 'block_mbsschooltitle'), array('class' => 'btn btn-secondary'));
+            $o = html_writer::tag('div', $schoollink, array('class' => 'col-md-4 col-xs-12'));
         }
 
         // Headline of page.
         $headline = (!empty($titledata->headline)) ? $titledata->headline : $PAGE->heading;
         $headlinetag = html_writer::tag('h3', $headline);
-        $o .= html_writer::tag('div', $headlinetag, array('class' => 'mbs-schooltitle-headline pull-left'));
+        $headlinecontainer = html_writer::tag('div', $headlinetag, array('class' => 'mbs-schooltitle-headline pull-left'));
         
         // Editlink, capability is already checked.
         if (!empty($titledata->editurl)) {
             $editlink = $OUTPUT->action_icon($titledata->editurl, new pix_icon('editgray', get_string('edit'), 'theme_mebis'));
-            $o .= html_writer::tag('div', $editlink, array('class' => 'mbs-schooltitle-editlink pull-left'));
+            $headlinecontainer .= html_writer::tag('div', $editlink, array('class' => 'mbs-schooltitle-editlink pull-left'));
         }
+        $o .= html_writer::tag('div', $headlinecontainer, array('class' => 'col-md-4 col-xs-6'));
 
         // Image.
-        if (!empty($titledata->imageurl)) {
+        if (!empty($titledata->imageurl)) {   
             $imagetag = html_writer::empty_tag('img', array('src' => $titledata->imageurl, 'alt' => get_string('imageofcategory', 'block_mbsschooltitle')));
-            $o .= html_writer::tag('div', $imagetag, array('class' => 'mbs-schooltitle-image pull-right text-right'));
+            $o .= html_writer::tag('div', $imagetag, array('class' => 'col-md-4 col-xs-6 mbs-schooltitle-image pull-right text-right'));
         }
 
-        $o = html_writer::tag('div', $o, array('id' => 'mbs-schooltitle', 'class' => 'row'));
-
+        $o = html_writer::tag('div', $o, array('class' => 'row'));
         $o = html_writer::tag('div', $o, array('class' => 'container'));
-        return html_writer::tag('div', $o, array('class' => 'me-event-footer'));
+        return html_writer::tag('div', $o, array('class' => 'block_mbsschooltitle'));
     }
 
 }

@@ -41,7 +41,7 @@ All Styles related to special Pages.
 
 // enrol page after search
 #page-enrol-index {
-    
+
     #main-content-wrapper {
 
         background: transparent;
@@ -55,18 +55,18 @@ All Styles related to special Pages.
             padding-left: 20px;
         }
     }
-    
+
     .box.generalbox.info {
-    
+
         li {
             list-style: none;
         }
     }
-    
+
     fieldset .fcontainer {
         color: $black;
     }
-    
+
     #notice {
         padding-bottom: 20px;
     }
@@ -99,9 +99,16 @@ All Styles related to special Pages.
         }
 
         h3 {
-
             background: $brand-primary;
             padding: 20px;
+        }
+
+        .listitem > div .idnumber {
+            color: $brand-gray-dark;
+        }
+
+        #category-listing .course-count {
+            color: $brand-gray-dark;
         }
     }
 }

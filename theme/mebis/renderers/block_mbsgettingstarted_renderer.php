@@ -28,6 +28,12 @@ require_once($CFG->libdir . '/blocklib.php');
 
 class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstarted_renderer {
     
+    /** 
+     * Render the welcome title of the block
+     * 
+     * @global object $USER
+     * @return string HTML of block content.
+     */
     public function welcome(){
         global $USER;
         $output = '';
@@ -39,7 +45,12 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= html_writer::tag('div', $message, array('class' => 'col-md-12 text-left'));
         return $output;
     }
-        
+       
+    /** 
+     * Render the closing section of the block
+     * 
+     * @return string HTML of block content.
+     */
     public function close(){
         $output = '';
         $output .= html_writer::start_div('col-md-12 text-right', array('id' => 'me-help-box'));
@@ -49,6 +60,11 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         return $output;       
     }
     
+    /** 
+     * Render the link section and the video
+     *      
+     * @return string HTML of block content.
+     */
     public function content(){
         $output = '';
         $wizzard = '';
@@ -56,6 +72,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $aidlinks = '';
         $video = '';
         
+        //buttons
         $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link('#', get_string('sequence_course_create', 'block_mbswizzard'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
@@ -75,34 +92,36 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $support = html_writer::tag('ul', $aid);
         $support = html_writer::tag('div', $support, array('class' => 'col-lg-4 col-md-6 col-xs-12 aidlinks'));
         
+        //video
+        $videourl = get_config('block_mbsgettingstarted', 'videourl');
+        if (empty($videourl)) {
+            $videourl = get_string('video', 'block_mbsgettingstarted');
+        }        
         $video .= html_writer::start_div('video-container',  array('id' => 'mydashboardvideo'));
-            /*$video .= html_writer::empty_tag('img', array(
-                'src' => new moodle_url('/blocks/mbsgettingstarted/images/thumbnail.png'),
-                'width' => '100%',
-                'alt' => 'Vorschaubild'
-            ));  */      
-
             $video .= html_writer::start_tag('video', array(
                 'width' => '100%',
                 'controls' => 'controls'
             ));  
                 $video .= html_writer::empty_tag('source',  array(
-                    'src' => new moodle_url('https://www-entw.mebis.bayern.de/wp-content/uploads/sites/2/2015/03/Eu-Spot-Cyber-mobbing.mp4'),
+                    'src' => new moodle_url($videourl),
                     'type' => 'video/mp4'
                 ));
                 $video .= get_string('videoalttext', 'block_mbsgettingstarted');
-            $video .= html_writer::end_tag('video');
-          
-         $video .= html_writer::end_div();
+            $video .= html_writer::end_tag('video');          
+        $video .= html_writer::end_div();
 
         $output .= $wizzards;
-        $output .= $support;
-        
+        $output .= $support;        
         
         $output .= html_writer::tag('div', $video, array('class' => 'col-lg-4 col-md-12')); 
         return $output;
     }
     
+    /** 
+     * Render the content of the block
+     * 
+     * @return string HTML of block content.
+     */
     public function all(){
         $welcome = $this->welcome();
         $close = $this->close();

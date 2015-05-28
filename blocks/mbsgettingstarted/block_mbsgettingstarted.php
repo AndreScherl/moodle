@@ -38,7 +38,7 @@ class block_mbsgettingstarted extends block_base {
         $PAGE->requires->jquery_plugin('ui');
         $PAGE->requires->jquery_plugin('ui-css');
         $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/blockvisibility/blockvisibility.js'));
-}
+    }
 
     function get_content() {
         global $PAGE;
@@ -56,10 +56,11 @@ class block_mbsgettingstarted extends block_base {
             user_preference_allow_ajax_update('mbsgettingstartednotshow', PARAM_BOOL);
             $this->get_required_javascript();
         }
-                
+
         return $this->content;
     }
 
+    // Enabling Global Configuration
     public function applicable_formats() {
         return array('my' => true);
     }
@@ -68,6 +69,14 @@ class block_mbsgettingstarted extends block_base {
         return false;
     }
 
-  
+    /**
+     * Allow the block to have a configuration page
+     * Means: a blocks/.../settings.php file exists
+     *
+     * @return boolean
+     */
+    public function has_config() {
+        return true;
+    }
 
 }

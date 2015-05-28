@@ -1,0 +1,20 @@
+/*
+    Styles, which are used for userprofile
+*/
+/* 
+    Created on : 28.05.2015, 14:26:10
+    Author     : Franziska Hübler, ISB
+*/
+
+#page-user-profile {
+
+    #main-content-wrapper {
+        background-color: transparent;
+        padding-left: 0;
+        padding-right: 0; 
+    }
+    
+    .userprofile h2 {
+        background-color: $brand-primary;
+    }
+}

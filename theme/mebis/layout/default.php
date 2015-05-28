@@ -65,6 +65,13 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
 // Allow popup - notification for my dashboard.
 $PAGE->set_popup_notification_allowed($ismydashboard);
 
+// Add block mbschangeplatform to block region side-pre for betausers
+if (isset($USER->isBetauser) && $USER->isBetauser){
+    if (!$PAGE->blocks->is_block_present('mbschangeplatform')) {
+        $PAGE->blocks->add_block('mbschangeplatform', 'side-pre', 1000);
+    }
+}
+
 // Check whether regions has content.
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
@@ -154,6 +161,7 @@ echo $OUTPUT->doctype()
 
                     if ($knownregionsidepre) {
                         echo $OUTPUT->blocks('side-pre', array(), 'div');
+                        
                     }
 
                     if ($knownregionsidepost) {

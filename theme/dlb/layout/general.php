@@ -17,6 +17,14 @@
 
 $hasheading = ($PAGE->heading);
 $hasnavbar = (empty($PAGE->layout_options['nonavbar']) && $PAGE->has_navbar());
+
+// Add block mbschangeplatform to block region side-pre for betausers
+if (isset($USER->isBetauser) && $USER->isBetauser){
+    if (!$PAGE->blocks->is_block_present('mbschangeplatform')) {
+        $PAGE->blocks->add_block('mbschangeplatform', 'side-pre', 1000);
+    }
+}
+
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $showsidepre = $hassidepre && !$PAGE->blocks->region_completely_docked('side-pre', $OUTPUT);

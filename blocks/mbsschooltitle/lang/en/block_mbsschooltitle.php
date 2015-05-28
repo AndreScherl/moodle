@@ -31,6 +31,7 @@ $string['imagepreview'] = 'Preview';
 $string['imgwidth'] = 'Width of Category - Image';
 $string['imgwidthexpl'] = 'Image would be scaled to this width.';
 $string['mbsschooltitle:addinstance'] = 'Add mebis school title';
+$string['mbsschooltitle:myaddinstance'] = 'Add mebis school title to my moodle';
 $string['mbsschooltitle:edittitle'] = 'Edit the title for a school';
 $string['pluginname'] = 'Mebis title for School';
 $string['settings'] = 'Settings';

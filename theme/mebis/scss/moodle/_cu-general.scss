@@ -14,7 +14,7 @@ Here are to go all styles, which are NOT:
 */
 
 #maincontent {
-    height : 0px;
+    height : 0;
 }
 
 // Wrap content of standard moodle pages to ensure solid styles (NOT inverted!)
@@ -28,7 +28,7 @@ Here are to go all styles, which are NOT:
     }
 
     #maincontent + h2 {
-        color : white;
+        color : $white;
         background: $bg-dark;
         line-height: 1.5em;
         margin : -20px -20px 20px;
@@ -69,11 +69,11 @@ div[role="main"] {
 
 // general styles ordered alphabetically.
 .breadcrumb-nav {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .clearer {
-    height : 0px;
+    height : 0;
 }
 
 .collapsed .fcontainer, .collapsed ul {

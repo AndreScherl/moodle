@@ -28,6 +28,12 @@ require_once($CFG->libdir . '/blocklib.php');
 
 class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstarted_renderer {
     
+    /** 
+     * Render the welcome title of the block
+     * 
+     * @global object $USER
+     * @return string HTML of block content.
+     */
     public function welcome(){
         global $USER;
         $output = '';
@@ -39,7 +45,12 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= html_writer::tag('div', $message, array('class' => 'col-md-12 text-left'));
         return $output;
     }
-        
+       
+    /** 
+     * Render the closing section of the block
+     * 
+     * @return string HTML of block content.
+     */
     public function close(){
         $output = '';
         $output .= html_writer::start_div('col-md-12 text-right', array('id' => 'me-help-box'));
@@ -49,6 +60,11 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         return $output;       
     }
     
+    /** 
+     * Render the link section and the video
+     *      
+     * @return string HTML of block content.
+     */
     public function content(){
         $output = '';
         $wizzard = '';
@@ -101,6 +117,11 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         return $output;
     }
     
+    /** 
+     * Render the content of the block
+     * 
+     * @return string HTML of block content.
+     */
     public function all(){
         $welcome = $this->welcome();
         $close = $this->close();

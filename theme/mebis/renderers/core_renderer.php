@@ -424,7 +424,7 @@ class theme_mebis_core_course_management_renderer extends core_course_management
         $params[] = CONTEXT_COURSECAT;
         $params[] = $level;
 
-        $sql = "SELECT cat.id, cat.path FROM {context} ctx
+        $sql = "SELECT DISTINCT cat.id, cat.path FROM {context} ctx
                 JOIN {role_assignments} ra ON ra.contextid = ctx.id
                 JOIN {course_categories} cat on ctx.instanceid = cat.id
                 WHERE ra.roleid {$inroleids} and ra.userid = ? and ctx.contextlevel = ? and ctx.depth >= ?";

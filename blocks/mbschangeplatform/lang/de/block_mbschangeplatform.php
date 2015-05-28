@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
  
-$string['pluginname'] = 'Mebis Plattformwechsel';
+$string['pluginname'] = 'mebis Plattformwechsel';
 $string['mbschangeplatform'] = 'Plattformwechsel';
 $string['mbschangeplatform:addinstance'] = 'Hinzufügen eines Plattformwechsel-Blocks';
 $string['mbschangeplatform:myaddinstance'] = 'Hinzufügen eines Plattformwechsel-Blocks zu meinem Schreibtisch';

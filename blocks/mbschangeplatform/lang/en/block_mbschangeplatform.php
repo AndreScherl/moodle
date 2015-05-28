@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
  
-$string['pluginname'] = 'Mebis Change Platform';
+$string['pluginname'] = 'mebis Change Platform';
 $string['mbschangeplatform'] = 'Change Platform';
 $string['mbschangeplatform:addinstance'] = 'Add a Change Platform block';
 $string['mbschangeplatform:myaddinstance'] = 'Add a Change Platform block to the My Moodle page';

@@ -56,6 +56,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $aidlinks = '';
         $video = '';
         
+        //buttons
         $wizzard .= html_writer::start_tag('li');
         $wizzard .= html_writer::link('#', get_string('sequence_course_create', 'block_mbswizzard'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
@@ -75,29 +76,26 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $support = html_writer::tag('ul', $aid);
         $support = html_writer::tag('div', $support, array('class' => 'col-lg-4 col-md-6 col-xs-12 aidlinks'));
         
+        //video
+        $videourl = get_config('block_mbsgettingstarted', 'videourl');
+        if (empty($videourl)) {
+            $videourl = get_string('video', 'block_mbsgettingstarted');
+        }        
         $video .= html_writer::start_div('video-container',  array('id' => 'mydashboardvideo'));
-            /*$video .= html_writer::empty_tag('img', array(
-                'src' => new moodle_url('/blocks/mbsgettingstarted/images/thumbnail.png'),
-                'width' => '100%',
-                'alt' => 'Vorschaubild'
-            ));  */      
-
             $video .= html_writer::start_tag('video', array(
                 'width' => '100%',
                 'controls' => 'controls'
             ));  
                 $video .= html_writer::empty_tag('source',  array(
-                    'src' => new moodle_url('https://www-entw.mebis.bayern.de/wp-content/uploads/sites/2/2015/03/Eu-Spot-Cyber-mobbing.mp4'),
+                    'src' => new moodle_url($videourl),
                     'type' => 'video/mp4'
                 ));
                 $video .= get_string('videoalttext', 'block_mbsgettingstarted');
-            $video .= html_writer::end_tag('video');
-          
-         $video .= html_writer::end_div();
+            $video .= html_writer::end_tag('video');          
+        $video .= html_writer::end_div();
 
         $output .= $wizzards;
-        $output .= $support;
-        
+        $output .= $support;        
         
         $output .= html_writer::tag('div', $video, array('class' => 'col-lg-4 col-md-12')); 
         return $output;

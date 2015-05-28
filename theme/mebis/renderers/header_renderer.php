@@ -76,6 +76,7 @@ class theme_mebis_header_renderer extends renderer_base {
         global $USER, $PAGE, $CFG;
         $output = '';
         $userBar = '';
+        $muserBar = '';
 
         $url_support = isset($PAGE->theme->settings->url_support) ? $PAGE->theme->settings->url_support : '#';
         $url_login = isset($PAGE->theme->settings->url_login) ? $PAGE->theme->settings->url_login : '#';
@@ -83,6 +84,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
 
         if (isloggedin()) {
+            // desktop version
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-left'));
 
             $userBar .= html_writer::start_tag('li', array('class' => 'profile'));
@@ -100,25 +102,43 @@ class theme_mebis_header_renderer extends renderer_base {
 
             $userBar .= html_writer::start_tag('li');
             $userBar .= html_writer::start_tag('a', array('href' => $url_logout));
-            $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login'));            
+            //$userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login'));            
             $userBar .= html_writer::tag('span', get_string('nav-logout', 'theme_mebis'));
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
             
+            // mobile version
+            $muserBar .= html_writer::start_tag('li', array('class' => 'dropdown'));
+            $muserBar .= html_writer::link($url_logout, 'Logout', array('class' => 'dropdown-toggle active'));
+            $avatarimg = html_writer::tag('img', '',
+                array('class' => 'user-avatar',
+                    'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
+                    'width' => '50px',
+                    'height' => '50px',
+                    'alt' => 'User Profile',
+                    'link' => false));
+            $muserBar .= html_writer::link($url_preferences, $avatarimg, array('class' => 'navbar-mobile-avatar'));
+            $muserBar .= html_writer::end_tag('li');
         } else {
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical no-margin-right'));
 
             $userBar .= html_writer::start_tag('li', array('class' => 'me-login-box'));
             $userBar .= html_writer::start_tag('a', array('href' => $url_login));
-            $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
+            //$userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
             $userBar .= html_writer::tag('span', get_string('nav-login', 'theme_mebis'));
             $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical no-margin-left'));
+            
+            // mobile version
+            $muserBar .= html_writer::start_tag('li', array('class' => 'dropdown'));
+            $loginicon .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
+            $muserBar .= html_writer::link($url_login, $loginicon.'Login', array('class' => 'dropdown-toggle'));
+            $muserBar .= html_writer::end_tag('li');
         }
 
         $output .= html_writer::start_tag('nav', array(
@@ -144,10 +164,11 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::start_tag('ul', array('role' => 'tablist',
                     'class' => 'nav nav-tabs nav-login hidden-lg'));
         
-        //$output .= $userBar;
-        $output .= html_writer::start_tag('li');
-        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => $url_logout, 'class' => 'dropdown-toggle active'));
-        $output .= html_writer::end_tag('li');      
+        $output .= $muserBar;
+        
+        // $output .= html_writer::start_tag('li');
+        // $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => $url_logout, 'class' => 'dropdown-toggle active'));
+        // $output .= html_writer::end_tag('li');      
         
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_div();

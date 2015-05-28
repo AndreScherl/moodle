@@ -143,10 +143,10 @@ class theme_mebis_header_renderer extends renderer_base {
         
         $output .= html_writer::start_tag('ul', array('role' => 'tablist',
                     'class' => 'nav nav-tabs nav-login hidden-lg'));
-        //TODO Logout on small devices not possible
+        
         //$output .= $userBar;
         $output .= html_writer::start_tag('li');
-        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => new moodle_url('/login/logout.php'), 'class' => 'dropdown-toggle active'));
+        $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => $url_logout, 'class' => 'dropdown-toggle active'));
         $output .= html_writer::end_tag('li');      
         
         $output .= html_writer::end_tag('ul');

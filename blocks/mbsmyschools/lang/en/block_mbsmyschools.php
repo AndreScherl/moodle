@@ -24,3 +24,5 @@
 
 $string['displayname'] = 'My Schools';
 $string['pluginname'] = 'mebis My Schools';
+$string['mbsmyschools:addinstance'] = 'Add a mbsmyschools block';
+$string['mbsmyschools:myaddinstance'] = 'Add a mbsmyschools block to my moodle';

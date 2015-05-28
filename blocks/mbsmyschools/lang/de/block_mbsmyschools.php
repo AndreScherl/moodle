@@ -24,3 +24,5 @@
 
 $string['displayname'] = 'Meine Schulen';
 $string['pluginname'] = 'mebis Meine Schulen';
+$string['mbsmyschools:addinstance'] = 'Hinzufügen von Meine Schulen';
+$string['mbsmyschools:myaddinstance'] = 'Hinzufügen von Meine Schulen zu meinem Schreibtisch';

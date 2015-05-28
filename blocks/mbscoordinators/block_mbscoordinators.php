@@ -97,7 +97,7 @@ class block_mbscoordinators extends block_base {
                     list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
                     $likesql = $DB->sql_like('cx.path', ':likecontextpath');
                     $params['userid'] = $USER->id;
-                    $params['likecontextpath'] = "{$this->page->context->path}/%";
+                    $params['likecontextpath'] = "{$PAGE->context->path}/%";
                     $sql = "SELECT ra.id
                               FROM {role_assignments} ra
                               JOIN {context} cx ON cx.id = ra.contextid

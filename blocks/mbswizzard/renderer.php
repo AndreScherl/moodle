@@ -81,7 +81,7 @@ class block_mbswizzard_renderer extends plugin_renderer_base {
                 $htmlstring .= html_writer::start_tag('li');
                 $htmlstring .= html_writer::link('#', get_string('sequence_'.$sequence, 'block_mbswizzard'),
                         array('class' => 'link_wizzard', 'data-wizzard' => $sequence));
-                $helpicon = new help_icon('sequence_'.$sequence.'_help', 'block_mbswizzard');
+                $helpicon = new help_icon('sequence_'.$sequence, 'block_mbswizzard');
                 $htmlstring .= ' '.$this->render($helpicon);
                 $htmlstring .= html_writer::end_tag('li');
             }

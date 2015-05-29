@@ -41,7 +41,7 @@ $renderer = $PAGE->get_renderer('block_mbssearch');
 $config = get_config('block_mbssearch');
 
 $searchtext = optional_param('searchtext', '', PARAM_TEXT);
-$filterby = optional_param('filterby', '', PARAM_TEXT);
+$filterby = optional_param('filterby', 'nofilter', PARAM_TEXT);
 $limitfrom = optional_param('limitfrom', 0, PARAM_INT);
 $limitnum = optional_param('limitnum', $config->moreresultscount, PARAM_INT);
 

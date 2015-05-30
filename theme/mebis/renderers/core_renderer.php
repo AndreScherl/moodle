@@ -222,6 +222,30 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         return $content;
     }
+    
+    /**
+     * Renders a custom block region.
+     * 
+     * Andre Scherl - 30.05.2015: overwrite this method to prevent the content region (custom block region of /my) to be a drop target
+     *
+     * Use this method if you want to add an additional block region to the content of the page.
+     * Please note this should only be used in special situations.
+     * We want to leave the theme is control where ever possible!
+     *
+     * This method must use the same method that the theme uses within its layout file.
+     * As such it asks the theme what method it is using.
+     * It can be one of two values, blocks or blocks_for_region (deprecated).
+     *
+     * @param string $regionname The name of the custom region to add.
+     * @return string HTML for the block region.
+     */
+    public function custom_block_region($regionname) {
+        if ($this->page->theme->get_block_render_method() === 'blocks') {
+            return $this->mebis_blocks($regionname, array(), 'div', '0');
+        } else {
+            return $this->blocks_for_region($regionname);
+        }
+    }
 
     /**
      * Renders a "single button" widget for insertion into the menu bar

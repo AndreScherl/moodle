@@ -22,7 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['closealert'] = 'Ok';
+$string['closealertexpl'] = 'The My Schools block will now be permanently removed. Under "Edit profile > More profile settings'
+        . ' > Meine Schulen" you can undo this.';
 $string['displayname'] = 'My Schools';
 $string['pluginname'] = 'mebis My Schools';
 $string['mbsmyschools:addinstance'] = 'Add a mbsmyschools block';
 $string['mbsmyschools:myaddinstance'] = 'Add a mbsmyschools block to my moodle';
+$string['mbsmyschoolsremovepermanent'] = 'remove forever';

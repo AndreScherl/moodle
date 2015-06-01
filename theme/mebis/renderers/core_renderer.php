@@ -155,14 +155,14 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         global $OUTPUT;
         
         // Unset block actions for special blocks.
-        $noactionblocks = array('mbsmycourses');
+        $noactionblocks = array('mbsmycourses', 'mbsmyschools');
         
         if (in_array($bc->attributes['data-block'], $noactionblocks)) {
             $bc->controls = array();
         }
         
         // Use core methode to render blocks.
-        if ($bc->attributes['data-block'] != 'mbsmycourses') {
+        if ($bc->attributes['data-block'] != 'mbsmycourses' && $bc->attributes['data-block'] != 'mbsmyschools') {
             return parent::block_header($bc);
         }
         
@@ -172,27 +172,56 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         // This is exceptionally done for this theme, so we decided to do this in the
         // renderer and do intentionally not create a general dependency between the
         // block mbsmycourses and mbs newcourse.
-        
-        $title = '';
-        if ($bc->title) {
-            $attributes = array();
-            if ($bc->blockinstanceid) {
-                $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
+        if ($bc->attributes['data-block'] == 'mbsmycourses') {
+            $title = '';
+            if ($bc->title) {
+                $attributes = array();
+                if ($bc->blockinstanceid) {
+                    $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
+                }
+                $title = html_writer::tag('h2', $bc->title, $attributes);
             }
-            $title = html_writer::tag('h2', $bc->title, $attributes);
-        }
 
-        $output = '';
+            $output = '';
         
-        if ($title) {
-            $output .= html_writer::start_div('header');
-            $output .= html_writer::start_div('title');
-            $output .= $OUTPUT->raw_block('mbsnewcourse');
-            $output .= $title;
-            $output .= html_writer::end_div();
-            $output .= html_writer::end_div();
+            if ($title) {
+                $output .= html_writer::start_div('header');
+                $output .= html_writer::start_div('title');
+                $output .= $OUTPUT->raw_block('mbsnewcourse');
+                $output .= $title;
+                $output .= html_writer::end_div();
+                $output .= html_writer::end_div();
+            }
+            return $output;
         }
-        return $output;
+        
+        // From here on: Special rendering of mbsmyschools
+        // for proper position of delete icon
+        // This is exceptionally done for this theme.        
+        if ($bc->attributes['data-block'] == 'mbsmyschools') {
+            $title = '';
+            if ($bc->title) {
+                $attributes = array();
+                if ($bc->blockinstanceid) {
+                    $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
+                }
+                $title = html_writer::tag('h2', $bc->title, $attributes);
+            }
+
+            $output = '';
+        
+            if ($title) {
+                $output .= html_writer::start_div('header');
+                $output .= html_writer::start_div('title');
+                $output .= html_writer::div($title, 'col-md-6');
+                $output .= html_writer::start_div('col-md-6 text-right');
+                $output .= html_writer::link('#', '<i class="fa fa-ban"></i> ' . get_string('mbsmyschoolsremovepermanent', 'block_mbsmyschools'), array('id' => 'mbsmyschools_closeforever'));
+                $output .= html_writer::end_div();                
+                $output .= html_writer::end_div();
+                $output .= html_writer::end_div();
+            }
+            return $output;
+        }         
     }
     
     /**

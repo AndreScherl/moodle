@@ -22,7 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['closealert'] = 'Ok';
+$string['closealertexpl'] = 'Der Block "Meine Schulen" wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
+        . 'Meine Schulen" können Sie diesen Vorgang rückgängig machen.';
 $string['displayname'] = 'Meine Schulen';
 $string['pluginname'] = 'mebis Meine Schulen';
 $string['mbsmyschools:addinstance'] = 'Hinzufügen von Meine Schulen';
 $string['mbsmyschools:myaddinstance'] = 'Hinzufügen von Meine Schulen zu meinem Schreibtisch';
+$string['mbsmyschoolsremovepermanent'] = 'dauerhaft entfernen';

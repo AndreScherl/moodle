@@ -41,7 +41,7 @@ $THEME->layouts = array(
     ),
     'mydashboard' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre', 'top', 'side-post'),
+        'regions' => array('side-pre', 'top', 'side-post', 'bottom'),
         'defaultregion' => 'side-pre'
     ),
     'login' => array(

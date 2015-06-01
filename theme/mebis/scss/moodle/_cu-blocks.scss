@@ -44,7 +44,7 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 }
 
 .col-md-12.block-transparent {
-    
+
     padding-left: 0;
     padding-right: 0;
 
@@ -107,16 +107,16 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 
     > .content .me-help-note-container ul {
         list-style: none;
-        
+
         .btn.btn-secondary {
             margin: 2px 0px;
             width: 100%;
             border: none;
-            
+
             &.btn-lg {
                 font-size: $font-size-large;
                 background: $brand-secondary;
-                
+
                 &:hover {
                     background: $brand-primary-light;
                     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
@@ -124,11 +124,11 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
             } 
         }        
     } 
-    
+
     .video-container {
         text-align: center;
     }
-    
+
     .wizzardlinks ul {
         margin-top: 6px;
     }
@@ -144,7 +144,7 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     > .content > .header {
         padding: 4px 1px;
     }
-    
+
     > .content > ul {
         list-style: none;
     }
@@ -268,7 +268,7 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     .row.categorybox{
         margin: 0;
     }
-    
+
     .category-box {
         border: 0;
         background-color: transparent;
@@ -279,19 +279,19 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 }
 
 .editing .block_mbsmycourses .move {
-   float: right; 
+    float: right; 
 }
 
 // more results button in mbscourses and mbssearch result page
 .path-blocks-mbssearch,
 .block_mbsmycourses {
     .add-more-results {
-        
+
         margin-left: 0;
         margin-right: 0;
         padding-left: 0;
         padding-right: 0;
-        
+
         .load-more-results {            
             margin-left: 0;
         }        
@@ -299,8 +299,15 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 }
 // Block mbsmyschools.
 .block_mbsmyschools {
-    margin-left: 0;
-    margin-right: 0;
+    
+    .header .title .col-md-6 {
+        padding-left: 0;
+        padding-right: 0;    
+        
+        &.text-right {
+            margin-top: 45px;
+        }
+    }
 }
 
 // search page of block mbssearch
@@ -312,52 +319,52 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
     }
     .mbssearchpage {
         padding: 0;
-        
+
         form {
-            
+
             input[type='text'] {
                 max-width: none;
             }
-            
+
             select {
                 max-width: none;
                 width: 100%;
             }
         } 
-        
+
         div.col-md-12 {
             padding-left: 0;
             padding-right: 0; 
         }
     }
-    
+
     #mbssearch_result {
         margin-top: 20px;
     }
 }
 
- // Block mbsschooltitle
+// Block mbsschooltitle
 .block_mbsschooltitle {
-    
+
     padding: 40px 0;
     color: $white;
     margin-bottom: -60px;
     background: $brand-primary;
-             
+
     .mbs-schooltitle-headline h3 {
         margin-top: 0;
         margin-bottom: 0;
     }
-    
+
     .mbs-schooltitle-image img {
         height: 50px;
     }
-    
+
     .btn.btn-secondary {
         @media only screen and (max-width: $screen-desktop) {
             width: 100%;
             margin-bottom: 10px;
         }
     }
-    
+
 }

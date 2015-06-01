@@ -32,6 +32,16 @@ class block_mbsmyschools extends block_base {
         $this->defaultweight = 100;
     }
 
+    function get_required_javascript() {
+        global $PAGE;
+        parent::get_required_javascript();
+
+        $PAGE->requires->jquery();
+        $PAGE->requires->jquery_plugin('ui');
+        $PAGE->requires->jquery_plugin('ui-css');
+        $PAGE->requires->js(new moodle_url('/blocks/mbsmyschools/js/blockvisibility/blockvisibility.js'));
+    }
+    
     /**
      * Return contents of mbsmyschools block
      *
@@ -52,17 +62,13 @@ class block_mbsmyschools extends block_base {
 
         $usersschools = \local_mbs\local\schoolcategory::get_users_schools();
         $this->content->text .= $renderer->schoollist($usersschools);
+        
+        if ((!get_user_preferences('mbsmyschoolsnotshow', false)) || get_user_preferences('mbsmyschoolsnotshow') == 1) {
+            user_preference_allow_ajax_update('mbsmyschoolsnotshow', PARAM_BOOL);
+            $this->get_required_javascript();
+        }
 
         return $this->content;
-    }
-
-    /**
-     * Allow the block to have a configuration page
-     *
-     * @return boolean
-     */
-    public function has_config() {
-        return true;
     }
 
     /**
@@ -72,10 +78,6 @@ class block_mbsmyschools extends block_base {
      */
     public function applicable_formats() {
         return array('my-index' => true);
-    }
-    
-    public function instance_can_be_docked() {
-        return false;
     }
     
     public function instance_can_be_collapsed() {

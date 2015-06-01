@@ -29,8 +29,11 @@ require_once($CFG->dirroot.'/user/profile/lib.php'); //required for profile_load
 $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
+$knownregionbottom = $PAGE->blocks->is_known_region('bottom');
 
 $ismydashboard = ($PAGE->pagetype == 'my-index');
+$theuser = clone($USER); 
+    profile_load_data($theuser);
 
 // Add mbsgettingstarted to my dashboard?
 if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
@@ -41,10 +44,7 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
         $hidembsgettingstarted = false;
     } else {
         $hidembsgettingstarted = true;
-    }
-
-    $theuser = clone($USER); 
-    profile_load_data($theuser);
+    }    
         
     $showmbsgettingstarted = ($ismydashboard 
         and (!isset($theuser->profile_field_mbsgettingstartedshow) || $theuser->profile_field_mbsgettingstartedshow)
@@ -62,6 +62,11 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
     $OUTPUT->add_block_mbswizzard_if_needed('side-pre', $showmbsgettingstarted);
 }
 
+// Add mbsmyschools to my dashboard?
+$showmbsmyschools = ($ismydashboard 
+    and (!isset($theuser->profile_field_mbsmyschoolsshow) || $theuser->profile_field_mbsmyschoolsshow)
+    and $knownregionbottom);
+
 // Allow popup - notification for my dashboard.
 $PAGE->set_popup_notification_allowed($ismydashboard);
 
@@ -78,6 +83,7 @@ if (isset($USER->isBetauser) && $USER->isBetauser){
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
+$hasbottom = $PAGE->blocks->region_has_content('bottom', $OUTPUT);
 
 // TODO: discuss this line - deprecated?
 // $regions = theme_mebis_bootstrap_grid($hasapps, null);
@@ -170,8 +176,16 @@ echo $OUTPUT->doctype()
                         echo $OUTPUT->blocks('side-post', array(), 'div');
                     }
                     echo html_writer::end_tag('aside');
-                    ?>
-                <?php } ?>
+                    
+                }
+                
+                if ($hasbottom) {
+                    if ($showmbsmyschools) {
+                        echo $OUTPUT->mebis_blocks('bottom', array(), 'aside', '0');
+                    }
+                }
+                
+                ?>
 
             </div>
 

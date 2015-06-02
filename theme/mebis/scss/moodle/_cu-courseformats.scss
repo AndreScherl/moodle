@@ -4,6 +4,7 @@
     - topics format
     - collapsed topics.
     - one topic.
+    - grid format.
 
     Note that customizations for section based course formats are located
     in _course.scss when definitions are made for all formats!
@@ -226,6 +227,111 @@
                     color: $white;
                     width: 100%;
                 }
+            }
+        }
+    }
+}
+
+// +++++++From here on: special styles for grid format. ++++++++++++
+#page-course-view-grid {
+
+    //Need important because of element.style
+    #gridshadebox_content {
+        left: 10% !important;
+        width: 85% !important;
+        top: 150px !important;
+        border: none;
+        z-index: 999 !important;
+
+        #gridshadebox_close {                    
+            padding-top: 5px;
+            padding-right: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;                 
+        }
+
+        .gridshadebox_arrow {
+            position: relative;
+            cursor: pointer;
+            opacity: 1;
+            background: $brand-primary;
+
+            &:hover {
+                background: $brand-secondary;
+            }
+        }
+
+        ul .gtopics {
+            margin-left: 0;
+            margin-right: 0;
+
+            >div .content {
+                margin-left: 0;
+                margin-right: 0;
+            } 
+        }
+    }
+
+    .course-content {
+
+        .gridicon_link {
+            cursor: pointer;
+        }
+        ul li.section.main {
+            padding: 0;
+            border-bottom: inherit;
+            border-left: none;
+        }
+    }
+
+    #main-content-wrapper  {
+
+        padding: 0 15px;
+
+        .course-content ul.gridicons li {
+
+            padding-left: 0;
+            padding-right: 0;
+            margin: 10px;            
+            -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3); 
+            box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
+
+            &:hover {
+                background-color: $brand-secondary;
+                .image_holder {
+                    box-shadow: none;
+                }
+            }
+
+            .image_holder {
+                border-style: none;
+                background-color: transparent;
+                width: auto;
+
+            }
+
+            p.icon_content {
+                white-space: normal;
+                height: auto;          
+            }
+
+            a {
+                .icon_content {
+                    font-weight: 200;
+                    line-height: 20px;
+                    margin-bottom: 5px;
+                    position: relative;
+                    color: $gray-dark;
+                    text-align: center;
+
+                    &:before {
+                        content: "\00BB";
+                        font-size: 1.125em;
+                        color: $brand-primary;
+                        vertical-align: middle;
+                        margin-top: -12px;
+                    }
+                } 
             }
         }
     }

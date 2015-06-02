@@ -532,7 +532,10 @@ class theme_mebis_header_renderer extends renderer_base {
                 $linktxt = '';
                 $linkCls = '';
                 if (null !== $navchild->action) {
-                    $link = htmlspecialchars_decode($navchild->action->__toString());
+                    //this check is necessary, otherwise there's no __toString() method
+                    if($navchild->action instanceof moodle_url) {
+                        $link = htmlspecialchars_decode($navchild->action->__toString());
+                    }
                 }
 
                 // skip all nodes which contain one of the given $nodeFilter

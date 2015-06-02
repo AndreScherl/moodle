@@ -23,15 +23,15 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['activewizzard'] = 'Active Wizzard';
-$string['cancel'] = 'Cancel Wizzard';
-$string['displayname'] = 'Wizzards';
-$string['eventwizzardstatechanged'] = 'Change of wizzard state';
-$string['mbswizzard:addinstance'] = 'Add a mbswizzard block';
-$string['mbswizzard:myaddinstance'] = 'Add a mbswizzard block to my moodle';
+$string['activewizzard'] = 'Active Wizard';
+$string['cancel'] = 'Cancel Wizard';
+$string['displayname'] = 'Wizards';
+$string['eventwizzardstatechanged'] = 'Change of wizard state';
+$string['mbswizzard:addinstance'] = 'Add a mbswizard block';
+$string['mbswizzard:myaddinstance'] = 'Add a mbswizard block to my moodle';
 $string['of'] = 'of';
-$string['onlymebistheme'] = 'Wizzards are only available within the new mebis theme.';
-$string['pluginname'] = 'mebis Wizzards';
+$string['onlymebistheme'] = 'Wizards are only available within the new mebis theme.';
+$string['pluginname'] = 'mebis Wizards';
 $string['sequence_course_create'] = 'My first course';
 $string['sequence_course_create_help'] = 'Your first course in only 4 steps.';
 $string['sequence_course_setup'] = 'Organize Learning';

@@ -23,20 +23,20 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['activewizzard'] = 'Aktiver Wizzard';
-$string['cancel'] = 'Wizzard abbrechen';
-$string['displayname'] = 'Wizzards';
-$string['eventwizzardstatechanged'] = 'Änderung des Wizzard Status';
-$string['mbswizzard:addinstance'] = 'Block mebis Wizzards hinzufügen';
-$string['mbswizzard:myaddinstance'] = 'Block mebis Wizzards zum Schreibtisch hinzufügen';
+$string['activewizzard'] = 'Aktiver Wizard';
+$string['cancel'] = 'Wizard abbrechen';
+$string['displayname'] = 'Wizards';
+$string['eventwizzardstatechanged'] = 'Änderung des Wizard Status';
+$string['mbswizzard:addinstance'] = 'Block mebis Wizards hinzufügen';
+$string['mbswizzard:myaddinstance'] = 'Block mebis Wizards zum Schreibtisch hinzufügen';
 $string['of'] = 'von';   
-$string['onlymebistheme'] = 'Wizzards stehen nur im neuen Design von mebis zur Verfügung.';
-$string['pluginname'] = 'mebis Wizzards';
+$string['onlymebistheme'] = 'Wizards stehen nur im neuen Design von mebis zur Verfügung.';
+$string['pluginname'] = 'mebis Wizards';
 $string['sequence_course_create'] = 'Mein erster Kurs';
-$string['sequence_course_create_help'] = 'Mit diesem Wizzard erstellen Sie in nur 5 Schritten Ihren eigenen Kurs.'
+$string['sequence_course_create_help'] = 'Mit diesem Wizard erstellen Sie in nur 5 Schritten Ihren eigenen Kurs.'
         . ' Folgen Sie bitte Schritt für Schritt den Anweisungen.';
 $string['sequence_course_setup'] = 'Lernen organisieren';
-$string['sequence_course_setup_help'] = 'Dieser Wizzard hilft Ihnen bei den ersten Schritten in einem Ihrer '
+$string['sequence_course_setup_help'] = 'Dieser Wizard hilft Ihnen bei den ersten Schritten in einem Ihrer '
         . 'Kurse. Sie lernen, wie man Teilnehmer hinzufügt, in den Bearbeitungsmodus wechselt, eine Überschrift bearbeitet und '
         . 'den Bearbeitungsmodus wieder verlässt';
 $string['sequence_first_learningsequence'] = 'Lernen gestalten';

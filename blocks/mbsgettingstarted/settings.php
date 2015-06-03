@@ -30,6 +30,24 @@ $settings->add(new admin_setting_configtext('block_mbsgettingstarted/videourl',
             get_string('videourl', 'block_mbsgettingstarted'),
             get_string('videourl_expl', 'block_mbsgettingstarted'),
 			'',
-			PARAM_RAW));		
+			PARAM_RAW));	
+
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/tutorialurl',
+            get_string('tutorialurl', 'block_mbsgettingstarted'),
+            get_string('tutorialurl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
+
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/trainingurl',
+            get_string('trainingurl', 'block_mbsgettingstarted'),
+            get_string('trainingurl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
+
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/contacturl',
+            get_string('contacturl', 'block_mbsgettingstarted'),
+            get_string('contacturl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
 
 			

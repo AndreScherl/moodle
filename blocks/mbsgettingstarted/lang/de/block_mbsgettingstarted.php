@@ -23,7 +23,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['contactlink'] = 'Persönlicher Kontakt';
+$string['contact'] = 'Persönlicher Kontakt';
+$string['contactlink'] = 'https://www-entw.mebis.bayern.de/infoportal/support/anmeldung-bei-mebis/';
+$string['contacturl'] = 'URL Persönlicher Kontakt';
+$string['contacturl_expl'] = 'Vollständige URL zu der Persönlicher-Kontakt-Seite des Dillinger Supportteams.';
 $string['closealert'] = 'Ok';
 $string['closealertexpl'] = 'Die Starthilfe wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
         . 'Starthilfe" können Sie diesen Vorgang rückgängig machen.';
@@ -34,8 +37,14 @@ $string['helpnotewelcome'] = 'Herzlich willkommen %s!';
 $string['mbsgettingstarted:addinstance'] = 'Hinzufügen der Starthilfe';
 $string['mbsgettingstarted:myaddinstance'] = 'Hinzufügen der Starthilfe zu meinem Schreibtisch';
 $string['pluginname'] = 'mebis Starthilfe';
-$string['tutoriallink'] = 'Tutorials';
-$string['traininglink'] = 'Fortbildungen';
+$string['tutorial'] = 'Tutorials';
+$string['tutoriallink'] = 'https://www-entw.mebis.bayern.de/infoportal/kategorie/fortbildung/tutorials/';
+$string['tutorialurl'] = 'URL Tutorials';
+$string['tutorialurl_expl'] = 'Vollständige URL zu den Lernplattform-Tutorials im Infoportal';
+$string['training'] = 'Fortbildungen';
+$string['traininglink'] = 'https://www-entw.mebis.bayern.de/infoportal/fortbildungsangebote/';
+$string['trainingurl'] = 'URL Fortbildungen';
+$string['trainingurl_expl'] = 'Vollständige URL zu den mebis-Fortbildungen in FIBS';
 $string['video'] = 'https://www.mebis.bayern.de/wp-content/uploads/2013/01/Eu-Spot-Cyber-mobbing.mp4';
 $string['videoalttext'] = 'Erklärvideo Mein Schreibtisch (Ihr Browser unterstützt kein HTML 5)';
 $string['videourl'] = 'Video-URL';

@@ -69,24 +69,27 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output = '';
         $wizzard = '';
         $aid = '';
-        $aidlinks = '';
         $video = '';
         
         //buttons
         $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#', get_string('sequence_course_create', 'block_mbswizzard'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard'));
+        $wizzard .= html_writer::link('#', get_string('sequence_course_create', 'block_mbswizzard'), array('data-wizzard' => 'course_create', 'class' => 'btn btn-secondary btn-lg link_wizzard', 'id' => 'mbswizard_course_create'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('sequence_course_setup', 'block_mbswizzard'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard'));
+        $wizzard .= html_writer::link('#',  get_string('sequence_course_setup', 'block_mbswizzard'), array('data-wizzard' => 'course_setup', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizard_course_setup'));
         $wizzard .= html_writer::end_tag('li'); $wizzard .= html_writer::start_tag('li');
-        $wizzard .= html_writer::link('#',  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequence', 'class' => 'btn btn-secondary link_wizzard'));
+        $wizzard .= html_writer::link('#',  get_string('sequence_first_learningsequence', 'block_mbswizzard'), array('data-wizzard' => 'first_learningsequence', 'class' => 'btn btn-secondary link_wizzard', 'id' => 'mbswizard_first_learningsequence'));
         $wizzard .= html_writer::end_tag('li');
         $wizzards = html_writer::tag('ul', $wizzard);
         $wizzards = html_writer::tag('div', $wizzards, array('class' => 'col-lg-4 col-md-6 col-xs-12 wizzardlinks'));
         
-        $aidlinks = array('tutoriallink', 'traininglink', 'contactlink');
-        foreach($aidlinks as $link ){
+        $aidlinks = array('tutorial', 'training', 'contact');
+        foreach ($aidlinks as $link ) {
+            $url = get_config('block_mbsgettingstarted', $link.'url');
+            if (empty($url)) {
+                $url = get_string($link.'link', 'block_mbsgettingstarted');
+            }   
             $aid .= html_writer::start_tag('li');
-            $aid .= html_writer::link('#',  get_string($link, 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary', 'id' => 'mbswizzard_'.$link));
+            $aid .= html_writer::link($url,  get_string($link, 'block_mbsgettingstarted'), array('class' => 'btn btn-secondary', 'id' => 'mbswizzard_'.$link));
             $aid .= html_writer::end_tag('li');
         }                
         $support = html_writer::tag('ul', $aid);

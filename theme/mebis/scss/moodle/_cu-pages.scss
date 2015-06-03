@@ -22,6 +22,19 @@ All Styles related to special Pages.
 
 }
 
+//##### Need this styles for courseformats with backgourndcolor transparent #####
+// user overview in courses
+.path-user.path-course.path-course-view #main-content-wrapper  {
+    padding: 10px;
+    background: $white;
+}
+
+//Course edit page: course/edit.php
+#page-course-edit #main-content-wrapper  {
+    background: $white;
+}
+//##### END: Need this styles for courseformats with backgroundcolor transparent #####
+
 #page-course-index-category {
 
     div[role="main"] > .generalbox {

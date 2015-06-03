@@ -14,12 +14,12 @@
 */
 
 // +++++++From here on: special styles for topics format. ++++++++++++
-#page-course-view-topics #main-content-wrapper  {
-    background: transparent;
+.format-topics.path-course #main-content-wrapper  {
+    background: transparent;    
 }
 
 // +++++++From here on: special styles for collapsed topic format. ++++++++++++
-#page-course-view-topcoll #main-content-wrapper  {
+.format-topcoll.path-course #main-content-wrapper  {
     background: transparent;
 
     .sectionname {
@@ -171,8 +171,8 @@
 }
 
 // +++++++++  From here on: special styles for one-topic format +++++++++++++++.
-#page-course-view-onetopic #main-content-wrapper  {
-    background: transparent;
+.format-onetopic.path-course #main-content-wrapper  {
+    background: transparent;   
 }
 
 #page-course-view-onetopic .course {

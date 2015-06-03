@@ -205,9 +205,10 @@ input[type="checkbox"] + label {
     }
 }
 
+/* fhüb: Do we really need this? 
 .moodle-dialogue-base .moodle-dialogue-wrap {
     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-}
+}*/
 
 .pagination-row {
     margin-top: 25px;

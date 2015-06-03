@@ -288,50 +288,56 @@
 
         padding: 0 15px;
 
-        .course-content ul.gridicons li {
-
-            padding-left: 0;
-            padding-right: 0;
-            margin: 10px;            
-            -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3); 
-            box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
-
-            &:hover {
-                background-color: $brand-secondary;
-                .image_holder {
-                    box-shadow: none;
-                }
+        .course-content {
+            
+            ul.gtopics-0 li h3.sectionname {
+                font-weight: normal;
             }
 
-            .image_holder {
-                border-style: none;
-                background-color: transparent;
-                width: auto;
+            ul.gridicons li {
 
-            }
+                padding-left: 0;
+                padding-right: 0;
+                margin: 10px;            
+                -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3); 
+                box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
 
-            p.icon_content {
-                white-space: normal;
-                height: auto;          
-            }
-
-            a {
-                .icon_content {
-                    font-weight: 200;
-                    line-height: 20px;
-                    margin-bottom: 5px;
-                    position: relative;
-                    color: $gray-dark;
-                    text-align: center;
-
-                    &:before {
-                        content: "\00BB";
-                        font-size: 1.125em;
-                        color: $brand-primary;
-                        vertical-align: middle;
-                        margin-top: -12px;
+                &:hover {
+                    background-color: $brand-secondary;
+                    .image_holder {
+                        box-shadow: none;
                     }
-                } 
+                }
+
+                .image_holder {
+                    border-style: none;
+                    background-color: transparent;
+                    width: auto;
+
+                }
+
+                p.icon_content {
+                    white-space: normal;
+                    height: auto;          
+                }
+
+                a {
+                    .icon_content {
+                        font-weight: 400;
+                        line-height: 20px;
+                        margin-bottom: 5px;
+                        position: relative;
+                        color: $gray-dark;
+                        text-align: center;
+
+                        &:before {
+                            content: "\00BB";
+                            font-size: 1.125em;
+                            color: $brand-primary;
+                            margin-top: -12px;
+                        }
+                    } 
+                }
             }
         }
     }

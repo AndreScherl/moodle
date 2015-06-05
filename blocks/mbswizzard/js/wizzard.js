@@ -37,9 +37,9 @@ M.block_mbswizzard.wizzard.init = function() {
     $('.link_wizzard').on('click', $.proxy(function(event){
         this.event = event;
         // no event handling on static preview links. Remove this if new wizzard is available!
-        if ($(event.target).attr("data-wizzard") === "first_learningsequence") {
-            return;
-        }
+        //if ($(event.target).attr("data-wizzard") === "first_learningsequence") {
+         //   return;
+       // }
 	var seqname = "mbswizzard_sequence_"+$(event.target).attr("data-wizzard");
   	this.copy_sequence_from_json(seqname, $.proxy(function(success){
             if (success) {
@@ -74,11 +74,11 @@ M.block_mbswizzard.wizzard.init = function() {
     }
     
     // Set static tooltip for upcoming wizzards. Remove this, if new wizzard is available.
-    $('a[data-wizzard=first_learningsequence]').tooltip({
+   /* $('a[data-wizzard=first_learningsequence]').tooltip({
         // trigger: 'click',
         animation: true,
         title: 'Folgt in Kürze.'
-    });
+    });*/
     
 };
 
@@ -253,5 +253,6 @@ M.block_mbswizzard.wizzard.finish_sequence = function(state) {
     $('.tooltip').tooltip('destroy');
     if(state === 'finish'){
         alert('Herzlichen Glückwunsch!\nSie haben den Wizzard erfolgreich abgeschlossen.');
+        exit();
     }
 };

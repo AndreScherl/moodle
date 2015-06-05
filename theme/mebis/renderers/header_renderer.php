@@ -26,39 +26,39 @@ class theme_mebis_header_renderer extends renderer_base {
         $navItems = explode(';', trim($CFG->local_mbs_mebis_sites, ";"));
 
         foreach ($navItems as $navItem) {
-            list($name, $url) = explode(',', $navItem);
-            if (!empty($name) and !empty($url)) {
-                $iconClass = '';
-                $liClass = '';
-                switch ($name) {
-                    default:
-                    case 'Startseite':
-                        $iconClass = 'icon-me-cockpit';
-                        break;
-                    case 'Infoportal':
-                        $iconClass = 'icon-me-infoportal';
-                        break;
-                    case 'Mediathek':
-                        $iconClass = 'icon-me-mediathek';
-                        break;
-                    case 'Lernplattform':
-                        $iconClass = 'icon-me-lernplattform';
-                        $liClass .= ' me-active';
-                        break;
-                    case 'Prüfungsarchiv':
-                        $iconClass = 'icon-me-pruefungsarchiv';
-                        break;
+            if (!empty($navItem) && $navItem !== '') {
+                list($name, $url) = explode(',', $navItem);
+                if (!empty($name) and !empty($url)) {
+                    $iconClass = '';
+                    $liClass = '';
+                    switch ($name) {
+                        default:
+                        case 'Startseite':
+                            $iconClass = 'icon-me-cockpit';
+                            break;
+                        case 'Infoportal':
+                            $iconClass = 'icon-me-infoportal';
+                            break;
+                        case 'Mediathek':
+                            $iconClass = 'icon-me-mediathek';
+                            break;
+                        case 'Lernplattform':
+                            $iconClass = 'icon-me-lernplattform';
+                            $liClass .= ' me-active';
+                            break;
+                        case 'Prüfungsarchiv':
+                            $iconClass = 'icon-me-pruefungsarchiv';
+                            break;
+                    }
+                    $code .= html_writer::start_tag('li', array('class' => $liClass));
+                    $code .= html_writer::start_tag('a', array('href' => $url));
+                    $code .= html_writer::tag('i', '', array('class' => $iconClass . ' ' . $additionalCSSClasses));
+                    $code .= html_writer::tag('span', $name);
+                    $code .= html_writer::end_tag('a');
+                    $code .= html_writer::end_tag('li');
                 }
-
-                $code .= html_writer::start_tag('li', array('class' => $liClass));
-                $code .= html_writer::start_tag('a', array('href' => $url));
-                $code .= html_writer::tag('i', '', array('class' => $iconClass . ' ' . $additionalCSSClasses));
-                $code .= html_writer::tag('span', $name);
-                $code .= html_writer::end_tag('a');
-                $code .= html_writer::end_tag('li');
             }
         }
-
         return $code;
     }
 

@@ -18292,8 +18292,9 @@ categorybox:
   border: 0;
   position: relative;
   margin-bottom: 20px;
+  z-index: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000360}}
 .coursebox .coursebox-inner .coursebox-link {
   min-height: 165px;
   padding: 20px;
@@ -18302,30 +18303,30 @@ categorybox:
   background: #fff;
   font-weight: 400;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000369}}
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000373}}
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000377}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000378}}
 .coursebox .coursebox-inner .coursebox-link .coursetype {
   font-size: 0.75em;
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000387}}
 .coursebox .coursebox-inner:hover .coursebox-link {
   background: #ff6600;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000391}}
 .coursebox .coursebox-inner:hover .coursebox-link .coursename, .coursebox .coursebox-inner:hover .coursebox-link .coursename:before {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_coursebox\.scss}line{font-family:\0000395}}
 .coursebox .coursebox-inner:hover .coursebox-link .coursetype {
   color: #fff;
 }
@@ -19034,6 +19035,17 @@ All Styles related to special Pages.
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000327}}
+.path-user.path-course.path-course-view #main-content-wrapper {
+  padding: 10px;
+  background: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000333}}
+#page-course-edit #main-content-wrapper {
+  background: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000340}}
 #page-course-index-category div[role="main"] > .generalbox {
   background: #fff;
   color: #000;
@@ -19042,68 +19054,68 @@ All Styles related to special Pages.
   padding: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000350}}
 #page-enrol-users .enrol_user_buttons {
   float: none;
   text-align: right;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000358}}
 #page-enrol-index #main-content-wrapper {
   background: transparent;
   color: #fff;
   padding-left: 0;
   padding-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000365}}
 #page-enrol-index #main-content-wrapper h2 {
   background: transparent;
   color: #fff;
   padding-left: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000361}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000374}}
 #page-enrol-index .box.generalbox.info li {
   list-style: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000379}}
 #page-enrol-index fieldset .fcontainer {
   color: #000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000383}}
 #page-enrol-index #notice {
   padding-bottom: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000391}}
 #page-my-index #main-content-wrapper {
   background: transparent;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000383}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000396}}
 #page-my-index #main-content-wrapper h2 {
   background: transparent;
   color: #fff;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003106}}
 #page-course-management #course-category-listings {
   margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003109}}
 #page-course-management #course-category-listings > div > div {
   border: none;
   margin-bottom: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003114}}
 #page-course-management #course-category-listings h3 {
   background: #000000;
   padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003106}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003119}}
 #page-course-management #course-category-listings .listitem > div .idnumber {
   color: #333333;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003110}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003123}}
 #page-course-management #course-category-listings #category-listing .course-count {
   color: #333333;
 }
@@ -19303,72 +19315,73 @@ input[type="checkbox"] + label {
   background: #000000;
 }
 
-/*.moodle-dialogue-base .moodle-dialogue-wrap {
+/* fhüb: Do we really need this? 
+.moodle-dialogue-base .moodle-dialogue-wrap {
     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 }*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003212}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003213}}
 .pagination-row {
   margin-top: 25px;
   margin-bottom: 25px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003217}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003218}}
 .tree_item span, .tree_item span:focus {
   outline: 0;
 }
 
 @media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003221}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003222}}
   .text-mobile-left {
     text-align: left !important;
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003228}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003229}}
 .tooltip {
   z-index: 1080;
   opacity: 1;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003231}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003232}}
 .tooltip .tooltip-inner {
   background-color: #ff6600;
   color: #fff;
   border: 2px solid #ff6600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003236}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003237}}
 .tooltip .tooltip-inner a {
   color: #505050;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003240}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003241}}
 .tooltip .tooltip-inner a:hover {
   color: #fff;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003246}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003247}}
 .tooltip.in {
   opacity: 1;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003253}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003254}}
 .tooltip.top .tooltip-arrow,
 .tooltip.top-left .tooltip-arrow,
 .tooltip.top-right .tooltip-arrow {
   border-top-color: #ff6600;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003259}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003260}}
 .tooltip.left .tooltip-arrow {
   border-left-color: #ff6600;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003267}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003268}}
 .tooltip.bottom .tooltip-arrow,
 .tooltip.bottom-left .tooltip-arrow,
 .tooltip.bottom-right .tooltip-arrow {
   border-bottom-color: #ff6600;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003273}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-general\.scss}line{font-family:\00003274}}
 .tooltip.right .tooltip-arrow {
   border-right-color: #ff6600;
 }
@@ -19388,16 +19401,16 @@ input[type="checkbox"] + label {
     Author     : Andreas Wagner, ISB Bayern
 */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\0000317}}
-#page-course-view-topics #main-content-wrapper {
+.format-topics.path-course #main-content-wrapper {
   background: transparent;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\0000322}}
-#page-course-view-topcoll #main-content-wrapper {
+.format-topcoll.path-course #main-content-wrapper {
   background: transparent;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\0000325}}
-#page-course-view-topcoll #main-content-wrapper .sectionname {
+.format-topcoll.path-course #main-content-wrapper .sectionname {
   color: #fff;
 }
 
@@ -19529,7 +19542,7 @@ input[type="checkbox"] + label {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003174}}
-#page-course-view-onetopic #main-content-wrapper {
+.format-onetopic.path-course #main-content-wrapper {
   background: transparent;
 }
 
@@ -19579,8 +19592,16 @@ input[type="checkbox"] + label {
   color: #fff;
   width: 100%;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003233}}
+#page-course-view-onetopic .course.course-format-onetopic .move-list-box {
+  background-color: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003235}}
+#page-course-view-onetopic .course.course-format-onetopic .move-list-box ul {
+  list-style: none;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003239}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003246}}
 #page-course-view-grid #gridshadebox_content {
   left: 10% !important;
   width: 85% !important;
@@ -19588,49 +19609,53 @@ input[type="checkbox"] + label {
   border: none;
   z-index: 999 !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003246}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003253}}
 #page-course-view-grid #gridshadebox_content #gridshadebox_close {
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 20px;
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003253}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003260}}
 #page-course-view-grid #gridshadebox_content .gridshadebox_arrow {
   position: relative;
   cursor: pointer;
   opacity: 1;
   background: #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003259}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003266}}
 #page-course-view-grid #gridshadebox_content .gridshadebox_arrow:hover {
   background: #ff6600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003264}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003271}}
 #page-course-view-grid #gridshadebox_content ul .gtopics {
   margin-left: 0;
   margin-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003268}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003275}}
 #page-course-view-grid #gridshadebox_content ul .gtopics > div .content {
   margin-left: 0;
   margin-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003277}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003284}}
 #page-course-view-grid .course-content .gridicon_link {
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003280}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003287}}
 #page-course-view-grid .course-content ul li.section.main {
   padding: 0;
   border-bottom: inherit;
   border-left: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003287}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003294}}
 #page-course-view-grid #main-content-wrapper {
   padding: 0 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003291}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003300}}
+#page-course-view-grid #main-content-wrapper .course-content ul.gtopics-0 li h3.sectionname {
+  font-weight: normal;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003304}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li {
   padding-left: 0;
   padding-right: 0;
@@ -19638,40 +19663,39 @@ input[type="checkbox"] + label {
   -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003299}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003312}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li:hover {
   background-color: #ff6600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003301}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003314}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li:hover .image_holder {
   box-shadow: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003306}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003319}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li .image_holder {
   border-style: none;
   background-color: transparent;
   width: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003313}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003326}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li p.icon_content {
   white-space: normal;
   height: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003319}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003332}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li a .icon_content {
-  font-weight: 200;
+  font-weight: 400;
   line-height: 20px;
   margin-bottom: 5px;
   position: relative;
   color: #333333;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-courseformats\.scss}line{font-family:\00003340}}
 #page-course-view-grid #main-content-wrapper .course-content ul.gridicons li a .icon_content:before {
   content: "\00BB";
   font-size: 1.125em;
   color: #000000;
-  vertical-align: middle;
   margin-top: -12px;
 }
 
@@ -19779,4 +19803,99 @@ input[type="checkbox"] + label {
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-userprofile\.scss}line{font-family:\0000317}}
 #page-user-profile .userprofile h2 {
   background-color: #000000;
+}
+
+/*
+    Styles, which are used for overlays
+
+    - moodle-dialogue-base
+    - newmessageoverlay
+*/
+/* 
+    Created on : 28.05.2015, 13:46:45
+    Author     : Franziska Hübler, ISB
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-overlays\.scss}line{font-family:\0000312}}
+.moodle-dialogue-base {
+  /* fhüb: Do we really need this? 
+  .moodle-dialogue-wrap {
+        border-radius: 0;
+
+        .moodle-dialogue-hd.moodle-dialogue-hd {
+            background: $gray-lighter;
+            text-shadow: none;
+        }
+
+        input[type="text"] {
+            max-width: 0;
+            min-width: 100%;
+            display: block;
+        }
+
+        .yui3-button.closebutton {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        label.control-label {
+            color: $brand-gray-dark;
+        }
+    }*/
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-overlays\.scss}line{font-family:\0000315}}
+.moodle-dialogue-base .moodle-dialogue.filepicker {
+  z-index: 999 !important;
+}
+@media only screen and (max-width: 992px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-overlays\.scss}line{font-family:\0000315}}
+  .moodle-dialogue-base .moodle-dialogue.filepicker {
+    left: 10%;
+    width: 85%;
+    top: 100px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-overlays\.scss}line{font-family:\0000352}}
+  #newmessageoverlay {
+    bottom: 50px;
+  }
+}
+
+/*
+    This file contains style customizations for activities:
+
+    - database
+    - assign
+*/
+/* 
+    Created on : 05.06.2015, 12:13:08
+    Author     : Franziska Hübler, ISB
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-activities\.scss}line{font-family:\0000314}}
+#page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+  width: 25%;
+  float: left;
+}
+@media only screen and (max-width: 992px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-activities\.scss}line{font-family:\0000314}}
+  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 768px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-activities\.scss}line{font-family:\0000314}}
+  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+    width: 30%;
+    float: left;
+  }
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-activities\.scss}line{font-family:\0000329}}
+#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {
+  white-space: nowrap;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-activities\.scss}line{font-family:\0000332}}
+#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span span.helptooltip {
+  margin-right: 20px;
 }

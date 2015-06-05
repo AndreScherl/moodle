@@ -1,0 +1,36 @@
+/*
+    This file contains style customizations for activities:
+
+    - database
+    - assign
+*/
+/* 
+    Created on : 05.06.2015, 12:13:08
+    Author     : Franziska Hübler, ISB
+*/
+
+#page-mod-data-templates #main-content-wrapper {
+
+    div > ul.nav.nav-tabs.nav-justified li {     
+        width: 25%;
+        float:left;
+        @media only screen and (max-width: $screen-desktop) {
+            width: 100%;
+        }
+        @media only screen and (max-width: $screen-tablet) {
+            width: 30%;
+            float:left;
+        }
+    }
+}
+
+#page-mod-assign-mod #main-content-wrapper {
+    
+    fieldset.clearfix.collapsible fieldset.felement.fgroup span {
+        white-space: nowrap;
+        
+        span.helptooltip {
+            margin-right: 20px;
+        }
+    } 
+}

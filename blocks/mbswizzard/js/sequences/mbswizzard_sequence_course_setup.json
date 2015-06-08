@@ -12,9 +12,10 @@
                 "viewport": { "selector": "body", "padding": 50 }
 		},{
 		"url": "/enrol/users.php",
-		"sel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin input[type=submit]",
+		"sel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin",
 		"tip": "Hier klicken, um einen User einzuschreiben.",
-                "actionsel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin input[type=submit]"
+                "actionsel": "div.singlebutton.enrolusersbutton.enrol_manual_plugin input[type=submit]", 
+                "placement": "left"
 		},{
 		"url": "/enrol/users.php",
 		"sel": "select#id_enrol_manual_assignable_roles",

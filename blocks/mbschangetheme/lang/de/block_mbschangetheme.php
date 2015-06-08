@@ -23,13 +23,13 @@
  */
 
 $string['changeallowusertheme'] = 'Einstellung allowusertheme';
-$string['changetotheme1'] = 'Neues Theme wählen';
-$string['changetotheme2'] = 'Altes Theme wählen';
+$string['changetotheme1'] = 'Neues Design wählen';
+$string['changetotheme2'] = 'Altes Design wählen';
 $string['displayname'] = 'Designwechsel';
 $string['mbschangetheme:addinstance'] = 'Hinzufügen des Blocks mebis Themewechsel';
 $string['mbschangetheme:myaddinstance'] = 'Hinzufügen des Blocks mebis Themewechsel zu meinem Schreibtisch';
 $string['newalertheading'] = 'Themewechsel möglich!';
-$string['newalertexpl'] = 'Vorübergehend ist es möglich noch mit dem alten Theme zu arbeiten. Auf Ihrer persönlichen Startseite finden Sie einen Bereich mit einer Schaltfläche zum Wechseln auf das alte Theme von mebis.';
+$string['newalertexpl'] = 'Vorübergehend ist es möglich noch mit dem alten Design zu arbeiten. Auf Ihrer persönlichen Startseite finden Sie unter dem Bereich "Meine Apps" eine Schaltfläche zum Wechseln auf das alte Design von mebis.';
 $string['newalerthideme'] = 'Diesen Hinweis nicht mehr anzeigen.';
 $string['newalertclose'] = 'Schließen';
 $string['notconfiguredproperly'] = 'Das Plugin ist nicht richtig konfiguriert!';

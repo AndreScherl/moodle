@@ -23,14 +23,14 @@
  */
 
 $string['changeallowusertheme'] = 'Setting allowusertheme';
-$string['changetotheme1'] = 'Select old theme';
-$string['changetotheme2'] = 'Select new theme';
-$string['displayname'] = 'Theme Change';
+$string['changetotheme1'] = 'Select old design';
+$string['changetotheme2'] = 'Select new design';
+$string['displayname'] = 'Design Change';
 $string['eventthemechanged'] = 'User has changed theme';
 $string['mbschangetheme:addinstance'] = 'Add block mebis changetheme';
 $string['mbschangetheme:myaddinstance'] = 'Add block mebis changetheme to my dashboard';
 $string['newalertheading'] = 'You may change the theme!';
-$string['newalertexpl'] = 'Temporarily you may select the old (deprecated) mebis theme. You find a theme change button at you personal desktop.';
+$string['newalertexpl'] = 'Temporarily you may select the old (deprecated) mebis design. You find a design change button at you personal desktop.';
 $string['newalerthideme'] = 'Don\'t show this notification anymore.';
 $string['newalertclose'] = 'Close';
 $string['notconfiguredproperly'] = 'The plugin is not configured properly!';

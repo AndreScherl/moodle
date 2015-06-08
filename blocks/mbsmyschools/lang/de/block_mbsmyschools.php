@@ -28,5 +28,6 @@ $string['closealertexpl'] = 'Der Block "Meine Schulen" wird nun dauerhaft entfer
 $string['displayname'] = 'Meine Schulen';
 $string['pluginname'] = 'mebis Meine Schulen';
 $string['mbsmyschools:addinstance'] = 'Hinzufügen von Meine Schulen';
+$string['mbsmyschools:moveblock'] = 'Meine Schulen verschieben';
 $string['mbsmyschools:myaddinstance'] = 'Hinzufügen von Meine Schulen zu meinem Schreibtisch';
 $string['mbsmyschoolsremovepermanent'] = 'dauerhaft entfernen';

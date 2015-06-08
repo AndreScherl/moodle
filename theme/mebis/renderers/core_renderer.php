@@ -161,18 +161,19 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $bc->controls = array();
         }
         
-        // Remove the move action of this block.
+        // Remove the move and config action of this block.
         if (in_array($bc->attributes['data-block'], $nomoveblocks)) {
             $ctx = context_block::instance($bc->blockinstanceid);
-            $toremove = -1;
+            $toremove = array();
             for ($i=0; $i<count($bc->controls); $i++) {
-                if ($bc->controls[$i]->attributes['class'] === 'editing_move menu-action' && !has_capability('block/mbsmyschools:moveblock', $ctx)) {
-                    $toremove = $i;
-                    continue;
+                if (($bc->controls[$i]->attributes['class'] === 'editing_move menu-action'
+                        || $bc->controls[$i]->attributes['class'] === 'editing_edit menu-action')
+                        && !has_capability('block/mbsmyschools:moveblock', $ctx)) {
+                    $toremove[] = $i;
                 }
             }
-            if($toremove > -1) {
-                unset($bc->controls[$toremove]);
+            for($i=0; $i<count($toremove); $i++) {
+                unset($bc->controls[$toremove[$i]]);
             }
         }
         

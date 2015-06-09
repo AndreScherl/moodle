@@ -1,5 +1,14 @@
 /*
-All Styles related to special Pages.
+    All Styles related to special Pages.
+    - .path-course-view
+    - #page-course-edit
+    - #page-course-index-category
+    - #page-enrol-users
+    - #page-enrol-index
+    - #page-my-index 
+    - #page-course-management
+    - #page-mod-feedback-print
+    - #page-mod-book-print
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -125,3 +134,11 @@ All Styles related to special Pages.
         }
     }
 }
+
+//print.php pages
+#page-mod-feedback-print, #page-mod-book-print { 
+    background: $white;   
+}
+
+
+

@@ -12,7 +12,8 @@ $THEME->doctype = 'html5';
 // awag: This is commented out from trio, as they decided NOT to use recommende approach to
 // include CSS sheets (because they want to include contrast css on the fly?),
 // Can be changed, when there is a better way to include contrast theme.
-// $THEME->sheets = array('mebis');
+// fhüb: we decided to use the moodle way to include css sheets. we need another solution for contrast mode 
+$THEME->sheets = array('mebis');
 
 // awag: user moodle less file to include fonts?
 $THEME->lessfile = 'moodle';

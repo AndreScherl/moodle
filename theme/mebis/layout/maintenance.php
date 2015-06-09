@@ -30,7 +30,7 @@ echo $OUTPUT->doctype()
 
         <?php echo $OUTPUT->standard_head_html(); ?>
 
-        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
+        <span data-mode="default"></span>
         <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 

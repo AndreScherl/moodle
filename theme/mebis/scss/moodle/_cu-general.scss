@@ -122,7 +122,7 @@ input[type="checkbox"] + label {
                     font-size: emCalc(11px);
 
                     &:after {
-                        font-family: 'mebis-icons';
+                        font-family: mebis-icons;
                         speak: none;
                         font-style: normal;
                         font-weight: normal;
@@ -151,7 +151,7 @@ input[type="checkbox"] + label {
             color: $white;
 
             &:after {
-                font-family: 'mebis-icons';
+                font-family: mebis-icons;
                 speak: none;
                 font-style: normal;
                 font-weight: normal;

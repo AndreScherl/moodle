@@ -153,16 +153,32 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      */
     public function mebis_block_header($bc) {
         global $OUTPUT;
+        $noactionblocks = array('mbsmycourses'); // No actions for this blocks.
+        $nomoveblocks = array('mbsmyschools'); // Just don't move these blocks.
         
         // Unset block actions for special blocks.
-        $noactionblocks = array('mbsmycourses', 'mbsmyschools');
-        
         if (in_array($bc->attributes['data-block'], $noactionblocks)) {
             $bc->controls = array();
         }
         
+        // Remove the move and config action of this block.
+        if (in_array($bc->attributes['data-block'], $nomoveblocks)) {
+            $ctx = context_block::instance($bc->blockinstanceid);
+            $toremove = array();
+            for ($i=0; $i<count($bc->controls); $i++) {
+                if (($bc->controls[$i]->attributes['class'] === 'editing_move menu-action'
+                        || $bc->controls[$i]->attributes['class'] === 'editing_edit menu-action')
+                        && !has_capability('block/mbsmyschools:moveblock', $ctx)) {
+                    $toremove[] = $i;
+                }
+            }
+            for($i=0; $i<count($toremove); $i++) {
+                unset($bc->controls[$toremove[$i]]);
+            }
+        }
+        
         // Use core methode to render blocks.
-        if ($bc->attributes['data-block'] != 'mbsmycourses' && $bc->attributes['data-block'] != 'mbsmyschools') {
+        if ($bc->attributes['data-block'] != 'mbsmycourses') {
             return parent::block_header($bc);
         }
         
@@ -189,34 +205,6 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
                 $output .= html_writer::start_div('title');
                 $output .= $OUTPUT->raw_block('mbsnewcourse');
                 $output .= $title;
-                $output .= html_writer::end_div();
-                $output .= html_writer::end_div();
-            }
-            return $output;
-        }
-        
-        // From here on: Special rendering of mbsmyschools
-        // for proper position of delete icon
-        // This is exceptionally done for this theme.        
-        if ($bc->attributes['data-block'] == 'mbsmyschools') {
-            $title = '';
-            if ($bc->title) {
-                $attributes = array();
-                if ($bc->blockinstanceid) {
-                    $attributes['id'] = 'instance-' . $bc->blockinstanceid . '-header';
-                }
-                $title = html_writer::tag('h2', $bc->title, $attributes);
-            }
-
-            $output = '';
-        
-            if ($title) {
-                $output .= html_writer::start_div('header');
-                $output .= html_writer::start_div('title');
-                $output .= html_writer::div($title, 'col-md-6');
-                $output .= html_writer::start_div('col-md-6 text-right');
-                $output .= html_writer::link('#', '<i class="fa fa-ban"></i> ' . get_string('mbsmyschoolsremovepermanent', 'block_mbsmyschools'), array('id' => 'mbsmyschools_closeforever'));
-                $output .= html_writer::end_div();                
                 $output .= html_writer::end_div();
                 $output .= html_writer::end_div();
             }

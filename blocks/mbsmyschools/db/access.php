@@ -46,5 +46,13 @@ $capabilities = array(
         ),
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
+    
+    'block/mbsmyschools:moveblock' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'user' => CAP_PREVENT,
+        )
     )
 );

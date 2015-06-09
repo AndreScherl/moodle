@@ -23,7 +23,8 @@ class mbswizzard {
         // read filenames from sequence directory of block
         if ($handle = opendir($CFG->dirroot.'/blocks/mbswizzard/js/sequences/')) {
             while (false !== ($entry = readdir($handle))) {
-                if (!empty($entry) && $entry != "." && $entry != ".." && $entry != '') {
+                //if ($entry != "." && $entry != ".." && $entry != "") {
+                if(false !== strpos($entry, 'wizzard_sequence_')) {
                     $name = explode('wizzard_sequence_', $entry)[1]; // Remove prefix.
                     $name = explode('.json', $name)[0]; // Remove file extension.
                     $sequences[] = $name;

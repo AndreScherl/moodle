@@ -62,11 +62,6 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
     $OUTPUT->add_block_mbswizzard_if_needed('side-pre', $showmbsgettingstarted);
 }
 
-// Add mbsmyschools to my dashboard?
-$showmbsmyschools = ($ismydashboard 
-    and (!isset($theuser->profile_field_mbsmyschoolsshow) || $theuser->profile_field_mbsmyschoolsshow)
-    and $knownregionbottom);
-
 // Allow popup - notification for my dashboard.
 $PAGE->set_popup_notification_allowed($ismydashboard);
 
@@ -180,9 +175,7 @@ echo $OUTPUT->doctype()
                 }
                 
                 if ($hasbottom) {
-                    if ($showmbsmyschools) {
-                        echo $OUTPUT->mebis_blocks('bottom', array(), 'aside', '0');
-                    }
+                    echo $OUTPUT->mebis_blocks('bottom', array(), 'aside', '0');
                 }
                 
                 ?>

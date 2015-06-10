@@ -2981,7 +2981,6 @@
             background: $bg-light;
             padding: 0 0 40px;
             color: $brand-primary;
-            margin-top: $space-large;
 
             .footer-nav {
                 margin: 0;
@@ -3068,8 +3067,6 @@
         }
 
     }
-
-    @include sticky-footer(150px, ".me-wrapper", "#root-footer", "#page-footer");
 }
 
 /////////////////////

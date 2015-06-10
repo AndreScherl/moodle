@@ -9,6 +9,7 @@
     - #page-course-management
     - #page-mod-feedback-print
     - #page-mod-book-print
+    - #page-admin-purgecaches
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -136,7 +137,7 @@
 }
 
 //print.php pages
-#page-mod-feedback-print, #page-mod-book-print { 
+#page-mod-feedback-print, #page-mod-book-print, #page-admin-purgecaches { 
     background: $white;   
 }
 

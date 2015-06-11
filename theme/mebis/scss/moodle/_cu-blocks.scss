@@ -5,9 +5,6 @@ In this file we collect:
 - all the block styles for specific blocks using an appropriate namespace:
   
   write .block_mbsmycourses [styles] for mmbsmycourses block for example.
-
-TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible.
-
 */
 /* 
     Created on : 16.05.2015, 19:53:35
@@ -299,11 +296,11 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 }
 // Block mbsmyschools.
 .block_mbsmyschools {
-    
+
     .header .title .col-md-6 {
         padding-left: 0;
         padding-right: 0;    
-        
+
         &.text-right {
             margin-top: 45px;
         }
@@ -340,6 +337,21 @@ TODO: rewrite .mbsmycourse [style] ... to .block_mbsmycourses styles if possible
 
     #mbssearch_result {
         margin-top: 20px;
+    }
+}
+// quick results of block mbssearch
+.yui3-widget.yui3-aclist.yui3-widget-positioned {
+    ul.yui3-aclist-list {
+        :hover {
+            background: $white;
+        }
+        :active {
+            background: $white;                        
+        }
+    }
+    .yui3-aclist-item-active {
+        background: $white;
+        color: $black;
     }
 }
 

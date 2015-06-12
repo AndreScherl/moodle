@@ -1,0 +1,114 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Script to configure the block settings of all users to meet the requirements of the mebis redesign theme
+ *
+ * @package   local_mbs
+ * @copyright 2015 ISB Bayern
+ * @author    Andre Scherl <andre.scherl@isb.bayern.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+require_once(dirname(__FILE__).'/../../config.php');
+require_once($CFG->dirroot . '/my/lib.php');
+
+require_login();
+
+global $DB, $PAGE;
+
+$ctx = context_system::instance();
+$PAGE->set_context($ctx);
+
+if (!has_capability('local/mbs:globalblockscleanup', $ctx)) {
+    debugging("Sorry, missing capability!");
+    die();
+}
+
+// Remove the instances of the old dlb blocks 'dlb', 'meinekurse', 'meineschulen', 'meinesuche'.
+if ($blocks = $DB->get_records_select('block_instances',
+        "blockname = 'dlb' OR blockname = 'meinekurse' OR blockname = 'meineschulen' OR blockname = 'meinesuche'")) {
+    foreach ($blocks as $block) {
+        blocks_delete_instance($block);
+        echo "Deleted instance {$block->id} of block {$block->blockname}. <br /> \n";
+    }
+}
+
+// Remove the instances of the new blocks, which are rendered as raw blocks.
+if ($blocks = $DB->get_records_select('block_instances',
+        "blockname = 'mbsschooltitle' OR blockname = 'mbssearch' OR blockname = 'mbsgettingstarted'"
+        . " OR blockname = 'mbsnewcourse' OR blockname = 'mbscoordinators'")) {
+    foreach ($blocks as $block) {
+        blocks_delete_instance($block);
+        echo "Deleted instance {$block->id} of block {$block->blockname}. <br /> \n";
+    }
+}
+
+// Move all block instances of all pagetypepatterns into the region side-pre, except mbsmycourses and mbsmyschools
+// and Blocks placed in side-post.
+if ($blocks = $DB->get_records_select('block_instances', "blockname <> 'mbsmycourses' AND blockname <> 'mbsmyschools'"
+        . " AND defaultregion <> 'side-pre' AND defaultregion <> 'side-post'")) {
+    foreach ($blocks as $block) {
+        $DB->set_field('block_instances', 'defaultregion', 'side-pre', array('id' => $block->id));
+        echo "Moved instance {$block->id} of block {$block->blockname} into region side-pre. <br /> \n";
+    }
+}
+
+// Move mbsmycourses into content region of pagetypepattern 'my-index', remove the block in all other pagetypepatterns.
+if ($blocks = $DB->get_records('block_instances', array('blockname' => 'mbsmycourses'))) {
+    foreach ($blocks as $block) {
+        // Delete instance if region already contains this block or is not in the right pagetypepattern, else move.
+        if ($block->pagetypepattern !== 'my-index' || ($b = $DB->get_record_select('block_instances',
+                "blockname = 'mbsmycourses' AND parentcontextid = {$block->parentcontextid} AND defaultregion = 'content'"
+                . "AND id <> {$block->id}"))) {
+            blocks_delete_instance($block);
+            echo "Deleted instance {$block->id} of block {$block->blockname}. <br /> \n";
+        } else {
+            if ($block->defaultregion !== 'content') {
+                $DB->set_field('block_instances', 'defaultregion', 'content', array('id' => $block->id));
+                echo "Moved instance {$block->id} of block {$block->blockname} into region content. <br /> \n";
+            }
+        }
+    }
+}
+
+// Move mbsmyschools into region bottom of pagetypepattern 'my-index', remove the block in all other pagetypepatterns.
+if ($blocks = $DB->get_records('block_instances', array('blockname' => 'mbsmyschools'))) {
+    foreach ($blocks as $block) {
+        // Delete instance if region already contains this block or is not in the right pagetypepattern, else move.
+        if ($block->pagetypepattern !== 'my-index' || ($b = $DB->get_record_select('block_instances',
+                "blockname = 'mbsmyschools' AND parentcontextid = {$block->parentcontextid} AND defaultregion = 'bottom' "
+                . "AND id <> {$block->id}"))) {
+            blocks_delete_instance($block);
+            echo "Deleted instance {$block->id} of block {$block->blockname}. <br /> \n";
+        } else {
+            if ($block->defaultregion !== 'bottom') {
+                $DB->set_field('block_instances', 'defaultregion', 'bottom', array('id' => $block->id));
+                echo "Moved instance {$block->id} of block {$block->blockname} into region bottom. <br /> \n";
+            }
+        }
+    }
+}
+
+// Reset all my-pages to system default, exept those with userid = null
+if ($mypages = $DB->get_records_select('my_pages', "userid >= 1")) {
+    foreach ($mypages as $mypage) {
+        my_reset_page($mypage->userid);
+        echo "Reseted my page of userid {$mypage->userid} to default. <br /> \n";
+    }
+}
+
+echo "<br />Block cleanup finished.";

@@ -24,6 +24,7 @@
  */
 $string['fixgapcategories'] = 'Sortierung in Kursbereichen korrigieren';
 $string['mbs:editschoolid'] = 'ID-Number der Schule bearbeiten';
+$string['mbs:globalblockscleanup'] = 'Globale Aufräumarbeiten aller (User-)Blöcke';
 $string['mbs:viewcourselist'] = 'View list of courses';
 $string['pluginname'] = 'Mebis - Anpassungen';
 $string['schoolnode'] = 'Meine Schulen';

@@ -9,10 +9,6 @@
 // Variables
 // --------------------------------------------------
 
-//== Url Config
-$img-path:  '../pix/';
-$font-path: '../fonts/';
-
 //== Colors
 $brand-primary:         #000000; // blue
 $brand-primary-dark:    #505050; // = $brand-gray-medium
@@ -30,8 +26,8 @@ $black:                 #000;
 
 
 //== Background-Images
-$bg-dark:               url(#{$img-path}/bg-dark.jpg);
-$bg-light:              url(#{$img-path}/bg-light.jpg);
+$bg-dark:               url([[pix:theme|bg-dark]]);
+$bg-light:              url([[pix:theme|bg-light]]);
 
 
 //== Spaces
@@ -77,16 +73,6 @@ $headings-font-family:      inherit;
 $headings-font-weight:      200;
 $headings-line-height:      1.1;
 $headings-color:            inherit;
-
-//-- Iconography
-//
-//## Specify custom locations of the include Glyphicons icon font. Useful for those including Bootstrap via Bower.
-
-//$icon-font-path: "bootstrap/";
-//$icon-font-name:          "glyphicons-halflings-regular";
-//$icon-font-svg-id:        "glyphicons_halflingsregular";
-
-$fa-font-path: "#{$font-path}/font-awesome";
 
 //== Components
 //

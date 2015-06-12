@@ -15,14 +15,31 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 
 .course-content {
 
+    // Styles for lists in course section content 
+    .section .content {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }
+    }
+
+
     // Styles for all section based formats.
     ul li.section.main {
 
         background-color: $white;
-        
+
         margin-top: 30px;
         padding: 20px 20px 20px 10px;
-        
+
         border-bottom: none;
         border-left: 1em solid $white;
 
@@ -52,7 +69,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 
                 &.label {
                     background-color: transparent;
-                    
+
                     .no-overflow {
                         margin-bottom: 0;
                     }

@@ -1,5 +1,16 @@
 /*
-All Styles related to special Pages.
+    All Styles related to special Pages.
+    - .path-course-view
+    - #page-course-edit
+    - #page-course-index-category
+    - #page-enrol-users
+    - #page-enrol-index
+    - #page-my-index 
+    - #page-course-management
+    - #page-mod-feedback-print
+    - #page-mod-book-print
+    - #page-mod-wiki-prettyview
+    - #page-admin-purgecaches
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -22,15 +33,20 @@ All Styles related to special Pages.
 
 }
 
-//##### Need this styles for courseformats with backgourndcolor transparent #####
+//##### Need this styles for courseformats with backgroundcolor transparent #####
 // user overview in courses
-.path-user.path-course.path-course-view #main-content-wrapper  {
+.path-user.path-course.path-course-view #main-content-wrapper {
     padding: 10px;
     background: $white;
 }
 
 //Course edit page: course/edit.php
-#page-course-edit #main-content-wrapper  {
+#page-course-edit #main-content-wrapper {
+    background: $white;
+}
+
+//edit sectionname 
+#page-course-editsection #main-content-wrapper {
     background: $white;
 }
 //##### END: Need this styles for courseformats with backgroundcolor transparent #####
@@ -125,3 +141,34 @@ All Styles related to special Pages.
         }
     }
 }
+
+#page-mod-lesson-edit #main-content-wrapper {
+    .label {
+        color: $black;
+    }
+}
+
+//print.php pages & #page-admin-purgecaches
+#page-mod-feedback-print, #page-mod-book-print, #page-mod-wiki-prettyview, #page-admin-purgecaches { 
+    background: $white;   
+}
+
+Styles for lists in activity content 
+#page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
+    #main-content-wrapper div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
+    }
+}
+
+

@@ -24,7 +24,6 @@ class theme_mebis_header_renderer extends renderer_base {
 
         $code = '';
         $navItems = explode(';', trim($CFG->local_mbs_mebis_sites, ";"));
-
         foreach ($navItems as $navItem) {
             if (!empty($navItem) && $navItem !== '') {
                 list($name, $url) = explode(',', $navItem);
@@ -198,14 +197,15 @@ class theme_mebis_header_renderer extends renderer_base {
 
         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
 
-        $output .= html_writer::start_tag('li', array('class' => 'text'));
+        //contrast mode is not working, so no display of the icon
+       /* $output .= html_writer::start_tag('li', array('class' => 'text'));
         $output .= html_writer::start_tag('a', array('href' => '#invert', 'id' => 'me-invert'));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
         $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
-        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));*/
         
         $output .= html_writer::end_tag('ul');
 
@@ -535,6 +535,9 @@ class theme_mebis_header_renderer extends renderer_base {
                     //this check is necessary, otherwise there's no __toString() method
                     if($navchild->action instanceof moodle_url) {
                         $link = htmlspecialchars_decode($navchild->action->__toString());
+                    }
+                    else if($navchild->action instanceof action_link){
+                       $link = htmlspecialchars_decode($navchild->action->url->__toString());
                     }
                 }
 

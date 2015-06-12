@@ -75,20 +75,11 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         // .coursebox-meta
         $content .= html_writer::start_div('coursebox-meta');
-
         $content .= html_writer::start_div('row');
-
-        $content .= html_writer::start_div('col-md-6 col-xs-6 course-is-new');
-        $content .= html_writer::tag('span', get_string('new', 'theme_mebis'));
-        $content .= html_writer::end_div();
-
-        //TODO: If is not new, pull-right-class is needed (or change to col-12)
-        $content .= html_writer::start_div('col-md-6 col-xs-6 box-type text-right');
+        $content .= html_writer::start_div('col-md-12 box-type text-right');
         $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
-
         $content .= html_writer::end_div();
-
-        $content .= html_writer::end_div();
+        $content .= html_writer::end_div();        
         $content .= html_writer::end_div();
 
         // .coursebox-inner

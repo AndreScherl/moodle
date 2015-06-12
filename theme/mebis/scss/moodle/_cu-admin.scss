@@ -12,6 +12,13 @@ Put all the pagelayout specific styles here.
 */
 
 .pagelayout-admin, .pagelayout-report {
+    
+    //styling block configuration page 
+    #main-content-wrapper {
+        //need important because of the styling of mydashboard (#page-my-index #main-content-wrapper in _cu-pages.scss)
+        background: $white !important;
+        color: $black !important;
+    }  
 
     @media only screen and (min-width: $screen-lg-min) {
 

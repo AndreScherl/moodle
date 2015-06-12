@@ -3,6 +3,7 @@
 
     - database
     - assign
+    - feedback
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -33,4 +34,18 @@
             margin-right: 20px;
         }
     } 
+}
+
+#page-mod-feedback-complete #main-content-wrapper {
+    
+    input[type="submit"] {
+        margin-left: 0;
+    }
+}
+
+#page-mod-mediathek-mod #main-content-wrapper {
+    
+    fieldset.clearfix.collapsible button {
+        margin-left: 0;
+    }
 }

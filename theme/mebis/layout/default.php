@@ -104,7 +104,7 @@ echo $OUTPUT->doctype()
         <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
         <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
-        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css"); ?>" data-mode="default">
+        <span data-mode="default"></span>
         <script src="<?php echo new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
     </head>
 

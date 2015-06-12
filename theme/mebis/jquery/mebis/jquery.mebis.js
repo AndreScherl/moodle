@@ -132,9 +132,9 @@ var Mebis = (function($) {
     function initInvertContrastSwitch() {
         var $invert = $('#me-invert');
         var $styles = $('[data-mode]');
-        var style = 'mebis.css';
-        var assets = '/theme/mebis/style/';
-        var images = '/theme/mebis/pix/';
+        //var style = 'mebis.css';
+        //var assets = '/theme/mebis/style/';
+        //var images = '/theme/mebis/pix/';
 
         $invert.on('click', function(e) {
             e.preventDefault();
@@ -156,18 +156,26 @@ var Mebis = (function($) {
 
             if (mode == 'default') {
                 $styles.attr('data-mode', 'contrast');
-                style = 'mebis-contrast.css';
+                //style = 'mebis-contrast.css';
+                $.post(
+                    M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
+                    {sesskey: M.cfg.sesskey, mode: true}                        
+                );
             } else {
                 $styles.attr('data-mode', 'default');
-                style = 'mebis.css';
+               // style = 'mebis.css';
+               $.post(
+                    M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
+                    {sesskey: M.cfg.sesskey, mode: false}                        
+                );
             }
 
             if($('.js-navbar-collapse').hasClass('.in')) {
                 $('[data-target=".js-navbar-collapse"]').trigger('click');
             }
 
-            var path = M.cfg['wwwroot'] + assets + style;
-            $styles.attr('href', path);
+           // var path = M.cfg['wwwroot'] + assets + style;
+           // $styles.attr('href', path);
 
             $('html').toggleClass('me-contrast-mode');
 
@@ -545,7 +553,7 @@ var Mebis = (function($) {
     return {
         init: function() {
             initToTop();
-            initInvertContrastSwitch();
+            //initInvertContrastSwitch();
             handleFontSizeSwitch();
             initTooltips();
 //            initSmoothscrolling();

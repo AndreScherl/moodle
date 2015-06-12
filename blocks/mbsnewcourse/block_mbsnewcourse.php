@@ -56,9 +56,8 @@ class block_mbsnewcourse extends block_base {
                 return $this->content;
             }
         }
-
-        if ($context->contextlevel == CONTEXT_USER) {
-
+        //need CONTEXT_SYSTEM for Default Dashboard page
+        if ($context->contextlevel == CONTEXT_USER || $context->contextlevel == CONTEXT_SYSTEM) {
             // ... display warning, when user has no schoolcategory.
             if (!$categoryid = \local_mbs\local\schoolcategory::get_users_schoolcatid()) {
                 $this->content->text = get_string('missinginstitutionid', 'block_mbsnewcourse');

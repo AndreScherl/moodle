@@ -120,7 +120,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {
-            $output .= html_writer::start_tag('div', array('class' => 'col-md-4'));
+            $output .= html_writer::start_tag('div', array('class' => 'col-md-4 dragblock'));
         }
 
         $output .= html_writer::start_tag('div', $bc->attributes);

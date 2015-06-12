@@ -263,6 +263,45 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             return $this->blocks_for_region($regionname);
         }
     }
+    
+    /**
+     * Output a place where the block that is currently being moved can be dropped.
+     *
+     * Andre Scherl - 12.06.2015: overwrite this method to render drop target container correctly
+     * 
+     * @param block_move_target $target with the necessary details.
+     * @param array $zones array of areas where the block can be moved to
+     * @param string $previous the block located before the area currently being rendered.
+     * @param string $region the name of the region
+     * @return string the HTML to be output.
+     */
+    public function block_move_target($target, $zones, $previous, $region) {
+        // Some regions of my-page should not be move targets.
+        if($this->page->pagetype === 'my-index') {
+            // No target regions.
+            $ntregions = array('top', 'bottom', 'content');
+            if (in_array($region, $ntregions)) {
+                return;
+            }
+        }
+        
+        if ($previous == null) {
+            if (empty($zones)) {
+                // There are no zones, probably because there are no blocks.
+                $regions = $this->page->theme->get_all_block_regions();
+                $position = get_string('moveblockinregion', 'block', $regions[$region]);
+            } else {
+                $position = get_string('moveblockbefore', 'block', $zones[0]);
+            }
+        } else {
+            $position = get_string('moveblockafter', 'block', $previous);
+        }
+        $output = html_writer::tag('a', html_writer::tag('span', $position, array('class' => 'accesshide')),
+                array('href' => $target->url, 'class' => 'blockmovetarget'));
+        
+        // Put output in div to meet bootstrap requirements.
+        return html_writer::div($output, 'col-md-1');
+    }
 
     /**
      * Renders a "single button" widget for insertion into the menu bar
@@ -348,7 +387,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             return '';
         }
     }
-    
+       
     /**
      * Print the mebis footer containing the search and schooltitle block
      * 

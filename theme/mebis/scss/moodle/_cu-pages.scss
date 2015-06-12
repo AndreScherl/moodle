@@ -175,9 +175,12 @@
 #page-repository-pmediathek-search {
     #page #page-content {
         color: $white;
-        ul.nav.nav-tabs.nav-justified {
-            background-color: $brand-gray-light;
-            
+        
+        div .searchresult {
+            color: $black;
+        }
+        ul.nav.nav-tabs.nav-justified > li {
+            background-color: $brand-gray-light;            
         }
     }
 }

@@ -19012,8 +19012,12 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-repository-pmediathek-search #page #page-content {
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003178}}
-#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003179}}
+#page-repository-pmediathek-search #page #page-content div .searchresult {
+  color: #000;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/mebis\/theme\/mebis\/scss\/moodle\/_cu-pages\.scss}line{font-family:\00003182}}
+#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified > li {
   background-color: #e6e6e6;
 }
 

@@ -129,7 +129,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             }
             $header .= html_writer::span('', 'category-toggle');
             $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
-            $o .= $this->collapsible_region($c, 'category-container', '', $headercontainer, 'mbscourse-catcoll_' . $catid);
+            $o .= $this->collapsible_region($c, 'category-container', 'category-box_' . $catid, $headercontainer, 'mbscourse-catcoll_' . $catid);
 
             $categoryordernumber++;
             if ($ismovingcategory) {
@@ -293,7 +293,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $html .= html_writer::tag('div', '', array('class' => 'clearfix'));
         // Wrap course list in a div and return.
         $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
-        return html_writer::tag('div', $course_list, array('class' => 'row course_list'));
+        return html_writer::tag('div', $course_list, array('class' => 'row'));
     }
 
     /**
@@ -416,7 +416,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param bool $default Initial collapsed state to use if the user_preference it not set.
      * @return bool if true, return the HTML as a string, rather than printing it.
      */
-    protected function collapsible_region_start($classes, $id = '', $caption,
+    protected function collapsible_region_start($classes, $id, $caption,
                                                 $userpref = '', $default = false) {
         // Work out the initial state.
         if (!empty($userpref) and is_string($userpref)) {
@@ -431,11 +431,15 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $classes .= ' collapsed';
         }
 
-        $output = '';
+        $output = '';       
+         $output .= '<div id="' . $id . '">';
+        $output .= '<div id="' . $id . '_caption" "></div>';
+        $output .= '</div>';
         $output .= '<div class="' . $classes . '">';
-        $output .= $caption;
+        $output .=  $caption;
         $output .= '<div class="category-body">';
-
+        $this->page->requires->js_init_call('M.block_mbsmycourses.collapsible', array($id, $userpref, get_string('clicktohideshow')));
+        
         return $output;
     }
 

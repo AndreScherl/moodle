@@ -264,14 +264,24 @@ In this file we collect:
 
     .row.categorybox{
         margin: 0;
-    }
 
-    .category-box {
-        border: 0;
-        background-color: transparent;
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
+        .category-box {
+            border: 0;
+            background-color: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+
+            .box.notice {
+                color: $white;
+            }
+
+            .move img {
+                background-color: $white;
+                padding: 3px;
+                margin-bottom: 8px;
+            }
+        }
     }
 }
 

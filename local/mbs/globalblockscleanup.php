@@ -28,6 +28,8 @@ require_once($CFG->dirroot . '/my/lib.php');
 
 require_login();
 
+$resetmypages = optional_param('resetmypages', 0, PARAM_BOOL);
+
 global $DB, $PAGE;
 
 $ctx = context_system::instance();
@@ -104,10 +106,10 @@ if ($blocks = $DB->get_records('block_instances', array('blockname' => 'mbsmysch
 }
 
 // Reset all my-pages to system default, exept those with userid = null
-if ($mypages = $DB->get_records_select('my_pages', "userid >= 1")) {
+if ($resetmypages && $mypages = $DB->get_records_select('my_pages', "userid >= 1")) {
     foreach ($mypages as $mypage) {
         my_reset_page($mypage->userid);
-        echo "Reseted my page of userid {$mypage->userid} to default. <br /> \n";
+        echo "Reset my page of userid {$mypage->userid} to default. <br /> \n";
     }
 }
 

@@ -23,6 +23,7 @@
  */
 $string['fixgapcategories'] = 'Fix course sortorder in categories';
 $string['mbs:editschoolid'] = 'Edit school ID-Number';
+$string['mbs:globalblockscleanup'] = 'Global cleanup of all (user) blocks';
 $string['mbs:viewcourselist'] = 'View list of courses';
 $string['pluginname'] = 'Mebis - Adjustments';
 $string['schoolnode'] = 'My schools';

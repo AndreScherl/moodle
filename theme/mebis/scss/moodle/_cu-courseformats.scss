@@ -241,14 +241,28 @@
 
 // +++++++From here on: special styles for grid format. ++++++++++++
 #page-course-view-grid {
-
-    //Need important because of element.style
+    
     #gridshadebox_content {
+        //Need important because of element.style
         left: 10% !important;
         width: 85% !important;
         top: 150px !important;
-        border: none;
         z-index: 999 !important;
+        border: none;        
+        
+        // Styles for lists
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }
 
         #gridshadebox_close {                    
             padding-top: 5px;

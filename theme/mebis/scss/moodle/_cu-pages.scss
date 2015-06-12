@@ -9,6 +9,7 @@
     - #page-course-management
     - #page-mod-feedback-print
     - #page-mod-book-print
+    - #page-mod-wiki-prettyview
     - #page-admin-purgecaches
 */
 /* 
@@ -141,10 +142,33 @@
     }
 }
 
+#page-mod-lesson-edit #main-content-wrapper {
+    .label {
+        color: $black;
+    }
+}
+
 //print.php pages & #page-admin-purgecaches
-#page-mod-feedback-print, #page-mod-book-print, #page-admin-purgecaches { 
+#page-mod-feedback-print, #page-mod-book-print, #page-mod-wiki-prettyview, #page-admin-purgecaches { 
     background: $white;   
 }
 
+Styles for lists in activity content 
+#page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view {
+    #main-content-wrapper div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
+    }
+}
 
 

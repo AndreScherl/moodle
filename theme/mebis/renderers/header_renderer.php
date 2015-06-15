@@ -82,7 +82,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_logout = isset($PAGE->theme->settings->url_logout) ? $PAGE->theme->settings->url_logout : '#';
         $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
         // Roles with capability to view the link to the IDM in topbar.
-        $idmlinkroles = array('IDM-Koordinator', 'Helpdesk', 'Nutzerverwalter', 'Schuelerverwalter');
+        $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
 
         if (isloggedin()) {
             // desktop version

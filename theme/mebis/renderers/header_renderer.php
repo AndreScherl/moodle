@@ -225,8 +225,6 @@ class theme_mebis_header_renderer extends renderer_base {
         
         // Link to Nutzerverwaltung (IDM), only shown to users with appropriate capability
         $canseeidmlink = false;
-        echo "mebisRole";
-        print_r($USER->mebisRole);
         foreach ($idmlinkroles as $idmlinkrole) {
             if((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
                 $canseeidmlink = true;

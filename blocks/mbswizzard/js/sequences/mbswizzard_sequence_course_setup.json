@@ -2,7 +2,7 @@
 	"name": "mbswizzard_sequence_course_setup",
 	"steps": [{
 		"url": "/my",
-		"sel": "div.row.course_list",
+		"sel": "div.row .course_list",
 		"tip": "Klicken Sie einen Ihrer Kurse an."            
 		},{
 		"url": "/course/view.php",

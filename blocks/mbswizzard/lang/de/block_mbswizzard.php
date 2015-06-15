@@ -23,23 +23,25 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['activewizzard'] = 'Aktiver Wizard';
-$string['cancel'] = 'Wizard abbrechen';
-$string['displayname'] = 'Wizards';
-$string['eventwizzardstatechanged'] = 'Änderung des Wizard Status';
-$string['mbswizzard:addinstance'] = 'Block mebis Wizards hinzufügen';
-$string['mbswizzard:myaddinstance'] = 'Block mebis Wizards zum Schreibtisch hinzufügen';
+$string['activewizzard'] = 'Aktiver Assistent';
+$string['cancel'] = 'Assistenten abbrechen';
+$string['displayname'] = 'Assistenten';
+$string['eventwizzardstatechanged'] = 'Änderung des Assistenten Status';
+$string['mbswizzard:addinstance'] = 'Block mebis Assistenten hinzufügen';
+$string['mbswizzard:myaddinstance'] = 'Block mebis Assistenten zum Schreibtisch hinzufügen';
 $string['of'] = 'von';   
-$string['onlymebistheme'] = 'Wizards stehen nur im neuen Design von mebis zur Verfügung.';
-$string['pluginname'] = 'mebis Wizards';
+$string['onlymebistheme'] = 'Assistenten stehen nur im neuen Design von mebis zur Verfügung.';
+$string['pluginname'] = 'mebis Assistenten';
 $string['sequence_course_create'] = 'Mein erster Kurs';
-$string['sequence_course_create_help'] = 'Mit diesem Wizard erstellen Sie in nur 5 Schritten Ihren eigenen Kurs.'
+$string['sequence_course_create_help'] = 'Mit diesem Assistenten erstellen Sie in nur 5 Schritten Ihren eigenen Kurs.'
         . ' Folgen Sie bitte Schritt für Schritt den Anweisungen.';
 $string['sequence_course_setup'] = 'Lernen organisieren';
 $string['sequence_course_setup_help'] = 'Dieser Wizard hilft Ihnen bei den ersten Schritten in einem Ihrer '
         . 'Kurse. Sie lernen, wie man Teilnehmer hinzufügt, in den Bearbeitungsmodus wechselt, eine Überschrift bearbeitet und '
         . 'den Bearbeitungsmodus wieder verlässt';
 $string['sequence_first_learningsequence'] = 'Lernen gestalten';
-$string['sequence_first_learningsequence_help'] = 'Erstellen Sie Ihre erste kleine Lernsequenz für den Unterricht.';
+$string['sequence_first_learningsequence_help'] = "Sie werden die Aktivität 'Aufgabe' erstellen, die es Schülern ermöglicht ihre "
+        . "Arbeiten digital abzugeben. Außerdem betrachten Sie die Aufgabe aus Sicht der Schüler und wechseln anschließend wieder "
+        . "in Ihre Lehrerrolle.";
 $string['step'] = 'Schritt';
 $string['unknownaction'] = 'unbekannte Aktion';

@@ -2,7 +2,7 @@
     "name": "mbswizzard_sequence_first_learningsequence",
     "steps": [{
             "url": "/my",
-            "sel": "div.row.course_list",
+            "sel": "div.row .course_list",
             "tip": "Wählen Sie einen Ihrer Kurse aus der nachfolgenden Übersicht aus:"
         }, {
             "url": "/course/view.php",
@@ -12,9 +12,9 @@
             "actionsel": ".wizzard_next_step"
         }, {
             "url": "/course/view.php",
-            "sel": "div.mdl-right",
+            "sel": "span.section-modchooser-link",
             "tip": "Hier klicken, um neues Material anzulegen. <br/> Wählen Sie in der daraufhin erscheinenden Liste den Typ \"<b>Aufgabe</b>\" und klicken dann auf \"<b>Hinzufügen</b>\".",
-            "placement": "bottom-right"
+            "placement": "top"
         }, {
             "url": "/course/modedit.php",
             "sel": "div.fitem.required.fitem_ftext",

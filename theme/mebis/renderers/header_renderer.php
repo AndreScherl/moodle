@@ -81,6 +81,8 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_login = isset($PAGE->theme->settings->url_login) ? $PAGE->theme->settings->url_login : '#';
         $url_logout = isset($PAGE->theme->settings->url_logout) ? $PAGE->theme->settings->url_logout : '#';
         $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
+        // Roles with capability to view the link to the IDM in topbar.
+        $idmlinkroles = array('IDM-Koordinator', 'Helpdesk', 'Nutzerverwalter', 'Schuelerverwalter');
 
         if (isloggedin()) {
             // desktop version
@@ -220,14 +222,24 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::end_tag('li');
 
         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical no-margin-right'));
-
-        $output .= html_writer::start_tag('li');
-        $output .= html_writer::start_tag('a', array('href' => $url_preferences));
-        $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
-        $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
-        $output .= html_writer::end_tag('a');
-        $output .= html_writer::end_tag('li');
-      
+        
+        // Link to Nutzerverwaltung (IDM), only shown to users with appropriate capability
+        $canseeidmlink = false;
+        foreach ($idmlinkroles as $idmlinkrole) {
+            if((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
+                $canseeidmlink = true;
+                continue;
+            }
+        }
+        if ($canseeidmlink) {
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::start_tag('a', array('href' => $url_preferences));
+            $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
+            $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
+            $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+        }
+        
         $output .= $userBar;
 
         $output .= html_writer::end_tag('ul');

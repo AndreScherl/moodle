@@ -116,7 +116,7 @@ class theme_mebis_block_mbsgettingstarted_renderer extends block_mbsgettingstart
         $output .= $wizzards;
         $output .= $support;        
         
-        $output .= html_writer::tag('div', $video, array('class' => 'col-lg-4 col-md-12')); 
+        $output .= html_writer::tag('div', $video, array('class' => 'col-lg-4 col-md-12 col-xs-12')); 
         return $output;
     }
     

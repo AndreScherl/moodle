@@ -81,6 +81,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_login = isset($PAGE->theme->settings->url_login) ? $PAGE->theme->settings->url_login : '#';
         $url_logout = isset($PAGE->theme->settings->url_logout) ? $PAGE->theme->settings->url_logout : '#';
         $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
+        $url_preferences_personal = isset($PAGE->theme->settings->url_preferences_personal) ? $PAGE->theme->settings->url_preferences_personal : '#';
         // Roles with capability to view the link to the IDM in topbar.
         $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
 
@@ -89,7 +90,7 @@ class theme_mebis_header_renderer extends renderer_base {
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-left'));
 
             $userBar .= html_writer::start_tag('li', array('class' => 'profile'));
-            $userBar .= html_writer::start_tag('a', array('href' => $url_preferences));
+            $userBar .= html_writer::start_tag('a', array('href' => $url_preferences_personal));
             $userBar .= html_writer::start_tag('span', array('class' => 'me-username'));
             $userBar .= html_writer::tag('span', fullname($USER));
             $userBar .= html_writer::end_tag('span');
@@ -120,7 +121,7 @@ class theme_mebis_header_renderer extends renderer_base {
                     'height' => '50px',
                     'alt' => 'User Profile',
                     'link' => false));
-            $muserBar .= html_writer::link($url_preferences, $avatarimg, array('class' => 'navbar-mobile-avatar'));
+            $muserBar .= html_writer::link($url_preferences_personal, $avatarimg, array('class' => 'navbar-mobile-avatar'));
             $muserBar .= html_writer::end_tag('li');
         } else {
 
@@ -151,7 +152,8 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::start_div('row');
         $output .= html_writer::start_div('col-xs-12');
         $output .= html_writer::start_div('navbar-header clearfix');
-
+        
+        // This renders the button to open mobile sidebar with horizontal lines.
         $output .= html_writer::start_tag('button', array(
                     'data-target' => '.js-navbar-collapse',
                     'data-toggle' => 'collapse', 'type' => 'button',
@@ -162,6 +164,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
         $output .= html_writer::end_tag('button');
         
+        // The right top bar menu: user profile and logout
         $output .= html_writer::start_tag('ul', array('role' => 'tablist',
                     'class' => 'nav nav-tabs nav-login hidden-lg'));
         
@@ -169,15 +172,35 @@ class theme_mebis_header_renderer extends renderer_base {
         
         // $output .= html_writer::start_tag('li');
         // $output .= html_writer::tag('a', get_string('nav-logout', 'theme_mebis'), array('href' => $url_logout, 'class' => 'dropdown-toggle active'));
-        // $output .= html_writer::end_tag('li');      
+        // $output .= html_writer::end_tag('li');    
         
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
-
+        
+        // The mobile sidebar, dropping down after click the button above.
         $output .= html_writer::start_div('js-navbar-collapse collapse hidden-lg');
+        // Links to other mebis applications.
         $output .= html_writer::tag('ul', $this->buildNavStructure(), array('class' => 'nav'));
+        // Links to support and idm.
+        $output .= html_writer::start_tag('ul', array('class' => 'js-navbar-collapse-submenu'));
+        // Support link.
+        $output .= html_writer::start_tag('li');
+        $output .= html_writer::start_tag('a', array('href' => $url_support));
+        $output .= html_writer::tag('i', '', array('class' => 'icon-me-support'));
+        $output .= html_writer::tag('span', get_string('nav-support', 'theme_mebis'));
+        $output .= html_writer::end_tag('a');
+        $output .= html_writer::end_tag('li');
+        // IDM link.
+        $output .= html_writer::start_tag('li');
+        $output .= html_writer::start_tag('a', array('href' => $url_preferences));
+        $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
+        $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
+        $output .= html_writer::end_tag('a');
+        $output .= html_writer::end_tag('li');
+        $output .= html_writer::end_tag('ul');
+        // End of mobile sidebar.
         $output .= html_writer::end_div();
 
         $output .= html_writer::start_div('collapse navbar-collapse hidden-xs hidden-sm hidden-md');

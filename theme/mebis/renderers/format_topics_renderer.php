@@ -60,7 +60,9 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer {
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
         foreach ($menu_items as $item) {
-            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::end_tag('li');
         }
         $output .= html_writer::end_tag('ul');
 

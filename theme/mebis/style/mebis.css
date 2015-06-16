@@ -16469,7 +16469,7 @@ button.close {
     text-align: right;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032569}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div {
     display: inline-block;
     position: relative;
     padding: 5px 10px;
@@ -16485,27 +16485,27 @@ button.close {
     transition: width 0.25s;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032581}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li a {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div a {
     color: #fff;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032585}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li > span {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div > span {
     opacity: 0;
     -webkit-transition: opacity 0.2s;
     -o-transition: opacity 0.2s;
     transition: opacity 0.2s;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032590}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li.active {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div.active {
     background: #ff6600;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032594}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li:before {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div:before {
     font-size: 0.625em;
     color: #fff;
   }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/_layout\.scss}line{font-family:\000032599}}
-  .me-in-page-menu .me-in-page-menu-anchor-links li:hover {
+  .me-in-page-menu .me-in-page-menu-anchor-links li div:hover {
     background: #ff6600;
     -webkit-transition: width 0.25s;
     -o-transition: width 0.25s;

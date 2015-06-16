@@ -50,14 +50,13 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
      * @param boolean $onlyMobile
      * @return string HTML fo the section menu.
      */
-    protected function render_page_action_menu($course, $sections,
-                                               $onlyMobile = false) {
+    protected function render_page_action_menu($course, $sections, $onlyMobile = false) {
         //Add side jump-navigation
         $menu_items = array();
-
         for ($i = 1; $i <= $course->numsections; $i++) {
             if ($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available) {
-                $menu_items[] = html_writer::link('#section-' . $i, '<span>' . $this->section_title($sections[$i], $course) . '</span>', array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-' . $i));
+                $menu_items[] = html_writer::link('#section-' . $i, '<span>' . get_section_name($course, $sections[$i]) . '</span>',
+                        array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-' . $i));
             }
         }
 
@@ -69,12 +68,15 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
         foreach ($menu_items as $item) {
-            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::end_tag('li');
         }
         $output .= html_writer::end_tag('ul');
 
         $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top')));
+        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>',
+                array('class' => 'me-back-top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 

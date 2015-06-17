@@ -140,9 +140,9 @@ ul.jumpnavigation {
     }
 }
 
-// No padding for small devices
+// Extra sizes for small mobile devices.
 @media only screen and (max-width: $screen-sm-min) {
-    
+    // No padding.
     .editing .section .activity {
         
         .contentwithoutlink,
@@ -150,5 +150,10 @@ ul.jumpnavigation {
             padding-right: 0;
             margin-top: 2em;
         }
+    }
+    
+    // The sticky header has a greater height because of more icons within course context.
+    .me-wrapper .container.homepage-container {
+        margin-top: 250px;
     }
 }

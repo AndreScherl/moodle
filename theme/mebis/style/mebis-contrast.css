@@ -18395,11 +18395,15 @@ categorybox:
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000376}}
+.breadcrumb-button {
+  margin-top: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000380}}
 .breadcrumb-button .singlebutton {
   float: left;
   margin-left: 4px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000385}}
 .breadcrumb-button .singlebutton input[type="submit"] {
   background-color: transparent;
   border: none;
@@ -18408,12 +18412,12 @@ categorybox:
   padding: 20px 0;
   outline: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000393}}
 .breadcrumb-button .singlebutton input[type="submit"]:hover {
   color: #ff6600 !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_pageheader\.scss}line{font-family:\00003100}}
 .me-msg-count {
   position: absolute;
   background: none repeat scroll 0% 0% #ff6600;
@@ -19049,6 +19053,11 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   .editing .section .activity .activityinstance {
     padding-right: 0;
     margin-top: 2em;
+  }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003156}}
+  .me-wrapper .container.homepage-container {
+    margin-top: 250px;
   }
 }
 /*

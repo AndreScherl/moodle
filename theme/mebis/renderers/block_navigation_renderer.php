@@ -114,8 +114,7 @@ class theme_mebis_block_navigation_renderer extends block_navigation_renderer {
             // this applies to the li item which contains all child lists too
             $liclasses = array($item->get_css_type(), 'depth_'.$depth);
             $liexpandable = array();
-            $colapsednodes = array(get_string('courses', 'theme_mebis'), get_string('my-schools', 'theme_mebis'));
-            // asch: We don't want to expand the courses node
+            // asch: We don't want to expand the courses and mycourses node
             if ($item->has_children() && (!$item->forceopen || $item->collapse ||
                     $item->key === 'courses' || $item->key === 'mycourses' )) {
                 $liclasses[] = 'collapsed';

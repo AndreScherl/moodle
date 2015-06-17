@@ -18666,68 +18666,72 @@ In this file we collect:
 .block_mbsmyschools .header .title .col-md-6.text-right {
   margin-top: 45px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003319}}
+.block_mbsmyschools .moodle-actionmenu {
+  text-align: left;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003326}}
 .path-blocks-mbssearch #main-content-wrapper {
   background-color: transparent;
   padding-left: 0;
   padding-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003331}}
 .path-blocks-mbssearch .mbssearchpage {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003336}}
 .path-blocks-mbssearch .mbssearchpage form input[type='text'] {
   max-width: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003340}}
 .path-blocks-mbssearch .mbssearchpage form select {
   max-width: none;
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003346}}
 .path-blocks-mbssearch .mbssearchpage div.col-md-12 {
   padding-left: 0;
   padding-right: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003352}}
 .path-blocks-mbssearch #mbssearch_result {
   margin-top: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003355}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003359}}
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :hover {
   background: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003362}}
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :active {
   background: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003366}}
 .yui3-widget.yui3-aclist.yui3-widget-positioned .yui3-aclist-item-active {
   background: #fff;
   color: #000;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003373}}
 .block_mbsschooltitle {
   padding: 40px 0;
   color: #fff;
   margin-bottom: -50px;
   background: #00a8d5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003376}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003380}}
 .block_mbsschooltitle .mbs-schooltitle-headline h3 {
   margin-top: 0;
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003385}}
 .block_mbsschooltitle .mbs-schooltitle-image img {
   height: 50px;
 }
 @media only screen and (max-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-blocks\.scss}line{font-family:\00003389}}
   .block_mbsschooltitle .btn.btn-secondary {
     width: 100%;
     margin-bottom: 10px;

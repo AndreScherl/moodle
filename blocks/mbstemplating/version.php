@@ -22,7 +22,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015060300;
+$plugin->version   = 2015061700;
 $plugin->requires  = 2014051201;
 $plugin->component = 'block_mbstemplating';
 $plugin->maturity  = MATURITY_STABLE;

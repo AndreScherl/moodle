@@ -47,4 +47,50 @@ defined('MOODLE_INTERNAL') || die();
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+
+    'block/mbstemplating:sendcoursetemplate' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
+    'block/mbstemplating:viewcoursetemplatebackups' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
+    'block/mbstemplating:coursetemplatemanager' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
+    'block/mbstemplating:coursetemplatereview' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
+    'block/mbstemplating:createcoursefromtemplate' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
+    'block/mbstemplating:ratetemplate' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
 );

@@ -18862,6 +18862,14 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   display: inline-block;
 }
 
+@media only screen and (max-width: 768px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/Scherl\/Documents\/localhost-htdocs\/mbsredesign\/theme\/mebis\/scss\/moodle\/_cu-course\.scss}line{font-family:\00003148}}
+  .editing .section .activity .contentwithoutlink,
+  .editing .section .activity .activityinstance {
+    padding-right: 0;
+    margin-top: 2em;
+  }
+}
 /*
     All Styles related to special Pages.
     - .path-course-view

@@ -14,41 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package block
- * @subpackage mbstemplating
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+/** settings for block_mbstemplating
+ *
+ * @package   block_mbstemplating
+ * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
+if ($ADMIN->fulltree) {
 
-class block_mbstemplating extends block_base {
+    $questmanurl = new moodle_url('/blocks/mbstemplating/questman/index.php');
+    $questmanlink = html_writer::link($questmanurl, get_string('manageqforms', 'block_mbstemplating'));
+    $settings->add(new admin_setting_heading('questman', get_string('settings'), $questmanlink));
 
-    public function init() {
-
-        $this->title = get_string('pluginname', 'block_mbstemplating');
-    }
-
-    public function get_content() {
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
-        $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
-        $this->content->footer = '';
-
-        return $this->content;
-    }
-
-    function has_config() {
-        return true;
-    }
 }

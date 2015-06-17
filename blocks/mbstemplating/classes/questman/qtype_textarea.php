@@ -21,34 +21,19 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstemplating\questman;
+
 defined('MOODLE_INTERNAL') || die();
 
-class block_mbstemplating extends block_base {
+class qtype_textarea extends qtype_base {
+    public static function extend_form(&$form, $islocked = false) {
 
-    public function init() {
-
-        $this->title = get_string('pluginname', 'block_mbstemplating');
+        // Default data.
+        $form->addElement('editor', 'defaultdata', get_string('profiledefaultdata', 'admin'));
+        $form->setType('defaultdata', PARAM_RAW); // We have to trust person with capability to edit this default description.
     }
 
-    public function get_content() {
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
-        $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
-        $this->content->footer = '';
-
-        return $this->content;
-    }
-
-    function has_config() {
-        return true;
+    public static function get_editors() {
+        return array('defaultdata');
     }
 }

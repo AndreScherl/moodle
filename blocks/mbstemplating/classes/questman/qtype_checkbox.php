@@ -21,34 +21,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstemplating\questman;
+
 defined('MOODLE_INTERNAL') || die();
 
-class block_mbstemplating extends block_base {
+class qtype_checkbox extends qtype_base {
 
-    public function init() {
-
-        $this->title = get_string('pluginname', 'block_mbstemplating');
+    public static function extend_form(&$form, $islocked = false) {
+        $form->addElement('selectyesno', 'defaultdata', get_string('profiledefaultchecked', 'admin'));
+        $form->setDefault('defaultdata', 0); // Defaults to 'no'.
+        $form->setType('defaultdata', PARAM_BOOL);
     }
 
-    public function get_content() {
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
-        $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
-        $this->content->footer = '';
-
-        return $this->content;
-    }
-
-    function has_config() {
-        return true;
-    }
 }

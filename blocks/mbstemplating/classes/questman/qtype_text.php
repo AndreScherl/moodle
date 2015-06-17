@@ -21,34 +21,24 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstemplating\questman;
+
 defined('MOODLE_INTERNAL') || die();
 
-class block_mbstemplating extends block_base {
+class qtype_text extends qtype_base {
+    public static function extend_form(&$form, $islocked = false) {
+        // Default data.
+        $form->addElement('text', 'defaultdata', get_string('profiledefaultdata', 'admin'), 'size="50"');
+        $form->setType('defaultdata', PARAM_TEXT);
 
-    public function init() {
+        // Param 1 for text type is the size of the field.
+        $form->addElement('text', 'param1', get_string('profilefieldsize', 'admin'), 'size="6"');
+        $form->setDefault('param1', 30);
+        $form->setType('param1', PARAM_INT);
 
-        $this->title = get_string('pluginname', 'block_mbstemplating');
-    }
-
-    public function get_content() {
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
-        $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
-        $this->content->footer = '';
-
-        return $this->content;
-    }
-
-    function has_config() {
-        return true;
+        // Param 2 for text type is the maxlength of the field.
+        $form->addElement('text', 'param2', get_string('profilefieldmaxlength', 'admin'), 'size="6"');
+        $form->setDefault('param2', 2048);
+        $form->setType('param2', PARAM_INT);
     }
 }

@@ -21,6 +21,24 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['addfrombank'] = 'Add a question from the question bank';
+$string['addqtodraft'] = 'Use question';
+$string['addquestion'] = 'Add a new question';
+$string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';
+$string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
+$string['errorincorrectdatatype'] = 'Incorrect data type provided.';
+$string['manageqforms'] = 'Manage question forms';
 $string['mbstemplating:addinstance'] = 'Add a my course template information block instance';
 $string['mbstemplating:myaddinstance'] = 'Add a my course template information block instance to My Home';
 $string['pluginname'] = 'Course templating';
+$string['qformactive'] = 'Activate question form';
+$string['qformactivate'] = 'Activate this draft';
+$string['qbank'] = 'Question bank';
+$string['qformdiscard'] = 'Discard question form';
+$string['qformdiscard'] = 'Discard question form';
+$string['qformunsaved'] = 'New question form (unsaved draft)';
+$string['questionname'] = 'Question name';
+$string['questiontitle'] = 'Question title';
+$string['questiontype'] = 'Question type';
+$string['removefromdraft'] = 'Remove from draft';
+$string['useq'] = 'Use question';

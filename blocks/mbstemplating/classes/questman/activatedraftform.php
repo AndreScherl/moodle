@@ -21,34 +21,29 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstemplating\questman;
+
 defined('MOODLE_INTERNAL') || die();
 
-class block_mbstemplating extends block_base {
+global $CFG;
 
-    public function init() {
+require_once($CFG->libdir . '/formslib.php');
 
-        $this->title = get_string('pluginname', 'block_mbstemplating');
+/**
+ * Class activatedraftform
+ * @package block_mbstemplating\questman
+ * Main question form
+ */
+
+class activatedraftform extends \moodleform {
+    function definition() {
+        $form = $this->_form;
+
+        $form->addElement('text', 'formname', get_string('name'));
+        $form->setType('formname', PARAM_TEXT);
+        $form->addRule('formname', get_string('required'), 'required', null, 'client');
+
+        $this->add_action_buttons(false, get_string('qformactivate', 'block_mbstemplating'));
     }
 
-    public function get_content() {
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
-            return $this->content;
-        }
-
-        $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
-        $this->content->footer = '';
-
-        return $this->content;
-    }
-
-    function has_config() {
-        return true;
-    }
 }

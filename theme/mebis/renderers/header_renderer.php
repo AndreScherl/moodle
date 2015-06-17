@@ -84,6 +84,13 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_preferences_personal = isset($PAGE->theme->settings->url_preferences_personal) ? $PAGE->theme->settings->url_preferences_personal : '#';
         // Roles with capability to view the link to the IDM in topbar.
         $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
+        $canseeidmlink = false;
+        foreach ($idmlinkroles as $idmlinkrole) {
+            if((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
+                $canseeidmlink = true;
+                continue;
+            }
+        }
 
         if (isloggedin()) {
             // desktop version
@@ -193,13 +200,15 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
         // IDM link.
-        $output .= html_writer::start_tag('li');
-        $output .= html_writer::start_tag('a', array('href' => $url_preferences));
-        $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
-        $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
-        $output .= html_writer::end_tag('a');
-        $output .= html_writer::end_tag('li');
-        $output .= html_writer::end_tag('ul');
+        if ($canseeidmlink) {
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::start_tag('a', array('href' => $url_preferences));
+            $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
+            $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
+            $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+            $output .= html_writer::end_tag('ul');
+        }
         // End of mobile sidebar.
         $output .= html_writer::end_div();
 
@@ -247,13 +256,6 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical no-margin-right'));
         
         // Link to Nutzerverwaltung (IDM), only shown to users with appropriate capability
-        $canseeidmlink = false;
-        foreach ($idmlinkroles as $idmlinkrole) {
-            if((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
-                $canseeidmlink = true;
-                continue;
-            }
-        }
         if ($canseeidmlink) {
             $output .= html_writer::start_tag('li');
             $output .= html_writer::start_tag('a', array('href' => $url_preferences));

@@ -144,8 +144,9 @@ echo $OUTPUT->doctype()
                 echo $OUTPUT->course_content_header();
                 ?>
                 <div id="main-content-wrapper">
+                    <div id="region-main">
                         <?php echo $OUTPUT->main_content(); ?>
-                    
+                    </div>
                 </div>
                 <?php
                 echo $OUTPUT->course_content_footer();

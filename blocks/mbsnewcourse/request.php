@@ -48,7 +48,7 @@ $url = new moodle_url('/blocks/mbsnewcourse/request.php', array('category' => $c
 $PAGE->set_url($url);
 
 // Where we came from. Used in a number of redirects.
-$returnurl = new moodle_url('/course/index.php', array('id' => $category->id));
+$returnurl = new moodle_url('/course/index.php', array('categoryid' => $category->id));
 
 // Check permissions.
 require_login();

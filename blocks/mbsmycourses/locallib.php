@@ -231,7 +231,7 @@ class mbsmycourses {
                 break;
 
             case 'lastaccess' :
-
+                
                 uasort($courses, array('mbsmycourses', 'order_by_lastaccess'));
                 return $courses;
                 break;
@@ -239,7 +239,7 @@ class mbsmycourses {
             default:
                 return $courses;
         }
-
+        
         return $courses;
     }
 
@@ -314,7 +314,9 @@ class mbsmycourses {
 
         // ...add last access info for courses.
         foreach ($courses as $c) {
-            if (isset($USER->lastcourseaccess[$c->id])) {
+            if (isset($USER->currentcourseaccess[$c->id])) { // Current user session.
+                $courses[$c->id]->lastaccess = $USER->currentcourseaccess[$c->id];
+            } elseif (isset($USER->lastcourseaccess[$c->id])) { // Last user session.
                 $courses[$c->id]->lastaccess = $USER->lastcourseaccess[$c->id];
             } else {
                 $courses[$c->id]->lastaccess = 0;
@@ -323,7 +325,7 @@ class mbsmycourses {
 
         // ... try to sort by manual or last access.
         $sortedcourses = self::sort_courses($courses, $sortorder);
-
+        
         // ...limit courses.
         $limit = self::get_max_user_courses($showallcourses);
 

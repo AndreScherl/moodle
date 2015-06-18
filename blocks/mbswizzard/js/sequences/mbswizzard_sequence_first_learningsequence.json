@@ -2,8 +2,9 @@
     "name": "mbswizzard_sequence_first_learningsequence",
     "steps": [{
             "url": "/my",
-            "sel": "div.row .course_list",
-            "tip": "Wählen Sie einen Ihrer Kurse aus der nachfolgenden Übersicht aus:"
+            "sel": "div.row .course_list, .mbsmycourses-list",
+            "tip": "Wählen Sie einen Ihrer Kurse aus der nachfolgenden Übersicht aus:",
+            "actionsel": "li.coursebox, div.category-course"
         }, {
             "url": "/course/view.php",
             "sel": "div.singlebutton input[type=submit]",

@@ -16,7 +16,7 @@ javascripts_dir = "javascripts"
 # relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
-# line_comments = false
+line_comments = false
 
 preferred_syntax = :scss
 
@@ -30,8 +30,8 @@ output_style = (environment == :production) ? :compressed : :expanded
 relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
-line_comments = (environment == :production) ? false : true
+# line_comments = (environment == :production) ? false : true
 
 # Pass options to sass. For development, we turn on the FireSass-compatible
 # debug_info if the firesass config variable above is true.
-sass_options = (environment != :production) ? {:debug_info => true} : {}
+# sass_options = (environment != :production) ? {:debug_info => true} : {}

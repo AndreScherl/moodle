@@ -16595,3 +16595,7 @@ input[type="checkbox"] + label {
 #page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
   margin-left: 0;
 }
+
+#page-mod-journal-report .userpix img {
+  max-width: none;
+}

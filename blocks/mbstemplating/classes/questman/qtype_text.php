@@ -41,4 +41,13 @@ class qtype_text extends qtype_base {
         $form->setDefault('param2', 2048);
         $form->setType('param2', PARAM_INT);
     }
+
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        $size = $question->param1;
+        $maxlength = $question->param2;
+
+        // Create the form field.
+        $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+        $form->setType($question->fieldname, PARAM_TEXT);
+    }
 }

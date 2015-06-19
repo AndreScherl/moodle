@@ -56,4 +56,19 @@ class qtype_menu extends qtype_base {
         }
         return $err;
     }
+
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        if (isset($question->param1)) {
+            $rawoptions = explode("\n", $question->param1);
+        } else {
+            $rawoptions = array();
+        }
+        $rawoptions = array_merge(array('' => get_string('choose').'...'), $rawoptions);
+        $options = array();
+        foreach ($rawoptions as $key => $option) {
+            $options[$key] = format_string($option); // Multilang formatting.
+        }
+
+        $form->addElement('select', $question->fieldname, $question->title, $options);
+    }
 }

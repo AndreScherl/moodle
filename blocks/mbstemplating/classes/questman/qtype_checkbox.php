@@ -33,4 +33,15 @@ class qtype_checkbox extends qtype_base {
         $form->setType('defaultdata', PARAM_BOOL);
     }
 
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        $form->addElement('checkbox', $question->fieldname, $question->title);
+        if ($question->defaultdata) {
+            $form->setDefault($question->fieldname, true);
+        }
+    }
+
+    public static function save_answer($templateid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+        $answer = empty($answer) ? 0 : 1;
+        return parent::save_answer($templateid, $questionid, $answer);
+    }
 }

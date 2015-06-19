@@ -36,4 +36,19 @@ class qtype_textarea extends qtype_base {
     public static function get_editors() {
         return array('defaultdata');
     }
+
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        $form->addElement('editor', $question->fieldname, format_string($question->title));
+        $form->setType($question->fieldname, PARAM_TEXT);
+    }
+
+    public static function save_answer($templateid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+        if (!is_array($answer) || !isset($answer['text'])) {
+            $answer = array('text' => '', 'format' => FORMAT_MOODLE);
+        }
+        if (!isset($answer['format'])) {
+            $answer['format'] = FORMAT_MOODLE;
+        }
+        return parent::save_answer($templateid, $questionid, $answer['text'], $answer['format']);
+    }
 }

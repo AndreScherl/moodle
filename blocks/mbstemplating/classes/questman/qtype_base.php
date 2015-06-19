@@ -67,4 +67,36 @@ class qtype_base {
     public static function get_editors() {
         return array();
     }
+
+    /**
+     * Add an element of the relevant type to the template form.
+     * @param MoodleQuickForm $form
+     * @param object $question
+     */
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+
+    }
+
+    /**
+     * Save the answer.
+     * @param $templateid
+     * @param $questionid
+     * @param $data
+     * @param $dataformat
+     */
+    public static function save_answer($templateid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+        global $DB;
+
+        if (is_null($answer)) {
+            $answer = '';
+        }
+
+        $obj = (object)array(
+            'templateid' => $templateid,
+            'questionid' => $questionid,
+            'data' => $answer,
+            'dataformat' => $dataformat,
+        );
+        return $DB->insert_record('block_mbstemplating_answer', $obj);
+    }
 }

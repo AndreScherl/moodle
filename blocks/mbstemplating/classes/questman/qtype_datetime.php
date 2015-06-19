@@ -40,7 +40,7 @@ class qtype_datetime extends qtype_base {
         $form->setType('param1', PARAM_INT);
         $form->setDefault('param1', $currentyear);
 
-        $form->addElement('select', 'param2', get_string('endyear', 'profilefield_datetime'), $arryears);
+        $form->addElement('select', 'param2', get_string('endy:Sear', 'profilefield_datetime'), $arryears);
         $form->setType('param2', PARAM_INT);
         $form->setDefault('param2', $currentyear);
 
@@ -58,4 +58,22 @@ class qtype_datetime extends qtype_base {
 
         return $errors;
     }
+
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        $attributes = array(
+            'startyear' => $question->param1,
+            'stopyear'  => $question->param2,
+            'optional'  => false,
+        );
+
+        $form->addElement('date_time_selector', $question->fieldname, $question->title, $attributes);
+    }
+
+    public static function save_answer($templateid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+        if (empty($answer)) {
+            $answer = 0;
+        }
+        return parent::save_answer($templateid, $questionid, $answer);
+    }
+
 }

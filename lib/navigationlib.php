@@ -3886,6 +3886,13 @@ class settings_navigation extends navigation_node {
                 $switchroles->add($name, $url, self::TYPE_SETTING, null, $key, new pix_icon('i/switchrole', ''));
             }
         }
+
+        // SYNERGY LEARNING ALP-105 course templating START.
+        if (class_exists('block_mbstemplating\course')) {
+            block_mbstemplating\course::extend_coursenav($coursenode, $coursecontext);
+        }
+        // SYNERGY LEARNING ALP-105 course templating END.
+
         // Return we are done
         return $coursenode;
     }

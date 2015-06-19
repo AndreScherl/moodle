@@ -64,4 +64,13 @@ class quseteditform extends \moodleform {
     function validation($data, $files) {
         return $this->_customdata['typeobj']->extend_validation((object)$data, $files);
     }
+
+    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+        $size = $question->param1;
+        $maxlength = $question->param2;
+
+        // Create the form field.
+        $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+        $form->setType($question->fieldname, PARAM_TEXT);
+    }
 }

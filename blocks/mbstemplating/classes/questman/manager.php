@@ -61,10 +61,31 @@ class manager {
      * @return array
      */
     public static function get_draft_questions() {
+        $draft = self::get_qform_draft();
+        return self::get_questsions_in_order($draft);
+    }
+
+    /**
+     * Returns array of current active form's questions in order.
+     * @return array
+     */
+    public static function get_active_questions() {
+        if(!$active = self::get_active_qform()) {
+            return array();
+        }
+        return self::get_questsions_in_order($active->questions);
+    }
+
+    /**
+     * Returns questions in order
+     * @param mixed $questions comma-separated list of question ids, or array
+     */
+    public static function get_questsions_in_order($qids) {
         global $DB;
 
-        $draft = self::get_qform_draft();
-        $qids = explode(',', $draft);
+        if (!is_array($qids)) {
+            $qids = explode(',', $qids);
+        }
         list($qidin, $params) = $DB->get_in_or_equal($qids);
         $questsions = $DB->get_records_select('block_mbstemplating_question', "id $qidin", $params);
 

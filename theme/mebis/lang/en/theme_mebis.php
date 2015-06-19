@@ -57,8 +57,14 @@ $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links in page-footer';
 
 $string['footer-newsletter'] = 'Newsletter';
+$string['footer-url-newsletter'] = 'Link to newsletter';
+$string['footer-url-newsletter-descr'] = 'Link to newsletters';
 $string['footer-about'] = 'About Mebis';
+$string['footer-url-about'] = "Link to 'About Mebis'";
+$string['footer-url-about-descr'] = 'Link to about-mebis page';
 $string['footer-contact'] = 'Kontakt';
+$string['footer-url-contact'] = 'Link to contact (form)';
+$string['footer-url-contact-descr'] = 'Link to contact (form)';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
 $string['footer-terms_of_use'] = 'Nutzungsbedingungen';

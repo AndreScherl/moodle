@@ -58,5 +58,28 @@ if ($ADMIN->fulltree) {
     $default = 'Titel|URL';
     $setting = new admin_setting_configtextarea($name, $title, $description, $default);
     $settings->add($setting);
-
+    
+    // Footer Link - Newsletter
+    $name = 'theme_mebis/footer_url_newsletter';
+    $title = get_string('footer-url-newsletter','theme_mebis');
+    $description = get_string('footer-url-newsletter-descr', 'theme_mebis');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
+    $settings->add($setting);
+    
+    // Footer Link - Ueber mebis
+    $name = 'theme_mebis/footer_url_about';
+    $title = get_string('footer-url-about','theme_mebis');
+    $description = get_string('footer-url-about-descr', 'theme_mebis');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
+    $settings->add($setting);
+    
+    // Footer Link - Kontakt
+    $name = 'theme_mebis/footer_url_contact';
+    $title = get_string('footer-url-contact','theme_mebis');
+    $description = get_string('footer-url-contact-descr', 'theme_mebis');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
+    $settings->add($setting);
 }

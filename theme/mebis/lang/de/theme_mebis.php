@@ -24,13 +24,13 @@
  */
 
 $string['changepassword'] = 'Passwort';
-$string['configtitle'] = 'Mebis';
-$string['choosereadme'] = ' <p>Mebis Theme basierend auf Bootstrap 3</p>';
+$string['configtitle'] = 'mebis';
+$string['choosereadme'] = ' <p>mebis Theme basierend auf Bootstrap 3</p>';
 $string['editusersurl'] = 'Nutzerverwaltung';
 $string['editmysettings'] = 'Lernplattform-Einstellungen';
 $string['editmebisprofile'] = 'Profil bearbeiten';
 $string['mebisprofile'] = 'Profil';
-$string['pluginname'] = 'Mebis';
+$string['pluginname'] = 'mebis';
 
 $string['region-side-post'] = 'Rechts';
 $string['region-side-pre'] = 'Links';
@@ -57,8 +57,14 @@ $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links im Seiten-Footer - Ein Link pro Zeile im Schema: Titel|Url';
 
 $string['footer-newsletter'] = 'Newsletter';
+$string['footer-url-newsletter'] = 'Link zum Newsletter';
+$string['footer-url-newsletter-descr'] = 'Link zum Abo des Newsletters';
 $string['footer-about'] = 'Über Mebis';
+$string['footer-url-about'] = "Link zu 'Über Mebis'";
+$string['footer-url-about-descr'] = 'Link zur Über-mebis-Seite';
 $string['footer-contact'] = 'Kontakt';
+$string['footer-url-contact'] = 'Link zum Kontakt(formular)';
+$string['footer-url-contact-descr'] = 'Link zum Kontakt(formular)';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
 $string['footer-terms_of_use'] = 'Nutzungsbedingungen';

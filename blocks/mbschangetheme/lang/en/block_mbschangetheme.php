@@ -23,8 +23,8 @@
  */
 
 $string['changeallowusertheme'] = 'Setting allowusertheme';
-$string['changetotheme1'] = 'Select old design';
-$string['changetotheme2'] = 'Select new design';
+$string['changetotheme1'] = 'Select new design';
+$string['changetotheme2'] = 'Select old design';
 $string['displayname'] = 'Design Change';
 $string['eventthemechanged'] = 'User has changed theme';
 $string['mbschangetheme:addinstance'] = 'Add block mebis changetheme';

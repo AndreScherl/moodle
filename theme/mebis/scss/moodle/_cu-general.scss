@@ -61,8 +61,8 @@ Here are to go all styles, which are NOT:
 div[role="main"] {
 
     ul, ol {
-        padding: initial;
-        overflow: initial;
+        padding: 0;
+        overflow: visible;
     }
 }
 

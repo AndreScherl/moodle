@@ -15,8 +15,12 @@ class theme_mebis_footer_renderer extends renderer_base {
      * @return String Html string of the sidebar
      */
     public function main_footer() {
-        global $CFG;
-
+        global $CFG, $PAGE;
+        
+        $url_newsletter = isset($PAGE->theme->settings->footer_url_newsletter) ? $PAGE->theme->settings->footer_url_newsletter : '#';
+        $url_about = isset($PAGE->theme->settings->footer_url_about) ? $PAGE->theme->settings->footer_url_about : '#';
+        $url_contact = isset($PAGE->theme->settings->footer_url_contact) ? $PAGE->theme->settings->footer_url_contact : '#';
+        
         $output = '';
 
         $output .= html_writer::start_tag('footer', array('id' => 'page-footer'));
@@ -28,18 +32,20 @@ class theme_mebis_footer_renderer extends renderer_base {
         $output .= html_writer::start_tag('ul', array('class' => 'footer-nav clearfix'));
 
         $output .= html_writer::start_tag('li', array('class' => 'newsletter'));
-        $output .= html_writer::start_tag('a', array('href' => '#'));
+        $output .= html_writer::start_tag('a', array('href' => $url_newsletter));
         $output .= html_writer::tag('i', '', array('class' => 'icon-me-email'));
         $output .= html_writer::tag('span', get_string('footer-newsletter', 'theme_mebis'));
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_tag('li');
 
         $output .= html_writer::start_tag('li');
-        $output .= html_writer::tag('a', get_string('footer-about', 'theme_mebis'), array('href' => '#', 'class' => 'internal'));
+        $output .= html_writer::tag('a', get_string('footer-about', 'theme_mebis'), 
+                array('href' => $url_about, 'class' => 'internal'));
         $output .= html_writer::end_tag('li');
 
         $output .= html_writer::start_tag('li');
-        $output .= html_writer::tag('a', get_string('footer-contact', 'theme_mebis'), array('href' => '#', 'class' => 'internal'));
+        $output .= html_writer::tag('a', get_string('footer-contact', 'theme_mebis'), 
+                array('href' => $url_contact, 'class' => 'internal'));
         $output .= html_writer::end_tag('li');
 
         $output .= html_writer::end_tag('ul');
@@ -47,9 +53,12 @@ class theme_mebis_footer_renderer extends renderer_base {
 
         $output .= html_writer::start_div('col-xs-12 col-md-6');
         $output .= html_writer::start_div('footer-logos text-right');
-        $output .= html_writer::tag('a', '', array('href' => 'http://www.km.bayern.de/', 'target' => '_blank', 'class' => 'logo-first'));
-        $output .= html_writer::tag('a', '', array('href' => 'https://www.isb.bayern.de/', 'target' => '_blank', 'class' => 'logo-second'));
-        $output .= html_writer::tag('a', '', array('href' => 'https://alp.dillingen.de/', 'target' => '_blank', 'class' => 'logo-third'));
+        $output .= html_writer::tag('a', '', 
+                array('href' => 'http://www.km.bayern.de/', 'target' => '_blank', 'class' => 'logo-first'));
+        $output .= html_writer::tag('a', '', 
+                array('href' => 'https://www.isb.bayern.de/', 'target' => '_blank', 'class' => 'logo-second'));
+        $output .= html_writer::tag('a', '', 
+                array('href' => 'https://alp.dillingen.de/', 'target' => '_blank', 'class' => 'logo-third'));
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
 

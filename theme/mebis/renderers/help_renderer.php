@@ -51,7 +51,13 @@ class theme_mebis_help_renderer extends renderer_base
 
     public function page_action_navigation()
     {
-
+        // asch: The next five lines are only a quick fix, because we will refactor the me-in-page-menu in time.
+        global $PAGE;
+        $noactionpages = array("course-view-topics", "course-view-grid", "course-view-onetopic", "course-view-topcoll");
+        if (in_array($PAGE->pagetype, $noactionpages)) {
+            return '';
+        }
+        
         if (!$this->pageactionnavigation) {
             $menu_items = array(
                 html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top'))

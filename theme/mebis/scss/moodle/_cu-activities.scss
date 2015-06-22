@@ -59,3 +59,32 @@
         }
     }
 }
+
+#page-mod-quiz-edit {
+    
+    div.quizcontents {
+        padding: 20px;
+        background-color: $white;
+    }
+    
+    .questionbankwindow {
+        .title {
+            word-wrap: break-word;
+        }
+    } 
+}
+
+#page-mod-quiz-attempt,
+#page-mod-quiz-review {
+    
+    div.content {
+        
+        &:before {
+            display: none;
+        }
+        
+        .formulation {
+            color: $brand-gray-dark;
+        }
+    }
+}

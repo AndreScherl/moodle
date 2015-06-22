@@ -16457,6 +16457,23 @@ input[type="checkbox"] + label {
   max-width: none;
 }
 
+#page-mod-quiz-edit div.quizcontents {
+  padding: 20px;
+  background-color: #fff;
+}
+#page-mod-quiz-edit .questionbankwindow .title {
+  word-wrap: break-word;
+}
+
+#page-mod-quiz-attempt div.content:before,
+#page-mod-quiz-review div.content:before {
+  display: none;
+}
+#page-mod-quiz-attempt div.content .formulation,
+#page-mod-quiz-review div.content .formulation {
+  color: #333333;
+}
+
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

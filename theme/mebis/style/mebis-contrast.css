@@ -16602,17 +16602,34 @@ input[type="checkbox"] + label {
 
 #page-mod-quiz-edit div.quizcontents {
   padding: 20px;
-  background-color: #fff;
+  background: #fff;
 }
 #page-mod-quiz-edit .questionbankwindow .title {
   word-wrap: break-word;
 }
 
 #page-mod-quiz-attempt div.content:before,
-#page-mod-quiz-review div.content:before {
+#page-mod-quiz-review div.content:before,
+#page-question-preview div.content:before {
   display: none;
 }
 #page-mod-quiz-attempt div.content .formulation,
-#page-mod-quiz-review div.content .formulation {
+#page-mod-quiz-review div.content .formulation,
+#page-question-preview div.content .formulation {
   color: #333333;
+}
+#page-mod-quiz-attempt #techinfo,
+#page-mod-quiz-review #techinfo,
+#page-question-preview #techinfo {
+  background: #fff;
+  padding-left: 20px;
+}
+#page-mod-quiz-attempt .performanceinfo,
+#page-mod-quiz-review .performanceinfo,
+#page-question-preview .performanceinfo {
+  background: #fff;
+}
+
+#page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
+  background: #ff6600;
 }

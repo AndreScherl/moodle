@@ -64,7 +64,7 @@
     
     div.quizcontents {
         padding: 20px;
-        background-color: $white;
+        background: $white;
     }
     
     .questionbankwindow {
@@ -75,7 +75,8 @@
 }
 
 #page-mod-quiz-attempt,
-#page-mod-quiz-review {
+#page-mod-quiz-review,
+#page-question-preview {
     
     div.content {
         
@@ -86,5 +87,21 @@
         .formulation {
             color: $brand-gray-dark;
         }
+    }
+    
+    #techinfo {
+        background: $white;
+        padding-left: 20px;
+    }
+    
+    .performanceinfo {
+        background: $white;
+    }
+}
+
+#page-question-edit {
+    
+    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+        background: $brand-secondary;
     }
 }

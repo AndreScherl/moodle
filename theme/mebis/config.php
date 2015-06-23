@@ -79,5 +79,10 @@ $THEME->layouts = array(
         'file' => 'maintenance.php',
         'regions' => array(),
         'renderer' => 'theme_mebis_core_renderer'
+    ),
+    'secure' => array(
+        'file' => 'default.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre'
     )
 );

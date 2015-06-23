@@ -70,7 +70,11 @@ var Mebis = (function($) {
     function initCarousel() {
         var $carousel = $('[data-me-carousel]');
         var $controls = $('.carousel-control');
-
+        
+        if ($carousel.length == 0) {
+            return;
+        }
+        
         var offset = (isMobile()) ? 1 : 3;
 
         $carousel.on('jcarousel:reload jcarousel:create', function () {

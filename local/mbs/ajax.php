@@ -57,25 +57,6 @@ switch ($action) {
         echo json_encode($resp);
         break;
         
-    case 'getnewmessagecount' : 
-       
-        // Check, whether user is logged in via sibboleth and (optionally)
-        // create a moodle session.
-        $authplugin = get_auth_plugin('shibboleth');
-        
-        $result = array();
-        if ($authplugin->require_login()) {
-            
-            $count = message_count_unread_messages();
-            $result = array('error' => '0', 'data' => $count);
-            
-        } else {
-            $result = array('error' => '1', 'data' => 'noshibbolethsession');
-        }
-        
-        echo json_encode($result);
-        break;
-        
     default:
         throw new moodle_exception('unknownaction', 'local_mbs');
 }

@@ -59,3 +59,49 @@
         }
     }
 }
+
+#page-mod-quiz-edit {
+    
+    div.quizcontents {
+        padding: 20px;
+        background: $white;
+    }
+    
+    .questionbankwindow {
+        .title {
+            word-wrap: break-word;
+        }
+    } 
+}
+
+#page-mod-quiz-attempt,
+#page-mod-quiz-review,
+#page-question-preview {
+    
+    div.content {
+        
+        &:before {
+            display: none;
+        }
+        
+        .formulation {
+            color: $brand-gray-dark;
+        }
+    }
+    
+    #techinfo {
+        background: $white;
+        padding-left: 20px;
+    }
+    
+    .performanceinfo {
+        background: $white;
+    }
+}
+
+#page-question-edit {
+    
+    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+        background: $brand-secondary;
+    }
+}

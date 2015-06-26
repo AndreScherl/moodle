@@ -298,7 +298,7 @@ class theme_mebis_header_renderer extends renderer_base {
         global $CFG;
 
         $img_alt = get_string('header-img-title', 'theme_mebis');
-        $output = html_writer::start_tag('header', array('class' => 'me-page-header full'));
+        $output = html_writer::start_tag('header', array('class' => 'me-page-header full', 'id' => 'page-header'));
         $output .= html_writer::start_div('container');
         $output .= html_writer::start_div('row');
         $output .= html_writer::start_div('col-md-12');

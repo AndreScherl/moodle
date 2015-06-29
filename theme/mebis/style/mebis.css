@@ -15652,6 +15652,10 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     margin-top: 250px;
   }
 }
+#main-content-wrapper form select#id_category, #main-content-wrapper form select#id_parent {
+  max-width: inherit;
+}
+
 /*
     All Styles related to special Pages.
     - .path-course-view

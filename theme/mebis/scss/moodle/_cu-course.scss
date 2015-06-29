@@ -157,3 +157,10 @@ ul.jumpnavigation {
         margin-top: 250px;
     }
 }
+
+//Styles for coursecategory selection
+#main-content-wrapper form {
+    select#id_category, select#id_parent {
+        max-width: inherit;
+    }
+}

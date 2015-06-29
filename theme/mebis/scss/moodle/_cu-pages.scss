@@ -7,10 +7,15 @@
     - #page-enrol-index
     - #page-my-index 
     - #page-course-management
-    - #page-mod-feedback-print
-    - #page-mod-book-print
-    - #page-mod-wiki-prettyview
-    - #page-admin-purgecaches
+    - #page-content
+    - #page-mod-wiki-view
+    - #page-mod-page-view
+    - #page-mod-glossary-view
+    - #page-mod-forum-discuss
+    - #page-mod-lesson-edit 
+    - #page-mod-lesson-view
+    - #page-mod-assign-view
+    - #page-mod-book-view
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -148,9 +153,27 @@
     }
 }
 
-//print.php pages & #page-admin-purgecaches
-#page-mod-feedback-print, #page-mod-book-print, #page-mod-wiki-prettyview, #page-admin-purgecaches { 
+//Styles for background and lists in 
+// - print.php pages 
+// - #page-admin-purgecaches 
+// - page-popup
+#page-content {
     background: $white;   
+    
+    div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
+    }
 }
 
 //Styles for lists in activity content 

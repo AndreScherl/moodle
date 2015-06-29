@@ -23,7 +23,7 @@ class theme_mebis_footer_renderer extends renderer_base {
         
         $output = '';
 
-        $output .= html_writer::start_tag('footer', array('id' => 'page-footer'));
+        $output .= html_writer::start_tag('footer', array('id' => 'footer-copyright'));
         $output .= html_writer::start_div('footer-copyright');
         $output .= html_writer::start_div('container');
         $output .= html_writer::start_div('row');

@@ -15131,6 +15131,8 @@ categorybox:
 */
 #page-footer {
   border-top: none;
+  padding: 0;
+  margin: 0;
 }
 #page-footer .performanceinfo {
   background: #ffffff;
@@ -15511,7 +15513,7 @@ In this file we collect:
 .block_mbsschooltitle {
   padding: 40px 0;
   color: #fff;
-  margin-bottom: -50px;
+  margin-bottom: -14px;
   background: #00a8d5;
 }
 .block_mbsschooltitle .mbs-schooltitle-headline h3 {

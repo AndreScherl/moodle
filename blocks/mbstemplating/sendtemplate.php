@@ -69,6 +69,12 @@ if ($form->is_cancelled()) {
         $answer = empty($data->{$question->fieldname}) ? null : $data->{$question->fieldname};
         $typeclass::save_answer($template->id, $question->id, $answer);
     }
+
+    // Initiate deployment task.
+    $deployment = new \block_mbstemplating\task\adhoc_deploy();
+    $deployment->set_custom_data($template);
+    \core\task\manager::queue_adhoc_task($deployment);
+
     redirect($redirurl);
 }
 $data = (object)array(

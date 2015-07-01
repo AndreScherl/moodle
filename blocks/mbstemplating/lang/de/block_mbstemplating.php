@@ -20,18 +20,6 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die;
 
-global $DB;
-
-if ($ADMIN->fulltree) {
-
-    $questmanurl = new moodle_url('/blocks/mbstemplating/questman/index.php');
-    $questmanlink = html_writer::link($questmanurl, get_string('manageqforms', 'block_mbstemplating'));
-    $settings->add(new admin_setting_heading('questman', get_string('settings'), $questmanlink));
-
-    $options = array();
-    $options += coursecat::make_categories_list('moodle/category:manage', 0);
-    $settings->add(new admin_setting_configselect('block_mbstemplating/deploycat',
-                                                  get_string('deploycat', 'block_mbstemplating'), null, null, $options));
-}
+$string['emailtempldeployed_subj'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.”';
+$string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';

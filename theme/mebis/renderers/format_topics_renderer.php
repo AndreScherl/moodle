@@ -45,7 +45,7 @@ class theme_mebis_format_topics_renderer extends format_topics_renderer {
         if (count($sections)) {
             for ($i = 1; $i <= $course->numsections; $i++) {
                 if ($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available) {
-                    $menu_items[] = html_writer::link('#section-' . $i, '<span>' . $this->section_title($sections[$i], $course) . '</span>', array());
+                    $menu_items[] = html_writer::link('#section-' . $i, '<span>' . get_section_name($course, $sections[$i]) . '</span>', array());
                 }
             }
         }

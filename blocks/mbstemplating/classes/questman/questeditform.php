@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,12 +29,12 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class quseteditform
+ * Class questeditform
  * @package block_mbstemplating\questman
  * Main question form
  */
 
-class quseteditform extends \moodleform {
+class questeditform extends \moodleform {
     function definition() {
         $form = $this->_form;
 
@@ -56,13 +55,13 @@ class quseteditform extends \moodleform {
         $form->setType('title', PARAM_TEXT);
 
         // Type-specific fields.
-        $this->_customdata['typeobj']->extend_form($form, $this->_customdata['inuse']);
+        $this->get_typeobj()->extend_form($form, $this->_customdata['inuse']);
 
         $this->add_action_buttons(true);
     }
 
     function validation($data, $files) {
-        return $this->_customdata['typeobj']->extend_validation((object)$data, $files);
+        return $this->get_typeobj()->extend_validation((object)$data, $files);
     }
 
     public static function add_template_element(\MoodleQuickForm &$form, $question) {
@@ -72,5 +71,13 @@ class quseteditform extends \moodleform {
         // Create the form field.
         $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $form->setType($question->fieldname, PARAM_TEXT);
+    }
+
+    /**
+     * Returns the type object of the question.
+     * @return qtype_base
+     */
+    private function get_typeobj() {
+        return $this->_customdata['typeobj'];
     }
 }

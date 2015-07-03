@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block_mbstemplating
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @package    local_mbs
+ * @copyright 2015 Yair Spielmann, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die;
 
-global $DB;
+defined('MOODLE_INTERNAL') || die();
 
-if ($ADMIN->fulltree) {
-
-    $questmanurl = new moodle_url('/blocks/mbstemplating/questman/index.php');
-    $questmanlink = html_writer::link($questmanurl, get_string('manageqforms', 'block_mbstemplating'));
-    $settings->add(new admin_setting_heading('questman', get_string('settings'), $questmanlink));
-
-    $options = array();
-    $options += coursecat::make_categories_list('moodle/category:manage', 0);
-    $settings->add(new admin_setting_configselect('block_mbstemplating/deploycat',
-                                                  get_string('deploycat', 'block_mbstemplating'), null, null, $options));
+function local_mbs_extends_settings_navigation(settings_navigation $nav, context $context) {
+    if (!($context instanceof context_course)) {
+        return;
+    }
+    if ($context->instanceid == get_site()->id) {
+        return;
+    }
+    if (!class_exists('block_mbstemplating\course')) {
+        return;
+    }
+    block_mbstemplating\course::extend_coursenav($nav, $context);
 }

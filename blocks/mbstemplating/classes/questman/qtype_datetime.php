@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +25,7 @@ namespace block_mbstemplating\questman;
 defined('MOODLE_INTERNAL') || die();
 
 class qtype_datetime extends qtype_base {
-    public static function extend_form(&$form, $islocked = false) {
+    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
         // Get the current calendar in use - see MDL-18375.
         $calendartype = \core_calendar\type_factory::get_calendar_instance();
 
@@ -40,7 +39,7 @@ class qtype_datetime extends qtype_base {
         $form->setType('param1', PARAM_INT);
         $form->setDefault('param1', $currentyear);
 
-        $form->addElement('select', 'param2', get_string('endy:Sear', 'profilefield_datetime'), $arryears);
+        $form->addElement('select', 'param2', get_string('endyear', 'profilefield_datetime'), $arryears);
         $form->setType('param2', PARAM_INT);
         $form->setDefault('param2', $currentyear);
 

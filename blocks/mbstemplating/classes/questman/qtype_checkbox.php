@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class qtype_checkbox extends qtype_base {
 
-    public static function extend_form(&$form, $islocked = false) {
+    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
         $form->addElement('selectyesno', 'defaultdata', get_string('profiledefaultchecked', 'admin'));
         $form->setDefault('defaultdata', 0); // Defaults to 'no'.
         $form->setType('defaultdata', PARAM_BOOL);

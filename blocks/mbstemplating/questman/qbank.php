@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +25,7 @@ namespace block_mbstemplating\questman;
 defined('MOODLE_INTERNAL') || die();
 
 class qtype_menu extends qtype_base {
-    public static function extend_form(&$form, $islocked = false) {
+    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
 
         $form->addElement('textarea', 'param1', get_string('profilemenuoptions', 'admin'), array('rows' => 6, 'cols' => 40));
         $form->setType('param1', PARAM_TEXT);

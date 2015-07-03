@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -52,7 +51,7 @@ if (!$id) {
 $typeobj = \block_mbstemplating\questman\qtype_base::qtype_factory($datatype);
 
 $customdata = array('id' => $id, 'datatype' => $datatype, 'typeobj' => $typeobj, 'inuse' => $inuse);
-$mform = new \block_mbstemplating\questman\quseteditform(null, $customdata);
+$mform = new \block_mbstemplating\questman\questeditform(null, $customdata);
 if ($id) {
     if ($editors = $typeobj->get_editors()) {
         foreach($editors as $editor) {

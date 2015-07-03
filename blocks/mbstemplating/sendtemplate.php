@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -45,7 +44,8 @@ $PAGE->set_title($pagetitle);
 require_capability('block/mbstemplating:sendcoursetemplate', $coursecontext);
 
 $activeform = mbst\questman\manager::get_active_qform();
-$questions = mbst\questman\manager::get_questsions_in_order($activeform->questions);
+$qidlist = $activeform ? $activeform->questions : '';
+$questions = mbst\questman\manager::get_questsions_in_order($qidlist);
 foreach($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }

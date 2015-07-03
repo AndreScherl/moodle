@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block
- * @subpackage mbstemplating
+ * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +28,7 @@ class qtype_base {
 
     /**
      * @param $datatype
-     * @return \block_mbstemplating\questman\qtype_factory
+     * @return \block_mbstemplating\questman\qtype_base
      * @throws \moodle_exception
      */
     public static function qtype_factory($datatype) {
@@ -47,7 +46,7 @@ class qtype_base {
      * @param $form
      * @param bool $islocked
      */
-    public static function extend_form(&$form, $islocked = false) {
+    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
 
     }
 

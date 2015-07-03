@@ -3,69 +3,80 @@
     Created on : 17.05.2015, 09:11:09
     Author     : Andreas Wagner, ISB Bayern
 */
-.moodle-menu .nav > li {
-    font-weight: 400;
-    font-style: normal;
+.moodle-menu {
+    display: inline-block;
     float: right;
-    width: 50px;
-    height: 60px;
+    
+    .nav > li {
+        font-weight: 400;
+        font-style: normal;
+        float: right;
+        width: 50px;
+        height: 60px;
 
-    > a {
-        font-size: emCalc(18px);
+        > a {
+            font-size: emCalc(18px);
+            text-align: center;
 
-        &:hover {
-            background: transparent;
-        }
-    }
-
-    &.dropdown {
-
-        &:hover > a {
-            background: $brand-secondary;
-            color: $white;
-        }
-
-        ul {
-            min-width: 255px;
-
-            &.dropdown-menu {
-                border: none;
-                font-size: emCalc(14px);
+            &:hover {
+                background: transparent;
             }
-            .cogmenu, .coursemenu {
-                div {
-                    background-color: $gray-lighter;
-                    font-family: 'Titillium Web';
-                    font-size: emCalc(16px);
-                    color: $gray-dark;
-                    text-align: left;
-                    line-height: normal;
+            
+            i.fa,
+            [class^="icon-me"] {
+                margin: 0;
+            }
+        }
 
-                    @media only screen and (max-width: $screen-xc) {
-                        font-size: emCalc(19px);
-                        line-height: 200%;
-                    }
+        &.dropdown {
 
-                    &.dropdown-inner div {
-                        background: transparent;
+            &:hover > a {
+                background: $brand-secondary;
+                color: $white;
+            }
 
-                        select {
-                            width: 100%;
-                            margin-bottom: 0;
+            ul {
+                min-width: 255px;
+
+                &.dropdown-menu {
+                    border: none;
+                    font-size: emCalc(14px);
+                }
+                .cogmenu, .coursemenu {
+                    div {
+                        background-color: $gray-lighter;
+                        font-family: 'Titillium Web';
+                        font-size: emCalc(16px);
+                        color: $gray-dark;
+                        text-align: left;
+                        line-height: normal;
+
+                        @media only screen and (max-width: $screen-xc) {
+                            font-size: emCalc(19px);
+                            line-height: 200%;
                         }
-                    }
 
-                    &.admin-dropdown {
-                        background-color: $gray-dark;
-                        color: $white;
+                        &.dropdown-inner div {
+                            background: transparent;
 
-                        a {
+                            select {
+                                width: 100%;
+                                margin-bottom: 0;
+                            }
+                        }
+
+                        &.admin-dropdown {
+                            background-color: $gray-dark;
                             color: $white;
-                        }
-                    }
 
-                    ul {
-                        list-style: none;
+                            a {
+                                color: $white;
+                            }
+                        }
+
+                        ul {
+                            list-style: none;
+                        }
                     }
                 }
             }

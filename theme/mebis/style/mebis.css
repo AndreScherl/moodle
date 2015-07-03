@@ -14128,6 +14128,10 @@ button.close {
 @media only screen and (max-width: 992px) {
   .me-wrapper .me-page-header {
     padding-top: 51px;
+    min-height: 115px;
+  }
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 15px 0;
   }
   .me-wrapper .me-page-header .container .logo-row .extra-nav {
     text-align: left;
@@ -14315,6 +14319,9 @@ button.close {
     text-align: center;
     background: #e6e6e6;
     display: table;
+  }
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 10px 0;
   }
   .me-wrapper .me-content-block {
     padding: 20px;
@@ -14688,9 +14695,27 @@ div[role="main"] > h2 {
     background: #ff6600;
   }
 }
+@media only screen and (max-width: 768px) {
+  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li {
+    width: 44px;
+  }
+}
 @media only screen and (max-width: 992px) {
-  .wrapper-learning-platform .me-learning-platform-header-nav {
-    margin-top: 20px;
+  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li li.dropdown {
+    position: static;
+  }
+  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu {
+    margin-top: 0;
+    top: 100%;
+    position: absolute;
+    min-width: 70%;
+    right: 0;
+    left: auto;
+    /*                    &.dropdown-right {
+                            right: 0;
+                            left: auto;
+                            min-width: 70%;
+                        }*/
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 992px) {
@@ -15038,6 +15063,10 @@ categorybox:
     Created on : 17.05.2015, 09:11:09
     Author     : Andreas Wagner, ISB Bayern
 */
+.moodle-menu {
+  display: inline-block;
+  float: right;
+}
 .moodle-menu .nav > li {
   font-weight: 400;
   font-style: normal;
@@ -15047,9 +15076,14 @@ categorybox:
 }
 .moodle-menu .nav > li > a {
   font-size: 1.125em;
+  text-align: center;
 }
 .moodle-menu .nav > li > a:hover {
   background: transparent;
+}
+.moodle-menu .nav > li > a i.fa,
+.moodle-menu .nav > li > a [class^="icon-me"] {
+  margin: 0;
 }
 .moodle-menu .nav > li.dropdown:hover > a {
   background: #ff6600;

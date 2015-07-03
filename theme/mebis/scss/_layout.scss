@@ -3195,11 +3195,13 @@
 
         .me-page-header {
             padding-top: 51px;
+            min-height: 115px;
 
             .container {
 
                 .logo-row {
-
+                    margin: 15px 0;
+                    
                     .extra-nav {
                         text-align: left;
 
@@ -3461,7 +3463,7 @@
             .container {
 
                 .logo-row {
-                    //padding: 15px 0;
+                    margin: 10px 0;
                 }
 
             }

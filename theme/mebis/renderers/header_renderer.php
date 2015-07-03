@@ -305,7 +305,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::start_div('logo-row logo-small clearfix');
         $output .= html_writer::start_div('row');
 
-        $output .= html_writer::start_div('col-md-6 col-xs-12 logo');
+        $output .= html_writer::start_div('logo');
         $output .= html_writer::start_tag('a', array('href' => new moodle_url('/')));
         $output .= html_writer::tag('img', '', array(
                     'class' => 'pull-left', 'src' => $CFG->wwwroot . '/theme/mebis/pix/mebis-logo-lernplattform.png',
@@ -316,14 +316,14 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_div();
 
-        $output .= html_writer::start_div('col-md-6 col-xs-12');
+        //$output .= html_writer::start_div('col-sm-6 col-xs-12');
         $output .= html_writer::start_div('me-learning-platform-header-nav');
 
         // Render the main_menubar;
         $output .= $this->main_menubar();
 
         $output .= html_writer::end_div();
-        $output .= html_writer::end_div();
+        //$output .= html_writer::end_div();
 
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();

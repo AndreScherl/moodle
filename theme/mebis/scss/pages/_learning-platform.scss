@@ -222,9 +222,37 @@ div[role="main"] > h2 {
     @media only screen and (min-width: $screen-sm-min) {
 
     }
+    @media only screen and (max-width: $screen-sm-min) {
+        .me-learning-platform-header-nav {
+
+            ul.nav > li {
+                width: 44px;
+            }
+        }
+    }
     @media only screen and (max-width: $screen-md-min) {
         .me-learning-platform-header-nav {
-            margin-top: 20px;
+            ul.nav {
+                > li {
+                    li.dropdown {
+                        position: static;
+                    }
+                }    
+                .dropdown-menu {
+                    margin-top: 0;
+                    top: 100%;
+                    position: absolute;
+                    min-width: 70%;
+                    right: 0;
+                    left: auto;
+
+/*                    &.dropdown-right {
+                        right: 0;
+                        left: auto;
+                        min-width: 70%;
+                    }*/
+                } 
+            }
         }
     }
     @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
@@ -248,7 +276,7 @@ div[role="main"] > h2 {
         .me-learning-platform-header-nav {
 
             ul.nav {
-
+                
                 li.dropdown {
                     position: static;
                 }

@@ -66,7 +66,7 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
 $PAGE->set_popup_notification_allowed($ismydashboard);
 
 // Add block mbschangeplatform to block region side-pre for betausers
-if (isset($USER->isBetauser) && $USER->isBetauser){
+if (isset($USER->isBetauser) && ($USER->isBetauser == 1)){
     if (!$PAGE->blocks->is_block_present('mbschangeplatform')) {
         if ($knownregionsidepre) {
             $PAGE->blocks->add_block('mbschangeplatform', 'side-pre', 1000, false);

@@ -8,6 +8,7 @@
     - #page-my-index 
     - #page-course-management
     - #page-content
+    - #page-admin-purgecaches 
     - #page-mod-wiki-view
     - #page-mod-page-view
     - #page-mod-glossary-view
@@ -157,7 +158,7 @@
 // - print.php pages 
 // - #page-admin-purgecaches 
 // - page-popup
-#page-content {
+#page-content, #page-admin-purgecaches {
     background: $white;   
     
     div[role="main"] {

@@ -15666,6 +15666,7 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     - #page-my-index 
     - #page-course-management
     - #page-content
+    - #page-admin-purgecaches 
     - #page-mod-wiki-view
     - #page-mod-page-view
     - #page-mod-glossary-view
@@ -15765,19 +15766,19 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   color: #000;
 }
 
-#page-content {
+#page-content, #page-admin-purgecaches {
   background: #fff;
 }
-#page-content div[role="main"] div div ul {
+#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ul > li {
+#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li {
   list-style: disc inside none;
 }
-#page-content div[role="main"] div div ol {
+#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ol > li {
+#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
   list-style: decimal inside none;
 }
 

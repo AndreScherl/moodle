@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -41,11 +42,16 @@ $renderer = $PAGE->get_renderer('block_mbssearch');
 $config = get_config('block_mbssearch');
 
 $searchtext = optional_param('searchtext', '', PARAM_TEXT);
-$filterby = optional_param('filterby', 'nofilter', PARAM_TEXT);
 $limitfrom = optional_param('limitfrom', 0, PARAM_INT);
 $limitnum = optional_param('limitnum', $config->moreresultscount, PARAM_INT);
+$schoolcatid = optional_param('search_schoolcatid', 0, PARAM_INT);
+if ($schoolcatid) {
+    $filterby = 'course';
+} else {
+    $filterby = optional_param('filterby', 'nofilter', PARAM_TEXT);
+}
 
-$results = \block_mbssearch\local\mbssearch::search($searchtext, $limitfrom, $limitnum, $filterby);
+$results = \block_mbssearch\local\mbssearch::search($searchtext, $limitfrom, $limitnum, $filterby, $schoolcatid);
 
 echo $OUTPUT->header();
 echo $renderer->render_search_page($results, $searchtext, $filterby);

@@ -152,7 +152,8 @@ class theme_mebis_block_mbssearch_renderer extends block_mbssearch_renderer {
             'url' => $ajaxurl->out(),
             'results' => $results,
             'limitfrom' => $results->limitfrom + $results->limitnum,
-            'limitnum' => $results->limitnum
+            'limitnum' => $results->limitnum,
+            'schoolcatid' => $results->schoolcatid
         );
 
         $PAGE->requires->yui_module('moodle-block_mbssearch-searchpage', 'M.block_mbssearch.initsearchpage', array($opts));
@@ -213,6 +214,7 @@ class theme_mebis_block_mbssearch_renderer extends block_mbssearch_renderer {
 
         $params = array(
             'searchtext' => $searchtext,
+            'schoolcatid' => $results->schoolcatid,
             'filterby' => $filterby,
             'limitfrom' => $nextlimitfrom,
             'limitnum' => $results->limitnum

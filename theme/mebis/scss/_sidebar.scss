@@ -1,0 +1,81 @@
+/*
+    Sidebar
+*/
+/* 
+    Created on : 09.07.2015, 17:13:11
+    Author     : Franziska Hübler, ISB
+*/
+
+
+/////////////////////
+// SMALL + DEFAULT //
+/////////////////////
+@media only screen {
+
+    .me-wrapper {     
+
+        .me-sidebar-wrapper {
+            background: $brand-gray-navi;
+            height: 100%;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+
+            .me-sidebar-nav {
+                list-style: none;
+                margin: 0;
+                padding: 70px 0;
+                overflow: hidden;
+                width: 75px;
+                @include transition(all .25s);
+
+                li {
+                    width: 235px;
+                    margin-bottom: 25px;
+                    position: relative;
+
+                    a {
+                        color: $brand-gray-light;
+
+                        [class^="icon-me"] {
+                            font-size: 2em;
+                            padding: 0 18px;
+                            vertical-align: middle;
+                        }
+
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        &:hover {
+                            text-decoration: none;
+                            color: $brand-secondary;
+                        }
+
+                        &.disabled {
+                            cursor: default;
+                            color: $brand-gray-medium;
+                        }
+
+                    }
+
+                    &.me-active {
+
+                        a {
+                            color: $brand-secondary;
+                        }
+
+                    }
+
+                }
+
+                &:hover {
+                    width: 235px;
+                }
+
+            }
+
+        }
+    }
+}

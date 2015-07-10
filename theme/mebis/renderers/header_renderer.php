@@ -242,7 +242,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::end_div();
 
         //$output .= html_writer::start_div('col-sm-6 col-xs-12');
-        $output .= html_writer::start_div('me-learning-platform-header-nav');
+        $output .= html_writer::start_div('me-component-nav');
 
         // Render the main_menubar;
         $output .= $this->main_menubar();
@@ -298,7 +298,7 @@ class theme_mebis_header_renderer extends renderer_base {
             return '';
         }
 
-        $params = array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-toggle' => 'dropdown');
+        $params = array('class' => 'dropdown-toggle me-component-nav-mobile-spacer', 'href' => '#', 'data-toggle' => 'dropdown');
         $block_menu = html_writer::tag('a', '<i class="icon-me-block-hinzufuegen"></i>', $params);
         $block_menu .= html_writer::start_tag('ul', array('class' => 'dropdown-menu dropdown-right', 'role' => 'menu')
         );
@@ -388,7 +388,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
             if ($coursemenu) {
                 $content = html_writer::start_tag('li', array('id' => 'coursedropdownmenu', 'class' => 'dropdown'));
-                $content .= html_writer::start_tag('a', array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default'));
+                $content .= html_writer::start_tag('a', array('class' => 'dropdown-toggle me-component-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default'));
                 $content .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
                 $content .= html_writer::end_tag('a');
                 $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
@@ -436,19 +436,19 @@ class theme_mebis_header_renderer extends renderer_base {
 
         $url = new moodle_url('/message/index.php');
         $text = html_writer::tag('i', '', array('class' => 'fa fa-bullhorn')) . $unreadMessages;
-        $messageslink = html_writer::link($url, $text, array('class' => 'extra-nav-mobile-spacer'));
+        $messageslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $messageslink);
 
         // Files menu item.
         $url = new moodle_url('/user/files.php');
         $text = html_writer::tag('i', '', array('class' => 'fa fa-folder'));
-        $fileslink = html_writer::link($url, $text, array('class' => 'extra-nav-mobile-spacer'));
+        $fileslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $fileslink);
 
         // My dashboard item.
         $url = new moodle_url('/my');
         $text = html_writer::tag('i', '', array('class' => 'fa fa-laptop'));
-        $dashboardlink = html_writer::link($url, $text, array('class' => 'extra-nav-mobile-spacer'));
+        $dashboardlink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $dashboardlink);
 
         // add block menu item.
@@ -460,7 +460,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         if (!empty($usermenu) || !empty($adminmenu)) {
             $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
-            $content .= html_writer::tag('a', '<i class="fa fa-cog"></i>', array('class' => 'dropdown-toggle extra-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
+            $content .= html_writer::tag('a', '<i class="fa fa-cog"></i>', array('class' => 'dropdown-toggle me-component-nav-mobile-spacer', 'href' => '#', 'data-prevent' => 'default')
             );
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
             $content .= html_writer::start_tag('li');

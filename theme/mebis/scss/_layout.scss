@@ -874,56 +874,7 @@
 
         /* ========================================= Page Header ========================================= */
 
-        // page header in normal view
-        .me-page-header {
-            font-size: $font-size-base !important;
-            border: none;
-            padding: 42px 0 0;
-            margin: 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 99;
-            min-height: 135px;
-            @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-
-
-            @media only screen and (max-width: $screen-md) {
-                position: absolute;
-            }
-
-            .container {
-
-                .logo-row {
-                    margin: 25px 0;
-
-                    img {
-                        max-width: 100%;
-                        height: auto;
-                    }
-
-                    .extra-nav {
-                        margin-top: 6px;
-                        text-align: right;
-
-                        .fa, [class*="icon-me-"] {
-                            display: inline-block;
-                            margin: 0 5px 0 0;
-                            font-size: emCalc(23px);
-                            vertical-align: top;
-                            line-height: 1em;
-                        }
-                    }
-
-                }
-
-            }
-
-            &.full {
-                background: $bg-light;
-            }
-
-        }
+        
 
         .container {
             position: relative;
@@ -2646,11 +2597,6 @@
 @media only screen and (min-width: $screen-lg-min) {
 
     .me-wrapper {
-        // adapt spacing for mobile header
-        .me-page-header {
-            padding: 42px 0 0 0;
-        }
-
         .me-idm-portal-sub-section {
 
             .me-process-crumbs {
@@ -2695,20 +2641,6 @@
                 //margin-bottom: 0 !important;
             }
         }
-
-        .me-page-header {
-
-            .container {
-
-                .logo-row {
-                    margin: 30px 0;
-                }
-
-            }
-
-        }
-
-
     }
 
 }
@@ -2847,10 +2779,6 @@
 
     }
 
-    .me-maintenance .me-wrapper .me-page-header {
-        padding: 38px 0 40px 0;
-    }
-
     .btn-group {
 
         .btn {
@@ -2917,18 +2845,6 @@
             text-align: center;
             background: $brand-gray-light;
             display: table;
-        }
-
-        .me-page-header {
-
-            .container {
-
-                .logo-row {
-                    margin: 10px 0;
-                }
-
-            }
-
         }
 
         .me-content-block {

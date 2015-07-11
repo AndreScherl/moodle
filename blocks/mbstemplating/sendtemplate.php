@@ -28,7 +28,7 @@ global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 use \block_mbstemplating AS mbst;
 
 $systemcontext = context_system::instance();
-$thisurl = new moodle_url('/blocks/mbstemplating/questman/index.php');
+$thisurl = new moodle_url('/blocks/mbstemplating/sendtemplate.php');
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 
@@ -55,24 +55,24 @@ $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
-    $template = (object)array(
+    $backup = (object)array(
         'origcourseid' => $courseid,
         'creatorid' => $USER->id,
         'timecreated' => time(),
         'qformid' => $activeform->id,
         'incluserdata' => empty($data->incluserdata) ? 0 :1,
     );
-    $template->id = $DB->insert_record('block_mbstemplating_template', $template);
+    $backup->id = $DB->insert_record('block_mbstemplating_backup', $backup);
     // Save answers to dynamic questions.
     foreach($questions as $questionid => $question) {
         $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
         $answer = empty($data->{$question->fieldname}) ? null : $data->{$question->fieldname};
-        $typeclass::save_answer($template->id, $question->id, $answer);
+        $typeclass::save_answer($backup->id, $question->id, $answer);
     }
 
     // Initiate deployment task.
     $deployment = new \block_mbstemplating\task\adhoc_deploy();
-    $deployment->set_custom_data($template);
+    $deployment->set_custom_data($backup);
     \core\task\manager::queue_adhoc_task($deployment);
 
     redirect($redirurl);

@@ -68,11 +68,11 @@ class qtype_datetime extends qtype_base {
         $form->addElement('date_time_selector', $question->fieldname, $question->title, $attributes);
     }
 
-    public static function save_answer($templateid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($backupid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
         if (empty($answer)) {
             $answer = 0;
         }
-        return parent::save_answer($templateid, $questionid, $answer);
+        return parent::save_answer($backupid, $questionid, $answer);
     }
 
 }

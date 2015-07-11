@@ -13,15 +13,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstemplating
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2015070801;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstemplating';
-$plugin->maturity  = MATURITY_STABLE;
+$observers = array (
+    array(
+        'eventname' => '\core\event\course_deleted',
+        'callback' => '\block_mbstemplating\course::course_deleted',
+    ),
+);

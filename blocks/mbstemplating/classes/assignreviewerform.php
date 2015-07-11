@@ -20,27 +20,34 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mbstemplating\questman;
+namespace block_mbstemplating;
 
 defined('MOODLE_INTERNAL') || die();
 
-class qtype_checkbox extends qtype_base {
+global $CFG;
 
-    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
-        $form->addElement('selectyesno', 'defaultdata', get_string('profiledefaultchecked', 'admin'));
-        $form->setDefault('defaultdata', 0); // Defaults to 'no'.
-        $form->setType('defaultdata', PARAM_BOOL);
-    }
+require_once($CFG->libdir . '/formslib.php');
 
-    public static function add_template_element(\MoodleQuickForm &$form, $question) {
-        $form->addElement('checkbox', $question->fieldname, $question->title);
-        if ($question->defaultdata) {
-            $form->setDefault($question->fieldname, true);
+/**
+ * Class assignreviewerform
+ * @package block_mbstemplating
+ * Main question form
+ */
+
+class assignreviewerform extends \moodleform {
+    function definition() {
+        $form = $this->_form;
+
+        $form->addElement('hidden', 'course', $this->_customdata['courseid']);
+        $form->setType('course', PARAM_INT);
+
+        $options = array();
+        foreach($this->_customdata['users'] as $user) {
+            $options[$user->id] = $user->firstname .' ' . $user->lastname;
         }
+        $form->addElement('select', 'reviewerid', get_string('selectedreviewer', 'block_mbstemplating'), $options);
+
+        $this->add_action_buttons(true, get_string('assignreviewer', 'block_mbstemplating'));
     }
 
-    public static function save_answer($backupid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
-        $answer = empty($answer) ? 0 : 1;
-        return parent::save_answer($backupid, $questionid, $answer);
-    }
 }

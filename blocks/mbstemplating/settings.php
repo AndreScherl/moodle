@@ -33,4 +33,11 @@ if ($ADMIN->fulltree) {
     $options += coursecat::make_categories_list('moodle/category:manage', 0);
     $settings->add(new admin_setting_configselect('block_mbstemplating/deploycat',
                                                   get_string('deploycat', 'block_mbstemplating'), null, null, $options));
+
+    $roles = get_roles_with_capability('enrol/class:assignable', CAP_ALLOW, context_system::instance());
+    $roles = role_fix_names($roles, null, ROLENAME_BOTH, true);
+    $settings->add(new admin_setting_configselect('block_mbstemplating/reviewerrole',
+                                                  get_string('reviewerrole', 'block_mbstemplating'), null, null, $roles));
+
+
 }

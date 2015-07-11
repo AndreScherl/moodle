@@ -42,10 +42,16 @@ class course {
      */
     public static function extend_coursenav(\navigation_node &$coursenode, \context $coursecontext) {
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstemplating'), null, \navigation_node::COURSE_CURRENT);
+        $cid = $coursecontext->instanceid;
 
         if (has_capability('block/mbstemplating:sendcoursetemplate', $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstemplating/sendtemplate.php', array('course' => $coursecontext->instanceid));
+            $url = new \moodle_url('/blocks/mbstemplating/sendtemplate.php', array('course' => $cid));
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstemplating'), $url);
+        }
+
+        if (self::can_assignreview($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstemplating/assignreviewer.php', array('course' => $cid));
+            $tplnode->add(get_string('assignreviewer', 'block_mbstemplating'), $url);
         }
 
         if ($tplnode->has_children()) {
@@ -53,20 +59,67 @@ class course {
         }
     }
 
-    private static function get_template_filename($template) {
-        return self::BACKUP_PREFIX . $template->id . '.mbz';
+    /**
+     * Clean up after a course has been deleted.
+     * @param \core\event\course_deleted $event
+     */
+    public static function course_deleted(\core\event\course_deleted $event) {
+        global $DB;
+
+        $data = $event->get_data();
+        $cid = $data['courseid'];
+        $DB->delete_records('block_mbstemplating_template', array('courseid' => $cid));
+    }
+
+    /**
+     * Tells us whether the course can be assigned a reviewer
+     * @param context_course $coursecontext
+     * @return bool
+     */
+    public static function can_assignreview($coursecontext) {
+        global $DB;
+        if (!has_capability('block/mbstemplating:sendcoursetemplate', $coursecontext)) {
+            return false;
+        }
+
+        $cid = $coursecontext->instanceid;
+        return $DB->record_exists('block_mbstemplating_template', array('courseid' => $cid, 'reviewerid' => 0));
+    }
+
+    /**
+     * Assign reviewer to a course. Assumes can_assignreview() has already been called.
+     * @param $courseid
+     * @param $userid
+     */
+    public static function assign_reviewer($courseid, $userid) {
+        // Mark reviewer in the template record.
+        $dobj = new \block_mbstemplating\dataobj\template(array('courseid' => $courseid));
+        if (empty($dobj->id)) {
+            throw new \moodle_exception('errorcoursenottemplate', 'block_mbstemplating');
+        }
+        $dobj->reviewerid = $userid;
+        $dobj->update();
+
+        // Enrol reviewer.
+        user::enrol_reviewer($courseid, $userid);
+    }
+
+
+
+    private static function get_template_filename($backup) {
+        return self::BACKUP_PREFIX . $backup->id . '.mbz';
     }
 
     /**
      * Create a backup for a template.
-     * @param object $template
+     * @param object $backup
      * @return bool success
      */
 
-    public static function backup_template($template) {
-        $filename = self::get_template_filename($template);
+    public static function backup_template($backup) {
+        $filename = self::get_template_filename($backup);
         $user = get_admin();
-        if (!$filename = self::automated_backup($template->origcourseid, $filename, $template->incluserdata, $user->id)) {
+        if (!$filename = self::automated_backup($backup->origcourseid, $filename, $backup->incluserdata, $user->id)) {
             throw new \moodle_exception('errorbackinguptemplate', 'block_mbstemplating');
         }
         return true;
@@ -74,19 +127,28 @@ class course {
 
     /**
      * Deploy a backed up template.
-     * @param object $template
+     * @param object $backup
      * @return int course id.
      */
-    public static function restore_template($template) {
+    public static function restore_template($backup) {
         global $DB;
 
-        $versionid = empty($template->lastversion) ? 0 : $template->lastversion;
+        $versionid = empty($backup->lastversion) ? 0 : $backup->lastversion;
         $versionid++;
-        $template->lastversion = $versionid;
-        $courseid = self::launch_restore($template);
+        $backup->lastversion = $versionid;
+        $courseid = self::launch_restore($backup);
 
-        $updateobj = (object)array('id' => $template->id, 'lastversion' => $versionid);
-        $DB->update_record('block_mbstemplating_template', $updateobj);
+        $updateobj = (object)array('id' => $backup->id, 'lastversion' => $versionid);
+        $DB->update_record('block_mbstemplating_backup', $updateobj);
+
+        // Save template record.
+        $template = array(
+            'courseid' => $courseid,
+            'backupid' => $backup->id,
+            'authorid' => $backup->creatorid,
+        );
+        $dobj = new \block_mbstemplating\dataobj\template($template);
+        $dobj->insert();
         return $courseid;
     }
 
@@ -200,10 +262,10 @@ class course {
 
     /**
      * Restore a backed up template.
-     * @param object $templateid
+     * @param object $backup
      * @return int courseid
      */
-    private static function launch_restore($template) {
+    private static function launch_restore($backup) {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -214,7 +276,7 @@ class course {
             throw new \moodle_exception('errorcatnotexists', 'block_mbstemplating');
         }
 
-        $filename = self::get_template_filename($template);
+        $filename = self::get_template_filename($backup);
         $dir = $CFG->dataroot . '/' . self::BACKUP_LOCALPATH;
         $filepath = $dir . '/' . $filename;
         if (!is_readable($filepath)) {
@@ -222,7 +284,7 @@ class course {
         }
 
         // Extraction mostly copied from \backup_general_helper::get_backup_information_from_mbz().
-        $tmpname = 'mbstemplatting_' . $template->id . '_' . $template->lastversion . '_' . time();
+        $tmpname = 'mbstemplatting_' . $backup->id . '_' . $backup->lastversion . '_' . time();
         $tmpdir = $CFG->tempdir . '/backup/' . $tmpname;
         $fp = get_file_packer('application/vnd.moodle.backup');
         $extracted = $fp->extract_to_pathname($filepath, $tmpdir);
@@ -236,7 +298,7 @@ class course {
         $format = $info->format;
         $plugins = get_sorted_course_formats();
         if (!in_array($format, $plugins)) {
-            if ($origformat = $DB->get_field('course', 'format', array('id' => $template->origcourseid))) {
+            if ($origformat = $DB->get_field('course', 'format', array('id' => $backup->origcourseid))) {
                 $format = $origformat;
             } else {
                 $format = reset($plugins);
@@ -246,7 +308,7 @@ class course {
         // Create course.
         $cdata = (object)array(
             'category' => $catid,
-            'shortname' => self::generate_course_shortname($info->original_course_shortname, $template->lastversion),
+            'shortname' => self::generate_course_shortname($info->original_course_shortname, $backup->lastversion),
             'fullname' => $info->original_course_fullname,
             'format' => $format,
             'numsections' => empty($info->sections) ? 0 : count($info->sections),

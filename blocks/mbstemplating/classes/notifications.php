@@ -48,10 +48,10 @@ class notifications {
     }
 
     /** Notify the relevant users that the restore is successful.
-     * @param object $template
+     * @param object $backup
      * @param mixed $course object or id
      */
-    public static function email_deployed($template, $course) {
+    public static function email_deployed($backup, $course) {
         global $DB;
 
         if (!is_object($course)) {
@@ -69,10 +69,27 @@ class notifications {
         }
 
         // Email to course author.
-        $author = $DB->get_record('user', array('id' => $template->creatorid), '*', MUST_EXIST);
+        $author = $DB->get_record('user', array('id' => $backup->creatorid), '*', MUST_EXIST);
         $subject = get_string('emailtempldeployed_subj', 'block_mbstemplating');
         $body = get_string('emailtempldeployed_body', 'block_mbstemplating', $course);
         email_to_user($author, $from, $subject, $body);
+    }
+
+    /**
+     * Tell the user that they have been assigned reviewer.
+     * @param object $course must include id and fullname.
+     * @param int $userid
+     */
+    public static function notify_assignedreviewer($course, $userid) {
+        global $DB;
+
+        $touser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+        $fromuser = self::get_fromuser();
+        $url = new \moodle_url('/course/view.php', array('id' => $course->id));
+        $a = (object)array('url' => $url, 'fullname' => $course->fullname);
+        $subject = get_string('emailassignedreviewer_subj', 'block_mbstemplating');
+        $body = get_string('emailassignedreviewer_body', 'block_mbstemplating');
+        email_to_user($touser, $fromuser, $subject, $body);
     }
 
     /**

@@ -2450,8 +2450,9 @@ function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownloa
         $filename = rawurlencode($filename);
     }
     
-     //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
-    \local_mbs\local\datenschutz::hook_filelib_send_stored_file($stored_file);
+    //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
+    // awag: 13.07.2015 temporarily commented out, TODO: check whether this download protection is necessary any further.
+    //\local_mbs\local\datenschutz::hook_filelib_send_stored_file($stored_file);
     //--- awag
     
 

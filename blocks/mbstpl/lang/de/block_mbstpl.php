@@ -15,22 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_mbs
- * @copyright 2015 Yair Spielmann, Synergy Learning
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-function local_mbs_extends_settings_navigation(settings_navigation $nav, context $context) {
-    if (!($context instanceof context_course)) {
-        return;
-    }
-    if ($context->instanceid == get_site()->id) {
-        return;
-    }
-    if (!class_exists('block_mbstpl\course')) {
-        return;
-    }
-    block_mbstpl\course::extend_coursenav($nav, $context);
-}
+$string['emailtempldeployed_subj'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.”';
+$string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';

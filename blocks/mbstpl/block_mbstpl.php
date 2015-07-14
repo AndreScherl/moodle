@@ -15,22 +15,39 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_mbs
- * @copyright 2015 Yair Spielmann, Synergy Learning
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function local_mbs_extends_settings_navigation(settings_navigation $nav, context $context) {
-    if (!($context instanceof context_course)) {
-        return;
+class block_mbstpl extends block_base {
+
+    public function init() {
+
+        $this->title = get_string('pluginname', 'block_mbstpl');
     }
-    if ($context->instanceid == get_site()->id) {
-        return;
+
+    public function get_content() {
+
+        if ($this->content !== null) {
+            return $this->content;
+        }
+
+        if (empty($this->instance)) {
+            $this->content = '';
+            return $this->content;
+        }
+
+        $this->content = new stdClass();
+        $this->content->text = 'TODO'; // TODO.
+        $this->content->footer = '';
+
+        return $this->content;
     }
-    if (!class_exists('block_mbstpl\course')) {
-        return;
+
+    function has_config() {
+        return true;
     }
-    block_mbstpl\course::extend_coursenav($nav, $context);
 }

@@ -15,22 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_mbs
- * @copyright 2015 Yair Spielmann, Synergy Learning
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstpl\questman;
+
 defined('MOODLE_INTERNAL') || die();
 
-function local_mbs_extends_settings_navigation(settings_navigation $nav, context $context) {
-    if (!($context instanceof context_course)) {
-        return;
+global $CFG;
+
+require_once($CFG->libdir . '/formslib.php');
+
+/**
+ * Class activatedraftform
+ * @package block_mbstpl\questman
+ * Main question form
+ */
+
+class activatedraftform extends \moodleform {
+    function definition() {
+        $form = $this->_form;
+
+        $form->addElement('text', 'formname', get_string('name'));
+        $form->setType('formname', PARAM_TEXT);
+        $form->addRule('formname', get_string('required'), 'required', null, 'client');
+
+        $this->add_action_buttons(false, get_string('qformactivate', 'block_mbstpl'));
     }
-    if ($context->instanceid == get_site()->id) {
-        return;
-    }
-    if (!class_exists('block_mbstpl\course')) {
-        return;
-    }
-    block_mbstpl\course::extend_coursenav($nav, $context);
+
 }

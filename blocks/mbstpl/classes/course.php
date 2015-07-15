@@ -54,6 +54,11 @@ class course {
             $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
         }
 
+        if (self::can_viewfeedback($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
+            $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
+        }
+
         if ($tplnode->has_children()) {
             $coursenode->add_node($tplnode);
         }
@@ -72,11 +77,40 @@ class course {
     }
 
     /**
+     * Tells us whether the current user can view the feedback page.
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function can_viewfeedback(\context_course $coursecontext) {
+        global $USER;
+
+        $dobj = new dataobj\template(array('courseid' => $coursecontext->instanceid));
+        if (!$dobj->id) {
+            return false;
+        }
+
+        $allwed = array(
+            dataobj\template::STATUS_PUBLISHED,
+            dataobj\template::STATUS_UNDER_REVIEW,
+            dataobj\template::STATUS_UNDER_REVISION,
+        );
+        if (!in_array($dobj->status, $allwed)) {
+            return false;
+        }
+
+        if (has_capability('block/mbstpl:coursetemplatereview', $coursecontext)) {
+            return true;
+        }
+
+        return $dobj->reviewerid == $USER->id;
+    }
+
+    /**
      * Tells us whether the course can be assigned a reviewer
      * @param context_course $coursecontext
      * @return bool
      */
-    public static function can_assignreview($coursecontext) {
+    public static function can_assignreview(\context_course $coursecontext) {
         global $DB;
         if (!has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
             return false;
@@ -93,11 +127,12 @@ class course {
      */
     public static function assign_reviewer($courseid, $userid) {
         // Mark reviewer in the template record.
-        $dobj = new \block_mbstpl\dataobj\template(array('courseid' => $courseid));
+        $dobj = new dataobj\template(array('courseid' => $courseid));
         if (empty($dobj->id)) {
             throw new \moodle_exception('errorcoursenottemplate', 'block_mbstpl');
         }
         $dobj->reviewerid = $userid;
+        $dobj->status = dataobj\template::STATUS_UNDER_REVIEW;
         $dobj->update();
 
         // Enrol reviewer.
@@ -147,7 +182,7 @@ class course {
             'backupid' => $backup->id,
             'authorid' => $backup->creatorid,
         );
-        $dobj = new \block_mbstpl\dataobj\template($template);
+        $dobj = new dataobj\template($template);
         $dobj->insert();
         return $courseid;
     }

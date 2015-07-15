@@ -68,6 +68,9 @@ class template extends \data_object {
     /* @var int reviewer id  */
     public $reviewerid;
 
+    /* @var int status  */
+    public $status;
+
     /**
      * Finds and returns a data_object instance based on params.
      *

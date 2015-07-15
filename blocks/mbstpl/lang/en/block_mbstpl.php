@@ -71,6 +71,7 @@ $string['sendcoursetemplate'] = 'Send course template';
 $string['sendcoursetemplateheading'] = 'You may publish your course under the following license terms: CC / non-profit / disclosure with attribution / changed). In the CC license, it is necessary that your name is mentioned. You hereby consent to the publication of your name.';
 $string['sendforreviewing'] = 'Send for reviewing';
 $string['sendtpldate'] = 'Date of sending course template';
+$string['templatefeedback'] = 'Template feedback';
 $string['useq'] = 'Use question';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';

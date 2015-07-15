@@ -120,4 +120,28 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $row;
     }
 
+    /**
+     * Box on top of the template page containing course and template information.
+     * @param $course
+     * @param $template
+     */
+    public function coursebox($course, $template) {
+        global $DB;
+
+        $author = $DB->get_record('user', array('id' => $template->authorid));
+        $authorname = $author ? fullname($author). ' '. $author->email : '';
+        $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
+        $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+
+        $cbox = '';
+        $table = new html_table();
+        $table->data = array();
+        $table->data[] = array(get_string('coursename', 'block_mbstpl'), $course->fullname);
+        $table->data[] = array(get_string('creator', 'block_mbstpl'), $authorname);
+        $table->data[] = array(get_string('assigned', 'block_mbstpl'), $reviewername);
+        $table->data[] = array(get_string('status'));
+
+        $cbox .= html_writer::table($table);
+        return html_writer::div($cbox, 'coursebox');
+    }
 }

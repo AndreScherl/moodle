@@ -23,11 +23,13 @@
 $string['addfrombank'] = 'Add a question from the question bank';
 $string['addqtodraft'] = 'Use question';
 $string['addquestion'] = 'Add a new question';
+$string['assigned'] = 'Assigned';
 $string['assignreviewer'] = 'Assign reviewer';
 $string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';
 $string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
 $string['copyright'] = 'Alle Inhalte des Kurses sind frei von Rechten Dritter';
 $string['coursename'] = 'Course name';
+$string['creator'] = 'Creator';
 $string['deploycat'] = 'Template deployment category';
 $string['emailassignedreviewer_body'] = 'Dear course reviewer,'."\n".'The you have been assigned to review template course {$a->fullname}. You can review it now at at: {$a->url} .';
 $string['emailassignedreviewer_subj'] = 'You have been assigned to review';

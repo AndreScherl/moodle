@@ -39,8 +39,6 @@ require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
 
 $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true);
-$reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
-$author = $DB->get_record('user', array('id' => $template->authorid));
 
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
@@ -51,6 +49,9 @@ if (!mbst\course::can_viewfeedback($coursecontext)) {
 
 
 echo $OUTPUT->header();
+
+$renderer = $PAGE->get_renderer('block_mbstpl');
+echo $renderer->coursebox($course,$template);
 
 echo html_writer::tag('h2', $pagetitle);
 echo $OUTPUT->footer();

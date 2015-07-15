@@ -36,6 +36,7 @@ $string['emailreadyforreview_subj'] = 'Template course ready for review';
 $string['emailtempldeployed_body'] = 'Template deployed';
 $string['emailtempldeployed_subj'] = 'Thank you for your submission. The template course will be reviwed.';
 $string['errorcannotassignreviewer'] = 'You cannot assign reviewers for this course.';
+$string['errorcannotviewfeedback'] = 'You cannot view feedback for this course.';
 $string['errorcoursenottemplate'] = 'Course is not a template.';
 $string['errordeploying'] = 'Error deploying template.';
 $string['erroremailbody'] = 'An error has occurred: {$a->message}'."\n".'{$a->errorstr}';

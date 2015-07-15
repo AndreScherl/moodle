@@ -57,11 +57,14 @@ In this file we collect:
 }
 
 // Layout in edit mode!
-.dir-ltr.editing.used-region-side-post.used-region-side-pre {
+.editing {
 
-    #block-region-side-pre, #block-region-side-post {
+    #block-region-side-pre,
+    #block-region-side-post,
+    #region-main {
         width: 100%;
-        right: initial;
+        right: auto;
+        left: auto;
         padding : 0;
     }
 }

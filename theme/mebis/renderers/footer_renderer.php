@@ -164,7 +164,9 @@ class theme_mebis_footer_renderer extends renderer_base {
 
         foreach ($links as $link) {
             $footer_link = explode('|', $link);
-            $footer_links[$footer_link[0]] = $footer_link[1];
+            if (!empty($footer_link[1]) && $footer_link[1] !== '') {
+                $footer_links[$footer_link[0]] = $footer_link[1];
+            }
         }
 
         return $footer_links;

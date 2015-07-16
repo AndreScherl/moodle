@@ -54,6 +54,7 @@ class template extends \data_object {
     public $optional_fields = array(
         'reviewerid' => 0,
         'status' => self::STATUS_CREATED,
+        'timemodified' => 0,
     );
 
     /* @var int Course id  */
@@ -71,6 +72,9 @@ class template extends \data_object {
     /* @var int status  */
     public $status;
 
+    /* @var int timemodified  */
+    public $timemodified;
+
     /**
      * Finds and returns a data_object instance based on params.
      *
@@ -79,5 +83,27 @@ class template extends \data_object {
      */
     public static function fetch($params) {
         return self::fetch_helper('block_mbstpl_template', __CLASS__, $params);
+    }
+
+    /**
+     * Updates this object in the Database, based on its object variables. ID must be set.
+     *
+     * @return bool success
+     */
+    public function update() {
+        $this->timemodified = time();
+        parent::update();
+    }
+
+    /**
+     * Records this object in the Database, sets its id to the returned value, and returns that value.
+     * If successful this function also fetches the new object data from database and stores it
+     * in object properties.
+     *
+     * @return int PK ID if successful, false otherwise
+     */
+    public function insert() {
+        $this->timemodified = time();
+        parent::insert();
     }
 }

@@ -596,9 +596,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
                 $userroles = get_user_roles($ctx, $user->id);
                 if ($_SERVER["mebisBetaAccess"] == "TRUE" && !array_key_exists($role->id, $userroles)) {
                     role_assign($role->id, $user->id, $ctx->id);
-                    // set up isBetauser - flag
-                    $user->isBetauser = true;
-                }
+                }                
             }
         }
     }

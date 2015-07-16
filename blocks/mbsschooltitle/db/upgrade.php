@@ -27,7 +27,7 @@ function xmldb_block_mbsschooltitle_upgrade($oldversion) {
 
     //$dbman = $DB->get_manager();
 
-    if ($oldversion < 2015071600) {
+    if ($oldversion < 2015071601) {
         
         $sql = "SELECT * FROM {files}
                 WHERE component = 'coursecat' AND filearea = 'description' AND filename like 'background%' ";
@@ -64,9 +64,8 @@ function xmldb_block_mbsschooltitle_upgrade($oldversion) {
             if (!$exists = $DB->get_record('files', array('pathnamehash' => $pathentry->pathnamehash))) {
                 $DB->insert_record('files', $pathentry);
             }
-            
-            upgrade_plugin_savepoint(true, 2015071500, 'block', 'mbsschooltitle');
         }
+        upgrade_plugin_savepoint(true, 2015071601, 'block', 'mbsschooltitle');
     }
     
     return true;

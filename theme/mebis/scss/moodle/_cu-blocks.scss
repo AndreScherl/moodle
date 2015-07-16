@@ -194,7 +194,7 @@ In this file we collect:
         select {
             @media only screen and (max-width: $screen-xs-min) {
                 margin-bottom: 10px;
-                max-width: none;
+                max-width: 100%;
             }
         }
 

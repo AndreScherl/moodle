@@ -36,8 +36,23 @@ class core_changes {
      * called from \course\index.php function definition() 
      */
     public static function check_view_courses() {
+        global $PAGE;
+        
         $context = context_system::instance();
         if (!has_capability('local/mbs:viewcourselist', $context)) {
+            redirect(new moodle_url('/')); // Redirect to front page.
+        }
+        
+        // Don't call course/index.php without any categorid, this will cause
+        // a massive performance issue!
+        // Note that $PAGE->category is a magic method (magic_get_category()) call!
+        if (!$PAGE->category) {
+            redirect(new moodle_url('/')); // Redirect to front page.
+        }
+        
+        // Don't call course/index.php with below the schoolcategory depth, this will cause
+        // a massive performance issue!
+        if ($PAGE->category->depth < \local_mbs\local\schoolcategory::$schoolcatdepth) {
             redirect(new moodle_url('/')); // Redirect to front page.
         }
     }

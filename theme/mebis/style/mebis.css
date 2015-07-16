@@ -15375,7 +15375,7 @@ In this file we collect:
 @media only screen and (max-width: 480px) {
   .block_mbsmycourses .my-courses-filter select {
     margin-bottom: 10px;
-    max-width: none;
+    max-width: 100%;
   }
 }
 .block_mbsmycourses .my-courses-filter label {

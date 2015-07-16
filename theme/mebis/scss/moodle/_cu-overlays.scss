@@ -48,6 +48,8 @@
 }
 
 #newmessageoverlay {
+    z-index: auto;
+    
     @media only screen and (max-width: $screen-desktop) {
         bottom: 50px;
     }    

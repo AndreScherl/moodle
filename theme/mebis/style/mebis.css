@@ -12279,6 +12279,9 @@ button.close {
     top: 0;
     right: 13px;
   }
+  .me-wrapper form .input-group .form-control {
+    z-index: 0;
+  }
   .me-wrapper [role="form"] input[type="text"] {
     max-width: none;
     height: auto;
@@ -16436,6 +16439,9 @@ input[type="checkbox"] + label {
   }
 }
 
+#newmessageoverlay {
+  z-index: auto;
+}
 @media only screen and (max-width: 992px) {
   #newmessageoverlay {
     bottom: 50px;

@@ -64,6 +64,22 @@ class course {
         }
     }
 
+
+    /**
+     * Returns the shortname of the status.
+     * @param $status
+     */
+    public static function get_statusshortname($status) {
+        $statuses = array(
+            dataobj\template::STATUS_CREATED => 'statuscreated',
+            dataobj\template::STATUS_UNDER_REVIEW => 'statusunderreview',
+            dataobj\template::STATUS_UNDER_REVISION => 'statusunderrevision',
+            dataobj\template::STATUS_PUBLISHED => 'statuspublished',
+            dataobj\template::STATUS_ARCHIVED => 'statusarchived',
+        );
+        return $statuses[$status];
+    }
+
     /**
      * Clean up after a course has been deleted.
      * @param \core\event\course_deleted $event

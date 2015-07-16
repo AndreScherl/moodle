@@ -132,16 +132,20 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $authorname = $author ? fullname($author). ' '. $author->email : '';
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
         $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $status = \block_mbstpl\course::get_statusshortname($template->status);
+        $statusbox = html_writer::span(get_string($status, 'block_mbstpl'), "statusbox $status");
 
         $cbox = '';
         $table = new html_table();
         $table->data = array();
         $table->data[] = array(get_string('coursename', 'block_mbstpl'), $course->fullname);
         $table->data[] = array(get_string('creator', 'block_mbstpl'), $authorname);
+        $table->data[] = array(get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
+        $table->data[] = array(get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
         $table->data[] = array(get_string('assigned', 'block_mbstpl'), $reviewername);
-        $table->data[] = array(get_string('status'));
+        $table->data[] = array(get_string('status'), $statusbox);
 
         $cbox .= html_writer::table($table);
-        return html_writer::div($cbox, 'coursebox');
+        return html_writer::div($cbox, 'mbstcoursebox');
     }
 }

@@ -15479,6 +15479,9 @@ In this file we collect:
 .block_mbsmyschools .moodle-actionmenu {
   text-align: left;
 }
+.block_mbsmyschools .moodle-actionmenu[data-enhanced].show .menu.align-tr-br {
+  right: auto;
+}
 
 .path-blocks-mbssearch #main-content-wrapper {
   background-color: transparent;

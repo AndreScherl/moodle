@@ -323,6 +323,9 @@ In this file we collect:
     .moodle-actionmenu {
         text-align: left;
     }
+    .moodle-actionmenu[data-enhanced].show .menu.align-tr-br {
+        right: auto;
+    }
 }
 
 // search page of block mbssearch

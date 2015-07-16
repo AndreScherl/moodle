@@ -15274,9 +15274,12 @@ In this file we collect:
   min-height: 150px;
 }
 
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre, .dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post {
+.editing #block-region-side-pre,
+.editing #block-region-side-post,
+.editing #region-main {
   width: 100%;
-  right: initial;
+  right: auto;
+  left: auto;
   padding: 0;
 }
 
@@ -15373,7 +15376,7 @@ In this file we collect:
 @media only screen and (max-width: 480px) {
   .block_mbsmycourses .my-courses-filter select {
     margin-bottom: 10px;
-    max-width: none;
+    max-width: 100%;
   }
 }
 .block_mbsmycourses .my-courses-filter label {

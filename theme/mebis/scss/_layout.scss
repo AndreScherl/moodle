@@ -757,6 +757,12 @@
         }
 
         // FORMS
+        form {
+            .input-group .form-control {
+                z-index: 0;
+            }
+        }
+
         [role="form"] {
 
             input[type="text"] {
@@ -769,10 +775,6 @@
                 input::-moz-placeholder,
                 input:-ms-input-placeholder {
                 line-height: 1.5em;
-            }
-
-            .form-control, .btn {
-                // height: 40px;
             }
 
             select {

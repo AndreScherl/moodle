@@ -192,9 +192,10 @@ In this file we collect:
     .my-courses-filter {
 
         select {
+            max-width: 100%;
+            
             @media only screen and (max-width: $screen-xs-min) {
                 margin-bottom: 10px;
-                max-width: 100%;
             }
         }
 

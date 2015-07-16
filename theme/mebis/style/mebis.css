@@ -15372,10 +15372,12 @@ In this file we collect:
 .block_mbsmycourses .course-sorting label {
   margin-top: 10px;
 }
+.block_mbsmycourses .my-courses-filter select {
+  max-width: 100%;
+}
 @media only screen and (max-width: 480px) {
   .block_mbsmycourses .my-courses-filter select {
     margin-bottom: 10px;
-    max-width: 100%;
   }
 }
 .block_mbsmycourses .my-courses-filter label {

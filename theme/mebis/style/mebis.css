@@ -13644,6 +13644,12 @@ button.close {
     right: 0;
     text-align: right;
   }
+  .me-in-page-menu .me-in-page-menu-anchor-links li span {
+    opacity: 0;
+    -webkit-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+  }
   .me-in-page-menu .me-in-page-menu-anchor-links li div {
     display: inline-block;
     position: relative;
@@ -13661,12 +13667,6 @@ button.close {
   }
   .me-in-page-menu .me-in-page-menu-anchor-links li div a {
     color: #fff;
-  }
-  .me-in-page-menu .me-in-page-menu-anchor-links li div > span {
-    opacity: 0;
-    -webkit-transition: opacity 0.2s;
-    -o-transition: opacity 0.2s;
-    transition: opacity 0.2s;
   }
   .me-in-page-menu .me-in-page-menu-anchor-links li div.active {
     background: #ff6600;
@@ -14369,11 +14369,10 @@ button.close {
     display: block;
     text-align: left;
     margin: 0;
-    padding: 10px;
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-  .me-in-page-menu .me-in-page-menu-anchor-links li > span {
+  .me-in-page-menu .me-in-page-menu-anchor-links li span {
     opacity: 1;
     -webkit-transition: opacity 0s;
     -o-transition: opacity 0s;

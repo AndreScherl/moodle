@@ -66,8 +66,8 @@
                 position: relative;
 
                 &:before{
-                   content: "\00BB";
-                   color: $brand-primary;
+                    content: "\00BB";
+                    color: $brand-primary;
                 }
             }
 
@@ -189,7 +189,7 @@
             [class*='col-'] {
 
                 &:not(:first-child),
-                &:not(:last-child) {
+                    &:not(:last-child) {
                     padding-right: 0;
                     padding-left: 0;
                 }
@@ -764,9 +764,9 @@
 
             input::-webkit-input-placeholder,
             input:-moz-placeholder,
-            input::-moz-placeholder,
-            input:-ms-input-placeholder {
-              line-height: 1.5em;
+                input::-moz-placeholder,
+                input:-ms-input-placeholder {
+                line-height: 1.5em;
             }
 
             .form-control, .btn {
@@ -887,7 +887,7 @@
 
         .top-bar {
 
-           .container {
+            .container {
                 position: relative;
 
                 .navbar-header {
@@ -1434,189 +1434,189 @@
         }
 
         // MEBIS SEARCH-RESULTS
-            .me-search-result {
-                margin-bottom: 20px;
+        .me-search-result {
+            margin-bottom: 20px;
 
-                ul {
-                    margin-bottom: 30px;
-                }
+            ul {
+                margin-bottom: 30px;
             }
+        }
 
-            &.me-teaser {
+        &.me-teaser {
 
-                .me-block-link {
-                    display: block;
-                    height: 100%;
-                    min-height: 100%;
-                    color: $brand-gray-dark;
+            .me-block-link {
+                display: block;
+                height: 100%;
+                min-height: 100%;
+                color: $brand-gray-dark;
+                overflow: hidden;
+
+                .me-search-result-image {
+                    position: relative;
+                    width: 101%;
+                    padding: 0;
                     overflow: hidden;
+                    background: $brand-gray-medium;
+                    text-align: center;
 
-                    .me-search-result-image {
+                    .me-search-result-blur-bg {
+                        position: absolute;
+                        z-index: 5;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        white-space: nowrap;
+                        @include background-size(cover);
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                    }
+
+                    span {
                         position: relative;
-                        width: 101%;
-                        padding: 0;
-                        overflow: hidden;
-                        background: $brand-gray-medium;
+                        z-index: 10;
                         text-align: center;
-
-                        .me-search-result-blur-bg {
-                            position: absolute;
-                            z-index: 5;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            white-space: nowrap;
-                            @include background-size(cover);
-                            background-repeat: no-repeat;
-                            background-position: center center;
-                        }
-
-                        span {
-                            position: relative;
-                            z-index: 10;
-                            text-align: center;
-                            vertical-align: middle;
-                            margin: 0 auto;
-                            height: 100%;
-                            display: block;
-
-                            img {
-                                max-width: none;
-                                width: 100%;
-                                height: auto;
-                            }
-                        }
+                        vertical-align: middle;
+                        margin: 0 auto;
+                        height: 100%;
+                        display: block;
 
                         img {
-                            vertical-align: middle;
-                            position: relative;
-                            z-index: 99;
-                            @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
                             max-width: none;
                             width: 100%;
+                            height: auto;
                         }
-
                     }
 
-                    .me-search-result-content {
-                        padding: 20px;
-
-                        h3 {
-                            font-weight: 400;
-                            font-size: $font-size-h3;
-                            line-height: 24px;
-                            margin-bottom: 15px;
-                            position: relative;
-
-                            &:before{
-                               font-size: emCalc(18px);
-                               color: $brand-primary;
-                               vertical-align: middle;
-                               margin-top: -12px;
-                            }
-                        }
-
-                        .year {
-                            margin-left: 0.45em;
-
-                            font-size: emCalc(40px);
-                        }
-
+                    img {
+                        vertical-align: middle;
+                        position: relative;
+                        z-index: 99;
+                        @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                        max-width: none;
+                        width: 100%;
                     }
 
-                    &:hover {
-                        background: $brand-secondary;
+                }
+
+                .me-search-result-content {
+                    padding: 20px;
+
+                    h3 {
+                        font-weight: 400;
+                        font-size: $font-size-h3;
+                        line-height: 24px;
+                        margin-bottom: 15px;
+                        position: relative;
+
+                        &:before{
+                            font-size: emCalc(18px);
+                            color: $brand-primary;
+                            vertical-align: middle;
+                            margin-top: -12px;
+                        }
+                    }
+
+                    .year {
+                        margin-left: 0.45em;
+
+                        font-size: emCalc(40px);
+                    }
+
+                }
+
+                &:hover {
+                    background: $brand-secondary;
+                    color: $white;
+
+                    h3, h3:before {
                         color: $white;
-
-                        h3, h3:before {
-                            color: $white;
-                        }
                     }
                 }
             }
+        }
 
-            .me-search-result-meta {
-                min-height: 40px;
-                background: $brand-primary;
+        .me-search-result-meta {
+            min-height: 40px;
+            background: $brand-primary;
 
-                .row.collapsed {
-                    margin: 0;
+            .row.collapsed {
+                margin: 0;
 
-                    [class*="col-"] {
-                        margin-bottom: 0;
+                [class*="col-"] {
+                    margin-bottom: 0;
+                }
+
+                .me-search-result-rate {
+                    color: $white;
+                    padding-top: 7px;
+                    font-size: emCalc(18px);
+                    text-align: right;
+
+                    .fa, [class*="icon-me-"] {
+                        margin-right: 0;
                     }
 
-                    .me-search-result-rate {
+                    span {
                         color: $white;
-                        padding-top: 7px;
-                        font-size: emCalc(18px);
-                        text-align: right;
+                        cursor: pointer;
 
-                        .fa, [class*="icon-me-"] {
-                            margin-right: 0;
+                        &:hover i:before, &.favorite i:before {
+                            content: "\e656";
+                            color: $brand-secondary;
                         }
+                    }
+
+                    &.personal-rating {
+                        color: $brand-secondary !important;
 
                         span {
-                            color: $white;
-                            cursor: pointer;
-
-                            &:hover i:before, &.favorite i:before {
-                                content: "\e656";
-                                color: $brand-secondary;
-                            }
-                        }
-
-                        &.personal-rating {
                             color: $brand-secondary !important;
-
-                            span {
-                                color: $brand-secondary !important;
-                            }
-                        }
-                    }
-
-                    .me-search-result-tag {
-                        text-align: right;
-
-                        .fa, [class*="icon-me-"] {
-                            margin-right: 0;
-                        }
-
-                        a {
-                            text-decoration: none;
-
-                            i {
-                                color: $white;
-                                display: block;
-                                font-size: emCalc(32px);
-                            }
-
-                            &:hover i:before, &.favorite i:before {
-                                content: "\e60c";
-                                color: $white;
-                            }
-
-                        }
-
-                    }
-
-                    .me-search-result-type {
-                        text-align: left;
-
-                        .fa, [class*="icon-me-"] {
-                            display: inline-block;
-                            background: $brand-primary-dark;;
-                            color: $white;
-                            line-height: 40px;
-                            width: 40px;
-                            text-align: center;
-                            font-size: emCalc(20px);
-                            margin-right: 0;
                         }
                     }
                 }
+
+                .me-search-result-tag {
+                    text-align: right;
+
+                    .fa, [class*="icon-me-"] {
+                        margin-right: 0;
+                    }
+
+                    a {
+                        text-decoration: none;
+
+                        i {
+                            color: $white;
+                            display: block;
+                            font-size: emCalc(32px);
+                        }
+
+                        &:hover i:before, &.favorite i:before {
+                            content: "\e60c";
+                            color: $white;
+                        }
+
+                    }
+
+                }
+
+                .me-search-result-type {
+                    text-align: left;
+
+                    .fa, [class*="icon-me-"] {
+                        display: inline-block;
+                        background: $brand-primary-dark;;
+                        color: $white;
+                        line-height: 40px;
+                        width: 40px;
+                        text-align: center;
+                        font-size: emCalc(20px);
+                        margin-right: 0;
+                    }
+                }
             }
+        }
 
 
         .meta-content {
@@ -1653,7 +1653,7 @@
                     cursor: pointer;
 
                     &:hover i:before,
-                    &.favorite i:before {
+                        &.favorite i:before {
                         content: "\e656";
                         color: $brand-secondary;
                     }
@@ -1682,7 +1682,7 @@
                     }
 
                     &:hover i:before,
-                    &.favorite i:before {
+                        &.favorite i:before {
                         content: "\e60c";
                         color: $white;
                     }
@@ -2327,7 +2327,7 @@
                 color: $white;
 
                 &:hover i:before,
-                &.favorite i:before {
+                    &.favorite i:before {
                     content: "\f02e";
                     color: $white;
                 }
@@ -2566,39 +2566,42 @@
             right: 0;
             text-align: right;
 
-            li div {
-                display: inline-block;
-                position: relative;
-                padding: 5px 10px;
-                margin: 0 0 5px 0;
-                background: $link-color;
-                @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-                cursor: pointer;
-                white-space: nowrap;
-                text-align: right;
-                @include transition(width 0.25s);
+            li {
 
-                a {
-                    color: $white;
-                }
-
-                > span {
+                span {
                     opacity: 0;
                     @include transition(opacity 0.2s);
                 }
 
-                &.active {
-                    background: $brand-secondary;
-                }
-
-                &:before {
-                    font-size: emCalc(10px);
-                    color: $white;
-                }
-
-                &:hover {
-                    background: $link-hover-color;
+                div {
+                    display: inline-block;
+                    position: relative;
+                    padding: 5px 10px;
+                    margin: 0 0 5px 0;
+                    background: $link-color;
+                    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                    cursor: pointer;
+                    white-space: nowrap;
+                    text-align: right;
                     @include transition(width 0.25s);
+
+                    a {
+                        color: $white;
+                    }
+
+                    &.active {
+                        background: $brand-secondary;
+                    }
+
+                    &:before {
+                        font-size: emCalc(10px);
+                        color: $white;
+                    }
+
+                    &:hover {
+                        background: $link-hover-color;
+                        @include transition(width 0.25s);
+                    }
                 }
             }
 
@@ -2912,7 +2915,7 @@
             }
 
             th:first-child,
-            td:first-child {
+                td:first-child {
                 background: $brand-gray-light;
             }
         }
@@ -3165,7 +3168,7 @@
 
         // MEBIS BLOCK TEASER GRID
         .me-block-grid {
-             margin-bottom: $space-medium;
+            margin-bottom: $space-medium;
 
             [class*="col"] {
                 //margin-bottom: 0 !important;
@@ -3528,10 +3531,9 @@
                 display: block;
                 text-align: left;
                 margin: 0;
-                padding: 10px;
                 @include box-shadow(none);
 
-                > span {
+                span {
                     opacity: 1;
                     @include transition(opacity 0s);
                 }

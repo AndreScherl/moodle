@@ -14848,9 +14848,6 @@ categorybox:
 }
 .category-box > .category-course > .category-course-title {
   padding: 0 !important;
-  /*            .infoToggle {
-                  color: $white;
-              }*/
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
@@ -15212,19 +15209,6 @@ Put all the pagelayout specific styles here.
   background: #fff !important;
   color: #000 !important;
 }
-@media only screen and (min-width: 1200px) {
-  .pagelayout-admin .admin-container, .pagelayout-report .admin-container {
-    width: 100%;
-    max-width: 1680px;
-    padding-left: 100px;
-  }
-  .pagelayout-admin .admin-container table, .pagelayout-report .admin-container table {
-    width: 100% !important;
-  }
-  .pagelayout-admin .admin-container table .mceToolbar, .pagelayout-report .admin-container table .mceToolbar {
-    width: auto !important;
-  }
-}
 .pagelayout-admin .admin-navigation, .pagelayout-report .admin-navigation {
   margin-bottom: 20px;
 }
@@ -15232,6 +15216,24 @@ Put all the pagelayout specific styles here.
   color: #fff;
 }
 
+.pagelayout-maintenance .me-wrapper .container.homepage-container.admin-container {
+  background: #fff;
+  margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .admin-container {
+    width: 100%;
+    max-width: 1680px;
+    padding-left: 100px;
+  }
+  .admin-container table {
+    width: 100% !important;
+  }
+  .admin-container table .mceToolbar {
+    width: auto !important;
+  }
+}
 /*
 In this file we collect:
 
@@ -15678,14 +15680,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     - #page-course-management
     - #page-content
     - #page-admin-purgecaches 
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-view
-    - #page-mod-book-view
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -15773,10 +15767,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   color: #333333;
 }
 
-#page-mod-lesson-edit #main-content-wrapper .label {
-  color: #000;
-}
-
 #page-content, #page-admin-purgecaches {
   background: #fff;
 }
@@ -15791,29 +15781,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 }
 #page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
   list-style: decimal inside none;
-}
-
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
-  padding-left: 10px;
-}
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
-  list-style: disc inside none;
-}
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
-  padding-left: 10px;
-}
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
-  list-style: decimal inside none;
-}
-
-#page-repository-pmediathek-search #page #page-content {
-  color: #fff;
-}
-#page-repository-pmediathek-search #page #page-content div .searchresult {
-  color: #000;
-}
-#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified > li {
-  background-color: #e6e6e6;
 }
 
 /*
@@ -16455,6 +16422,15 @@ input[type="checkbox"] + label {
     - database
     - assign
     - feedback
+    - #page-mod-wiki-view
+    - #page-mod-page-view
+    - #page-mod-glossary-view
+    - #page-mod-forum-discuss
+    - #page-mod-lesson-edit 
+    - #page-mod-lesson-view
+    - #page-mod-assign-view
+    - #page-mod-book-view
+    - #page-mod-choice-view
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -16483,16 +16459,30 @@ input[type="checkbox"] + label {
   margin-right: 20px;
 }
 
-#page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
-  margin-left: 0;
+#page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],
+#page-mod-choiceanon-view #main-content-wrapper form ul li input[type="radio"] {
+  margin: 0 7px 0 0;
+}
+#page-mod-choice-view #main-content-wrapper form ul li label,
+#page-mod-choiceanon-view #main-content-wrapper form ul li label {
+  padding-left: 2.8px;
+  margin: 0;
 }
 
-#page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
+#page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
   margin-left: 0;
 }
 
 #page-mod-journal-report .userpix img {
   max-width: none;
+}
+
+#page-mod-lesson-edit #main-content-wrapper .label {
+  color: #000;
+}
+
+#page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
+  margin-left: 0;
 }
 
 #page-mod-quiz-edit div.quizcontents {
@@ -16527,6 +16517,29 @@ input[type="checkbox"] + label {
 
 #page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
   background: #ff6600;
+}
+
+#page-repository-pmediathek-search #page #page-content {
+  color: #fff;
+}
+#page-repository-pmediathek-search #page #page-content div .searchresult {
+  color: #000;
+}
+#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified > li {
+  background-color: #e6e6e6;
+}
+
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+  padding-left: 10px;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+  list-style: disc inside none;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+  padding-left: 10px;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+  list-style: decimal inside none;
 }
 
 /** To check whether styles are necessary:

@@ -18,9 +18,27 @@ Put all the pagelayout specific styles here.
         //need important because of the styling of mydashboard (#page-my-index #main-content-wrapper in _cu-pages.scss)
         background: $white !important;
         color: $black !important;
-    }  
+    }      
 
-    @media only screen and (min-width: $screen-lg-min) {
+    .admin-navigation {
+
+        margin-bottom: 20px;
+
+        h3 {
+            color: $white;
+        }
+    }
+}
+
+.pagelayout-maintenance {
+    
+    .me-wrapper .container.homepage-container.admin-container {
+        background: $white;
+        margin-bottom: 40px;
+    }   
+}
+
+@media only screen and (min-width: $screen-lg-min) {
 
         .admin-container {
 
@@ -39,13 +57,3 @@ Put all the pagelayout specific styles here.
 
         }
     }
-
-    .admin-navigation {
-
-        margin-bottom: 20px;
-
-        h3 {
-            color: $white;
-        }
-    }
-}

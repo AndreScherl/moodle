@@ -15276,12 +15276,12 @@ In this file we collect:
   min-height: 150px;
 }
 
-.editing #block-region-side-pre,
-.editing #block-region-side-post,
-.editing #region-main {
-  width: 100%;
-  right: auto;
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre,
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post,
+.dir-ltr.editing.used-region-side-post.used-region-side-pre #region-main {
   left: auto;
+  right: auto;
+  width: auto;
   padding: 0;
 }
 

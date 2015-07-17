@@ -57,15 +57,14 @@ In this file we collect:
 }
 
 // Layout in edit mode!
-.editing {
-
+.dir-ltr.editing.used-region-side-post.used-region-side-pre {
     #block-region-side-pre,
     #block-region-side-post,
     #region-main {
-        width: 100%;
-        right: auto;
         left: auto;
-        padding : 0;
+        right: auto;
+        width: auto;
+        padding: 0;
     }
 }
 
@@ -193,7 +192,7 @@ In this file we collect:
 
         select {
             max-width: 100%;
-            
+
             @media only screen and (max-width: $screen-xs-min) {
                 margin-bottom: 10px;
             }
@@ -319,7 +318,7 @@ In this file we collect:
             margin-top: 45px;
         }
     }
-    
+
     .moodle-actionmenu {
         text-align: left;
     }

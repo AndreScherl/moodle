@@ -27,9 +27,14 @@ namespace block_mbsschooltitle\local;
  */
 class imagehelper {
 
+    /*public static $component = 'coursecat';
     public static $filearea = 'description';
+    public static $filepath = '/';*/
+    
+    public static $component = 'block_mbsschooltitle';
+    public static $filearea = 'schoollogo';
     public static $filepath = '/';
-
+    
     /** generates the image url with correct filearea
      * 
      * @param int $categoryid
@@ -44,7 +49,7 @@ class imagehelper {
         
         $catcontext = \context_coursecat::instance($categoryid);
 
-        $url = new \moodle_url("/pluginfile.php/{$catcontext->id}/coursecat/".self::$filearea. self::$filepath . $imagename);
+        $url = new \moodle_url("/pluginfile.php/{$catcontext->id}/".self::$component."/".self::$filearea. self::$filepath . $imagename);
         return $url->out();
     }
 
@@ -59,7 +64,7 @@ class imagehelper {
         $catcontext = \context_coursecat::instance($categoryid);
 
         $fs = get_file_storage();
-        return $fs->get_file($catcontext->id, 'coursecat', self::$filearea, 0, self::$filepath, $imagename);
+        return $fs->get_file($catcontext->id, self::$component, self::$filearea, 0, self::$filepath, $imagename);
     }
 
     
@@ -195,7 +200,7 @@ class imagehelper {
         if (!empty($data->deletepicture)) {
 
             $fs = get_file_storage();
-            $fs->delete_area_files($context->id, 'coursecat', 'description', 0, self::$filearea);
+            $fs->delete_area_files($context->id, self::$component, self::$filearea, 0);
             $picturetouse = '';
             
         } else {
@@ -203,7 +208,7 @@ class imagehelper {
             $config = get_config('block_mbsschooltitle');
             
             $originalfile = $form->save_temp_file('imagefile');
-            if (!$image = self::process_picture($context, 'coursecat', self::$filearea, 0, self::$filepath, $originalfile, $config->imgwidth, $config->imgheight)) {
+            if (!$image = self::process_picture($context, self::$component, self::$filearea, 0, self::$filepath, $originalfile, $config->imgwidth, $config->imgheight)) {
                 return false;
             }
             $picturetouse = $image['filename'];

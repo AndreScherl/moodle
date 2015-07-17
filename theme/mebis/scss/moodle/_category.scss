@@ -31,6 +31,7 @@ categorybox:
                 color: $white;
                 float: right;
                 margin-right: 20px;
+                line-height: 2em;
             }
             span.category-course-title-name {
                 margin-left: 5px;
@@ -168,9 +169,6 @@ categorybox:
                 a {
                     color: $white;
                 }
-            }
-            .infoToggle {
-                color: $white;
             }
             i {
                 color: $white;

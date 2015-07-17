@@ -14749,6 +14749,7 @@ categorybox:
   color: #fff;
   float: right;
   margin-right: 20px;
+  line-height: 2em;
 }
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
@@ -14847,14 +14848,14 @@ categorybox:
 }
 .category-box > .category-course > .category-course-title {
   padding: 0 !important;
+  /*            .infoToggle {
+                  color: $white;
+              }*/
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
-  color: #fff;
-}
-.category-box > .category-course > .category-course-title .infoToggle {
   color: #fff;
 }
 .category-box > .category-course > .category-course-title i {

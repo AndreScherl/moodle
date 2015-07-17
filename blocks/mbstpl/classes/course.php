@@ -121,6 +121,19 @@ class course {
         return $dobj->reviewerid == $USER->id;
     }
 
+
+    /**
+     * Set a new feedback to the template and send to author.
+     * @param dataobj\template $template
+     * @param array $feedback
+     */
+    public static function set_feedback(dataobj\template $template, $feedback) {
+        $template->feedback = $feedback['text'];
+        $template->feedbackformat = $feedback['format'];
+        $template->update();
+
+    }
+
     /**
      * Tells us whether the course can be assigned a reviewer
      * @param context_course $coursecontext

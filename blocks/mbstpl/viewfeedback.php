@@ -47,11 +47,23 @@ if (!mbst\course::can_viewfeedback($coursecontext)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 
+$isreviewer = true; //TODO.
+if ($isreviewer) {
+    $feedbackform = new \block_mbstpl\feedbackform(null, array('courseid' => $courseid));
+    if ($data = $feedbackform->get_data()) {
+        mbst\course::set_feedback($template, $data->feedback);
+    }
+}
 
 echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('block_mbstpl');
+echo html_writer::tag('h2', $pagetitle);
+
 echo $renderer->coursebox($course,$template);
 
-echo html_writer::tag('h2', $pagetitle);
+if ($isreviewer) {
+    $feedbackform->display();
+}
+
 echo $OUTPUT->footer();

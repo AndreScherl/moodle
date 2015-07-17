@@ -21,8 +21,8 @@
  */
 
 /**
- * Class template
- * For block_mbstpl_template.
+ * Class revhist
+ * For block_mbstpl_revhist.
  * @package block_mbstpl
  */
 namespace block_mbstpl\dataobj;
@@ -33,16 +33,10 @@ global $CFG;
 
 require_once($CFG->dirroot . '/completion/data_object.php');
 
-class template extends \data_object {
-
-    const STATUS_CREATED = 0;
-    const STATUS_UNDER_REVIEW = 1;
-    const STATUS_UNDER_REVISION = 2;
-    const STATUS_PUBLISHED = 3;
-    const STATUS_ARCHIVED = 4;
+class revhist extends \data_object {
 
     /* @var string Database table name that stores completion criteria information  */
-    public $table = 'block_mbstpl_template';
+    public $table = 'block_mbstpl_revhist';
 
     /**
      * Array of required table fields, must start with 'id'.
@@ -50,29 +44,25 @@ class template extends \data_object {
      * enrolperiod, timeend, gradepass, role
      * @var array
      */
-    public $required_fields = array('id', 'courseid', 'backupid', 'authorid');
+    public $required_fields = array('id', 'templateid', 'status');
     public $optional_fields = array(
-        'reviewerid' => 0,
-        'status' => self::STATUS_CREATED,
+        'assignedid' => 0,
         'feedback' => '',
         'feedbackformat' => FORMAT_MOODLE,
-        'timemodified' => 0,
+        'timecreated' => 0,
     );
 
-    /* @var int Course id  */
-    public $courseid;
+    /* @var int templateid  */
+    public $templateid;
 
-    /* @var int backupid  */
-    public $backupid;
+    /* @var int status  */
+    public $status;
 
     /* @var int authorid  */
     public $authorid;
 
-    /* @var int reviewer id  */
-    public $reviewerid;
-
-    /* @var int status  */
-    public $status;
+    /* @var int assignedid  */
+    public $assignedid;
 
     /* @var string feedback  */
     public $feedback;
@@ -80,8 +70,8 @@ class template extends \data_object {
     /* @var int feedbackformat  */
     public $feedbackformat;
 
-    /* @var int timemodified  */
-    public $timemodified;
+    /* @var int timecreated  */
+    public $timecreated;
 
     /**
      * Finds and returns a data_object instance based on params.
@@ -90,18 +80,7 @@ class template extends \data_object {
      * @return data_object instance of data_object or false if none found.
      */
     public static function fetch($params) {
-        return self::fetch_helper('block_mbstpl_template', __CLASS__, $params);
-    }
-
-    /**
-     * Updates this object in the Database, based on its object variables. ID must be set.
-     *
-     * @return bool success
-     */
-    public function update() {
-        $this->timemodified = time();
-        parent::update();
-        $this->add_to_revhist();
+        return self::fetch_helper('block_mbstpl_revhist', __CLASS__, $params);
     }
 
     /**
@@ -112,31 +91,7 @@ class template extends \data_object {
      * @return int PK ID if successful, false otherwise
      */
     public function insert() {
-        $this->timemodified = time();
+        $this->timecreated = time();
         parent::insert();
-        $this->add_to_revhist();
     }
-
-    /**
-     * Log this template change in revision history table.
-     */
-    private function add_to_revhist() {
-        $assignedid = 0;
-        if ($this->status == self::STATUS_UNDER_REVIEW) {
-            $assignedid = $this->reviewerid;
-        } else if ($this->status == self::STATUS_CREATED || $this->status == self::STATUS_UNDER_REVISION) {
-            $assignedid = $this->authorid;
-        }
-        $params = array(
-            'templateid' => $this->id,
-            'status' => $this->status,
-            'assignedid' => $assignedid,
-            'feedback' => $this->feedback,
-            'feedbackformat' => $this->feedbackformat,
-            'timecreated' => time(),
-        );
-        $revhist = new revhist($params);
-        $revhist->insert();
-    }
-
 }

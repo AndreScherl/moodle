@@ -48,6 +48,7 @@ $string['errormanualenrolnotset'] = 'Manual enrolment not set or enabled for cou
 $string['errorincorrectdatatype'] = 'Incorrect data type provided.';
 $string['errornoassignableusers'] = 'No assignable users found.';
 $string['errorreviewerrolenotset'] = 'Reviewer role not set. Needs to be set in the plugin settings.';
+$string['feedbacktoauthor'] = 'Feedback to author';
 $string['incluserdata'] = 'Publish user data';
 $string['lastupdate'] = 'Last update';
 $string['manageqforms'] = 'Manage question forms';

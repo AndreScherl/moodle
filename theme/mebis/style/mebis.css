@@ -16280,10 +16280,12 @@ input[type="checkbox"] + label {
     Created on : 21.05.2015, 13:10:44
     Author     : Franziska Hübler, ISB
 */
-.usermessages table#message_contacts {
+.usermessages table#message_contacts,
+.usermessages table#message_participants {
   width: 100%;
 }
-.usermessages table#message_contacts td.heading {
+.usermessages table#message_contacts td.heading,
+.usermessages table#message_participants td.heading {
   color: #333333;
   background: transparent;
 }
@@ -16431,6 +16433,7 @@ input[type="checkbox"] + label {
     - #page-mod-assign-view
     - #page-mod-book-view
     - #page-mod-choice-view
+    - #page-mod-choiceanon-view
 */
 /* 
     Created on : 05.06.2015, 12:13:08

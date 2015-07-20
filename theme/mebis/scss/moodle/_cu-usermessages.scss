@@ -7,31 +7,32 @@
 */
 
 .usermessages {
-    
-    table#message_contacts {
+
+    table#message_contacts,
+    table#message_participants {
         width: 100%;
-        
-         td {
+
+        td {
             &.heading {
                 color: $gray-dark;
                 background: transparent;
             }
-         }
+        }
     }
-    
+
     .mform .fitem_actionbuttons>div.felement {
         padding-left: 15px;
     }
-    
+
     .messages-area>.messagerecent {
         >.singlemessage {
             padding: 10px 0;
             border-bottom: dotted 1px $brand-gray-dark;
         }
-        
+
         span.otheruser, span.messagedate {
             margin-right: 10px;
         }
     }
-    
+
 }

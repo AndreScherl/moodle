@@ -93,6 +93,36 @@ class notifications {
     }
 
     /**
+     * Send reviewer feedback to the author.
+     * @param dataobj\template $template course template.
+     */
+    public static function send_feedback(dataobj\template $template) {
+        global $DB;
+        if (empty($template->authorid)) {
+            return;
+        }
+        if (empty($template->reviewerid)) {
+            return;
+        }
+        if (empty($template->feedback)) {
+            return;
+        }
+        $touser = $DB->get_record('user', array('id' => $template->authorid), '*', MUST_EXIST);
+        $fromuser = self::get_fromuser();
+        $reviewer = $DB->get_record('user', array('id' => $template->reivewerid), '*', MUST_EXIST);
+        $coursename = $DB->get_field('course', array('id' => $template->courseid), MUST_EXIST);
+        $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
+        $a = (object)array(
+            'reviewer' => fullname($reviewer),
+            'fullname' => $coursename,
+            'courseurl' => $courseurl,
+        );
+        $subject = get_string('emailfeedback_subj', 'block_mbstpl');
+        $body = get_string('emailfeedback_body', 'block_mbstpl', $a);
+        email_to_user($touser, $fromuser, $subject, $body);
+    }
+
+    /**
      * Notify administrator upon an error.
      * @param string $identifier
      * @param \Exception $e

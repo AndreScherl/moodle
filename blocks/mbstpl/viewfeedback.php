@@ -47,11 +47,12 @@ if (!mbst\course::can_viewfeedback($coursecontext)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 
-$isreviewer = true; //TODO.
+$isreviewer = $template->reviewerid == $USER->id;
 if ($isreviewer) {
     $feedbackform = new \block_mbstpl\feedbackform(null, array('courseid' => $courseid));
     if ($data = $feedbackform->get_data()) {
         mbst\course::set_feedback($template, $data->feedback);
+		redirect($thisurl);
     }
 }
 

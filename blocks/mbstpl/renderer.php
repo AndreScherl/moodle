@@ -148,4 +148,32 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $cbox .= html_writer::table($table);
         return html_writer::div($cbox, 'mbstcoursebox');
     }
+	
+	/**
+     * Return list of tempalte history.
+     * @param object $template
+     */
+	public function templatehistory($template) {
+		$hists = \block_mbstpl\dataobj\revhist::fetch_all(array('template' => $template->id));
+		$html = '';
+		$html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
+		$table = new html_table();
+		$table->header = array(
+			get_string('status'),
+			get_string('assigned', 'block_mbstpl'),
+			get_string('updated'),
+		);
+        $table->data = array();
+		foreach($hists as $hist) {
+			$status = \block_mbstpl\course::get_statusshortname($template->status);
+			$statusbox = html_writer::span(get_string($status, 'block_mbstpl'), "statusbox $status");
+			$table->data[] = array(
+				$statusbox,
+				$hist->assignedid,
+				userdate($hist->timecreated),
+			);
+		}
+		$html .= html_writer::table($table);
+		return html_writer::div($html, 'mbstrevhist');
+	}
 }

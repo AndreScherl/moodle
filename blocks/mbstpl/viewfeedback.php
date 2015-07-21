@@ -67,4 +67,6 @@ if ($isreviewer) {
     $feedbackform->display();
 }
 
+echo $renderer->templatehistory($template);
+
 echo $OUTPUT->footer();

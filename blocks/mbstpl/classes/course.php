@@ -131,7 +131,6 @@ class course {
         $template->feedback = $feedback['text'];
         $template->feedbackformat = $feedback['format'];
         $template->update();
-
     }
 
     /**
@@ -167,7 +166,23 @@ class course {
         // Enrol reviewer.
         user::enrol_reviewer($courseid, $userid);
     }
-
+	
+    /**
+     * Get template's revision history.
+     * @param int $templateid
+     * @return array
+     */
+	public static function get_revhist($templateid) {
+		global $DB;
+		$sql = "
+		SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname
+		FROM {block_mbstpl_revhist} rh
+		JOIN {user} u ON u.id = rh.assignedid
+		WHERE rh.templateid = ?
+		ORDER BY rh.id DESC
+		";
+		return $DB->get_records_sql($sql, array($templateid));
+	}
 
 
     private static function get_template_filename($backup) {

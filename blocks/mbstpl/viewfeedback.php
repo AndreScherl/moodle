@@ -67,6 +67,7 @@ if ($isreviewer) {
     $feedbackform->display();
 }
 
-echo $renderer->templatehistory($template);
+$revhists = mbst\course::get_revhist($template->id);
+echo $renderer->templatehistory($revhists);
 
 echo $OUTPUT->footer();

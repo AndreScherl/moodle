@@ -151,10 +151,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 	
 	/**
      * Return list of tempalte history.
-     * @param object $template
+     * @param array $revhists
      */
-	public function templatehistory($template) {
-		$hists = \block_mbstpl\dataobj\revhist::fetch_all(array('template' => $template->id));
+	public function templatehistory($revhists) {
 		$html = '';
 		$html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
 		$table = new html_table();
@@ -164,12 +163,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 			get_string('updated'),
 		);
         $table->data = array();
-		foreach($hists as $hist) {
-			$status = \block_mbstpl\course::get_statusshortname($template->status);
+		foreach($revhists as $hist) {
+			$status = \block_mbstpl\course::get_statusshortname($hist->status);
+			$assignedname = $hist->firstname . ' ' . $hist->lastname;
 			$statusbox = html_writer::span(get_string($status, 'block_mbstpl'), "statusbox $status");
 			$table->data[] = array(
 				$statusbox,
-				$hist->assignedid,
+				$assignedname,
 				userdate($hist->timecreated),
 			);
 		}

@@ -342,7 +342,7 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the breadcrumb navigation
      */
     public function main_breadcrumbs() {
-        global $OUTPUT;
+        global $OUTPUT, $CFG;
 
         $items = $this->page->navbar->get_items();
         if (empty($items)) { // MDL-46107
@@ -351,9 +351,17 @@ class theme_mebis_header_renderer extends renderer_base {
 
         $breadcrumbs = '';
         foreach ($items as $item) {
+            
             $item->hideicon = true;
             $attributes = ($item->isactive) ? array('class' => 'active') : array();
+            
+            // Remove the link to course/index.php page to avoid confusing navigation.
+            // Regarding performance the course/index.php page is redirected to /my site.
+            if (($item->action instanceof moodle_url) and ($item->action->out() == $CFG->wwwroot.'/course/index.php')) {
+               $item->action = '';
+            }
             $breadcrumbs .= html_writer::tag('li', $OUTPUT->render($item), $attributes);
+            
         }
         $breadcrumbsLine = html_writer::tag('ol', $breadcrumbs, array('class' => 'breadcrumb text-left'));
 

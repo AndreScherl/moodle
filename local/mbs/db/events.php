@@ -47,12 +47,12 @@ $observers = array(
         'internal' => true
     ),
     array(
-    	'eventname' => 'core\event\course_created',
+    	'eventname' => '\core\event\course_created',
     	'callback' => 'local_mbs_course_created',
     	'includefile' => '/local/mbs/lib.php'
     ), 
     array(
-    	'eventname' => 'core\event\course_deleted',
+    	'eventname' => '\core\event\course_deleted',
     	'callback' => 'local_mbs_course_deleted',
     	'includefile' => '/local/mbs/lib.php', 
         'internal' => true

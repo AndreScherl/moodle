@@ -119,9 +119,9 @@ class schoolcategory {
                 WHERE ca.id $incatid ";
 
         $schoolcategories = array();
-        
+
         $rs = $DB->get_recordset_sql($sql, $params);
-        
+
         foreach ($rs as $category) {
             $schoolcategories[$category->subcatid] = $category;
         }
@@ -202,13 +202,13 @@ class schoolcategory {
 
         return $catids;
     }
-    
+
     private static function get_school_view_url($categoryid) {
-        
+
         $url = new \moodle_url('/course/index.php', array('categoryid' => $categoryid));
         return $url->out();
     }
-    
+
     /**
      * Get a list of all the schools within which the user is enroled in at least one course
      * Always lists the 'main' school and this is always the first on the list
@@ -281,5 +281,35 @@ class schoolcategory {
         return $schools;
     }
 
+    /**
+     * Try to get the navigation node for a school, when page in coursecat context
+     * is called.
+     * 
+     * @param navigation_node $node (the root node 'courses')
+     * @return boolean|navigation_node false, when we are not in coursecat context, 
+     *                                 the active node, when schoolcatid is not valid
+     *                                 the school-navigationnode otherwise.
+     */
+    public static function get_schoolnavigationnode($node) {
+        
+        if (!$activenode = $node->find_active_node()) {
+            return false;
+        }
+        
+        $schoolcatid = \local_mbs\local\schoolcategory::get_schoolcategoryid($activenode->key);
+
+        if ($schoolcatid == 0) {
+            return $activenode;
+        }
+        
+        if ($schoolcatid != $activenode->key){
+            
+            if ($schoolcatnode = $node->find($schoolcatid, \navigation_node::TYPE_CATEGORY)) {
+                return $schoolcatnode;
+            }
+            
+        }
+        return $activenode;
+    }
 
 }

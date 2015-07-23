@@ -291,7 +291,7 @@ class repository_pmediathek_search {
         // Perform the correct search.
         if ($this->get_tab() == self::TAB_EXAM) {
             $this->results = $api->search_exam_content($this->perpage, $this->page, $searchparams['examtype'],
-                                                       $searchparams['subject'], null, $searchparams['year'],
+                                                       $searchparams['subject'], null, null,
                                                        $searchparams['type']);
         } else {
             $this->results = $api->search_school_content($this->perpage, $this->page, $searchparams['school'],
@@ -545,7 +545,7 @@ class repository_pmediathek_exam_search_form extends moodleform {
 
         $mform->addElement('select', 'examtype', get_string('examtype', 'repository_pmediathek'), $examtypes);
         $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
-        $mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
+        //$mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
         $mform->addElement('select', 'type', get_string('type', 'repository_pmediathek'), $types);
 
         $this->add_action_buttons(false, get_string('search'));

@@ -16523,7 +16523,8 @@ input[type="checkbox"] + label {
 }
 
 #page-repository-pmediathek-search #page #page-content {
-  color: #fff;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 #page-repository-pmediathek-search #page #page-content div .searchresult {
   color: #000;
@@ -16545,6 +16546,16 @@ input[type="checkbox"] + label {
   list-style: decimal inside none;
 }
 
+@media only screen and (min-width: 1200px) {
+  #page-repository-pmediathek-search #page #page-content form {
+    display: inline;
+  }
+  #page-repository-pmediathek-search #page #page-content form :last-child {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
+  }
+}
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

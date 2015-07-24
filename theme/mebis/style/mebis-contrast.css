@@ -14,11 +14,15 @@
 // Import Compass-Modules
 @import "compass/layout/sticky-footer";
 
+<<<<<<< HEAD
 // General Styles for all mebis components
 @import "layout";
 @import "pageheader";
 @import "sidebar";
 @import "topbar";
+=======
+@import "layout";
+>>>>>>> MEBIS_27_DEV
 
 // Pages
 @import "pages/learning-platform";*/
@@ -42,8 +46,12 @@
 
 @import "moodle/category";
 @import "moodle/coursebox";
+<<<<<<< HEAD
 @import "moodle/headertoolbar";
 @inport "moodle/pageheader";
+=======
+@import "moodle/pageheader";
+>>>>>>> MEBIS_27_DEV
 @import "moodle/pagefooter";
 @import "moodle/schoolbox";
 @import "moodle/cu-admin";

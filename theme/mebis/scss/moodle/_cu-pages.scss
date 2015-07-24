@@ -8,14 +8,7 @@
     - #page-my-index 
     - #page-course-management
     - #page-content
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-view
-    - #page-mod-book-view
+    - #page-admin-purgecaches 
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -147,17 +140,11 @@
     }
 }
 
-#page-mod-lesson-edit #main-content-wrapper {
-    .label {
-        color: $black;
-    }
-}
-
 //Styles for background and lists in 
 // - print.php pages 
 // - #page-admin-purgecaches 
 // - page-popup
-#page-content {
+#page-content, #page-admin-purgecaches {
     background: $white;   
     
     div[role="main"] {
@@ -176,34 +163,4 @@
     }
 }
 
-//Styles for lists in activity content 
-#page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
-    #main-content-wrapper div[role="main"] {
-        div div ul {
-            padding-left: 10px;
-            > li {
-                list-style: disc inside none;
-            }
-        }
-        div div ol {
-            padding-left: 10px;
-            > li {
-                list-style: decimal inside none;
-            }
-        }        
-    }
-}
 
-//Styles for searching in mebis-Prüfungsarchiv
-#page-repository-pmediathek-search {
-    #page #page-content {
-        color: $white;
-        
-        div .searchresult {
-            color: $black;
-        }
-        ul.nav.nav-tabs.nav-justified > li {
-            background-color: $brand-gray-light;            
-        }
-    }
-}

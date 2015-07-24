@@ -29,7 +29,9 @@ $string['displayname'] = 'Designwechsel';
 $string['mbschangetheme:addinstance'] = 'Hinzufügen des Blocks mebis Themewechsel';
 $string['mbschangetheme:myaddinstance'] = 'Hinzufügen des Blocks mebis Themewechsel zu meinem Schreibtisch';
 $string['newalertheading'] = 'Designwechsel möglich!';
-$string['newalertexpl'] = 'Vorübergehend ist es möglich noch mit dem alten Design zu arbeiten. Auf Ihrer persönlichen Startseite finden Sie unter dem Bereich "Meine Apps" eine Schaltfläche zum Wechseln auf das alte Design von mebis.';
+$string['newalertexpl'] = 'Vorübergehend ist es möglich noch mit dem alten Design zu arbeiten. Auf Ihrer persönlichen Startseite '
+        . 'finden Sie unter dem Bereich "Meine Apps" eine Schaltfläche zum Wechseln auf das alte Design von mebis. Mit der gleichen '
+        . 'Schaltfläche kommen Sie auch wieder auf das neue Design zurück.';
 $string['newalerthideme'] = 'Diesen Hinweis nicht mehr anzeigen.';
 $string['newalertclose'] = 'Schließen';
 $string['notconfiguredproperly'] = 'Das Plugin ist nicht richtig konfiguriert!';

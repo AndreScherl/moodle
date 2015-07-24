@@ -341,7 +341,7 @@ if (!empty($user2)) {
         echo html_writer::end_tag('div');
     }
 
-} else if ($viewing == MESSAGE_VIEW_SEARCH) {
+} else if ($viewing == MESSAGE_VIEW_SEARCH || $viewing == MESSAGE_VIEW_CONTACTS) {
     theme_mebis_message_print_search($advancedsearch, $user1);
 } else if ($viewing == MESSAGE_VIEW_RECENT_CONVERSATIONS) {
     message_print_recent_conversations($user1, false, $showactionlinks);

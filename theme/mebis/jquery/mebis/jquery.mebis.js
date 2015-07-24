@@ -1,8 +1,8 @@
 var Mebis = (function($) {
     'use strict';
 
-    var $win = $(window);
-    var $body = $('body');
+    var $win; // to be initialized after DOM ready.
+    var $body;
     var lastY = 0;
     var anchorHeadlinePositions = [];
 
@@ -556,6 +556,10 @@ var Mebis = (function($) {
 
     return {
         init: function() {
+            
+            $win = $(window);
+            $body = $('body');
+            
             initToTop();
             //initInvertContrastSwitch();
             handleFontSizeSwitch();

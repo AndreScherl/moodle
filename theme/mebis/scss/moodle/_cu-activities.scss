@@ -4,6 +4,16 @@
     - database
     - assign
     - feedback
+    - #page-mod-wiki-view
+    - #page-mod-page-view
+    - #page-mod-glossary-view
+    - #page-mod-forum-discuss
+    - #page-mod-lesson-edit 
+    - #page-mod-lesson-view
+    - #page-mod-assign-view
+    - #page-mod-book-view
+    - #page-mod-choice-view
+    - #page-mod-choiceanon-view
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -26,47 +36,71 @@
 }
 
 #page-mod-assign-mod #main-content-wrapper {
-    
+
     fieldset.clearfix.collapsible fieldset.felement.fgroup span {
         white-space: nowrap;
-        
+
         span.helptooltip {
             margin-right: 20px;
         }
     } 
 }
 
+#page-mod-choice-view,
+#page-mod-choiceanon-view {
+    #main-content-wrapper {
+
+        form ul li {
+
+            input[type="radio"] {
+                margin: 0 7px 0 0;
+            }
+
+            label {
+                padding-left: 2.8px;
+                margin: 0;
+            }
+        }    
+    }
+}
+
 #page-mod-feedback-complete #main-content-wrapper {
-    
+
     input[type="submit"] {
         margin-left: 0;
     }
 }
 
-#page-mod-mediathek-mod #main-content-wrapper {
-    
-    fieldset.clearfix.collapsible button {
-        margin-left: 0;
-    }
-}
-
 #page-mod-journal-report {
-    
+
     .userpix {
-        
+
         img {
             max-width: none;
         }
     }
 }
 
+#page-mod-lesson-edit #main-content-wrapper {
+    .label {
+        color: $black;
+    }
+}
+
+#page-mod-mediathek-mod #main-content-wrapper {
+
+    fieldset.clearfix.collapsible button {
+        margin-left: 0;
+    }
+}
+
 #page-mod-quiz-edit {
-    
+
     div.quizcontents {
         padding: 20px;
         background: $white;
     }
-    
+
     .questionbankwindow {
         .title {
             word-wrap: break-word;
@@ -77,31 +111,63 @@
 #page-mod-quiz-attempt,
 #page-mod-quiz-review,
 #page-question-preview {
-    
+
     div.content {
-        
+
         &:before {
             display: none;
         }
-        
+
         .formulation {
             color: $brand-gray-dark;
         }
     }
-    
+
     #techinfo {
         background: $white;
         padding-left: 20px;
     }
-    
+
     .performanceinfo {
         background: $white;
     }
 }
 
 #page-question-edit {
-    
+
     table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
         background: $brand-secondary;
+    }
+}
+
+//Styles for searching in mebis-Prüfungsarchiv
+#page-repository-pmediathek-search {
+    #page #page-content {
+        color: $white;
+
+        div .searchresult {
+            color: $black;
+        }
+        ul.nav.nav-tabs.nav-justified > li {
+            background-color: $brand-gray-light;            
+        }
+    }
+}
+
+//Styles for lists in activity content 
+#page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
+    #main-content-wrapper div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
     }
 }

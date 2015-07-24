@@ -16547,10 +16547,10 @@ input[type="checkbox"] + label {
 }
 
 @media only screen and (min-width: 992px) {
-  #page-repository-pmediathek-search #page #page-content #mform1 {
-    display: inline;
+  #page-repository-pmediathek-search #mform1 {
+    display: inline !important;
   }
-  #page-repository-pmediathek-search #page #page-content #mform1:last-child {
+  #page-repository-pmediathek-search #mform1:last-child {
     float: right;
     margin-top: 29px;
     margin-right: 20px;

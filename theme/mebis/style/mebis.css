@@ -16547,13 +16547,13 @@ input[type="checkbox"] + label {
 }
 
 @media only screen and (min-width: 992px) {
-  #page-repository-pmediathek-search #page #page-content form {
-    display: inline !important;
+  #page-repository-pmediathek-search #page #page-content #mform1 {
+    display: inline;
   }
-  #page-repository-pmediathek-search #page #page-content form:last-child {
-    float: right !important;
-    margin-top: 29px !important;
-    margin-right: 20px !important;
+  #page-repository-pmediathek-search #page #page-content #mform1:last-child {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
   }
 }
 /** To check whether styles are necessary:

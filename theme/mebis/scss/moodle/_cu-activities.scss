@@ -178,12 +178,12 @@
 
     #page-repository-pmediathek-search {
         #page #page-content {
-            form {
-                display: inline !important;
+            #mform1 {
+                display: inline;
                 &:last-child {
-                    float: right !important;
-                    margin-top: 29px !important;
-                    margin-right: 20px !important;
+                    float: right;
+                    margin-top: 29px;
+                    margin-right: 20px;
                 }
             }
         }

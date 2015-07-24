@@ -699,8 +699,11 @@ class course_enrolment_manager {
      */
     public function unassign_role_from_user($userid, $roleid) {
         global $DB;
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
         // Admins may unassign any role, others only those they could assign.
-        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles())) {
+        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }
@@ -734,7 +737,10 @@ class course_enrolment_manager {
      */
     public function assign_role_to_user($roleid, $userid) {
         require_capability('moodle/role:assign', $this->context);
-        if (!array_key_exists($roleid, $this->get_assignable_roles())) {
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        if (!array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }

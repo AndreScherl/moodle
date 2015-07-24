@@ -16548,12 +16548,12 @@ input[type="checkbox"] + label {
 
 @media only screen and (min-width: 992px) {
   #page-repository-pmediathek-search #page #page-content form {
-    display: inline;
+    display: inline !important;
   }
   #page-repository-pmediathek-search #page #page-content form:last-child {
-    float: right;
-    margin-top: 29px;
-    margin-right: 20px;
+    float: right !important;
+    margin-top: 29px !important;
+    margin-right: 20px !important;
   }
 }
 /** To check whether styles are necessary:

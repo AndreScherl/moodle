@@ -16546,11 +16546,11 @@ input[type="checkbox"] + label {
   list-style: decimal inside none;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 992px) {
   #page-repository-pmediathek-search #page #page-content form {
     display: inline;
   }
-  #page-repository-pmediathek-search #page #page-content form :last-child {
+  #page-repository-pmediathek-search #page #page-content form:last-child {
     float: right;
     margin-top: 29px;
     margin-right: 20px;

@@ -995,22 +995,6 @@
                         background-position: center center;
                     }
 
-=======
-
-                    .me-search-result-blur-bg {
-                        position: absolute;
-                        z-index: 5;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        white-space: nowrap;
-                        @include background-size(cover);
-                        background-repeat: no-repeat;
-                        background-position: center center;
-                    }
-
->>>>>>> 169f221... theme/mebis/scss/_layout.scss styling me-in-page-menu-anchor-links for mobile devices
                     span {
                         position: relative;
                         z-index: 10;

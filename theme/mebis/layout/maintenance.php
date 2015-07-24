@@ -40,14 +40,9 @@ echo $OUTPUT->doctype()
         <!-- HOMEPAGE-WRAPPER [start] -->
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
-            <!-- Top-Navigation [start] -->
+            <!-- Top & Side-Navigation [start] -->
             <?php echo $OUTPUT->main_navbar(); ?>
-
             <!-- Top-Navigation [end] -->
-
-            <!-- Side-Navigation [start] -->
-            <?php echo $OUTPUT->main_sidebar(); ?>
-            <!-- Side-Navigation [end] -->
 
             <!-- PAGE HEADER [start] -->
             <?php echo $OUTPUT->main_header(); ?>

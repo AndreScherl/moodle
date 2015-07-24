@@ -105,17 +105,20 @@ class theme_mebis_header_renderer extends renderer_base {
                 $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-right visible-lg'));
-            $userBar .= html_writer::start_tag('li', array('class' => 'logout pull-left'));
+            $userBar .= html_writer::start_tag('li', array('class' => 'logout'));
                 $userBar .= html_writer::start_tag('a', array('href' => $url_logout));           
                     $userBar .= html_writer::tag('span', get_string('nav-logout', 'theme_mebis'));
                 $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li'); 
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
         } else {
-            $userBar .= html_writer::start_tag('a', array('href' => $url_login));
-                $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
-                $userBar .= html_writer::tag('span', get_string('nav-login', 'theme_mebis'));
-            $userBar .= html_writer::end_tag('a');
+            $userBar .= html_writer::start_tag('li', array('class' => 'logout'));
+                $userBar .= html_writer::start_tag('a', array('href' => $url_login));
+                    $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
+                    $userBar .= html_writer::tag('span', get_string('nav-login', 'theme_mebis'));
+                $userBar .= html_writer::end_tag('a');
+            $userBar .= html_writer::end_tag('li');    
+            $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
         }
                 
         $output .= html_writer::start_tag('nav', array('class' => 'navbar navbar-fixed-top yamm navbar-inverse top-bar',
@@ -128,7 +131,7 @@ class theme_mebis_header_renderer extends renderer_base {
                 // This renders the button to open mobile sidebar
                 $output .= html_writer::start_div('navbar-header');
                 $output .= html_writer::start_tag('button', array(
-                    'data-target' => '.navbar-collapse-items',
+                    'data-target' => '#navbar-collapse-items',
                     'data-toggle' => 'collapse', 'type' => 'button',
                     'class' => 'navbar-toggle collapsed'));
                         $output .= html_writer::tag('span', get_string('nav-toggle', 'theme_mebis'), array('class' => 'sr-only'));
@@ -138,7 +141,7 @@ class theme_mebis_header_renderer extends renderer_base {
                 $output .= html_writer::end_tag('button');
                 $output .= html_writer::end_div();
                 // fontsize icons
-                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav visible-lg'));
+                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav change-fontsize visible-lg'));
                     $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
                     $output .= html_writer::start_tag('li');
                         $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec'));
@@ -160,11 +163,11 @@ class theme_mebis_header_renderer extends renderer_base {
             $output .= html_writer::end_div();          
             $output .= html_writer::end_div();
             
-                $output .= html_writer::start_div('collapse navbar-collapse js-navbar-collapse');
+                $output .= html_writer::start_div('collapse navbar-collapse js-navbar-collapse', array('id' => 'navbar-collapse-items'));
                     // Links to other mebis applications.
-                    $output .= html_writer::tag('ul', $this->buildNavStructure(), array('class' => 'nav navbar-collapse-items hidden-lg'));
+                    $output .= $this->main_sidebar();
                     // Links to contrast, support and idm.
-                    $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu navbar-collapse-items'));
+                    $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu'));
                         //contrast mode is not working, so no display of the icon
                         /* $output .= html_writer::start_tag('li', array('class' => 'text'));
                             $output .= html_writer::start_tag('a', array('href' => '#invert', 'id' => 'me-invert'));
@@ -208,8 +211,8 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the sidebar
      */
     public function main_sidebar() {
-        $output = html_writer::start_div('me-sidebar-wrapper visible-lg');
-        $output .= html_writer::tag('ul', $this->buildNavStructure('fa-2x'), array('class' => 'me-sidebar-nav'));
+        $output = html_writer::start_div('me-sidebar-wrapper');
+        $output .= html_writer::tag('ul', $this->buildNavStructure(), array('class' => 'me-sidebar-nav'));
         $output .= html_writer::end_div();
         return $output;
     }

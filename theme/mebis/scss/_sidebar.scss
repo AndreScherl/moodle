@@ -15,16 +15,77 @@
     .me-wrapper {     
 
         .me-sidebar-wrapper {
-            background: $brand-gray-navi;
-            height: 100%;
-            position: fixed;
+            background: $black;
             z-index: 1000;
-            top: 0;
 
             .me-sidebar-nav {
                 list-style: none;
                 margin: 0;
-                padding: 70px 0;
+                padding: 30px 0;
+                width: 75px;
+
+                li {
+                    width: 235px;
+                    margin-bottom: 25px;
+                    position: relative;
+
+                    a {
+                        color: $brand-gray-light;
+
+                        [class^="icon-me"] {
+                            font-size: 2em;
+                            padding: 0 18px;
+                            vertical-align: middle;
+                        }
+
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        &:hover {
+                            text-decoration: none;
+                            color: $brand-secondary;
+                        }
+
+                        &.disabled {
+                            cursor: default;
+                            color: $brand-gray-medium;
+                        }
+                    }
+
+                    &.me-active {
+
+                        a {
+                            color: $brand-secondary;
+                        }
+                    }
+                }
+
+                &:hover {
+                    width: 235px;
+                }
+            }
+        }
+    }
+}
+
+/////////////////////
+// LARGE [Desktop] //
+/////////////////////
+
+@media only screen and (min-width: $screen-lg-min) {
+    .me-wrapper {     
+
+        .me-sidebar-wrapper {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            height: 100vh;
+
+            .me-sidebar-nav {
+                margin: 0;
+                padding: 30px 0;
                 overflow: hidden;
                 width: 75px;
                 @include transition(all .25s);
@@ -57,7 +118,6 @@
                             cursor: default;
                             color: $brand-gray-medium;
                         }
-
                     }
 
                     &.me-active {
@@ -65,17 +125,37 @@
                         a {
                             color: $brand-secondary;
                         }
-
                     }
-
                 }
 
                 &:hover {
                     width: 235px;
                 }
-
             }
+        }
+    }    
+}
 
+@media only screen and (max-width: $screen-lg-min) {
+    .me-wrapper {     
+
+        .me-sidebar-wrapper {
+            width: 40%;
+            min-width: 250px;
+
+            ul.me-sidebar-nav {
+                padding: 10px 0 10px 5px;
+
+                li {
+                    margin-bottom: 15px;
+                    margin-top: 15px;
+
+                    a {
+                        padding-bottom: 10px;
+                        padding-top: 10px;
+                    }
+                }
+            }
         }
     }
 }

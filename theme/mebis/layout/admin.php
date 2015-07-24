@@ -56,10 +56,8 @@ echo $OUTPUT->doctype()
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
             <?php
-            // Print out the top navbar containing fontsize switch, user login etc.
+            // Print out the top & side navbar containing navigating between subsystems of mebis, fontsize switch, user login etc.
             echo $OUTPUT->main_navbar();
-            // Print out the side navbar to navigate between subsystems of mebis.
-            echo $OUTPUT->main_sidebar();
             // Print out the sub menu bar (header) with dropdownmenus.
             echo $OUTPUT->main_header();
             ?>

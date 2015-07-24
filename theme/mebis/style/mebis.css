@@ -12362,47 +12362,6 @@ button.close {
   .me-wrapper .me-header-nav ul li.user-role-select:hover .me-dropdown {
     display: block;
   }
-  .me-wrapper .me-page-header {
-    font-size: 18px !important;
-    border: none;
-    padding: 42px 0 0;
-    margin: 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 99;
-    min-height: 135px;
-    -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-  }
-}
-@media only screen and (max-width: 992px) {
-  .me-wrapper .me-page-header {
-    position: absolute;
-  }
-}
-@media only screen {
-  .me-wrapper .me-page-header .container .logo-row {
-    margin: 25px 0;
-  }
-  .me-wrapper .me-page-header .container .logo-row img {
-    max-width: 100%;
-    height: auto;
-  }
-  .me-wrapper .me-page-header .container .logo-row .extra-nav {
-    margin-top: 6px;
-    text-align: right;
-  }
-  .me-wrapper .me-page-header .container .logo-row .extra-nav .fa, .me-wrapper .me-page-header .container .logo-row .extra-nav [class*="icon-me-"] {
-    display: inline-block;
-    margin: 0 5px 0 0;
-    font-size: 1.4375em;
-    vertical-align: top;
-    line-height: 1em;
-  }
-  .me-wrapper .me-page-header.full {
-    background: url([[pix:theme|bg-light]]);
-  }
   .me-wrapper .container {
     position: relative;
   }
@@ -13750,9 +13709,6 @@ button.close {
   }
 }
 @media only screen and (min-width: 1200px) {
-  .me-wrapper .me-page-header {
-    padding: 42px 0 0 0;
-  }
   .me-wrapper .me-idm-portal-sub-section .me-process-crumbs {
     width: 100%;
     margin-left: 0%;
@@ -13771,9 +13727,6 @@ button.close {
   }
   .me-wrapper .me-block-grid {
     margin-bottom: 40px;
-  }
-  .me-wrapper .me-page-header .container .logo-row {
-    margin: 30px 0;
   }
 }
 @media only screen and (max-width: 992px) {
@@ -13871,10 +13824,6 @@ button.close {
     font-size: 1.5em;
   }
 
-  .me-maintenance .me-wrapper .me-page-header {
-    padding: 38px 0 40px 0;
-  }
-
   .btn-group .btn {
     margin-left: 0 !important;
   }
@@ -13925,9 +13874,6 @@ button.close {
     text-align: center;
     background: #e6e6e6;
     display: table;
-  }
-  .me-wrapper .me-page-header .container .logo-row {
-    margin: 10px 0;
   }
   .me-wrapper .me-content-block {
     padding: 20px;
@@ -14154,6 +14100,139 @@ button.close {
   clear: both;
 }
 
+/* 
+    General Styles for the page header of all mebis components, like Mediathek, Prüfungsarchiv, Inforportal, Lernplattform
+    
+    @package    theme_mebis
+    @copyright  2015 ISB Bayern
+    @author     Andre Scherl <andre.scherl@isb.bayern.de>
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+@media only screen {
+  .me-wrapper .me-page-header {
+    font-size: 18px !important;
+    border: none;
+    padding: 42px 0 0;
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 99;
+    min-height: 135px;
+    -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+  }
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 0;
+  }
+  .me-wrapper .me-page-header .container .logo-row .row {
+    margin: 0;
+  }
+  .me-wrapper .me-page-header .container .logo-row img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 8px;
+  }
+  .me-wrapper .me-page-header .container .logo-row .me-component-nav {
+    text-align: right;
+  }
+  .me-wrapper .me-page-header.full {
+    background: url([[pix:theme|bg-light]]);
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .me-wrapper .me-page-header {
+    padding: 42px 0 0 0;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .me-wrapper .me-page-header {
+    position: absolute;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 30px 0;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .me-wrapper .me-page-header {
+    padding-top: 51px;
+    min-height: 115px;
+  }
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 15px 0;
+  }
+  .me-wrapper .me-page-header .container .logo-row .me-component-nav {
+    text-align: left;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .me-maintenance .me-wrapper .me-page-header {
+    padding: 38px 0 40px 0;
+  }
+
+  .me-wrapper .me-page-header .container .logo-row {
+    margin: 10px 0;
+  }
+}
+/*
+    Sidebar
+*/
+/* 
+    Created on : 09.07.2015, 17:13:11
+    Author     : Franziska Hübler, ISB
+*/
+@media only screen {
+  .me-wrapper .me-sidebar-wrapper {
+    background: #111111;
+    height: 100%;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav {
+    list-style: none;
+    margin: 0;
+    padding: 70px 0;
+    overflow: hidden;
+    width: 75px;
+    -webkit-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    transition: all 0.25s;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li {
+    width: 235px;
+    margin-bottom: 25px;
+    position: relative;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a {
+    color: #e6e6e6;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a [class^="icon-me"] {
+    font-size: 2em;
+    padding: 0 18px;
+    vertical-align: middle;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #ff6600;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a.disabled {
+    cursor: default;
+    color: #999999;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li.me-active a {
+    color: #ff6600;
+  }
+  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav:hover {
+    width: 235px;
+  }
+}
 /*
     Top Navigation with Menu
 */
@@ -14525,144 +14604,12 @@ button.close {
     margin-bottom: 5px;
   }
 }
-/*
-    Sidebar
-*/
-/* 
-    Created on : 09.07.2015, 17:13:11
-    Author     : Franziska Hübler, ISB
-*/
-@media only screen {
-  .me-wrapper .me-sidebar-wrapper {
-    background: #111111;
-    height: 100%;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav {
-    list-style: none;
-    margin: 0;
-    padding: 70px 0;
-    overflow: hidden;
-    width: 75px;
-    -webkit-transition: all 0.25s;
-    -o-transition: all 0.25s;
-    transition: all 0.25s;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li {
-    width: 235px;
-    margin-bottom: 25px;
-    position: relative;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a {
-    color: #e6e6e6;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a [class^="icon-me"] {
-    font-size: 2em;
-    padding: 0 18px;
-    vertical-align: middle;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #ff6600;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li a.disabled {
-    cursor: default;
-    color: #999999;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav li.me-active a {
-    color: #ff6600;
-  }
-  .me-wrapper .me-sidebar-wrapper .me-sidebar-nav:hover {
-    width: 235px;
-  }
-}
 div[role="main"] > h2 {
   /*color: $white;*/
   margin-bottom: 20px;
 }
 
 @media only screen {
-  .wrapper-learning-platform .me-learning-platform-header-nav {
-    margin-top: -10px;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu {
-    margin-top: 0;
-    right: auto;
-    left: 0;
-    position: absolute;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu.dropdown-right {
-    position: absolute;
-    min-width: 285px;
-    top: 100%;
-    right: 0;
-    left: auto;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li {
-    padding: 0;
-    width: 60px;
-    height: 100%;
-    position: relative;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li > a {
-    font-size: 1.5em;
-    display: block;
-    padding: 5px 15px;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open > a, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open .dropdown-toggle, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover > a, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover .dropdown-toggle {
-    background: #ff6600;
-    color: #fff;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.open ul.dropdown-menu, .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li.dropdown:hover ul.dropdown-menu {
-    display: block;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li {
-    padding: 0;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li:after {
-    content: '';
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner {
-    padding: 20px;
-    background: #ff6600;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner a {
-    color: #fff;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner a:hover {
-    color: #333333;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .dropdown-inner.admin-dropdown {
-    background: #222222;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li .admin-dropdown a:hover {
-    color: #ff6600;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li ul li strong {
-    font-size: 1em;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode {
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode.open > span.internal:before {
-    content: "\e662";
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode > span.internal:before {
-    content: "\e63d";
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav .hiddennavnode .hiddennavleaf {
-    display: none;
-    margin-left: 15px;
-    font-weight: normal;
-  }
   .wrapper-learning-platform .me-help-note .me-help-note-container {
     background: #00a8d5;
     color: #fff;
@@ -14727,50 +14674,6 @@ div[role="main"] > h2 {
   }
   .wrapper-learning-platform .me-schools .me-school a:hover {
     background: #ff6600;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li {
-    width: 44px;
-  }
-}
-@media only screen and (max-width: 992px) {
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav > li li.dropdown {
-    position: static;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu {
-    margin-top: 0;
-    top: 100%;
-    position: absolute;
-    min-width: 70%;
-    right: 0;
-    left: auto;
-    /*                    &.dropdown-right {
-                            right: 0;
-                            left: auto;
-                            min-width: 70%;
-                        }*/
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 992px) {
-  .wrapper-learning-platform .breadcrumb.text-left {
-    padding: 50px 0 20px;
-  }
-}
-@media only screen and (max-width: 640px) {
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav li.dropdown {
-    position: static;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu {
-    margin-top: 0;
-    top: 100%;
-    position: absolute;
-    min-width: 100%;
-  }
-  .wrapper-learning-platform .me-learning-platform-header-nav ul.nav .dropdown-menu.dropdown-right {
-    right: auto;
-    left: 0;
-    min-width: 100%;
   }
 }
 
@@ -15092,96 +14995,91 @@ categorybox:
   color: #fff;
 }
 
-/* Styles, used in header */
 /* 
-    Created on : 17.05.2015, 09:11:09
-    Author     : Andreas Wagner, ISB Bayern
+    Special Styles for the page header of the Lernplattform
+    
+    @package    theme_mebis
+    @copyright  2015 ISB Bayern
+    @author     Andre Scherl <andre.scherl@isb.bayern.de>
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-.moodle-menu {
+.wrapper-learning-platform .moodle-menu {
   display: inline-block;
   float: right;
 }
-.moodle-menu .nav > li {
-  font-weight: 400;
-  font-style: normal;
+.wrapper-learning-platform .moodle-menu ul.nav > li {
   float: right;
-  width: 50px;
-  height: 60px;
+  width: 60px;
+  height: 50px;
 }
-.moodle-menu .nav > li > a {
-  font-size: 1.125em;
+.wrapper-learning-platform .moodle-menu ul.nav > li > a {
+  font-size: 1.5em;
   text-align: center;
 }
-.moodle-menu .nav > li > a:hover {
+.wrapper-learning-platform .moodle-menu ul.nav > li > a:hover {
   background: transparent;
 }
-.moodle-menu .nav > li > a i.fa,
-.moodle-menu .nav > li > a [class^="icon-me"] {
+.wrapper-learning-platform .moodle-menu ul.nav > li > a i.fa,
+.wrapper-learning-platform .moodle-menu ul.nav > li > a [class^="icon-me"] {
   margin: 0;
 }
-.moodle-menu .nav > li.dropdown:hover > a {
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown:hover > a {
   background: #ff6600;
   color: #fff;
 }
-.moodle-menu .nav > li.dropdown ul {
-  min-width: 255px;
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown:hover ul.dropdown-menu {
+  display: block;
 }
-.moodle-menu .nav > li.dropdown ul.dropdown-menu {
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul {
+  min-width: 255px;
+  color: #fff;
+}
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul.dropdown-menu {
   border: none;
   font-size: 0.875em;
 }
-.moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
-  background-color: #eeeeee;
-  font-family: 'Titillium Web';
-  font-size: 1em;
-  color: #333333;
-  text-align: left;
-  line-height: normal;
-}
 @media only screen and (max-width: 640px) {
-  .moodle-menu .nav > li.dropdown ul .cogmenu div, .moodle-menu .nav > li.dropdown ul .coursemenu div {
+  .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li {
     font-size: 1.1875em;
     line-height: 200%;
   }
 }
-.moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div {
-  background: transparent;
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner {
+  padding: 20px;
+  background: #ff6600;
 }
-.moodle-menu .nav > li.dropdown ul .cogmenu div.dropdown-inner div select, .moodle-menu .nav > li.dropdown ul .coursemenu div.dropdown-inner div select {
-  width: 100%;
-  margin-bottom: 0;
-}
-.moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown {
-  background-color: #333333;
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner a {
   color: #fff;
 }
-.moodle-menu .nav > li.dropdown ul .cogmenu div.admin-dropdown a, .moodle-menu .nav > li.dropdown ul .coursemenu div.admin-dropdown a {
-  color: #fff;
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner a:hover {
+  color: #333333;
 }
-.moodle-menu .nav > li.dropdown ul .cogmenu div ul, .moodle-menu .nav > li.dropdown ul .coursemenu div ul {
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .admin-dropdown {
+  background-color: #222222;
+}
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .admin-dropdown a:hover {
+  color: #ff6600;
+}
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {
   list-style: none;
 }
-
-.breadcrumb-button {
-  margin-top: 0;
+.wrapper-learning-platform .moodle-menu .hiddennavnode {
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
 }
-.breadcrumb-button .singlebutton {
-  float: left;
-  margin-left: 4px;
+.wrapper-learning-platform .moodle-menu .hiddennavnode.open > span.internal:before {
+  content: "\e662";
 }
-.breadcrumb-button .singlebutton input[type="submit"] {
-  background-color: transparent;
-  border: none;
-  color: #00a8d5 !important;
-  font-size: 0.75em;
-  padding: 20px 0;
-  outline: none;
+.wrapper-learning-platform .moodle-menu .hiddennavnode > span.internal:before {
+  content: "\e63d";
 }
-.breadcrumb-button .singlebutton input[type="submit"]:hover {
-  color: #ff6600 !important;
+.wrapper-learning-platform .moodle-menu .hiddennavnode .hiddennavleaf {
+  display: none;
+  margin-left: 15px;
+  font-weight: normal;
 }
-
-.me-msg-count {
+.wrapper-learning-platform .me-msg-count {
   position: absolute;
   background: none repeat scroll 0% 0% #ff6600;
   border-radius: 5px;
@@ -15191,7 +15089,79 @@ categorybox:
   left: 30px;
   padding: 2px 5px;
 }
+@media only screen and (max-width: 992px) {
+  .wrapper-learning-platform .moodle-menu ul.nav > li > a {
+    padding: 10px 7px;
+  }
+  .wrapper-learning-platform .moodle-menu ul.nav > li li.dropdown {
+    position: static;
+  }
+  .wrapper-learning-platform .moodle-menu ul.nav .dropdown-menu {
+    margin-top: 0;
+    top: 100%;
+    position: absolute;
+    min-width: 70%;
+    right: 0;
+    left: auto;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .wrapper-learning-platform .me-component-nav {
+    /*            ul.nav {
+                    
+                    li.dropdown {
+                        position: static;
+                    }
+    
+                    .dropdown-menu {
+                        margin-top: 0;
+                        top: 100%;
+                        position: absolute;
+                        min-width: 100%;
+    
+                        &.dropdown-right {
+                            right: auto;
+                            left: 0;
+                            min-width: 100%;
+                        }
+                    }
+    
+                }*/
+  }
+}
 
+/* Styles, used in header */
+/* 
+    Created on : 17.05.2015, 09:11:09
+    Author     : Andreas Wagner, ISB Bayern
+*/
+#page-navbar .row {
+  margin: 0;
+}
+#page-navbar .breadcrumb-button {
+  margin-top: 0;
+}
+#page-navbar .breadcrumb-button .singlebutton {
+  float: left;
+  margin-left: 4px;
+}
+#page-navbar .breadcrumb-button .singlebutton input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  color: #00a8d5 !important;
+  font-size: 0.75em;
+  padding: 20px 0;
+  outline: none;
+}
+#page-navbar .breadcrumb-button .singlebutton input[type="submit"]:hover {
+  color: #ff6600 !important;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .breadcrumb.text-left {
+    padding: 50px 0 20px;
+  }
+}
 /* Styles, used in footer */
 /* 
     Created on : 17.05.2015, 09:11:09

@@ -1,0 +1,683 @@
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    font-weight: 400;
+    src: url('[[font:theme|glyphicons-halflings-regular.eot]]');
+    src: url('[[font:theme|glyphicons-halflings-regular.eot?#iefix]]')format('embedded-opentype'),
+        url('[[font:theme|glyphicons-halflings-regular.svg#glyphicons-halflings]]')format('svg'),
+        url('[[font:theme|glyphicons-halflings-regular.woff]]')format('woff'),
+        url('[[font:theme|glyphicons-halflings-regular.ttf]]') format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 200;
+    src: url('[[font:theme|titillium-web-extralight.eot]]');
+    src: url('[[font:theme|titillium-web-extralight.eot?#iefix]]')format('embedded-opentype'),
+        url('[[font:theme|titillium-web-extralight.svg#titillium_weblight]]')format('svg'),
+        url('[[font:theme|titillium-web-extralight.woff]]')format('woff'),
+        url('[[font:theme|titillium-web-extralight.ttf]]')format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 300;
+    src: url('[[font:theme|titillium-web-light.eot]]');
+    src: url('[[font:theme|titillium-web-light.eot?#iefix]]')format('embedded-opentype'),
+        url('[[font:theme|titillium-web-light.svg#titillium_weblight]]')format('svg'),
+        url('[[font:theme|titillium-web-light.woff]]')format('woff'),
+        url('[[font:theme|titillium-web-light.ttf]]')format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: url('[[font:theme|titillium-web-regular.eot]]');
+    src: url('[[font:theme|titillium-web-regular.eot?#iefix]]')format('embedded-opentype'),
+        url('[[font:theme|titillium-web-regular.svg#titillium_webregular]]')format('svg'),
+        url('[[font:theme|titillium-web-regular.woff]]')format('woff'),
+        url('[[font:theme|titillium-web-regular.ttf]]')format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 600;
+    src: url('[[font:theme|titillium-web-semibold.eot]]');
+    src: url('[[font:theme|titillium-web-semibold.eot?#iefix]]')format('embedded-opentype'),
+        url('[[font:theme|titillium-web-semibold.svg#titillium_websemibold]]')format('svg'),
+        url('[[font:theme|titillium-web-semibold.woff]]')format('woff'),
+        url('[[font:theme|titillium-web-semibold.ttf]]')format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 700;
+    src: url('[[font:theme|titillium-web-bold.eot]]');
+    src: url('[[font:theme|titillium-web-bold.eot?#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|titillium-web-bold.svg#titillium_webbold]]') format('svg'),
+        url('[[font:theme|titillium-web-bold.woff]]') format('woff'),
+        url('[[font:theme|titillium-web-bold.ttf]]')  format('truetype');
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Alternative Version if Webfont renders undefined characters (e.g. in select-elements) //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+@font-face {
+    font-family: 'Titillium Web Alternative';
+    font-style: normal;
+    font-weight: 300;
+    src: url('[[font:theme|titillium-web-light.eot]]');
+    src: url('[[font:theme|titillium-web-light.eot?#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|titillium-web-light.woff]]') format('woff'),
+        url('[[font:theme|titillium-web-light.svg#titillium_weblight]]') format('svg'),
+        url('[[font:theme|titillium-web-light.ttf]]')  format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web Alternative';
+    font-style: normal;
+    font-weight: 400;
+    src: url('[[font:theme|titillium-web-regular.eot]]');
+    src: url('[[font:theme|titillium-web-regular.eot?#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|titillium-web-regular.woff]]') format('woff'),
+        url('[[font:theme|titillium-web-regular.svg#titillium_webregular]]') format('svg'),
+        url('[[font:theme|titillium-web-regular.ttf]]')  format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web Alternative';
+    font-style: normal;
+    font-weight: 600;
+    src: url('[[font:theme|titillium-web-semibold.eot]]');
+    src: url('[[font:theme|titillium-web-semibold.eot?#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|titillium-web-semibold.woff]]') format('woff'),
+        url('[[font:theme|titillium-web-semibold.svg#titillium_websemibold]]') format('svg'),
+        url('[[font:theme|titillium-web-semibold.ttf]]')  format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web Alternative';
+    font-style: normal;
+    font-weight: 700;
+    src: url('[[font:theme|titillium-web-bold.eot]]');
+    src: url('[[font:theme|titillium-web-bold.eot?#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|titillium-web-bold.woff]]') format('woff'),
+        url('[[font:theme|titillium-web-bold.svg#titillium_webbold]]') format('svg'),
+        url('[[font:theme|titillium-web-bold.ttf]]')  format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Amaranth-Bold';
+    src: url('[[font:theme|amaranth-bold-webfont.eot]]');
+    src: url('[[font:theme|amaranth-bold-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|amaranth-bold-webfont.woff]]') format('woff'),
+        url('[[font:theme|amaranth-bold-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|amaranth-bold-webfont.svg#amaranth-bold-webfont]]') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Amaranth-BoldItalic';
+    src: url('[[font:theme|amaranth-bold-italic-webfont.eot]]');
+    src: url('[[font:theme|amaranth-bold-italic-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|amaranth-bold-italic-webfont.woff]]') format('woff'),
+        url('[[font:theme|amaranth-bold-italic-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|amaranth-bold-italic-webfont.svg#amaranth-bold-italic-webfont]]') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Amaranth-Italic';
+    src: url('[[font:theme|amaranth-italic-webfont.eot]]');
+    src: url('[[font:theme|amaranth-italic-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|amaranth-italic-webfont.woff]]') format('woff'),
+        url('[[font:theme|amaranth-italic-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|amaranth-italic-webfont.svg#amaranth-italic-webfont]]') format('svg');
+    font-weight: none;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url('[[font:theme|amaranth-webfont.eot]]');
+    src: url('[[font:theme|amaranth-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|amaranth-webfont.woff]]') format('woff'),
+        url('[[font:theme|amaranth-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|amaranth-webfont.svg#amaranth-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Bienchen_a';
+    src: url('[[font:theme|bienchen_a-webfont.eot]]');
+    src: url('[[font:theme|bienchen_a-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|bienchen_a-webfont.woff]]') format('woff'),
+        url('[[font:theme|bienchen_a-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|bienchen_a-webfont.svg#bienchen_a-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Bienchen_b';
+    src: url('[[font:theme|bienchen_b-webfont.eot]]');
+    src: url('[[font:theme|bienchen_b-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|bienchen_b-webfont.woff]]') format('woff'),
+        url('[[font:theme|bienchen_b-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|bienchen_b-webfont.svg#bienchen_b-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold_Oblique';
+    src: url('[[font:theme|quicksand_bold_oblique-webfont.eot]]');
+    src: url('[[font:theme|quicksand_bold_oblique-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_bold_oblique-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_bold_oblique-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_bold_oblique-webfont.svg#quicksand_bold_oblique-webfont]]') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Bold';
+    src: url('[[font:theme|quicksand_bold-webfont.eot]]');
+    src: url('[[font:theme|quicksand_bold-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_bold-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_bold-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_bold-webfont.svg#quicksand_bold-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book_Oblique';
+    src: url('[[font:theme|quicksand_book_oblique-webfont.eot]]');
+    src: url('[[font:theme|quicksand_book_oblique-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_book_oblique-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_book_oblique-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_book_oblique-webfont.svg#quicksand_book_oblique-webfont]]') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Book';
+    src: url('[[font:theme|quicksand_book-webfont.eot]]');
+    src: url('[[font:theme|quicksand_book-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_book-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_book-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_book-webfont.svg#quicksand_book-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Dash';
+    src: url('[[font:theme|quicksand_dash-webfont.eot]]');
+    src: url('[[font:theme|quicksand_dash-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_dash-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_dash-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_dash-webfont.svg#quicksand_dash-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light_Oblique';
+    src: url('[[font:theme|quicksand_light_oblique-webfont.eot]]');
+    src: url('[[font:theme|quicksand_light_oblique-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_light_oblique-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_light_oblique-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_light_oblique-webfont.svg#quicksand_light_oblique-webfont]]') format('svg');
+    font-weight: none;
+    font-style: oblique;
+}
+
+@font-face {
+    font-family: 'Quicksand_Light';
+    src: url('[[font:theme|quicksand_light-webfont.eot]]');
+    src: url('[[font:theme|quicksand_light-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|quicksand_light-webfont.woff]]') format('woff'),
+        url('[[font:theme|quicksand_light-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|quicksand_light-webfont.svg#quicksand_light-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern-bold';
+    src: url('[[font:theme|schulbuchbayerncomp-bold-webfont.eot]]');
+    src: url('[[font:theme|schulbuchbayerncomp-bold-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|schulbuchbayerncomp-bold-webfont.woff]]') format('woff'),
+        url('[[font:theme|schulbuchbayerncomp-bold-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|schulbuchbayerncomp-bold-webfont.svg#schulbuchbayerncomp-bold-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SchulbuchBayern';
+    src: url('[[font:theme|schulbuchbayerncomp-webfont.eot]]');
+    src: url('[[font:theme|schulbuchbayerncomp-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|schulbuchbayerncomp-webfont.woff]]') format('woff'),
+        url('[[font:theme|schulbuchbayerncomp-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|schulbuchbayerncomp-webfont.svg#schulbuchbayerncomp-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2';
+    src: url('[[font:theme|VA2.eot]]');
+    src: url('[[font:theme|VA2.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|VA2.woff]]') format('woff'),
+        url('[[font:theme|VA2.ttf]]') format('truetype'),
+        url('[[font:theme|VA2.svg#VA2]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VA2_i';
+    src: url('[[font:theme|va2_i.eot]]');
+    src: url('[[font:theme|va2_i.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|va2_i.woff]]') format('woff'),
+        url('[[font:theme|va2_i.ttf]]') format('truetype'),
+        url('[[font:theme|va2_i.svg#va2_i]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    src: url('[[font:theme|va2_b.eot]]');
+    src: url('[[font:theme|va2_b.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|va2_b.woff]]') format('woff'),
+        url('[[font:theme|va2_b.ttf]]') format('truetype'),
+        url('[[font:theme|va2_b.svg#va2_b]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'VAU30k';
+    src: url('[[font:theme|vau30k-webfont.eot]]');
+    src: url('[[font:theme|vau30k-webfont.eot#iefix]]') format('embedded-opentype'),
+        url('[[font:theme|vau30k-webfont.woff]]') format('woff'),
+        url('[[font:theme|vau30k-webfont.ttf]]') format('truetype'),
+        url('[[font:theme|vau30k-webfont.svg#vau30k-webfont]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SAS';
+    src: url('[[fonts:SAS|eot]]');
+    src: url('[[fonts:SAS|eot?#iefix]]') format('embedded-opentype'),
+        url('[[fonts:SAS|woff]]') format('woff'),
+        url('[[fonts:SAS|ttf]]') format('truetype'),
+        url('[[fonts:SAS|svg#SAS]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+@font-face {
+    font-family: 'SASB';
+    src: url('[[fonts:SASB|eot]]');
+    src: url('[[fonts:SASB|eot?#iefix]]') format('embedded-opentype'),
+        url('[[fonts:SASB|woff]]') format('woff'),
+        url('[[fonts:SASB|ttf]]') format('truetype'),
+        url('[[fonts:SASB|svg#SASB]]') format('svg');
+    font-weight: none;
+    font-style: none;
+}
+
+// Font Awesome Icons
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('[[font:theme|fontawesome-webfont.eot]]');
+    src: url('[[font:theme|fontawesome-webfont.eot]]') format('embedded-opentype'),
+        url('[[font:theme|fontawesome-webfont.woff]]') format('woff'),
+        url('[[font:theme|fontawesome-webfont.ttf]]') format('truetype'),
+        //url('[[font:theme|FontAwesome.otf]]') format('opentype'),
+        url('[[font:theme|fontawesome-webfont.svg]]') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="fa-"], [class*="fa-"] {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+// Mebis Webfonts
+
+@font-face {
+    font-family: 'mebis-icons';
+    src: url('[[font:theme|mebis-icons.eot]]?1uzb2m');
+    src: url('[[font:theme|mebis-icons.eot]]?1uzb2m#iefix') format('embedded-opentype'),
+        url('[[font:theme|mebis-icons.woff]]?1uzb2m') format('woff'),
+        url('[[font:theme|mebis-icons.ttf]]?1uzb2m') format('truetype'),
+        url('[[font:theme|mebis-icons.svg]]?1uzb2m#mebis_icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-me"], [class*=" icon-me"] {
+    font-family: mebis-icons;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: emCalc(14px);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-me-abstimmung-anonym:before { content: "\e600"; }
+.icon-me-artikel-hervorgehoben:before { content: "\e601"; }
+.icon-me-artikel-hervorheben:before { content: "\e602"; }
+.icon-me-artikel-nicht-sichtbar:before { content: "\e603"; }
+.icon-me-artikel-sichtbar:before { content: "\e604"; }
+.icon-me-aufgaben:before { content: "\e605"; }
+.icon-me-back-to-top:before { content: "\e606"; }
+.icon-me-bearbeiten:before { content: "\e607"; }
+.icon-me-bild-grafik:before { content: "\e608"; }
+.icon-me-block-hinzufuegen:before { content: "\e609"; }
+.icon-me-bookmark-halb:before { content: "\e60a"; }
+.icon-me-bookmark-leer:before { content: "\e60b"; }
+.icon-me-bookmark-vorhanden:before { content: "\e60c"; }
+.icon-me-bsa-antraege:before { content: "\e60d"; }
+.icon-me-buch:before { content: "\e60e"; }
+.icon-me-chat:before { content: "\e60f"; }
+.icon-me-datenbank:before { content: "\e610"; }
+.icon-me-datum-waehlen:before { content: "\e611"; }
+.icon-me-dokumente:before { content: "\e612"; }
+.icon-me-download:before { content: "\e613"; }
+.icon-me-drucken:before { content: "\e614"; }
+.icon-me-eigene-dateien:before { content: "\e615"; }
+.icon-me-einschreibung-mit-schluessel:before { content: "\e616"; }
+.icon-me-einschreibung-ohne-schluessel:before { content: "\e617"; }
+.icon-me-einstellungen:before { content: "\e618"; }
+.icon-me-email:before { content: "\e619"; }
+.icon-me-excel-dok:before { content: "\e61a"; }
+.icon-me-externer-link:before { content: "\e61b"; }
+.icon-me-externes-tool:before { content: "\e61c"; }
+.icon-me-feedback:before { content: "\e61d"; }
+.icon-me-forum:before { content: "\e61e"; }
+.icon-me-gastzugang:before { content: "\e61f"; }
+.icon-me-geogebra:before { content: "\e620"; }
+.icon-me-glossar:before { content: "\e621"; }
+.icon-me-gruppeneinstellung-01:before { content: "\e622"; }
+.icon-me-gruppeneinstellung-02:before { content: "\e623"; }
+.icon-me-hauptnav-mobile-ansicht:before { content: "\e624"; }
+.icon-me-hoerbeispiele:before { content: "\e625"; }
+.icon-me-hotpot:before { content: "\e626"; }
+.icon-me-ims-content:before { content: "\e627"; }
+.icon-me-infoportal:before { content: "\e628"; }
+.icon-me-interaktion:before { content: "\e629"; }
+.icon-me-interner-link:before { content: "\e62a"; }
+.icon-me-journal:before { content: "\e62b"; }
+.icon-me-kachelansicht:before { content: "\e62c"; }
+.icon-me-kalender:before { content: "\e62d"; }
+.icon-me-karte:before { content: "\e62e"; }
+.icon-me-kontext-hilfe:before { content: "\e62f"; }
+.icon-me-kontrast:before { content: "\e630"; }
+.icon-me-kurs-anfordern:before { content: "\e631"; }
+.icon-me-kurse:before { content: "\e632"; }
+.icon-me-kurs-erstellen:before { content: "\e633"; }
+.icon-me-lektion:before { content: "\e634"; }
+.icon-me-lernplattform:before { content: "\e635"; }
+.icon-me-lightbox:before { content: "\e636"; }
+.icon-me-link-weiterleiten:before { content: "\e637"; }
+.icon-me-listenansicht:before { content: "\e638"; }
+.icon-me-loeschen:before { content: "\e639"; }
+.icon-me-login:before { content: "\e63a"; }
+.icon-me-mediathek:before { content: "\e63b"; }
+.icon-me-medium-oeffnen:before { content: "\e63c"; }
+.icon-me-mehr-anzeigen:before { content: "\e63d"; }
+.icon-me-mein-schreibtisch:before { content: "\e63e"; }
+.icon-me-mindmap:before { content: "\e63f"; }
+.icon-me-mitteilungen:before { content: "\e640"; }
+.icon-me-multimedia:before { content: "\e641"; }
+.icon-me-newsletter:before { content: "\e642"; }
+.icon-me-objekt-verschieben:before { content: "\e643"; }
+.icon-me-pdf:before { content: "\e644"; }
+.icon-me-pfeil-weiter:before { content: "\e645"; }
+.icon-me-pfeil-zurueck:before { content: "\e646"; }
+.icon-me-play:before { content: "\e647"; }
+.icon-me-ppt-dok:before { content: "\e648"; }
+.icon-me-preview:before { content: "\e649"; }
+.icon-me-pruefungsarchiv:before { content: "\e64a"; }
+.icon-me-pruefungssammlung-mit-inhalt:before { content: "\e64b"; }
+.icon-me-pruefungssammlung-ohne-inhalt:before { content: "\e64c"; }
+.icon-me-rolle-wechseln:before { content: "\e64d"; }
+.icon-me-rss-feed:before { content: "\e64e"; }
+.icon-me-schrift-vergroessern:before { content: "\e64f"; }
+.icon-me-schrift-verkleinern:before { content: "\e650"; }
+.icon-me-schule:before { content: "\e651"; }
+.icon-me-schulwechsel-antraege:before { content: "\e652"; }
+.icon-me-spiele:before { content: "\e653"; }
+.icon-me-sprungnav-mobile-ansicht:before { content: "\e654"; }
+.icon-me-stern_halb:before { content: "\e655"; }
+.icon-me-stern_komplett:before { content: "\e656"; }
+.icon-me-stern_leer:before { content: "\e657"; }
+.icon-me-suchbegriff-bestaetigen:before { content: "\e658"; }
+.icon-me-support:before { content: "\e659"; }
+.icon-me-test:before { content: "\e65a"; }
+.icon-me-text-bearbeiten:before { content: "\e65b"; }
+.icon-me-textfeld:before { content: "\e65c"; }
+.icon-me-textseite:before { content: "\e65d"; }
+.icon-me-verwaltung:before { content: "\e65e"; }
+.icon-me-video-film:before { content: "\e65f"; }
+.icon-me-vorlesen:before { content: "\e660"; }
+.icon-me-weitere-info:before { content: "\e661"; }
+.icon-me-weniger-anzeigen:before { content: "\e662"; }
+.icon-me-wiki:before { content: "\e663"; }
+.icon-me-word-dok:before { content: "\e664"; }
+.icon-me-workshop:before { content: "\e665"; }
+.icon-me-zip:before { content: "\e666"; }
+.icon-me-abstimmung-anonym:before { content: "\e600"; }
+.icon-me-artikel-hervorgehoben:before { content: "\e601"; }
+.icon-me-artikel-hervorheben:before { content: "\e602"; }
+.icon-me-artikel-nicht-sichtbar:before { content: "\e603"; }
+.icon-me-artikel-sichtbar:before { content: "\e604"; }
+.icon-me-aufgaben:before { content: "\e605"; }
+.icon-me-back-to-top:before { content: "\e606"; }
+.icon-me-bearbeiten:before { content: "\e607"; }
+.icon-me-bild-grafik:before { content: "\e608"; }
+.icon-me-block-hinzufuegen:before { content: "\e609"; }
+.icon-me-bookmark-halb:before { content: "\e60a"; }
+.icon-me-bookmark-leer:before { content: "\e60b"; }
+.icon-me-bookmark-vorhanden:before { content: "\e60c"; }
+.icon-me-bsa-antraege:before { content: "\e60d"; }
+.icon-me-buch:before { content: "\e60e"; }
+.icon-me-chat:before { content: "\e60f"; }
+.icon-me-datenbank:before { content: "\e610"; }
+.icon-me-datum-waehlen:before { content: "\e611"; }
+.icon-me-dokumente:before { content: "\e612"; }
+.icon-me-download:before { content: "\e613"; }
+.icon-me-upload:before { content: "\e613"; @include transform(rotate(180deg)); display: inline-block; }
+.icon-me-drucken:before { content: "\e614"; }
+.icon-me-eigene-dateien:before { content: "\e615"; }
+.icon-me-einschreibung-mit-schluessel:before { content: "\e616"; }
+.icon-me-einschreibung-ohne-schluessel:before { content: "\e617"; }
+.icon-me-einstellungen:before { content: "\e618"; }
+.icon-me-email:before { content: "\e619"; }
+.icon-me-excel-dok:before { content: "\e61a"; }
+.icon-me-externer-link:before { content: "\e61b"; }
+.icon-me-externes-tool:before { content: "\e61c"; }
+.icon-me-feedback:before { content: "\e61d"; }
+.icon-me-forum:before { content: "\e61e"; }
+.icon-me-gastzugang:before { content: "\e61f"; }
+.icon-me-geogebra:before { content: "\e620"; }
+.icon-me-glossar:before { content: "\e621"; }
+.icon-me-gruppeneinstellung-01:before { content: "\e622"; }
+.icon-me-gruppeneinstellung-02:before { content: "\e623"; }
+.icon-me-hauptnav-mobile-ansicht:before { content: "\e624"; }
+.icon-me-hoerbeispiele:before { content: "\e625"; }
+.icon-me-hotpot:before { content: "\e626"; }
+.icon-me-ims-content:before { content: "\e627"; }
+.icon-me-infoportal:before { content: "\e628"; }
+.icon-me-interaktion:before { content: "\e629"; }
+.icon-me-interner-link:before { content: "\e62a"; }
+.icon-me-journal:before { content: "\e62b"; }
+.icon-me-kachelansicht:before { content: "\e62c"; }
+.icon-me-kalender:before { content: "\e62d"; }
+.icon-me-karte:before { content: "\e62e"; }
+.icon-me-kontext-hilfe:before { content: "\e62f"; }
+.icon-me-kontrast:before { content: "\e630"; }
+.icon-me-kurs-anfordern:before { content: "\e631"; }
+.icon-me-kurse:before { content: "\e632"; }
+.icon-me-kurs-erstellen:before { content: "\e633"; }
+.icon-me-lektion:before { content: "\e634"; }
+.icon-me-lernplattform:before { content: "\e635"; }
+.icon-me-lightbox:before { content: "\e636"; }
+.icon-me-link-weiterleiten:before { content: "\e637"; }
+.icon-me-listenansicht:before { content: "\e638"; }
+.icon-me-loeschen:before { content: "\e639"; }
+.icon-me-login:before { content: "\e63a"; }
+.icon-me-mediathek:before { content: "\e63b"; }
+.icon-me-medium-oeffnen:before { content: "\e63c"; }
+.icon-me-mehr-anzeigen:before { content: "\e63d"; }
+.icon-me-mein-schreibtisch:before { content: "\e63e"; }
+.icon-me-mindmap:before { content: "\e63f"; }
+.icon-me-mitteilungen:before { content: "\e640"; }
+.icon-me-multimedia:before { content: "\e641"; }
+.icon-me-newsletter:before { content: "\e642"; }
+.icon-me-objekt-verschieben:before { content: "\e643"; }
+.icon-me-pdf:before { content: "\e644"; }
+.icon-me-pfeil-weiter:before { content: "\e645"; }
+.icon-me-pfeil-zurueck:before { content: "\e646"; }
+.icon-me-play:before { content: "\e647"; }
+.icon-me-ppt-dok:before { content: "\e648"; }
+.icon-me-preview:before { content: "\e649"; }
+.icon-me-pruefungsarchiv:before { content: "\e64a"; }
+.icon-me-Prfungssammlung-mit-inhalt:before { content: "\e64b"; }
+.icon-me-Prfungssammlung-ohne-inhalt:before { content: "\e64c"; }
+.icon-me-rolle-wechseln:before { content: "\e64d"; }
+.icon-me-rss-feed:before { content: "\e64e"; }
+.icon-me-schrift-vergroessern:before { content: "\e64f"; }
+.icon-me-schrift-verkleinern:before { content: "\e650"; }
+.icon-me-schule:before { content: "\e651"; }
+.icon-me-schulwechsel-antraege:before { content: "\e652"; }
+.icon-me-spiele:before { content: "\e653"; }
+.icon-me-sprungnav-mobile-ansicht:before { content: "\e654"; }
+.icon-me-stern_halb:before { content: "\e655"; }
+.icon-me-stern_komplett:before { content: "\e656"; }
+.icon-me-stern_leer:before { content: "\e657"; }
+.icon-me-suchbegriff-bestaetigen:before { content: "\e658"; }
+.icon-me-support:before { content: "\e659"; }
+.icon-me-test:before { content: "\e65a"; }
+.icon-me-text-bearbeiten:before { content: "\e65b"; }
+.icon-me-textfeld:before { content: "\e65c"; }
+.icon-me-textseite:before { content: "\e65d"; }
+.icon-me-verwaltung:before { content: "\e65e"; }
+.icon-me-video-film:before { content: "\e65f"; }
+.icon-me-vorlesen:before { content: "\e660"; }
+.icon-me-weitere-info:before { content: "\e661"; }
+.icon-me-weniger-anzeigen:before { content: "\e662"; }
+.icon-me-wiki:before { content: "\e663"; }
+.icon-me-word-dok:before { content: "\e664"; }
+.icon-me-workshop:before { content: "\e665"; }
+.icon-me-zip:before { content: "\e666"; }
+.icon-me-cockpit:before { content: "\e667"; }
+
+
+.me-animate-spin {
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+    display: inline-block;
+}
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+        -o-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@-webkit-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+        -o-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@-o-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+        -o-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@-ms-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+        -o-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+        -o-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}

@@ -1,0 +1,53 @@
+/*@import "compass/css3";
+@import "mixins";
+@import "variables-contrast";
+@import "fonts";
+
+@import "bootstrap";
+@import "bootstrap-advanced";
+
+@import "../vendor/font-awesome/font-awesome";
+
+// Vendor CSS
+@import "../vendor/tooltipster/tooltipster";
+
+// Import Compass-Modules
+@import "compass/layout/sticky-footer";
+
+@import "layout";
+
+// Pages
+@import "../../scss/learning-platform";*/
+/**
+@import "../../scss/moodle/pageheader";
+@import "../../scss/moodle/coursebox";
+@import "../../scss/moodle/schoolbox";
+@import "../../scss/moodle/footer";
+@import "../../scss/moodle/course";
+@import "../../scss/moodle/general";
+@import "../../scss/moodle/menu";
+@import "../../scss/moodle/settings";
+@import "../../scss/moodle/apps";
+@import "../../scss/moodle/overrides";
+@import "../../scss/moodle/admin";
+@import "../../scss/moodle/chat";
+@import "../../scss/moodle/lightbox";
+@import "../../scss/moodle/category";*/
+/*@import "contrast-mode";
+
+@import "../../scss/moodle/category";
+@import "../../scss/moodle/coursebox";
+@import "../../scss/moodle/pageheader";
+@import "../../scss/moodle/pagefooter";
+@import "../../scss/moodle/schoolbox";
+@import "../../scss/moodle/cu-admin";
+@import "../../scss/moodle/cu-blocks";
+@import "../../scss/moodle/cu-course";
+@import "../../scss/moodle/cu-pages";
+@import "../../scss/moodle/cu-general";
+@import "../../scss/moodle/cu-courseformats";
+@import "../../scss/moodle/cu-usermessages";
+@import "../../scss/moodle/cu-userfilemanager";
+@import "../../scss/moodle/cu-userprofile";
+@import "../../scss/moodle/cu-overlays";
+@import "../../scss/moodle/cu-activities";*/

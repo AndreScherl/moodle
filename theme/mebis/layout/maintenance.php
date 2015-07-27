@@ -31,7 +31,7 @@ echo $OUTPUT->doctype()
         <?php echo $OUTPUT->standard_head_html(); ?>
 
         <span data-mode="default"></span>
-        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
+        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -94,7 +94,7 @@ echo $OUTPUT->doctype()
         </a>
 
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+            $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
         ?>
         
         <div class="container"> 

@@ -1,3 +1,5 @@
+// Dies ist nur ein Test zum neuen Subtree-Verfahren.
+
 var Mebis = (function($) {
     'use strict';
 

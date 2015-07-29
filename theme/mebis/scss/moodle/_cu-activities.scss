@@ -179,7 +179,7 @@
     #page-repository-pmediathek-search {
         #mform1 {
             display: inline;
-            &:last-child {
+            fieldset:last-child {
                 float: right;
                 margin-top: 29px;
                 margin-right: 20px;

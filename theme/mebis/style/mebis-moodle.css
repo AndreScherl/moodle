@@ -14952,6 +14952,113 @@ categorybox:
   text-align: center;
 }
 
+#page-course-index-category .collapsible-actions {
+  display: none;
+}
+
+#page-course-index-category .category {
+  background-color: #fff !important;
+}
+#page-course-index-category .category > .info {
+  background-color: #00a8d5 !important;
+  padding: 15px 20px;
+  margin: 2px 0 0 0;
+  border: none;
+}
+#page-course-index-category .category > .info h3::after, #page-course-index-category .category > .info h4::after {
+  content: "";
+  font-family: "mebis-icons";
+  float: right;
+}
+#page-course-index-category .category > .info h3::after {
+  margin-right: 20px;
+}
+#page-course-index-category .category > .info h3, #page-course-index-category .category > .info h4, #page-course-index-category .category > .info h3 a, #page-course-index-category .category > .info h4 a {
+  font-size: 18px;
+  color: white;
+  margin: 0;
+  padding: 0;
+  line-height: 1em;
+  font-weight: 400;
+}
+
+#page-course-index-category .category > .info {
+  background-color: #00a8d5 !important;
+}
+#page-course-index-category .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.85) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.7) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.55) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.4) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.25) !important;
+}
+
+#page-course-index-category .category.collapsed > .info h3::after, #page-course-index-category .category.collapsed .info h4::after {
+  content: "";
+  font-family: "mebis-icons";
+  float: right;
+}
+
+#page-course-index-category .course_category_tree .category.with_children > .info > .categoryname {
+  background-image: none;
+  padding: 0;
+  margin: 0;
+  line-height: 26px;
+}
+#page-course-index-category .course_category_tree .category.with_children.collapsed > .info > .categoryname {
+  background-image: none;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .info {
+  padding: 20px;
+  margin-top: 5px;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .info h3 a {
+  font-weight: bold;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category.with_children > .content {
+  padding: 20px;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .content > .subcategories {
+  padding: 0px;
+}
+
+#page-course-index-category .content .courses {
+  margin: 0;
+}
+#page-course-index-category .content .courses .coursebox {
+  border: none;
+  margin: 2px 0 0 0;
+  background-color: #00a8d5;
+}
+#page-course-index-category .content .courses .coursebox .info {
+  line-height: 26px;
+  background: none;
+  border: none;
+}
+#page-course-index-category .content .courses .coursebox .info span a {
+  vertical-align: top;
+}
+#page-course-index-category .content .courses .coursebox .info span a img {
+  vertical-align: baseline;
+}
+#page-course-index-category .content .courses .coursebox .info span.coursename::before {
+  content: "";
+  font-family: "mebis-icons";
+  margin-right: 5px;
+  font-size: 22px;
+}
+#page-course-index-category .content .courses .coursebox a {
+  color: #fff;
+}
+
 /* This file contains Styles related to display courses in a grid element (box) */
 /* 
     Created on : 19.05.2015

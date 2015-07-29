@@ -10,7 +10,7 @@ images_dir = "../pix"
 javascripts_dir = "javascripts"
 
 # add path to moodle specific scss files (will be different for each developer)
-add_import_path "C:\\Users\\Scherl\\Documents\\localhost-htdocs\\mbsredesign\\theme\\mebis\\scss"
+add_import_path "C:\\Users\\Admin\\Documents\\xampp183\\mebis\\theme\\mebis\\scss"
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :expanded or :nested or :compact or :compressed

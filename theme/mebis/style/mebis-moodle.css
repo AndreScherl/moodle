@@ -16477,6 +16477,7 @@ input[type="checkbox"] + label {
 
     - moodle-dialogue-base
     - newmessageoverlay
+    - user-enroller-panel
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -16508,23 +16509,33 @@ input[type="checkbox"] + label {
         }
     }*/
 }
-@media only screen and (max-width: 992px) {
-  .moodle-dialogue-base .moodle-dialogue.filepicker {
-    left: 10%;
-    width: 85%;
-    top: 100px;
-  }
-}
 
 #newmessageoverlay {
   z-index: auto;
 }
+
 @media only screen and (max-width: 992px) {
+  .moodle-dialogue-base .moodle-dialogue-fullscreen {
+    left: 10%;
+    width: 85%;
+    top: 100px;
+    bottom: 50px;
+  }
+  .moodle-dialogue-base .moodle-dialogue-fullscreen .moodle-dialogue-content {
+    top: 0;
+    bottom: 0;
+  }
+
   #newmessageoverlay {
     bottom: 50px;
   }
 }
-
+@media only screen and (max-width: 480px) {
+  .user-enroller-panel {
+    left: 10% !important;
+    width: auto;
+  }
+}
 /*
     This file contains style customizations for activities:
 
@@ -16630,7 +16641,8 @@ input[type="checkbox"] + label {
 }
 
 #page-repository-pmediathek-search #page #page-content {
-  color: #fff;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 #page-repository-pmediathek-search #page #page-content div .searchresult {
   color: #000;
@@ -16652,6 +16664,16 @@ input[type="checkbox"] + label {
   list-style: decimal inside none;
 }
 
+@media only screen and (min-width: 640px) {
+  #page-repository-pmediathek-search #mform1 {
+    display: inline;
+  }
+  #page-repository-pmediathek-search #mform1 fieldset:last-child {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
+  }
+}
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

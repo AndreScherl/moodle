@@ -16370,6 +16370,7 @@ input[type="checkbox"] + label {
 
     - moodle-dialogue-base
     - newmessageoverlay
+    - user-enroller-panel
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -16401,23 +16402,33 @@ input[type="checkbox"] + label {
         }
     }*/
 }
-@media only screen and (max-width: 992px) {
-  .moodle-dialogue-base .moodle-dialogue.filepicker {
-    left: 10%;
-    width: 85%;
-    top: 100px;
-  }
-}
 
 #newmessageoverlay {
   z-index: auto;
 }
+
 @media only screen and (max-width: 992px) {
+  .moodle-dialogue-base .moodle-dialogue-fullscreen {
+    left: 10%;
+    width: 85%;
+    top: 100px;
+    bottom: 50px;
+  }
+  .moodle-dialogue-base .moodle-dialogue-fullscreen .moodle-dialogue-content {
+    top: 0;
+    bottom: 0;
+  }
+
   #newmessageoverlay {
     bottom: 50px;
   }
 }
-
+@media only screen and (max-width: 480px) {
+  .user-enroller-panel {
+    left: 10% !important;
+    width: auto;
+  }
+}
 /*
     This file contains style customizations for activities:
 

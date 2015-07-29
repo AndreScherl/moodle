@@ -16546,9 +16546,9 @@ input[type="checkbox"] + label {
   list-style: decimal inside none;
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 640px) {
   #page-repository-pmediathek-search #mform1 {
-    display: inline !important;
+    display: inline;
   }
   #page-repository-pmediathek-search #mform1:last-child {
     float: right;

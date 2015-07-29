@@ -174,11 +174,11 @@
     }
 }
 
-@media only screen and (min-width: $screen-md-min) {
+@media only screen and (min-width: $screen-xc-min) {
 
     #page-repository-pmediathek-search {
         #mform1 {
-            display: inline !important;
+            display: inline;
             &:last-child {
                 float: right;
                 margin-top: 29px;

@@ -217,6 +217,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * @param type $region
      * @param type $classes
      * @param type $tag
+     * @param type $droptarget
      * @return String Html string of the block region
      */
     public function mebis_blocks($region, $classes = array(), $tag = 'aside', $droptarget = '1') {
@@ -230,14 +231,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             'data-blockregion' => $displayregion,
             'data-droptarget' => $droptarget
         );
-        $content = '';
         if ($this->page->blocks->region_has_content($displayregion, $this)) {
-            $content .= $this->blocks_for_region($displayregion);
+            $content = $this->blocks_for_region($displayregion);
         } else {
-            $content .= '';
+            $content = '';
         }
 
-        return $content;
+        return html_writer::tag($tag, $content, $attributes);
     }
     
     /**
@@ -267,7 +267,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     /**
      * Output a place where the block that is currently being moved can be dropped.
      *
-     * Andre Scherl - 12.06.2015: overwrite this method to render drop target container correctly
+     * Andre Scherl - 12.06.2015: overwrite this method to render drop target container correctly (little dotted rect containers)
      * 
      * @param block_move_target $target with the necessary details.
      * @param array $zones array of areas where the block can be moved to

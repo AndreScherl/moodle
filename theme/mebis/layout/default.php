@@ -66,10 +66,8 @@ if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
 $PAGE->set_popup_notification_allowed($ismydashboard);
 
 // Check whether regions has content.
-$hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
-$hasbottom = $PAGE->blocks->region_has_content('bottom', $OUTPUT);
 
 // TODO: discuss this line - deprecated?
 // $regions = theme_mebis_bootstrap_grid($hasapps, null);
@@ -162,11 +160,12 @@ echo $OUTPUT->doctype()
                     if ($knownregionsidepost) {
                         echo $OUTPUT->blocks('side-post', array(), 'div');
                     }
+                    
                     echo html_writer::end_tag('aside');
                     
                 }
                 
-                if ($hasbottom) {
+                if ($knownregionbottom) {
                     echo $OUTPUT->mebis_blocks('bottom', array(), 'aside', '0');
                 }
                 

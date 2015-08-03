@@ -100,25 +100,29 @@ class course {
     public static function can_viewfeedback(\context_course $coursecontext) {
         global $USER;
 
-        $dobj = new dataobj\template(array('courseid' => $coursecontext->instanceid));
-        if (!$dobj->id) {
+        $template = new dataobj\template(array('courseid' => $coursecontext->instanceid));
+        if (!$template->id) {
             return false;
         }
 
-        $allwed = array(
-            dataobj\template::STATUS_PUBLISHED,
-            dataobj\template::STATUS_UNDER_REVIEW,
-            dataobj\template::STATUS_UNDER_REVISION,
-        );
-        if (!in_array($dobj->status, $allwed)) {
-            return false;
-        }
-
-        if (has_capability('block/mbstpl:coursetemplatereview', $coursecontext)) {
+        if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {
             return true;
         }
 
-        return $dobj->reviewerid == $USER->id;
+        if ($template->authorid == $USER->id) {
+            return $template->status == $template::STATUS_UNDER_REVISION;
+        }
+
+        if ($template->reviewerid == $USER->id) {
+            $allowed = array(
+                $template::STATUS_PUBLISHED,
+                $template::STATUS_UNDER_REVIEW,
+                $template::STATUS_ARCHIVED,
+            );
+            return in_array($template->status, $allowed);
+        }
+
+        return false;
     }
 
 

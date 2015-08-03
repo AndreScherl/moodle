@@ -50,7 +50,7 @@ foreach($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
 $customdata = array('courseid' => $courseid, 'questions' => $questions);
-$form = new mbst\sendtemplateform(null, $customdata);
+$form = new mbst\form\sendtemplate(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);

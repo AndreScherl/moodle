@@ -20,7 +20,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mbstpl;
+namespace block_mbstpl\form;
+use \block_mbstpl as mbst;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,12 +30,12 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class sendtemplateform
+ * Class sendtemplate
  * @package block_mbstpl
  * Main question form
  */
 
-class sendtemplateform extends \moodleform {
+class sendtemplate extends \moodleform {
     function definition() {
         $form = $this->_form;
 
@@ -49,7 +50,7 @@ class sendtemplateform extends \moodleform {
         // Add custom questions.
         $questions = $this->_customdata['questions'];
         foreach($questions as $question) {
-            $typeclass = questman\qtype_base::qtype_factory($question->datatype);
+            $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
             $typeclass::add_template_element($form, $question);
         }
 

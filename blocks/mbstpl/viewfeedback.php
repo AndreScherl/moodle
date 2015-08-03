@@ -49,7 +49,7 @@ if (!mbst\course::can_viewfeedback($coursecontext)) {
 
 $isreviewer = $template->reviewerid == $USER->id;
 if ($isreviewer) {
-    $feedbackform = new \block_mbstpl\feedbackform(null, array('courseid' => $courseid));
+    $feedbackform = new \block_mbstpl\form\feedback(null, array('courseid' => $courseid));
     if ($data = $feedbackform->get_data()) {
         mbst\course::set_feedback($template, $data->feedback);
 		redirect($thisurl);

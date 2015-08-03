@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mbstpl;
+namespace block_mbstpl\form;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,25 +29,20 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class assignreviewerform
+ * Class feedback
  * @package block_mbstpl
  * Main question form
  */
 
-class assignreviewerform extends \moodleform {
+class feedback extends \moodleform {
     function definition() {
         $form = $this->_form;
 
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
 
-        $options = array();
-        foreach($this->_customdata['users'] as $user) {
-            $options[$user->id] = $user->firstname .' ' . $user->lastname;
-        }
-        $form->addElement('select', 'reviewerid', get_string('selectedreviewer', 'block_mbstpl'), $options);
+        $form->addElement('editor', 'feedback', get_string('feedbacktoauthor', 'block_mbstpl'));
 
-        $this->add_action_buttons(true, get_string('assignreviewer', 'block_mbstpl'));
+        $this->add_action_buttons(false, get_string('submit'));
     }
-
 }

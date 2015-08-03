@@ -53,7 +53,7 @@ if (empty($users)) {
 }
 
 $customdata = array('courseid' => $course->id, 'users' => $users);
-$form = new mbst\assignreviewerform(null, $customdata);
+$form = new mbst\form\assignreviewer(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);

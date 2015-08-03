@@ -126,11 +126,16 @@ class course {
      * Set a new feedback to the template and send to author.
      * @param dataobj\template $template
      * @param array $feedback
+     * @param int $newstatus
      */
-    public static function set_feedback(dataobj\template $template, $feedback) {
+    public static function set_feedback(dataobj\template $template, $feedback, $newstatus = null) {
         $template->feedback = $feedback['text'];
         $template->feedbackformat = $feedback['format'];
+        if ($newstatus !== null) {
+            $template->status = $newstatus;
+        }
         $template->update();
+        notifications::send_feedback($template);
     }
 
     /**

@@ -41,8 +41,12 @@ class feedback extends \moodleform {
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
 
-        $form->addElement('editor', 'feedback', get_string('feedbacktoauthor', 'block_mbstpl'));
+        $form->addElement('editor', 'feedback', get_string('feedback', 'block_mbstpl'));
 
-        $this->add_action_buttons(false, get_string('submit'));
+        $towhom =  $this->_customdata['isreviewr'] ? 'author' : 'reviewer';
+        $caption =  get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
+        $submit = get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
+
+        $this->add_action_buttons(false, $submit);
     }
 }

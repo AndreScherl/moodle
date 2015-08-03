@@ -124,7 +124,7 @@ class notifications {
         $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
         $fromuser = self::get_fromuser();
         $sender = $DB->get_record('user', array('id' => $fromid), '*', MUST_EXIST);
-        $coursename = $DB->get_field('course', array('id' => $template->courseid), MUST_EXIST);
+        $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
         $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
         $a = (object)array(
             'reviewer' => fullname($sender),

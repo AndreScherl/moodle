@@ -48,10 +48,14 @@ if (!mbst\course::can_viewfeedback($coursecontext)) {
 }
 
 $isreviewer = $template->reviewerid == $USER->id;
-if ($isreviewer) {
-    $feedbackform = new \block_mbstpl\form\feedback(null, array('courseid' => $courseid));
+$isauthor = $template->authorid == $USER->id;
+$cansendfeedback = $isreviewer || $isauthor;
+if ($cansendfeedback) {
+    $customdata = array('isreviewr' => $isreviewer, 'courseid' => $courseid);
+    $feedbackform = new \block_mbstpl\form\feedback(null, $customdata);
     if ($data = $feedbackform->get_data()) {
-        mbst\course::set_feedback($template, $data->feedback);
+        $newstatus = $isreviewer ? $template::STATUS_UNDER_REVISION : $template::STATUS_UNDER_REVIEW;
+        mbst\course::set_feedback($template, $data->feedback, $newstatus);
 		redirect($thisurl);
     }
 }
@@ -63,7 +67,7 @@ echo html_writer::tag('h2', $pagetitle);
 
 echo $renderer->coursebox($course,$template);
 
-if ($isreviewer) {
+if ($cansendfeedback) {
     $feedbackform->display();
 }
 

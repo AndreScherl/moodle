@@ -1,14 +1,14 @@
 .mbstcoursebox  {
     border-style: solid;
+    margin-bottom: 25px;
 }
 
-.mbstcoursebox .statusbox  {
+.statusbox.statusbox  {
     border-style: solid;
     padding: 3px;
 }
-
-.mbstcoursebox .statuscreated       {background-color: #aaaaff}
-.mbstcoursebox .statusunderreview   {background-color: #aaeeaa}
-.mbstcoursebox .statusunderrevision {background-color: #eebb33}
-.mbstcoursebox .statuspublished     {background-color: #e5afff}
-.mbstcoursebox .statusarchived      {background-color: #cccccc}
+.statusbox.statuscreated       {background-color: #aaaaff}
+.statusbox.statusunderreview   {background-color: #aaeeaa}
+.statusbox.statusunderrevision {background-color: #eebb33}
+.statusbox.statuspublished     {background-color: #e5afff}
+.statusbox.statusarchived      {background-color: #cccccc}

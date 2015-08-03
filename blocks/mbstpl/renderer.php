@@ -162,16 +162,19 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 			get_string('status'),
 			get_string('assigned', 'block_mbstpl'),
 			get_string('updated'),
+            '',
 		);
         $table->data = array();
 		foreach($revhists as $hist) {
 			$status = \block_mbstpl\course::get_statusshortname($hist->status);
 			$assignedname = $hist->firstname . ' ' . $hist->lastname;
 			$statusbox = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
+            $viewfdbk = $hist->hasfeedback ? '[*,*]' : '';
 			$table->data[] = array(
 				$statusbox,
 				$assignedname,
 				userdate($hist->timecreated),
+                $viewfdbk,
 			);
 		}
 		$html .= html_writer::table($table);

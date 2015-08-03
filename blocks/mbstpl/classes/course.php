@@ -184,13 +184,13 @@ class course {
 	public static function get_revhist($templateid) {
 		global $DB;
 		$sql = "
-		SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname
+		SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
 		FROM {block_mbstpl_revhist} rh
 		JOIN {user} u ON u.id = rh.assignedid
 		WHERE rh.templateid = ?
 		ORDER BY rh.id DESC
 		";
-		return $DB->get_records_sql($sql, array($templateid));
+		return $DB->get_records_sql($sql, array('', $templateid));
 	}
 
 

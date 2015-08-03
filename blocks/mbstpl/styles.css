@@ -14,8 +14,8 @@
     border-style: solid;
     padding: 3px;
 }
-.statusbox.statuscreated       {background-color: #aaaaff}
-.statusbox.statusunderreview   {background-color: #aaeeaa}
-.statusbox.statusunderrevision {background-color: #eebb33}
+.statusbox.statuscreated       {background-color: #dad3eb}
+.statusbox.statusunderreview   {background-color: #c9e2be}
+.statusbox.statusunderrevision {background-color: #f3c89c}
 .statusbox.statuspublished     {background-color: #e5afff}
 .statusbox.statusarchived      {background-color: #cccccc}

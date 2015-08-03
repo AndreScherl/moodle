@@ -1,9 +1,16 @@
 .mbstcoursebox  {
     border-style: solid;
     margin-bottom: 25px;
+    padding: 15px;
+}
+.boxtable > tbody > tr > td:first-child {
+    font-weight: bold;
+    padding-right: 20px;
 }
 
 .statusbox.statusbox  {
+    width: 100px;
+    text-align: center;
     border-style: solid;
     padding: 3px;
 }

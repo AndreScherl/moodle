@@ -93,11 +93,11 @@ class notifications {
     }
 
     /**
-     * Send reviewer feedback to the author.
+     * Send reviewer feedback to the author, or author to reviewer.
      * @param dataobj\template $template course template.
      */
     public static function send_feedback(dataobj\template $template) {
-        global $DB;
+        global $DB, $USER;
         if (empty($template->authorid)) {
             return;
         }
@@ -107,18 +107,37 @@ class notifications {
         if (empty($template->feedback)) {
             return;
         }
-        $touser = $DB->get_record('user', array('id' => $template->authorid), '*', MUST_EXIST);
+        if ($USER->id == $template->reviewerid) {
+            $isreviewer = true;
+        }  else if ($USER->id == $template->authorid) {
+            $isreviewer = false;
+        } else {
+            throw new \moodle_exception('errornotallwoedtosendfeedback', 'block_mbstpl');
+        }
+        if ($isreviewer) {
+            $toid = $template->authorid;
+            $fromid = $template->reviewerid;
+        } else {
+            $toid = $template->reviewerid;
+            $fromid = $template->authorid;
+        }
+        $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
         $fromuser = self::get_fromuser();
-        $reviewer = $DB->get_record('user', array('id' => $template->reivewerid), '*', MUST_EXIST);
+        $sender = $DB->get_record('user', array('id' => $fromid), '*', MUST_EXIST);
         $coursename = $DB->get_field('course', array('id' => $template->courseid), MUST_EXIST);
         $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
         $a = (object)array(
-            'reviewer' => fullname($reviewer),
+            'reviewer' => fullname($sender),
             'fullname' => $coursename,
             'courseurl' => $courseurl,
         );
-        $subject = get_string('emailfeedback_subj', 'block_mbstpl');
-        $body = get_string('emailfeedback_body', 'block_mbstpl', $a);
+        if ($isreviewer) {
+            $subject = get_string('emailfeedbackrev_subj', 'block_mbstpl');
+            $body = get_string('emailfeedbackrev_body', 'block_mbstpl', $a);
+        } else {
+            $subject = get_string('emailfeedbackauth_subj', 'block_mbstpl');
+            $body = get_string('emailfeedbackauth_body', 'block_mbstpl', $a);
+        }
         email_to_user($touser, $fromuser, $subject, $body);
     }
 

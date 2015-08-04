@@ -95,14 +95,17 @@ class course {
     /**
      * Tells us whether the current user can view the feedback page.
      * @param \context_course $coursecontext
+     * @param dataobj\template $template will be fetched from db if not provided.
      * @return bool
      */
-    public static function can_viewfeedback(\context_course $coursecontext) {
+    public static function can_viewfeedback(\context_course $coursecontext, dataobj\template $template = null) {
         global $USER;
 
-        $template = new dataobj\template(array('courseid' => $coursecontext->instanceid));
-        if (!$template->id) {
-            return false;
+        if (is_null($template)) {
+            $template = new dataobj\template(array('courseid' => $coursecontext->instanceid));
+            if (!$template->id) {
+                return false;
+            }
         }
 
         if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {

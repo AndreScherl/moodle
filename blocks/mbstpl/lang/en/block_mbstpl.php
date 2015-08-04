@@ -92,5 +92,6 @@ $string['statusunderreview'] = 'Under review';
 $string['statusunderrevision'] = 'Under revision';
 $string['templatefeedback'] = 'Template feedback';
 $string['useq'] = 'Use question';
+$string['viewfeedback'] = 'View feedback for this revision';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';

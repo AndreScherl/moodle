@@ -165,11 +165,16 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             '',
 		);
         $table->data = array();
+        $commentpic = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/comments.png'), get_string('viewfeedback', 'block_mbstpl'));
 		foreach($revhists as $hist) {
 			$status = \block_mbstpl\course::get_statusshortname($hist->status);
 			$assignedname = $hist->firstname . ' ' . $hist->lastname;
 			$statusbox = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
-            $viewfdbk = $hist->hasfeedback ? '[*,*]' : '';
+            $viewfdbk = '';
+            if ($hist->hasfeedback) {
+                $feedbackurl = new \moodle_url('/blocks/mbstpl/feedbackdetail.php', array('id' => $hist->id));
+                $viewfdbk = \html_writer::link($feedbackurl, $commentpic);
+            }
 			$table->data[] = array(
 				$statusbox,
 				$assignedname,

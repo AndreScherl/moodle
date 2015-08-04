@@ -34,6 +34,7 @@ $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
@@ -43,8 +44,20 @@ $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), t
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\course::can_viewfeedback($coursecontext)) {
+if (!mbst\course::can_viewfeedback($coursecontext, $template)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
+}
+
+$do = optional_param('do', '', PARAM_TEXT);
+if ($do == 'publish' && mbst\course::can_publish($template)) {
+    $template->status = $template::STATUS_PUBLISHED;
+    $template->update();
+    redirect($courseurl);
+}
+if ($do == 'archive' && mbst\course::can_archive($template)) {
+    $template->status = $template::STATUS_ARCHIVED;
+    $template->update();
+    redirect($courseurl);
 }
 
 $isreviewer = $template->reviewerid == $USER->id;
@@ -64,6 +77,21 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('block_mbstpl');
 echo html_writer::tag('h2', $pagetitle);
+
+$buttons = '';
+if (mbst\course::can_publish($template)) {
+    $url = clone($thisurl);
+    $url->param('do', 'publish');
+    $buttons .= $OUTPUT->single_button($url, get_string('publish'));
+}
+if (mbst\course::can_archive($template)) {
+    $url = clone($thisurl);
+    $url->param('do', 'archive');
+    $buttons .= $OUTPUT->single_button($url, get_string('archive', 'block_mbstpl'));
+}
+if (!empty($buttons)) {
+    echo html_writer::div($buttons, 'templateactionbtns');
+}
 
 echo $renderer->coursebox($course,$template);
 

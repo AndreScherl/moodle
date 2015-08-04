@@ -19,3 +19,6 @@
 .statusbox.statusunderrevision {background-color: #f3c89c}
 .statusbox.statuspublished     {background-color: #e5afff}
 .statusbox.statusarchived      {background-color: #cccccc}
+
+.templateactionbtns {display: table;}
+.templateactionbtns > div {display: table-cell;}

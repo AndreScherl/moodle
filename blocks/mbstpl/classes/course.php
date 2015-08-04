@@ -128,6 +128,45 @@ class course {
         return false;
     }
 
+    /**
+     * Tells us whether the current user can send the template to archive.
+     * @param dataobj\template
+     * @return bool
+     */
+    public static function can_archive(dataobj\template $template) {
+        global $USER;
+        
+        if ($template->status == $template::STATUS_ARCHIVED) {
+            return false;
+        }
+
+        if ($template->reviewerid == $USER->id) {
+            return true;
+        }
+
+        $coursecontext = \context_course::instance($template->courseid);
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+    }
+
+    /**
+     * Tells us whether the current user can publish the template.
+     * @param dataobj\template
+     * @return bool
+     */
+    public static function can_publish(dataobj\template $template) {
+        global $USER;
+
+        if ($template->status == $template::STATUS_PUBLISHED) {
+            return false;
+        }
+
+        if ($template->reviewerid == $USER->id) {
+            return true;
+        }
+
+        $coursecontext = \context_course::instance($template->courseid);
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+    }
 
     /**
      * Set a new feedback to the template and send to author.

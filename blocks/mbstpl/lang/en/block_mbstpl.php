@@ -23,6 +23,7 @@
 $string['addfrombank'] = 'Add a question from the question bank';
 $string['addqtodraft'] = 'Use question';
 $string['addquestion'] = 'Add a new question';
+$string['archive'] = 'Archive';
 $string['assigned'] = 'Assigned';
 $string['assignreviewer'] = 'Assign reviewer';
 $string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';

@@ -41,7 +41,7 @@
                     }
                 }
 
-                .js-navbar-collapse {
+                .collapse.navbar-collapse {
 
                     //sidebar collapsed
                     .nav {
@@ -143,7 +143,7 @@
 
             .container {
 
-                .collapse.navbar-collapse.js-navbar-collapse {
+                .collapse.navbar-collapse {
                     @include transition(all .25s);
                     border-bottom: 1px solid $brand-gray-navi;
                 }
@@ -203,7 +203,7 @@
                     }
                 }
 
-                .navbar-collapse.js-navbar-collapse {
+                .collapse.navbar-collapse {
                     //support and management icons for large devices
                     ul.nav.js-navbar-collapse-submenu {
 
@@ -287,7 +287,7 @@
                     }
                 }
 
-                .js-navbar-collapse {
+                .collapse.navbar-collapse {
                     padding-left: 0;
                     padding-right: 0;
                     max-height: initial;

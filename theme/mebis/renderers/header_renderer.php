@@ -121,7 +121,7 @@ class theme_mebis_header_renderer extends renderer_base {
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
         }
                 
-        $output .= html_writer::start_tag('nav', array('class' => 'navbar navbar-fixed-top yamm navbar-inverse top-bar',
+        $output .= html_writer::start_tag('nav', array('class' => 'navbar navbar-fixed-top navbar-inverse top-bar',
             'id' => 'topbar', 'role' => 'navigation'));
             $output .= html_writer::start_div('container');
 
@@ -131,9 +131,8 @@ class theme_mebis_header_renderer extends renderer_base {
                 // This renders the button to open mobile sidebar
                 $output .= html_writer::start_div('navbar-header');
                 $output .= html_writer::start_tag('button', array(
-                    'data-target' => '#navbar-collapse-items',
-                    'data-toggle' => 'collapse', 'type' => 'button',
-                    'class' => 'navbar-toggle collapsed'));
+                    'type' => 'button', 'class' => 'navbar-toggle collapsed', 'data-toggle' => 'collapse',
+                    'data-target' => '#navbar-collapse-items'));
                         $output .= html_writer::tag('span', get_string('nav-toggle', 'theme_mebis'), array('class' => 'sr-only'));
                         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
                         $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
@@ -163,7 +162,7 @@ class theme_mebis_header_renderer extends renderer_base {
             $output .= html_writer::end_div();          
             $output .= html_writer::end_div();
             
-                $output .= html_writer::start_div('collapse navbar-collapse js-navbar-collapse', array('id' => 'navbar-collapse-items'));
+                $output .= html_writer::start_div('navbar-collapse collapse', array('id' => 'navbar-collapse-items'));
                     // Links to other mebis applications.
                     $output .= $this->main_sidebar();
                     // Links to contrast, support and idm.

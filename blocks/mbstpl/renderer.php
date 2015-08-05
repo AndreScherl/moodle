@@ -213,7 +213,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             $table->attributes['class'] = 'mytemplates';
             foreach ($typetemplates as $template) {
                 $row = array();
-                $row[] = 'TODO COURSENAME';
+                $row[] = $template->coursename;
                 $status = \block_mbstpl\course::get_statusshortname($template->status);
                 $row[] = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
                 $row[] = userdate($template->timemodified);

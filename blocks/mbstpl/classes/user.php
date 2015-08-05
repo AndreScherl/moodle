@@ -67,7 +67,7 @@ class user {
      * @return mixed object of templates or false if none found.
      */
     public static function get_templates($userid = null) {
-        global $USER;
+        global $DB, $USER;
 
         if (empty($userid)) {
             $userid = $USER->id;
@@ -80,8 +80,16 @@ class user {
             'published' => array(),
         );
 
-        $templates = dataobj\template::fetch_all(array('authorid' => $userid));
-        if (!$templates) {
+        $sql = "
+        SELECT tpl.id, tpl.courseid, tpl.authorid, tpl.reviewerid, tpl.status, c.fullname AS coursename, tpl.timemodified
+        FROM {block_mbstpl_template} tpl
+        JOIN {course} c ON c.id = tpl.courseid
+        WHERE tpl.authorid = :authid OR tpl.reviewerid = :revid
+        ";
+        $params = array('authid' => $USER->id, 'revid' => $USER->id);
+
+        $templates = $DB->get_records_sql($sql, $params);
+        if (empty($templates)) {
             return false;
         }
         foreach ($templates as $template) {

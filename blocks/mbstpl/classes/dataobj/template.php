@@ -108,29 +108,6 @@ class template extends \data_object {
     }
 
     /**
-     * Fetch all records where any user column matches the id.
-     * @param $userid
-     * @return array array of data_object instances or false if none found.
-     */
-    public static function fetch_by_user($userid) {
-        global $DB;
-
-        $wheresql = "authorid = :authorid OR reviewerid = :reviewerid";
-        $params = array('authorid' => $userid, 'reviewerid' => $userid);
-        if ($datas = $DB->get_records_select(self::$table, $wheresql, $params)) {
-            $result = array();
-            foreach($datas as $data) {
-                $instance = new self();
-                self::set_properties($instance, $data);
-                $result[$instance->id] = $instance;
-            }
-            return $result;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Updates this object in the Database, based on its object variables. ID must be set.
      *
      * @return bool success

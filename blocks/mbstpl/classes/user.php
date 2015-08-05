@@ -80,13 +80,33 @@ class user {
             'published' => array(),
         );
 
-        // Where user is author.
         $templates = dataobj\template::fetch_all(array('authorid' => $userid));
         if (!$templates) {
             return false;
         }
         foreach ($templates as $template) {
-
+            if ($template->reviewerid == $userid) {
+                if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
+                    $toreturn->assigned[] = $template;
+                    continue;
+                }
+            }
+            if ($template->authorid == $userid) {
+                if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
+                    $toreturn->revision[] = $template;
+                    continue;
+                } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
+                    $toreturn->review[] = $template;
+                    continue;
+                } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
+                    $toreturn->review[] = $template;
+                    continue;
+                }
+            }
         }
+        if (empty($toreturn->assigned) && empty($toreturn->revision) && empty($toreturn->review) && empty($toreturn->published)) {
+            return false;
+        }
+        return $toreturn;
     }
 }

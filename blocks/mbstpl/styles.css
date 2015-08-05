@@ -20,5 +20,7 @@
 .statusbox.statuspublished     {background-color: #e5afff}
 .statusbox.statusarchived      {background-color: #cccccc}
 
+table.mytemplates td {width: 20%;}
+
 .templateactionbtns {display: table;}
 .templateactionbtns > div {display: table-cell;}

@@ -30,6 +30,7 @@ class block_mbstpl extends block_base {
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
             return $this->content;
@@ -41,10 +42,15 @@ class block_mbstpl extends block_base {
         }
 
         $this->content = new stdClass();
+        $this->content->text = '';
 
         $templates = \block_mbstpl\user::get_templates();
-
-        $this->content->footer = '';
+        if (empty($templates)) {
+            $this->content->text .= get_string('notemplates', 'block_mbstpl');
+        } else {
+            $renderer = $PAGE->get_renderer('block_mbstpl');
+            $this->content->text .= $renderer->mytemplates($templates);
+        }
 
         return $this->content;
     }

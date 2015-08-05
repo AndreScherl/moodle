@@ -185,4 +185,34 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 		$html .= html_writer::table($table);
 		return html_writer::div($html, 'mbstrevhist');
 	}
+
+    /**
+     * Print all my tempates to the block.
+     * @param object $templates
+     * @return string
+     */
+    public function mytemplates($templates) {
+        $html = '';
+        $commonhead = array(
+            get_string('coursename', 'block_mbstpl'),
+            get_string('status'),
+            get_string('assigneddate', 'block_mbstpl'),
+            get_string('assignee', 'block_mbstpl'),
+            '',
+        );
+
+        foreach($templates as $type => $typetemplates) {
+            if (empty($typetemplates)) {
+                continue;
+            }
+            $table = new html_table();
+            $table->head = $commonhead;
+            if ($type == 'assigned') {
+                $table->head[3] = '';
+            }
+            $table->attributes['class'] = 'mytemplates';
+            $html .= html_writer::table($table);
+        }
+        return $html;
+    }
 }

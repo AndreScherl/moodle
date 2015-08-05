@@ -211,6 +211,20 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $table->head[3] = '';
             }
             $table->attributes['class'] = 'mytemplates';
+            foreach ($typetemplates as $template) {
+                $row = array();
+                $row[] = 'TODO COURSENAME';
+                $status = \block_mbstpl\course::get_statusshortname($template->status);
+                $row[] = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
+                $row[] = userdate($template->timemodified);
+                $assignee = '';
+                if ($type != 'assigned') {
+                    $assignee = 'TODO PIC';
+                }
+                $row[] = $assignee;
+                $row[] = 'TODO EYE';
+                $table->data[] = $row;
+            }
             $html .= html_writer::table($table);
         }
         return $html;

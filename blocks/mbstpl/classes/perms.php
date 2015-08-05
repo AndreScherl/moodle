@@ -103,6 +103,14 @@ class perms {
         $coursecontext = \context_course::instance($template->courseid);
         return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
     }
+    /**
+     * Tells us whether the current user can publish edit the meta settings.
+     * @param dataobj\template $template will be fetched from db if not provided.
+     * @return bool
+     */
+    public static function can_editmeta(\context_course $coursecontext) {
+        return has_capability('block/mbstpl:coursetemplatereview', $coursecontext);
+    }
 
     /**
      * Tells us whether the course can be assigned a reviewer

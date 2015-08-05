@@ -76,6 +76,12 @@ defined('MOODLE_INTERNAL') || die();
         'clonepermissionsfrom' => 'moodle/course:create'
     ),
 
+    'block/mbstpl:coursetemplateeditmeta' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
     'block/mbstpl:createcoursefromtemplate' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,

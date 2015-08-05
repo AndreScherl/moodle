@@ -59,6 +59,11 @@ class course {
             $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
         }
 
+        if (perms::can_editmeta($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
+            $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
+        }
+
         if ($tplnode->has_children()) {
             $coursenode->add_node($tplnode);
         }

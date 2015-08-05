@@ -40,7 +40,7 @@ $coursecontext = context_course::instance($courseid);
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('assignreviewer', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\course::can_assignreview($coursecontext)) {
+if (!mbst\perms::can_assignreview($coursecontext)) {
     throw new moodle_exception('errorcannotassignreviewer', 'block_mbstpl');
 }
 

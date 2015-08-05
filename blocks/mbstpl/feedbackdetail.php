@@ -50,7 +50,7 @@ $coursecontext = context_course::instance($courseid);
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\course::can_viewfeedback($coursecontext, $template)) {
+if (!mbst\perms::can_viewfeedback($coursecontext, $template)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 

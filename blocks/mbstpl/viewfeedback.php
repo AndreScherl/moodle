@@ -44,17 +44,17 @@ $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), t
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\course::can_viewfeedback($coursecontext, $template)) {
+if (!mbst\perms::can_viewfeedback($coursecontext, $template)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 
 $do = optional_param('do', '', PARAM_TEXT);
-if ($do == 'publish' && mbst\course::can_publish($template)) {
+if ($do == 'publish' && mbst\perms::can_publish($template)) {
     $template->status = $template::STATUS_PUBLISHED;
     $template->update();
     redirect($courseurl);
 }
-if ($do == 'archive' && mbst\course::can_archive($template)) {
+if ($do == 'archive' && mbst\perms::can_archive($template)) {
     $template->status = $template::STATUS_ARCHIVED;
     $template->update();
     redirect($courseurl);
@@ -79,12 +79,12 @@ $renderer = $PAGE->get_renderer('block_mbstpl');
 echo html_writer::tag('h2', $pagetitle);
 
 $buttons = '';
-if (mbst\course::can_publish($template)) {
+if (mbst\perms::can_publish($template)) {
     $url = clone($thisurl);
     $url->param('do', 'publish');
     $buttons .= $OUTPUT->single_button($url, get_string('publish'));
 }
-if (mbst\course::can_archive($template)) {
+if (mbst\perms::can_archive($template)) {
     $url = clone($thisurl);
     $url->param('do', 'archive');
     $buttons .= $OUTPUT->single_button($url, get_string('archive', 'block_mbstpl'));

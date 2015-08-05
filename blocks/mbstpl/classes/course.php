@@ -49,12 +49,12 @@ class course {
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
         }
 
-        if (self::can_assignreview($coursecontext)) {
+        if (perms::can_assignreview($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/assignreviewer.php', array('course' => $cid));
             $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
         }
 
-        if (self::can_viewfeedback($coursecontext)) {
+        if (perms::can_viewfeedback($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
             $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
         }
@@ -93,82 +93,6 @@ class course {
     }
 
     /**
-     * Tells us whether the current user can view the feedback page.
-     * @param \context_course $coursecontext
-     * @param dataobj\template $template will be fetched from db if not provided.
-     * @return bool
-     */
-    public static function can_viewfeedback(\context_course $coursecontext, dataobj\template $template = null) {
-        global $USER;
-
-        if (is_null($template)) {
-            $template = new dataobj\template(array('courseid' => $coursecontext->instanceid));
-            if (!$template->id) {
-                return false;
-            }
-        }
-
-        if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {
-            return true;
-        }
-
-        if ($template->authorid == $USER->id) {
-            return $template->status == $template::STATUS_UNDER_REVISION;
-        }
-
-        if ($template->reviewerid == $USER->id) {
-            $allowed = array(
-                $template::STATUS_PUBLISHED,
-                $template::STATUS_UNDER_REVIEW,
-                $template::STATUS_ARCHIVED,
-            );
-            return in_array($template->status, $allowed);
-        }
-
-        return false;
-    }
-
-    /**
-     * Tells us whether the current user can send the template to archive.
-     * @param dataobj\template
-     * @return bool
-     */
-    public static function can_archive(dataobj\template $template) {
-        global $USER;
-        
-        if ($template->status == $template::STATUS_ARCHIVED) {
-            return false;
-        }
-
-        if ($template->reviewerid == $USER->id) {
-            return true;
-        }
-
-        $coursecontext = \context_course::instance($template->courseid);
-        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
-    }
-
-    /**
-     * Tells us whether the current user can publish the template.
-     * @param dataobj\template
-     * @return bool
-     */
-    public static function can_publish(dataobj\template $template) {
-        global $USER;
-
-        if ($template->status == $template::STATUS_PUBLISHED) {
-            return false;
-        }
-
-        if ($template->reviewerid == $USER->id) {
-            return true;
-        }
-
-        $coursecontext = \context_course::instance($template->courseid);
-        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
-    }
-
-    /**
      * Set a new feedback to the template and send to author.
      * @param dataobj\template $template
      * @param array $feedback
@@ -182,21 +106,6 @@ class course {
         }
         $template->update();
         notifications::send_feedback($template);
-    }
-
-    /**
-     * Tells us whether the course can be assigned a reviewer
-     * @param context_course $coursecontext
-     * @return bool
-     */
-    public static function can_assignreview(\context_course $coursecontext) {
-        global $DB;
-        if (!has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
-            return false;
-        }
-
-        $cid = $coursecontext->instanceid;
-        return $DB->record_exists('block_mbstpl_template', array('courseid' => $cid, 'reviewerid' => 0));
     }
 
     /**

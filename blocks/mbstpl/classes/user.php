@@ -60,4 +60,33 @@ class user {
         // Now let them know about it.
         notifications::notify_assignedreviewer($course, $userid);
     }
+
+    /**
+     * Get all templates of the user (for any role).
+     * @param null $userid use if not current user.
+     * @return mixed object of templates or false if none found.
+     */
+    public static function get_templates($userid = null) {
+        global $USER;
+
+        if (empty($userid)) {
+            $userid = $USER->id;
+        }
+
+        $toreturn = (object)array(
+            'assigned' => array(),
+            'revision' => array(),
+            'review' => array(),
+            'published' => array(),
+        );
+
+        // Where user is author.
+        $templates = dataobj\template::fetch_all(array('authorid' => $userid));
+        if (!$templates) {
+            return false;
+        }
+        foreach ($templates as $template) {
+
+        }
+    }
 }

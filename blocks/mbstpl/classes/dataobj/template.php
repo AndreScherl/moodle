@@ -94,6 +94,43 @@ class template extends \data_object {
     }
 
     /**
+     * Finds and returns all data_object instances based on params.
+     *
+     * @param array $params associative arrays varname => value
+     * @throws coding_exception This function MUST be overridden
+     * @return array array of data_object instances or false if none found.
+     */
+    public static function fetch_all($params) {
+        if ($instances = self::fetch_all_helper('block_mbstpl_template', __CLASS__, $params)) {
+            return $instances;
+        }
+        return array();
+    }
+
+    /**
+     * Fetch all records where any user column matches the id.
+     * @param $userid
+     * @return array array of data_object instances or false if none found.
+     */
+    public static function fetch_by_user($userid) {
+        global $DB;
+
+        $wheresql = "authorid = :authorid OR reviewerid = :reviewerid";
+        $params = array('authorid' => $userid, 'reviewerid' => $userid);
+        if ($datas = $DB->get_records_select(self::$table, $wheresql, $params)) {
+            $result = array();
+            foreach($datas as $data) {
+                $instance = new self();
+                self::set_properties($instance, $data);
+                $result[$instance->id] = $instance;
+            }
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Updates this object in the Database, based on its object variables. ID must be set.
      *
      * @return bool success

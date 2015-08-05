@@ -41,7 +41,9 @@ class block_mbstpl extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->text = 'TODO'; // TODO.
+
+        $templates = \block_mbstpl\user::get_templates();
+
         $this->content->footer = '';
 
         return $this->content;

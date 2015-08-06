@@ -1,15 +1,53 @@
-/* Styles, used in header */
+/* Styles, used in header: page-navbar, breadcrum */
 /* 
     Created on : 17.05.2015, 09:11:09
     Author     : Andreas Wagner, ISB Bayern
 */
 
 #page-navbar {
-    
+
     .row {
         margin: 0;
     }
-    
+
+    .breadcrumb-nav {
+        margin-bottom: 0;
+        
+        .breadcrumb {
+            padding: 20px 0 20px;
+            border-radius: 0;
+            background: transparent;
+            font-size: emCalc(12px);
+            margin-bottom: 0;
+
+            .active {
+                color: $brand-gray-medium;
+
+                &:before {
+                    color: $brand-gray-medium;
+                }
+            }
+
+            li {
+                span {
+                    color: $brand-gray-medium;
+
+                    &:before {
+                        color: $brand-gray-medium;
+                    }
+                }
+            }
+
+            a {
+                color: $brand-gray-medium;
+
+                &:hover {
+                    color: $brand-secondary;
+                }
+            }
+        }
+    }
+
     .breadcrumb-button {
         margin-top: 0;
 
@@ -20,13 +58,13 @@
             input[type="submit"] {
                 background-color: transparent;
                 border: none;
-                color: #00a8d5 !important;
-                font-size:0.75em;
+                color: $brand-primary !important;
+                font-size: 0.75em;
                 padding: 20px 0;
                 outline: none;
 
                 &:hover {
-                    color:#ff6600 !important;
+                    color: $brand-secondary !important;
                 }
             }
         }

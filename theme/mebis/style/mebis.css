@@ -12369,22 +12369,27 @@ button.close {
     position: relative;
   }
   .me-wrapper .container.homepage-container {
-    margin-top: 141px;
+    margin-top: 155px;
   }
 }
 @media only screen and (max-width: 992px) {
   .me-wrapper .container.homepage-container {
-    margin-top: 174px;
+    margin-top: 141px;
   }
 }
 @media only screen and (max-width: 768px) {
   .me-wrapper .container.homepage-container {
-    margin-top: 198px;
+    margin-top: 174px;
   }
 }
 @media only screen and (max-width: 480px) {
   .me-wrapper .container.homepage-container {
-    margin-top: 203px;
+    margin-top: 184px;
+  }
+}
+@media only screen and (max-width: 350px) {
+  .me-wrapper .container.homepage-container {
+    margin-top: 205px;
   }
 }
 @media only screen {
@@ -12697,31 +12702,6 @@ button.close {
   }
   .me-wrapper .me-collection li .me-block-inner .me-edit.visible {
     display: block;
-  }
-  .me-wrapper .breadcrumb {
-    padding: 20px 0 20px;
-    border-radius: 0;
-    background: transparent;
-    font-size: 0.75em;
-    margin-bottom: 0;
-  }
-  .me-wrapper .breadcrumb .active {
-    color: #999999;
-  }
-  .me-wrapper .breadcrumb .active:before {
-    color: #999999;
-  }
-  .me-wrapper .breadcrumb li span {
-    color: #999999;
-  }
-  .me-wrapper .breadcrumb li span:before {
-    color: #999999;
-  }
-  .me-wrapper .breadcrumb a {
-    color: #999999;
-  }
-  .me-wrapper .breadcrumb a:hover {
-    color: #ff6600;
   }
   .me-wrapper .me-search-box {
     background: url([[pix:theme|bg-light]]);
@@ -13733,22 +13713,6 @@ button.close {
   }
 }
 @media only screen and (max-width: 992px) {
-  .me-wrapper .me-page-header {
-    padding-top: 51px;
-    min-height: 115px;
-  }
-  .me-wrapper .me-page-header .container .logo-row {
-    margin: 15px 0;
-  }
-  .me-wrapper .me-page-header .container .logo-row .extra-nav {
-    text-align: left;
-  }
-  .me-wrapper .me-page-header .container .logo-row .extra-nav a {
-    display: inline-block;
-  }
-  .me-wrapper .me-page-header .container .logo-row .extra-nav .extra-nav-mobile-spacer {
-    margin-top: 15px;
-  }
   .me-wrapper .me-order-box {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -14154,7 +14118,7 @@ button.close {
 }
 @media only screen and (min-width: 992px) {
   .me-wrapper .me-page-header .container .logo-row {
-    margin: 30px 0;
+    margin: 20px 0;
   }
 }
 @media only screen and (max-width: 992px) {
@@ -14167,6 +14131,15 @@ button.close {
   }
   .me-wrapper .me-page-header .container .logo-row .me-component-nav {
     text-align: left;
+  }
+  .me-wrapper .me-page-header .container .logo-row .extra-nav {
+    text-align: left;
+  }
+  .me-wrapper .me-page-header .container .logo-row .extra-nav a {
+    display: inline-block;
+  }
+  .me-wrapper .me-page-header .container .logo-row .extra-nav .extra-nav-mobile-spacer {
+    margin-top: 15px;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -14322,27 +14295,27 @@ button.close {
   .me-wrapper #topbar .container .navbar-header .navbar-toggle.collapsed {
     background: #333333;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav {
     padding: 0 20px;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav li a {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li a {
     padding: 10px 15px 10px 5px;
     color: #fff;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav li a:hover {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li a:hover {
     color: #ff6600;
     background: transparent;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav li.me-active a {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li.me-active a {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav li [class^="icon-me"] {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li [class^="icon-me"] {
     display: inline-block;
     margin: 0 15px 0 0;
     font-size: 2em;
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav li span {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li span {
     vertical-align: middle;
   }
   .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
@@ -14380,7 +14353,7 @@ button.close {
   }
 }
 @media only screen and (min-width: 1200px) {
-  .me-wrapper #topbar .container .collapse.navbar-collapse.js-navbar-collapse {
+  .me-wrapper #topbar .container .collapse.navbar-collapse {
     -webkit-transition: all 0.25s;
     -o-transition: all 0.25s;
     transition: all 0.25s;
@@ -14431,24 +14404,24 @@ button.close {
   .me-wrapper #topbar .container .navbar-right .logout a:hover {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-collapse.js-navbar-collapse ul.nav.js-navbar-collapse-submenu li a {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li a {
     padding: 0 15px;
     color: #999999;
     line-height: 2.1875em;
   }
-  .me-wrapper #topbar .container .navbar-collapse.js-navbar-collapse ul.nav.js-navbar-collapse-submenu li a:hover {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li a:hover {
     color: #ff6600;
     background: transparent;
   }
-  .me-wrapper #topbar .container .navbar-collapse.js-navbar-collapse ul.nav.js-navbar-collapse-submenu li.me-active a {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li.me-active a {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-collapse.js-navbar-collapse ul.nav.js-navbar-collapse-submenu li [class^="icon-me"] {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li [class^="icon-me"] {
     margin-right: 6px;
     font-size: 1em;
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .navbar-collapse.js-navbar-collapse ul.nav.js-navbar-collapse-submenu li span {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li span {
     vertical-align: middle;
   }
 }
@@ -14488,14 +14461,14 @@ button.close {
     padding-bottom: 2px;
     padding-top: 3px;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse {
+  .me-wrapper #topbar .container .collapse.navbar-collapse {
     padding-left: 0;
     padding-right: 0;
     max-height: initial;
     margin-right: 0;
     margin-left: 0;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse .nav {
+  .me-wrapper #topbar .container .collapse.navbar-collapse .nav {
     width: 40%;
     min-width: 250px;
     background: #000;
@@ -14504,7 +14477,7 @@ button.close {
     -webkit-box-shadow: 0 0 0.75em rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 0.75em rgba(0, 0, 0, 0.5);
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu {
     width: 40%;
     min-width: 250px;
     background: #333333;
@@ -14512,27 +14485,27 @@ button.close {
     box-shadow: 0 0 0.75em rgba(0, 0, 0, 0.5);
     padding: 15px 0 15px 20px;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li {
     margin-left: 8px;
     padding: 0;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li a {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li a {
     color: #e6e6e6;
     padding: 0;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li a:hover {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li a:hover {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li [class^="icon-me"] {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li [class^="icon-me"] {
     display: inline-block;
     margin: 0 15px 0 5px;
     font-size: 1em;
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li span {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li span {
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .js-navbar-collapse ul.js-navbar-collapse-submenu li:nth-child(2) {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li:nth-child(2) {
     margin-bottom: 12px;
   }
 }
@@ -14977,12 +14950,6 @@ categorybox:
   border: none;
   font-size: 0.875em;
 }
-@media only screen and (max-width: 640px) {
-  .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li {
-    font-size: 1.1875em;
-    line-height: 200%;
-  }
-}
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner {
   padding: 20px;
   background: #ff6600;
@@ -15037,45 +15004,76 @@ categorybox:
   }
   .wrapper-learning-platform .moodle-menu ul.nav .dropdown-menu {
     margin-top: 0;
-    top: 100%;
+    top: auto;
     position: absolute;
     min-width: 70%;
     right: 0;
     left: auto;
   }
 }
+@media only screen and (max-width: 768px) {
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav > li.dropdown {
+    position: static;
+  }
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav > li.dropdown > ul > li {
+    font-size: 1.1875em;
+    line-height: 200%;
+  }
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav .dropdown-menu {
+    position: absolute;
+    min-width: 100%;
+  }
+}
 @media only screen and (max-width: 640px) {
-  .wrapper-learning-platform .me-component-nav {
+  .wrapper-learning-platform {
     /*            ul.nav {
-                    
-                    li.dropdown {
-                        position: static;
-                    }
-    
-                    .dropdown-menu {
-                        margin-top: 0;
-                        top: 100%;
-                        position: absolute;
-                        min-width: 100%;
-    
+        
+                    .dropdown-menu {       
                         &.dropdown-right {
                             right: auto;
                             left: 0;
                             min-width: 100%;
                         }
-                    }
-    
+                    }        
                 }*/
   }
 }
 
-/* Styles, used in header */
+/* Styles, used in header: page-navbar, breadcrum */
 /* 
     Created on : 17.05.2015, 09:11:09
     Author     : Andreas Wagner, ISB Bayern
 */
 #page-navbar .row {
   margin: 0;
+}
+#page-navbar .breadcrumb-nav {
+  margin-bottom: 0;
+}
+#page-navbar .breadcrumb-nav .breadcrumb {
+  padding: 20px 0 20px;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.75em;
+  margin-bottom: 0;
+}
+#page-navbar .breadcrumb-nav .breadcrumb .active {
+  color: #999999;
+}
+#page-navbar .breadcrumb-nav .breadcrumb .active:before {
+  color: #999999;
+}
+#page-navbar .breadcrumb-nav .breadcrumb li span {
+  color: #999999;
+}
+#page-navbar .breadcrumb-nav .breadcrumb li span:before {
+  color: #999999;
+}
+#page-navbar .breadcrumb-nav .breadcrumb a {
+  color: #999999;
+}
+#page-navbar .breadcrumb-nav .breadcrumb a:hover {
+  color: #ff6600;
 }
 #page-navbar .breadcrumb-button {
   margin-top: 0;
@@ -15637,10 +15635,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     padding-right: 0;
     margin-top: 2em;
   }
-
-  .me-wrapper .container.homepage-container {
-    margin-top: 250px;
-  }
 }
 #main-content-wrapper form select#id_category, #main-content-wrapper form select#id_parent {
   max-width: inherit;
@@ -15809,10 +15803,6 @@ Here are to go all styles, which are NOT:
 div[role="main"] ul, div[role="main"] ol {
   padding: 0;
   overflow: visible;
-}
-
-.breadcrumb-nav {
-  margin-bottom: 0;
 }
 
 .clearer {

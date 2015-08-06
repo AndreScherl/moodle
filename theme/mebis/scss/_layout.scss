@@ -881,19 +881,24 @@
         .container {
             position: relative;
 
+            //space between topbar and breadcrumb
             &.homepage-container {
-                margin-top: 141px;
+                margin-top: 155px;
 
                 @media only screen and (max-width: $screen-md-min) {
-                    margin-top: 174px;
+                    margin-top: 141px;
                 }
 
                 @media only screen and (max-width: $screen-sm-min) {
-                    margin-top: 198px;
+                    margin-top: 174px;
                 }
 
                 @media only screen and (max-width: $screen-xs-min) {
-                    margin-top: 203px;
+                    margin-top: 184px;
+                }
+                
+                @media only screen and (max-width: $screen-xc-mini-min) {
+                    margin-top: 205px;
                 }
             }
         }
@@ -1288,40 +1293,6 @@
 
             }
 
-        }
-
-        .breadcrumb {
-            padding: 20px 0 20px;
-            border-radius: 0;
-            background: transparent;
-            font-size: emCalc(12px);
-            margin-bottom: 0;
-
-            .active {
-                color: $brand-gray-medium;
-
-                &:before {
-                    color: $brand-gray-medium;
-                }
-            }
-
-            li {
-                span {
-                    color: $brand-gray-medium;
-
-                    &:before {
-                        color: $brand-gray-medium;
-                    }
-                }
-            }
-
-            a {
-                color: $brand-gray-medium;
-
-                &:hover {
-                    color: $brand-secondary;
-                }
-            }
         }
 
         .me-search-box {
@@ -2653,30 +2624,6 @@
 @media only screen and (max-width: $screen-md-min) {
 
     .me-wrapper {
-
-        .me-page-header {
-            padding-top: 51px;
-            min-height: 115px;
-
-            .container {
-
-                .logo-row {
-                    margin: 15px 0;
-
-                    .extra-nav {
-                        text-align: left;
-
-                        a {
-                            display: inline-block;
-                        }
-
-                        .extra-nav-mobile-spacer {
-                            margin-top: 15px;
-                        }
-                    }
-                }
-            }
-        }
 
         .me-order-box {
             padding-top: 20px;

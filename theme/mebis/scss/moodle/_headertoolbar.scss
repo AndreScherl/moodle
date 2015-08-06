@@ -8,8 +8,8 @@
 */
 
 .wrapper-learning-platform {
-    
-// general styling for all screen sizes
+
+    // general styling for all screen sizes
     .moodle-menu {
         display: inline-block;
         float: right;
@@ -36,12 +36,12 @@
             &.dropdown {
 
                 &:hover { 
-                    
+
                     > a {
                         background: $brand-secondary;
                         color: $white;
                     }
-                    
+
                     ul.dropdown-menu {
                         display: block;
                     }
@@ -50,17 +50,12 @@
                 ul {
                     min-width: 255px;
                     color: $white;
-                    
+
                     &.dropdown-menu {
                         border: none;
                         font-size: emCalc(14px);
                     }
                     > li {
-
-                        @media only screen and (max-width: $screen-xc) {
-                            font-size: emCalc(19px);
-                            line-height: 200%;
-                        }
 
                         .dropdown-inner {
                             padding: 20px;
@@ -118,7 +113,7 @@
         padding: 2px 5px;
     }
 
-// Large [Desktop]
+    // Large [Desktop]
     @media only screen and (min-width: $screen-lg-min) {
 
     }
@@ -127,7 +122,7 @@
 
     }
 
-// Medium [Tablet or Small Desktop]
+    // Medium [Tablet or Small Desktop]
     @media only screen and (min-width: $screen-md-min) {
 
     }
@@ -147,7 +142,7 @@
                 }    
                 .dropdown-menu {
                     margin-top: 0;
-                    top: 100%;
+                    top: auto;
                     position: absolute;
                     min-width: 70%;
                     right: 0;
@@ -157,40 +152,48 @@
         }
     }
 
-// Small [Tablet or big Smartphone]
+    // Small [Tablet or big Smartphone]
     @media only screen and (min-width: $screen-sm-min) {
 
     }
 
     @media only screen and (max-width: $screen-sm-min) {
-
-    }
-
-// Custom small size  (do we need this?)
-    @media only screen and (max-width: $screen-xc-min) {
-
         .me-component-nav {
+            .moodle-menu {
 
-/*            ul.nav {
-                
-                li.dropdown {
-                    position: static;
-                }
+                ul.nav {
 
-                .dropdown-menu {
-                    margin-top: 0;
-                    top: 100%;
-                    position: absolute;
-                    min-width: 100%;
+                    > li {                     
+                        &.dropdown {
+                            position: static;
 
-                    &.dropdown-right {
-                        right: auto;
-                        left: 0;
+                            > ul > li {
+                                font-size: emCalc(19px);
+                                line-height: 200%;
+                            }
+                        }
+                    }
+
+                    .dropdown-menu {
+                        position: absolute;
                         min-width: 100%;
                     }
                 }
-
-            }*/
+            }
         }
+    }
+
+    // Custom small size
+    @media only screen and (max-width: $screen-xc-min) {
+        /*            ul.nav {
+            
+                        .dropdown-menu {       
+                            &.dropdown-right {
+                                right: auto;
+                                left: 0;
+                                min-width: 100%;
+                            }
+                        }        
+                    }*/
     }
 }

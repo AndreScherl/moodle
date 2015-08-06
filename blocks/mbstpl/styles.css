@@ -21,8 +21,8 @@
 .statusbox.statusarchived      {background-color: #cccccc}
 
 table.mytemplates tr {border: solid;}
-table.mytemplates th {border: none;}
-table.mytemplates td {width: 20%; padding-top: .5em;}
+table.mytemplates td {width: 23%; padding-top: .5em;}
+table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .templateactionbtns {display: table;}
 .templateactionbtns > div {display: table-cell;}

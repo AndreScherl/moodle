@@ -91,23 +91,19 @@ class user {
 
         $templates = $DB->get_records_sql($sql, $params);
         foreach ($templates as $template) {
-            if ($template->reviewerid == $userid) {
-                if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
-                    $template->type = 'assigned';
-                    continue;
-                }
+            $template->assigneeid = $template->reviewerid == $USER->id ? $template->authorid : $template->reviewerid;
+            $status = $template->status;
+            if ($template->reviewerid == $userid && $status == dataobj\template::STATUS_UNDER_REVIEW) {
+                $template->type = 'assigned';
+            } else if ($template->authorid == $userid && $status == dataobj\template::STATUS_UNDER_REVISION) {
+                $template->type = 'assigned';
             }
-            if ($template->authorid == $userid) {
-                if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
-                    $template->type = 'revision';
-                    continue;
-                } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
-                    $template->type = 'review';
-                    continue;
-                } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
-                    $template->type = 'review';
-                    continue;
-                }
+            else if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
+                $template->type = 'revision';
+            } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
+                $template->type = 'review';
+            } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
+                $template->type = 'published';
             }
         }
         $presordeds = array();
@@ -121,6 +117,17 @@ class user {
         }
         if (empty($presordeds)) {
             return false;
+        }
+
+        // Load assignees.
+        $assigneeids = array();
+        foreach($presordeds as $template) {
+            $assigneeids[$template->assigneeid] = $template->assigneeid;
+        }
+        list($uidin, $params) = $DB->get_in_or_equal($assigneeids);
+        $assignees = $DB->get_records_select('user', "id $uidin", $params);
+        foreach($presordeds as $template) {
+            $template->assignee = empty($assignees[$template->assigneeid]) ? null : $assignees[$template->assigneeid];
         }
 
         // Sort by type.

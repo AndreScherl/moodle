@@ -206,6 +206,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             if (empty($typetemplates)) {
                 continue;
             }
+            $html .= \html_writer::tag('h4', get_string('my'.$type, 'block_mbstpl'));
             $table = new html_table();
             $table->head = $commonhead;
             if ($type == 'assigned') {
@@ -219,8 +220,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $row[] = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
                 $row[] = userdate($template->timemodified);
                 $assignee = '';
-                if ($type != 'assigned') {
-                    $assignee = 'TODO PIC';
+                if ($type != 'assigned' && !empty($template->assignee)) {
+                    $assimg = $this->user_picture($template->assignee, array('size' => 25));
+                    $assname = fullname($template->assignee);
+                    $assignee = $assimg . ' ' . $assname;
                 }
                 $row[] = $assignee;
                 $viewurl->param('course', $template->courseid);

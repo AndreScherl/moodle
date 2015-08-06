@@ -200,7 +200,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('assignee', 'block_mbstpl'),
             '',
         );
-
+        $imgview = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/eye.png'), get_string('view'));
+        $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
         foreach($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;
@@ -222,7 +223,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                     $assignee = 'TODO PIC';
                 }
                 $row[] = $assignee;
-                $row[] = 'TODO EYE';
+                $viewurl->param('course', $template->courseid);
+                $viewlink = \html_writer::link($viewurl, $imgview);
+                $row[] = $viewlink;
                 $table->data[] = $row;
             }
             $html .= html_writer::table($table);

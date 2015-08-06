@@ -64,7 +64,7 @@ class user {
     /**
      * Get all templates of the user (for any role).
      * @param null $userid use if not current user.
-     * @return mixed object of templates or false if none found.
+     * @return mixed array of template arrays or false if none found.
      */
     public static function get_templates($userid = null) {
         global $DB, $USER;
@@ -73,13 +73,14 @@ class user {
             $userid = $USER->id;
         }
 
-        $toreturn = (object)array(
+        $toreturn = array(
             'assigned' => array(),
             'revision' => array(),
             'review' => array(),
             'published' => array(),
         );
 
+        // Load all possibly relevant templates.
         $sql = "
         SELECT tpl.id, tpl.courseid, tpl.authorid, tpl.reviewerid, tpl.status, c.fullname AS coursename, tpl.timemodified
         FROM {block_mbstpl_template} tpl
@@ -89,31 +90,42 @@ class user {
         $params = array('authid' => $USER->id, 'revid' => $USER->id);
 
         $templates = $DB->get_records_sql($sql, $params);
-        if (empty($templates)) {
-            return false;
-        }
         foreach ($templates as $template) {
             if ($template->reviewerid == $userid) {
                 if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
-                    $toreturn->assigned[] = $template;
+                    $template->type = 'assigned';
                     continue;
                 }
             }
             if ($template->authorid == $userid) {
                 if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
-                    $toreturn->revision[] = $template;
+                    $template->type = 'revision';
                     continue;
                 } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
-                    $toreturn->review[] = $template;
+                    $template->type = 'review';
                     continue;
                 } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
-                    $toreturn->review[] = $template;
+                    $template->type = 'review';
                     continue;
                 }
             }
         }
-        if (empty($toreturn->assigned) && empty($toreturn->revision) && empty($toreturn->review) && empty($toreturn->published)) {
+        $presordeds = array();
+
+        // Pre-sort only the ones that have a type.
+        foreach($templates as $template) {
+            if (empty($template->type)) {
+                continue;
+            }
+            $presordeds[] = $template;
+        }
+        if (empty($presordeds)) {
             return false;
+        }
+
+        // Sort by type.
+        foreach($presordeds as $template) {
+            $toreturn[$template->type][] = $template;
         }
         return $toreturn;
     }

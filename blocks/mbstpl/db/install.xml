@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mbstpl/db" VERSION="20150714" COMMENT="XMLDB file for Moodle blocks/mbstpl"
+<XMLDB PATH="blocks/mbstpl/db" VERSION="20150806" COMMENT="XMLDB file for Moodle blocks/mbstpl"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -99,6 +99,20 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
+        <INDEX NAME="templateid" UNIQUE="false" FIELDS="templateid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_mbstpl_meta" COMMENT="Metadata of either backup or restored templates">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="backupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="backupid" UNIQUE="false" FIELDS="backupid"/>
         <INDEX NAME="templateid" UNIQUE="false" FIELDS="templateid"/>
       </INDEXES>
     </TABLE>

@@ -35,9 +35,6 @@ require_once($CFG->dirroot . '/completion/data_object.php');
 
 class revhist extends base {
 
-    /* @var string Database table name that stores completion criteria information  */
-    public static $tablename = 'block_mbstpl_revhist';
-
     /**
      * Array of required table fields, must start with 'id'.
      * Defaults to id, course, criteriatype, module, moduleinstane, courseinstance,
@@ -72,6 +69,14 @@ class revhist extends base {
 
     /* @var int timecreated  */
     public $timecreated;
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_revhist';
+    }
 
     /**
      * Records this object in the Database, sets its id to the returned value, and returns that value.

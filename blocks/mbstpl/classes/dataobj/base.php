@@ -43,8 +43,16 @@ abstract class base extends \data_object {
      * @param bool $fetch
      */
     public function __construct($params = null, $fetch = true) {
-        $this->table = static::$tablename;
+        $this->table = static::get_tablename();
         parent::__construct($params, $fetch);
+    }
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        throw new \coding_exception('Must declare get_tablename().');
     }
 
     /**
@@ -54,22 +62,62 @@ abstract class base extends \data_object {
      * @return data_object instance of data_object or false if none found.
      */
     public static function fetch($params) {
-        return self::fetch_helper(static::$tablename, get_called_class(), $params);
+        return self::fetch_helper(static::get_tablename(), get_called_class(), $params);
     }
 
 	/**
      * Finds and returns all data_object instances based on params.
-     *
-     * This function MUST be overridden by all deriving classes.
      *
      * @param array $params associative arrays varname => value
      * @throws coding_exception This function MUST be overridden
      * @return array array of data_object instances or false if none found.
      */
     public static function fetch_all($params) {
-        if ($instances = self::fetch_all_helper(static::$tablename, get_called_class(), $params)) {
+        if ($instances = self::fetch_all_helper(static::get_tablename(), get_called_class(), $params)) {
             return $instances;
         }
 		return array();
 	}
+
+    /**
+     * Get array of dependants. Extend in subclasses that have dependant tables in this namespace extending this class.
+     * Use an array of classname=>foreignkey to define dependant tables that will be auto-deleted.
+     * @return array
+     */
+    public static function get_dependants() {
+        return array();
+    }
+
+
+    /**
+     * Cleanup after change - delete dependants etc.
+     *
+     * @param bool $deleted Set this to true if it has been deleted.
+     */
+    public function notify_changed($deleted) {
+        global $DB;
+
+        if ($deleted) {
+            foreach(static::get_dependants() as $classname => $key) {
+                $class = __NAMESPACE__ . '\\' .$classname;
+                if (!class_exists($class)) {
+                    echo $class;
+                    continue;
+                }
+                if (!is_subclass_of($class, get_class())) {
+                    continue;
+                }
+                $subdependants = $class::get_dependants();
+                if (empty($subdependants)) {
+                    // Just delete them with one query, to minimise query calls.
+                    $DB->delete_records($class::get_tablename(), array($key => $this->id));
+                } else {
+                    $dependants = $class::fetch_all(array($key => $this->id));
+                    foreach($dependants as $dependant) {
+                        $dependant->delete();
+                    }
+                }
+            }
+        }
+    }
 }

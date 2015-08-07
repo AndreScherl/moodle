@@ -41,9 +41,6 @@ class template extends base {
     const STATUS_PUBLISHED = 3;
     const STATUS_ARCHIVED = 4;
 
-    /* @var string Database table name that stores completion criteria information  */
-    public static $tablename = 'block_mbstpl_template';
-
     /**
      * Array of required table fields, must start with 'id'.
      * Defaults to id, course, criteriatype, module, moduleinstane, courseinstance,
@@ -82,6 +79,26 @@ class template extends base {
 
     /* @var int timemodified  */
     public $timemodified;
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_template';
+    }
+
+    /**
+     * Get array of dependants.
+     * @return array
+     */
+    public static function get_dependants() {
+        return array(
+            'meta' => 'templateid',
+            'revhist' => 'templateid'
+        );
+    }
+
 
     /**
      * Updates this object in the Database, based on its object variables. ID must be set.

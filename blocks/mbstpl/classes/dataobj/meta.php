@@ -35,9 +35,6 @@ require_once($CFG->dirroot . '/completion/data_object.php');
 
 class meta extends base {
 
-    /* @var string Database table name that stores completion criteria information  */
-    public static $tablename = 'block_mbstpl_meta';
-
     /**
      * Array of required table fields, must start with 'id'.
      * @var array
@@ -54,6 +51,21 @@ class meta extends base {
     /* @var int templateid  */
     public $templateid;
 
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_meta';
+    }
+
+    /**
+     * Get array of dependants.
+     * @return array
+     */
+    public static function get_dependants() {
+        return array('answer' => 'metaid');
+    }
 
 
     /**

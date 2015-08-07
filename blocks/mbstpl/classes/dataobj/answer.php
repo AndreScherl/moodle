@@ -35,9 +35,6 @@ require_once($CFG->dirroot . '/completion/data_object.php');
 
 class answer extends base {
 
-    /* @var string Database table name that stores completion criteria information  */
-    public static $tablename = 'block_mbstpl_answer';
-
     /**
      * Array of required table fields, must start with 'id'.
      * Defaults to id, course, criteriatype, module, moduleinstane, courseinstance,
@@ -49,6 +46,14 @@ class answer extends base {
         'data' => '',
         'dataformat' => FORMAT_MOODLE,
     );
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_answer';
+    }
 
     /* @var int metaid  */
     public $metaid;

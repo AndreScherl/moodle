@@ -36,15 +36,21 @@ require_once($CFG->dirroot . '/completion/data_object.php');
 abstract class base extends \data_object {
 
     public $table = '';
+    public $fetched = false;
 
     /**
      * We need to allow subclasses to declare the table name statically.
      * @param null $params
      * @param bool $fetch
+     * @param int $strictness
      */
-    public function __construct($params = null, $fetch = true) {
+    public function __construct($params = null, $fetch = true, $strictness=IGNORE_MISSING) {
+        $this->optional_fields['fetched'] = 0;
         $this->table = static::get_tablename();
         parent::__construct($params, $fetch);
+        if ($fetch && $strictness == MUST_EXIST && !$this->fetched) {
+            throw new \moodle_exception('invalidrecord', '', '', $this->table);
+        }
     }
 
     /**
@@ -62,7 +68,11 @@ abstract class base extends \data_object {
      * @return data_object instance of data_object or false if none found.
      */
     public static function fetch($params) {
-        return self::fetch_helper(static::get_tablename(), get_called_class(), $params);
+        $result = self::fetch_helper(static::get_tablename(), get_called_class(), $params);
+        if ($result) {
+            $result->fetched = true;
+        }
+        return $result;
     }
 
 	/**
@@ -87,7 +97,6 @@ abstract class base extends \data_object {
     public static function get_dependants() {
         return array();
     }
-
 
     /**
      * Cleanup after change - delete dependants etc.

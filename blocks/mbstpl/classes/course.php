@@ -90,11 +90,14 @@ class course {
      * @param \core\event\course_deleted $event
      */
     public static function course_deleted(\core\event\course_deleted $event) {
-        global $DB;
-
         $data = $event->get_data();
         $cid = $data['courseid'];
-        $DB->delete_records('block_mbstpl_template', array('courseid' => $cid));
+        $templates = dataobj\template::fetch_all(array('courseid' => $cid));
+        if (!empty($templates)) {
+            foreach($templates as $template) {
+                $template->delete();
+            }
+        }
     }
 
     /**

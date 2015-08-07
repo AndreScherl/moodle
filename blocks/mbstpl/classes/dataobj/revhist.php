@@ -33,10 +33,10 @@ global $CFG;
 
 require_once($CFG->dirroot . '/completion/data_object.php');
 
-class revhist extends \data_object {
+class revhist extends base {
 
     /* @var string Database table name that stores completion criteria information  */
-    public $table = 'block_mbstpl_revhist';
+    public static $tablename = 'block_mbstpl_revhist';
 
     /**
      * Array of required table fields, must start with 'id'.
@@ -73,32 +73,6 @@ class revhist extends \data_object {
     /* @var int timecreated  */
     public $timecreated;
 
-    /**
-     * Finds and returns a data_object instance based on params.
-     *
-     * @param array $params associative arrays varname=>value
-     * @return data_object instance of data_object or false if none found.
-     */
-    public static function fetch($params) {
-        return self::fetch_helper('block_mbstpl_revhist', __CLASS__, $params);
-    }
-
-	/**
-     * Finds and returns all data_object instances based on params.
-     *
-     * This function MUST be overridden by all deriving classes.
-     *
-     * @param array $params associative arrays varname => value
-     * @throws coding_exception This function MUST be overridden
-     * @return array array of data_object instances or false if none found.
-     */
-    public static function fetch_all($params) {
-        if ($instances = self::fetch_all_helper('block_mbstpl_revhist', __CLASS__, $params)) {
-            return $instances;
-        }
-		return array();
-	}
-	
     /**
      * Records this object in the Database, sets its id to the returned value, and returns that value.
      * If successful this function also fetches the new object data from database and stores it

@@ -33,7 +33,7 @@ global $CFG;
 
 require_once($CFG->dirroot . '/completion/data_object.php');
 
-class template extends \data_object {
+class template extends base {
 
     const STATUS_CREATED = 0;
     const STATUS_UNDER_REVIEW = 1;
@@ -42,7 +42,7 @@ class template extends \data_object {
     const STATUS_ARCHIVED = 4;
 
     /* @var string Database table name that stores completion criteria information  */
-    public $table = 'block_mbstpl_template';
+    public static $tablename = 'block_mbstpl_template';
 
     /**
      * Array of required table fields, must start with 'id'.
@@ -82,30 +82,6 @@ class template extends \data_object {
 
     /* @var int timemodified  */
     public $timemodified;
-
-    /**
-     * Finds and returns a data_object instance based on params.
-     *
-     * @param array $params associative arrays varname=>value
-     * @return data_object instance of data_object or false if none found.
-     */
-    public static function fetch($params) {
-        return self::fetch_helper('block_mbstpl_template', __CLASS__, $params);
-    }
-
-    /**
-     * Finds and returns all data_object instances based on params.
-     *
-     * @param array $params associative arrays varname => value
-     * @throws coding_exception This function MUST be overridden
-     * @return array array of data_object instances or false if none found.
-     */
-    public static function fetch_all($params) {
-        if ($instances = self::fetch_all_helper('block_mbstpl_template', __CLASS__, $params)) {
-            return $instances;
-        }
-        return array();
-    }
 
     /**
      * Updates this object in the Database, based on its object variables. ID must be set.

@@ -875,9 +875,7 @@
         }
 
         /* ========================================= Page Header ========================================= */
-
         
-
         .container {
             position: relative;
 
@@ -890,14 +888,14 @@
                 }
 
                 @media only screen and (max-width: $screen-sm-min) {
-                    margin-top: 174px;
+                    margin-top: 165px;
                 }
 
-                @media only screen and (max-width: $screen-xs-min) {
+                @media only screen and (max-width: $screen-xc-min) {
                     margin-top: 184px;
                 }
                 
-                @media only screen and (max-width: $screen-xc-mini-min) {
+                @media only screen and (max-width: $screen-xs-min) {
                     margin-top: 205px;
                 }
             }

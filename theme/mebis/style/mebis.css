@@ -12379,15 +12379,15 @@ button.close {
 }
 @media only screen and (max-width: 768px) {
   .me-wrapper .container.homepage-container {
-    margin-top: 174px;
+    margin-top: 165px;
   }
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 640px) {
   .me-wrapper .container.homepage-container {
     margin-top: 184px;
   }
 }
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 480px) {
   .me-wrapper .container.homepage-container {
     margin-top: 205px;
   }
@@ -14075,7 +14075,7 @@ button.close {
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 @media only screen {
-  .me-wrapper .me-page-header {
+  .me-wrapper header.me-page-header {
     font-size: 18px !important;
     border: none;
     padding: 42px 0 0;
@@ -14087,33 +14087,36 @@ button.close {
     min-height: 135px;
     -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
   }
-  .me-wrapper .me-page-header .container .logo-row {
+  .me-wrapper header.me-page-header .container .logo-row .row {
     margin: 0;
   }
-  .me-wrapper .me-page-header .container .logo-row .row {
-    margin: 0;
-  }
-  .me-wrapper .me-page-header .container .logo-row img {
+  .me-wrapper header.me-page-header .container .logo-row div.logo img {
     max-width: 100%;
     height: auto;
     margin-top: 8px;
   }
-  .me-wrapper .me-page-header .container .logo-row .me-component-nav {
+  .me-wrapper header.me-page-header .container .logo-row .me-component-nav {
     text-align: right;
   }
-  .me-wrapper .me-page-header.full {
+  .me-wrapper header.me-page-header.full {
     background: url([[pix:theme|bg-light]]);
+  }
+
+  .me-wrapper header.me-page-header.smaller {
+    padding-top: 0;
+    min-height: 50px;
+  }
+  .me-wrapper header.me-page-header.smaller .container .logo-row {
+    margin: 10px 0;
   }
 }
 @media only screen and (min-width: 1200px) {
   .me-wrapper .me-page-header {
     padding: 42px 0 0 0;
-  }
-}
-@media only screen and (max-width: 1200px) {
-  .me-wrapper .me-page-header {
-    position: absolute;
   }
 }
 @media only screen and (min-width: 992px) {
@@ -14248,6 +14251,11 @@ button.close {
   .me-wrapper .me-sidebar-wrapper .me-sidebar-nav:hover {
     width: 235px;
   }
+  .me-wrapper #topbar.smaller .me-sidebar-wrapper {
+    top: 0;
+    left: 0;
+    height: 0;
+  }
 }
 @media only screen and (max-width: 1200px) {
   .me-wrapper .me-sidebar-wrapper {
@@ -14274,14 +14282,14 @@ button.close {
     Author     : Franziska Hübler, ISB
 */
 @media only screen {
-  .me-wrapper .navbar {
-    min-height: 30px;
-  }
-  .me-wrapper .navbar-inverse {
-    background: #000;
-  }
   .me-wrapper #topbar {
+    background: #000;
     border: none;
+    min-height: 30px;
+    margin-bottom: 0;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
   }
   .me-wrapper #topbar .container {
     position: relative;
@@ -14350,6 +14358,9 @@ button.close {
   .me-wrapper #topbar .container .divider-vertical {
     height: 2.1875em;
     border-left: 1px solid #444;
+  }
+  .me-wrapper #topbar.smaller {
+    position: relative;
   }
 }
 @media only screen and (min-width: 1200px) {
@@ -15097,6 +15108,12 @@ categorybox:
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .breadcrumb.text-left {
     padding: 50px 0 20px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #page-navbar .breadcrumb-nav .breadcrumb,
+  #page-navbar .breadcrumb-button .singlebutton input[type="submit"] {
+    font-size: 0.9375em;
   }
 }
 /* Styles, used in footer */

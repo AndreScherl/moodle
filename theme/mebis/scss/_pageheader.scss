@@ -9,8 +9,10 @@
 
 // general styling for all screen sizes
 @media only screen {
-    .me-wrapper {    
-        .me-page-header {
+    
+    .me-wrapper {  
+        
+        header.me-page-header {
             font-size: $font-size-base !important;
             border: none;
             padding: 42px 0 0;
@@ -21,20 +23,24 @@
             z-index: 99;
             min-height: 135px;
             @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+            //resizing header does it smoothly
+            @include transition(all .3s);
 
             .container {
 
                 .logo-row {
-                    margin: 0;
 
                     .row {
                         margin: 0;
                     }
 
-                    img {
-                        max-width: 100%;
-                        height: auto;
-                        margin-top: 8px;
+                    div.logo {  
+
+                        img {
+                            max-width: 100%;
+                            height: auto;
+                            margin-top: 8px;
+                        }
                     }
 
                     .me-component-nav {
@@ -45,6 +51,22 @@
 
             &.full {
                 background: $bg-light;
+            }
+        }
+    }
+
+    //resizing header on scroll
+    .me-wrapper {
+
+        header.me-page-header.smaller {
+            padding-top: 0;
+            min-height: 50px;
+
+            .container {
+
+                .logo-row {
+                    margin: 10px 0;
+                }
             }
         }
     }
@@ -62,11 +84,7 @@
 }
 
 @media only screen and (max-width: $screen-lg-min) {
-    .me-wrapper {    
-        .me-page-header {
-            position: absolute;
-        }
-    }
+    
 }
 
 // Medium [Tablet or Small Desktop]

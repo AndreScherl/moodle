@@ -13,20 +13,17 @@
 
     .me-wrapper {
 
-        .navbar {
-            min-height: 30px;
-        }
-
-        .navbar-inverse {
-            background: $black;
-        }
-
         #topbar {
+            background: $black;
             border: none;
+            min-height: 30px;
+            margin-bottom: 0;
+            //resizing header does it smoothly
+            @include transition(all .3s);
 
             .container {
                 position: relative;
-
+                
                 .navbar-header {
                     //button to open mobile sidebar
                     .navbar-toggle {
@@ -127,6 +124,11 @@
                     border-left: 1px solid #444;
                 }
             }
+        }
+        
+        #topbar.smaller {
+            position: relative;
+           // height: 0;
         }
     }
 }

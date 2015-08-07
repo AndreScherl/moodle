@@ -12,7 +12,7 @@
 
     .breadcrumb-nav {
         margin-bottom: 0;
-        
+
         .breadcrumb {
             padding: 20px 0 20px;
             border-radius: 0;
@@ -76,5 +76,14 @@
 @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
     .breadcrumb.text-left {
         padding: 50px 0 20px;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    #page-navbar {
+        .breadcrumb-nav .breadcrumb,
+        .breadcrumb-button .singlebutton input[type="submit"] {
+            font-size: emCalc(15px);
+        }
     }
 }

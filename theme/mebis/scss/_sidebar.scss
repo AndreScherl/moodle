@@ -82,6 +82,7 @@
             top: 40px;
             left: 0;
             height: 100vh;
+            //@include transition(all .3s);
 
             .me-sidebar-nav {
                 margin: 0;
@@ -133,7 +134,16 @@
                 }
             }
         }
-    }    
+
+        #topbar.smaller {
+            //sidebar disapears on scrolling
+            .me-sidebar-wrapper {
+                top: 0;
+                left: 0;
+                height: 0;
+            }       
+        }
+    } 
 }
 
 @media only screen and (max-width: $screen-lg-min) {

@@ -78,12 +78,12 @@ class qtype_base {
 
     /**
      * Save the answer.
-     * @param $backupid
+     * @param $metaid
      * @param $questionid
      * @param $data
      * @param $dataformat
      */
-    public static function save_answer($backupid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
         global $DB;
 
         if (is_null($answer)) {
@@ -91,7 +91,7 @@ class qtype_base {
         }
 
         $obj = (object)array(
-            'backupid' => $backupid,
+            'metaid' => $metaid,
             'questionid' => $questionid,
             'data' => $answer,
             'dataformat' => $dataformat,

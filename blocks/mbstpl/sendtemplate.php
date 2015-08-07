@@ -55,19 +55,22 @@ $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
-    $backup = (object)array(
+    $backupdata = array(
         'origcourseid' => $courseid,
         'creatorid' => $USER->id,
         'timecreated' => time(),
         'qformid' => $activeform->id,
         'incluserdata' => empty($data->incluserdata) ? 0 :1,
     );
-    $backup->id = $DB->insert_record('block_mbstpl_backup', $backup);
+    $backup = new mbst\dataobj\backup($backupdata);
+    $backup->insert();
+    $meta = new mbst\dataobj\meta(array('backupid' => $backup->id), true);
+
     // Save answers to dynamic questions.
     foreach($questions as $questionid => $question) {
         $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
         $answer = empty($data->{$question->fieldname}) ? null : $data->{$question->fieldname};
-        $typeclass::save_answer($backup->id, $question->id, $answer);
+        $typeclass::save_answer($meta->id, $question->id, $answer);
     }
 
     // Initiate deployment task.

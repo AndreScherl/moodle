@@ -113,5 +113,8 @@ class backup extends base {
         $this->timecreated = time();
         $this->timemodified = time();
         parent::insert();
+
+        $meta = new meta(array('backupid' => $this->id));
+        $meta->insert();
     }
 }

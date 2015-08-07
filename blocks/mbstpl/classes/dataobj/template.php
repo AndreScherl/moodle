@@ -122,6 +122,10 @@ class template extends base {
         $this->timemodified = time();
         parent::insert();
         $this->add_to_revhist();
+
+        $meta = new meta(array('templateid' => $this->id));
+        $meta->insert();
+
     }
 
     /**

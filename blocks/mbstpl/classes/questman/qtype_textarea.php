@@ -41,13 +41,13 @@ class qtype_textarea extends qtype_base {
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 
-    public static function save_answer($backupid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
         if (!is_array($answer) || !isset($answer['text'])) {
             $answer = array('text' => '', 'format' => FORMAT_MOODLE);
         }
         if (!isset($answer['format'])) {
             $answer['format'] = FORMAT_MOODLE;
         }
-        return parent::save_answer($backupid, $questionid, $answer['text'], $answer['format']);
+        return parent::save_answer($metaid, $questionid, $answer['text'], $answer['format']);
     }
 }

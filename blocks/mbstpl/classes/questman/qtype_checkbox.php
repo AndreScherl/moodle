@@ -39,8 +39,8 @@ class qtype_checkbox extends qtype_base {
         }
     }
 
-    public static function save_answer($backupid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
         $answer = empty($answer) ? 0 : 1;
-        return parent::save_answer($backupid, $questionid, $answer);
+        return parent::save_answer($metaid, $questionid, $answer);
     }
 }

@@ -34,11 +34,8 @@ $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 
 // Load data from revision history id.
-$revhist = mbst\dataobj\revhist::fetch(array('id' => $id));
-if (empty($revhist->id)) {
-    throw new moodle_exception('invalidrecord', '', '', 'block_mbstpl_revhist');
-}
-$template = mbst\dataobj\template::fetch(array('id' => $revhist->templateid));
+$revhist = new mbst\dataobj\revhist(array('id' => $id), true, MUST_EXIST);
+$template = new mbst\dataobj\template(array('id' => $revhist->templateid), true, MUST_EXIST);
 if (empty($template->id)) {
     throw new moodle_exception('invalidrecord', '', '', 'block_mbstpl_template');
 }

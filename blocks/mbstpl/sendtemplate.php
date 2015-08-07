@@ -64,7 +64,7 @@ if ($form->is_cancelled()) {
     );
     $backup = new mbst\dataobj\backup($backupdata);
     $backup->insert();
-    $meta = new mbst\dataobj\meta(array('backupid' => $backup->id), true);
+    $meta = new mbst\dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
 
     // Save answers to dynamic questions.
     foreach($questions as $questionid => $question) {

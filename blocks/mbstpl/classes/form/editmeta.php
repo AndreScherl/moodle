@@ -21,6 +21,7 @@
  */
 
 namespace block_mbstpl\form;
+use \block_mbstpl as mbst;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -41,7 +42,13 @@ class editmeta extends \moodleform {
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
 
+        // Add custom questions.
+        $questions = $this->_customdata['questions'];
+        foreach($questions as $question) {
+            $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
+            $typeclass::add_template_element($form, $question);
+        }
+
         $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));
     }
-
 }

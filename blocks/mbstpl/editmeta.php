@@ -45,7 +45,14 @@ if (!mbst\perms::can_editmeta($template, $coursecontext)) {
     throw new moodle_exception('errorcannoteditmeta', 'block_mbstpl');
 }
 
-$customdata = array('courseid' => $course->id);
+$backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
+$qform = mbst\questman\manager::get_qform($backup->qformid);
+$qidlist = $qform ? $qform->questions : '';
+$questions = mbst\questman\manager::get_questsions_in_order($qidlist);
+foreach($questions as $questionid => $question) {
+    $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
+}
+$customdata = array('courseid' => $courseid, 'questions' => $questions);
 $form = new mbst\form\editmeta(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {

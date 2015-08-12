@@ -186,11 +186,20 @@ class manager {
      * @return object
      */
     public static function get_active_qform() {
-        global $DB;
         if (!$formid = self::get_active_qformid()) {
             return false;
         }
-        return $DB->get_record('block_mbstpl_qform', array('id' => $formid));
+        return self::get_qform($formid);
+    }
+
+    /**
+     * Gets a questionnaire form by id.
+     * @param int $id
+     * @return object
+     */
+    public static function get_qform($id) {
+        global $DB;
+        return $DB->get_record('block_mbstpl_qform', array('id' => $id));
     }
 
     /**

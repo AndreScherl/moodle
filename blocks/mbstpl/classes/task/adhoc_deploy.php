@@ -10,7 +10,8 @@ namespace block_mbstpl\task;
 
 class adhoc_deploy extends \core\task\adhoc_task {
     public function execute() {
-        $backup = $this->get_custom_data();
+        $bkpdetails = $this->get_custom_data();
+        $backup = new \block_mbstpl\dataobj\backup(array('id' => $bkpdetails->id), true, MUST_EXIST);
         try {
             \block_mbstpl\course::backup_template($backup);
             $courseid = \block_mbstpl\course::restore_template($backup);

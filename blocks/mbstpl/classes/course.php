@@ -159,11 +159,11 @@ class course {
 
     /**
      * Create a backup for a template.
-     * @param object $backup
+     * @param \block_mbstpl\dataobj\backup $backup
      * @return bool success
      */
 
-    public static function backup_template($backup) {
+    public static function backup_template(dataobj\backup $backup) {
         $filename = self::get_template_filename($backup);
         $user = get_admin();
         if (!$filename = self::automated_backup($backup->origcourseid, $filename, $backup->incluserdata, $user->id)) {
@@ -174,28 +174,37 @@ class course {
 
     /**
      * Deploy a backed up template.
-     * @param object $backup
+     * @param \block_mbstpl\dataobj\backup $backup
      * @return int course id.
      */
-    public static function restore_template($backup) {
-        global $DB;
-
+    public static function restore_template(dataobj\backup $backup) {
         $versionid = empty($backup->lastversion) ? 0 : $backup->lastversion;
         $versionid++;
         $backup->lastversion = $versionid;
         $courseid = self::launch_restore($backup);
 
-        $updateobj = (object)array('id' => $backup->id, 'lastversion' => $versionid);
-        $DB->update_record('block_mbstpl_backup', $updateobj);
+        $backup->update();
 
         // Save template record.
-        $template = array(
+        $templatedata = array(
             'courseid' => $courseid,
             'backupid' => $backup->id,
             'authorid' => $backup->creatorid,
         );
-        $dobj = new dataobj\template($template);
-        $dobj->insert();
+        $template = new dataobj\template($templatedata);
+        $template->insert();
+
+        // Copy over metadata.
+        $bkpmeta = new dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
+        $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $answers = dataobj\answer::fetch_all(array('metaid' => $bkpmeta->id));
+        foreach($answers as $answer) {
+            $copied = clone($answer);
+            $copied->id = null;
+            $copied->metaid = $tplmeta->id;
+            $copied->insert();
+        }
+
         return $courseid;
     }
 

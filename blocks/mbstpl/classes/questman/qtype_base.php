@@ -82,20 +82,21 @@ class qtype_base {
      * @param $questionid
      * @param $data
      * @param $dataformat
+     * @return bool;
      */
     public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
-        global $DB;
-
         if (is_null($answer)) {
             $answer = '';
         }
 
-        $obj = (object)array(
+        $answerdata = array(
             'metaid' => $metaid,
             'questionid' => $questionid,
             'data' => $answer,
             'dataformat' => $dataformat,
         );
-        return $DB->insert_record('block_mbstpl_answer', $obj);
+        $answerobj = new \block_mbstpl\dataobj\answer($answerdata);
+        $answerobj->insert();
+        return true;
     }
 }

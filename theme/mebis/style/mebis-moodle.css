@@ -14526,12 +14526,15 @@ button.close {
   }
 }
 @media only screen and (max-width: 768px) {
-  .me-wrapper .navbar-header .navbar-toggle {
+  .me-wrapper #topbar .container .navbar-header .navbar-toggle {
     position: relative;
     z-index: 99;
   }
-  .me-wrapper .navbar-header .nav .open > a {
+  .me-wrapper #topbar .container .navbar-header .nav .open > a {
     background: #333333;
+  }
+  .me-wrapper #topbar .container .navbar-right .profile a .user-avatar {
+    margin-top: 3px;
   }
 }
 div[role="main"] > h2 {
@@ -15097,13 +15100,6 @@ categorybox:
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {
   list-style: none;
 }
-.wrapper-learning-platform .moodle-menu .me-subnav {
-  /*            &.open {
-                  max-height: 70vh;
-                  overflow-y: auto;
-                  overflow-x: hidden;
-              }*/
-}
 .wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode {
   color: #fff;
   font-weight: bold;
@@ -15309,6 +15305,144 @@ categorybox:
   color: #333333;
 }
 
+/*
+    This file contains style customizations for activities:
+
+    - database
+    - assign
+    - feedback
+    - #page-mod-wiki-view
+    - #page-mod-page-view
+    - #page-mod-glossary-view
+    - #page-mod-forum-discuss
+    - #page-mod-lesson-edit 
+    - #page-mod-lesson-view
+    - #page-mod-assign-view
+    - #page-mod-book-view
+    - #page-mod-choice-view
+    - #page-mod-choiceanon-view
+*/
+/* 
+    Created on : 05.06.2015, 12:13:08
+    Author     : Franziska Hübler, ISB
+*/
+#page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+  width: 25%;
+  float: left;
+}
+@media only screen and (max-width: 992px) {
+  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
+    width: 30%;
+    float: left;
+  }
+}
+
+#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {
+  white-space: nowrap;
+}
+#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span span.helptooltip {
+  margin-right: 20px;
+}
+
+#page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],
+#page-mod-choiceanon-view #main-content-wrapper form ul li input[type="radio"] {
+  margin: 0 7px 0 0;
+}
+#page-mod-choice-view #main-content-wrapper form ul li label,
+#page-mod-choiceanon-view #main-content-wrapper form ul li label {
+  padding-left: 2.8px;
+  margin: 0;
+}
+
+#page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
+  margin-left: 0;
+}
+
+#page-mod-journal-report .userpix img {
+  max-width: none;
+}
+
+#page-mod-lesson-edit #main-content-wrapper .label {
+  color: #000;
+}
+
+#page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
+  margin-left: 0;
+}
+
+#page-mod-quiz-edit div.quizcontents {
+  padding: 20px;
+  background: #fff;
+}
+#page-mod-quiz-edit .questionbankwindow .title {
+  word-wrap: break-word;
+}
+
+#page-mod-quiz-attempt div.content:before,
+#page-mod-quiz-review div.content:before,
+#page-question-preview div.content:before {
+  display: none;
+}
+#page-mod-quiz-attempt div.content .formulation,
+#page-mod-quiz-review div.content .formulation,
+#page-question-preview div.content .formulation {
+  color: #333333;
+}
+#page-mod-quiz-attempt #techinfo,
+#page-mod-quiz-review #techinfo,
+#page-question-preview #techinfo {
+  background: #fff;
+  padding-left: 20px;
+}
+#page-mod-quiz-attempt .performanceinfo,
+#page-mod-quiz-review .performanceinfo,
+#page-question-preview .performanceinfo {
+  background: #fff;
+}
+
+#page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
+  background: #ff6600;
+}
+
+#page-repository-pmediathek-search #page #page-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#page-repository-pmediathek-search #page #page-content div .searchresult {
+  color: #000;
+}
+#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified > li {
+  background-color: #e6e6e6;
+}
+
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+  padding-left: 10px;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+  list-style: disc inside none;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+  padding-left: 10px;
+}
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+  list-style: decimal inside none;
+}
+
+@media only screen and (min-width: 640px) {
+  #page-repository-pmediathek-search #mform1 {
+    display: inline;
+  }
+  #page-repository-pmediathek-search #mform1 fieldset:last-child {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
+  }
+}
 /*
 Most of the pages containing a form, which ist editable by teachers or admins has
 the page layout "admin" or "report"
@@ -15781,339 +15915,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   max-width: inherit;
 }
 
-/*
-    All Styles related to special Pages.
-    - .path-course-view
-    - #page-course-edit
-    - #page-course-index-category
-    - #page-enrol-users
-    - #page-enrol-index
-    - #page-my-index 
-    - #page-course-management
-    - #page-content
-    - #page-admin-purgecaches 
-*/
-/* 
-    Created on : 16.05.2015, 19:46:57
-    Author     : Andreas Wagner
-*/
-.path-course-view #main-content-wrapper {
-  padding: 0;
-}
-.path-course-view .course-headline h2, .path-course-view .course-headline h1 {
-  color: #fff;
-  margin-bottom: 25px;
-}
-
-.path-user.path-course.path-course-view #main-content-wrapper {
-  padding: 10px;
-  background: #fff;
-}
-
-#page-course-edit #main-content-wrapper {
-  background: #fff;
-}
-
-#page-course-editsection #main-content-wrapper {
-  background: #fff;
-}
-
-#page-course-index-category div[role="main"] > .generalbox {
-  background: #fff;
-  color: #000;
-  border: none;
-  border-radius: 0;
-  padding: 20px;
-}
-
-#page-enrol-users .enrol_user_buttons {
-  float: none;
-  text-align: right;
-}
-
-#page-enrol-index #main-content-wrapper {
-  background: transparent;
-  color: #fff;
-  padding-left: 0;
-  padding-right: 0;
-}
-#page-enrol-index #main-content-wrapper h2 {
-  background: transparent;
-  color: #fff;
-  padding-left: 20px;
-}
-#page-enrol-index .box.generalbox.info li {
-  list-style: none;
-}
-#page-enrol-index fieldset .fcontainer {
-  color: #000;
-}
-#page-enrol-index #notice {
-  padding-bottom: 20px;
-}
-
-#page-my-index #main-content-wrapper {
-  background: transparent;
-  color: #fff;
-}
-#page-my-index #main-content-wrapper h2 {
-  background: transparent;
-  color: #fff;
-}
-
-#page-course-management #course-category-listings {
-  margin-bottom: 20px;
-}
-#page-course-management #course-category-listings > div > div {
-  border: none;
-  margin-bottom: 20px;
-}
-#page-course-management #course-category-listings h3 {
-  background: #00a8d5;
-  padding: 20px;
-}
-#page-course-management #course-category-listings .listitem > div .idnumber {
-  color: #333333;
-}
-#page-course-management #course-category-listings #category-listing .course-count {
-  color: #333333;
-}
-
-#page-content, #page-admin-purgecaches {
-  background: #fff;
-}
-#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul {
-  padding-left: 10px;
-}
-#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li {
-  list-style: disc inside none;
-}
-#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol {
-  padding-left: 10px;
-}
-#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
-  list-style: decimal inside none;
-}
-
-/*
-Here are to go all styles, which are NOT:
-
-- depending on special Page
-- depending on course format
-- depending on special Page layout
-- only used within course 
-- only used related to categories
- 
-*/
-/* 
-    Created on : 16.05.2015, 18:52:40
-    Author     : Andreas Wagner, ISB Bayern
-*/
-#maincontent {
-  height: 0;
-}
-
-#main-content-wrapper {
-  background: #fff;
-  padding: 0 20px 20px;
-}
-#main-content-wrapper div[role="main"] #maincontent {
-  margin-bottom: 20px;
-}
-#main-content-wrapper #maincontent + h2 {
-  color: #fff;
-  background: url([[pix:theme|bg-dark]]);
-  line-height: 1.5em;
-  margin: -20px -20px 20px;
-}
-#main-content-wrapper .col-md-12.block-transparent .header {
-  margin: 0;
-}
-#main-content-wrapper #adminsettings h2 {
-  margin-top: 0;
-}
-#main-content-wrapper #adminsettings fieldset {
-  margin-bottom: 20px;
-}
-
-.no-background {
-  background: tranparent;
-  color: #fff;
-}
-
-div[role="main"] ul, div[role="main"] ol {
-  padding: 0;
-  overflow: visible;
-}
-
-.clearer {
-  height: 0;
-}
-
-.collapsed .fcontainer, .collapsed ul {
-  display: none;
-}
-
-.hiddenelement {
-  display: none;
-}
-
-.highlight {
-  display: inline-block;
-  padding: 0 2px;
-  background: #00a8d5;
-  color: #fff;
-}
-
-.mform .felement.fstatic, .form-item .form-description {
-  color: #333;
-}
-
-input[type="checkbox"] + label {
-  margin-left: 5px;
-}
-
-.mform fieldset .ftoggler {
-  background: #00a8d5;
-  padding: 20px;
-  margin-bottom: 0;
-  position: relative;
-}
-.mform fieldset .ftoggler .helptooltip {
-  position: absolute;
-  right: 50px;
-  top: 19px;
-}
-.mform fieldset .ftoggler .helptooltip a {
-  color: #fff;
-  font-size: 0.6875em;
-}
-.mform fieldset .ftoggler .helptooltip a:after {
-  font-family: mebis-icons;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  font-size: 0.875em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\e62f";
-}
-.mform fieldset .ftoggler .helptooltip a:hover {
-  color: #ff6600;
-}
-.mform fieldset .ftoggler .helptooltip a img {
-  display: none;
-}
-.mform fieldset a.fheader {
-  display: block;
-  position: relative;
-  color: #fff;
-}
-.mform fieldset a.fheader:after {
-  font-family: mebis-icons;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  font-size: 0.625em;
-  -webkit-font-smoothing: antialiased;
-  position: absolute;
-  right: 0;
-  top: 8px;
-  content: "\e63d";
-}
-.mform fieldset.collapsed, .mform fieldset.collapsible {
-  margin-bottom: 40px;
-}
-.mform fieldset.collapsed legend, .mform fieldset.collapsible legend {
-  color: #fff;
-  border: 0;
-  line-height: 1em;
-}
-.mform fieldset.collapsed legend a.fheader, .mform fieldset.collapsible legend a.fheader {
-  background-image: none;
-  line-height: 1em;
-}
-.mform fieldset.collapsed .fcontainer, .mform fieldset.collapsible .fcontainer {
-  background: #fff;
-  padding: 20px;
-}
-.mform fieldset.collapsible a.fheader:after {
-  content: "\e662";
-}
-.mform fieldset.collapsible.collapsed a.fheader:after {
-  content: "\e63d";
-}
-.mform input .form-submit,
-.mform input [type="submit"] {
-  color: #fff;
-  background: #00a8d5;
-}
-
-/* fhüb: Do we really need this? 
-.moodle-dialogue-base .moodle-dialogue-wrap {
-    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-}*/
-.pagination-row {
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-.tree_item span, .tree_item span:focus {
-  outline: 0;
-}
-
-@media only screen and (max-width: 480px) {
-  .text-mobile-left {
-    text-align: left !important;
-  }
-}
-
-.tooltip {
-  z-index: 1080;
-  opacity: 1;
-}
-.tooltip .tooltip-inner {
-  background-color: #ff6600;
-  color: #fff;
-  border: 2px solid #ff6600;
-}
-.tooltip .tooltip-inner a {
-  color: #00637d;
-}
-.tooltip .tooltip-inner a:hover {
-  color: #fff;
-}
-
-.tooltip.in {
-  opacity: 1;
-}
-
-.tooltip.top .tooltip-arrow,
-.tooltip.top-left .tooltip-arrow,
-.tooltip.top-right .tooltip-arrow {
-  border-top-color: #ff6600;
-}
-
-.tooltip.left .tooltip-arrow {
-  border-left-color: #ff6600;
-}
-
-.tooltip.bottom .tooltip-arrow,
-.tooltip.bottom-left .tooltip-arrow,
-.tooltip.bottom-right .tooltip-arrow {
-  border-bottom-color: #ff6600;
-}
-
-.tooltip.right .tooltip-arrow {
-  border-right-color: #ff6600;
-}
-
 /* 
     This file contains style customizations for the course formats:
 
@@ -16382,95 +16183,222 @@ input[type="checkbox"] + label {
 }
 
 /*
-    Styles, which are used for the user message system.
+Here are to go all styles, which are NOT:
+
+- depending on special Page
+- depending on course format
+- depending on special Page layout
+- only used within course 
+- only used related to categories
+ 
 */
 /* 
-    Created on : 21.05.2015, 13:10:44
-    Author     : Franziska Hübler, ISB
+    Created on : 16.05.2015, 18:52:40
+    Author     : Andreas Wagner, ISB Bayern
 */
-.usermessages table#message_contacts,
-.usermessages table#message_participants {
-  width: 100%;
-}
-.usermessages table#message_contacts td.heading,
-.usermessages table#message_participants td.heading {
-  color: #333333;
-  background: transparent;
-}
-.usermessages .mform .fitem_actionbuttons > div.felement {
-  padding-left: 15px;
-}
-.usermessages .messages-area > .messagerecent > .singlemessage {
-  padding: 10px 0;
-  border-bottom: dotted 1px #333333;
-}
-.usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
-  margin-right: 10px;
+#maincontent {
+  height: 0;
 }
 
-/*
-    Styles, which are used for the user filemanager.
-*/
-/* 
-    Created on : 22.05.2015, 14:10:29
-    Author     : Franziska Hübler, ISB
-*/
-#page-user-files #main-content-wrapper {
-  background-color: transparent;
-  padding-left: 0;
-  padding-right: 0;
+#main-content-wrapper {
+  background: #fff;
+  padding: 0 20px 20px;
+}
+#main-content-wrapper div[role="main"] #maincontent {
+  margin-bottom: 20px;
+}
+#main-content-wrapper #maincontent + h2 {
+  color: #fff;
+  background: url([[pix:theme|bg-dark]]);
+  line-height: 1.5em;
+  margin: -20px -20px 20px;
+}
+#main-content-wrapper .col-md-12.block-transparent .header {
+  margin: 0;
+}
+#main-content-wrapper #adminsettings h2 {
+  margin-top: 0;
+}
+#main-content-wrapper #adminsettings fieldset {
+  margin-bottom: 20px;
 }
 
-.user-filemanager {
+.no-background {
+  background: tranparent;
+  color: #fff;
+}
+
+div[role="main"] ul, div[role="main"] ol {
+  padding: 0;
+  overflow: visible;
+}
+
+.clearer {
+  height: 0;
+}
+
+.collapsed .fcontainer, .collapsed ul {
+  display: none;
+}
+
+.hiddenelement {
+  display: none;
+}
+
+.highlight {
+  display: inline-block;
+  padding: 0 2px;
+  background: #00a8d5;
+  color: #fff;
+}
+
+.mform .felement.fstatic, .form-item .form-description {
+  color: #333;
+}
+
+input[type="checkbox"] + label {
+  margin-left: 5px;
+}
+
+.mform fieldset .ftoggler {
+  background: #00a8d5;
+  padding: 20px;
+  margin-bottom: 0;
+  position: relative;
+}
+.mform fieldset .ftoggler .helptooltip {
+  position: absolute;
+  right: 50px;
+  top: 19px;
+}
+.mform fieldset .ftoggler .helptooltip a {
+  color: #fff;
+  font-size: 0.6875em;
+}
+.mform fieldset .ftoggler .helptooltip a:after {
+  font-family: mebis-icons;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 0.875em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e62f";
+}
+.mform fieldset .ftoggler .helptooltip a:hover {
+  color: #ff6600;
+}
+.mform fieldset .ftoggler .helptooltip a img {
+  display: none;
+}
+.mform fieldset a.fheader {
+  display: block;
+  position: relative;
+  color: #fff;
+}
+.mform fieldset a.fheader:after {
+  font-family: mebis-icons;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  font-size: 0.625em;
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  right: 0;
+  top: 8px;
+  content: "\e63d";
+}
+.mform fieldset.collapsed, .mform fieldset.collapsible {
+  margin-bottom: 40px;
+}
+.mform fieldset.collapsed legend, .mform fieldset.collapsible legend {
+  color: #fff;
+  border: 0;
+  line-height: 1em;
+}
+.mform fieldset.collapsed legend a.fheader, .mform fieldset.collapsible legend a.fheader {
+  background-image: none;
+  line-height: 1em;
+}
+.mform fieldset.collapsed .fcontainer, .mform fieldset.collapsible .fcontainer {
+  background: #fff;
+  padding: 20px;
+}
+.mform fieldset.collapsible a.fheader:after {
+  content: "\e662";
+}
+.mform fieldset.collapsible.collapsed a.fheader:after {
+  content: "\e63d";
+}
+.mform input .form-submit,
+.mform input [type="submit"] {
+  color: #fff;
+  background: #00a8d5;
+}
+
+/* fhüb: Do we really need this? 
+.moodle-dialogue-base .moodle-dialogue-wrap {
+    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+}*/
+.pagination-row {
   margin-top: 25px;
   margin-bottom: 25px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background: #fff;
-  color: #333333;
-}
-.user-filemanager #fitem_id_files_filemanager {
-  margin-bottom: 20px;
-  min-height: 320px;
-}
-.user-filemanager #fitem_id_files_filemanager .filemanager-container {
-  min-height: 175px;
-}
-.user-filemanager .mform .fitem {
-  width: 100%;
-  margin: 0;
-}
-.user-filemanager .mform .fitem .fitemtitle {
-  float: none;
-  width: 100%;
-  text-align: left;
-}
-.user-filemanager .mform .fitem .felement {
-  float: none;
-  width: 100%;
-}
-.user-filemanager .mform .fitem_actionbuttons > div.felement {
-  margin: 0;
-  text-align: right;
-}
-.user-filemanager .mform .fitem_actionbuttons > div.felement input {
-  margin: 0;
 }
 
-/*
-    Styles, which are used for userprofile
-*/
-/* 
-    Created on : 28.05.2015, 14:26:10
-    Author     : Franziska Hübler, ISB
-*/
-#page-user-profile #main-content-wrapper {
-  background-color: transparent;
-  padding-left: 0;
-  padding-right: 0;
+.tree_item span, .tree_item span:focus {
+  outline: 0;
 }
-#page-user-profile .userprofile h2 {
-  background-color: #00a8d5;
+
+@media only screen and (max-width: 480px) {
+  .text-mobile-left {
+    text-align: left !important;
+  }
+}
+
+.tooltip {
+  z-index: 1080;
+  opacity: 1;
+}
+.tooltip .tooltip-inner {
+  background-color: #ff6600;
+  color: #fff;
+  border: 2px solid #ff6600;
+}
+.tooltip .tooltip-inner a {
+  color: #00637d;
+}
+.tooltip .tooltip-inner a:hover {
+  color: #fff;
+}
+
+.tooltip.in {
+  opacity: 1;
+}
+
+.tooltip.top .tooltip-arrow,
+.tooltip.top-left .tooltip-arrow,
+.tooltip.top-right .tooltip-arrow {
+  border-top-color: #ff6600;
+}
+
+.tooltip.left .tooltip-arrow {
+  border-left-color: #ff6600;
+}
+
+.tooltip.bottom .tooltip-arrow,
+.tooltip.bottom-left .tooltip-arrow,
+.tooltip.bottom-right .tooltip-arrow {
+  border-bottom-color: #ff6600;
+}
+
+.tooltip.right .tooltip-arrow {
+  border-right-color: #ff6600;
 }
 
 /*
@@ -16538,143 +16466,211 @@ input[type="checkbox"] + label {
   }
 }
 /*
-    This file contains style customizations for activities:
-
-    - database
-    - assign
-    - feedback
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-view
-    - #page-mod-book-view
-    - #page-mod-choice-view
-    - #page-mod-choiceanon-view
+    All Styles related to special Pages.
+    - .path-course-view
+    - #page-course-edit
+    - #page-course-index-category
+    - #page-enrol-users
+    - #page-enrol-index
+    - #page-my-index 
+    - #page-course-management
+    - #page-content
+    - #page-admin-purgecaches 
 */
 /* 
-    Created on : 05.06.2015, 12:13:08
-    Author     : Franziska Hübler, ISB
+    Created on : 16.05.2015, 19:46:57
+    Author     : Andreas Wagner
 */
-#page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
-  width: 25%;
-  float: left;
+.path-course-view #main-content-wrapper {
+  padding: 0;
 }
-@media only screen and (max-width: 992px) {
-  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
-    width: 30%;
-    float: left;
-  }
+.path-course-view .course-headline h2, .path-course-view .course-headline h1 {
+  color: #fff;
+  margin-bottom: 25px;
 }
 
-#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {
-  white-space: nowrap;
-}
-#page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span span.helptooltip {
-  margin-right: 20px;
+.path-user.path-course.path-course-view #main-content-wrapper {
+  padding: 10px;
+  background: #fff;
 }
 
-#page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],
-#page-mod-choiceanon-view #main-content-wrapper form ul li input[type="radio"] {
-  margin: 0 7px 0 0;
-}
-#page-mod-choice-view #main-content-wrapper form ul li label,
-#page-mod-choiceanon-view #main-content-wrapper form ul li label {
-  padding-left: 2.8px;
-  margin: 0;
+#page-course-edit #main-content-wrapper {
+  background: #fff;
 }
 
-#page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
-  margin-left: 0;
+#page-course-editsection #main-content-wrapper {
+  background: #fff;
 }
 
-#page-mod-journal-report .userpix img {
-  max-width: none;
-}
-
-#page-mod-lesson-edit #main-content-wrapper .label {
+#page-course-index-category div[role="main"] > .generalbox {
+  background: #fff;
   color: #000;
-}
-
-#page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
-  margin-left: 0;
-}
-
-#page-mod-quiz-edit div.quizcontents {
+  border: none;
+  border-radius: 0;
   padding: 20px;
-  background: #fff;
-}
-#page-mod-quiz-edit .questionbankwindow .title {
-  word-wrap: break-word;
 }
 
-#page-mod-quiz-attempt div.content:before,
-#page-mod-quiz-review div.content:before,
-#page-question-preview div.content:before {
-  display: none;
+#page-enrol-users .enrol_user_buttons {
+  float: none;
+  text-align: right;
 }
-#page-mod-quiz-attempt div.content .formulation,
-#page-mod-quiz-review div.content .formulation,
-#page-question-preview div.content .formulation {
-  color: #333333;
+
+#page-enrol-index #main-content-wrapper {
+  background: transparent;
+  color: #fff;
+  padding-left: 0;
+  padding-right: 0;
 }
-#page-mod-quiz-attempt #techinfo,
-#page-mod-quiz-review #techinfo,
-#page-question-preview #techinfo {
-  background: #fff;
+#page-enrol-index #main-content-wrapper h2 {
+  background: transparent;
+  color: #fff;
   padding-left: 20px;
 }
-#page-mod-quiz-attempt .performanceinfo,
-#page-mod-quiz-review .performanceinfo,
-#page-question-preview .performanceinfo {
-  background: #fff;
+#page-enrol-index .box.generalbox.info li {
+  list-style: none;
 }
-
-#page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
-  background: #ff6600;
-}
-
-#page-repository-pmediathek-search #page #page-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-#page-repository-pmediathek-search #page #page-content div .searchresult {
+#page-enrol-index fieldset .fcontainer {
   color: #000;
 }
-#page-repository-pmediathek-search #page #page-content ul.nav.nav-tabs.nav-justified > li {
-  background-color: #e6e6e6;
+#page-enrol-index #notice {
+  padding-bottom: 20px;
 }
 
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+#page-my-index #main-content-wrapper {
+  background: transparent;
+  color: #fff;
+}
+#page-my-index #main-content-wrapper h2 {
+  background: transparent;
+  color: #fff;
+}
+
+#page-course-management #course-category-listings {
+  margin-bottom: 20px;
+}
+#page-course-management #course-category-listings > div > div {
+  border: none;
+  margin-bottom: 20px;
+}
+#page-course-management #course-category-listings h3 {
+  background: #00a8d5;
+  padding: 20px;
+}
+#page-course-management #course-category-listings .listitem > div .idnumber {
+  color: #333333;
+}
+#page-course-management #course-category-listings #category-listing .course-count {
+  color: #333333;
+}
+
+#page-content, #page-admin-purgecaches {
+  background: #fff;
+}
+#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul {
   padding-left: 10px;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li {
   list-style: disc inside none;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol {
   padding-left: 10px;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
   list-style: decimal inside none;
 }
 
-@media only screen and (min-width: 640px) {
-  #page-repository-pmediathek-search #mform1 {
-    display: inline;
-  }
-  #page-repository-pmediathek-search #mform1 fieldset:last-child {
-    float: right;
-    margin-top: 29px;
-    margin-right: 20px;
-  }
+/*
+    Styles, which are used for the user filemanager.
+*/
+/* 
+    Created on : 22.05.2015, 14:10:29
+    Author     : Franziska Hübler, ISB
+*/
+#page-user-files #main-content-wrapper {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
 }
+
+.user-filemanager {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #fff;
+  color: #333333;
+}
+.user-filemanager #fitem_id_files_filemanager {
+  margin-bottom: 20px;
+  min-height: 320px;
+}
+.user-filemanager #fitem_id_files_filemanager .filemanager-container {
+  min-height: 175px;
+}
+.user-filemanager .mform .fitem {
+  width: 100%;
+  margin: 0;
+}
+.user-filemanager .mform .fitem .fitemtitle {
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+.user-filemanager .mform .fitem .felement {
+  float: none;
+  width: 100%;
+}
+.user-filemanager .mform .fitem_actionbuttons > div.felement {
+  margin: 0;
+  text-align: right;
+}
+.user-filemanager .mform .fitem_actionbuttons > div.felement input {
+  margin: 0;
+}
+
+/*
+    Styles, which are used for the user message system.
+*/
+/* 
+    Created on : 21.05.2015, 13:10:44
+    Author     : Franziska Hübler, ISB
+*/
+.usermessages table#message_contacts,
+.usermessages table#message_participants {
+  width: 100%;
+}
+.usermessages table#message_contacts td.heading,
+.usermessages table#message_participants td.heading {
+  color: #333333;
+  background: transparent;
+}
+.usermessages .mform .fitem_actionbuttons > div.felement {
+  padding-left: 15px;
+}
+.usermessages .messages-area > .messagerecent > .singlemessage {
+  padding: 10px 0;
+  border-bottom: dotted 1px #333333;
+}
+.usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
+  margin-right: 10px;
+}
+
+/*
+    Styles, which are used for userprofile
+*/
+/* 
+    Created on : 28.05.2015, 14:26:10
+    Author     : Franziska Hübler, ISB
+*/
+#page-user-profile #main-content-wrapper {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+#page-user-profile .userprofile h2 {
+  background-color: #00a8d5;
+}
+
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

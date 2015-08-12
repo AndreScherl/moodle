@@ -377,15 +377,32 @@
 @media only screen and (max-width: $screen-sm-min) {
 
     .me-wrapper {
-        .navbar-header {
 
-            .navbar-toggle {
-                position: relative;
-                z-index: 99;
-            }
+        #topbar {
 
-            .nav .open > a {
-                background: $brand-gray-dark;
+            .container {
+
+                .navbar-header {
+
+                    .navbar-toggle {
+                        position: relative;
+                        z-index: 99;
+                    }
+
+                    .nav .open > a {
+                        background: $brand-gray-dark;
+                    }
+                }
+
+                .navbar-right {
+                    
+                    .profile a {
+                        
+                        .user-avatar {
+                            margin-top: 3px;
+                        }
+                    }
+                }
             }
         }
     }

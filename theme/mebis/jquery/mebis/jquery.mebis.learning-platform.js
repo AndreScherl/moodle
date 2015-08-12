@@ -37,6 +37,11 @@ var MebisLearningPlatform = (function ($) {
         $('span.infoToggle').click(function(){
             $(this).parent().parent().children('.category-course-info').slideToggle(200);
         });
+        
+        $('#page-course-index-category').delegate('.categoryname a', 'click', function (e) {
+            e.preventDefault();
+            $(this).parent().click();
+        });
     }
 
     return {

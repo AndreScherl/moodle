@@ -78,9 +78,10 @@ switch ($action) {
     case 'assign':
         $user = $DB->get_record('user', array('id'=>required_param('user', PARAM_INT)), '*', MUST_EXIST);
         $roleid = required_param('roleid', PARAM_INT);
-        if (!array_key_exists($roleid, $manager->get_assignable_roles())) {
+        /** awag: Assign-Teacher-Hack: unnecessary, check is made in assign_role_to_user once more.
+         * if (!array_key_exists($roleid, $manager->get_assignable_roles())) {
             throw new enrol_ajax_exception('invalidrole');
-        }
+        }*/ 
         if (!has_capability('moodle/role:assign', $manager->get_context()) || !$manager->assign_role_to_user($roleid, $user->id)) {
             throw new enrol_ajax_exception('assignnotpermitted');
         }

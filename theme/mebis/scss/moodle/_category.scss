@@ -278,3 +278,155 @@ categorybox:
         }
     }
 }
+
+#page-course-index-category .collapsible-actions {
+    display: none;
+}
+
+#page-course-index-category .category  {
+
+    background-color: $white !important;
+
+    > .info {
+        background-color: $brand-primary !important;
+        padding: 15px 20px;
+        margin: 2px 0 0 0;
+        border: none;
+
+        h3::after, h4::after {
+            content: "";
+            font-family: "mebis-icons";
+            float: right
+        }
+
+        h3::after {
+            margin-right: 20px;
+        }
+
+        h3, h4, h3 a, h4 a {
+            font-size: 18px;
+            color:white;
+            margin:0;
+            padding:0;
+            line-height: 1em;
+            font-weight:400;
+
+        }
+    }  
+
+}
+
+#page-course-index-category .category {
+
+    > .info {
+        background-color: rgba($brand-primary, 1.0)  !important;
+    }
+
+    > .content .category{
+        > .info {
+            background-color: rgba($brand-primary, 0.85)  !important;
+        }
+        > .content .category {
+            > .info {
+                background-color: rgba($brand-primary, 0.7)  !important;
+            }
+            > .content .category{
+                > .info {
+                    background-color: rgba($brand-primary, 0.55)  !important;
+                }
+                > .content .category{
+                    > .info {
+                        background-color: rgba($brand-primary, 0.4)  !important;
+                    }
+                    > .content .category{
+                        > .info {
+                            background-color: rgba($brand-primary, 0.25)  !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#page-course-index-category .category.collapsed {
+
+    > .info h3::after, .info h4::after {
+        content: "";
+        font-family: "mebis-icons";
+        float: right;
+    }
+}
+
+#page-course-index-category .course_category_tree {
+
+    .category.with_children > .info > .categoryname {
+        background-image: none;
+        padding:0;
+        margin: 0;
+        line-height: 26px;
+    }
+
+    .category.with_children.collapsed > .info > .categoryname {
+        background-image: none;
+    }
+
+    > .content  > .subcategories > .category > .info {
+
+        padding: 20px;
+        margin-top:5px;
+
+        h3 a {
+            font-weight:bold;
+        }
+    }
+
+    > .content > .subcategories > .category.with_children > .content {
+        padding: 20px;
+
+    }
+    > .content > .subcategories > .category > .content > .subcategories {
+        padding: 0px;
+    }
+}
+
+#page-course-index-category  .content .courses {
+
+    margin: 0;
+
+    .coursebox {
+
+        border: none;
+        margin: 2px 0 0 0;
+        background-color: $brand-primary;
+
+        .info {
+
+            line-height: 26px;
+            background: none;
+            border:none;
+
+            span a {
+
+                vertical-align: top;
+
+                img {
+                    vertical-align: baseline;
+                }
+            }
+
+            span.coursename::before {
+                content: "";
+                font-family: "mebis-icons";
+                margin-right: 5px;
+                font-size:22px;
+            }
+        }
+
+        a {
+            color: $white;
+        }
+
+    }
+
+}

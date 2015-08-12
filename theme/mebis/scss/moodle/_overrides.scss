@@ -182,36 +182,6 @@
 
 }
 
-//fhüb: delete?
-.moodle-dialogue-base {
-    color: $brand-gray-dark;
-
-    .moodle-dialogue-wrap {
-        border-radius: 0;
-
-        .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $gray-lighter;
-            text-shadow: none;
-        }
-
-        input[type="text"] {
-            max-width: 0;
-            min-width: 100%;
-            display: block;
-        }
-
-        .yui3-button.closebutton {
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        label.control-label {
-            color: $brand-gray-dark;
-        }
-
-    }
-}
-
 .block_messages {
 
     .content {

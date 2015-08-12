@@ -11,7 +11,6 @@
 $plugins = array(
     'mebis-mebis' => array(
         'files' => array(
-            'mebis/jquery.mebis.js',
             'mebis/jquery.mebis.learning-platform.js',
         ),
     ),

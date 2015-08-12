@@ -19,30 +19,30 @@
 @import "pageheader";
 @import "sidebar";
 @import "topbar";
+
 // Pages
-@import "pages/learning-platform";
+@import "../../scss/learning-platform";
 
 // Moodle Style Overwrites
-// Finished styles
-@import "moodle/category";
-@import "moodle/coursebox";
-@import "moodle/headertoolbar";
-@import "moodle/pageheader";
-@import "moodle/pagefooter";
-@import "moodle/schoolbox";
 
-// Need more work?
-@import "moodle/cu-admin";
-@import "moodle/cu-blocks";
-@import "moodle/cu-course";
-@import "moodle/cu-pages";
-@import "moodle/cu-general";
-@import "moodle/cu-courseformats";
-@import "moodle/cu-usermessages";
-@import "moodle/cu-userfilemanager";
-@import "moodle/cu-userprofile";
-@import "moodle/cu-overlays";
-@import "moodle/cu-activities";
+@import "../../scss/moodle/category";
+@import "../../scss/moodle/coursebox";
+@import "../../scss/moodle/headertoolbar";
+@import "../../scss/moodle/pageheader";
+@import "../../scss/moodle/pagefooter";
+@import "../../scss/moodle/schoolbox";
+
+@import "../../scss/moodle/cu-activities";
+@import "../../scss/moodle/cu-admin";
+@import "../../scss/moodle/cu-blocks";
+@import "../../scss/moodle/cu-course";
+@import "../../scss/moodle/cu-courseformats";
+@import "../../scss/moodle/cu-general";
+@import "../../scss/moodle/cu-overlays";
+@import "../../scss/moodle/cu-pages";
+@import "../../scss/moodle/cu-userfilemanager";
+@import "../../scss/moodle/cu-usermessages";
+@import "../../scss/moodle/cu-userprofile";
 
 /** To check whether styles are necessary:
 

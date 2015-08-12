@@ -142,8 +142,10 @@
 
 //Styles for searching in mebis-Prüfungsarchiv
 #page-repository-pmediathek-search {
+
     #page #page-content {
-        color: $white;
+        padding-left: 5px;
+        padding-right: 5px;
 
         div .searchresult {
             color: $black;
@@ -167,6 +169,20 @@
             padding-left: 10px;
             > li {
                 list-style: decimal inside none;
+            }
+        }        
+    }
+}
+
+@media only screen and (min-width: $screen-xc-min) {
+
+    #page-repository-pmediathek-search {
+        #mform1 {
+            display: inline;
+            fieldset:last-child {
+                float: right;
+                margin-top: 29px;
+                margin-right: 20px;
             }
         }        
     }

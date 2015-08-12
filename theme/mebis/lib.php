@@ -32,6 +32,9 @@ function theme_mebis_process_css($css, $theme) {
 function theme_mebis_page_init(moodle_page $page) {
     $page->requires->jquery();
     $page->requires->jquery_plugin('mebis-mebis', 'theme_mebis');
+    // Andre Scherl: the following line differs from the moodle standard to include jquery modules. This is needed because
+    // we have to put the script into a global mebis code sharing directory (mbsglobaldesign)
+    $page->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/jquery.mebis.js"));
 }
 
 /*function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)

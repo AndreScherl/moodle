@@ -87,6 +87,9 @@ function local_mbs_extends_settings_navigation(settings_navigation $navigation) 
  */
 function local_mbs_user_loggedin(\core\event\user_loggedin $event) {
 
+    // Assign-Teacher-Hack: set preference for user to indicated permission for role assignment.
+    local_mbs\local\core_changes::set_allow_teacherrole_preference();
+    
     // Set up the isTeacher - flag, we do this here for all auth types.
     local_mbs::setup_teacher_flag();
 }
@@ -158,7 +161,14 @@ class local_mbs {
      * Check, whether a loggedin user is a teacher (i. e. has already isTeacher == true via auth)
      * or is enrolled in min. one course as a teacher.
      *
-     * @return boolean, true falls der User als Lehrer gilt.
+     * ... and set the auth_shibboleth_isteacherflag for use in other sessions.
+     * 
+     * Note that there is an important difference between $USER->isTeacher and mbs_allow_teacherrole!
+     * mbs_allow_teacherrole is ONLY set, when user is a teacher in ldap and
+     * don't respect role assignments.
+     * 
+     * @return boolean, true if user is a teacher.
+     * 
      */
     public static function setup_teacher_flag() {
         global $USER, $DB;
@@ -166,7 +176,7 @@ class local_mbs {
         if (!isloggedin() or isguestuser()) {
             return false;
         }
-
+        
         if (isset($USER->isTeacher)) {
             return $USER->isTeacher;
         }
@@ -183,7 +193,7 @@ class local_mbs {
                AND ra.userid = :userid";
 
         $USER->isTeacher = $DB->record_exists_sql($sql, $params);
-
+        
         return $USER->isTeacher;
     }
 

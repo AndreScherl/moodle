@@ -14842,6 +14842,113 @@ categorybox:
   text-align: center;
 }
 
+#page-course-index-category .collapsible-actions {
+  display: none;
+}
+
+#page-course-index-category .category {
+  background-color: #fff !important;
+}
+#page-course-index-category .category > .info {
+  background-color: #00a8d5 !important;
+  padding: 15px 20px;
+  margin: 2px 0 0 0;
+  border: none;
+}
+#page-course-index-category .category > .info h3::after, #page-course-index-category .category > .info h4::after {
+  content: "";
+  font-family: "mebis-icons";
+  float: right;
+}
+#page-course-index-category .category > .info h3::after {
+  margin-right: 20px;
+}
+#page-course-index-category .category > .info h3, #page-course-index-category .category > .info h4, #page-course-index-category .category > .info h3 a, #page-course-index-category .category > .info h4 a {
+  font-size: 18px;
+  color: white;
+  margin: 0;
+  padding: 0;
+  line-height: 1em;
+  font-weight: 400;
+}
+
+#page-course-index-category .category > .info {
+  background-color: #00a8d5 !important;
+}
+#page-course-index-category .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.85) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.7) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.55) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.4) !important;
+}
+#page-course-index-category .category > .content .category > .content .category > .content .category > .content .category > .content .category > .info {
+  background-color: rgba(0, 168, 213, 0.25) !important;
+}
+
+#page-course-index-category .category.collapsed > .info h3::after, #page-course-index-category .category.collapsed .info h4::after {
+  content: "";
+  font-family: "mebis-icons";
+  float: right;
+}
+
+#page-course-index-category .course_category_tree .category.with_children > .info > .categoryname {
+  background-image: none;
+  padding: 0;
+  margin: 0;
+  line-height: 26px;
+}
+#page-course-index-category .course_category_tree .category.with_children.collapsed > .info > .categoryname {
+  background-image: none;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .info {
+  padding: 20px;
+  margin-top: 5px;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .info h3 a {
+  font-weight: bold;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category.with_children > .content {
+  padding: 20px;
+}
+#page-course-index-category .course_category_tree > .content > .subcategories > .category > .content > .subcategories {
+  padding: 0px;
+}
+
+#page-course-index-category .content .courses {
+  margin: 0;
+}
+#page-course-index-category .content .courses .coursebox {
+  border: none;
+  margin: 2px 0 0 0;
+  background-color: #00a8d5;
+}
+#page-course-index-category .content .courses .coursebox .info {
+  line-height: 26px;
+  background: none;
+  border: none;
+}
+#page-course-index-category .content .courses .coursebox .info span a {
+  vertical-align: top;
+}
+#page-course-index-category .content .courses .coursebox .info span a img {
+  vertical-align: baseline;
+}
+#page-course-index-category .content .courses .coursebox .info span.coursename::before {
+  content: "";
+  font-family: "mebis-icons";
+  margin-right: 5px;
+  font-size: 22px;
+}
+#page-course-index-category .content .courses .coursebox a {
+  color: #fff;
+}
+
 /* This file contains Styles related to display courses in a grid element (box) */
 /* 
     Created on : 19.05.2015
@@ -16371,6 +16478,7 @@ input[type="checkbox"] + label {
 
     - moodle-dialogue-base
     - newmessageoverlay
+    - user-enroller-panel
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -16402,23 +16510,33 @@ input[type="checkbox"] + label {
         }
     }*/
 }
-@media only screen and (max-width: 992px) {
-  .moodle-dialogue-base .moodle-dialogue.filepicker {
-    left: 10%;
-    width: 85%;
-    top: 100px;
-  }
-}
 
 #newmessageoverlay {
   z-index: auto;
 }
+
 @media only screen and (max-width: 992px) {
+  .moodle-dialogue-base .moodle-dialogue-fullscreen {
+    left: 10%;
+    width: 85%;
+    top: 100px;
+    bottom: 50px;
+  }
+  .moodle-dialogue-base .moodle-dialogue-fullscreen .moodle-dialogue-content {
+    top: 0;
+    bottom: 0;
+  }
+
   #newmessageoverlay {
     bottom: 50px;
   }
 }
-
+@media only screen and (max-width: 480px) {
+  .user-enroller-panel {
+    left: 10% !important;
+    width: auto;
+  }
+}
 /*
     This file contains style customizations for activities:
 
@@ -16524,7 +16642,8 @@ input[type="checkbox"] + label {
 }
 
 #page-repository-pmediathek-search #page #page-content {
-  color: #fff;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 #page-repository-pmediathek-search #page #page-content div .searchresult {
   color: #000;
@@ -16546,6 +16665,16 @@ input[type="checkbox"] + label {
   list-style: decimal inside none;
 }
 
+@media only screen and (min-width: 640px) {
+  #page-repository-pmediathek-search #mform1 {
+    display: inline;
+  }
+  #page-repository-pmediathek-search #mform1 fieldset:last-child {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
+  }
+}
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

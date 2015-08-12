@@ -211,9 +211,12 @@ $table->set_fields($fields, $renderer);
 
 $canassign = has_capability('moodle/role:assign', $manager->get_context());
 $users = $manager->get_users_for_display($manager, $table->sort, $table->sortdirection, $table->page, $table->perpage);
+// awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+\local_mbs\local\core_changes::add_assignableroles($manager, $users);
+// awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
 foreach ($users as $userid=>&$user) {
     $user['picture'] = $OUTPUT->render($user['picture']);
-    $user['role'] = $renderer->user_roles_and_actions($userid, $user['roles'], $manager->get_assignable_roles(), $canassign, $PAGE->url);
+    $user['role'] = $renderer->user_roles_and_actions($userid, $user['roles'], $user['assignableroles'], $canassign, $PAGE->url);
     $user['group'] = $renderer->user_groups_and_actions($userid, $user['groups'], $manager->get_all_groups(), has_capability('moodle/course:managegroups', $manager->get_context()), $PAGE->url);
     $user['enrol'] = $renderer->user_enrolments_and_actions($user['enrolments']);
 }

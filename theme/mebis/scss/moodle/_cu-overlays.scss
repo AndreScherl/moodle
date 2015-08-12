@@ -3,6 +3,7 @@
 
     - moodle-dialogue-base
     - newmessageoverlay
+    - user-enroller-panel
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -11,15 +12,6 @@
 
 .moodle-dialogue-base {
     // color: $brand-gray-dark;
-
-    .moodle-dialogue.filepicker {
-
-        @media only screen and (max-width: $screen-desktop) {
-            left: 10%;
-            width: 85%;
-            top: 100px;
-        }
-    }
 
     /* fhüb: Do we really need this? 
     .moodle-dialogue-wrap {
@@ -48,9 +40,35 @@
 }
 
 #newmessageoverlay {
-    z-index: auto;
-    
-    @media only screen and (max-width: $screen-desktop) {
+    z-index: auto;   
+}
+
+@media only screen and (max-width: $screen-desktop) {
+
+    .moodle-dialogue-base {
+
+        .moodle-dialogue-fullscreen{
+            left: 10%;
+            width: 85%;
+            top: 100px;
+            bottom: 50px;          
+
+            .moodle-dialogue-content {
+                top: 0;
+                bottom: 0;
+            }
+        }
+    } 
+
+    #newmessageoverlay {
         bottom: 50px;
-    }    
+    }
+}
+
+@media only screen and (max-width: $screen-xs-min) {
+    
+    .user-enroller-panel {
+        left: 10% !important; //need important because of the element.style
+        width: auto;
+    }
 }

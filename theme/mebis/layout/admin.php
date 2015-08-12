@@ -46,7 +46,7 @@ echo $OUTPUT->doctype()
         <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
         <span data-mode="default"></span>
-        <?php $PAGE->requires->js(new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
+        <?php $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -117,7 +117,7 @@ echo $OUTPUT->doctype()
         echo $OUTPUT->main_footer();
         echo $OUTPUT->page_action_navigation();
         
-        $PAGE->requires->js(new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
+        $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
         ?>
 
         <div class="container"> 

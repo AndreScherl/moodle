@@ -12,6 +12,13 @@ var MebisLearningPlatform = (function ($) {
         $('span.hiddennavbutton').click(function () {
             $(this).parent().children('ul.hiddennavleaf').toggle(200);
             $(this).parent().toggleClass('open');
+            
+            if ($('ul.me-subnav').children('li.hiddennavnode').hasClass('open')) {
+                $('div.dropdown-inner').addClass('open');
+            } 
+            else {
+                $('div.dropdown-inner').removeClass('open');
+            }
         });
     }
 
@@ -36,7 +43,7 @@ var MebisLearningPlatform = (function ($) {
         init: function () {
             preventLinkDefault();
             hiddennav();
-            categorytoggles();
+            categorytoggles();          
         }
     }
 

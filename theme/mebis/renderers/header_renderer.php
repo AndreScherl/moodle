@@ -101,7 +101,7 @@ class theme_mebis_header_renderer extends renderer_base {
                     $userBar .= html_writer::end_tag('span');
                     $userBar .= html_writer::tag('img', '',
                         array('class' => 'user-avatar', 'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
-                        'alt' => 'Avatar', 'size' => '40', 'link' => false));
+                        'alt' => 'Avatar', 'link' => false));
                 $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-right visible-lg'));

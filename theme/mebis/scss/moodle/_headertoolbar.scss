@@ -61,6 +61,12 @@
                             padding: 20px;
                             background: $brand-secondary;
 
+                            &.open {
+                                max-height: 70vh;
+                                overflow-y: auto;
+                                overflow-x: hidden;
+                            }
+
                             a {
                                 color: $white;
 
@@ -85,19 +91,23 @@
                 }
             }
         }
-        .hiddennavnode {
-            color: $white;
-            font-weight: bold;
-            cursor: pointer;
 
-            &.open > span.internal:before { content: "\e662"; }
+        .me-subnav {
 
-            > span.internal:before { content: "\e63d"; }
+            .hiddennavnode {
+                color: $white;
+                font-weight: bold;
+                cursor: pointer;
 
-            .hiddennavleaf {
-                display: none;
-                margin-left: 15px;
-                font-weight: normal;
+                &.open > span.internal:before { content: "\e662"; }
+
+                > span.internal:before { content: "\e63d"; }
+
+                .hiddennavleaf {
+                    display: none;
+                    margin-left: 15px;
+                    font-weight: normal;
+                }
             }
         }
     }

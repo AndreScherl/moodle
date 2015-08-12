@@ -14294,36 +14294,39 @@ button.close {
   .me-wrapper #topbar .container {
     position: relative;
   }
-  .me-wrapper #topbar .container .navbar-header .navbar-toggle {
+  .me-wrapper #topbar .container .navbar-non-collapsing .navbar-header .navbar-toggle {
     float: none;
     position: relative;
     z-index: 99;
     background: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-header .navbar-toggle.collapsed {
+  .me-wrapper #topbar .container .navbar-non-collapsing .navbar-header .navbar-toggle.collapsed {
     background: #333333;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav {
+  .me-wrapper #topbar .container .navbar-non-collapsing .navbar-right .profile a .user-avatar {
+    height: 2.1875em;
+  }
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav {
     padding: 0 20px;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li a {
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav li a {
     padding: 10px 15px 10px 5px;
     color: #fff;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li a:hover {
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav li a:hover {
     color: #ff6600;
     background: transparent;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li.me-active a {
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav li.me-active a {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li [class^="icon-me"] {
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav li [class^="icon-me"] {
     display: inline-block;
     margin: 0 15px 0 0;
     font-size: 2em;
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .collapse.navbar-collapse .nav li span {
+  .me-wrapper #topbar .container .navbar-collapse.collapse .nav li span {
     vertical-align: middle;
   }
   .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
@@ -14392,8 +14395,8 @@ button.close {
     max-width: 250px;
     overflow: hidden;
     vertical-align: middle;
-    max-height: 18px;
-    line-height: 18px;
+    max-height: 2.1875em;
+    line-height: 2.1875em;
   }
   .me-wrapper #topbar .container .navbar-right .profile a .user-avatar {
     background: #000;
@@ -14411,6 +14414,7 @@ button.close {
     padding-top: 0;
     padding-bottom: 0;
     line-height: 2.1875em;
+    height: 2.1875em;
   }
   .me-wrapper #topbar .container .navbar-right .logout a:hover {
     color: #ff6600;
@@ -14419,6 +14423,7 @@ button.close {
     padding: 0 15px;
     color: #999999;
     line-height: 2.1875em;
+    height: 2.1875em;
   }
   .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li a:hover {
     color: #ff6600;
@@ -14965,6 +14970,11 @@ categorybox:
   padding: 20px;
   background: #ff6600;
 }
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner.open {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner a {
   color: #fff;
 }
@@ -14980,18 +14990,25 @@ categorybox:
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {
   list-style: none;
 }
-.wrapper-learning-platform .moodle-menu .hiddennavnode {
+.wrapper-learning-platform .moodle-menu .me-subnav {
+  /*            &.open {
+                  max-height: 70vh;
+                  overflow-y: auto;
+                  overflow-x: hidden;
+              }*/
+}
+.wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
 }
-.wrapper-learning-platform .moodle-menu .hiddennavnode.open > span.internal:before {
+.wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode.open > span.internal:before {
   content: "\e662";
 }
-.wrapper-learning-platform .moodle-menu .hiddennavnode > span.internal:before {
+.wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode > span.internal:before {
   content: "\e63d";
 }
-.wrapper-learning-platform .moodle-menu .hiddennavnode .hiddennavleaf {
+.wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode .hiddennavleaf {
   display: none;
   margin-left: 15px;
   font-weight: normal;

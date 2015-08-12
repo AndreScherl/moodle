@@ -559,7 +559,6 @@ var Mebis = (function ($) {
 
     /**
      * Animate resizing header on scroll
-     * @returns {undefined}
      */
     function initResizingHeader() {
         $win.scroll(function () {

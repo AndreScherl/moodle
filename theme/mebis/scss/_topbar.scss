@@ -23,22 +23,31 @@
 
             .container {
                 position: relative;
-                
-                .navbar-header {
-                    //button to open mobile sidebar
-                    .navbar-toggle {
-                        float: none;
-                        position: relative;
-                        z-index: 99;
-                        background: $brand-secondary;
 
-                        &.collapsed {
-                            background: $brand-gray-dark;
+                .navbar-non-collapsing {
+
+                    .navbar-header {
+                        //button to open mobile sidebar
+                        .navbar-toggle {
+                            float: none;
+                            position: relative;
+                            z-index: 99;
+                            background: $brand-secondary;
+
+                            &.collapsed {
+                                background: $brand-gray-dark;
+                            }
+                        }
+                    }
+
+                    .navbar-right {
+                        .profile a .user-avatar {
+                            height: emCalc(35px);
                         }
                     }
                 }
 
-                .collapse.navbar-collapse {
+                .navbar-collapse.collapse {
 
                     //sidebar collapsed
                     .nav {
@@ -125,10 +134,10 @@
                 }
             }
         }
-        
+
         #topbar.smaller {
             position: relative;
-           // height: 0;
+            // height: 0;
         }
     }
 }
@@ -171,8 +180,8 @@
                                 max-width: 250px;
                                 overflow: hidden;
                                 vertical-align: middle;
-                                max-height: 18px;
-                                line-height: 18px;
+                                max-height: emCalc(35px);
+                                line-height: emCalc(35px);
                             }
 
                             .user-avatar {
@@ -196,7 +205,8 @@
                         a {
                             padding-top: 0;
                             padding-bottom: 0;
-                            line-height: 2.1875em;
+                            line-height: emCalc(35px);
+                            height: emCalc(35px);
 
                             &:hover {
                                 color: $brand-secondary;
@@ -213,7 +223,8 @@
                             a {
                                 padding: 0 15px;
                                 color: $brand-gray-medium;
-                                line-height: 2.1875em;
+                                line-height: emCalc(35px);
+                                height: emCalc(35px);
 
                                 &:hover {
                                     color: $brand-secondary;

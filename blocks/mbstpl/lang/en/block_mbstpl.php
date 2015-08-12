@@ -88,6 +88,7 @@ $string['questiontitle'] = 'Question title';
 $string['questiontype'] = 'Question type';
 $string['removefromdraft'] = 'Remove from draft';
 $string['reviewerrole'] = 'Reviewer role';
+$string['save'] = 'Save';
 $string['selectedreviewer'] = 'Selected reviewer';
 $string['sendcoursetemplate'] = 'Send course template';
 $string['sendcoursetemplateheading'] = 'You may publish your course under the following license terms: CC / non-profit / disclosure with attribution / changed). In the CC license, it is necessary that your name is mentioned. You hereby consent to the publication of your name.';

@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mbstpl\questman;
+namespace block_mbstpl\form;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,12 +29,12 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class activatedraftform
- * @package block_mbstpl\questman
+ * Class activatedraft
+ * @package block_mbstpl
  * Main question form
  */
 
-class activatedraftform extends \moodleform {
+class activatedraft extends \moodleform {
     function definition() {
         $form = $this->_form;
 

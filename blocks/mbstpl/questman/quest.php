@@ -51,7 +51,7 @@ if (!$id) {
 $typeobj = \block_mbstpl\questman\qtype_base::qtype_factory($datatype);
 
 $customdata = array('id' => $id, 'datatype' => $datatype, 'typeobj' => $typeobj, 'inuse' => $inuse);
-$mform = new \block_mbstpl\questman\questeditform(null, $customdata);
+$mform = new \block_mbstpl\form\questedit(null, $customdata);
 if ($id) {
     if ($editors = $typeobj->get_editors()) {
         foreach($editors as $editor) {

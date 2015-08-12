@@ -53,7 +53,7 @@ if ($useqid) {
 }
 $isdraft = \block_mbstpl\questman\manager::is_draft();
 if ($isdraft) {
-    $actform = new \block_mbstpl\questman\activatedraftform();
+    $actform = new \block_mbstpl\form\activatedraft();
     if ($data = $actform->get_data()) {
         \block_mbstpl\questman\manager::activate_draft($data->formname);
         redirect($thisurl);

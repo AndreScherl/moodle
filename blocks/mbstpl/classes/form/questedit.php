@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mbstpl\questman;
+namespace block_mbstpl\form;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,12 +29,12 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class questeditform
- * @package block_mbstpl\questman
+ * Class questedit
+ * @package block_mbstpl
  * Main question form
  */
 
-class questeditform extends \moodleform {
+class questedit extends \moodleform {
     function definition() {
         $form = $this->_form;
 
@@ -75,7 +75,7 @@ class questeditform extends \moodleform {
 
     /**
      * Returns the type object of the question.
-     * @return qtype_base
+     * @return \block_mbstpl\questman\qtype_base
      */
     private function get_typeobj() {
         return $this->_customdata['typeobj'];

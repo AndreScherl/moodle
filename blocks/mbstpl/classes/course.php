@@ -43,23 +43,24 @@ class course {
     public static function extend_coursenav(\navigation_node &$coursenode, \context $coursecontext) {
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
+        $template = dataobj\template::fetch(array('courseid' => $cid));
 
         if (has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/sendtemplate.php', array('course' => $cid));
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
         }
 
-        if (perms::can_assignreview($coursecontext)) {
+        if ($template && perms::can_assignreview($template, $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/assignreviewer.php', array('course' => $cid));
             $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
         }
 
-        if (perms::can_viewfeedback($coursecontext)) {
+        if ($template && perms::can_viewfeedback($template, $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
             $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
         }
 
-        if (perms::can_editmeta($coursecontext)) {
+        if ($template && perms::can_editmeta($template, $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
             $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
         }

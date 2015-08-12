@@ -33,6 +33,7 @@ $PAGE->set_pagelayout('course');
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$template = new mbst\dataobj\template(array('courseid' => $courseid));
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
@@ -40,7 +41,7 @@ $coursecontext = context_course::instance($courseid);
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('assignreviewer', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\perms::can_assignreview($coursecontext)) {
+if (!mbst\perms::can_assignreview($template, $coursecontext)) {
     throw new moodle_exception('errorcannotassignreviewer', 'block_mbstpl');
 }
 

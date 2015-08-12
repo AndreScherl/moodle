@@ -30,19 +30,12 @@ namespace block_mbstpl;
 class perms {
     /**
      * Tells us whether the current user can view the feedback page.
+     * @param dataobj\template
      * @param \context_course $coursecontext
-     * @param dataobj\template $template will be fetched from db if not provided.
      * @return bool
      */
-    public static function can_viewfeedback(\context_course $coursecontext, dataobj\template $template = null) {
+    public static function can_viewfeedback(dataobj\template $template = null, \context_course $coursecontext) {
         global $USER;
-
-        if (is_null($template)) {
-            $template = new dataobj\template(array('courseid' => $coursecontext->instanceid));
-            if (!$template->id) {
-                return false;
-            }
-        }
 
         if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {
             return true;
@@ -105,25 +98,25 @@ class perms {
     }
     /**
      * Tells us whether the current user can publish edit the meta settings.
-     * @param dataobj\template $template will be fetched from db if not provided.
+     * @param dataobj\template $template
+     * @param context_course $coursecontext
      * @return bool
      */
-    public static function can_editmeta(\context_course $coursecontext) {
+    public static function can_editmeta(dataobj\template $template, \context_course $coursecontext) {
         return has_capability('block/mbstpl:coursetemplatereview', $coursecontext);
     }
 
     /**
      * Tells us whether the course can be assigned a reviewer
+     * @param dataobj\template $template
      * @param context_course $coursecontext
      * @return bool
      */
-    public static function can_assignreview(\context_course $coursecontext) {
-        global $DB;
+    public static function can_assignreview(dataobj\template $template, \context_course $coursecontext) {
         if (!has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
             return false;
         }
 
-        $cid = $coursecontext->instanceid;
-        return $DB->record_exists('block_mbstpl_template', array('courseid' => $cid, 'reviewerid' => 0));
+        return $template->reviewerid == 0;
     }
 }

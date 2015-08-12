@@ -44,7 +44,7 @@ $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), t
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\perms::can_viewfeedback($coursecontext, $template)) {
+if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 

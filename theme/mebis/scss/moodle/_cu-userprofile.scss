@@ -6,15 +6,19 @@
     Author     : Franziska Hübler, ISB
 */
 
+//view user profile on #page-user-profile
 #page-user-profile {
 
-    #main-content-wrapper {
-        background-color: transparent;
-        padding-left: 0;
-        padding-right: 0; 
+    .userprofile { 
+        margin: -20px;
     }
+}
+
+//view user profile in courses
+.userprofile {
+    margin: -30px -10px -10px -10px;
     
-    .userprofile h2 {
+    h2 {
         background-color: $brand-primary;
     }
 }

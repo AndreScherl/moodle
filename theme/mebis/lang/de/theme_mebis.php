@@ -59,8 +59,8 @@ $string['footer-links-descr'] = 'Links im Seiten-Footer - Ein Link pro Zeile im 
 $string['footer-newsletter'] = 'Newsletter';
 $string['footer-url-newsletter'] = 'Link zum Newsletter';
 $string['footer-url-newsletter-descr'] = 'Link zum Abo des Newsletters';
-$string['footer-about'] = 'Über Mebis';
-$string['footer-url-about'] = "Link zu 'Über Mebis'";
+$string['footer-about'] = 'Über mebis';
+$string['footer-url-about'] = "Link zu 'Über mebis'";
 $string['footer-url-about-descr'] = 'Link zur Über-mebis-Seite';
 $string['footer-contact'] = 'Kontakt';
 $string['footer-url-contact'] = 'Link zum Kontakt(formular)';
@@ -90,26 +90,7 @@ $string['header-img-title'] = 'Mebis Logo Lernplattform';
 
 $string['advancedsearch'] = 'Erweiterte Suche';
 
-$string['course-apps'] = 'Kurs-Apps';
-
 // My Desktop
 $string['my-courses'] = 'Meine Kurse';
 $string['my-apps'] = 'Meine Apps';
 $string['my-schools'] = 'Meine Schulen';
-
-// mbs_my_courses
-$string['all-schools'] = 'Alle meine Schulen';
-$string['sort-manual'] = 'Manuell';
-$string['sort-name'] = 'Name';
-$string['sort-school'] = 'Schule';
-$string['sort-created'] = 'Erstellt am...';
-$string['sort-created2'] = 'Zeit der Erstellung';
-$string['sort-visit'] = 'Zeit des Besuches';
-$string['sort-modified'] = 'Geändert am...';
-$string['sort-default'] = 'Sortieren nach...';
-
-$string['course-create'] = 'Kurs erstellen';
-$string['course-request'] = 'Kurs anfordern';
-
-$string['new'] = 'Neu';
-$string['load-more-results'] = 'Mehr Ergebnisse laden';

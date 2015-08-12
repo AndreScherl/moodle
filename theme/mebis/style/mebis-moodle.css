@@ -16463,12 +16463,14 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 14:26:10
     Author     : Franziska Hübler, ISB
 */
-#page-user-profile #main-content-wrapper {
-  background-color: transparent;
-  padding-left: 0;
-  padding-right: 0;
+#page-user-profile .userprofile {
+  margin: -20px;
 }
-#page-user-profile .userprofile h2 {
+
+.userprofile {
+  margin: -30px -10px -10px -10px;
+}
+.userprofile h2 {
   background-color: #00a8d5;
 }
 
@@ -16552,6 +16554,7 @@ input[type="checkbox"] + label {
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
+    - #page-mod-imscp-view
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -16662,6 +16665,16 @@ input[type="checkbox"] + label {
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
   list-style: decimal inside none;
+}
+
+#page-mod-imscp-view .yui-layout {
+  font-size: 16px;
+}
+#page-mod-imscp-view .yui-layout .yui-layout-unit div.yui-layout-hd h2 {
+  font-size: 18px;
+}
+#page-mod-imscp-view .yui-layout .yui-layout-scroll div.yui-layout-bd {
+  overflow: visible;
 }
 
 @media only screen and (min-width: 640px) {

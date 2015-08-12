@@ -14,6 +14,7 @@
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
+    - #page-mod-imscp-view
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -172,6 +173,23 @@
             }
         }        
     }
+}
+
+//IMS-Content
+#page-mod-imscp-view {
+    
+    .yui-layout  {
+        font-size: 16px;
+        
+        .yui-layout-unit div.yui-layout-hd h2 {
+            font-size: $font-size-base;
+        }
+        
+        //don't show scrollbars twice
+        .yui-layout-scroll div.yui-layout-bd {
+            overflow: visible;
+        }
+    } 
 }
 
 @media only screen and (min-width: $screen-xc-min) {

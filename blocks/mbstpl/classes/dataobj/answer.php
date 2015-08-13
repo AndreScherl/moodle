@@ -46,6 +46,7 @@ class answer extends base {
         'data' => '',
         'dataformat' => FORMAT_MOODLE,
     );
+    public $noduplfields = array('metaid', 'questionid');
 
     /**
      * Set the table name here.

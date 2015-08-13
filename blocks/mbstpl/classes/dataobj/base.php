@@ -37,6 +37,7 @@ abstract class base extends \data_object {
 
     public $table = '';
     public $fetched = false;
+    public $noduplfields = array(); // Combination of fields taht must not be duplicated (not including id).
 
     /**
      * We need to allow subclasses to declare the table name statically.
@@ -73,6 +74,31 @@ abstract class base extends \data_object {
             $result->fetched = true;
         }
         return $result;
+    }
+
+    /**
+     * Update if already exists (found by matching $noduplfields), otherwise insert.
+     * @return bool success
+     */
+    public function insertorupdate() {
+        if (empty($this->noduplfields)) {
+            return $this->insert();
+        }
+        if (!empty($this->id)) {
+            return $this->update();
+        }
+        $params = array();
+        foreach ($this->noduplfields as $fieldname) {
+            if (is_null($this->{$fieldname})) {
+                return $this->insert();
+            }
+            $params[$fieldname] = $this->{$fieldname};
+        }
+        if (!$found = static::fetch($params)) {
+            return $this->insert();
+        }
+        $this->id = $found->id;
+        return $this->update();
     }
 
 	/**

@@ -1,0 +1,87 @@
+/*
+    Sidebar: fast access menu
+*/
+/* 
+    Created on : 13.08.2015, 14:39:19
+    Author     : Franziska Hübler, ISB
+*/
+
+@media only screen {
+
+    .me-fastaccess-menu {
+        position: fixed;
+        top: 250px;
+        right: 0;
+        z-index: 999;
+        
+        &.morespace {
+            top: 170px;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            bottom: 110%;
+            width: 61px;
+            right: 0;
+            text-align: right;
+
+            li {                
+
+                div {
+                    display: inline-block;
+                    position: relative;
+                    padding: 5px 10px;
+                    margin: 0 0 5px 0;
+                    background: $link-color;
+                    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                    cursor: pointer;
+                    white-space: nowrap;
+                    text-align: right;
+                    @include transition(width 0.25s);
+
+                    &#me-to-apps::before {
+                        content: "\f009";
+                        font-family: FontAwesome;
+                        color: $white;
+                    }
+                    &#me-to-search::before {
+                        content: "\f002";
+                        font-family: FontAwesome;
+                        color: $white;
+                    }
+                  
+                    &.active {
+                        background: $brand-secondary;
+                    }
+
+                    span {
+                        opacity: 0;
+                        @include transition(opacity 0.2s);
+                        color: $white;
+                        padding-left: 5px;
+                    }
+
+                    &:hover {
+                        background: $link-hover-color;
+                        @include transition(width 0.25s);
+                    }
+                }
+            }
+
+            &:hover {
+                width: auto;
+
+                li {
+
+                    span {
+                        opacity: 1;
+                        @include transition(opacity 0.25s ease);
+                    }
+                }
+            }
+        }
+    }
+}

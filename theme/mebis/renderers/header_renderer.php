@@ -451,7 +451,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // Files menu item.
         $url = new moodle_url('/user/files.php');
-        $text = html_writer::tag('i', '', array('class' => 'fa fa-folder'));
+        $text = html_writer::tag('i', '', array('class' => 'icon-me-eigene-dateien'));
         $fileslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $fileslink);
 

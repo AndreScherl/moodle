@@ -61,22 +61,13 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
         }
 
         $visibleClass = ($onlyMobile) ? ' visible-xs' : '';
-        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu' . $visibleClass));
-
-        $icon = html_writer::tag('i', '', array('class' => 'icon-me-sprungnav-mobile-ansicht'));
-        $output .= html_writer::tag('span', $icon, array('class' => 'me-in-page-menu-mobile-trigger', 'data-status' => 'hidden'));
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        $output = html_writer::start_tag('div', array('class' => 'me-page-action-menu' . $visibleClass));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-menu-anchor-links'));
         foreach ($menu_items as $item) {
             $output .= html_writer::start_tag('li');
             $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
             $output .= html_writer::end_tag('li');
         }
-        $output .= html_writer::end_tag('ul');
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>',
-                array('class' => 'me-back-top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 

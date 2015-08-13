@@ -48,6 +48,10 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         return $this->header_renderer->main_menubar($isCourse);
     }
 
+    public function page_fastaccess_navigation() {
+        return $this->help_renderer->page_fastaccess_navigation();
+    }
+    
     public function page_action_navigation() {
         return $this->help_renderer->page_action_navigation();
     }

@@ -4,8 +4,8 @@ var Mebis = (function ($) {
     var $win; // to be initialized after DOM ready.
     var $body;
     var didScroll = false;
-    var lastY = 0;
-    var anchorHeadlinePositions = [];
+//    var lastY = 0;
+//    var anchorHeadlinePositions = [];
 
     function isMobile() {
         return ($win.width()) <= 768 ? true : false;
@@ -14,18 +14,7 @@ var Mebis = (function ($) {
     /**
      * To-Top-Button
      */
-    function initToTop() {
-
-        $win.on('scroll', function () {
-            if ($(this).scrollTop() > 100) {
-                $('.me-back-top').fadeIn();
-            } else {
-                if (!isMobile()) {
-                    $('.me-back-top').fadeOut();
-                }
-            }
-        });
-
+    function scrollToTop() {
         // scroll body to 0px on click
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
@@ -279,10 +268,10 @@ var Mebis = (function ($) {
             });
         }
 
-        if (isMobile()) {
+        /*if (isMobile()) {
             var $topbar = $('#topbar');
             lastY = $(window).scrollTop();
-            /*
+            
              $(window).on({
              touchmove: function(e) {
              var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
@@ -298,9 +287,8 @@ var Mebis = (function ($) {
              lastY = currentY;
              }
              });
-             */
-        }
-
+             
+        }*/
     }
 
     /**
@@ -478,8 +466,8 @@ var Mebis = (function ($) {
     }
 
     function initAnchorLinks() {
-        var $button = $(".me-in-page-menu-mobile-trigger");
-        var $menu = $(".me-in-page-menu-anchor-links");
+        var $button = $(".me-page-action-menu-mobile-trigger");
+        var $menu = $(".me-menu-anchor-links");
         var $anchorLinks = $menu.children("li");
 
         $button.on('click', function () {
@@ -534,11 +522,10 @@ var Mebis = (function ($) {
      }
      });
      
-     $(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
+     $(".me-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
      }
      */
-    function handleSelectboxNavChange()
-    {
+    function handleSelectboxNavChange() {
         var $selectbox = $('[data-change]');
 
         $selectbox.on('click', function () {
@@ -546,8 +533,7 @@ var Mebis = (function ($) {
         });
     }
 
-    function initStickyHeader()
-    {
+    function initStickyHeader() {
         $win.on('scroll', function () {
             if ($(this).scrollTop() > 50) {
                 $('body').addClass('sticky-header');
@@ -558,15 +544,17 @@ var Mebis = (function ($) {
     }
 
     /**
-     * Animate resizing header on scroll
+     * Animate resizing header ,right sidebar navigation and back to top button on scroll
      */
-    function initResizingHeader() {
+    function scrollExperience() {
         $win.scroll(function () {
             didScroll = true;
         });
         setInterval(function () {
             if (didScroll) {
                 didScroll = false;
+                
+                //header and right sidebar navigation
                 var distanceY = $win.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
                 var shrinkOn = 300;
                 var $header = $('header');
@@ -575,9 +563,23 @@ var Mebis = (function ($) {
                 if (distanceY > shrinkOn) {
                     $header.addClass('smaller');
                     $navbarTop.addClass('smaller');
+                    $('.me-page-action-menu').addClass('morespace');
+                    $('.me-fastaccess-menu').addClass('morespace');
                 } else {
                     $header.removeClass('smaller');
                     $navbarTop.removeClass('smaller');
+                    $('.me-page-action-menu').removeClass('morespace');
+                    $('.me-fastaccess-menu').removeClass('morespace');
+                }
+                
+                //to top button
+                var appearOn = 300;
+                if ($(this).scrollTop() > appearOn) {
+                    $('.me-back-top').fadeIn();
+                } else {
+                    if (!isMobile()) {
+                        $('.me-back-top').fadeOut();
+                    }
                 }
             }
         }, 250);
@@ -589,8 +591,8 @@ var Mebis = (function ($) {
             $win = $(window);
             $body = $('body');
 
-            initToTop();
-            initResizingHeader();
+            scrollToTop();
+            scrollExperience();
             //initInvertContrastSwitch();
             handleFontSizeSwitch();
             initTooltips();
@@ -612,12 +614,10 @@ var Mebis = (function ($) {
             handleSelectboxNavChange();
             initStickyHeader();
         },
-        
         resize: function () {
             initBlockLinkResize();
             $.equalizer();
         },
-        
         orientationchange: function () {
             initBlockLinkResize();
             initImageBlurCanvas();
@@ -625,7 +625,6 @@ var Mebis = (function ($) {
                 $.equalizer();
             }, 50);
         },
-        
         scroll: function () {
             //setAnchorClass();
         }

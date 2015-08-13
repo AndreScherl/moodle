@@ -59,7 +59,13 @@ $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
-    print_object($data); exit;
+    // Save answers to dynamic questions.
+    foreach($questions as $questionid => $question) {
+        $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
+        $answer = empty($data->{$question->fieldname}) ? null : $data->{$question->fieldname};
+        $typeclass::save_answer($meta->id, $question->id, $answer);
+    }
+    redirect($redirurl);
 }
 $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
 $setdata = new stdClass();

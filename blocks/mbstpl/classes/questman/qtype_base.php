@@ -96,7 +96,7 @@ class qtype_base {
             'dataformat' => $dataformat,
         );
         $answerobj = new \block_mbstpl\dataobj\answer($answerdata);
-        $answerobj->insert();
+        $answerobj->insertorupdate();
         return true;
     }
 }

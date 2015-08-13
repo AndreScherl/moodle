@@ -15,22 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_mbs
- * @copyright 2015 Yair Spielmann, Synergy Learning
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-function local_mbs_extends_settings_navigation(settings_navigation $nav, context $context) {
-    if (!($context instanceof context_course)) {
-        return;
-    }
-    if ($context->instanceid == get_site()->id) {
-        return;
-    }
-    if (!class_exists('block_mbstpl\course')) {
-        return;
-    }
-    block_mbstpl\course::extend_coursenav($nav, $context);
-}
+$observers = array (
+    array(
+        'eventname' => '\core\event\course_deleted',
+        'callback' => '\block_mbstpl\course::course_deleted',
+    ),
+);

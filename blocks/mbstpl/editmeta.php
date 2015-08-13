@@ -34,6 +34,7 @@ $PAGE->set_pagelayout('course');
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $template = new mbst\dataobj\template(array('courseid' => $courseid));
+$meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
@@ -58,7 +59,14 @@ $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
+    print_object($data); exit;
 }
+$answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
+$setdata = new stdClass();
+foreach($answers as $answer) {
+    $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
+}
+$form->set_data($setdata);
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);

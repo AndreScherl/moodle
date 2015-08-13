@@ -51,4 +51,23 @@ class editmeta extends \moodleform {
 
         $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));
     }
+
+    function set_data($default_values) {
+        if (is_object($default_values)) {
+            $default_values = (array)$default_values;
+        }
+        $data = array();
+        foreach($default_values as $key => $value) {
+            if (!is_array($value) || !isset($value['text'])) {
+                continue;
+            }
+            $type = $this->_form->getElementType($key);
+            if ($type == 'editor') {
+                $data[$key] = $value;
+            } else {
+                $data[$key] = $value['text'];
+            }
+        }
+        parent::set_data($data);
+    }
 }

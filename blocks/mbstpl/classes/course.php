@@ -148,6 +148,10 @@ class course {
             $plugin->unenrol_user($instance, $ue->userid);
         }
 
+        // Notify user.
+        notifications::notify_published($template);
+
+        // Update status.
         $template->status = $template::STATUS_PUBLISHED;
         $template->update();
         return true;

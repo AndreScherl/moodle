@@ -88,7 +88,26 @@ class notifications {
         $url = new \moodle_url('/course/view.php', array('id' => $course->id));
         $a = (object)array('url' => $url, 'fullname' => $course->fullname);
         $subject = get_string('emailassignedreviewer_subj', 'block_mbstpl');
-        $body = get_string('emailassignedreviewer_body', 'block_mbstpl');
+        $body = get_string('emailassignedreviewer_body', 'block_mbstpl', $a);
+        email_to_user($touser, $fromuser, $subject, $body);
+    }
+
+    /**
+     * Tell the author that the template has been published.
+     * @param dataobj\template $template
+     */
+    public static function notify_published(dataobj\template $template) {
+        global $DB;
+
+        $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
+        $touser = $DB->get_record('user', array('id' => $template->authorid));
+        $fromuser = self::get_fromuser();
+        $a = (object)array(
+            'url' => new \moodle_url('/course/view.php', array('id' => $template->courseid)),
+            'coursename' => $coursename,
+        );
+        $subject = get_string('emailcoursepublished_subj', 'block_mbstpl');
+        $body = get_string('emailcoursepublished_body', 'block_mbstpl', $a);
         email_to_user($touser, $fromuser, $subject, $body);
     }
 

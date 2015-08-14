@@ -49,7 +49,7 @@ if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
 }
 
 $do = optional_param('do', '', PARAM_TEXT);
-if ($do == 'publish' && mbst\perms::can_publish($template)) {
+if ($do == 'publish' && mbst\course::publish($template)) {
     $template->status = $template::STATUS_PUBLISHED;
     $template->update();
     redirect($courseurl);

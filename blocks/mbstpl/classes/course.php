@@ -102,6 +102,58 @@ class course {
     }
 
     /**
+     * Publish the course.
+     * @param dataobj\template $template
+     * @return bool success
+     */
+    public static function publish(dataobj\template $template) {
+        global $DB;
+
+        if (!perms::can_publish($template)) {
+            return false;
+        }
+
+        // Set course visible.
+        $cid = $template->courseid;
+        $DB->update_record('course', (object)array('id' => $cid, 'visible' => 1));
+
+        // Unenrol reviewer and author.
+        $userids = array($template->reviewerid, $template->authorid);
+        $plugins = enrol_get_plugins(true);
+        $instances = enrol_get_instances($cid, true);
+        foreach ($instances as $key => $instance) {
+            if (!isset($plugins[$instance->enrol])) {
+                unset($instances[$key]);
+                continue;
+            }
+        }
+        list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
+        $params['courseid'] = $cid;
+        $params['courselevel'] = CONTEXT_COURSE;
+        $sql = "SELECT ue.*
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
+                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
+                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
+        $enrolments = $DB->get_records_sql($sql, $params);
+        foreach ($enrolments as $ue) {
+            if (!isset($instances[$ue->enrolid])) {
+                continue;
+            }
+            $instance = $instances[$ue->enrolid];
+            $plugin = $plugins[$instance->enrol];
+            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
+                continue;
+            }
+            $plugin->unenrol_user($instance, $ue->userid);
+        }
+
+        $template->status = $template::STATUS_PUBLISHED;
+        $template->update();
+        return true;
+    }
+
+    /**
      * Set a new feedback to the template and send to author.
      * @param dataobj\template $template
      * @param array $feedback

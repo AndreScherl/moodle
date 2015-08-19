@@ -56,6 +56,7 @@ $string['erroremailbody'] = 'An error has occurred: {$a->message}'."\n".'{$a->er
 $string['erroremailsubj'] = 'Templating error';
 $string['errormanualenrolnotset'] = 'Manual enrolment not set or enabled for course.';
 $string['errorincorrectdatatype'] = 'Incorrect data type provided.';
+$string['errornobackupfound'] = 'No backup was found for backup {$a}';
 $string['errornoassignableusers'] = 'No assignable users found.';
 $string['errornotallwoedtosendfeedback'] = 'User not allowed to send feedback (neither author nor reviewer).';
 $string['errorreviewerrolenotset'] = 'Reviewer role not set. Needs to be set in the plugin settings.';

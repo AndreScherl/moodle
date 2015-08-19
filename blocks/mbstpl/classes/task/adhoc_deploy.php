@@ -19,6 +19,7 @@ class adhoc_deploy extends \core\task\adhoc_task {
         } catch(\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);
             print_r($e->getMessage());
+            print_r($e->getTrace());
             print_r($backup);
         }
         return true;

@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 class course {
 
     const TPLPREFIX = 'Musterkurs';
-    const BACKUP_LOCALPATH = 'mbstemplatebkp';
+    const BACKUP_LOCALPATH = 'mbstpl';
     const BACKUP_PREFIX = 'tplbkp_';
 
     /**
@@ -210,23 +210,23 @@ class course {
 	}
 
 
-    private static function get_template_filename($backup) {
-        return self::BACKUP_PREFIX . $backup->id . '.mbz';
+    private static function get_template_filename($backupid) {
+        return self::BACKUP_PREFIX . $backupid . '.mbz';
     }
 
     /**
      * Create a backup for a template.
      * @param \block_mbstpl\dataobj\backup $backup
-     * @return bool success
+     * @return string filename or throws error on failure
      */
 
     public static function backup_template(dataobj\backup $backup) {
-        $filename = self::get_template_filename($backup);
+        $filename = self::get_template_filename($backup->id);
         $user = get_admin();
-        if (!$filename = self::automated_backup($backup->origcourseid, $filename, $backup->incluserdata, $user->id)) {
+        if (!$filename = self::automated_backup($backup->origcourseid, $backup->id, $backup->incluserdata, $user->id)) {
             throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl');
         }
-        return true;
+        return $filename;
     }
 
     /**
@@ -297,18 +297,20 @@ class course {
      * Similar to launch_automated_backup(), but with our own settings
      *
      * @param int $courseid
+     * @param int $backupid
      * @param bool $filename
      * @param bool $withusers
      * @param int $userid
      * @return mixed filename|false on error
      */
-    private static function automated_backup($courseid, $filename, $withusers, $userid) {
+    private static function automated_backup($courseid, $backupid, $withusers, $userid) {
         global $CFG;
 
         require_once($CFG->dirroot.'/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot.'/backup/util/helper/backup_cron_helper.class.php');
 
-        $dir = $CFG->dataroot . '/' . self::BACKUP_LOCALPATH;
+        $filename = self::get_template_filename($backupid);
+        $dir = $CFG->dataroot . '/' . self::BACKUP_LOCALPATH . '/backup';
         $settings = array(
             'users' => 0,
             'anonymize' => 0,
@@ -352,14 +354,28 @@ class course {
             if (!check_dir_exists($dir)) {
                 throw new \moodle_exception('errorbackupdir', 'block_mbstpl');
             }
+
             $filepath = $dir.'/'.$filename;
-            if (file_exists($filepath)) {
-                unlink($filepath);
-            }
+            @unlink($filepath);
             $outcome = $file->copy_content_to($dir.'/'.$filename);
             if ($outcome) {
                 $file->delete();
             }
+
+            $fs = get_file_storage();
+            $context = \context_system::instance();
+            $cleanfilename = $fs->get_unused_filename($context->id, 'block_mbstpl', 'backups', $backupid, '/', $filename);
+            $filerecord = (object)array(
+                'contextid' => $context->id,
+                'component' => 'block_mbstpl',
+                'filearea' => 'backups',
+                'itemid' => $backupid,
+                'filepath' => '/',
+                'filename' => $cleanfilename,
+                'userid' => $userid,
+            );
+            $fs->create_file_from_pathname($filerecord, $filepath);
+            @unlink($filepath);
         } catch (Exception $e) {
             $backupok = false;
         }
@@ -368,17 +384,18 @@ class course {
         unset($bc);
 
         if($backupok) {
-            return $filename;
+            return $cleanfilename;
         }
         return false;
     }
 
     /**
      * Restore a backed up template.
-     * @param object $backup
+     * @param dataobj\backup $backup
+     * @param string $fileid if not provided, latest backup will be used.
      * @return int courseid
      */
-    private static function launch_restore($backup) {
+    private static function launch_restore(dataobj\backup $backup, $fileid = false) {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -389,18 +406,32 @@ class course {
             throw new \moodle_exception('errorcatnotexists', 'block_mbstpl');
         }
 
-        $filename = self::get_template_filename($backup);
-        $dir = $CFG->dataroot . '/' . self::BACKUP_LOCALPATH;
-        $filepath = $dir . '/' . $filename;
-        if (!is_readable($filepath)) {
-            throw new \backup_helper_exception('missing_moodle_backup_file', $filepath);
+        $fs = get_file_storage();
+        if ($fileid) {
+            $file = $fs->get_file_by_id($fileid);
+            print_object($file); exit;
+        } else {
+            $context = \context_system::instance();
+            $files = $fs->get_area_files($context->id, 'block_mbstpl', 'backups', $backup->id, false, null, false);
+            $file = array_pop($files);
         }
+        if (empty($file)) {
+            throw new \moodle_exception('errornobackupfound', 'block_mbstpl', '', $backup->id);
+        }
+        $filename = uniqid('tpl').'.mbz';
+        $dir = $CFG->dataroot . '/' . self::BACKUP_LOCALPATH . '/restore/';
+        if (!check_dir_exists($dir)) {
+            throw new \moodle_exception('errorbackupdir', 'block_mbstpl');
+        }
+        $filepath = $dir . '/' . $filename;
+        $file->copy_content_to($filepath);
 
         // Extraction mostly copied from \backup_general_helper::get_backup_information_from_mbz().
         $tmpname = 'mbstemplatting_' . $backup->id . '_' . $backup->lastversion . '_' . time();
         $tmpdir = $CFG->tempdir . '/backup/' . $tmpname;
         $fp = get_file_packer('application/vnd.moodle.backup');
         $extracted = $fp->extract_to_pathname($filepath, $tmpdir);
+        @unlink($filepath);
         $moodlefile =  $tmpdir . '/' . 'moodle_backup.xml';
         if (!$extracted || !is_readable($moodlefile)) {
             throw new \backup_helper_exception('missing_moodle_backup_xml_file', $moodlefile);
@@ -425,6 +456,7 @@ class course {
             'fullname' => $info->original_course_fullname,
             'format' => $format,
             'numsections' => empty($info->sections) ? 0 : count($info->sections),
+            'visible' => 0,
         );
         $course = create_course($cdata);
 

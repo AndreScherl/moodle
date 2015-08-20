@@ -69,10 +69,10 @@ class qtype_base {
 
     /**
      * Add an element of the relevant type to the template form.
-     * @param MoodleQuickForm $form
+     * @param \MoodleQuickForm $form
      * @param object $question
      */
-    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
 
     }
 

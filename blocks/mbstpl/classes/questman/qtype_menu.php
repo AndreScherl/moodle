@@ -56,7 +56,7 @@ class qtype_menu extends qtype_base {
         return $err;
     }
 
-    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         if (isset($question->param1)) {
             $rawoptions = explode("\n", $question->param1);
         } else {

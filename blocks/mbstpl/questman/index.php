@@ -25,6 +25,8 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
+use \block_mbstpl\questman\manager;
+
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
 $PAGE->set_title(get_string('manageqforms', 'block_mbstpl'));
@@ -43,19 +45,19 @@ $movedownid = optional_param('movedown', 0, PARAM_INT);
 $useqid = optional_param('useq', 0, PARAM_INT);
 
 if ($moveupid) {
-    \block_mbstpl\questman\manager::move_question($moveupid, true);
+    manager::move_question($moveupid, true);
 }
 if ($movedownid) {
-    \block_mbstpl\questman\manager::move_question($movedownid, false);
+    manager::move_question($movedownid, false);
 }
 if ($useqid) {
-    \block_mbstpl\questman\manager::add_question_to_draft($useqid);
+    manager::add_question_to_draft($useqid);
 }
-$isdraft = \block_mbstpl\questman\manager::is_draft();
+$isdraft = manager::is_draft();
 if ($isdraft) {
     $actform = new \block_mbstpl\form\activatedraft();
     if ($data = $actform->get_data()) {
-        \block_mbstpl\questman\manager::activate_draft($data->formname);
+        manager::activate_draft($data->formname);
         redirect($thisurl);
     }
 }
@@ -64,11 +66,11 @@ echo $OUTPUT->header();
 $pagetitle = $isdraft ? get_string('qformunsaved', 'block_mbstpl') : get_string('qformactive', 'block_mbstpl');
 echo html_writer::tag('h2', $pagetitle);
 
-$options = \block_mbstpl\questman\manager::list_datatypes();
+$options = manager::list_datatypes();
 $popupurl = new moodle_url('/blocks/mbstpl/questman/quest.php');
 $strcreaquestion = get_string('addquestion', 'block_mbstpl');
 $renderer = $PAGE->get_renderer('block_mbstpl');
-$questions = \block_mbstpl\questman\manager::get_draft_questions();
+$questions = manager::get_draft_questions();
 echo $renderer->list_questions($questions);
 echo $OUTPUT->single_select($popupurl, 'datatype', $options, '', array('' => $strcreaquestion), 'newfieldform');
 $bankurl = new moodle_url('/blocks/mbstpl/questman/qbank.php');

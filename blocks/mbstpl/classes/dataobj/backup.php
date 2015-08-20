@@ -116,5 +116,6 @@ class backup extends base {
 
         $meta = new meta(array('backupid' => $this->id));
         $meta->insert();
+        return $this->id;
     }
 }

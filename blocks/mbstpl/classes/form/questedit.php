@@ -64,7 +64,7 @@ class questedit extends \moodleform {
         return $this->get_typeobj()->extend_validation((object)$data, $files);
     }
 
-    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         $size = $question->param1;
         $maxlength = $question->param2;
 

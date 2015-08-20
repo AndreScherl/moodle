@@ -82,7 +82,7 @@ abstract class base extends \data_object {
      */
     public function insertorupdate() {
         if (empty($this->noduplfields)) {
-            return $this->insert();
+            return (bool)$this->insert();
         }
         if (!empty($this->id)) {
             return $this->update();
@@ -90,12 +90,12 @@ abstract class base extends \data_object {
         $params = array();
         foreach ($this->noduplfields as $fieldname) {
             if (is_null($this->{$fieldname})) {
-                return $this->insert();
+                return (bool)$this->insert();
             }
             $params[$fieldname] = $this->{$fieldname};
         }
         if (!$found = static::fetch($params)) {
-            return $this->insert();
+            return (bool)$this->insert();
         }
         $this->id = $found->id;
         return $this->update();
@@ -106,13 +106,13 @@ abstract class base extends \data_object {
      *
      * @param array $params associative arrays varname => value
      * @throws coding_exception This function MUST be overridden
-     * @return array array of data_object instances or false if none found.
+     * @return base[] array of data_object instances
      */
     public static function fetch_all($params) {
         if ($instances = self::fetch_all_helper(static::get_tablename(), get_called_class(), $params)) {
             return $instances;
         }
-		return array();
+        return array();
 	}
 
     /**
@@ -134,6 +134,7 @@ abstract class base extends \data_object {
 
         if ($deleted) {
             foreach(static::get_dependants() as $classname => $key) {
+                /** @var base $class */
                 $class = __NAMESPACE__ . '\\' .$classname;
                 if (!class_exists($class)) {
                     echo $class;

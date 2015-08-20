@@ -58,7 +58,7 @@ class qtype_datetime extends qtype_base {
         return $errors;
     }
 
-    public static function add_template_element(\MoodleQuickForm &$form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         $attributes = array(
             'startyear' => $question->param1,
             'stopyear'  => $question->param2,

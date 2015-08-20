@@ -79,6 +79,6 @@ class meta extends base {
         if (!($this->backupid xor $this->templateid)) {
             throw new \coding_exception('Meta needs to be linked to either a backup or a template.');
         }
-        parent::insert();
+        return parent::insert();
     }
 }

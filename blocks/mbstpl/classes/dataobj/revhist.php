@@ -87,6 +87,6 @@ class revhist extends base {
      */
     public function insert() {
         $this->timecreated = time();
-        parent::insert();
+        return parent::insert();
     }
 }

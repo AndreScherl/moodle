@@ -187,7 +187,9 @@ class manager {
      */
     public static function get_active_qform() {
         if (!$formid = self::get_active_qformid()) {
-            return false;
+            // Draft hasn't been activated yet. Let's create one.
+            self::activate_draft(get_string('initialform', 'block_mbstpl'), false);
+            $formid = self::get_active_qformid();
         }
         return self::get_qform($formid);
     }
@@ -205,11 +207,12 @@ class manager {
     /**
      * Activates the current draft.
      * @param string $formname
+     * @param bool $checkdraft unless set false will check if draft mode first.
      * @return bool success
      */
-    public static function activate_draft($formname) {
+    public static function activate_draft($formname, $checkdraft = true) {
         global $DB;
-        if (!self::is_draft()) {
+        if ($checkdraft && !self::is_draft()) {
             return true;
         }
         $draft = self::get_qform_draft();

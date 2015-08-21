@@ -63,6 +63,7 @@ $string['errorreviewerrolenotset'] = 'Reviewer role not set. Needs to be set in 
 $string['feedback'] = 'Feedback';
 $string['history'] = 'History';
 $string['incluserdata'] = 'Publish user data';
+$string['initialform'] = 'Initial form';
 $string['lastupdate'] = 'Last update';
 $string['manageqforms'] = 'Manage question forms';
 $string['mbstpl:addinstance'] = 'Add a my course template information block instance';

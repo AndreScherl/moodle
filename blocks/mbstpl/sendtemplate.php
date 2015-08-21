@@ -58,7 +58,6 @@ if ($form->is_cancelled()) {
     $backupdata = array(
         'origcourseid' => $courseid,
         'creatorid' => $USER->id,
-        'timecreated' => time(),
         'qformid' => $activeform->id,
         'incluserdata' => empty($data->incluserdata) ? 0 :1,
     );

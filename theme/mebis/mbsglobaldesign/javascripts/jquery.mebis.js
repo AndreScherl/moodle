@@ -4,6 +4,7 @@ var Mebis = (function ($) {
     var $win; // to be initialized after DOM ready.
     var $body;
     var didScroll = false;
+    var backTopAppearOn = 300;
 //    var lastY = 0;
 //    var anchorHeadlinePositions = [];
 
@@ -269,26 +270,26 @@ var Mebis = (function ($) {
         }
 
         /*if (isMobile()) {
-            var $topbar = $('#topbar');
-            lastY = $(window).scrollTop();
-            
-             $(window).on({
-             touchmove: function(e) {
-             var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
-             
-             if (Math.abs(currentY - lastY) < 20) { return; }
-             
-             if (currentY > lastY) {
-             $topbar.show();
-             } else {
-             $topbar.hide();
-             }
-             
-             lastY = currentY;
-             }
-             });
-             
-        }*/
+         var $topbar = $('#topbar');
+         lastY = $(window).scrollTop();
+         
+         $(window).on({
+         touchmove: function(e) {
+         var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
+         
+         if (Math.abs(currentY - lastY) < 20) { return; }
+         
+         if (currentY > lastY) {
+         $topbar.show();
+         } else {
+         $topbar.hide();
+         }
+         
+         lastY = currentY;
+         }
+         });
+         
+         }*/
     }
 
     /**
@@ -466,21 +467,8 @@ var Mebis = (function ($) {
     }
 
     function initAnchorLinks() {
-        var $button = $(".me-page-action-menu-mobile-trigger");
         var $menu = $(".me-menu-anchor-links");
         var $anchorLinks = $menu.children("li");
-
-        $button.on('click', function () {
-            var status = $button.attr("data-status");
-
-            if (status == "hidden") {
-                $menu.slideDown(250);
-                $button.attr("data-status", "visible");
-            } else {
-                $menu.slideUp(250);
-                $button.attr("data-status", "hidden");
-            }
-        });
 
         $anchorLinks.on('click', 'a', function (e) {
             e.preventDefault();
@@ -544,17 +532,23 @@ var Mebis = (function ($) {
     }
 
     /**
-     * Animate resizing header ,right sidebar navigation and back to top button on scroll
+     * Animate resizing header and back to top button on scroll
      */
     function scrollExperience() {
+        //hide to top button at the beginning
+        if ($('.me-back-top').length) {
+            $('.me-back-top').hide();
+        }
+        //get scroll event
         $win.scroll(function () {
             didScroll = true;
         });
+
         setInterval(function () {
             if (didScroll) {
                 didScroll = false;
-                
-                //header and right sidebar navigation
+
+                //header 
                 var distanceY = $win.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
                 var shrinkOn = 300;
                 var $header = $('header');
@@ -563,26 +557,40 @@ var Mebis = (function ($) {
                 if (distanceY > shrinkOn) {
                     $header.addClass('smaller');
                     $navbarTop.addClass('smaller');
-                    $('.me-page-action-menu').addClass('morespace');
-                    $('.me-fastaccess-menu').addClass('morespace');
                 } else {
                     $header.removeClass('smaller');
                     $navbarTop.removeClass('smaller');
-                    $('.me-page-action-menu').removeClass('morespace');
-                    $('.me-fastaccess-menu').removeClass('morespace');
                 }
-                
+
                 //to top button
-                var appearOn = 300;
-                if ($(this).scrollTop() > appearOn) {
+                if ($(this).scrollTop() > backTopAppearOn) {
                     $('.me-back-top').fadeIn();
                 } else {
-                    if (!isMobile()) {
-                        $('.me-back-top').fadeOut();
-                    }
+                    $('.me-back-top').fadeOut();
                 }
             }
         }, 250);
+    }
+
+    /**
+     * Prevent the overlapping of the sidebar jump navigation with the to top button
+     */
+    function preventOverlappingSidebar() {
+        var $anchorLinks = $('.me-page-action-menu .me-menu-anchor-links');
+        //topActionMenu value must be the same as the value in theme\mebis\mbsglobaldesign\scss\layout.scss
+        //.me-page-action-menu {  top: 250px; }
+        //we can not use $anchorLinks.offset().top, because this value always changes
+        var topActionMenu = 250;
+        var offsetInPageMenu = $('.me-in-page-menu').offset();
+
+        if ($anchorLinks.offset().top + $anchorLinks[0].offsetHeight >= offsetInPageMenu.top) {
+            //prevent overlapping elements
+            var distance = topActionMenu + $anchorLinks[0].offsetHeight + 10;
+            backTopAppearOn = distance;
+            $('.me-page-action-menu').addClass('overlap');
+        } else {
+            $('.me-page-action-menu').removeClass('overlap');
+        }
     }
 
     return {
@@ -613,10 +621,12 @@ var Mebis = (function ($) {
             //setAnchorClass();
             handleSelectboxNavChange();
             initStickyHeader();
+            preventOverlappingSidebar();
         },
         resize: function () {
             initBlockLinkResize();
             $.equalizer();
+            preventOverlappingSidebar();
         },
         orientationchange: function () {
             initBlockLinkResize();

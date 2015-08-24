@@ -38,6 +38,9 @@ $string['region-top'] = 'Top';
 $string['region-bottom'] = 'Bottom';
 $string['region-admin-navi'] = 'Website-Administration';
 
+$string['sidebar-apps'] = 'My Apps';
+$string['sidebar-search'] = 'Search';
+
 $string['url-support'] = 'Link zum Supportbereich';
 $string['url-support-descr'] = 'Link zum Supportbereich';
 

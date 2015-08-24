@@ -377,58 +377,58 @@
         }
 
     }
-//fhüb: not in use
-   /* 
-    .me-logged-out {
-
-        .guest-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            z-index: 99;
-            width: 100%;
-            min-height: 90%;
-
-            .guest-overlay-inner {
-                position: absolute;
-                z-index: 100;
-                bottom: 0;
-                left: 0;
-                padding: 18px 10px;
-                list-style: none;
-                background: rgba($brand-gray-dark,0.95);
-                width: 100%;
-                margin-bottom: 0;
-                @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-
-                a {
-                    &:hover {
-                        color: $brand-secondary;
-                    }
-                }
-            }
-        }
-
-    }*/
+    //fhüb: not in use
+    /* 
+     .me-logged-out {
+ 
+         .guest-overlay {
+             position: absolute;
+             bottom: 20px;
+             left: 0;
+             z-index: 99;
+             width: 100%;
+             min-height: 90%;
+ 
+             .guest-overlay-inner {
+                 position: absolute;
+                 z-index: 100;
+                 bottom: 0;
+                 left: 0;
+                 padding: 18px 10px;
+                 list-style: none;
+                 background: rgba($brand-gray-dark,0.95);
+                 width: 100%;
+                 margin-bottom: 0;
+                 @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+ 
+                 a {
+                     &:hover {
+                         color: $brand-secondary;
+                     }
+                 }
+             }
+         }
+ 
+     }*/
 
     //fhüb: not in use
-   /* .me-logged-out-teaser {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        width: 550px;
-        height: auto;
-        margin-left: -275px;
-        padding: 8px;
-        background: $brand-secondary;
-
-        text-align: center;
-        color: $white;
-
-        a {
-            color: $white;
-        }
-    }*/
+    /* .me-logged-out-teaser {
+         position: absolute;
+         top: 100%;
+         left: 50%;
+         width: 550px;
+         height: auto;
+         margin-left: -275px;
+         padding: 8px;
+         background: $brand-secondary;
+ 
+         text-align: center;
+         color: $white;
+ 
+         a {
+             color: $white;
+         }
+     }*/
 
     // ========================================= Buttons, Forms, etc ========================================= */
 
@@ -875,7 +875,7 @@
         }
 
         /* ========================================= Page Header ========================================= */
-        
+
         .container {
             position: relative;
 
@@ -894,7 +894,7 @@
                 @media only screen and (max-width: $screen-xc-min) {
                     margin-top: 184px;
                 }
-                
+
                 @media only screen and (max-width: $screen-xs-min) {
                     margin-top: 205px;
                 }
@@ -2037,12 +2037,12 @@
 
     .me-page-action-menu {
         position: fixed;
-        top: 570px;
+        top: 250px;
         right: 0;
-        z-index: 999;
+        z-index: 98;
         
-        &.morespace {
-            top: 490px;
+        &.overlap {
+            position: absolute;
         }
 
         ul {
@@ -2051,15 +2051,8 @@
             list-style: none;
         }
 
-/*        .me-page-action-menu-mobile-trigger {
-            display: none;
-        }*/
-
         .me-menu-anchor-links {
-            position: absolute;
-            bottom: 110%;
             width: 61px;
-            right: 0;
             text-align: right;
 
             li {
@@ -2114,18 +2107,18 @@
             }
         }
     }
-    
+
     .me-in-page-menu {
-        
+
         position: fixed;
         bottom: 100px;
         right: 0;
-        z-index: 999;
-        
+        z-index: 98;
+
         ul.me-in-page-menu-features {
-            
+
             list-style: none;
-            
+
             li {
                 margin: 0 0 5px 0;
                 min-height: 66px;
@@ -2632,6 +2625,18 @@
         }
     }
 
+    //back to top menu
+    //hüb: do we still need this?
+    .me-in-page-menu {
+
+        .hide-mail-and-rss {
+
+            .me-page-action-mailto,
+            .me-page-action-rss {
+                display: none;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $screen-md-min) {
@@ -2641,6 +2646,19 @@
         .me-order-box {
             padding-top: 20px;
             padding-bottom: 20px;
+        }
+    }
+
+    //back to top menu
+    //hüb: do we still need this?
+    .me-in-page-menu {
+        .me-in-page-menu-features {
+
+            .me-page-action-mailto,
+            .me-page-action-rss,
+            .me-page-action-print {
+                display: none;
+            }            
         }
     }
 
@@ -2751,16 +2769,16 @@
         }
     }
     //fhüb: not in use
-   /* .me-logged-out {
-
-        .me-logged-out-teaser {
-            z-index: 10;
-            width: 100%;
-            left: 0;
-            margin-left: 0;
-        }
-
-    }*/
+    /* .me-logged-out {
+ 
+         .me-logged-out-teaser {
+             z-index: 10;
+             width: 100%;
+             left: 0;
+             margin-left: 0;
+         }
+ 
+     }*/
 
     .me-deeplink {
 
@@ -2835,14 +2853,10 @@
         }
     }
 
-    //jump mark menu
-    .me-page-action-menu {
-        display: none;
-    }
-    
     //back to top menu
+    //hüb: do we still need this?
     .me-in-page-menu {
-        
+
         .hide-mail-and-rss {
 
             .me-page-action-mailto,
@@ -2850,12 +2864,10 @@
                 display: none;
             }
         }
-        
+
         .me-in-page-menu-features {
-            float: right;
 
             li {
-                float: left;
                 margin-bottom: 0;
                 background: transparent;
                 @include box-shadow(none);
@@ -3051,7 +3063,7 @@
 // DISABLE HOVER ON TOUCH
 /*.touch {
 
-    .me-page-action-menu-mobile-trigger, .me-back-top {
+    .me-back-top {
 
         &:hover {
             color: $white;

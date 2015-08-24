@@ -50,9 +50,11 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
      * @param boolean $onlyMobile
      * @return string HTML fo the section menu.
      */
-    protected function render_page_action_menu($course, $sections, $onlyMobile = false) {
+    public function render_page_action_menu($course, $sections, $onlyMobile = false) {
         //Add side jump-navigation
         $menu_items = array();
+        $output = '';
+        
         for ($i = 1; $i <= $course->numsections; $i++) {
             if ($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available) {
                 $menu_items[] = html_writer::link('#section-' . $i, '<span>' . get_section_name($course, $sections[$i]) . '</span>',
@@ -60,16 +62,11 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
             }
         }
 
-        $visibleClass = ($onlyMobile) ? ' visible-xs' : '';
-        $output = html_writer::start_tag('div', array('class' => 'me-page-action-menu' . $visibleClass));
-        $output .= html_writer::start_tag('ul', array('class' => 'me-menu-anchor-links'));
         foreach ($menu_items as $item) {
             $output .= html_writer::start_tag('li');
             $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
             $output .= html_writer::end_tag('li');
         }
-        $output .= html_writer::end_tag('ul');
-        $output .= html_writer::end_tag('div');
 
         return $output;
     }
@@ -87,10 +84,6 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
                                                 $modnames, $modnamesused) {
         echo html_writer::start_tag('div', array('class' => 'course course-format-topcoll'));
         echo $this->render_course_headline($course->fullname);
-
-        $modinfo = get_fast_modinfo($course);
-        $sectioninfo = $modinfo->get_section_info_all();
-        echo $this->render_page_action_menu($course, $sectioninfo);
 
         parent::print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused);
         echo html_writer::end_tag('div');

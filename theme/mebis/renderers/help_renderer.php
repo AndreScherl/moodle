@@ -1,9 +1,26 @@
 <?php
 
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Help note renderer.
  *
- * @package theme_mebis
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -17,8 +34,7 @@ class theme_mebis_help_renderer extends renderer_base {
     public function page_action_navigation() {
         if (!$this->pageactionnavigation) {
             $menu_items = array(
-                html_writer::link('javascript:emailCurrentPage()', '<i class="icon-me-link-weiterleiten"></i>', array('class' => 'me-page-action-mailto')),
-                html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top'))                
+                html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top'))
             );
 
             $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu'));
@@ -34,27 +50,60 @@ class theme_mebis_help_renderer extends renderer_base {
         }
     }
 
+    /**
+     * Add sidebar fastaccess-jump-navigation
+     * 
+     * @return string HTML fo the fast access menu.
+     * @author Franziska Hübler, franziska.huebler@isb.bayern.de
+     */
     public function page_fastaccess_navigation() {
         if (!$this->pagefastaccessnavigation) {
+            $output = '';
+            $myapps = html_writer::link('#my-apps', '<span>'.get_string('sidebar-apps', 'theme_mebis').'</span>');
+            $mysearch = html_writer::link('#mbssearch_form', '<span>'.get_string('sidebar-search', 'theme_mebis').'</span>');
+
+            $apps = html_writer::tag('div', '<span>' . $myapps . '</span>');
+            $search = html_writer::tag('div', '<span>' . $mysearch . '</span>');
             
-            $myapps = html_writer::link('#my-apps', '<span>Meine Apps</span>');
-            $mysearch = html_writer::link('#mbssearch_form', '<span>Zur Suche</span>');
-            
-            $menu_items = array(
-                html_writer::tag('div', '<span>' . $myapps . '</span>', array('id' => 'me-to-apps')),
-                html_writer::tag('div', '<span>' . $mysearch . '</span>', array('id' => 'me-to-search'))           
-            );
-            
-            $output = html_writer::start_tag('div', array('class' => 'me-fastaccess-menu'));
-            $output .= html_writer::start_tag('ul', array('class' => 'me-menu-anchor-links'));
-            foreach ($menu_items as $item) {
-                $output .= html_writer::tag('li', $item);
-            }
-            $output .= html_writer::end_tag('ul');
-            $output .= html_writer::end_tag('div');            
-            
+            $output .= html_writer::tag('li', $apps, array('id'=> 'me-to-apps'));
+            $output .= html_writer::tag('li', $search, array('id'=> 'me-to-search'));
+
             $this->pagefastaccessnavigation = true;
             return $output;
+        }
+    }
+
+    /**
+     * Add sidebar section-jump-navigation
+     * 
+     * @return string HTML fo the section menu.
+     * @author Franziska Hübler, franziska.huebler@isb.bayern.de
+     */
+    public function page_action_menu() {
+        global $PAGE, $DB;
+        $course = $PAGE->course;
+        //get the number of sections
+        $numsections = $DB->get_field('course_format_options', 'value', array('courseid' => $course->id, 'name' => 'numsections'));
+        $course->numsections = $numsections;
+        // get the course format
+        $courseformat = course_get_format($PAGE->course);
+        $format = $courseformat->get_format();
+        
+        // call the renderer
+        $modinfo = get_fast_modinfo($course);
+        $sectioninfo = $modinfo->get_section_info_all();
+        switch ($format) {
+            case 'topics':
+                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
+                return $renderer->render_page_action_menu($course, $sectioninfo);
+            case 'topcoll':
+                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
+                return $renderer->render_page_action_menu($course, $sectioninfo);
+            case 'onetopic':
+                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
+                return $renderer->render_page_action_menu($course, $sectioninfo, 'simple');
+            default:
+                break;
         }
     }
 

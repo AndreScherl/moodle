@@ -2040,7 +2040,7 @@
         top: 250px;
         right: 0;
         z-index: 98;
-        
+
         &.overlap {
             position: absolute;
         }
@@ -2131,10 +2131,6 @@
                     text-align: center;
                     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
                     @include transition(all 0.25s);
-
-                    &:hover {
-                        background: $link-hover-color;
-                    }
                 }
 
                 .fa, [class*="icon-me-"] {
@@ -2587,6 +2583,17 @@
             }
         }
     }
+
+    .me-in-page-menu {
+        ul.me-in-page-menu-features {
+            
+            li a {
+                &:hover {
+                    background: $link-hover-color;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $screen-lg-min) {
@@ -2649,16 +2656,29 @@
         }
     }
 
-    //back to top menu
-    //hüb: do we still need this?
+    //back to top menu    
     .me-in-page-menu {
-        .me-in-page-menu-features {
+        
+        bottom: 20px;
+        
+        ul.me-in-page-menu-features {
 
+            //hüb: in use?
             .me-page-action-mailto,
             .me-page-action-rss,
             .me-page-action-print {
                 display: none;
-            }            
+            }    
+            
+            li {
+                a {
+                    padding: 10px;
+                }
+
+                .fa, [class*="icon-me"] {
+                    font-size: 1.5em;
+                }
+            }
         }
     }
 
@@ -2853,10 +2873,10 @@
         }
     }
 
-    //back to top menu
-    //hüb: do we still need this?
+    //back to top menu    
     .me-in-page-menu {
 
+        //hüb: in use?
         .hide-mail-and-rss {
 
             .me-page-action-mailto,
@@ -2865,44 +2885,21 @@
             }
         }
 
-        .me-in-page-menu-features {
+        ul.me-in-page-menu-features {
 
             li {
                 margin-bottom: 0;
-                background: transparent;
-                @include box-shadow(none);
                 min-height: 0;
 
-                a {
-                    padding: 10px;
-                    background: transparent;
-                    @include box-shadow(none);
-
-                    &:hover {
-                        background: transparent;
-                    }
-                }
-
-                .fa, [class*="icon-me"] {
-                    font-size: 1.5em;
-                }
-
+                //hüb: delete?
                 &.me-page-action-mailto,
                 &.me-page-action-rss {
                     //display: none;
                 }
-
+                //hüb: delete?
                 &:last-child {
-                    float: right;
-                    margin: 0 0 0 35px;
-                }
-
-                &:hover {
-                    background: transparent;
-
-                    a {
-                        color: $brand-secondary;
-                    }
+                    /*                    float: right;
+                                        margin: 0 0 0 35px;*/
                 }
             }
         }

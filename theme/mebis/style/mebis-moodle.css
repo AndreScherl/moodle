@@ -13341,9 +13341,6 @@ button.close {
     -o-transition: all 0.25s;
     transition: all 0.25s;
   }
-  .me-in-page-menu ul.me-in-page-menu-features li a:hover {
-    background: #ff6600;
-  }
   .me-in-page-menu ul.me-in-page-menu-features li .fa, .me-in-page-menu ul.me-in-page-menu-features li [class*="icon-me-"] {
     margin: 0;
     font-size: 1.75em;
@@ -13703,6 +13700,10 @@ button.close {
     width: 100%;
     margin-left: 0%;
   }
+
+  .me-in-page-menu ul.me-in-page-menu-features li a:hover {
+    background: #ff6600;
+  }
 }
 @media only screen and (min-width: 992px) {
   .me-wrapper .md-no-pad {
@@ -13730,10 +13731,19 @@ button.close {
     padding-bottom: 20px;
   }
 
-  .me-in-page-menu .me-in-page-menu-features .me-page-action-mailto,
-  .me-in-page-menu .me-in-page-menu-features .me-page-action-rss,
-  .me-in-page-menu .me-in-page-menu-features .me-page-action-print {
+  .me-in-page-menu {
+    bottom: 20px;
+  }
+  .me-in-page-menu ul.me-in-page-menu-features .me-page-action-mailto,
+  .me-in-page-menu ul.me-in-page-menu-features .me-page-action-rss,
+  .me-in-page-menu ul.me-in-page-menu-features .me-page-action-print {
     display: none;
+  }
+  .me-in-page-menu ul.me-in-page-menu-features li a {
+    padding: 10px;
+  }
+  .me-in-page-menu ul.me-in-page-menu-features li .fa, .me-in-page-menu ul.me-in-page-menu-features li [class*="icon-me"] {
+    font-size: 1.5em;
   }
 
   .me-problem-report-popup {
@@ -13883,34 +13893,13 @@ button.close {
   .me-in-page-menu .hide-mail-and-rss .me-page-action-rss {
     display: none;
   }
-  .me-in-page-menu .me-in-page-menu-features li {
+  .me-in-page-menu ul.me-in-page-menu-features li {
     margin-bottom: 0;
-    background: transparent;
-    -webkit-box-shadow: none;
-    box-shadow: none;
     min-height: 0;
   }
-  .me-in-page-menu .me-in-page-menu-features li a {
-    padding: 10px;
-    background: transparent;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-  .me-in-page-menu .me-in-page-menu-features li a:hover {
-    background: transparent;
-  }
-  .me-in-page-menu .me-in-page-menu-features li .fa, .me-in-page-menu .me-in-page-menu-features li [class*="icon-me"] {
-    font-size: 1.5em;
-  }
-  .me-in-page-menu .me-in-page-menu-features li:last-child {
-    float: right;
-    margin: 0 0 0 35px;
-  }
-  .me-in-page-menu .me-in-page-menu-features li:hover {
-    background: transparent;
-  }
-  .me-in-page-menu .me-in-page-menu-features li:hover a {
-    color: #ff6600;
+  .me-in-page-menu ul.me-in-page-menu-features li:last-child {
+    /*                    float: right;
+                        margin: 0 0 0 35px;*/
   }
 
   .me-event-footer {

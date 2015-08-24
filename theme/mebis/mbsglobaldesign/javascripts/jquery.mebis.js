@@ -546,16 +546,17 @@ var Mebis = (function ($) {
         });
     }
 
-    function initStickyHeader()
-    {
-        $win.on('scroll', function () {
-            if ($(this).scrollTop() > 50) {
-                $('body').addClass('sticky-header');
-            } else {
-                $('body').removeClass('sticky-header');
-            }
-        });
-    }
+    //hüb: we don't need this function any more -> delete?
+//    function initStickyHeader()
+//    {
+//        $win.on('scroll', function () {
+//            if ($(this).scrollTop() > 50) {
+//                $('body').addClass('sticky-header');
+//            } else {
+//                $('body').removeClass('sticky-header');
+//            }
+//        });
+//    }
 
     /**
      * Animate resizing header on scroll
@@ -610,7 +611,7 @@ var Mebis = (function ($) {
             //initAnchorScrolling();
             //setAnchorClass();
             handleSelectboxNavChange();
-            initStickyHeader();
+//            initStickyHeader();
         },
         
         resize: function () {

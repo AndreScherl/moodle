@@ -337,16 +337,14 @@ class theme_mebis_header_renderer extends renderer_base {
             return '';
         }
 
-        $content = html_writer::start_div('dropdown-inner admin-dropdown');
+        $content = html_writer::start_tag('li', array('class' => 'admin-dropdown admin-string'));
         $content .= html_writer::tag('strong', get_string('menu-administration-head', 'theme_mebis'));
+        $content .= html_writer::end_tag('li');
 
         $url = new moodle_url('/admin/index.php');
         $text = get_string('menu-administration-link', 'theme_mebis');
         $webadminlink = html_writer::link($url, $text, array('class' => 'internal'));
-        $item = html_writer::tag('li', $webadminlink);
-        $content .= html_writer::tag('ul', $item);
-
-        $content .= html_writer::end_div();
+        $content .= html_writer::tag('li', $webadminlink, array('class' => 'admin-dropdown admin-link'));
 
         return $content;
     }
@@ -366,11 +364,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
             $menuitems = $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
             if (!empty($menuitems)) {
-                $content = html_writer::start_div('dropdown-inner');
-                $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
                 $content .= $menuitems;
-                $content .= html_writer::end_tag('ul');
-                $content .= html_writer::end_div();
             }
         }
 
@@ -451,7 +445,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // Files menu item.
         $url = new moodle_url('/user/files.php');
-        $text = html_writer::tag('i', '', array('class' => 'fa fa-folder'));
+        $text = html_writer::tag('i', '', array('class' => 'icon-me-eigene-dateien'));
         $fileslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $fileslink);
 
@@ -474,7 +468,15 @@ class theme_mebis_header_renderer extends renderer_base {
             );
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
             $content .= html_writer::start_tag('li');
-            $content .= html_writer::div($usermenu . $adminmenu, 'cogmenu');
+
+            $content .= html_writer::start_div('cogmenu');            
+                $content .= html_writer::start_div('dropdown-inner');
+                    $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
+                        $content .= $usermenu . $adminmenu;
+                    $content .= html_writer::end_tag('ul');
+                $content .= html_writer::end_tag('div');
+            $content .= html_writer::end_tag('div');
+            
             $content .= html_writer::end_tag('li');
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('li');

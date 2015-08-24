@@ -15091,10 +15091,20 @@ categorybox:
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner a:hover {
   color: #333333;
 }
-.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .admin-dropdown {
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown {
   background-color: #222222;
+  padding: 0 20px;
+  margin: 0 -20px;
 }
-.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .admin-dropdown a:hover {
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown.admin-string {
+  margin-top: 20px;
+  padding-top: 20px;
+}
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown.admin-link {
+  padding-bottom: 20px;
+  margin-bottom: -20px;
+}
+.wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown a:hover {
   color: #ff6600;
 }
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {

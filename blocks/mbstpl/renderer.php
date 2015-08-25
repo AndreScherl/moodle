@@ -236,4 +236,37 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $html;
     }
 
+    public function templatesearch($searchresult, $layout) {
+        global $OUTPUT, $DB, $PAGE;
+        
+        $html = '';
+        
+        // Add the search form.
+        $mform = new \block_mbstpl\form\searchform();
+        $formcontent = $mform->render();
+        $html .= \html_writer::div($formcontent, 'mbstpl-search-form');
+
+        $html .= \html_writer::tag('h3','Search Results');
+        // Add layout and pagination controllers.
+        $listcontrollers = 'Layout: ';
+        //$url = $PAGE->url->__clone();
+        $gridurl = new moodle_url($PAGE->url->out_as_local_url(), $PAGE->url->params());
+        $gridurl->param('layout', 'grid');
+        $listcontrollers .= \html_writer::link($gridurl, \html_writer::img($OUTPUT->pix_url('e/table', 'core')));
+        
+        $listurl = new moodle_url($PAGE->url->out_as_local_url(), $PAGE->url->params());
+        $listurl->param('layout', 'list');
+        $listcontrollers .= \html_writer::link($listurl, \html_writer::img($OUTPUT->pix_url('e/bullet_list', 'core')));
+        $html .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
+        
+        // Render result listing.
+        $searchlisting = '';
+        foreach($searchresult as $coursetemplate) {
+            $course = get_course($coursetemplate->courseid);
+            $listitem = \html_writer::tag('h3', $course->fullname);
+            $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item-{$layout}");
+        }
+        $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing');
+        return $html;
+    }
 }

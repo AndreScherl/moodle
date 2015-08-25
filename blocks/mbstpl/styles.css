@@ -26,3 +26,50 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .templateactionbtns {display: table;}
 .templateactionbtns > div {display: table-cell;}
+
+
+.mbstpl-search-form .fitem {
+	display:inline-block;
+	width: 200px;
+}
+.mbstpl-search-form .felement {
+    margin-left:auto;
+}
+.mbstpl-search-form .mform .fitem .felement select {
+    width: 150px;
+}
+.mbstpl-search-form .mform .fitem .felement select:FIRST-CHILD {
+    font-weight: bold;
+}
+
+.mbstpl-search-form .fitemtitle {
+	width: auto !important;
+}
+
+.mbstpl-list-item-grid {
+	display: inline-block;
+	min-height: 165px;
+	padding: 20px;
+	text-align: left;
+	background: #fff;
+	font-weight: 400;
+	font-size: 1.25em;
+    color: #333333;
+    margin: 10px;
+        width: 200px;
+    float: left;
+	
+}
+
+.mbstpl-list-item-list {
+	border: 1px solid black;
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.mbstpl-list-controller img{ 
+	height: 20px;
+	width: 20px;
+	margin: 5px;
+}

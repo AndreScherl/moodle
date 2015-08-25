@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbstpl-templatesearch",
+     "builds": {
+         "moodle-block_mbstpl-templatesearch": {
+             "jsfiles": [
+                 "templatesearch.js"
+             ]
+         }
+     }
+}

@@ -61,6 +61,15 @@ $capabilities = array(
         'archetypes' => array(
             'user' => CAP_PROHIBIT
         )
+    ),
+    
+    'local/mbs:adddeleteblock' => array (
+        'captype' => 'write',
+        'riskbitmask' => RISK_DATALOSS,
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_PROHIBIT
+        )
     )
 );
 

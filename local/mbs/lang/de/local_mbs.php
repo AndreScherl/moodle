@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['fixgapcategories'] = 'Sortierung in Kursbereichen korrigieren';
+$string['mbs:adddeleteblock'] = 'Einen spezifischen Block hinzufügen oder löschen';
 $string['mbs:editschoolid'] = 'ID-Number der Schule bearbeiten';
 $string['mbs:globalblockscleanup'] = 'Globale Aufräumarbeiten aller (User-)Blöcke';
 $string['mbs:viewcourselist'] = 'View list of courses';

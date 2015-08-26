@@ -8,18 +8,18 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>..
 
 /**
  *
  * @package block_mbstpl
  * @copyright 2015 Bence Laky <b.laky@intrallect.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *         
+ *
  */
 namespace block_mbstpl\form;
 
@@ -27,40 +27,47 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once ($CFG->libdir . '/formslib.php');
-
+require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Class activatedraft
  *
  * @package block_mbstpl
  *          Course Template search and filter form
- *         
+ *
  */
 class searchform extends \moodleform {
 
-    function definition() {
+    public function definition() {
         global $DB;
         $form = $this->_form;
-        $questions = $DB->get_records("block_mbstpl_question", array("inuse" => 1
-        ));
-        
+
+        $qidlist = \block_mbstpl\questman\manager::get_active_qform();
+        $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist->questions);
+
+        $form->addElement('hidden', 'layout', 'grid');
+
         foreach ($questions as $q) {
             $options = array();
-            $options[] = get_string('any'); // TODO: externalise string;
+            $options['*'] = get_string('any');
             $id = 'q' . $q->id;
             switch ($q->datatype) {
                 case 'checkbox':
-                    $options[] = get_string('yes');
-                    $options[] = get_string('no');
+                    $options['1'] = get_string('yes');
+                    $options['0'] = get_string('no');
                     $form->addElement('select', $id, $q->title, $options);
                     break;
                 case 'menu':
-                    $options = array_merge($options, explode("\n", $q->param1));
+                    $values = explode("\n", $q->param1);
+                    for ($i = 0; $i < count($values); $i++) {
+                        $options[$i.''] = $values[$i];
+                    }
                     $form->addElement('select', $id, $q->title, $options);
             }
         }
-        
+
+        $form->addElement('text', 'keyword', 'Search Field');
+
         $form->addElement('submit', 'submitbutton', get_string('search'));
     }
 }

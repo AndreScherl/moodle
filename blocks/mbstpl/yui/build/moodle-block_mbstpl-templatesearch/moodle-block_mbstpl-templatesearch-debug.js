@@ -1,3 +1,5 @@
+YUI.add('moodle-block_mbstpl-templatesearch', function (Y, NAME) {
+
 M.block_mbstpl = M.block_mbstpl || {};
 M.block_mbstpl.templatesearch = {
 
@@ -41,3 +43,5 @@ M.block_mbstpl.templatesearch = {
 		}
 	}
 };
+
+}, '@VERSION@', {"requires": ["base", "node"]});

@@ -1,3 +1,5 @@
+YUI.add('moodle-block_mbstpl-templatesearch', function (Y, NAME) {
+
 M.block_mbstpl = M.block_mbstpl || {};
 M.block_mbstpl.templatesearch = {
 
@@ -25,7 +27,6 @@ M.block_mbstpl.templatesearch = {
 			data : { 'sesskey' : M.cfg.sesskey, 'keyword' : keyword },
 			on : {
 				success : M.block_mbstpl.templatesearch.renderAutocomplete,
-				failure : function(id, data) { Y.log(data); }
 			}
 		}
 		Y.io(M.cfg.wwwroot + '/blocks/mbstpl/autocomplete.php', request);
@@ -37,7 +38,8 @@ M.block_mbstpl.templatesearch = {
 			var suggestions = JSON.parse(data.response);
 			console.log(suggestions);
 		} catch (err) {
-			Y.log(err.message);
 		}
 	}
 };
+
+}, '@VERSION@', {"requires": ["base", "node"]});

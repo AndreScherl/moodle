@@ -2,6 +2,7 @@
     This file contains style customizations for the course formats:
 
     - topics format
+    - weeks format
     - collapsed topics.
     - one topic.
     - grid format.
@@ -15,6 +16,11 @@
 
 // +++++++From here on: special styles for topics format. ++++++++++++
 .format-topics.path-course #main-content-wrapper  {
+    background: transparent;    
+}
+
+// +++++++++  From here on: special styles for weeks format. +++++++++++++++
+.format-weeks.path-course #main-content-wrapper  {
     background: transparent;    
 }
 
@@ -170,7 +176,7 @@
     }
 }
 
-// +++++++++  From here on: special styles for one-topic format +++++++++++++++.
+// +++++++++  From here on: special styles for one-topic format. +++++++++++++++
 .format-onetopic.path-course #main-content-wrapper  {
     background: transparent;   
 }
@@ -229,7 +235,7 @@
                 }
             }
         }
-        
+
         .move-list-box {
             background-color: $white;
             ul {
@@ -241,16 +247,38 @@
 
 // +++++++From here on: special styles for grid format. ++++++++++++
 #page-course-view-grid {
-    
+
+    &:not(.editing) {
+        
+        #gridshadebox_content {
+            width: 85% !important;
+        }
+
+        .course-content {
+            ul li.section.main {
+                border-left: none;
+            }
+        }
+    }
+
+    &.editing {
+        
+        #gridshadebox_content {
+            ul.gtopics {
+                margin: 0;
+            }
+        }
+    }
+
     #gridshadebox_content {
         //Need important because of element.style
         left: 10% !important;
-        width: 85% !important;
+
         top: 150px !important;
         z-index: 999 !important;
-        border: none;        
-        
-        // Styles for lists
+        border: none;         
+
+        // Styles for listsgtopics
         div div ul {
             padding-left: 10px;
             > li {
@@ -282,9 +310,7 @@
             }
         }
 
-        ul .gtopics {
-            margin-left: 0;
-            margin-right: 0;
+        ul.gtopics {
 
             >div .content {
                 margin-left: 0;
@@ -300,8 +326,7 @@
         }
         ul li.section.main {
             padding: 0;
-            border-bottom: inherit;
-            border-left: none;
+            border-bottom: inherit;              
         }
     }
 
@@ -310,7 +335,7 @@
         padding: 0 15px;
 
         .course-content {
-            
+
             ul.gtopics-0 li h3.sectionname {
                 font-weight: normal;
             }
@@ -319,9 +344,8 @@
 
                 padding-left: 0;
                 padding-right: 0;
-                margin: 10px;            
-                -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3); 
-                box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
+                margin: 10px;             
+                @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 
                 &:hover {
                     background-color: $brand-secondary;
@@ -330,11 +354,18 @@
                     }
                 }
 
+                &.currenticon {
+                    @include box-shadow(0 0 20px 1px $brand-secondary); 
+
+                    .image_holder { 
+                        @include box-shadow(none); 
+                    }
+                }
+
                 .image_holder {
                     border-style: none;
                     background-color: transparent;
                     width: auto;
-
                 }
 
                 p.icon_content {

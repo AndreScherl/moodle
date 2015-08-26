@@ -15,6 +15,12 @@
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
     - #page-mod-imscp-view
+    - #page-mod-quiz-edit
+    - #page-mod-quiz-attempt
+    - #page-mod-quiz-review
+    - #page-mod-quiz-preview
+    - .que.multichoice
+    - .que.multianswer
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -95,18 +101,35 @@
     }
 }
 
+//++++++++++++++++++++++++  From here on: special styles for questions in general +++++++++++++++
 #page-mod-quiz-edit {
 
-    div.quizcontents {
-        padding: 20px;
-        background: $white;
-    }
+    #main-content-wrapper {
 
-    .questionbankwindow {
-        .title {
-            word-wrap: break-word;
+        overflow: hidden;
+
+        div.quizcontents {
+            padding: 20px;
+            background: $white;
         }
-    } 
+
+        .questionbankwindow {
+            .title {
+                word-wrap: break-word;
+            }
+
+            div.header {
+                background: $brand-primary;
+            }
+        }
+    }
+}
+
+#page-question-edit {
+
+    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+        background: $brand-secondary;
+    }
 }
 
 #page-mod-quiz-attempt,
@@ -134,6 +157,34 @@
     }
 }
 
+#page-mod-quiz-report {
+    .highlight {
+        border: none;
+        background-color: $brand-primary;
+    }
+}
+
+//++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
+
+//questiontype ddmatch
+.que.ddmatch {
+
+    li.placeholder, li.matchdrag {
+        list-style-type: none !important;
+    }
+
+    .matchtarget.yui3-dd-drop-over li {
+        background: $brand-primary;
+        color: $white;
+    }
+
+    .formulation {
+        .correct, .incorrect {
+            background: none;
+        }
+    }
+}
+
 //questiontype multianswer
 .que.multianswer .answer div.r0 input, .que.multianswer .answer div.r1 input {
     margin: 0 5px 0 0;
@@ -149,13 +200,8 @@
 .que.multichoice .ablock .prompt {
     display: none;
 }
+//+++++++++++++++++++++++++++++++++++++++  END: question styles  +++++++++++++++++++++++++++++++++++++++++++++
 
-#page-question-edit {
-
-    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
-        background: $brand-secondary;
-    }
-}
 
 //Styles for searching in mebis-Prüfungsarchiv
 #page-repository-pmediathek-search {

@@ -34,7 +34,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configselect('block_mbstpl/deploycat',
                                                   get_string('deploycat', 'block_mbstpl'), null, null, $options));
 
-    $roles = get_roles_with_capability('enrol/class:assignable', CAP_ALLOW, context_system::instance());
+    $roles = get_roles_with_capability('block/mbstpl:coursetemplatereview', CAP_ALLOW);
     $roles = role_fix_names($roles, null, ROLENAME_BOTH, true);
     $settings->add(new admin_setting_configselect('block_mbstpl/reviewerrole',
                                                   get_string('reviewerrole', 'block_mbstpl'), null, null, $roles));

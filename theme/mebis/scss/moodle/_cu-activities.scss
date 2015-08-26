@@ -185,8 +185,15 @@
     }
 }
 
+//questiontype match
+.que.match .answer tr.r0 td.text,
+.que.match .answer tr.r1 td.text {
+    padding-right: 5px;
+}
+
 //questiontype multianswer
-.que.multianswer .answer div.r0 input, .que.multianswer .answer div.r1 input {
+.que.multianswer .answer div.r0 input, 
+.que.multianswer .answer div.r1 input {
     margin: 0 5px 0 0;
     width: 15px;
 }

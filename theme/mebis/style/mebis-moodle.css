@@ -16117,6 +16117,7 @@ input[type="checkbox"] + label {
     This file contains style customizations for the course formats:
 
     - topics format
+    - weeks format
     - collapsed topics.
     - one topic.
     - grid format.
@@ -16686,7 +16687,13 @@ input[type="checkbox"] + label {
   background: none;
 }
 
-.que.multianswer .answer div.r0 input, .que.multianswer .answer div.r1 input {
+.que.match .answer tr.r0 td.text,
+.que.match .answer tr.r1 td.text {
+  padding-right: 5px;
+}
+
+.que.multianswer .answer div.r0 input,
+.que.multianswer .answer div.r1 input {
   margin: 0 5px 0 0;
   width: 15px;
 }

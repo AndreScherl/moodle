@@ -29,47 +29,82 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 
 .mbstpl-search-form .fitem {
-	display:inline-block;
-	width: 200px;
+    display: inline-block;
+    width: 250px;
 }
+
 .mbstpl-search-form .felement {
-    margin-left:auto;
+    margin-left: auto;
 }
+
 .mbstpl-search-form .mform .fitem .felement select {
-    width: 150px;
+    width: 200px;
 }
+
 .mbstpl-search-form .mform .fitem .felement select:FIRST-CHILD {
     font-weight: bold;
 }
 
 .mbstpl-search-form .fitemtitle {
-	width: auto !important;
+    width: auto !important;
+}
+
+.mbstpl-search-listing {
+    font-weight: 400;
+    font-size: 1.25em;
+    color: #333333;
 }
 
 .mbstpl-list-item-grid {
-	display: inline-block;
-	min-height: 165px;
-	padding: 20px;
-	text-align: left;
-	background: #fff;
-	font-weight: 400;
-	font-size: 1.25em;
-    color: #333333;
+    display: inline-block;
+    min-height: 165px;
+    padding: 20px;
+    text-align: left;
+    background: #fff;
     margin: 10px;
-        width: 200px;
+    width: 200px;
     float: left;
-	
+    position: relative;
+}
+
+.mbstpl-list-item-grid img {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
 }
 
 .mbstpl-list-item-list {
-	border: 1px solid black;
-	display: block;
-	width: 90%;
-	margin: 0 auto;
+    display: block;
+    margin: 5px 0;
+    position: relative;
+    padding: 5px;
+    background-color: white;
 }
 
-.mbstpl-list-controller img{ 
-	height: 20px;
-	width: 20px;
-	margin: 5px;
+.mbstpl-list-item-list img {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    height: 30px;
+    width: 30px;
+}
+
+.mbstpl-heading-panel {
+    position: relative;
+}
+
+.mbstpl-list-controller {
+    display: inline-block;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.mbstpl-list-controller img {
+    height: 20px;
+    width: 20px;
+    margin: 5px;
 }

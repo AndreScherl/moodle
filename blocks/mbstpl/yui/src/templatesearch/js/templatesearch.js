@@ -6,8 +6,10 @@ M.block_mbstpl.templatesearch = {
 			var keyword = e.currentTarget.getDOMNode().value;
 
 			// Kick in after 3 chars.
-			if (keyword.length > 3) {
+			if (keyword.length >= 3) {
 				M.block_mbstpl.templatesearch.requestSuggestions(keyword);
+			} else {
+				Y.all('.mbstpl-suggestion').remove();
 			}
 		});
 
@@ -31,13 +33,27 @@ M.block_mbstpl.templatesearch = {
 		Y.io(M.cfg.wwwroot + '/blocks/mbstpl/autocomplete.php', request);
 	},
 
+	selectSuggestion: function(e) {
+		var value = e.currentTarget.getHTML();
+		Y.one('input#id_keyword').set('value', value);
+		Y.all('.mbstpl-suggestion').remove();
+	},
+
 	renderAutocomplete: function(id, data) {
-		try {
-			// TODO: Render suggestion items.
-			var suggestions = JSON.parse(data.response);
-			console.log(suggestions);
-		} catch (err) {
-			Y.log(err.message);
+		Y.all('.mbstpl-suggestion').remove();
+		var suggestions = JSON.parse(data.response),
+		inputField = Y.one('input#id_keyword'),
+		w = inputField.getDOMNode().offsetWidth,
+		x = inputField.getX();
+		y = inputField.getY() + inputField.getDOMNode().offsetHeight;
+
+		for (var i = 0; i < suggestions.length; i++) {
+			var nodeContent = '<div class="mbstpl-suggestion" style=" top:' + y + 
+			'px; left:' + x + 'px;width:' + w + 'px">' + suggestions[i] + '</div>',
+			suggestionNode = Y.Node.create(nodeContent);
+			suggestionNode.on('click', M.block_mbstpl.templatesearch.selectSuggestion);
+			Y.one('body').append(suggestionNode),
+			y += suggestionNode.getDOMNode().offsetHeight;
 		}
 	}
 };

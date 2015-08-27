@@ -4,199 +4,12 @@
 //
 // TODO: check whether any of this styles are necessary and transfer into a _cu-.. Sheet.
 
-//fhüb: moved this styling to usermessages
-.usermessages {
-    padding-top: 20px;
-    margin-bottom: 20px;
-    background: $white;
-    color: $brand-gray-dark;
-
-    .usermessages-head h3 {
-        padding: 0 20px;
-    }
-
-    .usermessages-left {
-
-        form#usergroupform {
-            padding: 0 20px 20px;
-        }
-
-        .userlist {
-            padding: 0 20px 20px;
-        }
-
-    }
-
-    .usermessages-right {
-
-        .messages-area {
-            padding: 0 20px 20px;
-        }
-
-        .messagehistory {
-
-            .user-correspondence {
-
-                .spacing-top {
-                    padding-top: 30px;
-                }
-
-            }
-
-            .messagehistorytype {
-                padding: 15px 0 10px;
-            }
-
-            .messagehistory {
-                margin-bottom: 15px;
-            }
-        }
-
-        input[type="submit"] {
-            color: $white!important;
-        }
-    }
-
-    h3, h4 {
-        margin-top: 0;
-        color: $brand-gray-dark;
-    }
-
-    h4.heading {
-        font-size: emCalc(16px);
-    }
-
-    label {
-        color: $brand-gray-dark;
-        font-weight: 400;
-    }
-
-    table.messagesearchresults, table#message_contacts {
-        width: 100%;
-
-        td {
-            padding: 5px;
-            @include transition(background .25s);
-
-            &.heading {
-                color: $gray-dark;
-                background: transparent!important;
-            }
-
-            img {
-                max-width: none;
-                width: 100%;
-            }
-
-            span {
-                display: inline-block;
-            }
-
-        }
-
-        tr:hover {
-            
-          > td {
-            background: $gray-lighter;
-          }
-        }
-    }
-
-    .mdl-left .heading {
-        margin-top: 5px;
-    }
-
-}
-
-//fhüb: moved this styling to userfilemanager
-.user-filemanager {
-    margin-top: 25px;
-    margin-bottom: 25px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background: $white;
-    color: $brand-gray-dark;
-
-    #fitem_id_files_filemanager {
-        margin-bottom: 20px;
-        min-height: 320px;
-
-        .filemanager-container {
-            min-height: 175px;
-        }
-    }
-
-    label {
-        color: $brand-gray-dark;
-        padding-top: 0;
-    }
-
-    #id_submitbutton {
-        color: $white!important;
-    }
-
-    .fp-viewbar {
-        border-radius: 0;
-        overflow: hidden;
-    }
-
-    .fp-toolbar .fp-btn-add,
-    .fp-toolbar .fp-btn-download,
-    .fp-toolbar .fp-btn-mkdir,
-    .fp-toolbar .fp-tb-help,
-    .fp-toolbar .fp-tb-manage,
-    .fp-toolbar .fp-tb-logout,
-    .fp-toolbar .fp-tb-refresh {
-        border-radius: 0;
-        overflow: hidden;
-    }
-
-    .mform {
-
-        .fitem {
-            width: 100%;
-
-            margin: 0;
-
-            .fitemtitle {
-                float: none;
-                width: 100%;
-                text-align: left;
-            }
-
-            .felement {
-                float: none;
-                width: 100%;
-            }
-        }
-
-        .fitem_actionbuttons>div.felement {
-            margin: 0;
-            text-align: right;
-
-            input {
-                margin: 0;
-            }
-        }
-    }
-
-}
-
 .block_messages {
 
     .content {
 
         .info {
             text-align: left;
-        }
-    }
-}
-
-// fixed color of fieldset heading
-.mform {
-    legend {
-        a, a:hover {
-            color: $black;
         }
     }
 }
@@ -213,10 +26,6 @@ margin-left: 0px;
     color: #555;
 }
 
-ul, li {
-    list-style-type: none;
-}
-
 // no highlighting of the table rows
 .user-grade td.oddd1, .user-grade th.oddd1 {
     background-color: transparent;
@@ -225,11 +34,6 @@ ul, li {
 #graded_users_selector .singleselect label {
     font-weight: normal;
     padding-right: 0.5em;
-}
-
-// made labels readable on question type chooser page
-#chooseqtypebox .choosercontainer label {
-    color: $white;
 }
 
 // disabled box shadow for the question type element
@@ -320,9 +124,4 @@ ul, li {
 
 #fitem_id_availabilityconditionsjson .availability-button {
     margin-left: 24px;
-}
-
-// Font Colors.
-.loginbox .desc {
-    color: $black;
 }

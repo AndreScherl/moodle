@@ -15016,6 +15016,9 @@ categorybox:
 #page-course-index-category .course_category_tree .category.with_children.collapsed > .info > .categoryname {
   background-image: none;
 }
+#page-course-index-category .course_category_tree > .content > .subcategories {
+  margin-bottom: 5px;
+}
 #page-course-index-category .course_category_tree > .content > .subcategories > .category > .info {
   padding: 20px;
   margin-top: 5px;
@@ -15347,7 +15350,7 @@ In this file we collect:
 - all the block styles for all blocks
 - all the block styles for specific blocks using an appropriate namespace:
   
-  write .block_mbsmycourses [styles] for mmbsmycourses block for example.
+  write .block_mbsmycourses [styles] for mbsmycourses block for example.
 */
 /* 
     Created on : 16.05.2015, 19:53:35

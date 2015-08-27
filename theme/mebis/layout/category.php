@@ -105,8 +105,8 @@ echo $OUTPUT->doctype()
                     </div>
 
                     <?php
-                    echo html_writer::start_tag('aside');
-                    echo html_writer::tag('div', $OUTPUT->blocks('side-pre'), array('class' => 'row'));
+                    echo html_writer::start_tag('aside', array('class' => 'row'));
+                    echo $OUTPUT->blocks('side-pre', array(), 'div');
                     echo html_writer::end_tag('aside');
                 }
                 ?>

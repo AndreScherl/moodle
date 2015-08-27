@@ -371,22 +371,25 @@ categorybox:
         background-image: none;
     }
 
-    > .content  > .subcategories > .category > .info {
+    > .content > .subcategories {
+        margin-bottom: 5px;
 
-        padding: 20px;
-        margin-top:5px;
+        > .category > .info {
+            padding: 20px;
+            margin-top:5px;
 
-        h3 a {
-            font-weight:bold;
+            h3 a {
+                font-weight:bold;
+            }
         }
-    }
 
-    > .content > .subcategories > .category.with_children > .content {
-        padding: 20px;
+        > .category.with_children > .content {
+            padding: 20px;
+        }
 
-    }
-    > .content > .subcategories > .category > .content > .subcategories {
-        padding: 0px;
+        > .category > .content > .subcategories {
+            padding: 0px;
+        }
     }
 }
 

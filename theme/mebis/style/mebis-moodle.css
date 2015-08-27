@@ -15382,17 +15382,25 @@ In this file we collect:
   margin: 0 20px;
 }
 
-.block-region .col-md-4 {
-  min-height: 150px;
+aside.row .block-region .block {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-pre,
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #block-region-side-post,
-.dir-ltr.editing.used-region-side-post.used-region-side-pre #region-main {
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-pre,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-post,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main {
   left: auto;
   right: auto;
-  width: auto;
+  width: 100%;
   padding: 0;
+}
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-pre .blockannotation,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-post .blockannotation,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main .blockannotation {
+  color: #fff;
 }
 
 .mbscoordinators {
@@ -15650,6 +15658,29 @@ In this file we collect:
   }
 }
 
+@media only screen and (min-width: 1200px) {
+  aside.row .block-region .block {
+    width: 29.4871%;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  aside.row .block-region .block {
+    width: 29.251%;
+  }
+}
+@media only screen and (max-width: 992px) {
+  aside.row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  aside.row .block-region {
+    overflow: hidden;
+  }
+  aside.row .block-region .block {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 /*
 Styles, which are used in context of a course and not depending on a special course-
 format.

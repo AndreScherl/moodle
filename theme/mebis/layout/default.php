@@ -127,7 +127,7 @@ echo $OUTPUT->doctype()
 
                 <?php
                 if ($knownregiontop) {
-                    echo $OUTPUT->mebis_blocks('top', array(), 'aside', '0');
+                    echo $OUTPUT->blocks('top', array(), 'aside');
                 }
 
                 echo $OUTPUT->course_content_header();
@@ -166,7 +166,7 @@ echo $OUTPUT->doctype()
                 }
                 
                 if ($knownregionbottom) {
-                    echo $OUTPUT->mebis_blocks('bottom', array(), 'aside', '0');
+                    echo $OUTPUT->blocks('bottom', array(), 'aside');
                 }
                 
                 ?>

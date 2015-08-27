@@ -89,7 +89,7 @@ echo $OUTPUT->doctype()
                         <div class="row">
                             <?php
                             if ($knownregionadminnavi) {
-                                echo $OUTPUT->mebis_blocks('admin-navi');
+                                echo $OUTPUT->blocks('admin-navi');
                             }
                             ?>
                         </div>

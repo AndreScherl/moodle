@@ -25,6 +25,7 @@ require_once (dirname(dirname(dirname(__FILE__))) . '/config.php');
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl;
+use \block_mbstpl\search;
 use \block_mbstpl\dataobj\template;
 
 // Page preparation.
@@ -43,37 +44,8 @@ $pagenumber = optional_param('page', 1, PARAM_INT);
 $startrecord = ($pagenumber - 1) * $pagesize;
 
 $searchform = new \block_mbstpl\form\searchform();
-$searchcriteria = array();
-if ($searchform->get_data()) {
-    $formdata = get_object_vars($searchform->get_data());
-    foreach (array_keys($formdata) as $settingkey) {
-        if (preg_match("/^q[0-9]/", $settingkey)) {
-            $questionid = intval(substr($settingkey, 1));
-            $value = required_param($settingkey, PARAM_ALPHANUM);
-            if (!is_null($value) && strlen($value) > 0) {
-                $searchcriteria[] = "(questionid = {$questionid} AND data = {$value})";
-            }
-        }
-    }
-}
-
-if (count($searchcriteria) > 0) {
-    $query = 'SELECT C.* FROM {block_mbstpl_answer} AS A';
-    $query .= ' JOIN {block_mbstpl_meta} as M ON M.id = A.metaid ';
-    $query .= ' JOIN {block_mbstpl_template} as T on M.templateid = T.id';
-    $query .= ' JOIN {course} as C on T.courseid = C.id';
-    $query .= ' WHERE T.status = ? AND (' . join(' OR ', $searchcriteria) . ')';
-    $query .= ' GROUP BY metaid HAVING count(metaid) = ?';
-    $courses = $DB->get_records_sql($query,
-            array(template::STATUS_PUBLISHED, count($searchcriteria)
-            ), $startrecord, $pagesize);
-} else {
-    $query = 'SELECT C.* FROM {course} as C';
-    $query .= ' JOIN {block_mbstpl_template} as T ON C.id = T.courseid';
-    $query .= ' WHERE T.status = ?';
-    $courses = $DB->get_records_sql($query, array(template::STATUS_PUBLISHED
-    ), $startrecord, $pagesize);
-}
+$search = new \block_mbstpl\search();
+$courses = $search->get_search_result($searchform->get_data(), $startrecord, $pagesize);
 
 $PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',
         'M.block_mbstpl.templatesearch.init', array(), null, true);

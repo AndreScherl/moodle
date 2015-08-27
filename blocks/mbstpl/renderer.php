@@ -237,39 +237,40 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     public function templatesearch($searchform, $courses, $layout) {
-        global $OUTPUT, $PAGE;
-
-        $html = '';
+        global $OUTPUT;
 
         // Add the search form.
-        $html .= \html_writer::div($searchform->render(), 'mbstpl-search-form');
+        $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
 
         $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
 
         // Add layout and pagination controllers.
         $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
-        $gridurl = new moodle_url($PAGE->url->out_as_local_url(), $PAGE->url->params());
-        $gridurl->param('layout', 'grid');
-        $listcontrollers .= \html_writer::link($gridurl,
-                \html_writer::img($OUTPUT->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl')));
+        $link = new moodle_url('#');
 
-        $listurl = new moodle_url($PAGE->url->out_as_local_url(), $PAGE->url->params());
-        $listurl->param('layout', 'list');
-        $listcontrollers .= \html_writer::link($listurl,
-                \html_writer::img($OUTPUT->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl')));
+        // TODO: Add pagination controls.
+
+        $listcontrollers .= \html_writer::link($link,
+                \html_writer::img($OUTPUT->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l'=>'grid')));
+        $listcontrollers .= \html_writer::link($link,
+                \html_writer::img($OUTPUT->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l'=>'list')));
         $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
 
         $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
 
         // Render result listing.
         $searchlisting = '';
-        foreach ($courses as $course) {
-            $listitem = \html_writer::tag('h4', $course->fullname);
-            // TBD, see spec page 14.
-            $externalurl = new moodle_url('/index.html');
-            $listitem .= \html_writer::link($externalurl,
-                    \html_writer::img($OUTPUT->pix_url('t/collapsed_empty', 'core'), $course->fullname));
-            $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item-{$layout}");
+        if (count($courses) > 0) {
+            foreach ($courses as $course) {
+                $listitem = \html_writer::tag('h4', $course->fullname);
+                // TBD, see spec page 14.
+                $externalurl = new moodle_url('/index.html');
+                $listitem .= \html_writer::link($externalurl,
+                        \html_writer::img($OUTPUT->pix_url('t/collapsed_empty', 'core'), $course->fullname));
+                $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
+            }
+        } else {
+            $searchlisting .= \html_writer::tag('em', 'No results found.');
         }
 
         $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');

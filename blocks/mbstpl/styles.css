@@ -55,6 +55,10 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     color: #333333;
 }
 
+.mbstpl-search-listing em{
+    color: #fff;
+}
+
 .mbstpl-list-item-grid {
     display: inline-block;
     min-height: 165px;

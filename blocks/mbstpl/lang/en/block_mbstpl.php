@@ -86,6 +86,7 @@ $string['mypublished'] = 'My published courses';
 $string['myreview'] = 'My courses under review';
 $string['myrevision'] = 'My courses under revision';
 $string['notemplates'] = 'You have no active templates in this site.';
+$string['noresults'] = 'No results found.';
 $string['pluginname'] = 'Course templating';
 $string['qformactive'] = 'Active question form';
 $string['qformactivate'] = 'Activate this draft';

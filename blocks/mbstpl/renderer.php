@@ -270,7 +270,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
             }
         } else {
-            $searchlisting .= \html_writer::tag('em', 'No results found.');
+            $searchlisting .= \html_writer::tag('em', get_string('noresults', 'block_mbstpl'));
         }
 
         $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');

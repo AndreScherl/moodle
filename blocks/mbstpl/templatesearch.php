@@ -50,7 +50,6 @@ if ($searchform->get_data()) {
         if (preg_match("/^q[0-9]/", $settingkey)) {
             $questionid = intval(substr($settingkey, 1));
             $value = required_param($settingkey, PARAM_ALPHANUM);
-            // TODO $value == 0
             if (!is_null($value) && strlen($value) > 0) {
                 $searchcriteria[] = "(questionid = {$questionid} AND data = {$value})";
             }

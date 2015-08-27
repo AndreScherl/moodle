@@ -50,21 +50,33 @@ In this file we collect:
     }
 }
 
-
 // Block regions.
-.block-region .col-md-4 {
-    min-height: 150px;
+aside.row {
+    //side-pre and side-post
+    .block-region {
+
+        .block {
+            margin-left: 20px;
+            margin-right: 20px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
 }
 
 // Layout in edit mode!
-.dir-ltr.editing.used-region-side-post.used-region-side-pre {
+.dir-ltr.editing.used-region-side-pre.used-region-side-post {
     #block-region-side-pre,
     #block-region-side-post,
     #region-main {
         left: auto;
         right: auto;
-        width: auto;
+        width: 100%;
         padding: 0;
+        
+        .blockannotation {
+            color: $white;
+        }
     }
 }
 
@@ -400,3 +412,52 @@ In this file we collect:
     }
 
 }
+
+
+@media only screen and (min-width: $screen-lg-min) {
+
+    // Block regions.
+    aside.row {
+        //side-pre and side-post
+        .block-region {
+            .block {
+                // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
+                width: 29.4871%;                
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: $screen-md-min) and (max-width: $screen-lg-min) {
+
+    // Block regions.
+    aside.row {
+        //side-pre and side-post
+        .block-region {
+            .block {
+                // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
+                width: 29.251%;                
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-md-min) {
+
+    // Block regions.
+    aside.row {
+        margin-right: 0;
+        margin-left: 0;
+
+        //side-pre and side-post
+        .block-region {
+            overflow: hidden;
+
+            .block {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    }
+}
+

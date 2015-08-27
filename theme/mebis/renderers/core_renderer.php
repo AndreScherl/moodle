@@ -105,11 +105,11 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         if (empty($skiptitle)) {
             $output = '';
-            $skipdest = '';
+            //$skipdest = '';
         } else {
             $output = html_writer::tag('a', get_string('skipa', 'access', $skiptitle), array('href' => '#sb-' . $bc->skipid, 'class' => 'skip-block')
             );
-            $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
+            //$skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
         $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted');
@@ -120,17 +120,18 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {
-            $output .= html_writer::start_tag('div', array('class' => 'col-md-4 dragblock'));
+            $bc->attributes['class'] .= ' col-md-4 col-xs-12'; 
         }
 
         $output .= html_writer::start_tag('div', $bc->attributes);
-
-        $output .= $this->mebis_block_header($bc);
-        //$output .= $this->block_header($bc);
-        $output .= $this->block_content($bc);
-
+            $output .= $this->mebis_block_header($bc);
+            //$output .= $this->block_header($bc);
+            $output .= $this->block_content($bc);
         $output .= html_writer::end_div();
-        $output .= html_writer::end_div();
+        
+        if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
+            $output .= html_writer::end_div();
+        }
 
         $output .= $this->block_annotation($bc);
 
@@ -214,9 +215,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     
     /**
      * Renders a block region in bootstrap in the new mebis design
+     * 
+     * hüb - 27.08.2015: this methode is no longer in use, droptarget=0 causes errors in yui js
+     * 
      * @param type $region
      * @param type $classes
      * @param type $tag
+     * @param type $droptarget
      * @return String Html string of the block region
      */
     public function mebis_blocks($region, $classes = array(), $tag = 'aside', $droptarget = '1') {
@@ -230,14 +235,13 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             'data-blockregion' => $displayregion,
             'data-droptarget' => $droptarget
         );
-        $content = '';
         if ($this->page->blocks->region_has_content($displayregion, $this)) {
-            $content .= $this->blocks_for_region($displayregion);
+            $content = $this->blocks_for_region($displayregion);
         } else {
-            $content .= '';
+            $content = '';
         }
 
-        return $content;
+        return html_writer::tag($tag, $content, $attributes);
     }
     
     /**
@@ -257,8 +261,9 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
      * @return string HTML for the block region.
      */
     public function custom_block_region($regionname) {
+        global $OUTPUT;
         if ($this->page->theme->get_block_render_method() === 'blocks') {
-            return $this->mebis_blocks($regionname, array(), 'div', '0');
+            return $OUTPUT->blocks($regionname, array(), 'div');
         } else {
             return $this->blocks_for_region($regionname);
         }
@@ -267,7 +272,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     /**
      * Output a place where the block that is currently being moved can be dropped.
      *
-     * Andre Scherl - 12.06.2015: overwrite this method to render drop target container correctly
+     * Andre Scherl - 12.06.2015: overwrite this method to render drop target container correctly (little dotted rect containers)
      * 
      * @param block_move_target $target with the necessary details.
      * @param array $zones array of areas where the block can be moved to

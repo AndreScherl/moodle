@@ -32,27 +32,31 @@ class starrating extends \moodleform {
 
     public function definition() {
 
-        $mform = $this->_form;
+        $strrequired = get_string('required');
 
-        $mform->addElement('hidden', 'course', $this->_customdata['courseid']);
-        $mform->setType('course', PARAM_INT);
+        $mform = $this->_form;
 
         $radioarray = array();
         for ($i = 1; $i <= 5; $i++) {
-            $radioarray[] =& $mform->createElement('radio', 'block_mbstpl_rating', '', get_string('rating_star' ,'block_mbstpl', $i), $i);
+            $radioarray[] =& $mform->createElement('radio', 'block_mbstpl_rating', '',
+                get_string('rating_star', 'block_mbstpl', $i), $i);
         }
-        $mform->addGroup($radioarray, 'radioar', '', array(' '), false );
 
-        $mform->addElement('text', 'block_mbstpl_rating_comment', get_string('rating_comments', 'block_mbstpl'), array('maxlength' => 200, 'size' => 100));
+        $mform->addGroup($radioarray, 'radioar', get_string('rating', 'block_mbstpl'), null, false);
+        $mform->addGroupRule('radioar', $strrequired, 'required');
+
+        $mform->addElement('text', 'block_mbstpl_rating_comment',
+            get_string('rating_comments', 'block_mbstpl'), array('maxlength' => 200, 'size' => 100));
+
         $mform->setType('block_mbstpl_rating_comment', PARAM_RAW_TRIMMED);
 
         $buttonarray = array();
-        $buttonarray[] =& $mform->createElement('submit', 'submitbutton', get_string('rating_submitbutton' ,'block_mbstpl'));
-        $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('rating_cancelbutton' ,'block_mbstpl'));
+        $buttonarray[] =& $mform->createElement('submit', 'submitbutton', get_string('rating_submitbutton', 'block_mbstpl'));
+        $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('rating_cancelbutton', 'block_mbstpl'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
     }
 
-    function validation($data, $files) {
-        return array ();
+    protected function get_form_identifier() {
+        return str_replace('\\', '_', parent::get_form_identifier());
     }
 }

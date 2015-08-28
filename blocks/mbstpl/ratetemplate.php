@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once (dirname(dirname(__DIR__)) . '/config.php');
+require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 global $PAGE, $OUTPUT, $USER;
 
@@ -42,7 +42,7 @@ $PAGE->set_context($coursecontext);
 $template   = new block_mbstpl\dataobj\template(array('courseid' => $courseid), true, MUST_EXIST);
 $starrating = new block_mbstpl\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));
 
-$form = new block_mbstpl\form\starrating(null, array('courseid' => $courseid));
+$form = new block_mbstpl\form\starrating($thisurl);
 if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {

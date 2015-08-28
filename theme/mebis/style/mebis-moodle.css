@@ -16710,6 +16710,14 @@ input[type="checkbox"] + label {
   background-color: #00a8d5;
 }
 
+.que .formulation {
+  background: #fff;
+  border-color: #ddd;
+}
+.que .formulation hr {
+  border-top-color: #ddd;
+}
+
 .que.ddmatch li.placeholder, .que.ddmatch li.matchdrag {
   list-style-type: none !important;
 }
@@ -16730,6 +16738,13 @@ input[type="checkbox"] + label {
 .que.multianswer .answer div.r1 input {
   margin: 0 5px 0 0;
   width: 15px;
+}
+.que.multianswer .feedbackspan {
+  background: #00a8d5;
+  color: #fff;
+  border: none;
+  -webkit-box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
 }
 
 .que.multichoice .ablock,

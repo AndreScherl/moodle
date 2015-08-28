@@ -164,6 +164,15 @@
     }
 }
 
+.que .formulation {
+    background: $white;
+    border-color: #ddd;
+   
+    hr {
+        border-top-color: #ddd;
+    }
+}
+
 //++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
 
 //questiontype ddmatch
@@ -192,10 +201,20 @@
 }
 
 //questiontype multianswer
-.que.multianswer .answer div.r0 input, 
-.que.multianswer .answer div.r1 input {
-    margin: 0 5px 0 0;
-    width: 15px;
+.que.multianswer  {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 5px 0 0;
+        width: 15px;
+    }
+
+    .feedbackspan {
+        background: $brand-primary;
+        color: $white;
+        border: none;
+        @include box-shadow(0 0 20px 1px rgba(0,0,0,0.3));
+    }
 }
 
 //questiontype multichoice

@@ -26,6 +26,7 @@ global $PAGE, $OUTPUT, $USER;
 
 $courseid = required_param('course', PARAM_INT);
 $coursecontext = context_course::instance($courseid);
+$course = get_course($courseid);
 $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
 
 if (!\block_mbstpl\perms::can_leaverating($coursecontext)) {
@@ -60,6 +61,10 @@ if ($form->is_cancelled()) {
 }
 
 echo $OUTPUT->header();
+
+echo html_writer::tag('h1', $course->fullname);
+
+echo html_writer::tag('h3', get_string('rating_header', 'block_mbstpl'));
 
 echo html_writer::div($form->render(), 'template_rating');
 

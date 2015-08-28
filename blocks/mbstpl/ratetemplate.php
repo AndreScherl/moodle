@@ -13,15 +13,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package block_star_rating
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @package block_mbstpl
+ * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once (dirname(dirname(__DIR__)) . '/config.php');
 
-$plugin->version   = 2015080500;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_star_rating';
-$plugin->maturity  = MATURITY_STABLE;
+global $PAGE, $OUTPUT;
+
+$courseid = required_param('courseid', PARAM_INT);
+
+$thisurl = new moodle_url('/blocks/mbstpl/ratetemplate.php');
+$thisurl->param('courseid', $courseid);
+
+$PAGE->set_url($thisurl);
+$PAGE->set_pagelayout('course');
+
+$coursecontext = context_course::instance($courseid);
+
+$PAGE->set_context($coursecontext);
+
+echo $OUTPUT->header();
+
+echo $PAGE->get_renderer('block_mbstpl')->starrating();
+
+echo $OUTPUT->footer();

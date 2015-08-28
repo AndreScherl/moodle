@@ -149,7 +149,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $cbox .= html_writer::table($table);
         return html_writer::div($cbox, 'mbstcoursebox');
     }
-	
+
 	/**
      * Return list of tempalte history.
      * @param array $revhists
@@ -233,6 +233,19 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             }
             $html .= html_writer::table($table);
         }
+        return $html;
+    }
+
+    public function starrating() {
+//         global $OUTPUT, $DB, $PAGE;
+
+        $html = '';
+
+        $form = new \block_mbstpl\form\starrating();
+        $html .= \html_writer::div($form->render(), 'star_rating_div');
+
+//         $headingpanel = \html_writer::tag('h3', 'Search Results'); // TODO: Externalise
+
         return $html;
     }
 }

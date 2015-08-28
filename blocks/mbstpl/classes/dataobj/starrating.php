@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 class starrating extends base {
 
     public $required_fields = array('id', 'templateid', 'userid', 'rating');
-    public $optional_fields = array('feedback' => '', 'timecreated' => 0);
+    public $optional_fields = array('comment' => '', 'timecreated' => 0);
 
     /* @var int templateid  */
     public $templateid;
@@ -43,8 +43,8 @@ class starrating extends base {
     /* @var int rating */
     public $rating;
 
-    /* @var string feedback  */
-    public $feedback;
+    /* @var string comment  */
+    public $comment;
 
     /* @var int timecreated  */
     public $timecreated;

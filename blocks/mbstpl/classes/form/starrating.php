@@ -34,12 +34,13 @@ class starrating extends \moodleform {
 
         $mform = $this->_form;
 
+        $mform->addElement('hidden', 'course', $this->_customdata['courseid']);
+        $mform->setType('course', PARAM_INT);
+
         $radioarray = array();
-        $radioarray [] =& $mform->createElement('radio', 'yesno', '', get_string('rating_star' ,'block_mbstpl', 1), 1);
-        $radioarray [] =& $mform->createElement('radio', 'yesno', '', get_string('rating_star' ,'block_mbstpl', 1), 2);
-        $radioarray [] =& $mform->createElement('radio', 'yesno', '', get_string('rating_star' ,'block_mbstpl', 2), 3);
-        $radioarray [] =& $mform->createElement('radio', 'yesno', '', get_string('rating_star' ,'block_mbstpl', 3), 4);
-        $radioarray [] =& $mform->createElement('radio', 'yesno', '', get_string('rating_star' ,'block_mbstpl', 4), 5);
+        for ($i = 1; $i <= 5; $i++) {
+            $radioarray[] =& $mform->createElement('radio', 'block_mbstpl_rating', '', get_string('rating_star' ,'block_mbstpl', $i), $i);
+        }
         $mform->addGroup($radioarray, 'radioar', '', array(' '), false );
 
         $mform->addElement('text', 'block_mbstpl_rating_comment', get_string('rating_comments', 'block_mbstpl'), array('maxlength' => 200, 'size' => 100));

@@ -116,5 +116,15 @@
         <INDEX NAME="templateid" UNIQUE="false" FIELDS="templateid"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="block_mbstpl_starrating" COMMENT="Template rating">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="templateid" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="rating" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="comment" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+    </TABLE>
   </TABLES>
 </XMLDB>

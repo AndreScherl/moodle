@@ -22,12 +22,12 @@
 
 require_once (dirname(dirname(__DIR__)) . '/config.php');
 
-global $PAGE, $OUTPUT;
+global $PAGE, $OUTPUT, $USER;
 
-$courseid = required_param('courseid', PARAM_INT);
+$courseid = required_param('course', PARAM_INT);
 
 $thisurl = new moodle_url('/blocks/mbstpl/ratetemplate.php');
-$thisurl->param('courseid', $courseid);
+$thisurl->param('course', $courseid);
 
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
@@ -36,8 +36,29 @@ $coursecontext = context_course::instance($courseid);
 
 $PAGE->set_context($coursecontext);
 
+$form = new block_mbstpl\form\starrating(null, array('courseid' => $courseid));
+$redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
+if ($form->is_cancelled()) {
+    redirect($redirecturl);
+} else if ($data = $form->get_data()) {
+
+    $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true, MUST_EXIST);
+
+    $ratingdata = array(
+        'userid' => $USER->id,
+        'templateid' => $template->id,
+        'rating' => $data->block_mbstpl_rating,
+        'comment' => $data->block_mbstpl_rating_comment
+    );
+
+    $rating = new \block_mbstpl\dataobj\starrating($ratingdata);
+    $rating->insert();
+
+    redirect($redirecturl);
+}
+
 echo $OUTPUT->header();
 
-echo $PAGE->get_renderer('block_mbstpl')->starrating();
+echo html_writer::div($form->render(), 'template_rating');
 
 echo $OUTPUT->footer();

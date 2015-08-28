@@ -125,6 +125,12 @@
         <FIELD NAME="comment" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="unique_user_template" UNIQUE="true" FIELDS="templateid, userid"/>
+      </INDEXES>
     </TABLE>
   </TABLES>
 </XMLDB>

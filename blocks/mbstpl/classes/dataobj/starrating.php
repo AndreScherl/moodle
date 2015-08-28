@@ -33,6 +33,7 @@ class starrating extends base {
 
     public $required_fields = array('id', 'templateid', 'userid', 'rating');
     public $optional_fields = array('comment' => '', 'timecreated' => 0);
+    public $noduplfields = array('templateid', 'userid');
 
     /* @var int templateid  */
     public $templateid;

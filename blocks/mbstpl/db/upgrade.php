@@ -47,6 +47,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
 
         // Adding keys to table block_mbstpl_starrating.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('unique_user_template', XMLDB_KEY_UNIQUE, array('templateid','userid'));
 
         // Launch create table for block_mbstpl_starrating.
         $dbman->create_table($table);

@@ -125,6 +125,10 @@ class perms {
      * @param \context_course $coursecontext
      */
     public static function can_leaverating(\context_course $coursecontext) {
-        return has_capability('block/mbstpl:ratetemplate', $coursecontext);
+        if (!has_capability('block/mbstpl:ratetemplate', $coursecontext)) {
+            return false;
+        }
+
+        return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
     }
 }

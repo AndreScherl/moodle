@@ -40,16 +40,7 @@ $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 $PAGE->set_context($coursecontext);
 
-// Try to load a template from the course id - meaning the user is rating the template itself.
-$template = new block_mbstpl\dataobj\template(array('courseid' => $courseid));
-if (!$template->fetched) {
-    // Check to see if this course was created from a template, and load that template instead.
-    $templateid = null; // TODO: get the template id for the (current) course.
-    if ($templateid) {
-        $template = new block_mbstpl\dataobj\template(array('id' => $templateid));
-    }
-}
-
+$template = block_mbstpl\dataobj\template::get_from_course($courseid);
 if (!$template->fetched) {
     redirect($redirecturl);
 }

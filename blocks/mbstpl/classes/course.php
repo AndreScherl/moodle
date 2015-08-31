@@ -65,7 +65,7 @@ class course {
             $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
         }
 
-        if ($template && perms::can_leaverating($coursecontext)) {
+        if (perms::can_leaverating($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
             $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
         }

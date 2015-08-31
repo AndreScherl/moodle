@@ -12,7 +12,7 @@ Put all the pagelayout specific styles here.
 */
 
 .pagelayout-admin, .pagelayout-report {
-    
+
     //styling block configuration page 
     #main-content-wrapper {
         //need important because of the styling of mydashboard (#page-my-index #main-content-wrapper in _cu-pages.scss)
@@ -31,29 +31,38 @@ Put all the pagelayout specific styles here.
 }
 
 .pagelayout-maintenance {
-    
+
     .me-wrapper .container.homepage-container.admin-container {
         background: $white;
         margin-bottom: 40px;
     }   
 }
 
+.admin-container {
+    
+    table {
+        background: $white;
+    }
+}
+
 @media only screen and (min-width: $screen-lg-min) {
 
-        .admin-container {
+    .admin-container {
 
-            width: 100%;
-            max-width: 1680px;
-            padding-left: 100px;
+        width: 100%;
+        max-width: 1692px;
+        padding-left: 100px;
 
-            table {
-
-                width: 100% !important;
-
-                .mceToolbar {
-                    width : auto !important;
-                }
-            }
-
+        .admin-content {
+            margin-bottom: 25px;
         }
+
+        table {
+
+            .mceToolbar {
+                width : auto !important;
+            }
+        }
+
     }
+}

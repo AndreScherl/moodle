@@ -85,16 +85,7 @@ echo $OUTPUT->doctype()
                         </div>
                     </div>
 
-                    <div class="col-lg-3 visible-lg">
-                        <div class="row">
-                            <?php
-                            if ($knownregionadminnavi) {
-                                echo $OUTPUT->blocks('admin-navi');
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-12 col-sm-12">
+                    <div class="col-sm-12">
                         <div class="admin-content">
                             <?php
                             echo $OUTPUT->course_content_header(); ?>
@@ -106,6 +97,19 @@ echo $OUTPUT->doctype()
                             ?>
                         </div>
                     </div>
+                    <div class="col-lg-12 col-sm-12 no-background visible-lg">
+                        <h2 id="my-apps"><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
+                    </div>
+                    <div class="col-lg-12 visible-lg">
+                        <aside class="row">
+                            <?php
+                            if ($knownregionadminnavi) {
+                                echo $OUTPUT->blocks('admin-navi', array(), 'div');
+                            }
+                            ?>
+                        </aside>
+                    </div>
+                    
                 </div>
             </div>
 

@@ -15331,14 +15331,18 @@ Put all the pagelayout specific styles here.
   margin-bottom: 40px;
 }
 
+.admin-container table {
+  background: #fff;
+}
+
 @media only screen and (min-width: 1200px) {
   .admin-container {
     width: 100%;
-    max-width: 1680px;
+    max-width: 1692px;
     padding-left: 100px;
   }
-  .admin-container table {
-    width: 100% !important;
+  .admin-container .admin-content {
+    margin-bottom: 25px;
   }
   .admin-container table .mceToolbar {
     width: auto !important;
@@ -15966,7 +15970,7 @@ Here are to go all styles, which are NOT:
 }
 
 .no-background {
-  background: tranparent;
+  background: transparent;
   color: #fff;
 }
 
@@ -16790,6 +16794,16 @@ input[type="checkbox"] + label {
   overflow: visible;
 }
 
+#page-mod-assign-view .homepage-container {
+  width: 100%;
+  max-width: 1692px;
+}
+
+@media only screen and (min-width: 1200px) {
+  #page-mod-assign-view .homepage-container {
+    padding-left: 100px;
+  }
+}
 @media only screen and (min-width: 640px) {
   #page-repository-pmediathek-search #mform1 {
     display: inline;

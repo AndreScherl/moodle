@@ -116,7 +116,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 
         $transparent = array('mbsmycourses', 'mbsmyschools');
 
-        if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
+        if (in_array($bc->attributes['data-block'], $full)) {
             $tr = in_array($bc->attributes['data-block'], $transparent) ? ' block-transparent' : '';
             $output .= html_writer::start_tag('div', array('class' => 'col-md-12' . $tr));
         } else {
@@ -129,7 +129,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             $output .= $this->block_content($bc);
         $output .= html_writer::end_div();
         
-        if (in_array($bc->attributes['data-block'], $full) || $region == 'admin-navi') {
+        if (in_array($bc->attributes['data-block'], $full)) {
             $output .= html_writer::end_div();
         }
 

@@ -167,7 +167,7 @@
 .que .formulation {
     background: $white;
     border-color: #ddd;
-   
+
     hr {
         border-top-color: #ddd;
     }
@@ -278,6 +278,18 @@
             overflow: visible;
         }
     } 
+}
+
+#page-mod-assign-view .homepage-container {
+    width: 100%;
+    max-width: 1692px;
+}
+
+
+@media only screen and (min-width: $screen-lg-min) { 
+    #page-mod-assign-view .homepage-container {
+        padding-left: 100px;
+    }
 }
 
 @media only screen and (min-width: $screen-xc-min) {

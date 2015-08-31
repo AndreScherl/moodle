@@ -1,23 +1,35 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Help note renderer.
  *
- * @package theme_mebis
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/lib/outputrenderers.php");
 
-class theme_mebis_help_renderer extends renderer_base
-{
+class theme_mebis_help_renderer extends renderer_base {
     
     private $pageactionnavigation = false;
 
-    public function page_action_navigation()
-    {
+    public function page_action_navigation() {
         // asch: The next five lines are only a quick fix, because we will refactor the me-in-page-menu in time.
         global $PAGE;
         $noactionpages = array("course-view-topics", "course-view-grid", "course-view-onetopic", "course-view-topcoll");
@@ -43,20 +55,17 @@ class theme_mebis_help_renderer extends renderer_base
         }
     }
 
-    public function get_adminnav_selectbox()
-    {
+    public function get_adminnav_selectbox() {
         $nav = new mebis_admin_nav();
         return $nav->render_as_selectbox();
     }
 
 }
 
-class mebis_admin_nav
-{
+class mebis_admin_nav {
     public $navigation;
 
-    public function __construct()
-    {
+    public function __construct() {
         global $PAGE, $CFG, $OUTPUT;
 
         $this->page = $PAGE;
@@ -64,11 +73,10 @@ class mebis_admin_nav
         $this->navigation = $this->get_admin_nav_items($nav);
     }
 
-    public function render_as_selectbox()
-    {
+    public function render_as_selectbox() {
         if($this->navigation) {
             $select = sprintf('<h3>%s</h3>', get_string('menu-administration-link', 'theme_mebis'));
-            $select .= '<select data-change>';
+            $select .= '<select data-change onchange="location = this.options[this.selectedIndex].value;">';
             foreach($this->navigation as $key => $nav) {
                 $select .= $this->render_option($nav);
             }
@@ -78,8 +86,7 @@ class mebis_admin_nav
         }
     }
 
-    public function render_option( $nav, $lvl = 0 )
-    {
+    public function render_option( $nav, $lvl = 0 ) {
         $url = $this->get_item_url($nav->action);
         $title = (gettype($nav->text) === 'string') ? $nav->text : $this->get_item_title($nav->text);
         $output = '';
@@ -104,8 +111,7 @@ class mebis_admin_nav
         return $output;
     }
 
-    public function current_url()
-    {
+    public function current_url() {
         $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')
                         === FALSE ? 'http' : 'https';
         $host     = $_SERVER['HTTP_HOST'];
@@ -117,8 +123,7 @@ class mebis_admin_nav
         return $currentUrl;
     }
 
-    public function get_item_title( $text )
-    {
+    public function get_item_title( $text ) {
         $text = (array) $text;
         $title = '';
 
@@ -134,13 +139,12 @@ class mebis_admin_nav
         return $title;
     }
 
-    public function get_item_url( $action )
-    {
+    public function get_item_url( $action ) {
         $action = (array) $action;
-
+        
         $url = '';
 
-        foreach($action as $key => $val) {
+        foreach($action as $key => $val) {            
             $key = str_replace('*', '', $key);
             $key = strip_tags($key);
             $params = '';
@@ -168,13 +172,12 @@ class mebis_admin_nav
     }
 
 
-    public function get_admin_nav_items()
-    {
+    public function get_admin_nav_items() {
         global $CFG, $OUTPUT;
         $nav = $this->page->settingsnav;
 
-        foreach($nav->children as $key => $children) {
-            if(!$children->id && $children->key == 'root' && $children->text == get_string('administrationsite')) {
+        foreach($nav->children as $key => $children) { 
+            if(!$children->id && $children->key == 'root' && $children->text == get_string('administrationsite')) {                
                 return $children->children;
             }
         }

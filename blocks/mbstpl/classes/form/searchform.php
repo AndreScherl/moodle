@@ -46,6 +46,7 @@ class searchform extends \moodleform {
         $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist->questions);
 
         $form->addElement('hidden', 'layout', 'grid');
+        $form->setType('layout', PARAM_TEXT);
 
         foreach ($questions as $q) {
             $options = array();
@@ -67,6 +68,7 @@ class searchform extends \moodleform {
         }
 
         $form->addElement('text', 'keyword', 'Search Field');
+        $form->setType('keyword', PARAM_TEXT);
 
         $form->addElement('submit', 'submitbutton', get_string('search'));
     }

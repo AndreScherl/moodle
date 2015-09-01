@@ -42,6 +42,28 @@ class template extends base {
     const STATUS_ARCHIVED = 4;
 
     /**
+     * Get the template associated with this course id. If there's no template with this course id,
+     * get the template from which this course (id) was created. Otherwise return null.
+     *
+     * @return \block_mbstpl\dataobj\template
+     */
+    public static function get_from_course($courseid) {
+
+        // Try to load a template from the course id - meaning the user is rating the template itself.
+        $template = new template(array('courseid' => $courseid));
+        if (!$template->fetched) {
+
+            // Check to see if this course was created from a template, and load that template instead.
+            $templateid = null; // TODO: get the template id for the (current) course.
+            if ($templateid) {
+                $template = new template(array('id' => $templateid));
+            }
+        }
+
+        return $template->fetched ? $template : null;
+    }
+
+    /**
      * Array of required table fields, must start with 'id'.
      * Defaults to id, course, criteriatype, module, moduleinstane, courseinstance,
      * enrolperiod, timeend, gradepass, role

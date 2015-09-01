@@ -65,6 +65,11 @@ class course {
             $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
         }
 
+        if (perms::can_leaverating($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
+            $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
+        }
+
         if ($tplnode->has_children()) {
             $coursenode->add_node($tplnode);
         }
@@ -191,7 +196,7 @@ class course {
         // Enrol reviewer.
         user::enrol_reviewer($courseid, $userid);
     }
-	
+
     /**
      * Get template's revision history.
      * @param int $templateid

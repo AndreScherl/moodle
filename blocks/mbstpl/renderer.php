@@ -149,7 +149,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $cbox .= html_writer::table($table);
         return html_writer::div($cbox, 'mbstcoursebox');
     }
-	
+
 	/**
      * Return list of tempalte history.
      * @param array $revhists
@@ -235,4 +235,5 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
         return $html;
     }
+
 }

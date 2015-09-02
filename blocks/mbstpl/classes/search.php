@@ -43,7 +43,6 @@ class search {
             $filtercriteria = array();
             $formdata = get_object_vars($formdata);
             if ($formdata) {
-
                 // If there has been data posted to the forms, find the data from the dropdown filters
                 foreach (array_keys($formdata) as $settingkey) {
                     if (preg_match(FILTER_REGEX, $settingkey)) {

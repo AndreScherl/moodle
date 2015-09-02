@@ -24,8 +24,7 @@ require_once (dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
-use \block_mbstpl\search;
-use \block_mbstpl\dataobj\template;
+use \block_mbstpl as mbst;
 
 // Page preparation.
 $thisurl = new moodle_url('/blocks/mbstpl/templatesearch.php');
@@ -42,9 +41,11 @@ $pagesize = 15;
 $pagenumber = optional_param('page', 1, PARAM_INT);
 $startrecord = ($pagenumber - 1) * $pagesize;
 
-$searchform = new \block_mbstpl\form\searchform();
-$search = new \block_mbstpl\search();
-$courses = $search->get_search_result($searchform->get_data(), $startrecord, $pagesize);
+$searchform = new mbst\form\searchform();
+$search = new mbst\search();
+if ($data = $searchform->get_data()) {
+    $courses = $search->get_search_result($data, $startrecord, $pagesize);
+}
 
 $PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',
         'M.block_mbstpl.templatesearch.init', array(), null, true);

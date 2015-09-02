@@ -49,4 +49,9 @@ class qtype_text extends qtype_base {
         $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $form->setType($question->fieldname, PARAM_TEXT);
     }
+
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        $form->addElement('text', $elname, $question->title);
+        $form->setType($elname, PARAM_TEXT);
+    }
 }

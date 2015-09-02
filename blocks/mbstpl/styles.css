@@ -37,7 +37,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     margin-left: auto;
 }
 
-.mbstpl-search-form .mform .fitem .felement select {
+.mbstpl-search-form .mform .fitem .felement  > select {
     width: 200px;
 }
 

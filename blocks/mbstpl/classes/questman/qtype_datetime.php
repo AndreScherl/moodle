@@ -75,4 +75,17 @@ class qtype_datetime extends qtype_base {
         return parent::save_answer($metaid, $questionid, $answer);
     }
 
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        $attributes = array(
+            'startyear' => $question->param1,
+            'stopyear'  => $question->param2,
+            'optional'  => true,
+        );
+        $elgroup = array();
+        $elgroup[] = $form->createElement('date_time_selector', 'from', get_string('from'), $attributes);
+        $elgroup[] = $form->createElement('date_time_selector', 'until', get_string('to'), $attributes);
+        $separator = \html_writer::empty_tag('br') . get_string('to') . \html_writer::empty_tag('br');
+        $form->addGroup($elgroup, $elname, $question->title, $separator);
+    }
+
 }

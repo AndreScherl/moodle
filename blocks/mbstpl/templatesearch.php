@@ -41,10 +41,15 @@ $pagesize = 15;
 $pagenumber = optional_param('page', 1, PARAM_INT);
 $startrecord = ($pagenumber - 1) * $pagesize;
 
-$searchform = new mbst\form\searchform();
-$search = new mbst\search();
+// Load questions.
+$qidlist = \block_mbstpl\questman\manager::get_active_qform();
+$questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist->questions);
+
+$searchform = new mbst\form\searchform(null, array('questions' => $questions));
+$courses = array();
 if ($data = $searchform->get_data()) {
-    $courses = $search->get_search_result($data, $startrecord, $pagesize);
+    $search = new mbst\search($questions, $data);
+    $courses = $search->get_search_result($startrecord, $pagesize);
 }
 
 $PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',

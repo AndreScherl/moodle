@@ -109,4 +109,13 @@ class qtype_base {
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
 
     }
+
+    /**
+     * Returns an array of arrays 'wheres' and 'params'. They may be empty.
+     * @param object $question
+     * @param mixed $answer
+     */
+    public static function get_query_filters($question, $answer) {
+        return array('wheres' => array(), 'params' => array());
+    }
 }

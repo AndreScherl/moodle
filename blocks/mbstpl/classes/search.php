@@ -26,101 +26,100 @@ defined('MOODLE_INTERNAL') || die();
 
 use \block_mbstpl\dataobj\template;
 
-define('FILTER_REGEX', "/^q[0-9]/");
-
 class search {
 
+    /* @var array questions  */
+    private $questions;
+
+    /* @var array answers  */
+    private $answers;
+
     /**
-     * Create a WHERE clause part fragments on the data that has been posted from the drop down
-     * filter options.
-     *
+     * @param array $questions
      * @param \stdClass $formdata
-     *
-     * @return array
      */
-    private function create_filter_criteria($formdata) {
-        if ($formdata) {
-            $filtercriteria = array();
-            $formdata = get_object_vars($formdata);
-            if ($formdata) {
-                // If there has been data posted to the forms, find the data from the dropdown filters
-                foreach (array_keys($formdata) as $settingkey) {
-                    if (preg_match(FILTER_REGEX, $settingkey)) {
-                        $questionid = intval(substr($settingkey, 1));
-                        $value = required_param($settingkey, PARAM_ALPHANUM);
-
-                        // Add filters to the search criteria.
-                        if (!is_null($value) && strlen($value) > 0) {
-                            $filtercriteria[] = "(questionid = {$questionid} AND data = {$value})";
-                        }
-                    }
-                }
-            }
-
-            return $filtercriteria;
-        } else {
-            return array();
-        }
+    function __construct($questions, $formdata) {
+        $this->questions = $questions;
+        $this->answers = $this->formdata_to_answers($formdata);
     }
 
     /**
-     * Create WHERE clause fragment for free text search.
-     *
-     * @return string
+     * Turns form data into an array of question id => answer (answer might be an array).
+     * @param $formdata
      */
-    private function create_freetext_criteria() {
-        global $DB;
-
-        $sql = ' AND (';
-        $sql .= '(' . $DB->sql_like('C.fullname', '?', false) . ')';
-        $sql .= ' OR (' . $DB->sql_like('C.idnumber', '?', false) . ')';
-        $sql .= ' OR (' . $DB->sql_like('C.shortname', '?', false) . ')';
-        $sql .= ' OR (' . $DB->sql_like('A.data', '?', false) . ')';
-        $sql .= ')';
-
-        return $sql;
+    private function formdata_to_answers($formdata) {
+        $answers = array();
+        foreach($formdata as $key => $answer) {
+            if (empty($answer)) {
+                continue;
+            }
+            $keys = explode('_', $key);
+            if (count($keys) < 2) {
+                continue;
+            }
+            if ($keys[0] != 'q') {
+                continue;
+            }
+            $qid = $keys[1];
+            if (count($keys) > 2) {
+                $qparam = $keys[2];
+                if (!isset($answers[$qid])) {
+                    $answers[$qid] = array();
+                }
+                $answers[$qid][$qparam] = $answer;
+                continue;
+            }
+            $answers[$qid] = $answer;
+        }
+        return $answers;
     }
 
     /**
      * Provide a list of courses that matches the criteria submitted from the search page.
      *
-     * @param \stdClass $formdata
      * @param int $startrecord
      * @param int $pagesize
      *
      * @return array list of courses matching the search filters
      */
-    public function get_search_result($formdata, $startrecord, $pagesize) {
+    public function get_search_result($startrecord, $pagesize) {
         global $DB;
 
-        $filtercriteria = $this->create_filter_criteria($formdata);
-        $queryparams = array();
+        $wheres = array();
+        $params = array();
 
-        // Set the base of the query.
-        $sql = 'SELECT C.* FROM {block_mbstpl_answer} AS A';
-        $sql .= ' JOIN {block_mbstpl_meta} as M ON M.id = A.metaid ';
-        $sql .= ' JOIN {block_mbstpl_template} as T on M.templateid = T.id';
-        $sql .= ' JOIN {course} as C on T.courseid = C.id';
-        $sql .= ' WHERE T.status = ? ';
-        $queryparams[] = template::STATUS_PUBLISHED;
-        if (count($filtercriteria) > 0) {
-            $sql .= ' AND (' . join(' OR ', $filtercriteria) . ')';
+        foreach($this->answers as $qid => $answer) {
+            if (!isset($this->questions[$qid])) {
+                continue;
+            }
+            $question = $this->questions[$qid];
+            $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
+            $toadd = $typeclass->get_query_filters($question, $answer);
+            $wheres += $toadd['wheres'];
+            $params += $toadd['params'];
         }
+        $wheres[] = 'tpl.status = :stpublished';
+        $filterwheres = implode("\n            AND ", $wheres);
 
-        if (isset($formdata->keyword) && $formdata->keyword) {
-            $sql .= $this->create_freetext_criteria();
-            $keyword = '%' . $DB->sql_like_escape(required_param("keyword", PARAM_TEXT)) . '%';
-            array_push($queryparams, $keyword, $keyword, $keyword, $keyword);
-        }
+        $selectsql = "
+        SELECT c.id, c.fullname
+        ";
 
-        $sql .= ' GROUP BY metaid';
+        $coresql = "
+        FROM {course} c
+        JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id
+        JOIN {block_mbstpl_meta} mta ON mta.templateid = tpl.id
+        WHERE $filterwheres
+        ";
 
-        // Append it if there was any filter criteria.
-        if (count($filtercriteria) > 0) {
-            $sql .= ' HAVING count(metaid) = ?';
-            $queryparams[] = count($filtercriteria);
-        }
+        $params['stpublished'] = template::STATUS_PUBLISHED;
 
-        return $DB->get_records_sql($sql, $queryparams, $startrecord, $pagesize);
+        $sql = "
+        $selectsql
+        $coresql
+        ";
+
+        $results = $DB->get_records_sql($sql, $params);
+        return $results;
     }
 }

@@ -41,15 +41,14 @@ class searchform extends \moodleform {
     public function definition() {
         $form = $this->_form;
 
-        $qidlist = \block_mbstpl\questman\manager::get_active_qform();
-        $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist->questions);
+        $questions = $this->_customdata['questions'];
 
         $form->addElement('hidden', 'layout', 'grid');
         $form->setType('layout', PARAM_TEXT);
 
         foreach ($questions as $question) {
             $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
-            $elname = 'q' . $question->id;
+            $elname = 'q_' . $question->id;
             $typeclass->add_to_searchform($form, $question, $elname);
         }
 

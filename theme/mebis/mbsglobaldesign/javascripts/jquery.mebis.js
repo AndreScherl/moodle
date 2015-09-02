@@ -4,8 +4,9 @@ var Mebis = (function ($) {
     var $win; // to be initialized after DOM ready.
     var $body;
     var didScroll = false;
-    var lastY = 0;
-    var anchorHeadlinePositions = [];
+    var backTopAppearOn = 300;
+//    var lastY = 0;
+//    var anchorHeadlinePositions = [];
 
     function isMobile() {
         return ($win.width()) <= 768 ? true : false;
@@ -14,18 +15,7 @@ var Mebis = (function ($) {
     /**
      * To-Top-Button
      */
-    function initToTop() {
-
-        $win.on('scroll', function () {
-            if ($(this).scrollTop() > 100) {
-                $('.me-back-top').fadeIn();
-            } else {
-                if (!isMobile()) {
-                    $('.me-back-top').fadeOut();
-                }
-            }
-        });
-
+    function scrollToTop() {
         // scroll body to 0px on click
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
@@ -279,28 +269,27 @@ var Mebis = (function ($) {
             });
         }
 
-        if (isMobile()) {
-            var $topbar = $('#topbar');
-            lastY = $(window).scrollTop();
-            /*
-             $(window).on({
-             touchmove: function(e) {
-             var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
-             
-             if (Math.abs(currentY - lastY) < 20) { return; }
-             
-             if (currentY > lastY) {
-             $topbar.show();
-             } else {
-             $topbar.hide();
-             }
-             
-             lastY = currentY;
-             }
-             });
-             */
-        }
-
+        /*if (isMobile()) {
+         var $topbar = $('#topbar');
+         lastY = $(window).scrollTop();
+         
+         $(window).on({
+         touchmove: function(e) {
+         var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
+         
+         if (Math.abs(currentY - lastY) < 20) { return; }
+         
+         if (currentY > lastY) {
+         $topbar.show();
+         } else {
+         $topbar.hide();
+         }
+         
+         lastY = currentY;
+         }
+         });
+         
+         }*/
     }
 
     /**
@@ -478,21 +467,8 @@ var Mebis = (function ($) {
     }
 
     function initAnchorLinks() {
-        var $button = $(".me-in-page-menu-mobile-trigger");
-        var $menu = $(".me-in-page-menu-anchor-links");
+        var $menu = $(".me-menu-anchor-links");
         var $anchorLinks = $menu.children("li");
-
-        $button.on('click', function () {
-            var status = $button.attr("data-status");
-
-            if (status == "hidden") {
-                $menu.slideDown(250);
-                $button.attr("data-status", "visible");
-            } else {
-                $menu.slideUp(250);
-                $button.attr("data-status", "hidden");
-            }
-        });
 
         $anchorLinks.on('click', 'a', function (e) {
             e.preventDefault();
@@ -534,11 +510,10 @@ var Mebis = (function ($) {
      }
      });
      
-     $(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
+     $(".me-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
      }
      */
-    function handleSelectboxNavChange()
-    {
+    function handleSelectboxNavChange() {
         var $selectbox = $('[data-change]');
 
         $selectbox.on('click', function () {
@@ -559,15 +534,23 @@ var Mebis = (function ($) {
 //    }
 
     /**
-     * Animate resizing header on scroll
+     * Animate resizing header and back to top button on scroll
      */
-    function initResizingHeader() {
+    function scrollExperience() {
+        //hide to top button at the beginning
+        if ($('.me-back-top').length) {
+            $('.me-back-top').hide();
+        }
+        //get scroll event
         $win.scroll(function () {
             didScroll = true;
         });
+
         setInterval(function () {
             if (didScroll) {
                 didScroll = false;
+
+                //header 
                 var distanceY = $win.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
                 var shrinkOn = 300;
                 var $header = $('header');
@@ -580,8 +563,36 @@ var Mebis = (function ($) {
                     $header.removeClass('smaller');
                     $navbarTop.removeClass('smaller');
                 }
+
+                //to top button
+                if ($(this).scrollTop() > backTopAppearOn) {
+                    $('.me-back-top').fadeIn();
+                } else {
+                    $('.me-back-top').fadeOut();
+                }
             }
         }, 250);
+    }
+
+    /**
+     * Prevent the overlapping of the sidebar jump navigation with the to top button
+     */
+    function preventOverlappingSidebar() {
+        var $anchorLinks = $('.me-page-action-menu .me-menu-anchor-links');
+        //topActionMenu value must be the same as the value in theme\mebis\mbsglobaldesign\scss\layout.scss
+        //.me-page-action-menu {  top: 250px; }
+        //we can not use $anchorLinks.offset().top, because this value always changes
+        var topActionMenu = 250;
+        var offsetInPageMenu = $('.me-in-page-menu').offset();
+
+        if ($anchorLinks.offset().top + $anchorLinks[0].offsetHeight >= offsetInPageMenu.top) {
+            //prevent overlapping elements
+            var distance = topActionMenu + $anchorLinks[0].offsetHeight + 10;
+            backTopAppearOn = distance;
+            $('.me-page-action-menu').addClass('overlap');
+        } else {
+            $('.me-page-action-menu').removeClass('overlap');
+        }
     }
 
     return {
@@ -590,8 +601,8 @@ var Mebis = (function ($) {
             $win = $(window);
             $body = $('body');
 
-            initToTop();
-            initResizingHeader();
+            scrollToTop();
+            scrollExperience();
             //initInvertContrastSwitch();
             handleFontSizeSwitch();
             initTooltips();
@@ -612,13 +623,13 @@ var Mebis = (function ($) {
             //setAnchorClass();
             handleSelectboxNavChange();
 //            initStickyHeader();
+            preventOverlappingSidebar();
         },
-        
         resize: function () {
             initBlockLinkResize();
             $.equalizer();
+            preventOverlappingSidebar();
         },
-        
         orientationchange: function () {
             initBlockLinkResize();
             initImageBlurCanvas();
@@ -626,7 +637,6 @@ var Mebis = (function ($) {
                 $.equalizer();
             }, 50);
         },
-        
         scroll: function () {
             //setAnchorClass();
         }

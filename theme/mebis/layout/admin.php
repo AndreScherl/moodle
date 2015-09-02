@@ -119,6 +119,7 @@ echo $OUTPUT->doctype()
         <!-- HOMEPAGE-WRAPPER [end] -->
         <?php
         echo $OUTPUT->main_footer();
+        echo $OUTPUT->page_fastaccess_navigation();
         echo $OUTPUT->page_action_navigation();
         
         $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));

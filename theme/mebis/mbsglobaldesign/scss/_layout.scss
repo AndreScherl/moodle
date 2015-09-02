@@ -377,58 +377,58 @@
         }
 
     }
-//fhüb: not in use
-   /* 
-    .me-logged-out {
-
-        .guest-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            z-index: 99;
-            width: 100%;
-            min-height: 90%;
-
-            .guest-overlay-inner {
-                position: absolute;
-                z-index: 100;
-                bottom: 0;
-                left: 0;
-                padding: 18px 10px;
-                list-style: none;
-                background: rgba($brand-gray-dark,0.95);
-                width: 100%;
-                margin-bottom: 0;
-                @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-
-                a {
-                    &:hover {
-                        color: $brand-secondary;
-                    }
-                }
-            }
-        }
-
-    }*/
+    //fhüb: not in use
+    /* 
+     .me-logged-out {
+ 
+         .guest-overlay {
+             position: absolute;
+             bottom: 20px;
+             left: 0;
+             z-index: 99;
+             width: 100%;
+             min-height: 90%;
+ 
+             .guest-overlay-inner {
+                 position: absolute;
+                 z-index: 100;
+                 bottom: 0;
+                 left: 0;
+                 padding: 18px 10px;
+                 list-style: none;
+                 background: rgba($brand-gray-dark,0.95);
+                 width: 100%;
+                 margin-bottom: 0;
+                 @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+ 
+                 a {
+                     &:hover {
+                         color: $brand-secondary;
+                     }
+                 }
+             }
+         }
+ 
+     }*/
 
     //fhüb: not in use
-   /* .me-logged-out-teaser {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        width: 550px;
-        height: auto;
-        margin-left: -275px;
-        padding: 8px;
-        background: $brand-secondary;
-
-        text-align: center;
-        color: $white;
-
-        a {
-            color: $white;
-        }
-    }*/
+    /* .me-logged-out-teaser {
+         position: absolute;
+         top: 100%;
+         left: 50%;
+         width: 550px;
+         height: auto;
+         margin-left: -275px;
+         padding: 8px;
+         background: $brand-secondary;
+ 
+         text-align: center;
+         color: $white;
+ 
+         a {
+             color: $white;
+         }
+     }*/
 
     // ========================================= Buttons, Forms, etc ========================================= */
 
@@ -803,7 +803,7 @@
             ul {
                 display: inline-block;
                 padding: 0;
-                list-stle: none;
+                list-style: none;
                 font-size: 1.5em;
 
                 li {
@@ -875,7 +875,7 @@
         }
 
         /* ========================================= Page Header ========================================= */
-        
+
         .container {
             position: relative;
 
@@ -894,7 +894,7 @@
                 @media only screen and (max-width: $screen-xc-min) {
                     margin-top: 184px;
                 }
-                
+
                 @media only screen and (max-width: $screen-xs-min) {
                     margin-top: 205px;
                 }
@@ -2035,11 +2035,15 @@
 
     /* ========================================= In-Page-Menu ========================================= */
 
-    .me-in-page-menu {
+    .me-page-action-menu {
         position: fixed;
-        bottom: 100px;
+        top: 250px;
         right: 0;
-        z-index: 999;
+        z-index: 98;
+
+        &.overlap {
+            position: absolute;
+        }
 
         ul {
             margin: 0;
@@ -2047,15 +2051,8 @@
             list-style: none;
         }
 
-        .me-in-page-menu-mobile-trigger {
-            display: none;
-        }
-
-        .me-in-page-menu-anchor-links {
-            position: absolute;
-            bottom: 110%;
+        .me-menu-anchor-links {
             width: 61px;
-            right: 0;
             text-align: right;
 
             li {
@@ -2109,8 +2106,19 @@
                 }
             }
         }
+    }
 
-        .me-in-page-menu-features {
+    .me-in-page-menu {
+
+        position: fixed;
+        bottom: 100px;
+        right: 0;
+        z-index: 98;
+
+        ul.me-in-page-menu-features {
+
+            list-style: none;
+
             li {
                 margin: 0 0 5px 0;
                 min-height: 66px;
@@ -2119,14 +2127,10 @@
                     color: $white;
                     display: block;
                     padding: 15px;
-                    background: $link-color;
+                    background: $brand-primary-dark;
                     text-align: center;
                     @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
                     @include transition(all 0.25s);
-
-                    &:hover {
-                        background: $link-hover-color;
-                    }
                 }
 
                 .fa, [class*="icon-me-"] {
@@ -2579,6 +2583,17 @@
             }
         }
     }
+
+    .me-in-page-menu {
+        ul.me-in-page-menu-features {
+            
+            li a {
+                &:hover {
+                    background: $link-hover-color;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $screen-lg-min) {
@@ -2617,6 +2632,18 @@
         }
     }
 
+    //back to top menu
+    //hüb: do we still need this?
+    .me-in-page-menu {
+
+        .hide-mail-and-rss {
+
+            .me-page-action-mailto,
+            .me-page-action-rss {
+                display: none;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $screen-md-min) {
@@ -2626,6 +2653,32 @@
         .me-order-box {
             padding-top: 20px;
             padding-bottom: 20px;
+        }
+    }
+
+    //back to top menu    
+    .me-in-page-menu {
+        
+        bottom: 20px;
+        
+        ul.me-in-page-menu-features {
+
+            //hüb: in use?
+            .me-page-action-mailto,
+            .me-page-action-rss,
+            .me-page-action-print {
+                display: none;
+            }    
+            
+            li {
+                a {
+                    padding: 10px;
+                }
+
+                .fa, [class*="icon-me"] {
+                    font-size: 1.5em;
+                }
+            }
         }
     }
 
@@ -2736,16 +2789,16 @@
         }
     }
     //fhüb: not in use
-   /* .me-logged-out {
-
-        .me-logged-out-teaser {
-            z-index: 10;
-            width: 100%;
-            left: 0;
-            margin-left: 0;
-        }
-
-    }*/
+    /* .me-logged-out {
+ 
+         .me-logged-out-teaser {
+             z-index: 10;
+             width: 100%;
+             left: 0;
+             margin-left: 0;
+         }
+ 
+     }*/
 
     .me-deeplink {
 
@@ -2820,121 +2873,36 @@
         }
     }
 
+    //back to top menu    
     .me-in-page-menu {
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        z-index: 99;
-        background: $gray-darker;
 
-        .me-in-page-menu-mobile-trigger {
-            display: block;
-            position: absolute;
-            left: 10px;
-            top: 0;
-            padding: 10px 15px;
-            font-size: 1.25em;
-            color: $white;
-            cursor: pointer;
-
-            .fa {
-                margin-right: 0;
-            }
-
-            &[data-status="visible"], &:hover {
-                background: transparent;
-                color: $brand-secondary;
-            }
-        }
-
-        .me-in-page-menu-anchor-links {
-            display: none;
-            float: left;
-            bottom: 100%;
-            width: 100%;
-
-            li {
-                display: block;
-                text-align: left;
-                margin: 0;
-                @include box-shadow(none);
-
-                span {
-                    opacity: 1;
-                    @include transition(opacity 0s);
-                }
-            }
-
-            &:hover {
-                width: 100%;
-            }
-        }
-
-        .me-in-page-menu-features {
-            float: right;
-
-            li {
-                float: left;
-                margin-bottom: 0;
-                background: transparent;
-                @include box-shadow(none);
-                min-height: 0;
-
-                a {
-                    padding: 10px;
-                    background: transparent;
-                    @include box-shadow(none);
-
-                    &:hover {
-                        background: transparent;
-                    }
-                }
-
-                .fa, [class*="icon-me"] {
-                    font-size: 1.5em;
-                }
-
-                &.me-page-action-mailto,
-                &.me-page-action-rss {
-                    //display: none;
-                }
-
-                &:last-child {
-                    float: right;
-                    margin: 0 0 0 35px;
-                }
-
-                &:hover {
-                    background: transparent;
-
-                    a {
-                        color: $brand-secondary;
-                    }
-                }
-            }
-        }
-
-        &:hover {
-            width: 100%;
-
-            li {
-
-                span {
-                    opacity: 1;
-                    @include transition(opacity 0s);
-                }
-            }
-        }
-
+        //hüb: in use?
         .hide-mail-and-rss {
 
             .me-page-action-mailto,
             .me-page-action-rss {
                 display: none;
             }
-
         }
 
+        ul.me-in-page-menu-features {
+
+            li {
+                margin-bottom: 0;
+                min-height: 0;
+
+                //hüb: delete?
+                &.me-page-action-mailto,
+                &.me-page-action-rss {
+                    //display: none;
+                }
+                //hüb: delete?
+                &:last-child {
+                    /*                    float: right;
+                                        margin: 0 0 0 35px;*/
+                }
+            }
+        }
     }
 
     .me-event-footer {
@@ -3088,10 +3056,11 @@
 
 }
 
+//in use?
 // DISABLE HOVER ON TOUCH
-.touch {
+/*.touch {
 
-    .me-in-page-menu-mobile-trigger, .me-back-top {
+    .me-back-top {
 
         &:hover {
             color: $white;
@@ -3103,7 +3072,7 @@
 
     }
 
-}
+}*/
 
 .content:before,
 .right.side:after {

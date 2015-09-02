@@ -99,4 +99,14 @@ class qtype_base {
         $answerobj->insertorupdate();
         return true;
     }
+
+    /**
+     * Add the appropriate element to search this field.
+     * @param \MoodleQuickForm $form
+     * @param $question
+     * @param string $elname the element name.
+     */
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+
+    }
 }

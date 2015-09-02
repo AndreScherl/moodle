@@ -39,7 +39,6 @@ require_once($CFG->libdir . '/formslib.php');
 class searchform extends \moodleform {
 
     public function definition() {
-        global $DB;
         $form = $this->_form;
 
         $qidlist = \block_mbstpl\questman\manager::get_active_qform();
@@ -48,23 +47,10 @@ class searchform extends \moodleform {
         $form->addElement('hidden', 'layout', 'grid');
         $form->setType('layout', PARAM_TEXT);
 
-        foreach ($questions as $q) {
-            $options = array();
-            $options['*'] = get_string('any');
-            $id = 'q' . $q->id;
-            switch ($q->datatype) {
-                case 'checkbox':
-                    $options['1'] = get_string('yes');
-                    $options['0'] = get_string('no');
-                    $form->addElement('select', $id, $q->title, $options);
-                    break;
-                case 'menu':
-                    $values = explode("\n", $q->param1);
-                    for ($i = 0; $i < count($values); $i++) {
-                        $options[$i.''] = $values[$i];
-                    }
-                    $form->addElement('select', $id, $q->title, $options);
-            }
+        foreach ($questions as $question) {
+            $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
+            $elname = 'q' . $question->id;
+            $typeclass->add_to_searchform($form, $question, $elname);
         }
 
         $form->addElement('text', 'keyword', 'Search Field');

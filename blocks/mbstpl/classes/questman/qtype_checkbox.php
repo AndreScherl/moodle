@@ -43,4 +43,13 @@ class qtype_checkbox extends qtype_base {
         $answer = empty($answer) ? 0 : 1;
         return parent::save_answer($metaid, $questionid, $answer);
     }
+
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        $options = array(
+            '*' => get_string('any'),
+            '1' => get_string('yes'),
+            '2' => get_string('no'),
+        );
+        $form->addElement('select', $elname, $question->title, $options);
+    }
 }

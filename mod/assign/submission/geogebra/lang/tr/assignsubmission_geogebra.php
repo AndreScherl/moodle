@@ -25,6 +25,6 @@ $string['ggbturl'] = 'Öğrenciler için kullanılacak GeoGebra şablonu';
 $string['ggbturl_help'] = 'Perspektif veya GeoGebraTube materyali, öğrenciler için şablon olarak kullanıldı.';
 $string['perspective3d'] = '3D Grafik';
 $string['pluginname'] = 'GeoGebra iletileri';
-$string['probCalc'] = 'İhtimal Hesaplayıcı';
+$string['probCalc'] = 'Olasılık Hesap Makinesi';
 $string['spreadsheet'] = 'Hesap çizelgesi';
 $string['userdefined'] = 'Kullanıcı tanımlı:';

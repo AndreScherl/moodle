@@ -143,7 +143,7 @@ echo $OUTPUT->doctype()
                 
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 no-background">
-                            <h2><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
+                            <h2 id="my-apps"><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
                         </div>
                     </div>
 
@@ -178,8 +178,18 @@ echo $OUTPUT->doctype()
 
         </div>
 
-        <?php
-        echo $OUTPUT->main_footer();
+        <?php echo $OUTPUT->main_footer(); ?>
+        
+        <div class="me-page-action-menu visible-lg">
+            <ul class="me-menu-anchor-links">
+                <?php  
+                echo $OUTPUT->page_fastaccess_navigation();
+                echo $OUTPUT->page_action_menu();
+                ?>
+            </ul>
+        </div>
+                
+        <?php       
         echo $OUTPUT->page_action_navigation();
 
         $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));

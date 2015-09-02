@@ -45,7 +45,7 @@ class course {
         $cid = $coursecontext->instanceid;
         $template = dataobj\template::fetch(array('courseid' => $cid));
 
-        if (has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
+        if (!$template && has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/sendtemplate.php', array('course' => $cid));
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
         }
@@ -63,6 +63,16 @@ class course {
         if ($template && perms::can_editmeta($template, $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
             $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
+        }
+
+        if ($template && perms::can_coursefromtpl($template, $coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
+            $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
+        }
+
+        if ($template && perms::can_coursefromtpl($template, $coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
+            $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
         }
 
         if (perms::can_leaverating($coursecontext)) {
@@ -98,11 +108,19 @@ class course {
     public static function course_deleted(\core\event\course_deleted $event) {
         $data = $event->get_data();
         $cid = $data['courseid'];
+
+        // Clean up template.
         $templates = dataobj\template::fetch_all(array('courseid' => $cid));
         if (!empty($templates)) {
             foreach($templates as $template) {
                 $template->delete();
             }
+        }
+
+        // Clean up course from template.
+        $coursefromtpl = new dataobj\coursefromtpl(array('courseid' => $cid));
+        if ($coursefromtpl->fetched) {
+            $coursefromtpl->delete();
         }
     }
 

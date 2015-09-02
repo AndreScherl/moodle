@@ -13,15 +13,38 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstpl\dataobj;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015090200;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+/**
+ * Class coursefromtpl
+ * For block_mbstpl_course from template.
+ * @package block_mbstpl
+ */
+class coursefromtpl extends base {
+
+    public $required_fields = array('id', 'courseid', 'templateid');
+    public $noduplfields = array('courseid');
+
+    /* @var int cousreid  */
+    public $cousreid;
+
+    /* @var int templateid */
+    public $templateid;
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_coursefromtpl';
+    }
+}

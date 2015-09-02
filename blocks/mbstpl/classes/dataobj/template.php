@@ -116,8 +116,10 @@ class template extends base {
      */
     public static function get_dependants() {
         return array(
+            'coursefromtpl' => 'templateid',
             'meta' => 'templateid',
-            'revhist' => 'templateid'
+            'revhist' => 'templateid',
+            'starrating' => 'templateid',
         );
     }
 
@@ -168,7 +170,7 @@ class template extends base {
             'feedbackformat' => $this->feedbackformat,
             'timecreated' => time(),
         );
-        $revhist = new revhist($params);
+        $revhist = new revhist($params, false);
         $revhist->insert();
     }
 

@@ -1,0 +1,221 @@
+/* 
+    Special Styles for the page header of the Lernplattform
+    
+    @package    theme_mebis
+    @copyright  2015 ISB Bayern
+    @author     Andre Scherl <andre.scherl@isb.bayern.de>
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+
+.wrapper-learning-platform {
+
+    // general styling for all screen sizes
+    .moodle-menu {
+        display: inline-block;
+        float: right;
+
+        ul.nav > li {
+            float: right;
+            width: 60px;
+            height: 50px;
+
+            > a {
+                font-size: 1.5em;
+                text-align: center;
+
+                &:hover {
+                    background: transparent;
+                }
+
+                i.fa,
+                [class^="icon-me"] {
+                    margin: 0;
+                }
+            }
+
+            &.dropdown {
+
+                &:hover { 
+
+                    > a {
+                        background: $brand-secondary;
+                        color: $white;
+                    }
+
+                    ul.dropdown-menu {
+                        display: block;
+                    }
+                }
+
+                ul {
+                    min-width: 255px;
+                    color: $white;
+
+                    &.dropdown-menu {
+                        border: none;
+                        font-size: emCalc(14px);
+                    }
+                    > li {
+
+                        .dropdown-inner {
+                            padding: 20px;
+                            background: $brand-secondary;
+
+                            &.open {
+                                max-height: 70vh;
+                                overflow-y: auto;
+                                overflow-x: hidden;
+                            }
+
+                            a {
+                                color: $white;
+
+                                &:hover {
+                                    color: $gray-dark;
+                                }
+                            }
+
+                            .admin-dropdown {
+                                background-color: $gray-darker;
+                                padding: 0 20px;
+                                margin: 0 -20px;
+
+                                &.admin-string {
+                                    margin-top: 20px;
+                                    padding-top: 20px;
+                                }
+
+                                &.admin-link {
+                                    padding-bottom: 20px;
+                                    margin-bottom: -20px;
+                                }
+                                
+                                a:hover {
+                                    color: $brand-secondary;
+                                }
+                            }
+                        }                       
+
+                        ul {
+                            list-style: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        .me-subnav {
+
+            .hiddennavnode {
+                color: $white;
+                font-weight: bold;
+                cursor: pointer;
+
+                &.open > span.internal:before { content: "\e662"; }
+
+                > span.internal:before { content: "\e63d"; }
+
+                .hiddennavleaf {
+                    display: none;
+                    margin-left: 15px;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+
+    .me-msg-count {
+        position: absolute;
+        background: none repeat scroll 0% 0% $brand-secondary;
+        border-radius: 5px;
+        font-size: 11px;
+        bottom: 5px;
+        color: $white;
+        left: 30px;
+        padding: 2px 5px;
+    }
+
+    // Large [Desktop]
+    @media only screen and (min-width: $screen-lg-min) {
+
+    }
+
+    @media only screen and (max-width: $screen-lg-min) {
+
+    }
+
+    // Medium [Tablet or Small Desktop]
+    @media only screen and (min-width: $screen-md-min) {
+
+    }
+
+    @media only screen and (max-width: $screen-md-min) {
+        .moodle-menu {
+            ul.nav {
+
+                > li {
+                    > a {
+                        padding: 10px 7px;
+                    }
+
+                    li.dropdown {
+                        position: static;
+                    }
+                }    
+                .dropdown-menu {
+                    margin-top: 0;
+                    top: auto;
+                    position: absolute;
+                    min-width: 70%;
+                    right: 0;
+                    left: auto;
+                } 
+            }              
+        }
+    }
+
+    // Small [Tablet or big Smartphone]
+    @media only screen and (min-width: $screen-sm-min) {
+
+    }
+
+    @media only screen and (max-width: $screen-sm-min) {
+        .me-component-nav {
+            .moodle-menu {
+
+                ul.nav {
+
+                    > li {                     
+                        &.dropdown {
+                            position: static;
+
+                            > ul > li {
+                                font-size: emCalc(19px);
+                                line-height: 200%;
+                            }
+                        }
+                    }
+
+                    .dropdown-menu {
+                        position: absolute;
+                        min-width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    // Custom small size
+    @media only screen and (max-width: $screen-xc-min) {
+        /*            ul.nav {
+            
+                        .dropdown-menu {       
+                            &.dropdown-right {
+                                right: auto;
+                                left: 0;
+                                min-width: 100%;
+                            }
+                        }        
+                    }*/
+    }
+}

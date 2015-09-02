@@ -226,6 +226,15 @@
 .que.multichoice .ablock .prompt {
     display: none;
 }
+
+//questiontype drag and drop on text
+.que.ddwtos {
+    .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
+        border-color: $brand-primary;
+        @include box-shadow(0 0 6px 1px $brand-primary);
+    }
+}
+
 //+++++++++++++++++++++++++++++++++++++++  END: question styles  +++++++++++++++++++++++++++++++++++++++++++++
 
 

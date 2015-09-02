@@ -377,7 +377,8 @@
         }
 
     }
-
+//fhüb: not in use
+   /* 
     .me-logged-out {
 
         .guest-overlay {
@@ -408,9 +409,10 @@
             }
         }
 
-    }
+    }*/
 
-    .me-logged-out-teaser {
+    //fhüb: not in use
+   /* .me-logged-out-teaser {
         position: absolute;
         top: 100%;
         left: 50%;
@@ -426,7 +428,7 @@
         a {
             color: $white;
         }
-    }
+    }*/
 
     // ========================================= Buttons, Forms, etc ========================================= */
 
@@ -872,507 +874,29 @@
             }
         }
 
-        /* ========================================= Top Navigation with Menu ========================================= */
-
-        .navbar {
-            min-height: 30px;
-        }
-
-        .navbar-fixed-top {
-            border: 0;
-        }
-
-        .navbar-inverse {
-            background: $brand-gray-navi;
-            border-bottom: 1px solid $brand-gray-navi;
-        }
-
-        .top-bar {
-
-            .container {
-                position: relative;
-
-                .navbar-header {
-
-                    .navbar-toggle {
-                        float: none;
-                        position: relative;
-                        z-index: 99;
-                        background: $brand-secondary;
-
-                        &.collapsed {
-                            background: $brand-gray-dark;
-                        }
-                    }
-
-                    .nav-login {
-                        border-bottom: 0;
-                        width: 100%;
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        z-index: 10;
-
-                        > li {
-                            width: 100%;
-                            float: none;
-
-                            > a:hover, > a:focus {
-                                background: transparent;
-                            }
-
-                            > a:active, &.open > a, &.opened > a {
-                                background: $brand-secondary;
-                            }
-
-                            .dropdown-toggle {
-                                display: inline-block;
-                                float: right;
-                                padding: 13px 15px 12px 15px;
-                                color: $gray-light;
-                                border: none;
-                                border-left: 1px solid $gray-dark;
-                                border-right: 1px solid $gray-dark;
-
-                                &:hover {
-                                    color: $white;
-                                }
-                            }
-
-                            .navbar-mobile-avatar {
-                                float: right;
-                                margin: 0;
-                                padding: 0;
-                                border: none;
-
-                                &:hover {
-                                    border: none;
-                                }
-                            }
-
-                            .dropdown-menu {
-                                top: 49px;
-                                padding: 10px;
-                                background: $gray-lighter;
-                                width: 100%;
-                                @include transition(all .25s);
-                                min-height: 155px;
-                                margin-bottom: 10px;
-
-                                input[type="submit"] {
-                                    float: right;
-                                }
-
-                                > li  {
-
-                                    .login-links {
-                                        font-size: emCalc(14px);
-                                        margin-bottom: 5px;
-
-                                        a {
-                                            display: block;
-                                            margin: 5px 0;
-                                        }
-                                    }
-
-                                    .form-control {
-                                        margin-bottom: 5px;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .js-navbar-collapse {
-                    margin: 0 -20px;
-
-                    .nav {
-                        margin-top: 5px;
-                        margin-bottom: $space-small;
-                        padding: 0 20px;
-
-                        li {
-
-                            a {
-                                padding: 10px 15px 10px 5px;
-                                color: $white;
-
-                                &:hover {
-                                    color: $brand-secondary;
-                                    background: transparent;
-                                }
-
-                            }
-
-                            &.me-active {
-
-                                a {
-                                    color: $brand-secondary;
-                                }
-                            }
-
-                            [class^="icon-me"] {
-                                display: inline-block;
-                                margin: 0 15px 0 0;
-                                font-size: 2em;
-                                vertical-align: middle;
-                            }
-
-                            span {
-                                vertical-align: middle;
-                            }
-
-                        }
-                    }
-
-                    .js-navbar-collapse-submenu {
-                        padding: $space-small;
-                        list-style: none;
-                        margin-bottom: 0;
-
-                        li {
-                            margin: 12px 8px;
-                            padding: 0;
-
-                            a {
-                                color: $brand-gray-light;
-
-                                &:hover {
-                                    color: $brand-secondary;
-                                }
-                            }
-
-                            [class^="icon-me"] {
-                                display: inline-block;
-                                margin: 0 15px 0 5px;
-                                font-size: 1em;
-                                vertical-align: middle;
-                            }
-
-                            span {
-                                vertical-align: middle;
-                            }
-
-                            &:first-child {
-                                margin-top: 0;
-                            }
-
-                            &:last-child {
-                                margin-bottom: 0;
-                            }
-                        }
-
-                        background: $brand-gray-dark;
-                    }
-                }
-
-                .navbar-collapse {
-                    padding-left: 20px;
-                    padding-right: 20px;
-
-                    .navbar-nav {
-
-                        li {
-
-                            a {
-                                line-height: emCalc(35px);
-                                padding-top: 0;
-                                padding-bottom: 0;
-                                display: block;
-                                color: $brand-gray-medium;
-
-                                &[data-change="inc"],
-                                &[data-change="dec"] {
-                                    font-size: 18px;
-                                }
-
-                                &[data-change="inc"] {
-                                    padding-left: 0
-                                }
-
-                                &[data-change="dec"] {
-                                    padding-top: 3px;
-                                    padding-left: 10px;
-                                    font-size: 16px;
-
-                                    i {
-                                        margin-right: 0;
-                                    }
-                                }
-
-                                &:hover {
-                                    color: $brand-secondary;
-                                }
-                            }
-
-                            .fa, [class*="icon-me-"] {
-                                font-size: emCalc(16px);
-                            }
-
-                            &.me-active a {
-                                color: $brand-secondary;
-                            }
-
-                        }
-
-                        .profile {
-
-                            a {
-                                @include transition(background .25s);
-                                background: $brand-secondary;
-                                color: $white;
-                                line-height: 0;
-                                padding-top: 2px;
-                                display: block;
-                                overflow: hidden;
-                                max-width: 320px;
-
-                                .me-username {
-                                    display: inline-block;
-                                    max-width: 250px;
-                                    overflow: hidden;
-                                    line-height: 18px;
-                                    vertical-align: middle;
-                                    max-height: 18px;
-                                }
-
-                                img {
-                                    margin-left: 10px;
-                                    margin-right: -15px;
-                                    margin-top: -3px;
-                                }
-
-                                &:hover {
-                                    background: $brand-primary;
-                                    color: $white;
-
-                                    img {
-                                        opacity: 0.4;
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                    .navbar-nav:first-child {
-                        margin-left: -20px;
-                    }
-
-                    .navbar-nav:last-child {
-                        margin-right: -20px;
-                    }
-
-                }
-
-                .divider-vertical {
-                    height: emCalc(35px);
-                    border-left: 1px solid #444;
-                }
-
-                .dropdown-menu {
-                    right: auto;
-                    border-radius: 0;
-                    border: none;
-                    margin-top: 1px;
-                }
-
-                .me-login-box {
-                    position: static;
-
-                    &.open, &.opened {
-
-                        > a {
-                            background: $brand-secondary;
-                            color: $white!important;
-                        }
-
-                        > .dropdown-menu {
-                            display: block;
-                        }
-                    }
-
-                    .dropdown-menu {
-                        width: 100%;
-                        left: 0;
-                        right: 0;
-                        background: transparent;
-                        border-radius: none;
-                        box-shadow: none;
-                        border: 0;
-                        padding: 0;
-                        margin-top: -1px;
-
-                        .login {
-                            margin-top: 2px;
-                            background: $white;
-                            @include box-shadow(0 5px 20px 0 rgba($black,0.3));
-                            padding: 10px 15px;
-
-                            .login-links {
-                                margin-top: 3px;
-
-                                a {
-                                    color: $brand-primary;
-                                    display: inline-block;
-                                    margin-right: 10px;
-                                    @include transition(all .25s);
-
-                                    i {
-                                        font-size: emCalc(12px);
-                                    }
-
-                                    &:hover {
-                                        color: $brand-secondary;
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-
-        /* ========================================= Sidebar ========================================= */
-
-        .me-sidebar-wrapper {
-            background: $brand-gray-navi;
-            height: 100%;
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-
-            .me-sidebar-nav {
-                list-style: none;
-                margin: 0;
-                padding: 70px 0;
-                overflow: hidden;
-                width: 75px;
-                @include transition(all .25s);
-
-                li {
-                    width: 235px;
-                    margin-bottom: 25px;
-                    position: relative;
-
-                    a {
-                        color: $brand-gray-light;
-
-                        [class^="icon-me"] {
-                            font-size: 2em;
-                            padding: 0 18px;
-                            vertical-align: middle;
-                        }
-
-                        span {
-                            display: inline-block;
-                            vertical-align: middle;
-                        }
-
-                        &:hover {
-                            text-decoration: none;
-                            color: $brand-secondary;
-                        }
-
-                        &.disabled {
-                            cursor: default;
-                            color: $brand-gray-medium;
-                        }
-
-                    }
-
-                    &.me-active {
-
-                        a {
-                            color: $brand-secondary;
-                        }
-
-                    }
-
-                }
-
-                &:hover {
-                    width: 235px;
-                }
-
-            }
-
-        }
-
         /* ========================================= Page Header ========================================= */
-
-        // page header in normal view
-        .me-page-header {
-            font-size: $font-size-base !important;
-            border: none;
-            padding: 42px 0 0;
-            margin: 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 99;
-            min-height: 135px;
-            @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-
-
-            @media only screen and (max-width: $screen-md) {
-                position: absolute;
-            }
-
-            .container {
-
-                .logo-row {
-                    margin: 25px 0;
-
-                    img {
-                        max-width: 100%;
-                        height: auto;
-                    }
-
-                    .extra-nav {
-                        margin-top: 6px;
-                        text-align: right;
-
-                        .fa, [class*="icon-me-"] {
-                            display: inline-block;
-                            margin: 0 5px 0 0;
-                            font-size: emCalc(23px);
-                            vertical-align: top;
-                            line-height: 1em;
-                        }
-                    }
-
-                }
-
-            }
-
-            &.full {
-                background: $bg-light;
-            }
-
-        }
-
+        
         .container {
             position: relative;
 
+            //space between topbar and breadcrumb
             &.homepage-container {
-                margin-top: 141px;
+                margin-top: 155px;
 
                 @media only screen and (max-width: $screen-md-min) {
-                    margin-top: 174px;
+                    margin-top: 141px;
                 }
 
                 @media only screen and (max-width: $screen-sm-min) {
-                    margin-top: 198px;
+                    margin-top: 165px;
                 }
 
+                @media only screen and (max-width: $screen-xc-min) {
+                    margin-top: 184px;
+                }
+                
                 @media only screen and (max-width: $screen-xs-min) {
-                    margin-top: 203px;
+                    margin-top: 205px;
                 }
             }
         }
@@ -1767,40 +1291,6 @@
 
             }
 
-        }
-
-        .breadcrumb {
-            padding: 20px 0 20px;
-            border-radius: 0;
-            background: transparent;
-            font-size: emCalc(12px);
-            margin-bottom: 0;
-
-            .active {
-                color: $brand-gray-medium;
-
-                &:before {
-                    color: $brand-gray-medium;
-                }
-            }
-
-            li {
-                span {
-                    color: $brand-gray-medium;
-
-                    &:before {
-                        color: $brand-gray-medium;
-                    }
-                }
-            }
-
-            a {
-                color: $brand-gray-medium;
-
-                &:hover {
-                    color: $brand-secondary;
-                }
-            }
         }
 
         .me-search-box {
@@ -3081,68 +2571,17 @@
 @media only screen and (min-width: $screen-lg-min) {
 
     .me-wrapper {
-        // adapt spacing for mobile header
-        .me-page-header {
-            padding: 42px 0 0 0;
-        }
-
         .me-idm-portal-sub-section {
 
             .me-process-crumbs {
                 width: 100%;
                 margin-left: 0%;
             }
-
         }
-
     }
-
 }
 
 @media only screen and (max-width: $screen-lg-min) {
-
-    .me-wrapper {
-
-        .navbar {
-            background: transparent;
-            border: none;
-
-            .container {
-                width: 100% !important;
-                padding: 0;
-
-                .row {
-                    margin: 0 !important;
-                    width: 100% !important;
-
-                    [class^="col-"] {
-                        width: 100%;
-                        background: black;
-                    }
-                }
-            }
-
-            .js-navbar-collapse {
-                .nav {
-                    width: 40%;
-                    min-width: 250px;
-                    background: black;
-                    margin: 0 !important;
-                    padding: 10px 38px !important;
-                    @include box-shadow(0 0 0.75em rgba($black,0.5));
-                }
-            }
-
-            .js-navbar-collapse-submenu {
-                width: 40%;
-                min-width: 250px;
-                padding: 15px 38px !important;
-                background: grey;
-                @include box-shadow(0 0 0.75em rgba($black,0.5));
-            }
-        }
-
-    }
 
 }
 
@@ -3176,20 +2615,6 @@
                 //margin-bottom: 0 !important;
             }
         }
-
-        .me-page-header {
-
-            .container {
-
-                .logo-row {
-                    margin: 30px 0;
-                }
-
-            }
-
-        }
-
-
     }
 
 }
@@ -3197,28 +2622,6 @@
 @media only screen and (max-width: $screen-md-min) {
 
     .me-wrapper {
-
-        .me-page-header {
-            padding-top: 51px;
-
-            .container {
-
-                .logo-row {
-
-                    .extra-nav {
-                        text-align: left;
-
-                        a {
-                            display: inline-block;
-                        }
-
-                        .extra-nav-mobile-spacer {
-                            margin-top: 15px;
-                        }
-                    }
-                }
-            }
-        }
 
         .me-order-box {
             padding-top: 20px;
@@ -3326,18 +2729,14 @@
 
     }
 
-    .me-maintenance .me-wrapper .me-page-header {
-        padding: 38px 0 40px 0;
-    }
-
     .btn-group {
 
         .btn {
             margin-left: 0 !important;
         }
     }
-
-    .me-logged-out {
+    //fhüb: not in use
+   /* .me-logged-out {
 
         .me-logged-out-teaser {
             z-index: 10;
@@ -3346,7 +2745,7 @@
             margin-left: 0;
         }
 
-    }
+    }*/
 
     .me-deeplink {
 
@@ -3392,85 +2791,10 @@
 
     .me-wrapper {
 
-        .navbar-header {
-
-            .navbar-toggle {
-                position: relative;
-                z-index: 99;
-            }
-
-            .nav .open > a {
-                background: $brand-gray-dark;
-            }
-
-            .nav-login {
-                border-bottom: 0;
-                width: 100%;
-                position: absolute;
-                top: 0;
-                right: 0;
-                z-index: 10;
-
-                > li {
-                    width: 100%;
-                    float: none;
-
-                    .dropdown-toggle {
-                        display: inline-block;
-                        float: right;
-                    }
-
-                    .dropdown-menu {
-                        top: 48px;
-                        padding: 10px;
-                        background: $gray-darker;
-                        width: 100%;
-                        @include transition(all .25s);
-                        min-height: 195px;
-                        margin-bottom: 10px;
-
-                        input[type="submit"] {
-                            float: right;
-                        }
-
-                        > li  {
-
-                            .login-links {
-                                font-size: emCalc(14px);
-                                margin-top: 10px;
-
-                                a {
-                                    display: block;
-                                    margin-top: 5px;
-                                }
-                            }
-
-                            .form-control {
-                                margin-bottom: 5px;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
         .me-search-result-image {
             text-align: center;
             background: $brand-gray-light;
             display: table;
-        }
-
-        .me-page-header {
-
-            .container {
-
-                .logo-row {
-                    //padding: 15px 0;
-                }
-
-            }
-
         }
 
         .me-content-block {

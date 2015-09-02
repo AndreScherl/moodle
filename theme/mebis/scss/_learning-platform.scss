@@ -14,102 +14,6 @@ div[role="main"] > h2 {
     /////////////////////
     @media only screen {
 
-        .me-learning-platform-header-nav {
-            margin-top: -10px;
-
-            ul.nav  {
-
-                .dropdown-menu {
-                    margin-top: 0;
-                    right: auto;
-                    left: 0;
-                    position: absolute;
-
-                    &.dropdown-right {
-                        position: absolute;
-                        min-width: 285px;
-                        top: 100%;
-                        right: 0;
-                        left: auto;
-                    }
-                }
-
-                > li {
-                    padding: 0;
-                    width: 60px;
-                    height: 100%;
-                    position: relative;
-
-                    > a {
-                        font-size: 1.5em;
-                        display: block;
-                        padding: 5px 15px;
-                    }
-
-                    &.open, &.dropdown:hover {
-
-                        > a, .dropdown-toggle {
-                            background: $brand-secondary;
-                            color: $white;
-                        }
-
-                        ul.dropdown-menu {
-                            display: block;
-                        }
-
-                    }
-
-                    ul li {
-                        padding: 0;
-
-                        &:after {
-                            content: '';
-                        }
-
-                        .dropdown-inner {
-                            padding: 20px;
-                            background: $brand-secondary;
-
-                            a {
-                                color: $white;
-
-                                &:hover {
-                                    color: $gray-dark;
-                                }
-                            }
-                        }
-
-                        .dropdown-inner.admin-dropdown {
-                            background: $gray-darker;
-                        }
-
-                        .admin-dropdown a:hover {
-                            color: $brand-secondary;
-                        }
-
-                        strong {
-                            font-size: emCalc(16px);
-                        }
-                    }
-                }
-            }
-            .hiddennavnode {
-                color: $white;
-                font-weight: bold;
-                cursor: pointer;
-
-                &.open > span.internal:before { content: "\e662"; }
-
-                > span.internal:before { content: "\e63d"; }
-
-                .hiddennavleaf {
-                    display: none;
-                    margin-left: 15px;
-                    font-weight: normal;
-                }
-            }
-        }
-
         .me-help-note {
 
             .me-help-note-container {
@@ -222,51 +126,17 @@ div[role="main"] > h2 {
     @media only screen and (min-width: $screen-sm-min) {
 
     }
+    @media only screen and (max-width: $screen-sm-min) {
+        
+    }
     @media only screen and (max-width: $screen-md-min) {
-        .me-learning-platform-header-nav {
-            margin-top: 20px;
-        }
+        
     }
-    @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
-        .breadcrumb.text-left {
-            padding: 50px 0 20px;
-        }
-    }
-
+    
     /////////////////////
     // LARGE [Desktop] //
     /////////////////////
     @media only screen and (min-width: $screen-md-min) {
 
-    }
-
-    /////////////////////
-    // [Smartphone] //
-    /////////////////////
-    @media only screen and (max-width: $screen-xc-min) {
-
-        .me-learning-platform-header-nav {
-
-            ul.nav {
-
-                li.dropdown {
-                    position: static;
-                }
-
-                .dropdown-menu {
-                    margin-top: 0;
-                    top: 100%;
-                    position: absolute;
-                    min-width: 100%;
-
-                    &.dropdown-right {
-                        right: auto;
-                        left: 0;
-                        min-width: 100%;
-                    }
-                }
-
-            }
-        }
     }
 }

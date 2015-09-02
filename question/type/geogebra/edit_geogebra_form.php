@@ -29,7 +29,7 @@ class qtype_geogebra_edit_form extends question_edit_form {
 
     public $ggbturl;
 
-    public $deployscript = '<script type="text/javascript" src="https://www.geogebratube.org/scripts/deployggb.js"></script>';
+    public $deployscript = '<script type="text/javascript" src="https://tube.geogebra.org/scripts/deployggb.js"></script>';
 
     public $ggbparameters;
 
@@ -127,6 +127,9 @@ class qtype_geogebra_edit_form extends question_edit_form {
 
         $this->add_randomizedvar_fields($mform);
 
+        $mform->addElement('selectyesno', 'isexercise', get_string('isexercise', 'qtype_geogebra'));
+        $mform->addHelpButton('isexercise', 'isexercise', 'qtype_geogebra');
+
         $this->add_per_answer_fields($mform, get_string('variableno', 'qtype_geogebra', '{no}'),
                 question_bank::fraction_options(), 4, 1);
 
@@ -174,13 +177,18 @@ class qtype_geogebra_edit_form extends question_edit_form {
 
         $this->check_is_applet_present($data, $errors);
 
-        $this->check_randomized_vars($data, $errors);
+        if (!$data['isexercise']) {
 
-        $this->check_constraints($data, $errors);
+            $this->check_randomized_vars($data, $errors);
 
-        $this->check_answer($data, $errors);
+            $this->check_constraints($data, $errors);
 
-        $this->check_fraction($data, $errors);
+            $this->check_answer($data, $errors);
+
+            $this->check_fraction($data, $errors);
+        } else {
+            $this->check_is_exercise_present($data, $errors);
+        }
 
         return $errors;
     }
@@ -341,19 +349,25 @@ class qtype_geogebra_edit_form extends question_edit_form {
      * @param $errors
      */
     private function check_answer($data, &$errors) {
+
         if (isset($data['answer'])) {
             $i = 0;
             $xml = simplexml_load_string($data['ggbxml']);
             foreach ($data['answer'] as $label) {
                 if (!empty($label)) {
-                    $varok = false;
-                    foreach ($xml->construction->element as $elem) {
-                        if ($label == $elem['label']) {
-                            $varok = true;
+                    if ($data['isexercise']) {
+                        $errors['isexercise'] = get_string('noanswersorrandomizationallowed', 'qtype_geogebra');
+                    } else {
+                        $varok = false;
+
+                        foreach ($xml->construction->element as $elem) {
+                            if ($label == $elem['label']) {
+                                $varok = true;
+                            }
                         }
-                    }
-                    if (!$varok) {
-                        $errors['answeroptions[' . $i . ']'] = get_string('variablenamewrong', 'qtype_geogebra');
+                        if (!$varok) {
+                            $errors['answeroptions[' . $i . ']'] = get_string('variablenamewrong', 'qtype_geogebra');
+                        }
                     }
                 }
                 $i++;
@@ -423,6 +437,9 @@ class qtype_geogebra_edit_form extends question_edit_form {
 
         $mform->addElement('hidden', 'ggbxml');
         $mform->setType('ggbxml', PARAM_RAW);
+
+        $mform->addElement('hidden', 'ggbexercise');
+        $mform->setType('ggbexercise', PARAM_RAW);
     }
 
     /**
@@ -431,7 +448,6 @@ class qtype_geogebra_edit_form extends question_edit_form {
      */
     private function add_randomizedvar_fields($mform) {
         $mform->addElement('selectyesno', 'israndomized', get_string('israndomized', 'qtype_geogebra'));
-
         /* Variables to randomize */
         $randomizedvars = array();
         $randomizedvars[] =& $mform->createElement('button', 'getvars', get_string('getvars', 'qtype_geogebra'));
@@ -473,7 +489,7 @@ class qtype_geogebra_edit_form extends question_edit_form {
 <script type="text/javascript">
     var parameters = $this->ggbparameters;
     parameters.language = "$lang";
-    parameters.useBrowserForJS = true;
+    parameters.useBrowserForJS = false;
     delete parameters.material_id;
     parameters.moodle = "editingQuestion";
     var views = $this->ggbviews;
@@ -534,19 +550,31 @@ HTML;
         $ggbturlinput = array();
         $clientid = uniqid();
         $fp = $this->initggtfilpicker($clientid, 'ggbturl');
-        $ggbturlinput[] =& $mform->createElement('html', $fp);
-        $ggbturlinput[] =& $mform->createElement('button', 'filepicker-button-' . $clientid, get_string('choosealink',
-                'repository'));
+        $ggbtrepo = repository::get_type_by_typename('geogebratube');
+        if ($ggbtrepo) {
+
+            $ggbturlinput[] =& $mform->createElement('html', $fp);
+            $ggbturlinput[] =& $mform->createElement('button', 'filepicker-button-' . $clientid, get_string('choosealink',
+                    'repository'));
+        }
         $ggbturlinput[] =& $mform->createElement('text', 'ggbturl', '', array('size' => '20'));
         $mform->setType('ggbturl', PARAM_RAW_TRIMMED);
         $mform->addGroup($ggbturlinput, 'ggbturlinput', get_string('ggbturl', 'qtype_geogebra'), array(' '), false);
 
         $mform->addHelpButton('ggbturlinput', 'ggbturl', 'qtype_geogebra');
-        $mform->disabledIf('filepicker-button-' . $clientid, 'usefile', 'checked');
+        if ($ggbtrepo) {
 
+            $mform->disabledIf('filepicker-button-' . $clientid, 'usefile', 'checked');
+        }
         $mform->addElement('checkbox', 'usefile', get_string('useafile', 'qtype_geogebra'), get_string('dragndrop', 'qtype_geogebra'));
         if (!empty($this->ggbparameters) && empty($this->ggbturl)) {
             $mform->setDefault('usefile', true);
+        }
+    }
+
+    private function check_is_exercise_present($data, $errors) {
+        if($data['isexercise']) {
+            $data;
         }
     }
 }

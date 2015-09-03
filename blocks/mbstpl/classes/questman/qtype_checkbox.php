@@ -48,8 +48,22 @@ class qtype_checkbox extends qtype_base {
         $options = array(
             '*' => get_string('any'),
             '1' => get_string('yes'),
-            '2' => get_string('no'),
+            '0' => get_string('no'),
         );
         $form->addElement('select', $elname, $question->title, $options);
     }
+
+    public static function get_query_filters($question, $answer) {
+        $toreturn = array('wheres' => array(), 'params' => array());
+        if ($answer == '*') {
+            return $toreturn;
+        }
+        $qparam = 'q' . $question->id;
+        $aparam = 'a' . $question->id;
+        $toreturn['wheres'][] = self::get_whereexists("AND data = :$aparam", $qparam);
+        $toreturn['params'][$qparam] = $question->id;
+        $toreturn['params'][$aparam] = $answer;
+        return $toreturn;
+    }
+
 }

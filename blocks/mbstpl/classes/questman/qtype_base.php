@@ -118,4 +118,14 @@ class qtype_base {
     public static function get_query_filters($question, $answer) {
         return array('wheres' => array(), 'params' => array());
     }
+
+    /*
+     * Used to easily build a WHERE EXISTS clause that filters on the answer question id and adds any extra filter.
+     * @param string $extra extra filter.
+     * @param string $qparam param wildcard corresponding to the question id.
+     * @return string
+     */
+    protected static function get_whereexists($extra = '', $qparam = '') {
+        return "EXISTS (SELECT 1 FROM {block_mbstpl_answer} WHERE metaid = mta.id AND questionid = :$qparam $extra)";
+    }
 }

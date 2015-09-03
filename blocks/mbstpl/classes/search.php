@@ -95,11 +95,11 @@ class search {
             $question = $this->questions[$qid];
             $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
             $toadd = $typeclass->get_query_filters($question, $answer);
-            $wheres += $toadd['wheres'];
-            $params += $toadd['params'];
+            $wheres = array_merge($wheres, $toadd['wheres']);
+            $params = array_merge($params, $toadd['params']);
         }
         $wheres[] = 'tpl.status = :stpublished';
-        $filterwheres = implode("\n            AND ", $wheres);
+        $filterwheres = implode("\n          AND ", $wheres);
 
         $selectsql = "
         SELECT c.id, c.fullname

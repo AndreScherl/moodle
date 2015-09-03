@@ -54,4 +54,21 @@ class qtype_text extends qtype_base {
         $form->addElement('text', $elname, $question->title);
         $form->setType($elname, PARAM_TEXT);
     }
+
+    public static function get_query_filters($question, $answer) {
+        global $DB;
+
+        $toreturn = array('wheres' => array(), 'params' => array());
+        $answer = trim($answer);
+        if (empty($answer)) {
+            return $toreturn;
+        }
+        $qparam = 'q' . $question->id;
+        $aparam = 'a' . $question->id;
+        $toreturn['wheres'][] = self::get_whereexists("AND " . $DB->sql_like('data', ':'.$aparam), $qparam);
+        $toreturn['params'][$qparam] = $question->id;
+        $toreturn['params'][$aparam] = '%'.$DB->sql_like_escape($answer).'%';
+        return $toreturn;
+    }
+
 }

@@ -88,4 +88,25 @@ class qtype_datetime extends qtype_base {
         $form->addGroup($elgroup, $elname, $question->title, $separator, false);
     }
 
+    public static function get_query_filters($question, $answer) {
+        $toreturn = array('wheres' => array(), 'params' => array());
+        if (empty($answer['from']) && empty($answer['until'])) {
+            return $toreturn;
+        }
+        $qparam = 'q' . $question->id;
+        $toreturn['params'][$qparam] = $question->id;
+        $filter = "";
+        if (!empty($answer['from'])) {
+            $aparam = 'af'.$question->id;
+            $filter .= " AND data >= :$aparam";
+            $toreturn['params'][$aparam] = $answer['from'];
+        }
+        if (!empty($answer['until'])) {
+            $aparam = 'au'.$question->id;
+            $filter .= " AND data <= :$aparam";
+            $toreturn['params'][$aparam] = $answer['until'];
+        }
+        $toreturn['wheres'][] = self::get_whereexists($filter, $qparam);
+        return $toreturn;
+    }
 }

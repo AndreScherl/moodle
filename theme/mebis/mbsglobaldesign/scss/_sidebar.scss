@@ -134,15 +134,6 @@
                 }
             }
         }
-
-        #topbar.smaller {
-            //sidebar disapears on scrolling
-            .me-sidebar-wrapper {
-                top: 0;
-                left: 0;
-                height: 0;
-            }       
-        }
     } 
 }
 

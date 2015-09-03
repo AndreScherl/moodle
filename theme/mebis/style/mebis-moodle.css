@@ -14043,9 +14043,9 @@ button.close {
     min-height: 135px;
     -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.3);
-    -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+    transition: all 0.6s;
   }
   .me-wrapper header.me-page-header .container .logo-row .row {
     margin: 0;
@@ -14207,11 +14207,6 @@ button.close {
   .me-wrapper .me-sidebar-wrapper .me-sidebar-nav:hover {
     width: 235px;
   }
-  .me-wrapper #topbar.smaller .me-sidebar-wrapper {
-    top: 0;
-    left: 0;
-    height: 0;
-  }
 }
 @media only screen and (max-width: 1200px) {
   .me-wrapper .me-sidebar-wrapper {
@@ -14243,9 +14238,6 @@ button.close {
     border: none;
     min-height: 30px;
     margin-bottom: 0;
-    -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
   }
   .me-wrapper #topbar .container {
     position: relative;
@@ -14317,9 +14309,6 @@ button.close {
   .me-wrapper #topbar .container .divider-vertical {
     height: 2.1875em;
     border-left: 1px solid #444;
-  }
-  .me-wrapper #topbar.smaller {
-    position: relative;
   }
 }
 @media only screen and (min-width: 1200px) {

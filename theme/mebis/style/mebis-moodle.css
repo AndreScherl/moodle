@@ -15266,6 +15266,7 @@ categorybox:
   padding: 0;
   position: relative;
   margin-bottom: 20px;
+  overflow-x: hidden;
 }
 .schoolbox .schoolbox-inner .schoolbox-link {
   display: block;
@@ -15539,6 +15540,9 @@ Put all the pagelayout specific styles here.
 }
 .pagelayout-admin .admin-navigation h3, .pagelayout-report .admin-navigation h3 {
   color: #fff;
+}
+.pagelayout-admin .admin-navigation select, .pagelayout-report .admin-navigation select {
+  max-width: 100%;
 }
 
 .pagelayout-maintenance .me-wrapper .container.homepage-container.admin-container {

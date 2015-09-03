@@ -64,10 +64,8 @@ echo $OUTPUT->doctype()
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
             <?php
-            // Print out the top navbar containing fontsize switch, user login etc.
+            // Print out the top & side navbar containing navigating between subsystems of mebis, fontsize switch, user login etc.
             echo $OUTPUT->main_navbar();
-            // Print out the side navbar to navigate between subsystems of mebis.
-            echo $OUTPUT->main_sidebar();
             // Print out the sub menu bar (header) with dropdownmenus.
             echo $OUTPUT->main_header();
             ?>
@@ -100,7 +98,7 @@ echo $OUTPUT->doctype()
 
                      <div class="row">
                         <div class="col-lg-12 col-sm-12 no-background">
-                            <h2><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
+                            <h2 id="my-apps"><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
                         </div>
                     </div>
 
@@ -119,6 +117,7 @@ echo $OUTPUT->doctype()
 
         <?php
         echo $OUTPUT->main_footer();
+        echo $OUTPUT->page_fastaccess_navigation();
         echo $OUTPUT->page_action_navigation();
 
         $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));

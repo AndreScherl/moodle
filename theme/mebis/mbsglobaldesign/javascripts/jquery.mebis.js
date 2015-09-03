@@ -1,12 +1,12 @@
-// Dies ist nur ein Test zum neuen Subtree-Verfahren.
-
-var Mebis = (function($) {
+var Mebis = (function ($) {
     'use strict';
 
     var $win; // to be initialized after DOM ready.
     var $body;
-    var lastY = 0;
-    var anchorHeadlinePositions = [];
+    var didScroll = false;
+    var backTopAppearOn = 300;
+//    var lastY = 0;
+//    var anchorHeadlinePositions = [];
 
     function isMobile() {
         return ($win.width()) <= 768 ? true : false;
@@ -15,25 +15,14 @@ var Mebis = (function($) {
     /**
      * To-Top-Button
      */
-    function initToTop() {
-
-        $win.on('scroll', function () {
-            if ($(this).scrollTop() > 100) {
-                $('.me-back-top').fadeIn();
-            } else {
-                if(!isMobile()) {
-                    $('.me-back-top').fadeOut();
-                }
-            }
-        });
-
+    function scrollToTop() {
         // scroll body to 0px on click
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
 
             $('html')
-                .velocity('stop')
-                .velocity('scroll', {duration: 800, offset: 0});
+                    .velocity('stop')
+                    .velocity('scroll', {duration: 800, offset: 0});
 
             //setAnchorClass();
 
@@ -41,8 +30,8 @@ var Mebis = (function($) {
 
             // IE9 Fix
             if (history.pushState != undefined) {
-                   history.pushState('', document.title, window.location.pathname  + window.location.search);
-               }
+                history.pushState('', document.title, window.location.pathname + window.location.search);
+            }
 
             return false;
         });
@@ -52,31 +41,31 @@ var Mebis = (function($) {
     /**
      * Init smooth scrolling-effect to hash
      */
-/*    function initSmoothscrolling() {
-
-        // init smooth scrolling to window.hash
-        var $jumpmark = $(window.location.hash);
-        if ($jumpmark.length) {
-            setTimeout(function () {
-                if (window.location.hash) {
-                    var offset = $jumpmark.data('offset') - $('#topbar').height() - $('header.me-page-header.full').height() - 150;
-                    window.scrollTo(0, 0);
-                    $('html, body').animate({
-                        scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0)
-                    }, 800);
-                }
-            }, 1);
-        }
-    }
-*/
+    /*    function initSmoothscrolling() {
+     
+     // init smooth scrolling to window.hash
+     var $jumpmark = $(window.location.hash);
+     if ($jumpmark.length) {
+     setTimeout(function () {
+     if (window.location.hash) {
+     var offset = $jumpmark.data('offset') - $('#topbar').height() - $('header.me-page-header.full').height() - 150;
+     window.scrollTo(0, 0);
+     $('html, body').animate({
+     scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0)
+     }, 800);
+     }
+     }, 1);
+     }
+     }
+     */
     function initCarousel() {
         var $carousel = $('[data-me-carousel]');
         var $controls = $('.carousel-control');
-        
+
         if ($carousel.length == 0) {
             return;
         }
-        
+
         var offset = (isMobile()) ? 1 : 3;
 
         $carousel.on('jcarousel:reload jcarousel:create', function () {
@@ -92,34 +81,34 @@ var Mebis = (function($) {
 
             $carousel.jcarousel('items').css('width', width + 'px');
 
-            setTimeout(function(){
+            setTimeout(function () {
                 var maxHeight = 0;
 
-                $carousel.jcarousel('items').each(function(){
+                $carousel.jcarousel('items').each(function () {
                     var currentHeight = $(this).outerHeight();
 
-                    if ( currentHeight > maxHeight) {
+                    if (currentHeight > maxHeight) {
                         maxHeight = currentHeight;
                     }
                 });
 
                 var $links = $carousel.jcarousel('items').find("> a");
 
-                $links.each(function(){
+                $links.each(function () {
                     $(this).css("min-height", maxHeight);
                 });
 
-            },50);
+            }, 50);
 
-            if(!isMobile()) {
+            if (!isMobile()) {
                 $('.me-news-item:nth-child(3n)').css('width', width + 1 + 'px');
-              }
+            }
 
         })
-        .jcarousel({
-            wrap: 'circular',
-            transitions: true
-        });
+                .jcarousel({
+                    wrap: 'circular',
+                    transitions: true
+                });
 
         $carousel.jcarouselAutoscroll({
             autostart: true,
@@ -142,21 +131,21 @@ var Mebis = (function($) {
         //var assets = '/theme/mebis/style/';
         //var images = '/theme/mebis/pix/';
 
-        $invert.on('click', function(e) {
+        $invert.on('click', function (e) {
             e.preventDefault();
             var mode = $styles.attr('data-mode');
 
             // replace logos
-            $("[data-src-contrast]").each(function(){
+            $("[data-src-contrast]").each(function () {
                 var currentPath = $(this).attr("src");
                 var contrastPath = $(this).attr("data-src-contrast");
 
                 if (mode == 'default') {
-                    $(this).attr("src",contrastPath);
-                    $(this).attr("data-src-contrast",currentPath);
+                    $(this).attr("src", contrastPath);
+                    $(this).attr("data-src-contrast", currentPath);
                 } else {
-                    $(this).attr("src",contrastPath);
-                    $(this).attr("data-src-contrast",currentPath);
+                    $(this).attr("src", contrastPath);
+                    $(this).attr("data-src-contrast", currentPath);
                 }
             });
 
@@ -164,24 +153,24 @@ var Mebis = (function($) {
                 $styles.attr('data-mode', 'contrast');
                 //style = 'mebis-contrast.css';
                 $.post(
-                    M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
-                    {sesskey: M.cfg.sesskey, mode: true}                        
+                        M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
+                        {sesskey: M.cfg.sesskey, mode: true}
                 );
             } else {
                 $styles.attr('data-mode', 'default');
-               // style = 'mebis.css';
-               $.post(
-                    M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
-                    {sesskey: M.cfg.sesskey, mode: false}                        
+                // style = 'mebis.css';
+                $.post(
+                        M.cfg['wwwroot'] + '/theme/mebis/changemode.php',
+                        {sesskey: M.cfg.sesskey, mode: false}
                 );
             }
 
-            if($('.js-navbar-collapse').hasClass('.in')) {
+            if ($('.js-navbar-collapse').hasClass('.in')) {
                 $('[data-target=".js-navbar-collapse"]').trigger('click');
             }
 
-           // var path = M.cfg['wwwroot'] + assets + style;
-           // $styles.attr('href', path);
+            // var path = M.cfg['wwwroot'] + assets + style;
+            // $styles.attr('href', path);
 
             $('html').toggleClass('me-contrast-mode');
 
@@ -194,14 +183,14 @@ var Mebis = (function($) {
         var baseFontSize = $body.css('font-size');
         var range = [14, 22];
 
-        $changeFontSize.on('click', function(e) {
+        $changeFontSize.on('click', function (e) {
             e.preventDefault();
             var curFontSize = parseInt($('body').css('font-size'));
             var change = 1;
             var dir = $(this).data('change');
             var newFontSize = (dir == 'inc') ? (curFontSize += change) : (curFontSize -= change);
 
-            if(newFontSize > range[0] && newFontSize < range[1]) {
+            if (newFontSize > range[0] && newFontSize < range[1]) {
 
                 $body.css({
                     'font-size': newFontSize + 'px'
@@ -210,7 +199,7 @@ var Mebis = (function($) {
 
         });
 
-        $(window).on('keyup', function(e) {
+        $(window).on('keyup', function (e) {
             var key = e.which;
 
             var curFontSize = parseInt($body.css('font-size'));
@@ -218,15 +207,15 @@ var Mebis = (function($) {
             var dir = $(this).data('change');
             var newFontSize = 0;
 
-            if(e.ctrlKey && e.altKey && key == 187) {
+            if (e.ctrlKey && e.altKey && key == 187) {
                 newFontSize = curFontSize += change;
             }
 
-            if(e.ctrlKey && e.altKey && key == 189) {
+            if (e.ctrlKey && e.altKey && key == 189) {
                 newFontSize = curFontSize -= change;
             }
 
-            if(newFontSize > range[0] && newFontSize < range[1]) {
+            if (newFontSize > range[0] && newFontSize < range[1]) {
                 $body.css({
                     'font-size': newFontSize + 'px'
                 });
@@ -246,10 +235,10 @@ var Mebis = (function($) {
 
     function initTooltips() {
         var $tooltips = $('.me-tooltip');
-        if($tooltips.length) {
+        if ($tooltips.length) {
             $tooltips.tooltipster({
                 maxWidth: $tooltips.parent().width()
-            }).on('click', function(e) {
+            }).on('click', function (e) {
                 e.preventDefault();
             });
         }
@@ -261,7 +250,7 @@ var Mebis = (function($) {
         var $triggerCheckboxes = [];
 
         // extract checkboxes
-        $forms.each(function(index){
+        $forms.each(function (index) {
             var $collection = $(this).find('input[type="checkbox"]');
             $triggerCheckboxes.push($collection.last());
             $checkboxes.push($collection);
@@ -269,37 +258,38 @@ var Mebis = (function($) {
     }
 
     function initMobileFunctions() {
-        $('.toggle-nav').on('click', function(e) { e.preventDefault(); });
+        $('.toggle-nav').on('click', function (e) {
+            e.preventDefault();
+        });
 
-        if($(window).width() > 992 ) {
+        if ($(window).width() > 992) {
             //$.equalizer();
-            $('[data-equalizer-inner] .me-block-inner').each(function() {
+            $('[data-equalizer-inner] .me-block-inner').each(function () {
                 $(this).css('min-height', $(this).parent().css('min-height'));
             });
         }
 
-        if(isMobile()) {
-            var $topbar = $('#topbar');
-            lastY = $(window).scrollTop();
-            /*
-            $(window).on({
-                touchmove: function(e) {
-                    var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
-
-                    if (Math.abs(currentY - lastY) < 20) { return; }
-
-                    if (currentY > lastY) {
-                        $topbar.show();
-                    } else {
-                        $topbar.hide();
-                    }
-
-                    lastY = currentY;
-                }
-            });
-            */
-        }
-
+        /*if (isMobile()) {
+         var $topbar = $('#topbar');
+         lastY = $(window).scrollTop();
+         
+         $(window).on({
+         touchmove: function(e) {
+         var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
+         
+         if (Math.abs(currentY - lastY) < 20) { return; }
+         
+         if (currentY > lastY) {
+         $topbar.show();
+         } else {
+         $topbar.hide();
+         }
+         
+         lastY = currentY;
+         }
+         });
+         
+         }*/
     }
 
     /**
@@ -309,7 +299,7 @@ var Mebis = (function($) {
         var $loginBox = $('.me-login-box');
 
         // Disable close dropdown on click outside
-        if($body.hasClass('me-deeplink')) {
+        if ($body.hasClass('me-deeplink')) {
             $loginBox.on('hide.bs.dropdown', function () {
                 return false;
             });
@@ -321,11 +311,11 @@ var Mebis = (function($) {
      */
     function initImageBlurCanvas() {
         var $blur = $('.blur');
-        $blur.each(function(i) {
+        $blur.each(function (i) {
             var width = $(this).width();
             var height = $(this).parent().height();
             var id = 'blur-' + i;
-            $(this).html('<canvas id="'+id+'" width="'+width+'" height="'+height+'" />');
+            $(this).html('<canvas id="' + id + '" width="' + width + '" height="' + height + '" />');
 
             var c = $(this).find('canvas')[0];
             var ctx = c.getContext("2d");
@@ -334,25 +324,25 @@ var Mebis = (function($) {
 
             $(this).removeAttr('data-bg');
 
-            var drawBlur = function() {
-              // Store the width and height of the canvas for below
-              var w = width;
-              var h = height;
-              // This draws the image we just loaded to our canvas
-              ctx.drawImage(canvasBackground, 0, 0, w, h);
-              // This blurs the contents of the entire canvas
-              stackBlurCanvasRGBA(id, 0, 0, w, h, 30);
+            var drawBlur = function () {
+                // Store the width and height of the canvas for below
+                var w = width;
+                var h = height;
+                // This draws the image we just loaded to our canvas
+                ctx.drawImage(canvasBackground, 0, 0, w, h);
+                // This blurs the contents of the entire canvas
+                stackBlurCanvasRGBA(id, 0, 0, w, h, 30);
             }
 
-            canvasBackground.onload = function() {
-              drawBlur();
+            canvasBackground.onload = function () {
+                drawBlur();
             }
         });
     }
 
     function initLoginToggle() {
         var $btn = $('[data-login]');
-        $btn.on('click', function(e) {
+        $btn.on('click', function (e) {
             e.preventDefault();
             $('.me-login-box').toggleClass('opened');
         });
@@ -361,7 +351,7 @@ var Mebis = (function($) {
     function initBlockLinkResize() {
         var $blocklink = $('.mib-suche .me-block-link, .me-news-item a');
 
-        $blocklink.each(function() {
+        $blocklink.each(function () {
             var parentHeight = $(this).parent().height();
             $(this).css({
                 "min-height": parentHeight
@@ -373,7 +363,7 @@ var Mebis = (function($) {
         var $collection = $('.me-collection');
         var $editCollection = $collection.find('.icon-me-text-bearbeiten');
 
-        $editCollection.on('click', function() {
+        $editCollection.on('click', function () {
             var $item = $(this).parents('.me-block-inner');
             var mode = $item.attr('data-mode');
             var $edit = $item.find('.me-edit');
@@ -382,7 +372,7 @@ var Mebis = (function($) {
             $collection.find('.me-edit').removeClass('visible');
             $collection.find('[data-mode]').attr('data-mode', '');
 
-            if(mode !== 'edit') {
+            if (mode !== 'edit') {
                 $(this).addClass('active');
                 $item.attr('data-mode', 'edit');
                 $edit.addClass('visible');
@@ -393,14 +383,14 @@ var Mebis = (function($) {
             }
         });
 
-        $(window).on('keyup', function(e) {
+        $(window).on('keyup', function (e) {
             var key = e.which;
             var enter = 13;
-            var esc   = 27;
+            var esc = 27;
             var $collection = $('.me-collection');
             var $active = $collection.find('[data-mode="edit"]');
 
-            if(key == esc || key == enter) {
+            if (key == esc || key == enter) {
                 $collection.find('.active').removeClass('active');
                 $collection.find('.me-edit').removeClass('visible');
                 $collection.find('[data-mode]').attr('data-mode', '');
@@ -412,9 +402,9 @@ var Mebis = (function($) {
     function initPopupFix() {
         var $toggle = $('[data-toggle="modal"]');
 
-        $toggle.on('click', function(event) {
+        $toggle.on('click', function (event) {
 
-            if($(window).width() <= 768 ) {
+            if ($(window).width() <= 768) {
 
                 event.preventDefault();
 
@@ -422,10 +412,10 @@ var Mebis = (function($) {
                 var target = $_this.data('target');
                 var $popup = $(target);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     var top = $_this.offset().top + 25;
                     $popup.css('top', top);
-                },25);
+                }, 25);
             }
 
         });
@@ -433,7 +423,7 @@ var Mebis = (function($) {
     }
 
     function switchModalContents() {
-        $('[data-switch]').on('click', function(e) {
+        $('[data-switch]').on('click', function (e) {
             e.preventDefault();
             var _switch = $(this).data('switch');
 
@@ -444,125 +434,177 @@ var Mebis = (function($) {
 
     function initStarRating() {
         var $rating = $('.me-search-result-rate');
-        $rating.each(function() {
+        $rating.each(function () {
 
             // add class for coloring the rating stars and remove class with a delay when mouse leaves or touch gesture ends
-            $(this).on('mouseenter touchstart', function() {
+            $(this).on('mouseenter touchstart', function () {
                 $(this).addClass("personal-rating");
             });
 
-            $(this).on('mouseleave touchend', function() {
+            $(this).on('mouseleave touchend', function () {
                 $(this).removeClass("personal-rating");
             });
 
             // attach event listener for hover effect
             var $stars = $(this).find('span');
 
-            $stars.each(function(i) {
+            $stars.each(function (i) {
                 $(this).on({
-                    mouseenter: function() {
+                    mouseenter: function () {
                         $(this).find('i').addClass('icon-me-stern_komplett').removeClass('icon-me-stern_leer');
-                        $stars.filter(':lt('+i+')').find('i').addClass('icon-me-stern_komplett').removeClass('icon-me-stern_leer');
+                        $stars.filter(':lt(' + i + ')').find('i').addClass('icon-me-stern_komplett').removeClass('icon-me-stern_leer');
                     },
-                    mouseleave: function() {
+                    mouseleave: function () {
                         $(this).find('i').removeClass('icon-me-stern_komplett').addClass('icon-me-stern_leer');
                     }
                 });
             });
 
-            $(this).on('mouseleave', function() {
+            $(this).on('mouseleave', function () {
                 $(this).find('i.icon-me-stern_komplett').removeClass('icon-me-stern_komplett').addClass('icon-me-stern_leer');
             });
         });
     }
 
-    function initAnchorLinks(){
-        var $button = $(".me-in-page-menu-mobile-trigger");
-        var $menu = $(".me-in-page-menu-anchor-links");
+    function initAnchorLinks() {
+        var $menu = $(".me-menu-anchor-links");
         var $anchorLinks = $menu.children("li");
 
-        $button.on('click', function(){
-            var status = $button.attr("data-status");
-
-            if (status == "hidden") {
-                $menu.slideDown(250);
-                $button.attr("data-status","visible");
-            } else {
-                $menu.slideUp(250);
-                $button.attr("data-status","hidden");
-            }
-        });
-
-        $anchorLinks.on('click', 'a', function(e){
+        $anchorLinks.on('click', 'a', function (e) {
             e.preventDefault();
 
             var anchor = $(this).attr('href');
             var anchorTop = $(anchor).offset().top - $('body').offset().top;
-            var anchorOffset = parseInt($(anchor).css('margin-top'))/2 + $('#topbar').height();
-            if($('header.me-page-header').css('position') === 'fixed') {
+            var anchorOffset = parseInt($(anchor).css('margin-top')) / 2 + $('#topbar').height();
+            if ($('header.me-page-header').css('position') === 'fixed') {
                 anchorOffset += $('header.me-page-header').height();
             }
             anchorTop -= anchorOffset;
             $('body')
-                .velocity('stop')
-                .velocity('scroll', {duration: 800, offset: anchorTop});
+                    .velocity('stop')
+                    .velocity('scroll', {duration: 800, offset: anchorTop});
 
             window.location.hash = anchor; // for older browsers, leaves a # behind
-               history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
+            history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
 
         });
     }
-/*
-    function initAnchorScrolling() {
-        var $headlines = $("[data-anchor-link]");
-
-        setTimeout(function(){
-            $headlines.each(function(){
-                anchorHeadlinePositions.push($(this).offset().top - 150);
-            });
-        }, 50);
-    }
-
-    function setAnchorClass() {
-        var viewportPos = $(window).scrollTop();
-        var markIndex;
-
-        $.each(anchorHeadlinePositions, function(index, element){
-            if (viewportPos > element) {
-                markIndex = index;
-            }
-        });
-
-        $(".me-in-page-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
-    }
-*/
-    function handleSelectboxNavChange()
-    {
+    /*
+     function initAnchorScrolling() {
+     var $headlines = $("[data-anchor-link]");
+     
+     setTimeout(function(){
+     $headlines.each(function(){
+     anchorHeadlinePositions.push($(this).offset().top - 150);
+     });
+     }, 50);
+     }
+     
+     function setAnchorClass() {
+     var viewportPos = $(window).scrollTop();
+     var markIndex;
+     
+     $.each(anchorHeadlinePositions, function(index, element){
+     if (viewportPos > element) {
+     markIndex = index;
+     }
+     });
+     
+     $(".me-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
+     }
+     */
+    function handleSelectboxNavChange() {
         var $selectbox = $('[data-change]');
 
-        $selectbox.on('click', function() {
+        $selectbox.on('click', function () {
             $(this).addClass('open');
         });
     }
 
-    function initStickyHeader()
-    {
-        $win.on('scroll', function() {
-            if ($(this).scrollTop() > 50) {
-                $('body').addClass('sticky-header');
-            } else {
-                $('body').removeClass('sticky-header');
-            }
+    //hüb: we don't need this function any more -> delete?
+//    function initStickyHeader()
+//    {
+//        $win.on('scroll', function () {
+//            if ($(this).scrollTop() > 50) {
+//                $('body').addClass('sticky-header');
+//            } else {
+//                $('body').removeClass('sticky-header');
+//            }
+//        });
+//    }
+
+    /**
+     * Animate resizing header and back to top button on scroll
+     */
+    function scrollExperience() {
+        //hide to top button at the beginning
+        if ($('.me-back-top').length) {
+            $('.me-back-top').hide();
+        }
+        //get scroll event
+        $win.scroll(function () {
+            didScroll = true;
         });
+
+        setInterval(function () {
+            if (didScroll) {
+                didScroll = false;
+
+                //header 
+                var distanceY = $win.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                var shrinkOn = 100;
+                var $header = $('header');
+                var $navbarTop = $('#topbar');
+
+                if (distanceY > shrinkOn) {
+                    $navbarTop.fadeOut(500, 'linear');
+                    $header.addClass('smaller');
+                } else {
+                    $navbarTop.fadeIn(500, 'linear');
+                    $header.removeClass('smaller');
+                }
+
+                //to top button
+                if ($(this).scrollTop() > backTopAppearOn) {
+                    $('.me-back-top').fadeIn();
+                } else {
+                    $('.me-back-top').fadeOut();
+                }
+            }
+        }, 250);
+    }
+
+    /**
+     * Prevent the overlapping of the sidebar jump navigation with the to top button
+     */
+    function preventOverlappingSidebar() {
+        var $anchorLinks = $('.me-page-action-menu .me-menu-anchor-links');
+        //topActionMenu value must be the same as the value in theme\mebis\mbsglobaldesign\scss\layout.scss
+        //.me-page-action-menu {  top: 250px; }
+        //we can not use $anchorLinks.offset().top, because this value always changes
+        var topActionMenu = 250;
+        var offsetInPageMenu = $('.me-in-page-menu').offset();
+
+        if ($anchorLinks.length) {
+            if ($anchorLinks.offset().top + $anchorLinks[0].offsetHeight >= offsetInPageMenu.top) {
+                //prevent overlapping elements
+                var distance = topActionMenu + $anchorLinks[0].offsetHeight + 10;
+                backTopAppearOn = distance;
+                $('.me-page-action-menu').addClass('overlap');
+            } else {
+                $('.me-page-action-menu').removeClass('overlap');
+            }
+        }
     }
 
     return {
-        init: function() {
-            
+        init: function () {
+
             $win = $(window);
             $body = $('body');
-            
-            initToTop();
+
+            scrollToTop();
+            scrollExperience();
             //initInvertContrastSwitch();
             handleFontSizeSwitch();
             initTooltips();
@@ -582,34 +624,36 @@ var Mebis = (function($) {
             //initAnchorScrolling();
             //setAnchorClass();
             handleSelectboxNavChange();
-            initStickyHeader();
+//            initStickyHeader();;
+            preventOverlappingSidebar();
         },
-        resize: function() {
+        resize: function () {
             initBlockLinkResize();
             $.equalizer();
+            preventOverlappingSidebar();
         },
-        orientationchange: function() {
+        orientationchange: function () {
             initBlockLinkResize();
             initImageBlurCanvas();
-            setTimeout(function(){
+            setTimeout(function () {
                 $.equalizer();
-            },50);
+            }, 50);
         },
-        scroll: function() {
+        scroll: function () {
             //setAnchorClass();
         }
     }
 
 })(jQuery);
 
-$(function() {
+$(function () {
     Mebis.init();
 
-    $(window).on('resize', function() {
+    $(window).on('resize', function () {
         Mebis.resize();
     });
 
-    $(window).on('orientationchange', function(){
+    $(window).on('orientationchange', function () {
         Mebis.orientationchange();
     });
 

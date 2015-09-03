@@ -1,0 +1,411 @@
+/*
+    Top Navigation with Menu
+*/
+/* 
+    Created on : 09.07.2015, 17:13:21
+    Author     : Franziska Hübler, ISB
+*/
+
+/////////////////////
+// SMALL + DEFAULT //
+/////////////////////
+@media only screen {
+
+    .me-wrapper {
+
+        #topbar {
+            background: $black;
+            border: none;
+            min-height: 30px;
+            margin-bottom: 0;
+
+            .container {
+                position: relative;
+
+                .navbar-non-collapsing {
+
+                    .navbar-header {
+                        //button to open mobile sidebar
+                        .navbar-toggle {
+                            float: none;
+                            position: relative;
+                            z-index: 99;
+                            background: $brand-secondary;
+
+                            &.collapsed {
+                                background: $brand-gray-dark;
+                            }
+                        }
+                    }
+
+                    .navbar-right {
+                        .profile a .user-avatar {
+                            height: emCalc(35px);
+                        }
+                    }
+                }
+
+                .navbar-collapse.collapse {
+
+                    //sidebar collapsed
+                    .nav {
+                        padding: 0 20px;
+
+                        li {
+                            a {
+                                padding: 10px 15px 10px 5px;
+                                color: $white;
+
+                                &:hover {
+                                    color: $brand-secondary;
+                                    background: transparent;
+                                }
+                            }
+
+                            &.me-active {
+                                a {
+                                    color: $brand-secondary;
+                                }
+                            }
+
+                            [class^="icon-me"] {
+                                display: inline-block;
+                                margin: 0 15px 0 0;
+                                font-size: 2em;
+                                vertical-align: middle;
+                            }
+
+                            span {
+                                vertical-align: middle;
+                            }
+                        }               
+                    }
+                }
+
+                .navbar-non-collapsing {
+
+                    ul.change-fontsize {
+
+                        li {
+                            a {
+                                line-height: emCalc(35px);
+                                padding-top: 0;
+                                padding-bottom: 0;
+                                display: block;
+                                color: $brand-gray-medium;
+
+                                &[data-change="inc"] {
+                                    padding-left: 0;
+                                    font-size: 18px;
+                                }
+
+                                &[data-change="dec"] {
+                                    padding-top: 3px;
+                                    padding-left: 10px;
+                                    padding-right: 15px;
+                                    font-size: 16px;
+
+                                    i {
+                                        margin-right: 0;
+                                    }
+                                }
+
+                                &:hover {
+                                    color: $brand-secondary;
+                                }
+
+                                i {
+                                    font-size: 1em;
+                                }
+                            }
+
+                            &.me-active a {
+                                color: $brand-secondary;
+                            }
+                        }
+                    }
+                }
+
+                .divider-vertical {
+                    height: emCalc(35px);
+                    border-left: 1px solid #444;
+                }
+            }
+        }
+    }
+}
+
+/////////////////////
+// LARGE [Desktop] //
+/////////////////////
+
+@media only screen and (min-width: $screen-lg-min) {
+
+    .me-wrapper {
+
+        #topbar {
+
+            .container {
+
+                .collapse.navbar-collapse {
+                    @include transition(all .25s);
+                    border-bottom: 1px solid $brand-gray-navi;
+                }
+
+                .navbar-right {
+                    margin-bottom: 0;
+                    margin-top: 0;
+
+                    .profile {
+                        a {
+                            @include transition(background .25s);
+                            background: $brand-secondary;
+                            color: $white;
+                            line-height: 0;
+                            padding-top: 0;
+                            padding-bottom: 0;
+                            display: block;
+                            overflow: hidden;
+                            max-width: 320px;                            
+
+                            .me-username {                                    
+                                display: inline-block !important;
+                                max-width: 250px;
+                                overflow: hidden;
+                                vertical-align: middle;
+                                max-height: emCalc(35px);
+                                line-height: emCalc(35px);
+                            }
+
+                            .user-avatar {
+                                background: $black;
+                                margin-left: 10px;
+                                margin-right: -15px;
+                            }
+
+                            &:hover {
+                                background: $brand-primary;
+                                color: $white;
+
+                                img {
+                                    opacity: 0.4;
+                                }
+                            }
+                        }
+                    }
+
+                    .logout {
+                        a {
+                            padding-top: 0;
+                            padding-bottom: 0;
+                            line-height: emCalc(35px);
+                            height: emCalc(35px);
+
+                            &:hover {
+                                color: $brand-secondary;
+                            }
+                        }
+                    }
+                }
+
+                .collapse.navbar-collapse {
+                    //support and management icons for large devices
+                    ul.nav.js-navbar-collapse-submenu {
+
+                        li {
+                            a {
+                                padding: 0 15px;
+                                color: $brand-gray-medium;
+                                line-height: emCalc(35px);
+                                height: emCalc(35px);
+
+                                &:hover {
+                                    color: $brand-secondary;
+                                    background: transparent;
+                                }
+                            }
+
+                            &.me-active {
+                                a {
+                                    color: $brand-secondary;
+                                }
+                            }
+
+                            [class^="icon-me"] {
+                                margin-right: 6px;
+                                font-size: 1em;
+                                vertical-align: middle;
+                            }
+
+                            span {
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-lg-min) {
+
+    .me-wrapper {
+
+        #topbar {
+            background: transparent;
+
+            .container {
+                width: 100% !important;
+                padding: 0;
+
+                .container-navbar-non-collapsing {
+                    background: $black;
+
+                    .navbar-non-collapsing {
+                        padding: 0 20px;
+                    }
+
+                    ul.nav.navbar-nav.navbar-right {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        margin: 0;
+
+                        li.profile {
+                            float: left;
+                            margin-top: 6px;
+                            a {
+                                padding: 0;
+                            }
+                        }
+
+                        li.divider-profile-right {
+                            float: left;
+                        }
+
+                        li.logout {
+                            float: right;
+                            border-left: 1px solid;
+                            padding-bottom: 2px;
+                            padding-top: 3px;
+                        }
+                    }
+                }
+
+                .collapse.navbar-collapse {
+                    padding-left: 0;
+                    padding-right: 0;
+                    max-height: initial;
+                    margin-right: 0;
+                    margin-left: 0;
+
+                    .nav {
+                        width: 40%;
+                        min-width: 250px;
+                        background: $black;
+                        margin: 0 !important;
+                        padding: 10px 38px;
+                        @include box-shadow(0 0 0.75em rgba($black,0.5));
+                    }
+                    //support and management icons for small devices
+                    ul.js-navbar-collapse-submenu {
+                        width: 40%;
+                        min-width: 250px;
+                        background: $brand-gray-dark;
+                        @include box-shadow(0 0 0.75em rgba($black,0.5));
+                        padding: 15px 0 15px 20px;
+
+                        li {
+                            margin-left: 8px;
+                            padding: 0;
+
+                            a {
+                                color: $brand-gray-light;
+                                padding: 0;
+                                &:hover {
+                                    color: $brand-secondary;
+                                }
+                            }
+
+                            [class^="icon-me"] {
+                                display: inline-block;
+                                margin: 0 15px 0 5px;
+                                font-size: 1em;
+                                vertical-align: middle;
+                            }
+
+                            span {
+                                vertical-align: middle;
+                            }
+
+                            &:nth-child(2) {
+                                margin-bottom: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/////////////////////
+// MEDIUM [Tablet] //
+/////////////////////
+
+@media only screen and (min-width: $screen-md-min) {
+}
+
+@media only screen and (max-width: $screen-md-min) {
+}
+
+////////////////////////
+// SMALL [Smartphone] //
+////////////////////////
+
+@media only screen and (min-width: $screen-sm-min) {
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+
+    .me-wrapper {
+
+        #topbar {
+
+            .container {
+
+                .navbar-header {
+
+                    .navbar-toggle {
+                        position: relative;
+                        z-index: 99;
+                    }
+
+                    .nav .open > a {
+                        background: $brand-gray-dark;
+                    }
+                }
+
+                .navbar-right {
+                    
+                    .profile a {
+                        
+                        .user-avatar {
+                            margin-top: 3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-xc) {
+}
+
+@media only screen and (max-width: $screen-xc-min) {
+}
+
+@media only screen and (max-width: $screen-xs-min) {
+}

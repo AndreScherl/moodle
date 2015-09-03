@@ -24,7 +24,7 @@
             min-height: 135px;
             @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
             //resizing header does it smoothly
-            @include transition(all .3s);
+            @include transition(all .6s);
 
             .container {
 

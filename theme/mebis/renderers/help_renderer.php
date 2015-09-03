@@ -32,6 +32,7 @@ class theme_mebis_help_renderer extends renderer_base {
     private $pagefastaccessnavigation = false;
 
     public function page_action_navigation() {
+
         if (!$this->pageactionnavigation) {
             $menu_items = array(
                 html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('class' => 'me-back-top'))

@@ -27,6 +27,10 @@ Put all the pagelayout specific styles here.
         h3 {
             color: $white;
         }
+        
+        select {
+            max-width: 100%;
+        }
     }
 }
 

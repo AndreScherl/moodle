@@ -2154,7 +2154,15 @@ function qf_errorHandler(element, _qfMsg) {
       errorSpan.className = "error";
       element.parentNode.insertBefore(errorSpan, element.parentNode.firstChild);
       document.getElementById(errorSpan.id).setAttribute(\'TabIndex\', \'0\');
-      document.getElementById(errorSpan.id).focus();
+      
+        //fhüb: core-hack: core hack - jump to eror message
+        var element = document.getElementById(errorSpan.id);    
+        var topbarheight = document.getElementById(\'topbar\').offsetHeight + document.getElementById(\'page-header\').offsetHeight;   
+        var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;       
+        if (element.offsetTop - scrollTop < topbarheight) {    
+        window.scrollTo(element.offsetTop - topbarheight,0);
+        }
+     
     }
 
     while (errorSpan.firstChild) {
@@ -2231,7 +2239,14 @@ function validate_' . $this->_formName . '_' . $escapedElementName . '(element) 
     first_focus = true;
     Y.Global.fire(M.core.globalEvents.FORM_ERROR, {formid: \''. $this->_attributes['id'] .'\',
                                                    elementid: \'id_error_'.$elementName.'\'});
-    document.getElementById(\'id_error_'.$elementName.'\').focus();
+    
+    //fhüb: core hack - jump to eror message
+    var element = document.getElementById(\'id_error_'.$elementName.'\');    
+    var topbarheight = document.getElementById(\'topbar\').offsetHeight + document.getElementById(\'page-header\').offsetHeight;   
+    var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;       
+    if (element.offsetTop - scrollTop < topbarheight) {    
+       window.scrollTo(element.offsetTop - topbarheight,0);
+    }
   }
 ';
 

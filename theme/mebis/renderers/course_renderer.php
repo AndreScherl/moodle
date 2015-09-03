@@ -139,7 +139,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
         }
 
         // Prepare parameters for courses and categories lists in the tree
-        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)
+        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_COLLAPSED)
                 ->set_attributes(array('class' => 'category-browse category-browse-' . $coursecat->id));
 
         $coursedisplayoptions = array();

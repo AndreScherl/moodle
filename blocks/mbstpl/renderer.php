@@ -262,7 +262,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $searchlisting = '';
         if (count($courses) > 0) {
             foreach ($courses as $course) {
-                $listitem = \html_writer::tag('h4', $course->fullname);
+                $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                $listitem = \html_writer::link($courseurl, $course->fullname);
                 // TBD, see spec page 14.
                 $externalurl = new moodle_url('/index.html');
                 $listitem .= \html_writer::link($externalurl,

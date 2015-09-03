@@ -30,10 +30,10 @@ use moodle_url;
 defined('MOODLE_INTERNAL') || die();
 
 class core_changes {
+    
+    public static $teacherroleshortname = 'editingteacher';
 
-    public static $teacherroleid = 3;
-
-    /**
+        /**
      * Called from \course\index.php function definition() 
      */
     public static function check_view_courses() {
@@ -156,7 +156,7 @@ class core_changes {
 
         $params = array();
         $params['contextlevel'] = CONTEXT_COURSE;
-        $params['teacherroleid'] = self::$teacherroleid;
+        $params['teacherroleid'] = self::get_roleid_by_shortname(self::$teacherroleshortname);
 
         $coursecontext = \context_course::instance($arguments['courseId']);
         $params['coursecontext'] = $coursecontext->id;
@@ -165,12 +165,12 @@ class core_changes {
 
         $rolenames = role_fix_names($roles, $coursecontext, ROLENAME_ALIAS, true);
 
-        if (isset($rolenames[self::$teacherroleid])) {
+        if (isset($rolenames[self::get_roleid_by_shortname(self::$teacherroleshortname)])) {
             $arguments['teacherrole'] = $rolenames;
         }
 
         $arguments['allowteacherrole'] = $allowteacherrole;
-        $arguments['teacherroleid'] = self::$teacherroleid;
+        $arguments['teacherroleid'] = self::get_roleid_by_shortname(self::$teacherroleshortname);
         return true;
     }
 
@@ -190,7 +190,7 @@ class core_changes {
      */
     public static function role_assign_allowed($roleid, $userid) {
 
-        if ($roleid != self::$teacherroleid) {
+        if ($roleid != self::get_roleid_by_shortname(self::$teacherroleshortname)) {
             return false;
         }
 
@@ -217,13 +217,25 @@ class core_changes {
         foreach ($users as $id => $unused) {
             $users[$id]['assignableroles'] = $manager->get_assignable_roles();
             if (in_array($id, $allowteacherrole)) {
-                $users[$id]['assignableroles'][self::$teacherroleid] = 1;
+                $users[$id]['assignableroles'][self::get_roleid_by_shortname(self::$teacherroleshortname)] = 1;
 
-                if (isset($users[$id]['roles'][self::$teacherroleid])) {
-                    $users[$id]['roles'][self::$teacherroleid]['unchangeable'] = false;
+                if (isset($users[$id]['roles'][self::get_roleid_by_shortname(self::$teacherroleshortname)])) {
+                    $users[$id]['roles'][self::get_roleid_by_shortname('editingteacher')]['unchangeable'] = false;
                 }
             }
         }
     }
-
+    
+    /**
+     * Assign-Teacher-Hack:
+     * 
+     * Get the role id by shortname
+     * 
+     * @param string $shortname
+     * @return int role id
+     */
+    public static function get_roleid_by_shortname($shortname) {
+        global $DB;
+        return $DB->get_field('role', 'id', array('shortname' => $shortname));
+    }
 }

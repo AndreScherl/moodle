@@ -26,3 +26,113 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .templateactionbtns {display: table;}
 .templateactionbtns > div {display: table-cell;}
+
+
+.mbstpl-search-form .fitem {
+    display: inline-block;
+    width: 250px;
+}
+
+.mbstpl-search-form .felement {
+    margin-left: auto;
+}
+
+.mbstpl-search-form .mform .fitem .felement  > select {
+    width: 200px;
+}
+
+.mbstpl-search-form .mform .fitem .felement select:FIRST-CHILD {
+    font-weight: bold;
+}
+
+.mbstpl-search-form .fitemtitle {
+    width: auto !important;
+}
+
+.mbstpl-search-listing {
+    font-weight: 400;
+    font-size: 1.25em;
+    color: #333333;
+}
+
+.mbstpl-search-listing em{
+    color: #fff;
+}
+
+.mbstpl-list-item-grid {
+    display: inline-block;
+    min-height: 165px;
+    padding: 20px;
+    text-align: left;
+    background: #fff;
+    margin: 10px;
+    width: 200px;
+    float: left;
+    position: relative;
+}
+
+.mbstpl-list-item-grid img {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.mbstpl-list-item-list {
+    display: block;
+    margin: 5px 0;
+    position: relative;
+    padding: 5px;
+    background-color: white;
+}
+
+.mbstpl-list-item-list img {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    height: 30px;
+    width: 30px;
+}
+
+.mbstpl-heading-panel {
+    position: relative;
+}
+
+.mbstpl-list-controller {
+    display: inline-block;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.mbstpl-list-controller img {
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+}
+
+.mbstpl-search-form #fitem_id_keyword {
+	display: block;
+}
+
+.mbstpl-search-form #fitem_id_keyword input {
+    width: 200px;
+}
+
+.mbstpl-suggestion {
+	position: absolute;
+	min-height: 39px;
+	cursor: pointer;
+	padding: 6px 12px;
+	font-size: 18px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 0px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}

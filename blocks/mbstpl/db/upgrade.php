@@ -79,6 +79,29 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015090200, 'mbstpl');
     }
 
+    if ($oldversion < 2015090300) {
+
+        // Define field datakeyword to be added to block_mbstpl_answer.
+        $table = new xmldb_table('block_mbstpl_answer');
+        $field = new xmldb_field('datakeyword', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'dataformat');
+
+        // Conditionally launch add field datakeyword.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define index datakeyword (not unique) to be added to block_mbstpl_answer.
+        $index = new xmldb_index('datakeyword', XMLDB_INDEX_NOTUNIQUE, array('datakeyword'));
+
+        // Conditionally launch add index datakeyword.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015090300, 'mbstpl');
+    }
+
 
     return true;
 }

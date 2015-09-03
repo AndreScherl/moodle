@@ -75,7 +75,7 @@ class autocomplete {
         $sql .= ' JOIN {block_mbstpl_question} as Q ON Q.id = A.questionid';
         $sql .= ' JOIN {block_mbstpl_meta} AS M ON M.id = A.metaid';
         $sql .= ' JOIN {block_mbstpl_template} as T on T.id = M.templateid';
-        $sql .= ' WHERE ' . $DB->sql_like('A.data', '?', false);
+        $sql .= ' WHERE ' . $DB->sql_like('A.datakeyword', '?', false);
         $sql .= ' AND T.status = ?';
         $sql .= ' AND (Q.datatype = ? OR Q.datatype = ?)';
 

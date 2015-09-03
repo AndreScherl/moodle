@@ -98,12 +98,12 @@ class qtype_datetime extends qtype_base {
         $filter = "";
         if (!empty($answer['from'])) {
             $aparam = 'af'.$question->id;
-            $filter .= " AND data >= :$aparam";
+            $filter .= " AND datakeyword >= :$aparam";
             $toreturn['params'][$aparam] = $answer['from'];
         }
         if (!empty($answer['until'])) {
             $aparam = 'au'.$question->id;
-            $filter .= " AND data <= :$aparam";
+            $filter .= " AND datakeyword <= :$aparam";
             $toreturn['params'][$aparam] = $answer['until'];
         }
         $toreturn['wheres'][] = self::get_whereexists($filter, $qparam);

@@ -32,6 +32,7 @@ $string['confirmdelquest'] = 'This question is in use. Deleting it will remove i
 $string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
 $string['copyright'] = 'Alle Inhalte des Kurses sind frei von Rechten Dritter';
 $string['coursename'] = 'Course name';
+$string['coursekeyword'] = 'Course keyword';
 $string['creator'] = 'Creator';
 $string['creationdate'] = 'Creation date';
 $string['deploycat'] = 'Template deployment category';

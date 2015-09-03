@@ -60,7 +60,7 @@ class qtype_checkbox extends qtype_base {
         }
         $qparam = 'q' . $question->id;
         $aparam = 'a' . $question->id;
-        $toreturn['wheres'][] = self::get_whereexists("AND data = :$aparam", $qparam);
+        $toreturn['wheres'][] = self::get_whereexists("AND datakeyword = :$aparam", $qparam);
         $toreturn['params'][$qparam] = $question->id;
         $toreturn['params'][$aparam] = $answer;
         return $toreturn;

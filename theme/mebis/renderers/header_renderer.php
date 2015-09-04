@@ -91,14 +91,14 @@ class theme_mebis_header_renderer extends renderer_base {
                 continue;
             }
         }
-
+        
         if (isloggedin()) {
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-left visible-lg'));
             $userBar .= html_writer::start_tag('li', array('class' => 'profile'));
                 $userBar .= html_writer::start_tag('a', array('href' => $url_preferences_personal));
-                    $userBar .= html_writer::start_tag('span', array('class' => 'me-username visible-lg'));
-                        $userBar .= html_writer::tag('span', fullname($USER));
-                    $userBar .= html_writer::end_tag('span');
+                    $userBar .= html_writer::start_tag('div', array('class' => 'me-username visible-lg'));
+                        $userBar .= html_writer::tag('div', fullname($USER), array('class' => 'me-username visible-lg'));
+                    $userBar .= html_writer::end_tag('div');             
                     $userBar .= html_writer::tag('img', '',
                         array('class' => 'user-avatar', 'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
                         'alt' => 'Avatar', 'link' => false));
@@ -265,7 +265,7 @@ class theme_mebis_header_renderer extends renderer_base {
     /**
      * Renders the breadcrumb navigation
      *
-     * @global type $OUTPUT
+     * @global type $OUTPUT, $CFG
      * @return String Html string of the breadcrumb navigation
      */
     public function main_breadcrumbs() {
@@ -293,6 +293,48 @@ class theme_mebis_header_renderer extends renderer_base {
         $breadcrumbsLine = html_writer::tag('ol', $breadcrumbs, array('class' => 'breadcrumb text-left'));
 
         return $breadcrumbsLine;
+    }
+    
+    /**
+     * Renders the breadcrumb button and logged in as (role switch and admin switched user)
+     * 
+     * @global type $OUTPUT, $DB, $USER, $CFG
+     * @return String Html string that goes where the 'Turn editing on' button normally goes.
+     */
+    public function breadcrumb_button(){
+        global $OUTPUT, $DB, $USER, $CFG;
+        
+        $course = $this->page->course;
+        $context = context_course::instance($course->id);
+        $loggedinas = '';
+        
+        $button = $this->page->button;
+
+        //Switched role?
+        if (is_role_switched($course->id)) {
+            $rolename = '';
+            if ($role = $DB->get_record('role', array('id' => $USER->access['rsw'][$context->path]))) {
+                $rolename = format_string($role->name);
+            }
+            $loggedinas = $rolename .
+                " (<a href=\"$CFG->wwwroot/course/view.php?id=$course->id&amp;switchrole=0&amp;sesskey=" . sesskey() . "\">" . get_string('switchrolereturn') . '</a>)';       
+        } 
+        //Admin switched user?
+        else if (\core\session\manager::is_loggedinas()) {
+            $realuser = \core\session\manager::get_realuser();
+            $fullname = fullname($realuser, true);
+            $loginastitle = get_string('loginas');
+            $loggedinas = "(<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
+            $loggedinas .= "title =\"" . $loginastitle . "\">$fullname</a>) ";
+        }
+        
+        if (!empty($loggedinas) || $loggedinas !== '') {
+            if (!empty($button)){
+                $button .= '<span class="space">|</span>';
+            }
+            $button .= html_writer::tag('div', $loggedinas, array('class' => 'loggedinas'));
+        }
+        return $button;
     }
 
     /** render the dropable add block menu

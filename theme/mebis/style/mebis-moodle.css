@@ -15193,9 +15193,12 @@ categorybox:
 }
 #page-navbar .breadcrumb-button {
   margin-top: 0;
+  color: #999999;
+}
+#page-navbar .breadcrumb-button div {
+  float: left;
 }
 #page-navbar .breadcrumb-button .singlebutton {
-  float: left;
   margin-left: 4px;
 }
 #page-navbar .breadcrumb-button .singlebutton input[type="submit"] {
@@ -15209,6 +15212,14 @@ categorybox:
 #page-navbar .breadcrumb-button .singlebutton input[type="submit"]:hover {
   color: #ff6600 !important;
 }
+#page-navbar .breadcrumb-button .space {
+  float: left;
+  padding: 15px 7px;
+}
+#page-navbar .breadcrumb-button .loggedinas {
+  font-size: 0.75em;
+  padding: 20px 0;
+}
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .breadcrumb.text-left {
@@ -15217,8 +15228,14 @@ categorybox:
 }
 @media only screen and (max-width: 768px) {
   #page-navbar .breadcrumb-nav .breadcrumb,
-  #page-navbar .breadcrumb-button .singlebutton input[type="submit"] {
+  #page-navbar .breadcrumb-button .singlebutton input[type="submit"],
+  #page-navbar .breadcrumb-button .space,
+  #page-navbar .breadcrumb-button .loggedinas {
     font-size: 0.9375em;
+  }
+  #page-navbar .breadcrumb-button .space {
+    padding-top: 18px;
+    padding-bottom: 18px;
   }
 }
 /* Styles, used in footer */

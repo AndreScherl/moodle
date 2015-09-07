@@ -22,6 +22,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 use \block_mbstpl AS mbst;
+use block_mbstpl\backup;
 
 class mbstpl_deploy_test extends advanced_testcase {
     public function test_deploytemplate() {
@@ -51,8 +52,8 @@ class mbstpl_deploy_test extends advanced_testcase {
         $backup = new mbst\dataobj\backup($backupdata);
         $backup->insert();
         $this->assertNotEmpty($backup->id);
-        \block_mbstpl\course::backup_template($backup);
-        $courseid = \block_mbstpl\course::restore_template($backup);
+        mbst\backup::backup_primary($backup);
+        $courseid = mbst\backup::restore_primary($backup);
         $this->assertNotEmpty($courseid);
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertNotEmpty($template->id);

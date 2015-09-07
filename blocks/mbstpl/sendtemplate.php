@@ -61,7 +61,7 @@ if ($form->is_cancelled()) {
         'qformid' => $activeform->id,
         'incluserdata' => empty($data->incluserdata) ? 0 :1,
     );
-    $backup = new mbst\dataobj\backup($backupdata);
+    $backup = new mbst\dataobj\backup($backupdata, false);
     $backup->insert();
     $meta = new mbst\dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
 
@@ -73,7 +73,7 @@ if ($form->is_cancelled()) {
     }
 
     // Initiate deployment task.
-    $deployment = new \block_mbstpl\task\adhoc_deploy();
+    $deployment = new \block_mbstpl\task\adhoc_deploy_primary();
     $deployment->set_custom_data($backup);
     \core\task\manager::queue_adhoc_task($deployment);
 

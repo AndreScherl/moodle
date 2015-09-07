@@ -22,6 +22,8 @@
 
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
+require_once($CFG->libdir . '/coursecatlib.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
@@ -46,18 +48,42 @@ if (!mbst\perms::can_coursefromtpl($template, $coursecontext)) {
 }
 
 // Load allowed courses and categories.
-$cats = array();
-$courses = array();
+$catsearch = new restore_category_search();
+$cats = $catsearch->get_results();
+$coursesearch = new restore_course_search(array(), $course->id);
+$courses = $coursesearch->get_results();
+if (empty($cats) && empty($courses)) {
+    throw new moodle_exception('errornowheretorestore', 'block_mbstpl');
+}
 
-
-$customdata = array('courseid' => $course->id, 'cats' => $cats, 'courses' => $courses);
+$creator = mbst\course::get_creators($template->id);
+$customdata = array(
+    'course' => $course,
+    'cats' => $cats,
+    'courses' => $courses,
+    'creator' => $creator,
+);
 $form = new mbst\form\dupcrs(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
-    // TODO: launch task.
-    redirect($redirurl);
+    // Initiate deployment task.
+    $settings = array();
+    if ($data->restoreto == 'cat') {
+        $settings['tocat'] = $data->tocat;
+    } else {
+        $settings['tocrs'] = $data->tocrs;
+    }
+    $taskdata = (object)array(
+        'tplid' => $template->id,
+        'settings' => $settings,
+        'requesterid' => $USER->id,
+    );
+    $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
+    $deployment->set_custom_data($taskdata);
+    \core\task\manager::queue_adhoc_task($deployment);
+    redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
 }
 echo $OUTPUT->header();
 

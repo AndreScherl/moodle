@@ -8,13 +8,15 @@
 namespace block_mbstpl\task;
 
 
-class adhoc_deploy extends \core\task\adhoc_task {
+use block_mbstpl\backup;
+
+class adhoc_deploy_primary extends \core\task\adhoc_task {
     public function execute() {
         $bkpdetails = $this->get_custom_data();
         $backup = new \block_mbstpl\dataobj\backup(array('id' => $bkpdetails->id), true, MUST_EXIST);
         try {
-            \block_mbstpl\course::backup_template($backup);
-            $courseid = \block_mbstpl\course::restore_template($backup);
+            backup::backup_primary($backup);
+            $courseid = backup::restore_primary($backup);
             \block_mbstpl\notifications::email_deployed($backup, $courseid);
         } catch(\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);

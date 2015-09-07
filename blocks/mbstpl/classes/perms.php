@@ -113,11 +113,26 @@ class perms {
      * @return bool
      */
     public static function can_assignreview(dataobj\template $template, \context_course $coursecontext) {
-        if (!has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
+        if ($template->reviewerid) {
             return false;
         }
 
-        return $template->reviewerid == 0;
+        return has_capability('block/mbstpl:sendcoursetemplate', $coursecontext);
+    }
+
+    /**
+     * Tells us whether the template can be duplicated to a course by the current user.
+     * @param dataobj\template $template
+     * @param context_course $coursecontext
+     * @return bool
+     */
+    public static function can_coursefromtpl(dataobj\template $template, \context_course $coursecontext)
+    {
+        if ($template->status != $template::STATUS_PUBLISHED) {
+            return false;
+        }
+
+        return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
     }
 
     /**

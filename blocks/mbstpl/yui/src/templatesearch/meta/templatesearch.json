@@ -1,0 +1,8 @@
+{
+    "moodle-block_mbstpl-templatesearch": {
+        "requires": [
+            "base",
+            "node"
+        ]
+    }
+}

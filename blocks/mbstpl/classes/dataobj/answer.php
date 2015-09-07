@@ -45,6 +45,7 @@ class answer extends base {
     public $optional_fields = array(
         'data' => '',
         'dataformat' => FORMAT_MOODLE,
+        'datakeyword' => '',
     );
     public $noduplfields = array('metaid', 'questionid');
 
@@ -62,9 +63,22 @@ class answer extends base {
     /* @var int questionid  */
     public $questionid;
 
-    /* @var int data  */
+    /* @var string data  */
     public $data;
 
     /* @var int dataformat  */
     public $dataformat;
+
+    /* @var string datakeyword  */
+    public $datakeyword;
+
+    public function insert() {
+        $this->datakeyword = substr($this->data, 0, 254);
+        parent::insert();
+    }
+
+    public function update() {
+        $this->datakeyword = substr($this->data, 0, 254);
+        parent::update();
+    }
 }

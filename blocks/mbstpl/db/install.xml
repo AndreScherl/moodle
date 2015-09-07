@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mbstpl/db" VERSION="20150807" COMMENT="XMLDB file for Moodle blocks/mbstpl"
+<XMLDB PATH="blocks/mbstpl/db" VERSION="20150903" COMMENT="XMLDB file for Moodle blocks/mbstpl"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -45,6 +45,7 @@
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="data" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="dataformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="datakeyword" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="A searchable copy of data"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -52,6 +53,7 @@
       <INDEXES>
         <INDEX NAME="questionid" UNIQUE="false" FIELDS="questionid"/>
         <INDEX NAME="metaid" UNIQUE="false" FIELDS="metaid"/>
+        <INDEX NAME="datakeyword" UNIQUE="false" FIELDS="datakeyword"/>
       </INDEXES>
     </TABLE>
     <TABLE NAME="block_mbstpl_qform" COMMENT="Question form versions">
@@ -130,6 +132,20 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="unique_user_template" UNIQUE="true" FIELDS="templateid, userid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_mbstpl_coursefromtpl" COMMENT="Maps courses duplicated from templates to their parent template course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The duplicate course id"/>
+        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The parent template"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="true" FIELDS="courseid"/>
+        <INDEX NAME="templateid" UNIQUE="false" FIELDS="templateid"/>
       </INDEXES>
     </TABLE>
   </TABLES>

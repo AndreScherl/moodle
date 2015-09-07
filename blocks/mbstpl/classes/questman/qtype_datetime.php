@@ -75,4 +75,38 @@ class qtype_datetime extends qtype_base {
         return parent::save_answer($metaid, $questionid, $answer);
     }
 
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        $attributes = array(
+            'startyear' => $question->param1,
+            'stopyear'  => $question->param2,
+            'optional'  => true,
+        );
+        $elgroup = array();
+        $elgroup[] = $form->createElement('date_time_selector', $elname.'_from', get_string('from'), $attributes);
+        $elgroup[] = $form->createElement('date_time_selector', $elname.'_until', get_string('to'), $attributes);
+        $separator = \html_writer::empty_tag('br') . get_string('to') . \html_writer::empty_tag('br');
+        $form->addGroup($elgroup, $elname, $question->title, $separator, false);
+    }
+
+    public static function get_query_filters($question, $answer) {
+        $toreturn = array('wheres' => array(), 'params' => array());
+        if (empty($answer['from']) && empty($answer['until'])) {
+            return $toreturn;
+        }
+        $qparam = 'q' . $question->id;
+        $toreturn['params'][$qparam] = $question->id;
+        $filter = "";
+        if (!empty($answer['from'])) {
+            $aparam = 'af'.$question->id;
+            $filter .= " AND datakeyword >= :$aparam";
+            $toreturn['params'][$aparam] = $answer['from'];
+        }
+        if (!empty($answer['until'])) {
+            $aparam = 'au'.$question->id;
+            $filter .= " AND datakeyword <= :$aparam";
+            $toreturn['params'][$aparam] = $answer['until'];
+        }
+        $toreturn['wheres'][] = self::get_whereexists($filter, $qparam);
+        return $toreturn;
+    }
 }

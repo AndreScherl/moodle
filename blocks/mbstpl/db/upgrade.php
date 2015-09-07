@@ -53,5 +53,55 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         $dbman->create_table($table);
     }
 
+    if ($oldversion < 2015090200) {
+
+        // Define table block_mbstpl_coursefromtpl to be created.
+        $table = new xmldb_table('block_mbstpl_coursefromtpl');
+
+        // Adding fields to table block_mbstpl_coursefromtpl.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('templateid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table block_mbstpl_coursefromtpl.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table block_mbstpl_coursefromtpl.
+        $table->add_index('courseid', XMLDB_INDEX_UNIQUE, array('courseid'));
+        $table->add_index('templateid', XMLDB_INDEX_NOTUNIQUE, array('templateid'));
+
+        // Conditionally launch create table for block_mbstpl_coursefromtpl.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015090200, 'mbstpl');
+    }
+
+    if ($oldversion < 2015090300) {
+
+        // Define field datakeyword to be added to block_mbstpl_answer.
+        $table = new xmldb_table('block_mbstpl_answer');
+        $field = new xmldb_field('datakeyword', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'dataformat');
+
+        // Conditionally launch add field datakeyword.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define index datakeyword (not unique) to be added to block_mbstpl_answer.
+        $index = new xmldb_index('datakeyword', XMLDB_INDEX_NOTUNIQUE, array('datakeyword'));
+
+        // Conditionally launch add index datakeyword.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015090300, 'mbstpl');
+    }
+
+
     return true;
 }

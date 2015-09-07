@@ -50,4 +50,13 @@ class qtype_textarea extends qtype_base {
         }
         return parent::save_answer($metaid, $questionid, $answer['text'], $answer['format']);
     }
+
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        qtype_text::add_to_searchform($form, $question, $elname);
+    }
+    public static function get_query_filters($question, $answer) {
+        return qtype_text::get_query_filters($question, $answer);
+    }
+
+
 }

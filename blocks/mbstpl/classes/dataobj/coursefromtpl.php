@@ -16,11 +16,35 @@
 
 /**
  * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
-$string['duplcourselicense'] = 'Dieser Kurs ist von {$a} erstellt worden und steht unter der Lizenz CC-NC-SA';
-$string['emailtempldeployed_subj'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.';
-$string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';
+namespace block_mbstpl\dataobj;
+
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Class coursefromtpl
+ * For block_mbstpl_course from template.
+ * @package block_mbstpl
+ */
+class coursefromtpl extends base {
+
+    public $required_fields = array('id', 'courseid', 'templateid');
+    public $noduplfields = array('courseid');
+
+    /* @var int cousreid  */
+    public $cousreid;
+
+    /* @var int templateid */
+    public $templateid;
+
+    /**
+     * Set the table name here.
+     * @return string
+     */
+    public static function get_tablename() {
+        return 'block_mbstpl_coursefromtpl';
+    }
+}

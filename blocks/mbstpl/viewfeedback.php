@@ -69,7 +69,7 @@ if ($cansendfeedback) {
     if ($data = $feedbackform->get_data()) {
         $newstatus = $isreviewer ? $template::STATUS_UNDER_REVISION : $template::STATUS_UNDER_REVIEW;
         mbst\course::set_feedback($template, $data->feedback, $newstatus);
-		redirect($thisurl);
+		redirect($courseurl);
     }
 }
 

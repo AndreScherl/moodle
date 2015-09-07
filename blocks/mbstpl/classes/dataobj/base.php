@@ -37,17 +37,20 @@ abstract class base extends \data_object {
 
     public $table = '';
     public $fetched = false;
-    public $noduplfields = array(); // Combination of fields taht must not be duplicated (not including id).
+    public $noduplfields = array(); // Combination of fields that must not be duplicated (not including id).
 
     /**
      * We need to allow subclasses to declare the table name statically.
-     * @param null $params
+     * @param mixed $params array of params or int id
      * @param bool $fetch
      * @param int $strictness
      */
     public function __construct($params = null, $fetch = true, $strictness=IGNORE_MISSING) {
         $this->optional_fields['fetched'] = 0;
         $this->table = static::get_tablename();
+        if (is_numeric($params)) {
+            $params = array('id' => $params);
+        }
         parent::__construct($params, $fetch);
         if ($fetch && $strictness == MUST_EXIST && !$this->fetched) {
             throw new \moodle_exception('invalidrecord', '', '', $this->table);

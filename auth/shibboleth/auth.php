@@ -124,7 +124,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             if ($key == 'institution') {
                 global $DB;
                 $olduser = $DB->get_record('user', array('username' => $username));
-                if ($olduser->instution != $_SERVER['mebisSchoolID']) {
+                if ($olduser->institution != $_SERVER['mebisSchoolID'] && isset($olduser->institution)) {
                     $category = $DB->get_record('course_categories', array('idnumber' => $olduser->institution));
                     $context = context_coursecat::instance($category->id);
                     $roleid = $DB->get_field('role', 'id', array('shortname' => 'kursersteller'));

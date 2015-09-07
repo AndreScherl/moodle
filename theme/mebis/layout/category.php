@@ -78,7 +78,8 @@ echo $OUTPUT->doctype()
                     <div class="row">
                         <nav class="breadcrumb-nav" role="navigation" aria-label="breadcrumb">
                             <?php echo $OUTPUT->main_breadcrumbs(); ?>
-                        </nav>    
+                        </nav>  
+                        <div class="breadcrumb-button"><?php echo $OUTPUT->breadcrumb_button(); ?></div>
                     </div>
                 </div>
                 <div class="no-background">

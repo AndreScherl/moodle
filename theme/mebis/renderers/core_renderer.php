@@ -65,6 +65,10 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
     public function main_breadcrumbs() {
         return $this->header_renderer->main_breadcrumbs();
     }
+    
+    public function breadcrumb_button() {
+        return $this->header_renderer->breadcrumb_button();
+    }
 
     public function main_menubar($isCourse) {
         return $this->header_renderer->main_menubar($isCourse);

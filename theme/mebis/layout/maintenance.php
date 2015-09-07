@@ -51,7 +51,7 @@ echo $OUTPUT->doctype()
             <!-- CONTENT -->
 
             <div class="container">
-                <!-- Breadcrums -->
+                <!-- Breadcrumbs -->
                 <?php echo $OUTPUT->main_breadcrumbs() ?>
             </div>
 

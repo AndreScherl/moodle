@@ -541,8 +541,12 @@ var Mebis = (function ($) {
         if ($('.me-back-top').length) {
             $('.me-back-top').hide();
         }
-        //get scroll event
+        //get start/endscroll event for other browsers and get end of scroll for iOS
         $win.scroll(function () {
+            didScroll = true;
+        });
+        //get start of scroll event for iOS
+        $(document).on('touchmove', function () {
             didScroll = true;
         });
 
@@ -552,7 +556,7 @@ var Mebis = (function ($) {
 
                 //header 
                 var distanceY = $win.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-                var shrinkOn = 100;
+                var shrinkOn = 10;
                 var $header = $('header');
                 var $navbarTop = $('#topbar');
 

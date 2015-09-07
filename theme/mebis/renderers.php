@@ -21,3 +21,4 @@ require_once('renderers/header_renderer.php');
 require_once('renderers/footer_renderer.php');
 require_once('renderers/block_mbssearch_renderer.php');
 require_once('renderers/block_navigation_renderer.php');
+require_once('renderers/block_settings_renderer.php');

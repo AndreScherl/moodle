@@ -128,7 +128,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
                     $category = $DB->get_record('course_categories', array('idnumber' => $olduser->institution));
                     $context = context_coursecat::instance($category->id);
                     $roleid = $DB->get_field('role', 'id', array('shortname' => 'kursersteller'));
-                    role_unassign_all($roleid, $olduser->id, $context->id);
+                    role_unassign($roleid, $olduser->id, $context->id);
                 }
             }
             // ---

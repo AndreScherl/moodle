@@ -102,11 +102,12 @@ class search {
         $filterwheres = implode("\n          AND ", $wheres);
 
         $selectsql = "
-        SELECT c.id, c.fullname
+        SELECT c.id, c.fullname, cat.name AS catname
         ";
 
         $coresql = "
         FROM {course} c
+        JOIN {course_categories} cat ON cat.id = c.category
         JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id
         JOIN {block_mbstpl_meta} mta ON mta.templateid = tpl.id
         WHERE $filterwheres

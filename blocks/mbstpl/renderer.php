@@ -265,9 +265,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
                 $listitem = \html_writer::link($courseurl, $course->fullname);
                 // TBD, see spec page 14.
-                $externalurl = new moodle_url('/index.html');
+                $externalurl = new moodle_url('/complaint.html');
                 $listitem .= \html_writer::link($externalurl,
                         \html_writer::img($OUTPUT->pix_url('t/collapsed_empty', 'core'), $course->fullname));
+                $listitem .= html_writer::div($course->catname, 'crsdetails');
                 $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
             }
         } else {

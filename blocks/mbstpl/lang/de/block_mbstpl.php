@@ -21,5 +21,6 @@
  */
 
 $string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
+$string['duplcourselicense'] = 'Dieser Kurs ist von {$a} erstellt worden und steht unter der Lizenz CC-NC-SA';
 $string['emailtempldeployed_subj'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.';
 $string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';

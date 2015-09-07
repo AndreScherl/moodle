@@ -47,7 +47,7 @@ class notifications {
         return $user;
     }
 
-    /** Notify the relevant users that the restore is successful.
+    /** Notify the relevant users that the primary restore is successful.
      * @param object $backup
      * @param mixed $course object or id
      */
@@ -73,6 +73,38 @@ class notifications {
         $subject = get_string('emailtempldeployed_subj', 'block_mbstpl');
         $body = get_string('emailtempldeployed_body', 'block_mbstpl', $course);
         email_to_user($author, $from, $subject, $body);
+    }
+
+    /** Notify the relevant users that the secondary restore is successful.
+     * @param object $backup
+     * @param mixed $course object or id
+     */
+    public static function email_duplicated($requesterid, $course) {
+        global $DB;
+
+        if (!is_object($course)) {
+            $course = $DB->get_record('course', array('id' => $course));
+            $course->url = (string)new \moodle_url('/course/view.php?id=' . $course->id);
+        }
+        $from = self::get_fromuser();
+
+        // Email to managers.
+        $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+        $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
+        $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
+        foreach($managers as $manager) {
+            email_to_user($manager, $from, $subject, $body);
+        }
+
+        // Email to course author.
+        $requester = $DB->get_record('user', array('id' =>$requesterid), '*', MUST_EXIST);
+        $subject = get_string('emaildupldeployed_subj', 'block_mbstpl');
+        $a = (object)array(
+            'fullname' => $course->fullname,
+            'url' => new \moodle_url('/cousre/view.php', array('id' => $course->id)),
+        );
+        $body = get_string('emaildupldeployed_body', 'block_mbstpl', $course);
+        email_to_user($requester, $from, $subject, $body);
     }
 
     /**

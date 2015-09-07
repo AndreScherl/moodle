@@ -39,9 +39,34 @@ class dupcrs extends \moodleform {
     function definition() {
         $form = $this->_form;
 
-        $form->addElement('hidden', 'course', $this->_customdata['courseid']);
+        $course = $this->_customdata['course'];
+
+        $form->addElement('hidden', 'course', $course->id);
         $form->setType('course', PARAM_INT);
 
-        $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));
+        if (!empty($this->_customdata['cats'])) {
+            $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
+            $options = array();
+            foreach($this->_customdata['cats'] as $cat) {
+                $options[$cat->id] = $cat->name;
+            }
+            $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options);
+            $form->disabledIf('tocat', 'restoreto', 'neq', 'cat');
+        }
+        if (!empty($this->_customdata['courses'])) {
+            $form->addElement('radio', 'restoreto', get_string('restoretoexistingcourse', 'backup'), '', 'course');
+            $options = array();
+            foreach($this->_customdata['courses'] as $crs) {
+                $options[$crs->id] = $crs->fullname;
+            }
+            $form->addElement('select', 'tocrs', get_string('selectacourse', 'backup'), $options);
+            $form->disabledIf('tocrs', 'restoreto', 'neq', 'course');
+        }
+        $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
+
+        $form->addElement('static', 'license', '',
+            get_string('duplcourselicense', 'block_mbstpl',$this->_customdata['creator']));
+
+        $this->add_action_buttons(true, get_string('duplcourseforuse', 'block_mbstpl'));
     }
 }

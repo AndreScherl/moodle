@@ -119,6 +119,21 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             } else {
                 $result[$key] = $this->get_first_string($_SERVER[$value]);
             }
+            
+            // +++ Andre Scherl, remove the role 'Kursersteller' from old school if the user changed the school
+            if ($key == 'institution') {
+                global $DB;
+                $olduser = $DB->get_record('user', array('username' => $username));
+                if ($olduser->instution != $_SERVER['mebisSchoolID']) {
+                    if (!$category = $DB->get_record('course_categories', array('idnumber' => $olduser->institution))) {
+                        return false;
+                    }
+                    $context = context_coursecat::instance($category->id);
+                    $roleid = $DB->get_field('role', 'id', array('shortname' => 'kursersteller'));
+                    role_unassign($roleid, $olduser->id, $context->id);
+                }
+            }
+            // ---
         }
 
         // Provide an API to modify the information to fit the Moodle internal

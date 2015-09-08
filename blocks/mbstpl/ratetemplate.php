@@ -57,7 +57,9 @@ foreach($questions as $questionid => $question) {
 }
 $customdata = array('courseid' => $courseid, 'questions' => $questions, 'freeze' => true);
 $tform = new mbst\form\editmeta(null, $customdata);
-
+$meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+$answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+$tform->set_data($answers);
 
 // Rate form.
 $starrating = new mbst\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));

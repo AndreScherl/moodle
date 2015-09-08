@@ -270,4 +270,39 @@ class manager {
         $draft = implode(',', $quests);
         return self::set_qform_draft($draft);
     }
+
+    /**
+     * For questions with 'fieldname' value, get a list of answers to load in the form.
+     * @param $questions
+     * @param int $metaid
+     */
+    public static function map_answers_to_fieldname($questions, $metaid) {
+        global $DB;
+
+        $fieldnames = array();
+        $qids = array();
+        $answers = array();
+        foreach($questions as $question) {
+            $fieldnames[$question->fieldname] = '';
+            $qids[$question->id] = $question->id;
+        }
+        if (empty($qids)) {
+            return array();
+        }
+
+        list($qidin, $params) = $DB->get_in_or_equal($qids, SQL_PARAMS_NAMED);
+        $params['meta'] = $metaid;
+        $preprocesseds = $DB->get_records_select('block_mbstpl_answer', "metaid = :meta AND questionid $qidin", $params,
+            '', 'id,data,dataformat,questionid');
+        foreach($preprocesseds as $prec) {
+            $qid = $prec->questionid;
+            if (!isset($questions[$qid])) {
+                continue;
+            }
+            $question = $questions[$qid];
+            $typeclass = qtype_base::qtype_factory($question->datatype);
+            $answers[$question->fieldname] = $typeclass::process_answer($prec);
+        }
+        return $answers;
+    }
 }

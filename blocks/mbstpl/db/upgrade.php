@@ -102,6 +102,20 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015090300, 'mbstpl');
     }
 
+    if ($oldversion < 2015090800) {
+
+        // Define field rating to be added to block_mbstpl_template.
+        $table = new xmldb_table('block_mbstpl_template');
+        $field = new xmldb_field('rating', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'timemodified');
+
+        // Conditionally launch add field rating.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015090800, 'mbstpl');
+    }
 
     return true;
 }

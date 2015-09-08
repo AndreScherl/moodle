@@ -50,6 +50,10 @@ class editmeta extends \moodleform {
         }
 
         $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));
+
+        if (!empty($this->_customdata['freeze'])) {
+            $form->hardFreeze();
+        }
     }
 
     function set_data($default_values) {

@@ -7,13 +7,25 @@
  */
 $THEME->name = 'mebis';
 $THEME->parents = array('bootstrap');
-
 $THEME->doctype = 'html5';
-// $THEME->sheets = array('mebis');
+
+// awag: This is commented out from trio, as they decided NOT to use recommende approach to
+// include CSS sheets (because they want to include contrast css on the fly?),
+// Can be changed, when there is a better way to include contrast theme.
+// fhüb: we decided to use the moodle way to include css sheets. we need another solution for contrast mode 
+$THEME->sheets = array('mebis-moodle');
+
+// awag: user moodle less file to include fonts?
 $THEME->lessfile = 'moodle';
+
+// awag: As this theme doesn't use the recommended approach to include sheets, 
+// next line should not be necessary.
 $THEME->parents_exclude_sheets = array('bootstrap' => array('moodle'));
-$THEME->lessvariablescallback = 'theme_mebis_less_variables';
-$THEME->extralesscallback = 'theme_mebis_extra_less';
+
+// awag: removed unnecessate callbacks
+// $THEME->lessvariablescallback = 'theme_mebis_less_variables';
+// $THEME->extralesscallback = 'theme_mebis_extra_less';
+
 $THEME->supportscssoptimisation = false;
 $THEME->yuicssmodules = array();
 $THEME->enable_dock = false;
@@ -30,14 +42,12 @@ $THEME->layouts = array(
     ),
     'mydashboard' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre', 'top', 'side-post'),
+        'regions' => array('side-pre', 'top', 'side-post', 'bottom'),
         'defaultregion' => 'side-pre'
     ),
     'login' => array(
         'file' => 'login.php',
-        'regions' => array('side-pre', 'top'),
-        'defaultregion' => 'side-pre',
-        'options' => array('langmenu' => false, 'nonavbar' => true),
+        'regions' => array()
     ),
     'course' => array(
         'file' => 'default.php',
@@ -46,7 +56,7 @@ $THEME->layouts = array(
     ),
     'coursecategory' => array(
         'file' => 'category.php',
-        'regions' => array('side-pre', 'top'),
+        'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
     ),
     'incourse' => array(
@@ -59,9 +69,20 @@ $THEME->layouts = array(
         'regions' => array('admin-navi'),
         'defaultregion' => 'admin-navi'
     ),
+    
+    'report' => array(
+        'file' => 'admin.php',
+        'regions' => array('admin-navi'),
+        'defaultregion' => 'admin-navi'
+    ),
     'maintenance' => array(
         'file' => 'maintenance.php',
         'regions' => array(),
         'renderer' => 'theme_mebis_core_renderer'
+    ),
+    'secure' => array(
+        'file' => 'default.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre'
     )
 );

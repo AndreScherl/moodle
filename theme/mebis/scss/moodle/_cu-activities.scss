@@ -1,0 +1,316 @@
+/*
+    This file contains style customizations for activities:
+
+    - database
+    - assign
+    - feedback
+    - #page-mod-wiki-view
+    - #page-mod-page-view
+    - #page-mod-glossary-view
+    - #page-mod-forum-discuss
+    - #page-mod-lesson-edit 
+    - #page-mod-lesson-view
+    - #page-mod-assign-view
+    - #page-mod-book-view
+    - #page-mod-choice-view
+    - #page-mod-choiceanon-view
+    - #page-mod-imscp-view
+    - #page-mod-quiz-edit
+    - #page-mod-quiz-attempt
+    - #page-mod-quiz-review
+    - #page-mod-quiz-preview
+    - .que.multichoice
+    - .que.multianswer
+*/
+/* 
+    Created on : 05.06.2015, 12:13:08
+    Author     : Franziska Hübler, ISB
+*/
+
+#page-mod-data-templates #main-content-wrapper {
+
+    div > ul.nav.nav-tabs.nav-justified li {     
+        width: 25%;
+        float:left;
+        @media only screen and (max-width: $screen-desktop) {
+            width: 100%;
+        }
+        @media only screen and (max-width: $screen-tablet) {
+            width: 30%;
+            float:left;
+        }
+    }
+}
+
+#page-mod-assign-mod #main-content-wrapper {
+
+    fieldset.clearfix.collapsible fieldset.felement.fgroup span {
+        white-space: nowrap;
+
+        span.helptooltip {
+            margin-right: 20px;
+        }
+    } 
+}
+
+#page-mod-choice-view,
+#page-mod-choiceanon-view {
+    #main-content-wrapper {
+
+        form ul li {
+
+            input[type="radio"] {
+                margin: 0 7px 0 0;
+            }
+
+            label {
+                padding-left: 2.8px;
+                margin: 0;
+            }
+        }    
+    }
+}
+
+#page-mod-feedback-complete #main-content-wrapper {
+
+    input[type="submit"] {
+        margin-left: 0;
+    }
+}
+
+#page-mod-journal-report {
+
+    .userpix {
+
+        img {
+            max-width: none;
+        }
+    }
+}
+
+#page-mod-lesson-edit #main-content-wrapper {
+    .label {
+        color: $black;
+    }
+}
+
+#page-mod-mediathek-mod #main-content-wrapper {
+
+    fieldset.clearfix.collapsible button {
+        margin-left: 0;
+    }
+}
+
+//++++++++++++++++++++++++  From here on: special styles for questions in general +++++++++++++++
+#page-mod-quiz-edit {
+
+    #main-content-wrapper {
+
+        overflow: hidden;
+
+        div.quizcontents {
+            padding: 20px;
+            background: $white;
+        }
+
+        .questionbankwindow {
+            .title {
+                word-wrap: break-word;
+            }
+
+            div.header {
+                background: $brand-primary;
+            }
+        }
+    }
+}
+
+#page-question-edit {
+
+    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+        background: $brand-secondary;
+    }
+}
+
+#page-mod-quiz-attempt,
+#page-mod-quiz-review,
+#page-question-preview {
+
+    div.content {
+
+        &:before {
+            display: none;
+        }
+
+        .formulation {
+            color: $brand-gray-dark;
+        }
+    }
+
+    #techinfo {
+        background: $white;
+        padding-left: 20px;
+    }
+
+    .performanceinfo {
+        background: $white;
+    }
+}
+
+#page-mod-quiz-report {
+    .highlight {
+        border: none;
+        background-color: $brand-primary;
+    }
+}
+
+.que .formulation {
+    background: $white;
+    border-color: #ddd;
+
+    hr {
+        border-top-color: #ddd;
+    }
+}
+
+//++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
+
+//questiontype ddmatch
+.que.ddmatch {
+
+    li.placeholder, li.matchdrag {
+        list-style-type: none !important;
+    }
+
+    .matchtarget.yui3-dd-drop-over li {
+        background: $brand-primary;
+        color: $white;
+    }
+
+    .formulation {
+        .correct, .incorrect {
+            background: none;
+        }
+    }
+}
+
+//questiontype match
+.que.match .answer tr.r0 td.text,
+.que.match .answer tr.r1 td.text {
+    padding-right: 5px;
+}
+
+//questiontype multianswer
+.que.multianswer  {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 5px 0 0;
+        width: 15px;
+    }
+
+    .feedbackspan {
+        background: $brand-primary;
+        color: $white;
+        border: none;
+        @include box-shadow(0 0 20px 1px rgba(0,0,0,0.3));
+    }
+}
+
+//questiontype multichoice
+.que.multichoice .ablock,
+.que.multichoice .qtext {
+    margin: 0;    
+}
+
+.que.multichoice .ablock .prompt {
+    display: none;
+}
+
+//questiontype drag and drop on text
+.que.ddwtos {
+    .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
+        border-color: $brand-primary;
+        @include box-shadow(0 0 6px 1px $brand-primary);
+    }
+}
+
+//+++++++++++++++++++++++++++++++++++++++  END: question styles  +++++++++++++++++++++++++++++++++++++++++++++
+
+
+//Styles for searching in mebis-Prüfungsarchiv
+#page-repository-pmediathek-search {
+
+    #page #page-content {
+        padding-left: 5px;
+        padding-right: 5px;
+
+        div .searchresult {
+            color: $black;
+        }
+        ul.nav.nav-tabs.nav-justified > li {
+            background-color: $brand-gray-light;            
+        }
+    }
+}
+
+//Styles for lists in activity content 
+#page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
+    #main-content-wrapper div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
+    }
+}
+
+//IMS-Content
+#page-mod-imscp-view {
+
+    .yui-layout  {
+        font-size: 16px;
+
+        .yui-layout-unit div.yui-layout-hd h2 {
+            font-size: $font-size-base;
+        }
+
+        //don't show scrollbars twice
+        .yui-layout-scroll div.yui-layout-bd {
+            overflow: visible;
+        }
+    } 
+}
+
+#page-mod-assign-view .homepage-container {
+    width: 100%;
+    max-width: 1692px;
+}
+
+
+@media only screen and (min-width: $screen-lg-min) { 
+    #page-mod-assign-view .homepage-container {
+        padding-left: 100px;
+    }
+}
+
+@media only screen and (min-width: $screen-xc-min) {
+
+    #page-repository-pmediathek-search {
+        #mform1 {
+            display: inline;
+            fieldset:last-child {
+                float: right;
+                margin-top: 29px;
+                margin-right: 20px;
+            }
+        }        
+    }
+}

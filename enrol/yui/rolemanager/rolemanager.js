@@ -51,7 +51,18 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
         },
         otherusers : {
             value : false
+        }, 
+        // awag: assign teacher - Hack, ids of users, that are allowed to become a teacher.
+        allowteacherrole : {
+            validator: Y.Lang.isArray
+        }, 
+        teacherrole : {
+            validator: Y.Lang.isObject
+        }, 
+        teacherroleid : {
+            value : 0
         }
+        // awag: assign teacher - Hack, ids of users, that are allowed to become a teacher.
     };
     Y.extend(ROLE, Y.Base, {
         users : [],
@@ -164,6 +175,11 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
                     complete: function(tid, outcome, args) {
                         try {
                             var roles = Y.JSON.parse(outcome.responseText);
+                            var teacherroleid = this.get('teacherroleid');
+                            if (!roles.response[teacherroleid]) {
+                                var teacherrole = this.get('teacherrole');
+                                roles.response[teacherroleid] = teacherrole[teacherroleid];
+                            }
                             this.set(ASSIGNABLEROLES, roles.response);
                         } catch (e) {
                             new M.core.exception(e);
@@ -370,6 +386,24 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
                     this.roles.push(i);
                 }
             }
+            // awag: assign teacher - Hack, remove button, when user is no teacher.
+            var allowteacherrole = this.get(MANIPULATOR).get('allowteacherrole');
+            var userid = user.get(USERID);
+            var teacherroleid = this.get(MANIPULATOR).get('teacherroleid');
+            var allowteacher = false;
+            for (var key in allowteacherrole) {
+                if (userid == allowteacherrole[key]) {
+                   allowteacher = true; 
+                }
+            }
+            if (node = this.get('contentNode').one('#add_assignable_role_' + teacherroleid)) {
+                if (!allowteacher) {
+                    node.hide();
+                } else {
+                    node.show();
+                }
+            }
+            // awag: assign teacher - Hack, remove button, when user is no teacher.
             this.user = user;
             var roles = this.user.get(CONTAINER).one('.col_role .roles');
             var x = roles.getX() + 10;

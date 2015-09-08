@@ -23,7 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once('../config.php');
 require_once($CFG->customscripts . "/user/files_form.php");
 
 require_login();
@@ -88,3 +87,5 @@ echo html_writer::end_tag('div');
 
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
+
+exit();

@@ -164,6 +164,7 @@ class block_mbssearch_renderer extends plugin_renderer_base {
 
         $params = array(
             'searchtext' => $searchtext,
+            'schoolcatid' => $results->schoolcatid,
             'filterby' => $filterby,
             'limitfrom' => $nextlimitfrom,
             'limitnum' => $results->limitnum
@@ -195,13 +196,13 @@ class block_mbssearch_renderer extends plugin_renderer_base {
                     'value' => $searchtext,
                     'placeholder' => get_string('search', 'block_mbssearch') . ' ...',
                     'size' => 80));
-
+        
         $s .= html_writer::empty_tag('input', array('type' => 'image',
                     'id' => 'search_submitbutton',
                     'name' => 'search',
                     'src' => $OUTPUT->pix_url('a/search')));
 
-        $output = html_writer::tag('div', $s, array('class' => 'mbssearch_imputwrapper'));
+        $output = html_writer::tag('div', $s, array('class' => 'mbssearch_inputwrapper'));
 
         // ... input order by.
         $options = array(
@@ -226,7 +227,8 @@ class block_mbssearch_renderer extends plugin_renderer_base {
             'url' => $ajaxurl->out(),
             'results' => $results,
             'limitfrom' => $results->limitfrom + $results->limitnum,
-            'limitnum' => $results->limitnum
+            'limitnum' => $results->limitnum,
+            'schoolcatid' => $results->schoolcatid
         );
 
         $PAGE->requires->yui_module('moodle-block_mbssearch-searchpage', 'M.block_mbssearch.initsearchpage', array($opts));

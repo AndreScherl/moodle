@@ -1,9 +1,0 @@
-{
-    "moodle-block_meinesuche-courseoverview": {
-        "requires": [
-            "base",
-            "node",
-            "yui2-treeview"
-        ]
-    }
-}

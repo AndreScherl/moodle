@@ -1,0 +1,463 @@
+/*
+In this file we collect:
+
+- all the block styles for all blocks
+- all the block styles for specific blocks using an appropriate namespace:
+  
+  write .block_mbsmycourses [styles] for mbsmycourses block for example.
+*/
+/* 
+    Created on : 16.05.2015, 19:53:35
+    Author     : Andreas Wagner, ISB Bayern
+*/
+
+.block {
+
+    background-color: $white;
+
+    .header {
+        background-color: inherit;
+        color: inherit;
+    }
+}
+
+.block-transparent {
+
+    background: transparent;
+
+    .header {
+        color: $white;
+
+        .commands img.actionmenu {
+            width: auto;
+        }
+    }
+
+    .moodle-actionmenu {
+        text-align: right;
+    }
+
+
+}
+
+.col-md-12.block-transparent {
+
+    padding-left: 0;
+    padding-right: 0;
+
+    .header {
+        margin: 0 20px;
+    }
+}
+
+// Block regions.
+aside.row {
+    //side-pre and side-post
+    .block-region {
+
+        .block {
+            margin-left: 20px;
+            margin-right: 20px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+// Layout in edit mode!
+.dir-ltr.editing.used-region-side-pre.used-region-side-post {
+    #block-region-side-pre,
+    #block-region-side-post,
+    #region-main {
+        left: auto;
+        right: auto;
+        width: 100%;
+        padding: 0;
+        
+        .blockannotation {
+            color: $white;
+        }
+    }
+}
+
+// Block mbscoordinators.
+.mbscoordinators {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 30px;
+    > div {
+        float: left;
+    }
+    > ul {
+        list-style: none;
+        > li {
+            float: left;
+            margin-left: 10px;
+        }
+    }
+}
+
+// Block mbsnewcourse.
+.mbsnewcourse {
+    padding-bottom: 30px;
+    > ul {
+        list-style: none;
+        > li {
+            float: right;
+            margin-left: 50px;
+            a i {
+                font-size: 1.25em !important;
+            }
+        }
+    }
+}
+
+// Block mbsgettingstarted
+.block_mbsgettingstarted {
+    margin-bottom: 50px;
+
+    > .content .me-help-note-container ul {
+        list-style: none;
+
+        .btn.btn-secondary {
+            margin: 2px 0px;
+            width: 100%;
+            border: none;
+
+            &.btn-lg {
+                font-size: $font-size-large;
+                background: $brand-secondary;
+
+                &:hover {
+                    background: $brand-primary-light;
+                    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+                }
+            } 
+        }        
+    } 
+
+    .video-container {
+        text-align: center;
+    }
+
+    .wizzardlinks ul {
+        margin-top: 6px;
+    }
+
+    .aidlinks ul {
+        margin-top: 12px;
+    }
+
+}
+
+// Block mbswizzard
+.block_mbswizzard {
+    > .content > .header {
+        padding: 4px 1px;
+    }
+
+    > .content > ul {
+        list-style: none;
+    }
+}
+
+// Block mbsmycourses.
+.block_mbsmycourses {
+
+    // Content of mbsnewcourse is nested in header!
+    .mbsnewcourse {
+        float: right;
+        padding: 20px 0 0;
+    }
+
+    // Headline.
+    .header { 
+
+        margin-bottom: 20px; 
+
+        h2 {
+            margin-bottom: 12.5px;
+            margin-top: 0;
+        }
+    }
+
+    // Form.
+    .course-sorting {
+
+        padding: 15px 0;
+        border-top: dotted 1px rgba(230,230,230,0.3);
+        border-bottom: dotted 1px rgba(230,230,230,0.3);
+        margin-bottom: 20px;
+
+        input, select, label {
+            margin-bottom: 0;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+    }
+
+    // Radiobuttons as Icons.
+    .my-courses-filter {
+
+        select {
+            max-width: 100%;
+
+            @media only screen and (max-width: $screen-xs-min) {
+                margin-bottom: 10px;
+            }
+        }
+
+        label {
+            position: relative;
+            cursor: pointer;
+            color: $gray-dark;
+            margin-left: 10px;
+
+            &:hover {
+
+                i, span {
+                    color: $white;
+                }
+            }
+
+            input {
+                opacity: 0;
+                position: absolute;
+            }
+
+            i, span > span {
+                color: $white;
+                font-size: emCalc(22px);
+                @include transition(color .25s);
+                text-align: center;
+                margin: 0 auto;
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            > span {
+                display: inline-block;
+                vertical-align: middle;
+
+                span {
+                    font-size: emCalc(18px);
+                }
+            }
+
+            input:checked + i, input:checked ~ span > span {
+                color: $brand-secondary;
+            }
+
+            @media only screen and (max-width: $screen-xs-min) {
+                display: inline-block;
+                margin-right: 35px;
+                margin-left: 0;
+                margin-top: 15px;
+
+                i {
+                    vertical-align: middle;
+                }
+            }
+        }
+
+    }
+
+    .content {
+        margin:0;
+    }
+
+    .course_list {
+        width: auto;
+    }
+
+    .coursebox {
+        margin: 0;
+    }
+
+    .row.categorybox{
+        margin: 0;
+
+        .category-box {
+            border: 0;
+            background-color: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+
+            .box.notice {
+                color: $white;
+            }
+
+            .move img {
+                background-color: $white;
+                padding: 3px;
+                margin-bottom: 8px;
+            }
+        }
+    }
+}
+
+.editing .block_mbsmycourses .move {
+    float: right; 
+}
+
+// more results button in mbscourses and mbssearch result page
+.path-blocks-mbssearch,
+.block_mbsmycourses {
+    .add-more-results {
+
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+
+        .load-more-results {            
+            margin-left: 0;
+        }        
+    }
+}
+// Block mbsmyschools.
+.block_mbsmyschools {
+
+    .header .title .col-md-6 {
+        padding-left: 0;
+        padding-right: 0;    
+
+        &.text-right {
+            margin-top: 45px;
+        }
+    }
+
+    .moodle-actionmenu {
+        text-align: left;
+    }
+    .moodle-actionmenu[data-enhanced].show .menu.align-tr-br {
+        right: auto;
+    }
+}
+
+// search page of block mbssearch
+.path-blocks-mbssearch {
+    #main-content-wrapper {
+        background-color: transparent;
+        padding-left: 0;
+        padding-right: 0; 
+    }
+    .mbssearchpage {
+        padding: 0;
+
+        form {
+
+            input[type='text'] {
+                max-width: none;
+            }
+
+            select {
+                max-width: none;
+                width: 100%;
+            }
+        } 
+
+        div.col-md-12 {
+            padding-left: 0;
+            padding-right: 0; 
+        }
+    }
+
+    #mbssearch_result {
+        margin-top: 20px;
+    }
+}
+// quick results of block mbssearch
+.yui3-widget.yui3-aclist.yui3-widget-positioned {
+    ul.yui3-aclist-list {
+        :hover {
+            background: $white;
+        }
+        :active {
+            background: $white;                        
+        }
+    }
+    .yui3-aclist-item-active {
+        background: $white;
+        color: $black;
+    }
+}
+
+// Block mbsschooltitle
+.block_mbsschooltitle {
+
+    padding: 40px 0;
+    color: $white;
+    margin-bottom: -14px;
+    background: $brand-primary;
+
+    .mbs-schooltitle-headline h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .mbs-schooltitle-image img {
+        height: 50px;
+    }
+
+    .btn.btn-secondary {
+        @media only screen and (max-width: $screen-desktop) {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+}
+
+
+@media only screen and (min-width: $screen-lg-min) {
+
+    // Block regions.
+    aside.row {
+        //side-pre and side-post
+        .block-region {
+            .block {
+                // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
+                width: 29.4871%;                
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: $screen-md-min) and (max-width: $screen-lg-min) {
+
+    // Block regions.
+    aside.row {
+        //side-pre and side-post
+        .block-region {
+            .block {
+                // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
+                width: 29.251%;                
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-md-min) {
+
+    // Block regions.
+    aside.row {
+        margin-right: 0;
+        margin-left: 0;
+
+        //side-pre and side-post
+        .block-region {
+            overflow: hidden;
+
+            .block {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    }
+}
+

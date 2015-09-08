@@ -1,0 +1,58 @@
+@import "compass/css3";
+@import "mixins";
+@import "variables";
+@import "fonts";
+
+@import "bootstrap";
+@import "bootstrap-advanced";
+
+@import "../vendor/font-awesome/font-awesome";
+
+// Vendor CSS
+@import "../vendor/tooltipster/tooltipster";
+
+// Import Compass-Modules
+@import "compass/layout/sticky-footer";
+
+// General Styles for all mebis components
+@import "layout";
+@import "pageheader";
+@import "sidebar";
+@import "topbar";
+
+// Pages
+@import "../../scss/learning-platform";
+
+// Moodle Style Overwrites
+
+@import "../../scss/moodle/category";
+@import "../../scss/moodle/coursebox";
+@import "../../scss/moodle/fastaccessnavigation";
+@import "../../scss/moodle/headertoolbar";
+@import "../../scss/moodle/pageheader";
+@import "../../scss/moodle/pagefooter";
+@import "../../scss/moodle/schoolbox";
+
+@import "../../scss/moodle/cu-activities";
+@import "../../scss/moodle/cu-admin";
+@import "../../scss/moodle/cu-blocks";
+@import "../../scss/moodle/cu-course";
+@import "../../scss/moodle/cu-courseformats";
+@import "../../scss/moodle/cu-general";
+@import "../../scss/moodle/cu-overlays";
+@import "../../scss/moodle/cu-pages";
+@import "../../scss/moodle/cu-userfilemanager";
+@import "../../scss/moodle/cu-usermessages";
+@import "../../scss/moodle/cu-userprofile";
+
+/** To check whether styles are necessary:
+
+TODO: need to check whether some style are necessary, kept for documentation
+@import "moodle/admin" 
+@import "moodle/settings";
+
+TODO: need separate thematically 
+@import "moodle/course"; 
+@import "moodle/overrides";
+@import "moodle/lightbox";
+*/

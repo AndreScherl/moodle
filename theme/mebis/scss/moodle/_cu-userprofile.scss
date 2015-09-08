@@ -1,0 +1,24 @@
+/*
+    Styles, which are used for userprofile
+*/
+/* 
+    Created on : 28.05.2015, 14:26:10
+    Author     : Franziska Hübler, ISB
+*/
+
+//view user profile on #page-user-profile
+#page-user-profile {
+
+    .userprofile { 
+        margin: -20px;
+    }
+}
+
+//view user profile in courses
+.userprofile {
+    margin: -30px -10px -10px -10px;
+    
+    h2 {
+        background-color: $brand-primary;
+    }
+}

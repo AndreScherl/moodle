@@ -157,19 +157,31 @@ M.format_topcoll.toggle_topic = function(targetNode, toggleNum) {
     var state;
     if (!targetLink.hasClass('toggle_open')) {
         targetLink.addClass('toggle_open').removeClass('toggle_closed');
-        //changed toggle targets
-        targetLink.one('.closebutton').setHTML('');
-        $('#toggledsection-'+toggleNum).parent().parent().show();
-        $('#toggledsection-'+toggleNum).parent().show();
-        $('#toggledsection-'+toggleNum).addClass('sectionopen');
+        // take care of special markup of the mebis theme...
+        if(targetLink.one('.closebutton') != null) {
+            //changed toggle targets
+            targetLink.one('.closebutton').setHTML('');
+            $('#toggledsection-'+toggleNum).parent().parent().show();
+            $('#toggledsection-'+toggleNum).parent().show();
+            $('#toggledsection-'+toggleNum).addClass('sectionopen');
+        } else {
+            // ... and also let other themes work
+            targetNode.next('.toggledsection').addClass('sectionopen');
+        }
         state = true;
     } else {
         targetLink.addClass('toggle_closed').removeClass('toggle_open');
-        //changed toggle targets
-        targetLink.one('.closebutton').setHTML('');
-        $('#toggledsection-'+toggleNum).removeClass('sectionopen');
-        $('#toggledsection-'+toggleNum).parent().hide();
-        $('#toggledsection-'+toggleNum).parent().parent().hide();
+        // take care of special markup of the mebis theme
+        if(targetLink.one('.closebutton') != null) {
+            //changed toggle targets
+            targetLink.one('.closebutton').setHTML('');
+            $('#toggledsection-'+toggleNum).removeClass('sectionopen');
+            $('#toggledsection-'+toggleNum).parent().hide();
+            $('#toggledsection-'+toggleNum).parent().parent().hide();
+        } else {
+            // ... and also let other themes work
+            targetNode.next('.toggledsection').removeClass('sectionopen');
+        }
         state = false;
     }
     //IE 8 Hack/workaround to force IE8 to repaint everything

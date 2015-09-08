@@ -5,6 +5,7 @@ M.block_mbssearch.initsearchpage = function (opts) {
 
     var limitfrom;
     var limitnum;
+    var schoolcatid;
     var spinnernode;
 
     function loadMoreResults() {
@@ -14,7 +15,8 @@ M.block_mbssearch.initsearchpage = function (opts) {
         data.searchtext = Y.one('#mbssearchpage_form #searchtext').get('value');
         data.limitfrom = limitfrom;
         data.limitnum = limitnum;
-        data.filterby = Y.one('#mbssearchpage_form #menufilterby').get('value');
+        data.schoolcatid = schoolcatid;
+        data.filterby = Y.one('#mbssearchpage_form #menufilterby').get('value'); 
 
         var spinner = M.util.add_spinner(Y, spinnernode);
 
@@ -56,14 +58,15 @@ M.block_mbssearch.initsearchpage = function (opts) {
 
         Y.one('#mbssearch_resultlist').append(results.html);
 
-        limitfrom =limitfrom + limitnum;
+        limitfrom = limitfrom + limitnum;
     }
 
     function initialize() {
 
         limitfrom = Number(opts.limitfrom);
         limitnum = Number(opts.limitnum);
-
+        schoolcatid = Number(opts.schoolcatid);
+        
         spinnernode = Y.one('#loadmoreresults');
         
         Y.one('#mbssearchpage_form #menufilterby').on('change', function(e) {

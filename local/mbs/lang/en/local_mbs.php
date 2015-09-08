@@ -15,10 +15,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
+ * en - language file for local_mbs
  *
  * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'Mebis - Anpassungen';
+$string['fixgapcategories'] = 'Fix course sortorder in categories';
+$string['mbs:adddeleteblock'] = 'Add or/and delete a specific block';
+$string['mbs:editschoolid'] = 'Edit school ID-Number';
+$string['mbs:globalblockscleanup'] = 'Global cleanup of all (user) blocks';
+$string['mbs:viewcourselist'] = 'View list of courses';
+$string['pluginname'] = 'Mebis - Adjustments';
+$string['schoolnode'] = 'My schools';
+
+//Privacy
+$string['mbs:institutionview'] = 'See users from other institutions';
+$string['invalidredirect'] = 'This routing is not permitted.';
+
+$string['notallowedtoaccessuserreport'] = 'Access to the User Report is not permitted.';
+$string['notallowedtoaccessrecentactivities'] = 'Access to New is not permitted.';
+
+$string['nopermissiontoedituser'] = 'You can not edit the profile of this user.'.
+'<p>Only users from the same school are allowed to edit a profile.</p>';
+
+$string['noinstitutionerror'] = 'You have not been assigned to an instituation (e.g. a school) and can not perform this action therefore.'.
+'Please contact the support, allowing to make the assignment to an institution.';
+
+$string['nopermissiontoviewuser'] = 'You may not view this user.'.
+'<h1>Visibility control of users</h1>'.
+'<p>Regular users can see on the platform only users in the same school or users with whom they participate in a course.</p>';    
+
+//Sidebar Navigation
+$string['local_mbs_mebis_sites'] = 'Navigation links';
+$string['local_mbs_mebis_sites_expl'] = 'These navigation elements are shown within the sidebar navigation.'.
+        'Each element should be given its own line, following this rule: <b>Link,URL;</b>.';
+$string['local_mbs_mebis_sites_default'] =
+        'Startseite,https://mebis.bayern.de;'.
+        'Infoportal,https://mebis.bayern.de/infoportal;'.
+        'Mediathek,https://mediathek.mebis.bayern.de;'.
+        'Lernplattform,https://lernplattform.mebis.bayern.de;'.        
+        'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';

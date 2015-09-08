@@ -51,11 +51,12 @@ switch ($action) {
         $config = get_config('block_mbssearch');
 
         $searchtext = optional_param('searchtext', '', PARAM_TEXT);
-        $filterby = optional_param('filterby', '', PARAM_TEXT);
         $limitfrom = optional_param('limitfrom', 0, PARAM_INT);
         $limitnum = optional_param('limitnum', $config->moreresultscount, PARAM_INT);
-
-        $results = \block_mbssearch\local\mbssearch::search($searchtext, $limitfrom, $limitnum, $filterby);
+        $schoolcatid = optional_param('schoolcatid', 0, PARAM_INT);
+        $filterby = optional_param('filterby', '', PARAM_TEXT); 
+ 
+        $results = \block_mbssearch\local\mbssearch::search($searchtext, $limitfrom, $limitnum, $filterby, $schoolcatid);
 
         $renderer = $PAGE->get_renderer('block_mbssearch');
         $results->html = $renderer->render_more_results_ajax($results, $searchtext, $filterby);

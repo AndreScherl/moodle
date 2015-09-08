@@ -1,211 +1,127 @@
-.usermessages {
-	padding-top: 20px;
-	margin-bottom: 20px;
-	background: $white;
-	color: $brand-gray-dark;
-
-	.usermessages-head h3 {
-		padding: 0 20px;
-	}
-
-	.usermessages-left {
-
-		form#usergroupform {
-			padding: 0 20px 20px;
-		}
-
-		.userlist {
-			padding: 0 20px 20px;
-		}
-
-	}
-
-	.usermessages-right {
-
-		.messages-area {
-			padding: 0 20px 20px;
-		}
-
-		.messagehistory {
-
-			.user-correspondence {
-
-				.spacing-top {
-					padding-top: 30px;
-				}
-
-			}
-
-			.messagehistorytype {
-				padding: 15px 0 10px;
-			}
-
-			.messagehistory {
-				margin-bottom: 15px;
-			}
-		}
-
-		input[type="submit"] {
-			color: $white!important;
-		}
-	}
-
-	h3, h4 {
-		margin-top: 0;
-		color: $brand-gray-dark;
-	}
-
-	h4.heading {
-		font-size: emCalc(16px);
-	}
-
-	label {
-		color: $brand-gray-dark;
-		font-weight: 400;
-	}
-
-	table.messagesearchresults, table#message_contacts {
-		width: 100%;
-
-		td {
-			padding: 5px;
-			@include transition(background .25s);
-
-			&.heading {
-				color: $gray-dark;
-				background: transparent!important;
-			}
-
-			img {
-				max-width: none;
-				width: 100%;
-			}
-
-			span {
-				display: inline-block;
-			}
-
-		}
-
-		tr:hover > td {
-			background: $gray-lighter;
-		}
-	}
-
-	.mdl-left .heading {
-		margin-top: 5px;
-	}
-
-}
-
-.user-filemanager {
-	margin-top: 25px;
-	margin-bottom: 25px;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	background: $white;
-	color: $brand-gray-dark;
-
-	#fitem_id_files_filemanager {
-		margin-bottom: 20px;
-		min-height: 320px;
-
-		.filemanager-container {
-			min-height: 175px;
-		}
-	}
-
-	label {
-		color: $brand-gray-dark;
-		padding-top: 0;
-	}
-
-	#id_submitbutton {
-		color: $white!important;
-	}
-
-	.fp-viewbar {
-		border-radius: 0;
-		overflow: hidden;
-	}
-
-	.fp-toolbar .fp-btn-add,
-	.fp-toolbar .fp-btn-download,
-	.fp-toolbar .fp-btn-mkdir,
-	.fp-toolbar .fp-tb-help,
-	.fp-toolbar .fp-tb-manage,
-	.fp-toolbar .fp-tb-logout,
-	.fp-toolbar .fp-tb-refresh {
-		border-radius: 0;
-		overflow: hidden;
-	}
-
-	.mform {
-
-		.fitem {
-			width: 100%;
-
-			margin: 0;
-
-			.fitemtitle {
-				float: none;
-				width: 100%;
-				text-align: left;
-			}
-
-			.felement {
-				float: none;
-				width: 100%;
-			}
-		}
-
-		.fitem_actionbuttons>div.felement {
-			margin: 0;
-			text-align: right;
-
-			input {
-				margin: 0;
-			}
-		}
-	}
-
-}
-
-.moodle-dialogue-base {
-	color: $brand-gray-dark;
-
-	.moodle-dialogue-wrap {
-		border-radius: 0;
-
-		.moodle-dialogue-hd.moodle-dialogue-hd {
-			background: $gray-lighter;
-			text-shadow: none;
-		}
-
-		input[type="text"] {
-			max-width: 0;
-			min-width: 100%;
-			display: block;
-		}
-
-		.yui3-button.closebutton {
-			border-radius: 0;
-			box-shadow: none;
-		}
-
-		label.control-label {
-			color: $brand-gray-dark;
-		}
-
-	}
-}
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into a _cu-.. Sheet.
 
 .block_messages {
 
-	.content {
+    .content {
 
-		.info {
-			text-align: left;
-		}
-	}
+        .info {
+            text-align: left;
+        }
+    }
+}
+
+.mform fieldset.collapsible legend a.fheader {
+margin-left: 0px;
+}
+
+// fixed color in text fields
+.form-item .form-setting,
+.form-item .form-description,
+.mform .fitem .felement,
+#page-mod-forum-search .c1 {
+    color: #555;
+}
+
+// no highlighting of the table rows
+.user-grade td.oddd1, .user-grade th.oddd1 {
+    background-color: transparent;
+}
+
+#graded_users_selector .singleselect label {
+    font-weight: normal;
+    padding-right: 0.5em;
+}
+
+// disabled box shadow for the question type element
+.jsenabled .choosercontainer #chooseform .alloptions {
+    box-shadow: none;
+}
+
+.import-course-selector {
+    .detail-pair-value {
+        color: $white;
+
+        // got rid of the margin of the "next" button but this also affects the "search" button above
+        input[type="submit"] {
+            margin-left: 0px;
+        }
+    }
+
+    // "push" the search button a few pixel to the right by adding a margin to the search box itself
+    input[type="text"] {
+        margin-right: 5px;
+    }
+
+    input[type="text"]+input[type="submit"] {
+        margin-top: -2px;
+    }
+}
+
+.path-backup {
+    legend {
+        color: $white;
+    }
+
+    form {
+        color: #666;
+    }
+}
+
+.strong {
+    font-weight: bold;
+}
+
+#page-mod-chat-gui_basic #participants ul li .userinfo {
+    margin-left: 10px;
+}
+
+#page-mod-chat-gui_basic input#newonly {
+    margin-left: 10px;
+    margin-right: 6px;
+}
+
+.move-list-box {
+    color: $white;
+}
+
+.course-content .section.main .content .page.modtype_page,
+.course-content .section.main .content .imscp.modtype_imscp,
+.course-content .section.main .content .resource.modtype_resource,
+.course-content .section.main .content .quiz.modtype_quiz {
+    background-color: $white;
+}
+
+// Fixed with for input fields on the course > manual enrolement page
+#id_enrolperiod_number,
+#id_expirythreshold_number {
+    width: auto;
+}
+
+// Fixed with for input fields in feedback activity
+#id_name,
+#id_site_after_submit,
+#id_cmidnumber {
+    width: auto;
+}
+
+// Fixed with for input fields in geobra activity
+#id_introeditor,
+#id_geogebraurl,
+#id_width,
+#id_height,
+#id_modgrade_point {
+    width: auto;
+}
+
+// fixed positioning of availability box in feedback and geobra activity
+.availability-field {
+    padding-left: 0px !important;
+}
+
+#fitem_id_availabilityconditionsjson .availability-button {
+    margin-left: 24px;
 }

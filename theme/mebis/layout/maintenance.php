@@ -7,7 +7,7 @@ $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
-$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
+//$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
 if ($knownregionpre || $knownregionpost) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
@@ -30,8 +30,8 @@ echo $OUTPUT->doctype()
 
         <?php echo $OUTPUT->standard_head_html(); ?>
 
-        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
-        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
+        <span data-mode="default"></span>
+        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
@@ -40,14 +40,9 @@ echo $OUTPUT->doctype()
         <!-- HOMEPAGE-WRAPPER [start] -->
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
-            <!-- Top-Navigation [start] -->
+            <!-- Top & Side-Navigation [start] -->
             <?php echo $OUTPUT->main_navbar(); ?>
-
             <!-- Top-Navigation [end] -->
-
-            <!-- Side-Navigation [start] -->
-            <?php echo $OUTPUT->main_sidebar(); ?>
-            <!-- Side-Navigation [end] -->
 
             <!-- PAGE HEADER [start] -->
             <?php echo $OUTPUT->main_header(); ?>
@@ -56,7 +51,7 @@ echo $OUTPUT->doctype()
             <!-- CONTENT -->
 
             <div class="container">
-                <!-- Breadcrums -->
+                <!-- Breadcrumbs -->
                 <?php echo $OUTPUT->main_breadcrumbs() ?>
             </div>
 
@@ -94,11 +89,16 @@ echo $OUTPUT->doctype()
         </a>
 
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-
+            $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
+        ?>
+        
+        <div class="container"> 
+            <footer id="page-footer">
+                <?php  echo $OUTPUT->standard_footer_html(); ?>
+            </footer>
+        </div>
+        
+        <?php
             echo $OUTPUT->standard_end_of_body_html();
         ?>
     </body>

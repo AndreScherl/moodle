@@ -17,15 +17,13 @@
 /**
  * A page displaying the user's contacts and messages
  *
- * @package    core_message
+ * @package    theme_mebis_overrides_message
  * @copyright  2010 Andrew Davis
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $overrides_path = dirname(__FILE__);
 
-require_once('../config.php');
-require_once('lib.php');
 require_once($overrides_path . '/lib.php');
 require_once($overrides_path . '/send_form.php');
 
@@ -57,7 +55,7 @@ $user2id   = optional_param('user2', 0, PARAM_INT);
 $user2id   = optional_param('id', $user2id, PARAM_INT);
 
 //+++ awag DS17 Sichtbarkeitsregel-Schule für Messaging
-\block_dlb\local\datenschutz::hook_message_index($user2id);
+\local_mbs\local\datenschutz::hook_message_index($user2id);
 //--- awag DS17 Sichtbarkeitsregel-Schule für Messaging
 
 $addcontact     = optional_param('addcontact',     0, PARAM_INT); // adding a contact
@@ -343,7 +341,7 @@ if (!empty($user2)) {
         echo html_writer::end_tag('div');
     }
 
-} else if ($viewing == MESSAGE_VIEW_SEARCH) {
+} else if ($viewing == MESSAGE_VIEW_SEARCH || $viewing == MESSAGE_VIEW_CONTACTS) {
     theme_mebis_message_print_search($advancedsearch, $user1);
 } else if ($viewing == MESSAGE_VIEW_RECENT_CONVERSATIONS) {
     message_print_recent_conversations($user1, false, $showactionlinks);
@@ -360,4 +358,4 @@ echo $OUTPUT->box_end();
 
 echo $OUTPUT->footer();
 
-
+exit();

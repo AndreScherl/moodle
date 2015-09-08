@@ -243,6 +243,21 @@ can be really useful in visualising the issue along with any files you consider 
 
 Version Information
 ===================
+27th January 2015 Version 2.7.3.1
+  1.  Refix issue #4 - No block drag and drop icon when blockeditingmenu is false - activity editing menu no longer shows.
+  
+23rd January 2015 Version 2.7.3
+  1.  New 'Do not show date' feature gratefully funded by 'GAC Corporate Academy, GAC HQ, Dubai, UAE (http://www.gacacademy.com)'.
+  2.  Fix issue #14 - No block drag and drop icon when blockeditingmenu is false.
+
+11th December 2014 Version 2.7.2
+  1.  New 'Show section summary when collapsed' feature gratefully funded by 'Te Rito Maioha Early Childhood New Zealand - https://ecnz.ac.nz'.
+  2.  Fix CONTRIB-5472.
+  3.  Integrated 'Use core required_param for toggle parameters.': https://github.com/gjb2048/moodle-format_topcoll/pull/12
+      "This work was made possible through funding from Te Rito Maioha Early Childhood New Zealand".
+      Improves on work instigated in CONTRIB-5211 and related to MDL-46754.
+  4.  Improved HTTP protocol handling in 'settopcollpref.php'.
+
 20th September 2014 Version 2.7.1.5
   1.  Fixed issue where a debug message was being written to the PHP error log.
   2.  When toggle persistence is off then the state of the toggles on page load will depend on the default user preference setting.
@@ -1126,6 +1141,6 @@ Desired Enhancements
 
 Me
 ==
-G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE. - 20th September 2014.
+G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE.
 Moodle profile: http://moodle.org/user/profile.php?id=442195.
 Web profile   : http://about.me/gjbarnard

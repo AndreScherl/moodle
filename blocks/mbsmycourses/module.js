@@ -1,4 +1,4 @@
-M.block_mbsmycourses = {}
+M.block_mbsmycourses = M.block_mbsmycourses || {};
 
 M.block_mbsmycourses.add_handles = function(Y) {
     M.block_mbsmycourses.Y = Y;
@@ -74,7 +74,7 @@ M.block_mbsmycourses.add_handles = function(Y) {
         Y.DD.DDM.on('drop:over', function(e) {
             //Get a reference to our drag and drop nodes
             var drag = e.drag.get('node'),
-                drop = e.drop.get('node');
+            drop = e.drop.get('node');
 
             //Are we dropping on a li node?
             if (drop.hasClass('coursebox')) {
@@ -91,7 +91,7 @@ M.block_mbsmycourses.add_handles = function(Y) {
 
         Y.DD.DDM.on('drag:drophit', function(e) {
             var drop = e.drop.get('node'),
-                drag = e.drag.get('node');
+            drag = e.drag.get('node');
 
             //if we are not on an li, we must have been dropped on a ul
             if (!drop.hasClass('coursebox')) {
@@ -113,7 +113,7 @@ M.block_mbsmycourses.save = function() {
         sesskey : M.cfg.sesskey,
         sortorder : sortorder
     };
-    Y.io(M.cfg.wwwroot+'/blocks/mbsmycourses/save.php', {
+    Y.io(M.cfg.wwwroot + '/blocks/mbsmycourses/save.php', {
         method: 'POST',
         data: build_querystring(params),
         context: this
@@ -151,10 +151,10 @@ M.block_mbsmycourses.CollapsibleRegion = function(Y, id, userpref, strtooltip) {
     this.userpref = userpref;
 
     // Find the divs in the document.
-    this.div = Y.one('#'+id);
+    this.div = Y.one('#' + id);
 
     // Get the caption for the collapsible region
-    var caption = this.div.one('#'+id + '_caption');
+    var caption = this.div.one('#' + id + '_caption');
     caption.setAttribute('title', strtooltip);
 
     // Create a link
@@ -172,7 +172,7 @@ M.block_mbsmycourses.CollapsibleRegion = function(Y, id, userpref, strtooltip) {
     var height = this.div.get('offsetHeight');
     if (this.div.hasClass('collapsed')) {
         // Shrink the div as it is collapsed by default
-        this.div.setStyle('height', caption.get('offsetHeight')+'px');
+        this.div.setStyle('height', caption.get('offsetHeight') + 'px');
     }
 
     // Create the animation.
@@ -180,8 +180,12 @@ M.block_mbsmycourses.CollapsibleRegion = function(Y, id, userpref, strtooltip) {
         node: this.div,
         duration: 0.3,
         easing: Y.Easing.easeBoth,
-        to: {height:caption.get('offsetHeight')},
-        from: {height:height}
+        to: {
+            height:caption.get('offsetHeight')
+            },
+        from: {
+            height:height
+        }
     });
 
     // Handler for the animation finishing.
@@ -228,3 +232,46 @@ M.block_mbsmycourses.CollapsibleRegion.prototype.div = null;
  */
 M.block_mbsmycourses.CollapsibleRegion.prototype.icon = null;
 
+M.block_mbsmycourses.add_overlay = function(Y, id) {
+
+    YUI().use('overlay', 'node','dd-constrain', function(Y) {
+
+        // detect the click anywhere other than overlay element to close it.
+	Y.one(document).on('click', function(e) {
+		// Below code is causing the Overlay to close as soon as it is open. Need to detect the state of overlay.
+		// When it is already open then the below code should fire.
+		if(e.target.ancestor("#mbsmycourses-overlay-" + id) === null && (e.target.get('id') != 'mbsmycourses-new-' + id) && overlay.get('visible') == true)  {
+			overlay.hide();
+		}
+	});
+
+        // Create an overlay from markup, using an existing contentBox.
+        var xy = Y.one("#mbsmycourses-overlay-position-" + id).getXY();
+        var overlay = new Y.Overlay({
+            srcNode: "#mbsmycourses-overlay-" + id,
+            width: "auto",
+            height:"auto",
+            visible:false,
+            xy:[xy[0] + 10, xy[1] + 35]
+        });
+
+        overlay.render();
+        overlay.move(xy[0], xy[1]);
+
+        Y.one("#mbsmycourses-new-" + id).on('click', function(e) {
+            e.preventDefault();
+            overlay.show();
+        });
+
+        Y.on("click", Y.bind(overlay.hide, overlay), ".mbscourses-hide-overlay");
+
+        // Make overlay draggable.
+        new Y.DD.Drag({
+            node : overlay.get('boundingBox'),
+            handles : ['.yui3-widget-hd']
+
+        }).plug(Y.Plugin.DDConstrained, {
+            constrain2view : true
+        });
+    });
+}

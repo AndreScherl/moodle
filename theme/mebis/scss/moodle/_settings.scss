@@ -1,24 +1,31 @@
-.category-listing, .course-listing, .course-detail{
-    background-color: #FFF;
-}
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into a _cu-.. Sheet.
 
 #coursesearch{
     label {
-        color: #FFF;
+        color: $white;
         font-size: 1.5em;
         font-weight: 200;
         margin-right: 20px;
     }
 }
 .detail-pair {
-    color: #FFF;
+    color: $white;
 }
+
+.detail-pair-value {
+    color: $black;
+}
+
 th {
-    color: #FFF;
+    color: $white;
 }
 
 label {
-    color: #FFF;
+    color: $white;
 }
 
 .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > td, table#explaincaps > tbody > tr:nth-child(2n+1) > td, table#defineroletable > tbody > tr:nth-child(2n+1) > td, table.grading-report > tbody > tr:nth-child(2n+1) > td, table#listdirectories > tbody > tr:nth-child(2n+1) > td, table.rolecaps > tbody > tr:nth-child(2n+1) > td, table.userenrolment > tbody > tr:nth-child(2n+1) > td, table#form > tbody > tr:nth-child(2n+1) > td, form#movecourses table > tbody > tr:nth-child(2n+1) > td, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > td, .forumheaderlist > tbody > tr:nth-child(2n+1) > td, table.flexible > tbody > tr:nth-child(2n+1) > td, .generaltable > tbody > tr:nth-child(2n+1) > td, .path-rating .ratingtable > tbody > tr:nth-child(2n+1) > th, table#explaincaps > tbody > tr:nth-child(2n+1) > th, table#defineroletable > tbody > tr:nth-child(2n+1) > th, table.grading-report > tbody > tr:nth-child(2n+1) > th, table#listdirectories > tbody > tr:nth-child(2n+1) > th, table.rolecaps > tbody > tr:nth-child(2n+1) > th, table.userenrolment > tbody > tr:nth-child(2n+1) > th, table#form > tbody > tr:nth-child(2n+1) > th, form#movecourses table > tbody > tr:nth-child(2n+1) > th, #page-admin-course-index .editcourse > tbody > tr:nth-child(2n+1) > th, .forumheaderlist > tbody > tr:nth-child(2n+1) > th, table.flexible > tbody > tr:nth-child(2n+1) > th, .generaltable > tbody > tr:nth-child(2n+1) > th {
@@ -30,9 +37,7 @@ label {
 }
 
 .backup_stage {
-    &.backup_stage_current {
-        color: $white !important;
-    }
+    &.backup_stage_current,
     &.backup_stage_complete {
         color: #999 !important;
     }

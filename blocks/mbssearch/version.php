@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015040100;
+$plugin->version   = 2015041500;
 $plugin->requires  = 2013111800;
 $plugin->cron      = 0;
 $plugin->component = 'block_mbssearch';

@@ -1,78 +1,110 @@
+/* Styles, used in header: page-navbar, breadcrum */
+/* 
+    Created on : 17.05.2015, 09:11:09
+    Author     : Andreas Wagner, ISB Bayern
+*/
 
-div[role="main"] {
+#page-navbar {
 
-    ul, ol {
-        padding: initial;
-        overflow: initial;
+    .row {
+        margin: 0;
     }
-}
 
-.moodle-menu .nav > li {
-    font-weight: 400;
-    font-style: normal;
-    float: right;
-    width: 50px;
-    height: 60px;
+    .breadcrumb-nav {
+        margin-bottom: 0;
 
-    > a {
-        font-size: emCalc(18px);
-
-        &:hover {
+        .breadcrumb {
+            padding: 20px 0 20px;
+            border-radius: 0;
             background: transparent;
-        }
-    }
+            font-size: emCalc(12px);
+            margin-bottom: 0;
 
-    &.dropdown {
+            .active {
+                color: $brand-gray-medium;
 
-        &:hover > a {
-            background: $brand-secondary;
-            color: $white;
-        }
-
-        ul {
-            min-width: 255px;
-
-            &.dropdown-menu {
-                border: none;
-                font-size: emCalc(14px);
+                &:before {
+                    color: $brand-gray-medium;
+                }
             }
-            .cogmenu, .coursemenu {
-                div {
-                    background-color: $gray-lighter;
-                    font-family: 'Titillium Web';
-                    font-size: emCalc(16px);
-                    color: $gray-dark;
-                    text-align: left;
-                    line-height: normal;
 
-                    @media only screen and (max-width: $screen-xc) {
-                        font-size: emCalc(19px);
-                        line-height: 200%;
-                    }
+            li {
+                span {
+                    color: $brand-gray-medium;
 
-                    &.dropdown-inner div {
-                        background: transparent;
-
-                        select {
-                            width: 100%;
-                            margin-bottom: 0;
-                        }
-                    }
-
-                    &.admin-dropdown {
-                        background-color: $gray-dark;
-                        color: $white;
-
-                        a {
-                            color: $white;
-                        }
-                    }
-
-                    ul {
-                        list-style: none;
+                    &:before {
+                        color: $brand-gray-medium;
                     }
                 }
             }
+
+            a {
+                color: $brand-gray-medium;
+
+                &:hover {
+                    color: $brand-secondary;
+                }
+            }
+        }
+    }
+
+    .breadcrumb-button {
+        margin-top: 0;
+        color: $brand-gray-medium;
+
+        div {
+            float: left;
+        }
+
+        .singlebutton {
+            margin-left: 4px;
+
+            input[type="submit"] {
+                background-color: transparent;
+                border: none;
+                color: $brand-primary !important;
+                font-size: 0.75em;
+                padding: 20px 0;
+                outline: none;
+
+                &:hover {
+                    color: $brand-secondary !important;
+                }
+            }
+        }
+
+        .space {
+            float: left;
+            padding: 15px 7px;
+        }
+
+        .loggedinas {
+            font-size: 0.75em;
+            padding: 20px 0;
+        }
+    }
+}
+
+
+
+@media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
+    .breadcrumb.text-left {
+        padding: 50px 0 20px;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    #page-navbar {
+        .breadcrumb-nav .breadcrumb,
+        .breadcrumb-button .singlebutton input[type="submit"],
+        .breadcrumb-button .space, 
+        .breadcrumb-button .loggedinas {
+            font-size: emCalc(15px);
+        }
+
+        .breadcrumb-button .space {
+            padding-top: 18px;
+            padding-bottom: 18px;
         }
     }
 }

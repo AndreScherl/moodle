@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   block_search
+ * @package   block_mbssearch
  * @copyright 2015 Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,6 +24,8 @@ $string['courses'] = 'Kurse';
 $string['loadmoreresults'] = 'Weitere Ergebnisse laden';
 $string['lookupcount'] = 'Anzahl der Treffer in der Lookupsuche';
 $string['lookupcountexpl'] = 'Geben Sie an, wie viele Treffer je Typ (Schule / Kurs) in der Lookupsuche maximal angezeigt werden dürfen';
+$string['mbssearch:addinstance'] = 'Hinzufügen der mebis Suche';
+$string['mbssearch:myaddinstance'] = 'Hinzufügen der mebis Suche zu meinem Schreibtisch';
 $string['moreresultscount'] = 'Anzahl der geladenen Ergebnisse pro Seite';
 $string['moreresultscountexpl'] = 'Geben Sie hier an, wie viele Treffer pro AJAX Request bei der Suche nach Kursen und Schulen nachgeladen werden sollen.';
 $string['noresults'] = 'Ihre Suche lieferte keinen Treffer';
@@ -31,7 +33,7 @@ $string['numoftotal'] = 'Ergebnisse: {$a->displaystart} bis {$a->displayend} von
 $string['filterbyname'] = 'Name';
 $string['filterbycourse'] = 'Kurs';
 $string['filterbyschool'] = 'Schule';
-$string['pluginname'] = 'Schule und Kurs suchen';
+$string['pluginname'] = 'mebis Suche';
 $string['schools'] = 'Schulen';
 $string['schoolandcourse'] = 'Schulen & Kurse';
 $string['search'] = 'Was suchen Sie?';

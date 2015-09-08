@@ -24,14 +24,15 @@
 
 $string['edittitle'] = 'Logo und Bezeichnung bearbeiten';
 $string['headline'] = 'Bezeichnung';
-$string['imgheight'] = 'Höhe des Breite des Schulbereichsbildes';
-$string['imgheightexpl'] = 'Das Schulbereichsbild wird auf diese Höhe zugeschnitten';
+$string['imgheight'] = 'Höhe des Schulbereichsbildes';
+$string['imgheightexpl'] = 'Das Schulbereichsbild wird auf diese Höhe zugeschnitten.';
 $string['imageofcategory'] = 'Bild zur Kategorie';
 $string['imagepreview'] = 'Vorschau';
 $string['imgwidth'] = 'Breite des Schulbereichsbildes';
-$string['imgwidthexpl'] = 'Das Schulbereichsbild wird auf diese Breite zugeschnitten';
+$string['imgwidthexpl'] = 'Das Schulbereichsbild wird auf diese Breite zugeschnitten.';
 $string['mbsschhooltitle:addinstance'] = 'Mebis Schultitel hinzufügen';
+$string['mbsschhooltitle:myaddinstance'] = 'Mebis Schultitel zu meiner Startseite hinzufügen';
 $string['mbsschooltitle:edittitle'] = 'Schultitle bearbeiten';
-$string['pluginname'] = 'Mebis Schultitel';
+$string['pluginname'] = 'mebis Schultitel';
 $string['settings'] = 'Einstellungen';
 $string['toschoolcategory'] = 'zum Schulbereich';

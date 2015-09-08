@@ -1,3 +1,11 @@
+/* schoolbox: 
+  
+  This box is only used in the block_mbssearch and block_mbsmyschools 
+  to display a category box (school category) in grid style. 
+
+  Shouldn't this go to _cu-blocks'?
+*/
+
 .schoolbox {
 
     .schoolbox-meta {
@@ -21,6 +29,7 @@
         padding: 0;
         position: relative;
         margin-bottom: 20px;
+        overflow-x: hidden;
 
         .schoolbox-link {
             display: block;
@@ -51,6 +60,4 @@
         }
 
     }
-
-
 }

@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2015011600;
+$plugin->version = 2015082500;
 $plugin->requires = 2014051201;
 $plugin->cron = 0;
 $plugin->component = 'local_mbs';

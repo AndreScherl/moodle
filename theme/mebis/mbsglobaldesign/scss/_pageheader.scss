@@ -1,0 +1,180 @@
+/* 
+    General Styles for the page header of all mebis components, like Mediathek, Prüfungsarchiv, Inforportal, Lernplattform
+    
+    @package    theme_mebis
+    @copyright  2015 ISB Bayern
+    @author     Andre Scherl <andre.scherl@isb.bayern.de>
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+
+// general styling for all screen sizes
+@media only screen {
+    
+    .me-wrapper {  
+        
+        header.me-page-header {
+            font-size: $font-size-base !important;
+            border: none;
+            padding: 42px 0 0;
+            margin: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 99;
+            min-height: 135px;
+            @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+            //resizing header does it smoothly
+            @include transition(all .6s);
+
+            .container {
+
+                .logo-row {
+
+                    .row {
+                        margin: 0;
+                    }
+
+                    div.logo {  
+
+                        img {
+                            max-width: 100%;
+                            height: auto;
+                            margin-top: 8px;
+                        }
+                    }
+
+                    .me-component-nav {
+                        text-align: right;
+                    }
+                }
+            }
+
+            &.full {
+                background: $bg-light;
+            }
+        }
+    }
+
+    //resizing header on scroll
+    .me-wrapper {
+
+        header.me-page-header.smaller {
+            padding-top: 0;
+            min-height: 50px;
+
+            .container {
+
+                .logo-row {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}
+
+// Large [Desktop]
+@media only screen and (min-width: $screen-lg-min) {
+
+    .me-wrapper {
+        // adapt spacing for mobile header
+        .me-page-header {
+            padding: 42px 0 0 0;
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-lg-min) {
+    
+}
+
+// Medium [Tablet or Small Desktop]
+@media only screen and (min-width: $screen-md-min) {
+
+    .me-wrapper {
+        .me-page-header {
+
+            .container {
+
+                .logo-row {
+                    margin: 20px 0;
+                }
+
+            }
+
+        }
+    }
+}
+
+@media only screen and (max-width: $screen-md-min) {
+
+    .me-wrapper {
+
+        .me-page-header {
+            padding-top: 51px;
+            min-height: 115px;
+
+            .container {
+
+                .logo-row {
+                    margin: 15px 0;
+
+                    .me-component-nav {
+                        text-align: left;
+                    }
+
+                    //extra-nav example: Mediathek - Meine Mediensammlung
+                    .extra-nav {
+                        text-align: left;
+
+                        a {
+                            display: inline-block;
+                        }
+
+                        .extra-nav-mobile-spacer {
+                            margin-top: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Small [Tablet or big Smartphone]
+@media only screen and (min-width: $screen-sm-min) {
+
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+
+    .me-maintenance .me-wrapper .me-page-header {
+        padding: 38px 0 40px 0;
+    }
+
+    .me-wrapper {
+
+        .me-page-header {
+
+            .container {
+
+                .logo-row {
+                    margin: 10px 0;
+
+                    .me-component-nav {
+
+                    }
+                }
+
+            }
+
+        }
+    }
+}
+
+// Custom small size  (do we need this?)
+@media only screen and (max-width: $screen-xc-min) {
+
+    .me-component-nav {
+
+    }
+}

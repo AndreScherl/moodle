@@ -36,14 +36,14 @@ class block_mbsnewcourse_renderer extends plugin_renderer_base {
         if (\block_mbsnewcourse\local\mbs_course_request::can_request_course($categoryid)) {
 
             $url = new moodle_url('/blocks/mbsnewcourse/request.php', array('category' => $categoryid));
-            $requestlink = html_writer::link($url, get_string('requestcourse', 'block_mbsnewcourse'));
+            $requestlink = html_writer::link($url, get_string('requestcourse', 'block_mbsnewcourse'), array('id' => 'requestcourse'));
             $out .= html_writer::tag('li', $requestlink);
         }
 
         if (\block_mbsnewcourse\local\mbsnewcourse::can_create_course($categoryid)) {
 
             $url = new moodle_url('/course/edit.php', array('category' => $categoryid, 'returnto' => 'category'));
-            $createlink = html_writer::link($url, get_string('createcourse', 'block_mbsnewcourse'));
+            $createlink = html_writer::link($url, get_string('createcourse', 'block_mbsnewcourse'), array('id' => 'createcourse'));
             $out .= html_writer::tag('li', $createlink);
         }
 

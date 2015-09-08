@@ -1,0 +1,253 @@
+html {
+
+    &.me-contrast-mode {
+
+        #me-invert {
+            background: $brand-secondary;
+            color: #fff;
+
+            &:hover {
+                background: $brand-primary;
+            }
+        }
+
+        // ======================== NAVIGATION ======================== //
+
+        .navbar-nav {
+            li {
+                a {
+                    color: $white !important;
+                }
+            }
+
+            .profile {
+                a {
+                    background: $brand-gray-medium !important;
+                }
+            }
+        }
+
+        // ======================== HOMEPAGE ======================== //
+
+        .quickentry-box {
+            .me-block-inner {
+                background: $brand-gray-medium;
+            }
+        }
+
+        .me-newsletter-box {
+            .me-newsletter-box-inner {
+                background: $brand-gray-medium;
+            }
+        }
+
+        .me-logged-out-teaser,
+        .me-maintenance-mode {
+            background: $brand-gray-medium !important;
+        }
+
+        #me-news-carousel {
+            .carousel-control {
+                &:hover {
+                    background: $brand-secondary !important;
+                }
+
+                &.left,
+                &.right {
+                    background: $black;
+
+                    &:hover {
+                        background: $brand-secondary !important;
+                    }
+                }
+            }
+        }
+
+        // ======================== INFOPORTAL ======================== //
+
+        .wrapper-infoportal {
+            .nav-infoportal {
+                .dropdown {
+                    .dropdown-toggle {
+                        color: $white;
+                    }
+
+                    &:hover {
+                        .dropdown-toggle {
+                            background: $bg-dark;
+                        }
+                    }
+                }
+            }
+
+            .me-article-detail {
+                a {
+                    color: $white;
+                    text-decoration: underline;
+                }
+            }
+
+            .me-address-block {
+                background: $brand-gray-medium;
+            }
+
+        }
+
+        .me-in-page-menu-anchor-links {
+            li {
+                &:hover {
+                    background: $black;
+                }
+            }
+        }
+
+        .me-search-results {
+            .me-block-inner {
+                .me-search-result-headline {
+                    background: $brand-gray-light;
+
+                    h3 {
+                        color: $black;
+                    }
+                }
+            }
+        }
+
+        // ======================== MEDIATHEK ======================== //
+
+        .me-search-result-type {
+            [class*="icon-me-"] {
+                background: $brand-gray-medium !important;
+            }
+        }
+
+        .me-order-box {
+            .me-categories {
+
+                li {
+                    a {
+                        &:hover {
+                            background: $brand-gray-medium;
+                        }
+
+                        &.active {
+                            background: $brand-gray-medium;
+                        }
+                    }
+                }
+
+                .number {
+                    color: $black !important;
+                    background: $white !important;
+                }
+            }
+        }
+
+        .me-collection {
+            .me-block-inner {
+                a {
+                    color: $black !important;
+                    background: $white !important;
+                }
+            }
+        }
+
+        // ======================== IDM-PORTAL ======================== //
+
+        .wrapper-idm-portal {
+            .me-idm-portal-header-nav {
+                .num-notification {
+                    background: $black;
+                    color: $white;
+                }
+            }
+
+            .me-process-crumbs {
+                li {
+                    &.active {
+                        background: $brand-gray-navi !important;
+
+                        &:after {
+                            border-left-color: $brand-gray-navi !important;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        @media only screen and (max-width: $screen-md-min) {
+            .wrapper-idm-portal {
+                .me-process-crumbs {
+                    li {
+                        &.active {
+                            background: $brand-gray-navi !important;
+
+                            &:after {
+                                border-left-color: transparent !important;
+                                border-top-color: $brand-gray-navi !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // ======================== FOOTER ======================== //
+
+        .footer-nav {
+            li.newsletter a {
+                background: $brand-gray-medium;
+            }
+        }
+
+        // ======================== POPUPS ======================== //
+
+        .modal-backdrop {
+            background: rgba(255, 255, 255, 0.75) !important;
+
+            &.in {
+                opacity: 0.85 !important;
+            }
+        }
+
+        // ======================== MISCELLANEOUS ======================== //
+
+        .me-content-overlay {
+            @include background(radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)));
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .breadcrumb {
+            li {
+                &.active {
+                    color: $white;
+                }
+
+                color: $white;
+
+                a {
+                    color: $white;
+                }
+
+                span {
+                    color: $white;
+                }
+            }
+        }
+
+        .me-content-block {
+            .breadcrumb {
+                color: $black !important;
+                a {
+                    color: $black !important;
+
+                    &:hover {
+                        color: $black !important;
+                    }
+                }
+            }
+        }
+
+    }
+}

@@ -1,6 +1,8 @@
-.block_mbsmycourses .course_list {
-    width: auto;
-}
+/* This file contains Styles related to display courses in a grid element (box) */
+/* 
+    Created on : 19.05.2015
+    Author     : Andreas Wagner, ISB Bayern.
+*/
 
 .courses {
     margin-top: 20px;
@@ -15,9 +17,9 @@
 .coursebox {
 
     .course_title {
-        position: absolute;
-        right: 34px;
-        top: 45px;
+        position: inherit;
+        right: 0px;
+        top: 0px;
         z-index: 9;
     }
 
@@ -53,6 +55,7 @@
         border: 0;
         position: relative;
         margin-bottom: 20px;
+        z-index: 0;
 
         .coursebox-link {
             min-height: 165px;
@@ -96,6 +99,4 @@
         }
 
     }
-
 }
-

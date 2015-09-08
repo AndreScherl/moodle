@@ -219,7 +219,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         // $mform->addRule('email', $strrequired, 'required', null, 'client');
         //--- awag 
 
-        $mform->setType('email', PARAM_EMAIL);
+        $mform->setType('email', PARAM_RAW_TRIMMED);
     }
 
     $choices = array();

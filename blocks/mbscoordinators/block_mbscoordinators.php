@@ -34,31 +34,34 @@ class block_mbscoordinators extends block_base {
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
             return $this->content;
         }
 
-        if (empty($this->instance)) {
+        /*if (empty($this->instance)) {
             $this->content = '';
             return $this->content;
-        }
+        }*/
 
         $this->content = new stdClass();
         $this->content->text = '';
         $this->content->footer = '';
 
-        if ($this->page->context->contextlevel != CONTEXT_COURSECAT) {
+        if ($PAGE->context->contextlevel != CONTEXT_COURSECAT) {
             return $this->content;
         }
+        
+        $renderer = $PAGE->get_renderer('block_mbscoordinators');
+        $this->content->text .= $renderer->render_categoryheader($PAGE->category);
 
         if (!$this->can_see_coordinators()) {
             return $this->content;
         }
 
         if ($coordinators = $this->get_coordinators()) {
-
-            $renderer = $this->page->get_renderer('block_mbscoordinators');
+            
             $this->content->text .= $renderer->render_coordinators($coordinators);
         }
 
@@ -71,7 +74,7 @@ class block_mbscoordinators extends block_base {
      * @return bool
      */
     public function can_see_coordinators() {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         if (is_null($this->seecoordinators)) {
 
@@ -83,7 +86,7 @@ class block_mbscoordinators extends block_base {
 
             if (!empty($USER->isTeacher)) {
                 $this->seecoordinators = true;
-            } else if (has_capability('block/mbscoordinators:viewcoordinators', $this->page->context)) {
+            } else if (has_capability('block/mbscoordinators:viewcoordinators', $PAGE->context)) {
                 // Has the capability in the current context.
                 $this->seecoordinators = true;
             } else {
@@ -94,7 +97,7 @@ class block_mbscoordinators extends block_base {
                     list($rsql, $params) = $DB->get_in_or_equal(array_keys($roles), SQL_PARAMS_NAMED);
                     $likesql = $DB->sql_like('cx.path', ':likecontextpath');
                     $params['userid'] = $USER->id;
-                    $params['likecontextpath'] = "{$this->page->context->path}/%";
+                    $params['likecontextpath'] = "{$PAGE->context->path}/%";
                     $sql = "SELECT ra.id
                               FROM {role_assignments} ra
                               JOIN {context} cx ON cx.id = ra.contextid
@@ -116,9 +119,10 @@ class block_mbscoordinators extends block_base {
      * @return object[]
      */
     protected function get_coordinators() {
+        global $PAGE;
 
         // ...get the school category from current category.
-        $categoryid = $this->page->context->instanceid;
+        $categoryid = $PAGE->context->instanceid;
 
         if (!$schoolcat = \local_mbs\local\schoolcategory::get_schoolcategory($categoryid)) {
             return array();
@@ -137,6 +141,6 @@ class block_mbscoordinators extends block_base {
 
     public function applicable_formats() {
 
-        return array('all' => false, 'course-management' => true, 'course-index-category' => true);
+        return array('all' => true, 'my' => false, '*category' => false);
     }
 }

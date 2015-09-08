@@ -604,6 +604,9 @@ body#page-admin-setting-formatsettingtopcoll.lang-en_ar select#id_s_format_topco
     line-height: 1.3;
 }
 
+.course-content ul.ctopics li.section .right a {
+    display: block;  /* So that section_right_content() does not implode with 'br's and get too many when the up arrow is removed by JS. */
+}
 .course-content ul.ctopics li.section .left .section-handle img.icon {
     padding: 0;
     vertical-align: baseline;
@@ -639,6 +642,10 @@ body.format-topcoll.dir-rtl .course-content ul.ctopics li.section .summary {
     margin-right: 0px;
 }
 
+body.format-topcoll .course-content ul.ctopics li.section .summary.summaryalwaysshown {
+    padding-top: 10px;
+}
+
 body.format-topcoll.editing .section .activity .contentwithoutlink, body.format-topcoll.editing .section .activity .activityinstance {
     padding-right: 0px;
     display: inline;
@@ -652,11 +659,11 @@ body.format-topcoll.editing .section .activity .actions {
     position: relative;
 }
 
-body.format-topcoll.editing .moodle-actionmenu ul.menubar {
+body.format-topcoll.editing #region-main .moodle-actionmenu ul.menubar {
     display: none;
 }
 
-body.format-topcoll.editing.jsenabled .moodle-actionmenu[data-enhance] ul.menubar {
+body.format-topcoll.editing.jsenabled #region-main .moodle-actionmenu[data-enhance] ul.menubar {
     display: inline-block;
 }
 

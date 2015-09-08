@@ -1,0 +1,142 @@
+//////////////
+// HOMEPAGE //
+//////////////
+
+div[role="main"] > h2 {
+    /*color: $white;*/
+    margin-bottom: 20px;
+}
+
+.wrapper-learning-platform {
+
+    /////////////////////
+    // SMALL + DEFAULT //
+    /////////////////////
+    @media only screen {
+
+        .me-help-note {
+
+            .me-help-note-container {
+                background: $brand-primary;
+                color: #fff;
+                padding-top: 10px;
+                padding-bottom: 30px;
+
+                .text-right {
+
+                    a {
+                        color: $gray-lighter;
+                        display: inline-block;
+                        margin-left: 10px;
+
+                        &:hover {
+                            color: #fff;
+                        }
+                    }
+                }
+
+                h3 {
+                    margin-top: 0;
+                }
+            }
+
+        }
+
+        .me-page-headline {
+            color: #fff;
+        }
+
+        .me-course-links {
+            padding-top: 60px;
+
+            a {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
+
+        .me-render-results {
+            padding-top: 5px;
+
+            a {
+                color: $gray-dark;
+                font-size: emCalc(24px);
+                display: inline-block;
+                margin-left: 10px;
+
+                &.current {
+                    color: $brand-primary;
+                }
+
+                &:hover {
+                    color: $brand-secondary;
+                }
+            }
+
+        }
+
+        .me-courses {
+
+            [data-layout="grid"] {
+
+                .me-course {
+                    background: #fff;
+                    padding: 10px;
+                }
+            }
+
+            [data-layout="list"] {
+                display: none;
+            }
+
+        }
+
+
+        .me-apps {
+
+            .me-app {
+                background: #fff;
+                padding: 10px;
+            }
+
+        }
+
+        .me-schools {
+            margin-bottom: 40px;
+
+            .me-school {
+                a {
+                    display: block;
+                    padding: 10px;
+                    background: $gray-dark;
+                    color: #fff;
+
+                    &:hover {
+                        background: $brand-secondary;
+                    }
+                }
+            }
+        }
+
+    }
+
+    /////////////////////
+    // MEDIUM [Tablet] //
+    /////////////////////
+    @media only screen and (min-width: $screen-sm-min) {
+
+    }
+    @media only screen and (max-width: $screen-sm-min) {
+        
+    }
+    @media only screen and (max-width: $screen-md-min) {
+        
+    }
+    
+    /////////////////////
+    // LARGE [Desktop] //
+    /////////////////////
+    @media only screen and (min-width: $screen-md-min) {
+
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "moodle-report_mbs-toggleinfo": {
+        "requires": [
+            "base",
+            "node"
+            
+        ]
+    }
+}

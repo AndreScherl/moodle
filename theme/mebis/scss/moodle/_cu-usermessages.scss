@@ -1,0 +1,38 @@
+/*
+    Styles, which are used for the user message system.
+*/
+/* 
+    Created on : 21.05.2015, 13:10:44
+    Author     : Franziska Hübler, ISB
+*/
+
+.usermessages {
+
+    table#message_contacts,
+    table#message_participants {
+        width: 100%;
+
+        td {
+            &.heading {
+                color: $gray-dark;
+                background: transparent;
+            }
+        }
+    }
+
+    .mform .fitem_actionbuttons>div.felement {
+        padding-left: 15px;
+    }
+
+    .messages-area>.messagerecent {
+        >.singlemessage {
+            padding: 10px 0;
+            border-bottom: dotted 1px $brand-gray-dark;
+        }
+
+        span.otheruser, span.messagedate {
+            margin-right: 10px;
+        }
+    }
+
+}

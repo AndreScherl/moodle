@@ -54,7 +54,7 @@ if ($categoryid && !$category->visible && !has_capability('moodle/category:viewh
 }
 
 // SYNERGY LEARNING - check the user is allowed to view the course list.
-local_dlb\local\core_changes::check_view_courses();
+local_mbs\local\core_changes::check_view_courses();
 // SYNERGY LEARNING - check the user is allowed to view the course list.
 
 $PAGE->set_heading($site->fullname);

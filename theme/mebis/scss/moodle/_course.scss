@@ -1,60 +1,8 @@
-.single-section  {
-    &.onetopic {
-        .nav.nav-tabs.nav-justified {
-            li {
-                background-color: inherit !important;
-
-                .active {
-                    background-color: #999;
-                }
-                a {
-                    border: none;
-                }
-            }
-            background-color: #FFF;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-    }
-    .section-navigation{
-        overflow: hidden;
-        padding: 1em 0 !important;
-        > div > div {
-            margin-top:1px;
-            padding: 20px;
-            background-color: #FFF;
-            text-align: center;
-        }
-    }
-}
-.course-content{
-
-    .section.main {
-        background-color: #FFF;
-        margin-top: 30px !important;
-        padding: 20px !important;
-        h3 {
-            text-align: left;
-        }
-        .content {
-            padding: 20px !important;
-            color: #333;
-
-            .page.modtype_page, .imscp.modtype_imscp,.resource.modtype_resource,.quiz.modtype_quiz {
-                background-color: #F0F0F0;
-                margin-top: 1px;
-            }
-        }
-        &.hide_section {
-            display: none;
-            visibility: hidden;
-        }
-    }
-
-    li.current {
-        background-color: #e6e6e6 !important;
-    }
-}
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into related _cu-.. Sheet.
 
 #gridiconcontainer {
     .gridicons {
@@ -75,7 +23,7 @@
                 }
             }
             .icon_content {
-                background-color: #FFF;
+                background-color: $white;
                 padding: 10px;
                 font-family: "Titillium Web SemiBold","Titillium Web";
                 font-weight: 600;
@@ -195,192 +143,20 @@
     }
 }
 
+
+
 .course-content {
-    ul.ctopics li.section{
-        /*        &.main .content {
-                    margin: 0px -20px !important;
-                }*/
-        .content{
-            color: #333;
-            .toggledsection {
-                display: none;
-                &.sectionopen{
-                    display: inline-block;
-                }
-            }
 
-            .sectionhead {
-                position:relative;
-                background-color: transparent !important;
-                h3{
-                    font-family: "Titillium Web SemiBold","Titillium Web";
-                    font-weight: 600;
-                    font-style: normal;
-                    font-size: emCalc(18px);
-                    text-align: left;
-                    line-height: 24px;
-                }
-                .closebutton {
-                    font-family: FontAwesome;
-                    position: absolute;
-                    right: 0px;
-                    top: 12px;
-                    color: #333333;
-                    cursor: pointer;
-                }
-            }
-            margin: 0px;
-            padding: 10px !important;
-        }
-        &.body {
-            background-color: $white;
-            padding: 20px !important;
-            margin: 2px 1px 1px;
-        }
-        padding: 0px !important;
-    }
-}
+    ul.topics li.section .content:before  {
 
-    ul.jumpnavigation {
-    position:fixed;
-    top:40%;
-    right:0;
-    z-index:5;
-    list-style:none;
-    color: $white;
-    padding: 50px 0 50px 100px !important;
-    li.jumpnavigation-point {
-        background-color:$brand-secondary;
-        padding: 0px 15px ;
-        margin-top:2px;
-        height: 26px;
-        cursor: pointer;
-        min-width: 50px;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        text-align: right;
-        span {
-            font-family: "Titillium Web Light","Titillium Web";
-            font-weight: 300;
-            font-style: normal;
-            font-size: calcEm(16px);
-            text-align: center;
-            line-height: normal;
-            display: none;
-        }
-        &:hover {
-            background-color:$brand-primary;
-        }
-        &.up-arrow {
-            height: 50px;
-            width: 50px;
-            margin-top:7px;
-            float: right;
-            span {
-                font-size: 32px;
-                display: inline-block;
-            }
-        }
-    }
-    &:hover {
-
-        li.jumpnavigation-point {
-            span {
-                display: inline-block;
-            }
-        }
-    }
-}
-
-.my-courses-filter {
-
-    select {
-        @media only screen and (max-width: $screen-xs-min) {
-            margin-bottom: 10px;
-            max-width: none;
-        }
+        clear: none;
     }
 
-    label {
-        position: relative;
-        cursor: pointer;
-        color: $gray-dark;
-        margin-left: 10px;
-
-        &:hover {
-
-            i, span {
-                color: $white;
-           }
-        }
-
-        input {
-            opacity: 0;
-            position: absolute;
-        }
-
-        i, span > span {
-            color: $white;
-            font-size: emCalc(22px);
-            @include transition(color .25s);
-            text-align: center;
-            margin: 0 auto;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        > span {
-            display: inline-block;
-            vertical-align: middle;
-
-            span {
-                font-size: emCalc(18px);
-            }
-        }
-
-        input:checked + i, input:checked ~ span > span {
-            color: $brand-secondary;
-        }
-
-        @media only screen and (max-width: $screen-xs-min) {
-            display: inline-block;
-            margin-right: 35px;
-            margin-left: 0;
-            margin-top: 15px;
-
-            i {
-                vertical-align: middle;
-            }
-        }
-    }
-
+    
 }
 
 
 .course {
-
-    .activityinstance {
-        padding-top: 5px;
-    }
-
-    .course-headline {
-
-        h1 {
-            color: $white;
-            margin-bottom: 25px;
-        }
-    }
-
-    .spacer {
-        display: none;
-    }
-
-    h2 {
-        margin-top: 0;
-    }
 
     &.course-format-topics {
 
@@ -388,12 +164,13 @@
             @media only screen and (max-width: $screen-xs-min) {
                 padding: 20px !important;
             }
-            padding: 60px!important;
-            background: #fff;
+            
+            background: $white;
             margin-bottom: 20px;
             @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
             position: relative;
             border: 0;
+            border-left: 1em solid #ffffff;
 
             .content {
                 padding: 0!important;
@@ -411,131 +188,8 @@
 
     }
 
-    &.course-format-topcoll {
-
-        .ctopics li.section.main .content { padding: 0!important; }
-
-        .ctopics {
-
-            .section.main {
-                border: 0;
-
-                &.summary {
-                    padding: 60px!important;
-                }
-
-                .content {
-                    padding: 0!important;
-                    margin: 0!important;
-
-                    .section-header {
-                        background: $brand-primary;
-
-                        h2 {
-                            color: $white;
-                            padding: 20px;
-                            margin-bottom: 0;
-                            font-size: 1.25em;
-                            font-weight: 700;
-                            margin: 0;
-                        }
-
-                        .toggle {
-                            width: 25%!important;
-                            padding: 0 20px!important;
-
-                            .the_toggle {
-                                display: block;
-                                padding: 20px;
-                                cursor: pointer;
-                                color: #fff;
-                                -webkit-transition: all 0.25s;
-                                transition: all 0.25s;
-                                text-align: right;
-
-                                .closebutton {
-                                    position: relative;
-                                    color: $white;
-                                    top: 0;
-                                    text-indent: -999em;
-                                    font-size: 0;
-
-                                    &:before {
-                                        font-family: 'mebis-icons';
-                                        speak: none;
-                                        font-style: normal;
-                                        font-weight: normal;
-                                        font-variant: normal;
-                                        text-transform: none;
-                                        line-height: 1;
-                                        font-size: 0.875em;
-                                        -webkit-font-smoothing: antialiased;
-                                        -moz-osx-font-smoothing: grayscale;
-                                        content: "\e63d";
-                                        font-size: 18px;
-                                    }
-                                }
-
-                                &.toggle_open .closebutton:before { content: "\e662"; }
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-    }
-
-    &.course-format-onetopic {
-
-        .single-section.onetopic .nav.nav-tabs {
-            background: transparent;
-            border-top: dotted 1px rgba(230,230,230,0.3);
-            border-bottom: dotted 1px rgba(230,230,230,0.3);
-            padding-top: 20px;
-            padding-bottom: 10px;
-
-            li {
-                padding: 0 20px 10px 0;
-                border: 0;
-
-                a {
-                    color: $white;
-                    border: 0;
-                    text-align: center;
-
-                   .marker {
-                        font-style: normal;
-                    }
-                }
-
-                &.active a, a:hover, a:active, a:focus {
-                    color: $white;
-                    background: $brand-secondary;
-                }
-            }
-        }
-
-        .single-section .section-navigation > div > div {
-            padding: 0;
-            margin-top: 0;
-            background: transparent;
-
-            a {
-                display: block;
-                padding: 20px;
-                background: $brand-secondary;
-                color: $white;
-                width: 100%;
-
-                &:hover {
-                    background: $brand-primary;
-                }
-            }
-        }
-
-    }
+    
+    
 
     &.course-format-grid {
 
@@ -669,8 +323,4 @@
     margin-left: 10px;
 }
 
-.path-course-view .completionprogress {
-    z-index:1;
-    top: 20px;
-    right: 20px;
-}
+

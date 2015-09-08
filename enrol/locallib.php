@@ -195,7 +195,7 @@ class course_enrolment_manager {
             $params['courseid'] = $this->course->id;
             
              //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_other_users();
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
             //--- awag      
             
             $sql = "SELECT COUNT(DISTINCT u.id)
@@ -344,7 +344,7 @@ class course_enrolment_manager {
             $params['cid'] = $this->course->id;
             
              //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_other_users();
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
             //--- awag      
             
             $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, u.*, ue.lastseen
@@ -459,7 +459,7 @@ class course_enrolment_manager {
         $countfields = 'SELECT COUNT(1)';
 
         //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
         //--- awag            
 
         $sql = " FROM {user} u
@@ -487,7 +487,7 @@ class course_enrolment_manager {
         list($ufields, $params, $wherecondition) = $this->get_basic_search_conditions($search, $searchanywhere);
 
         //+++ awag DS24:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \block_dlb\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
         //--- awag     
         
         $fields      = 'SELECT ' . $ufields;
@@ -699,8 +699,11 @@ class course_enrolment_manager {
      */
     public function unassign_role_from_user($userid, $roleid) {
         global $DB;
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
         // Admins may unassign any role, others only those they could assign.
-        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles())) {
+        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }
@@ -734,7 +737,10 @@ class course_enrolment_manager {
      */
     public function assign_role_to_user($roleid, $userid) {
         require_capability('moodle/role:assign', $this->context);
-        if (!array_key_exists($roleid, $this->get_assignable_roles())) {
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
+        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+        if (!array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }
@@ -913,7 +919,7 @@ class course_enrolment_manager {
             $args['search'] = $this->searchfilter;
         }
         if (!empty($this->groupfilter)) {
-            $args['group'] = $this->groupfilter;
+            $args['filtergroup'] = $this->groupfilter;
         }
         if ($this->statusfilter !== -1) {
             $args['status'] = $this->statusfilter;
@@ -1118,18 +1124,25 @@ class course_enrolment_manager {
      */
     private function prepare_user_for_display($user, $extrafields, $now) {
         $details = array(
-            'userid'    => $user->id,
-            'courseid'  => $this->get_course()->id,
-            'picture'   => new user_picture($user),
-            'firstname' => fullname($user, has_capability('moodle/site:viewfullnames', $this->get_context())),
-            'lastseen'  => get_string('never'),
+            'userid'           => $user->id,
+            'courseid'         => $this->get_course()->id,
+            'picture'          => new user_picture($user),
+            'firstname'        => fullname($user, has_capability('moodle/site:viewfullnames', $this->get_context())),
+            'lastseen'         => get_string('never'),
+            'lastcourseaccess' => get_string('never'),
         );
         foreach ($extrafields as $field) {
             $details[$field] = $user->{$field};
         }
 
+        // Last time user has accessed the site.
         if ($user->lastaccess) {
             $details['lastseen'] = format_time($now - $user->lastaccess);
+        }
+
+        // Last time user has accessed the course.
+        if ($user->lastseen) {
+            $details['lastcourseaccess'] = format_time($now - $user->lastseen);
         }
         return $details;
     }
@@ -1138,6 +1151,9 @@ class course_enrolment_manager {
         $plugins = $this->get_enrolment_plugins(true); // Skip disabled plugins.
         $buttons = array();
         foreach ($plugins as $plugin) {
+            if (get_class($plugin) === 'enrol_class_plugin') {
+                continue;
+            }
             $newbutton = $plugin->get_manual_enrol_button($this);
             if (is_array($newbutton)) {
                 $buttons += $newbutton;

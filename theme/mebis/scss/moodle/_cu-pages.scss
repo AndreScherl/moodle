@@ -1,0 +1,166 @@
+/*
+    All Styles related to special Pages.
+    - .path-course-view
+    - #page-course-edit
+    - #page-course-index-category
+    - #page-enrol-users
+    - #page-enrol-index
+    - #page-my-index 
+    - #page-course-management
+    - #page-content
+    - #page-admin-purgecaches 
+*/
+/* 
+    Created on : 16.05.2015, 19:46:57
+    Author     : Andreas Wagner
+*/
+
+.path-course-view {
+
+    #main-content-wrapper {
+        padding:0;
+    }
+
+    .course-headline {
+
+        h2, h1 {
+            color: $white;
+            margin-bottom: 25px;
+        }
+    }
+
+}
+
+//##### Need this styles for courseformats with backgroundcolor transparent #####
+// user overview in courses
+.path-user.path-course.path-course-view #main-content-wrapper {
+    padding: 10px;
+    background: $white;
+}
+
+//Course edit page: course/edit.php
+#page-course-edit #main-content-wrapper {
+    background: $white;
+}
+
+//edit sectionname 
+#page-course-editsection #main-content-wrapper {
+    background: $white;
+}
+//##### END: Need this styles for courseformats with backgroundcolor transparent #####
+
+#page-course-index-category {
+
+    div[role="main"] > .generalbox {
+
+        background: $white;
+        color : $black;
+        border : none;
+        border-radius: 0;
+        padding:20px;
+    }
+}
+
+#page-enrol-users .enrol_user_buttons {
+    float: none;
+    text-align: right;
+}
+
+// enrol page after search
+#page-enrol-index {
+
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+        padding-left: 0;
+        padding-right: 0; 
+
+        h2 {
+            background: transparent;
+            color : $white;
+            padding-left: 20px;
+        }
+    }
+
+    .box.generalbox.info {
+
+        li {
+            list-style: none;
+        }
+    }
+
+    fieldset .fcontainer {
+        color: $black;
+    }
+
+    #notice {
+        padding-bottom: 20px;
+    }
+}
+
+// My Dashboard my/index.php
+#page-my-index {
+
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+
+        h2 {
+            background: transparent;
+            color : $white;
+        }
+    }
+}
+
+// Page course/management.php
+#page-course-management {
+
+    #course-category-listings {
+        margin-bottom: 20px;
+
+        > div > div {
+            border: none;
+            margin-bottom : 20px;
+        }
+
+        h3 {
+            background: $brand-primary;
+            padding: 20px;
+        }
+
+        .listitem > div .idnumber {
+            color: $brand-gray-dark;
+        }
+
+        #category-listing .course-count {
+            color: $brand-gray-dark;
+        }
+    }
+}
+
+//Styles for background and lists in 
+// - print.php pages 
+// - #page-admin-purgecaches 
+// - page-popup
+#page-content, #page-admin-purgecaches {
+    background: $white;   
+    
+    div[role="main"] {
+        div div ul {
+            padding-left: 10px;
+            > li {
+                list-style: disc inside none;
+            }
+        }
+        div div ol {
+            padding-left: 10px;
+            > li {
+                list-style: decimal inside none;
+            }
+        }        
+    }
+}
+
+

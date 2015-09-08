@@ -186,7 +186,7 @@ foreach ($extrafields as $field) {
 
 $fields = array(
     'userdetails' => $userdetails,
-    'lastseen' => get_string('lastaccess'),
+    'lastcourseaccess' => get_string('lastcourseaccess'),
     'role' => get_string('roles', 'role'),
     'group' => get_string('groups', 'group'),
     'enrol' => get_string('enrolmentinstances', 'enrol')
@@ -196,7 +196,7 @@ $fields = array(
 if (!has_capability('moodle/course:viewhiddenuserfields', $context)) {
     $hiddenfields = array_flip(explode(',', $CFG->hiddenuserfields));
     if (isset($hiddenfields['lastaccess'])) {
-        unset($fields['lastseen']);
+        unset($fields['lastcourseaccess']);
     }
     if (isset($hiddenfields['groups'])) {
         unset($fields['group']);
@@ -205,15 +205,18 @@ if (!has_capability('moodle/course:viewhiddenuserfields', $context)) {
 
 $filterform = new enrol_users_filter_form('users.php', array('manager' => $manager, 'id' => $id),
         'get', '', array('id' => 'filterform'));
-$filterform->set_data(array('search' => $search, 'ifilter' => $filter, 'role' => $role));
+$filterform->set_data(array('search' => $search, 'ifilter' => $filter, 'role' => $role, 'filtergroup' => $fgroup));
 
 $table->set_fields($fields, $renderer);
 
 $canassign = has_capability('moodle/role:assign', $manager->get_context());
 $users = $manager->get_users_for_display($manager, $table->sort, $table->sortdirection, $table->page, $table->perpage);
+// awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
+\local_mbs\local\core_changes::add_assignableroles($manager, $users);
+// awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
 foreach ($users as $userid=>&$user) {
     $user['picture'] = $OUTPUT->render($user['picture']);
-    $user['role'] = $renderer->user_roles_and_actions($userid, $user['roles'], $manager->get_assignable_roles(), $canassign, $PAGE->url);
+    $user['role'] = $renderer->user_roles_and_actions($userid, $user['roles'], $user['assignableroles'], $canassign, $PAGE->url);
     $user['group'] = $renderer->user_groups_and_actions($userid, $user['groups'], $manager->get_all_groups(), has_capability('moodle/course:managegroups', $manager->get_context()), $PAGE->url);
     $user['enrol'] = $renderer->user_enrolments_and_actions($user['enrolments']);
 }

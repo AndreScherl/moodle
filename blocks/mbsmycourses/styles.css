@@ -41,6 +41,7 @@
     float: left;
     margin: 0 0 .5em 0;
     position: relative;
+    font-size: 14px;
 }
 .dir-rtl .block_mbsmycourses .content h2.title {
     float:right;
@@ -95,4 +96,105 @@
 
 .block_mbsmycourses .content .course_list .movehere{
     margin-bottom: 15px;
+}
+
+.block_mbsmycourses .mbsmycourses-grid .coursebox {
+    float: left;
+    height: 150px;
+    margin-right: 10px;
+    overflow: hidden;
+    padding: 15px;
+    width: 200px;
+}
+
+.block_mbsmycourses .coursebox > .info > .coursename a {
+    background-position: left center;
+}
+
+.block_mbsmycourses .coursebox {
+    padding: 5px;
+    margin: 5px;
+}
+
+.block_mbsmycourses .category-box {
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    clear: both;
+    margin: 10px 0;
+    min-height: 0;
+    padding: 10px;
+}
+
+.block_mbsmycourses .collapsibleregion .collapsibleregioncaption {
+    background-image: url([[pix:t/less]]);
+    background-repeat: no-repeat;
+    float: right;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+.block_mbsmycourses .collapsibleregion.collapsed .collapsibleregioncaption {
+    background-image: url([[pix:t/add]]);
+}
+
+.block_mbsmycourses .mbsmycourses-grid .movehere {
+    float:left;
+}
+
+.block_mbsmycourses .mbsmycourses-list .moreinfo {
+    float:left;
+    margin-left: 20px;
+}
+
+.block_mbsmycourses .mbsmycourses-list .coursebox > .info > h3.coursename {
+    float:left;
+}
+
+.mbsmycourses-newinfo {
+    margin-left:20px;
+}
+
+.mbsmycourses-new {
+    cursor: pointer;
+}
+
+.yui3-overlay-content .mbscourses-hide-overlay {
+    float:right;
+}
+
+
+/* Hide overlay markup while loading, if js is enabled */
+.yui3-js-enabled .yui3-overlay-loading {
+    top:-1000em;
+    left:-1000em;
+    position:absolute;
+    z-index:1000;
+}
+
+/* Overlay Look/Feel */
+.yui3-overlay-content {
+    background-color: #ffffff;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin: 0;
+    padding: 0;
+}
+
+.yui3-overlay-content .yui3-widget-hd,
+.yui3-overlay-content .yui3-widget-bd {
+    padding: 10px;
+}
+
+.yui3-overlay-content .yui3-widget-hd {
+    font-weight: bold;
+    cursor:move;
+    border-bottom:1px solid  #e3e3e3;
+}
+
+#mbsmycourses_viewtype label {
+    margin-right:10px;
 }

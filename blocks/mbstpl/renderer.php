@@ -21,6 +21,8 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
+use \block_mbstpl AS mbst;
+
 class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
@@ -122,16 +124,17 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Box on top of the template page containing course and template information.
-     * @param $course
-     * @param $template
+     * @param object $course
+     * @param mbst\dataobj\template $template
      */
-    public function coursebox($course, $template) {
+    public function coursebox($course, mbst\dataobj\template $template) {
         global $DB;
 
         $author = $DB->get_record('user', array('id' => $template->authorid));
         $authorname = $author ? fullname($author). ' '. $author->email : '';
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
         $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $assignedname = $template->status == $template::STATUS_UNDER_REVISION ? $authorname: $reviewername;
         $status = \block_mbstpl\course::get_statusshortname($template->status);
         $statusbox = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
 
@@ -143,7 +146,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->data[] = array(get_string('creator', 'block_mbstpl'), $authorname);
         $table->data[] = array(get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
         $table->data[] = array(get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
-        $table->data[] = array(get_string('assigned', 'block_mbstpl'), $reviewername);
+        $table->data[] = array(get_string('assigned', 'block_mbstpl'), $assignedname);
         $table->data[] = array(get_string('status'), $statusbox);
 
         $cbox .= html_writer::table($table);

@@ -107,6 +107,16 @@ class perms {
     }
 
     /**
+     * Tells us whether the course can be assigned an author
+     * @param dataobj\template $template
+     * @param context_course $coursecontext
+     * @return bool
+     */
+    public static function can_assignauthor(dataobj\template $template, \context_course $coursecontext) {
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+    }
+
+    /**
      * Tells us whether the course can be assigned a reviewer
      * @param dataobj\template $template
      * @param context_course $coursecontext
@@ -117,7 +127,7 @@ class perms {
             return false;
         }
 
-        return has_capability('block/mbstpl:sendcoursetemplate', $coursecontext);
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
     }
 
     /**

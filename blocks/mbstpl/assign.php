@@ -27,11 +27,12 @@ global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 
-$thisurl = new moodle_url('/blocks/mbstpl/assignreviewer.php');
+$thisurl = new moodle_url('/blocks/mbstpl/assign.php');
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 
 $courseid = required_param('course', PARAM_INT);
+$type = optional_param('type', 'reviewer', PARAM_TEXT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $template = new mbst\dataobj\template(array('courseid' => $courseid));
 
@@ -41,8 +42,14 @@ $coursecontext = context_course::instance($courseid);
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('assignreviewer', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
-if (!mbst\perms::can_assignreview($template, $coursecontext)) {
-    throw new moodle_exception('errorcannotassignreviewer', 'block_mbstpl');
+if ($type == 'author') {
+    if (!mbst\perms::can_assignauthor($template, $coursecontext)) {
+        throw new moodle_exception('errorcannotassignauthor', 'block_mbstpl');
+    }
+} else {
+    if (!mbst\perms::can_assignreview($template, $coursecontext)) {
+        throw new moodle_exception('errorcannotassignreviewer', 'block_mbstpl');
+    }
 }
 
 // Load possible users.
@@ -53,13 +60,17 @@ if (empty($users)) {
     throw new moodle_exception('errornoassignableusers', 'block_mbstpl');
 }
 
-$customdata = array('courseid' => $course->id, 'users' => $users);
-$form = new mbst\form\assignreviewer(null, $customdata);
+$customdata = array('courseid' => $course->id, 'users' => $users, 'type' => $type);
+$form = new mbst\form\assign(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $form->get_data()) {
-    mbst\course::assign_reviewer($courseid, $data->reviewerid);
+    if ($type == 'author') {
+        mbst\course::assign_author($courseid, $data->userid);
+    } else {
+        mbst\course::assign_reviewer($courseid, $data->userid);
+    }
     redirect($redirurl);
 }
 echo $OUTPUT->header();

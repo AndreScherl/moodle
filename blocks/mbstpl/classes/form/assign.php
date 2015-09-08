@@ -29,14 +29,18 @@ global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Class assignreviewer
+ * Class assign
  * @package block_mbstpl
- * Assign a reviewer.
+ * Assign a reviewer or an author.
  */
 
-class assignreviewer extends \moodleform {
+class assign extends \moodleform {
     function definition() {
         $form = $this->_form;
+
+        $type = $this->_customdata['type'];
+        $form->addElement('hidden', 'type', $type);
+        $form->setType('type', PARAM_TEXT);
 
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
@@ -45,9 +49,9 @@ class assignreviewer extends \moodleform {
         foreach($this->_customdata['users'] as $user) {
             $options[$user->id] = $user->firstname .' ' . $user->lastname;
         }
-        $form->addElement('select', 'reviewerid', get_string('selectedreviewer', 'block_mbstpl'), $options);
+        $form->addElement('select', 'userid', get_string('selected'.$type, 'block_mbstpl'), $options);
 
-        $this->add_action_buttons(true, get_string('assignreviewer', 'block_mbstpl'));
+        $this->add_action_buttons(true, get_string('assign'.$type, 'block_mbstpl'));
     }
 
 }

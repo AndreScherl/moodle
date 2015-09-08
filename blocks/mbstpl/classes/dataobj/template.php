@@ -54,9 +54,9 @@ class template extends base {
         if (!$template->fetched) {
 
             // Check to see if this course was created from a template, and load that template instead.
-            $templateid = null; // TODO: get the template id for the (current) course.
-            if ($templateid) {
-                $template = new template(array('id' => $templateid));
+            $coursefromtpl = new coursefromtpl(array('courseid' => $courseid), true);
+            if ($coursefromtpl->templateid) {
+                $template = new template($coursefromtpl->templateid);
             }
         }
 
@@ -76,6 +76,7 @@ class template extends base {
         'feedback' => '',
         'feedbackformat' => FORMAT_MOODLE,
         'timemodified' => 0,
+        'rating' => null,
     );
 
     /* @var int Course id  */
@@ -101,6 +102,9 @@ class template extends base {
 
     /* @var int timemodified  */
     public $timemodified;
+
+    /* @var float rating  */
+    public $rating;
 
     /**
      * Set the table name here.
@@ -133,6 +137,16 @@ class template extends base {
         $this->timemodified = time();
         parent::update();
         $this->add_to_revhist();
+    }
+
+
+    /**
+     * Updates rating without adding to revision history or changing timemodified.
+     *
+     * @return bool success
+     */
+    public function touch() {
+        parent::update();
     }
 
     /**

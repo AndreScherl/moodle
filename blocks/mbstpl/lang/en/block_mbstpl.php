@@ -36,6 +36,7 @@ $string['coursename'] = 'Course name';
 $string['coursekeyword'] = 'Course keyword';
 $string['creator'] = 'Creator';
 $string['creationdate'] = 'Creation date';
+$string['currentrating'] = 'Current rating';
 $string['deploycat'] = 'Template deployment category';
 $string['duplcourseforuse'] = 'Duplicate course for use';
 $string['duplcourselicense'] = 'This course has been created by {$a} and is licensed under the CC-NC-SA';

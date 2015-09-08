@@ -15,19 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbsmycourses block settings
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configtext('block_mbsmycourses/defaultmaxcourses', new lang_string('defaultmaxcourses', 'block_mbsmycourses'),
-        new lang_string('defaultmaxcoursesdesc', 'block_mbsmycourses'), 10, PARAM_INT));
-    $settings->add(new admin_setting_configcheckbox('block_mbsmycourses/forcedefaultmaxcourses', new lang_string('forcedefaultmaxcourses', 'block_mbsmycourses'),
-        new lang_string('forcedefaultmaxcoursesdesc', 'block_mbsmycourses'), 1, PARAM_INT));
-    $settings->add(new admin_setting_configcheckbox('block_mbsmycourses/showchildren', new lang_string('showchildren', 'block_mbsmycourses'),
-        new lang_string('showchildrendesc', 'block_mbsmycourses'), 1, PARAM_INT));
+    $settings->add(new admin_setting_configtext('block_mbsmycourses/defaultmaxcourses',
+                    new lang_string('defaultmaxcourses', 'block_mbsmycourses'),
+                    new lang_string('defaultmaxcoursesdesc', 'block_mbsmycourses'), 10, PARAM_INT));
+
+    $settings->add(new admin_setting_configcheckbox('block_mbsmycourses/forcedefaultmaxcourses',
+                    new lang_string('forcedefaultmaxcourses', 'block_mbsmycourses'),
+                    new lang_string('forcedefaultmaxcoursesdesc', 'block_mbsmycourses'), 1, PARAM_INT));
+
+    $settings->add(new admin_setting_configcheckbox('block_mbsmycourses/showchildren',
+                    new lang_string('showchildren', 'block_mbsmycourses'),
+                    new lang_string('showchildrendesc', 'block_mbsmycourses'), 1, PARAM_INT));
 }

@@ -455,7 +455,7 @@ function profile_definition_after_data($mform, $userid) {
     }
         
     //+++ awag DS10 (H003) Sichtbarkeitsregel-Schule nur nicht bearbeitbar
-    \block_dlb\local\datenschutz::hook_profile_definition_after_data($mform, $userid);
+    \local_mbs\local\datenschutz::hook_profile_definition_after_data($mform, $userid);
     //---
 }
 

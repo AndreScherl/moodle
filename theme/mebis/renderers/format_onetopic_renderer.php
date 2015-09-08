@@ -1,34 +1,35 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Overriding the onetopic renderer 
+ *
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/format/onetopic/renderer.php');
 
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
 {
-
-    /**
-     * Constructor method, calls the parent constructor
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-    public function __construct(moodle_page $page, $target) {
-        parent::__construct($page, $target);
-
-        if(!defined('PAGE_MENU_SET'))
-            define('PAGE_MENU_SET', true);
-
-        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
-        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
-        $page->set_other_editing_capability('moodle/course:setcurrentsection');
-    }
 
     /**
      * Generate next/previous section links for navigation
@@ -38,8 +39,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
      * @param int $sectionno The section number in the coruse which is being dsiplayed
      * @return array associative array with previous and next section link
      */
-    protected function get_nav_links($course, $sections, $sectionno)
-    {
+    protected function get_nav_links($course, $sections, $sectionno) {
 
         // FIXME: This is really evil and should by using the navigation API.
         $course = course_get_format($course)->get_course();
@@ -77,8 +77,6 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
             $forward++;
         }
 
-        echo $this->render_page_action_menu($course, $sections, 'simple');
-
         return $links;
     }
 
@@ -92,8 +90,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
      * @param array $modnamesused used for print_section()
      * @param int $displaysection The section number in the course which is being displayed
      */
-    public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection)
-    {
+    public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
         global $PAGE;
 
         $real_course_display = $course->realcoursedisplay;
@@ -288,7 +285,7 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         echo html_writer::end_tag('div');
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    public function render_page_action_menu($course, $sections, $onlyMobile=false) {
         //Add side jump-navigation
         $menu_items = array();
         $output = '';
@@ -305,37 +302,23 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
             }
         }
 
-        $visibleClass = ($onlyMobile && $onlyMobile != 'simple') ? ' visible-xs' : '';
-        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu' . $visibleClass));
-
-        if(count($sections) && $onlyMobile != 'simple') {
-            $icon = html_writer::tag('i', '', array('class' => 'icon-me-sprungnav-mobile-ansicht'));
-            $output .= html_writer::tag('span', $icon, array('class' => 'me-in-page-menu-mobile-trigger', 'data-status' => 'hidden'));
-        }
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
         foreach($menu_items as $item) {
-            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::end_tag('li');
         }
-        $output .= html_writer::end_tag('ul');
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
-        $output .= html_writer::end_tag('ul');
-        $output .= html_writer::end_tag('div');
 
         return $output;
     }
 
-    /**
-     * Renders course headline
-     * @param  string
+    /** Renders course headline
+     * 
+     * @param  string headline (i. e. the courses fullname)
      * @return string
      */
     protected function render_course_headline($headline) {
-        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
-        $course_headline .= html_writer::tag('h1', $headline);
-        $course_headline .= html_writer::end_tag('div');
-        return $course_headline;
+
+        $o = html_writer::tag('h1', $headline);
+        return html_writer::div($o, 'course-headline');
     }
 }

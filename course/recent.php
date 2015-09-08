@@ -28,7 +28,7 @@ require_once('lib.php');
 require_once('recent_form.php');
 
 //+++ DS14 awag: prüfen ob der nachfolgende Seitenaufruf erlaubt ist.
-\block_dlb\local\datenschutz::hook_local_course_recent_require_access_recent_activities();
+\local_mbs\local\datenschutz::hook_local_course_recent_require_access_recent_activities();
 //---
 
 $id = required_param('id', PARAM_INT);

@@ -678,9 +678,7 @@ class theme_dlb_core_renderer extends core_renderer {
     }
 
 }
-
-
-
+require_once($CFG->dirroot . '/theme/mebis/renderers/core_renderer.php');
 class theme_dlb_core_media_renderer extends core_media_renderer {
 
     protected function get_players_raw() {
@@ -711,6 +709,209 @@ class theme_dlb_core_renderer_maintenance extends core_renderer_maintenance {
 
     public function generalheader() {
         return '';
+    }
+
+}
+
+/** Note, that there is another constant in block/meineschule, which holds the catdepth of school categories.
+ *  if category structure would be changed, both constants must be adapted!
+ */
+//define('DLB_SCHOOL_CAT_DEPTH', 3); already defined in theme mebis
+
+class theme_dlb_core_course_management_renderer extends core_course_management_renderer {
+
+    /** get (and cache) the category ids below an optional level (level == 3 for school-catgories), where
+     *  the user has the capability moodle/category:manage or moodle/course:create
+     * 
+     * @global type $USER
+     * @param type $category
+     */
+    protected function get_editable_schoolids($level = DLB_SCHOOL_CAT_DEPTH) {
+        global $USER, $DB;
+
+        if (!empty($USER->editableschoolids)) {
+            return $USER->editableschoolids;
+        }
+
+        // get roleids with caps.
+        $sql = "SELECT DISTINCT rc.roleid FROM {role_capabilities} rc 
+                JOIN {role_context_levels} rcl ON rcl.roleid = rc.roleid
+                WHERE rcl.contextlevel = ? and (rc.capability = ? OR rc.capability = ?)";
+
+        $params = array(CONTEXT_COURSECAT, 'moodle/category:manage', 'moodle/course:create');
+
+        if (!$roleids = $DB->get_fieldset_sql($sql, $params)) {
+            return array();
+        }
+
+        // now get the category ids below that special level.
+        list($inroleids, $params) = $DB->get_in_or_equal($roleids);
+        $params[] = $USER->id;
+        $params[] = CONTEXT_COURSECAT;
+        $params[] = $level;
+
+        $sql = "SELECT cat.id, cat.path FROM {context} ctx
+                JOIN {role_assignments} ra ON ra.contextid = ctx.id
+                JOIN {course_categories} cat on ctx.instanceid = cat.id 
+                WHERE ra.roleid {$inroleids} and ra.userid = ? and ctx.contextlevel = ? and ctx.depth >= ?";
+
+        if (!$catdata = $DB->get_records_sql($sql, $params)) {
+            return array();
+        }
+
+        // level of retrieved cats may be higher than school cat (normally level == 3)
+        // so retrieve the id of the parent of the school category at level 3.
+        $categoryids = array();
+
+        foreach ($catdata as $catdate) {
+            $parents = explode('/', $catdate->path);
+            if (!empty($parents[$level])) {
+                $categoryids[$parents[$level]] = $parents[$level];
+            }
+        }
+
+        $USER->editableschoolids = $categoryids;
+
+        return $categoryids;
+    }
+
+    /** check, wheter this category can be managed, 
+     *  i. e. at least one of given editable categories is a parent of this
+     *  category or this category is called directly. 
+     * 
+     * @param object $category, category object.
+     * @param array $parentids, list of possible parents.
+     * @return boolean, true if one of the parent id is in the parent list of the category.
+     */
+    protected function can_manage_category($category, $editablecatids) {
+
+        if (empty($category)) {
+            return false;
+        }
+
+        $catidstocheck = $category->get_parents();
+
+        // possibility to manage main category.
+        $catidstocheck[] = $category->id;
+
+        $result = array_intersect($editablecatids, $catidstocheck);
+
+        return (count($result) > 0);
+    }
+
+    /**
+     * Presents a course category listing.
+     *
+     * @param coursecat $category The currently selected category. Also the category to highlight in the listing.
+     * @return string
+     */
+    public function category_listing(coursecat $category = null) {
+        global $PAGE;
+        
+        $perfdebug = optional_param('perfdebug', 0, PARAM_INT);
+        
+        if (optional_param('purge', 0, PARAM_INT) == 1) {
+            cache_helper::purge_by_event('changesincoursecat');
+            if ($perfdebug) {
+                echo "<br/>cache purged";
+            }
+        }
+        $starttime = microtime(true);
+
+        if ($category === null) {
+            $selectedparents = array();
+            $selectedcategory = null;
+        } else {
+            $selectedparents = $category->get_parents();
+            $selectedparents[] = $category->id;
+            $selectedcategory = $category->id;
+        }
+        $catatlevel = \core_course\management\helper::get_expanded_categories('');
+        $catatlevel[] = array_shift($selectedparents);
+        $catatlevel = array_unique($catatlevel);
+
+        // +++ awag: get all editable schools //
+        $listings = array();
+
+        $datatime = 0;
+        $startdatatime = microtime(true);
+        // don't restrict the list for site-admins.
+        if (is_siteadmin()) {
+            
+            $listings[] = coursecat::get(0)->get_children();
+            
+        } else { // non site admins.
+            // get schoolids (category of level 3), which contains elements (category, subcategories or courses) this user can edit.
+            $editableschoolids = $this->get_editable_schoolids();
+
+            // when required category is not in editable school, redirect the user, when he is no siteadmin.
+            $usercanedit = (!empty($editableschoolids) && $this->can_manage_category($category, $editableschoolids));
+
+            if (!$usercanedit) {
+                $param = (isset($category)) ? array('categoryid' => $category->id) : array();
+                $url = new moodle_url('/course/index.php', $param);
+                redirect($url);
+            }
+
+            // prepare listings data for rendereing.
+            foreach ($editableschoolids as $catid) {
+
+                $coursecat = coursecat::get($catid);
+
+                if (in_array($catid, $selectedparents)) {
+                    $catatlevel[] = $catid;
+                    $catatlevel = array_unique($catatlevel);
+                }
+                $listings[] = array($catid => $coursecat);
+            }
+        }
+        $datatime += (microtime(true) - $startdatatime);
+        // --- awag;
+
+        $attributes = array(
+            'class' => 'ml',
+            'role' => 'tree',
+            'aria-labelledby' => 'category-listing-title'
+        );
+
+        $html = html_writer::start_div('category-listing');
+        $html .= html_writer::tag('h3', get_string('categories'), array('id' => 'category-listing-title'));
+        $html .= $this->category_listing_actions($category);
+
+        // +++ awag: print out all editable schools, like original renders but in a loop.
+
+
+        $rendertime = 0;
+        
+        foreach ($listings as $listing) {
+
+            $html .= html_writer::start_tag('ul', $attributes);
+            foreach ($listing as $listitem) {
+                // Render each category in the listing.
+                $subcategories = array();
+                if (in_array($listitem->id, $catatlevel)) {
+                    $startdatatime = microtime(true);
+                    $subcategories = $listitem->get_children();
+                    $datatime += (microtime(true) - $startdatatime);
+                }
+                $startrendertime = microtime(true);
+                $html .= $this->category_listitem(
+                        $listitem, $subcategories, $listitem->get_children_count(), $selectedcategory, $selectedparents
+                );
+                $rendertime += (microtime(true) - $startrendertime);
+            }
+            $html .= html_writer::end_tag('ul');
+        }
+        $html .= $this->category_bulk_actions($category);
+        $html .= html_writer::end_div();
+        
+        if ($perfdebug) {
+            echo "<br/>category_listing: ".(microtime(true) - $starttime);
+            echo "<br/>datatime: ".$datatime;
+            echo "<br/>renderttime: ".$rendertime;
+        }
+        
+        return $html;
     }
 
 }

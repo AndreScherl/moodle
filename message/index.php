@@ -54,7 +54,7 @@ $user2id   = optional_param('user2', 0, PARAM_INT);
 $user2id   = optional_param('id', $user2id, PARAM_INT);
 
 //+++ awag DS17 Sichtbarkeitsregel-Schule für Messaging
-\block_dlb\local\datenschutz::hook_message_index($user2id);
+\local_mbs\local\datenschutz::hook_message_index($user2id);
 //--- awag DS17 Sichtbarkeitsregel-Schule für Messaging
 
 $addcontact     = optional_param('addcontact',     0, PARAM_INT); // adding a contact

@@ -1,149 +1,210 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
+/**
+ * A layout for the default pages in mebis theme based on default.php in
+ * parent theme bootstrap
+ *
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+require_once($CFG->dirroot.'/user/profile/lib.php'); //required for profile_load_data
+
+// Check existing regions.
 $knownregiontop = $PAGE->blocks->is_known_region('top');
+$knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
+$knownregionbottom = $PAGE->blocks->is_known_region('bottom');
 
-if($knownregiontop) {
-    $help_renderer = new theme_mebis_help_renderer($PAGE, 'top');
-    $fakeBlock = new block_contents();
-    $fakeBlock->content = $help_renderer->helpnote();
-    $PAGE->blocks->add_fake_block($fakeBlock, 'top');
+$ismydashboard = ($PAGE->pagetype == 'my-index');
+$theuser = clone($USER); 
+    profile_load_data($theuser);
+
+// Add mbsgettingstarted to my dashboard?
+if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
+         
+    if (!isset($USER->mbsgettingstartedhide)){
+        $hidembsgettingstarted = false;
+    } else if (isset($USER->mbsgettingstartedhide) && !$USER->mbsgettingstartedhide) {
+        $hidembsgettingstarted = false;
+    } else {
+        $hidembsgettingstarted = true;
+    }    
+        
+    $showmbsgettingstarted = ($ismydashboard 
+        and (!isset($theuser->profile_field_mbsgettingstartedshow) || $theuser->profile_field_mbsgettingstartedshow)
+        and !$hidembsgettingstarted 
+        and $knownregiontop);
+
+    if ($showmbsgettingstarted) {
+        $attributes['data-block'] = 'mbsgettingstarted';
+        $attributes['class'] = 'block_mbsgettingstarted';
+        $attributes['id'] = 'block_mbsgettingstarted';
+        $OUTPUT->add_fake_block('mbsgettingstarted', 'top', $attributes);
+    }
+
+    // Add mbswizzard to my dashboard if mbsgettingstarted is visible (because the user can click wizzard link within this block)
+    $OUTPUT->add_block_mbswizzard_if_needed('side-pre', $showmbsgettingstarted);
 }
 
+// Allow popup - notification for my dashboard.
+$PAGE->set_popup_notification_allowed($ismydashboard);
+
+// Check whether regions has content.
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
-$hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 
-//$regions = theme_mebis_bootstrap_grid($hasapps, null);
+// TODO: discuss this line - deprecated?
+// $regions = theme_mebis_bootstrap_grid($hasapps, null);
+
 if ($hassidepre) {
     theme_bootstrap_initialise_zoom($PAGE);
 }
 
-// define additional css classes that should be set on the body element. text-center is needed to center the main
-// content block
-$bodycls = theme_bootstrap_get_zoom();
-
+// Define additional css classes that should be set on the body element. 
+// text-center is needed to center the main content block
+$setzoom = theme_bootstrap_get_zoom();
 echo $OUTPUT->doctype()
 ?>
+
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
     <head>
         <title><?php echo $OUTPUT->page_title(); ?></title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
         <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
-        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png','mebis');?>">
-
         <?php echo $OUTPUT->standard_head_html(); ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
 
-        <link rel="stylesheet" href="<?php echo new moodle_url("/theme/mebis/style/mebis.css");?>" data-mode="default">
-        <script src="<?php echo new moodle_url("/theme/mebis/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
+
+        <span data-mode="default"></span>
+        <script src="<?php echo new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
     </head>
 
-    <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
-    <?php echo $OUTPUT->standard_top_of_body_html() ?>
+    <body <?php echo $OUTPUT->body_attributes($setzoom); ?>>
 
-        <!-- HOMEPAGE-WRAPPER [start] -->
+        <?php echo $OUTPUT->standard_top_of_body_html() ?>
+
         <div class="me-wrapper wrapper-learning-platform" role="main">
 
-            <!-- Top-Navigation [start] -->
-            <?php echo $OUTPUT->main_navbar(); ?>
-            <!-- Top-Navigation [end] -->
-
-            <!-- Side-Navigation [start] -->
-            <?php echo $OUTPUT->main_sidebar(); ?>
-            <!-- Side-Navigation [end] -->
-
-            <!-- PAGE HEADER [start] -->
-            <?php echo $OUTPUT->main_header(); ?>
-            <!-- PAGE HEADER [end] -->
+            <?php
+            // Print out the top & side navbar containing navigating between subsystems of mebis, fontsize switch, user login etc.
+            echo $OUTPUT->main_navbar();
+            // Print out the sub menu bar (header) with dropdownmenus.
+            echo $OUTPUT->main_header();
+            ?>
 
             <!-- CONTENT -->
             <div class="container homepage-container">
 
-                <!-- Breadcrums -->
-                <?php echo $OUTPUT->main_breadcrumbs() ?>
+                <!-- Breadcrumbs and page-heading-button -->
+                <div id="page-navbar" class="clearfix">
+                    <div class="row">
+                        <nav class="breadcrumb-nav" role="navigation" aria-label="breadcrumb">
+                            <?php echo $OUTPUT->main_breadcrumbs(); ?>
+                        </nav>    
+                        <div class="breadcrumb-button"><?php echo $OUTPUT->breadcrumb_button(); ?></div>
+                    </div>
+                </div>
 
                 <?php
-
                 if ($knownregiontop) {
-                    echo $OUTPUT->mebis_blocks('top');
+                    echo $OUTPUT->blocks('top', array(), 'aside');
                 }
 
-                // echo $OUTPUT->course_content_header();
-                echo $OUTPUT->main_content();
-                // echo $OUTPUT->course_content_footer();
+                echo $OUTPUT->course_content_header();
+                ?>
+                <div id="main-content-wrapper">
+                    <div id="region-main">
+                        <?php echo $OUTPUT->main_content(); ?>
+                    </div>
+                </div>
+                <?php
+                echo $OUTPUT->course_content_footer();
                 ?>
 
-                <?php if ($hassidepre) : ?>
+                <?php if ($hassidepre || $hassidepost) { ?>
+                
                     <div class="row">
-
-                        <div class="col-lg-12 col-sm-12 margin-bottom-small">
-                            <h1><?php echo get_string('my-apps', 'theme_mebis');?></h1>
+                        <div class="col-lg-12 col-sm-12 no-background">
+                            <h2 id="my-apps"><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
                         </div>
-
                     </div>
 
                     <?php
-                        $displayregion = $this->page->apply_theme_region_manipulations('side-pre');
-                        $classes = array();
-                        $classes[] = 'row block-regions';
-                        $attributes = array(
-                            'id' => 'block-region-' . preg_replace('#[^a-zA-Z0-9_\-]+#', '-', $displayregion),
-                            'data-blockregion' => $displayregion,
-                            'data-droptarget' => '1'
-                        );
-                        echo html_writer::start_tag('aside', $attributes);
-                        echo html_writer::start_tag('div', array('class' => join(' ', $classes)));
+                    echo html_writer::start_tag('aside', array('class' => 'row'));
 
-                        if ($knownregionsidepre) {
-                            echo $OUTPUT->mebis_blocks('side-pre');
-                        }
+                    if ($knownregionsidepre) {
+                        echo $OUTPUT->blocks('side-pre', array(), 'div');
+                        
+                    }
 
-                        echo html_writer::end_div();
-                        echo html_writer::end_tag('aside');
-                    ?>
-                <?php endif; ?>
+                    if ($knownregionsidepost) {
+                        echo $OUTPUT->blocks('side-post', array(), 'div');
+                    }
+                    
+                    echo html_writer::end_tag('aside');
+                    
+                }
+                
+                if ($knownregionbottom) {
+                    echo $OUTPUT->blocks('bottom', array(), 'aside');
+                }
+                
+                ?>
 
-                <?php if ($knownregionsidepost && $hassidepost) : ?>
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 margin-bottom-small">
-                                    <h1 class="pull-left"><?php echo get_string('my-schools', 'theme_mebis');?></h1>
-                                </div>
-                                <?php
-                                    echo $OUTPUT->mebis_blocks('side-post');
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
 
             <div id="root-footer"></div>
 
             <!-- CONTENT [end] -->
-            <?php echo $OUTPUT->main_searchbar(); ?>
-
-            <?php echo $OUTPUT->main_eventfooter(); ?>
+            <?php echo $OUTPUT->mebis_footer(); ?>
 
         </div>
 
-        <!-- HOMEPAGE-WRAPPER [end] -->
         <?php echo $OUTPUT->main_footer(); ?>
+        
+        <div class="me-page-action-menu visible-lg">
+            <ul class="me-menu-anchor-links">
+                <?php  
+                echo $OUTPUT->page_fastaccess_navigation();
+                echo $OUTPUT->page_action_menu();
+                ?>
+            </ul>
+        </div>
+                
+        <?php       
+        echo $OUTPUT->page_action_navigation();
 
-        <?php echo $OUTPUT->page_action_navigation();?>
+        $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
+        ?>
 
+        <div class="container"> 
+            <footer id="page-footer">
+                <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
+                <?php
+                echo $OUTPUT->standard_footer_html();
+                ?>
+            </footer>
+        </div>
         <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/vendor/jquery-1.11.0.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/vendor.min.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.js"));
-            $PAGE->requires->js( new moodle_url("/theme/mebis/javascripts/mebis.learning-platform.js"));
-
-            echo $OUTPUT->standard_end_of_body_html();
+        echo $OUTPUT->standard_end_of_body_html();
         ?>
 
     </body>

@@ -1,0 +1,9 @@
+{
+    "moodle-block_mbsmycourses-searchform": {
+        "requires": [
+            "base",
+            "node", 
+            "io"
+        ]
+    }
+}

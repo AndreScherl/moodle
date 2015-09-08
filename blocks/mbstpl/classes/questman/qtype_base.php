@@ -100,6 +100,14 @@ class qtype_base {
         return true;
     }
 
+    /*
+     * Gets answer according to type (by default the data, for some fields an array)
+     * @param object $answer
+     */
+    public static function process_answer($answer) {
+        return $answer->data;
+    }
+
     /**
      * Add the appropriate element to search this field.
      * @param \MoodleQuickForm $form

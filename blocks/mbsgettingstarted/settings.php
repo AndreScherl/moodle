@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -17,18 +18,36 @@
 /**
  * mbsgettingstarted block caps.
  *
- * @package    block_mbsgettingstarted
- * @copyright  Andre Scherl <andre.scherl@isb.bayern.de>
+ * @package    mbsgettingstarted
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+ 
+ defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
+//admin_setting_configtext($name, $visiblename, $description, $defaultsetting, $paramtype=PARAM_RAW, $size=null)
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/videourl',
+            get_string('videourl', 'block_mbsgettingstarted'),
+            get_string('videourl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));	
 
-$settings->add(new admin_setting_heading('sampleheader',
-                                         get_string('headerconfig', 'block_mbsgettingstarted'),
-                                         get_string('descconfig', 'block_mbsgettingstarted')));
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/tutorialurl',
+            get_string('tutorialurl', 'block_mbsgettingstarted'),
+            get_string('tutorialurl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
 
-$settings->add(new admin_setting_configcheckbox('mbsgettingstarted/foo',
-                                                get_string('labelfoo', 'block_mbsgettingstarted'),
-                                                get_string('descfoo', 'block_mbsgettingstarted'),
-                                                '0'));
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/trainingurl',
+            get_string('trainingurl', 'block_mbsgettingstarted'),
+            get_string('trainingurl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
+
+$settings->add(new admin_setting_configtext('block_mbsgettingstarted/contacturl',
+            get_string('contacturl', 'block_mbsgettingstarted'),
+            get_string('contacturl_expl', 'block_mbsgettingstarted'),
+			'',
+			PARAM_RAW));
+
+			

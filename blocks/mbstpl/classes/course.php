@@ -49,8 +49,13 @@ class course {
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
         }
 
+        if ($template && perms::can_assignauthor($template, $coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
+            $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
+        }
+
         if ($template && perms::can_assignreview($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/assignreviewer.php', array('course' => $cid));
+            $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid));
             $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
         }
 
@@ -188,6 +193,22 @@ class course {
         }
         $template->update();
         notifications::send_feedback($template);
+    }
+
+    /**
+     * Assign author to a course. Assumes can_assignauthor() has already been called.
+     * @param $courseid
+     * @param $userid
+     */
+    public static function assign_author($courseid, $userid) {
+        // Mark reviewer in the template record.
+        $dobj = new dataobj\template(array('courseid' => $courseid));
+        if (empty($dobj->id)) {
+            throw new \moodle_exception('errorcoursenottemplate', 'block_mbstpl');
+        }
+        $dobj->authorid = $userid;
+        $dobj->status = dataobj\template::STATUS_UNDER_REVISION;
+        $dobj->update();
     }
 
     /**

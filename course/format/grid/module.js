@@ -45,10 +45,6 @@ M.format_grid = M.format_grid || {
     shadebox_shown_array: null,
     // DOM reference to the #gridshadebox_content element.
     shadebox_content: null,
-    // DOM reference to the #gridshadebox_left element.
-    shadebox_arrow_l: null,
-    // DOM reference to the #gridshadebox_right element.
-    shadebox_arrow_r: null
 };
 
 /**
@@ -67,6 +63,7 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
     this.section_redirect = the_section_redirect;
     this.selected_section = null;
     this.num_sections = parseInt(the_num_sections);
+    //console.log("the_num_sections parameter: " + the_num_sections);
     //console.log("SSA parameter: " + the_shadebox_shown_array);
     //this.shadebox_shown_array = JSON.parse(the_shadebox_shown_array);
     this.shadebox_shown_array = the_shadebox_shown_array;
@@ -87,11 +84,7 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
         // Show the sections when editing.
         Y.all(".grid_section").removeClass('hide_section');
     } else {
-        //Use divs instead of ul/li
-        //Y.delegate('click', this.icon_click, Y.config.doc, 'ul.gridicons a.gridicon_link', this);
-
-
-        Y.delegate('click', this.icon_click, Y.config.doc, 'div.gridicons a.gridicon_link', this);
+        Y.delegate('click', this.icon_click, Y.config.doc, 'ul.gridicons a.gridicon_link', this);
 
         var shadeboxtoggleone = Y.one("#gridshadebox_overlay");
         if (shadeboxtoggleone) {
@@ -100,33 +93,29 @@ M.format_grid.init = function(Y, the_editing_on, the_section_redirect, the_num_s
         var shadeboxtoggletwo = Y.one("#gridshadebox_close");
         if (shadeboxtoggletwo) {
             shadeboxtoggletwo.on('click', this.icon_toggle, this);
+            document.getElementById("gridshadebox_close").style.display = "";
         }
         var shadeboxarrowleft = Y.one("#gridshadebox_left");
         if (shadeboxarrowleft) {
             shadeboxarrowleft.on('click', this.arrow_left, this);
+            document.getElementById("gridshadebox_left").style.display = "";
         }
         var shadeboxarrowright = Y.one("#gridshadebox_right");
         if (shadeboxarrowright) {
             shadeboxarrowright.on('click', this.arrow_right, this);
+            document.getElementById("gridshadebox_right").style.display = "";
         }
         // Remove href link from icon anchors so they don't compete with JavaScript onlick calls.
         var icon_links = getElementsByClassName(document.getElementById("gridiconcontainer"), "a", "gridicon_link");
         for(var i = 0; i < icon_links.length; i++) {
             icon_links[i].href = "#";
         }
-        document.getElementById("gridshadebox_close").style.display = "";
-        document.getElementById("gridshadebox_left").style.display = "";
-        document.getElementById("gridshadebox_right").style.display = "";
 
         M.format_grid.shadebox.initialize_shadebox();
         M.format_grid.shadebox.update_shadebox();
         window.onresize = function() {
             M.format_grid.shadebox.update_shadebox();
         }
-
-        // Arrows.
-        this.shadebox_arrow_l = document.getElementById("gridshadebox_left");
-        this.shadebox_arrow_r = document.getElementById("gridshadebox_right");
     }
     this.shadebox_content = Y.one("#gridshadebox_content");
     this.shadebox_content.removeClass('hide_content'); // Content 'flash' prevention.
@@ -168,8 +157,6 @@ M.format_grid.icon_toggle = function(e) {
             //console.log("Shadebox was closed");
             this.icon_change_shown();
             this.shadebox.toggle_shadebox();
-            //Do not update the arrows as they have a fixed place now.
-            //this.update_arrows();
         }
     } //else {
         //console.log("Grid format:icon_toggle() - no selected section to show.");
@@ -209,11 +196,7 @@ M.format_grid.change_selected_section = function(increase_section) {
         //console.log("Selected section no is now: " + this.selected_section_no);
         if (M.format_grid.shadebox.shadebox_open == true) {
             this.icon_change_shown();
-            //Don't update the arrows as they have a fixed place now
-            //this.update_arrows();
         }
-            //But scroll to the top of the box when clicking next/previous topic
-            window.scroll(0,document.getElementById("section-" + this.selected_section_no).offsetTop);
     } //else {
         //console.log("Grid format:change_selected_section() - no selected section to show.");
     //}
@@ -231,18 +214,6 @@ M.format_grid.icon_change_shown = function() {
     this.selected_section = this.ourYUI.one("#section-" + this.selected_section_no);
 
     this.selected_section.removeClass('hide_section');
-};
-
-/**
- * Changes the position of the shade box arrows to be in the centre when the section changes.
- */
-M.format_grid.update_arrows = function() {
-    "use strict";
-    var computed_height = ((this.shadebox_content.get('clientHeight') / 2) - 8);
-    //console.log(this.shadebox_content.getComputedStyle('height'));
-    //console.log(this.shadebox_content.get('clientHeight'));
-    this.shadebox_arrow_l.style.top = computed_height + "px";
-    this.shadebox_arrow_r.style.top = computed_height + "px";
 };
 
 /**
@@ -288,7 +259,7 @@ M.format_grid.find_next_shown_section = function(starting_point, increase_sectio
     "use strict";
     var found = false;
     var current = starting_point;
-    var next = -1;
+    var next = starting_point;
 
     while(found == false) {
         if (increase_section == true) {
@@ -305,7 +276,7 @@ M.format_grid.find_next_shown_section = function(starting_point, increase_sectio
 
         // Guard against repeated looping code...
         if (current == starting_point) {
-            found = true; // Exit loop and 'next' will be '-1'.
+            found = true; // Exit loop and 'next' will be the starting point.
         } else if (this.shadebox_shown_array[current] == 2) { // This section can be shown.
             next = current;
             found = true; // Exit loop and 'next' will be 'current'.
@@ -349,13 +320,11 @@ M.format_grid.shadebox.initialize_shadebox = function() {
     /* This is added here as not editing and JS is on to move the content from
        below the grid icons and into the shade box. */
     var content = document.getElementById('gridshadebox_content');
-    // Moved to CSS, because of changes with regards to bootstrap
-//    content.style.position = 'absolute';
-//    content.style.width = '90%';
-//    content.style.top = '50px';
-//    content.style.left = '5%';
-//    content.style.marginLeft = '-400px';
-    content.style.zIndex = '5';
+    content.style.position = 'absolute';
+    content.style.width = '90%';
+    content.style.top = '' + top + 'px';
+    content.style.left = '5%';
+    content.style.zIndex = '1';
 };
 
 /**

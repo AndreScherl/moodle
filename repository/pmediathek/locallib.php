@@ -296,7 +296,7 @@ class repository_pmediathek_search {
         } else {
             $this->results = $api->search_school_content($this->perpage, $this->page, $searchparams['school'],
                                                        $searchparams['subject'], null, $searchparams['grade'],
-                                                       $searchparams['year'], $searchparams['type']);
+                                                       null, $searchparams['type']);
         }
         $this->totalresults = $api->get_total_results();
         $this->cache_result_rights();
@@ -594,7 +594,7 @@ class repository_pmediathek_school_search_form extends moodleform {
         $mform->addElement('select', 'school', get_string('school', 'repository_pmediathek'), $schools);
         $mform->addElement('select', 'subject', get_string('subject', 'repository_pmediathek'), $allsubjects);
         $mform->addElement('select', 'grade', get_string('grade', 'repository_pmediathek'), $grades);
-        $mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
+        //$mform->addElement('select', 'year', get_string('year', 'repository_pmediathek'), $years);
         $mform->addElement('select', 'type', get_string('type', 'repository_pmediathek'), $types);
 
         $this->add_action_buttons(false, get_string('search'));

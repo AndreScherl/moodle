@@ -24,19 +24,16 @@
 defined('MOODLE_INTERNAL') || die();
 
 class block_mbsschooltitle extends block_base {
-    
+
     public function init() {
+
         $this->title = get_string('pluginname', 'block_mbsschooltitle');
     }
 
     public function get_content() {
+        global $PAGE;
 
         if ($this->content !== null) {
-            return $this->content;
-        }
-
-        if (empty($this->instance)) {
-            $this->content = '';
             return $this->content;
         }
 
@@ -44,7 +41,7 @@ class block_mbsschooltitle extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $renderer = $this->page->get_renderer('block_mbsschooltitle');
+        $renderer = $PAGE->get_renderer('block_mbsschooltitle');
         $this->content->text .= $renderer->render_content($this->get_titledata());
 
         return $this->content;
@@ -59,28 +56,28 @@ class block_mbsschooltitle extends block_base {
      *                    which contains the current category.
      */
     public function get_titledata() {
-        global $COURSE, $USER, $DB;
+        global $COURSE, $DB, $PAGE;
 
-        $contextlevel = $this->page->context->contextlevel;
-        
+        $contextlevel = $PAGE->context->contextlevel;
+
         // ...get the id for users school, may be false!
         $usersschoolcatid = \local_mbs\local\schoolcategory::get_users_schoolcatid();
 
         switch ($contextlevel) {
-            
+
             case CONTEXT_SYSTEM:
             case CONTEXT_USER:
-                
+
                 $schoolcatid = $usersschoolcatid;
                 break;
-            
+
             case CONTEXT_COURSE:
                 $categoryid = $COURSE->category;
                 $schoolcatid = \local_mbs\local\schoolcategory::get_schoolcategoryid($categoryid);
                 break;
 
             case CONTEXT_COURSECAT:
-                $categoryid = $this->page->context->instanceid;
+                $categoryid = $PAGE->context->instanceid;
                 $schoolcatid = \local_mbs\local\schoolcategory::get_schoolcategoryid($categoryid);
                 break;
 
@@ -88,48 +85,59 @@ class block_mbsschooltitle extends block_base {
                 $schoolcatid = SITEID;
                 break;
         }
-        
-        if ($schoolcatid) {
+
+        if (!empty($schoolcatid)) {
 
             if ($titledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $schoolcatid))) {
-                
+
                 $titledata->usersschoolid = $usersschoolcatid;
-                
                 $titledata->imageurl = \block_mbsschooltitle\local\imagehelper::get_imageurl($schoolcatid, $titledata->image);
-                
-                $schoolcatcontext = context_coursecat::instance($schoolcatid);
-                $showeditinglink = (has_capability('block/mbsschooltitle:edittitle', $schoolcatcontext));
-                
-                if ($showeditinglink) {
-                    
-                    $redirecturl = base64_encode($this->page->url->out());
-                    $params = array('categoryid' => $schoolcatid, 'redirecturl' => $redirecturl);
-                    
-                    $editurl = new moodle_url('/blocks/mbsschooltitle/edittitle.php',$params);
-                    $titledata->editurl = $editurl->out();
-                }
-                
+                $titledata->editurl = $this->get_editurl($schoolcatid);
+
                 return $titledata;
             }
-        }
+        } 
+        
         $titledata = new stdClass();
         $titledata->categoryid = 0;
         $titledata->imageurl = '';
         $titledata->headline = '';
         $titledata->usersschoolid = $usersschoolcatid;
-                
+        $titledata->editurl = '';
+
         return $titledata;
+    }
+
+    private function get_editurl($schoolcatid) {
+        global $PAGE;
+
+        $schoolcatcontext = context_coursecat::instance($schoolcatid);
+        $showeditinglink = (has_capability('block/mbsschooltitle:edittitle', $schoolcatcontext));
+
+        if ($showeditinglink) {
+
+            $redirecturl = base64_encode($PAGE->url->out());
+            $params = array('categoryid' => $schoolcatid, 'redirecturl' => $redirecturl);
+
+            $editurl = new moodle_url('/blocks/mbsschooltitle/edittitle.php', $params);
+            return $editurl->out();
+        }
+
+        return false;
     }
 
     public function hide_header() {
         return true;
     }
-    
+
     function has_config() {
         return true;
     }
-    
+
     public function applicable_formats() {
-        return array('all' => true, 'my-index' => false);
+        // self test of block base class will fail if sum of the format array is zero
+        // workaround: set format true for unimportant context
+        return array('all' => false, 'site-index' => true);
     }
+
 }

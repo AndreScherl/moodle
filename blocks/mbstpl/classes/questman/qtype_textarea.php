@@ -51,6 +51,10 @@ class qtype_textarea extends qtype_base {
         return parent::save_answer($metaid, $questionid, $answer['text'], $answer['format']);
     }
 
+    public static function process_answer($answer) {
+        return array('text' => $answer->data, 'format' => $answer->dataformat);
+    }
+
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
         qtype_text::add_to_searchform($form, $question, $elname);
     }

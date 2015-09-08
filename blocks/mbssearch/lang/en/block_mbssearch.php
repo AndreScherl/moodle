@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   block_search
+ * @package   block_mbssearch
  * @copyright 2015 Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,6 +24,8 @@ $string['courses'] = 'Courses';
 $string['loadmoreresults'] = 'Load more results';
 $string['lookupcount'] = 'Count of results in lookup search';
 $string['lookupcountexpl'] = 'Maximal count of results per type (School / Course) in Lookup search';
+$string['mbssearch:addinstance'] = 'Add mbssearch block';
+$string['mbssearch:myaddinstance'] = 'Add a mbssearch block to my moodle';
 $string['moreresultscount'] = 'Count of results loaded per request';
 $string['moreresultscountexpl'] = '';
 $string['noresults'] = 'No Results';
@@ -35,7 +37,7 @@ $string['pluginname'] = 'Search School and Course';
 $string['schools'] = 'Schools';
 $string['schoolandcourse'] = 'Schools & Courses';
 $string['search'] = 'Search';
-$string['searchonlyin'] = 'serach only in {$a}';
+$string['searchonlyin'] = 'search only in {$a}';
 $string['searchschoolandcourse'] = 'Search Course and School';
 $string['settings'] = 'Settings';
 $string['unknownaction'] = 'unknown Action';

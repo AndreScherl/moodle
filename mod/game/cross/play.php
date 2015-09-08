@@ -143,7 +143,7 @@ function game_cross_play( $id, $game, $attempt, $crossrec, $g, $onlyshow, $shows
 ?>
 <style type="text/css"><!--
 
-.answerboxstyle  {
+#region-main .answerboxstyle  {
 background-color:	#FFFAF0;
 border-color:	#808080;
 border-style:	solid;
@@ -153,7 +153,7 @@ padding:	.75em;
 width:	240pt;
 }
 
-.gamebox  {
+#region-main .gamebox  {
 border-style:	solid;
 border-width:	1pt;
 cursor:	pointer;
@@ -165,47 +165,47 @@ text-align:	center;
 width:	.18in;
 }
 
-.boxcheated_sel  {
+#region-main .boxcheated_sel  {
 background-color:	#FFF1D7;
 border-color:	#C00000;
 color:	#2080D0;
 }
 
-.boxcheated_unsel  {
+#region-main .boxcheated_unsel  {
 background-color:	#ffffff;
 border-color:	#606060;
 color:	#2080D0;
 }
 
-.boxerror_sel  {
+#region-main .boxerror_sel  {
 background-color:	#FFF1D7;
 border-color:	#C00000;
 color:	#BF0000;
 }
 
-.boxerror_unsel  {
+#region-main .boxerror_unsel  {
 background-color:	#FFF0F0;
 border-color:	#606060;
 color:	#BF0000;
 }
 
-.boxnormal_sel  {
+#region-main .boxnormal_sel  {
 background-color:	#FFF1D7;
 border-color:	#C00000;
 color:	#000000;
 }
 
-.boxnormal_unsel  {
+#region-main .boxnormal_unsel  {
 background-color:	#ffffff;
 border-color:	#606060;
 color:	#000000;
 }
 
-.button  {
+#region-main .button  {
 width:	64pt;
 }
 
-.cluebox  {
+#region-main .cluebox  {
 border-bottom-width:	1px;
 border-color:	#c0c0c0;
 border-left-width:	0px;
@@ -220,7 +220,7 @@ padding-right:	0pt;
 padding-top:	.5em;
 }
 
-.crosswordarea  {
+#region-main .crosswordarea  {
 background-color:	#D0D8E0;
 border-color:	#808080;
 border-style:	solid;
@@ -228,27 +228,33 @@ border-width:	2px;
 padding:	.5em;
 }
 
-body  {
+#region-main body  {
 background-color:	white;
 cursor:	default;
 }
 
-body, button, input, p, td  {
+#region-main, 
+#region-main button, 
+#region-main input, 
+#region-main p, 
+#region-main td  {
 font-family:	Verdana, Arial, Sans-Serif;
 font-size:	small;
 }
 
-button  {
+#region-main button  {
 cursor:	pointer;
 }
 
-h1, h2, h3  {
+#region-main h1,
+#region-main h2,
+#region-main h3  {
 color:	#5F78A2;
 font-family:	Franklin Gothic Medium, Arial, Sans-Serif;
 font-weight:	normal;
 }
 
-p  {
+#region-main p  {
 margin-top:	1em;
 }
 

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Move/order course functionality for mbsmycourses block.
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
@@ -30,8 +30,8 @@ require_login();
 $coursetomove = required_param('courseid', PARAM_INT);
 $moveto = required_param('moveto', PARAM_INT);
 
-list($courses, $sitecourses, $coursecount) = mbsmycourses::get_sorted_courses();
-$sortedcourses = array_keys($courses);
+$sortedcourses = mbsmycourses::get_sorted_courses_group_by_school('', 0);
+$sortedcourses = array_keys($sortedcourses->sitecourses);
 
 $currentcourseindex = array_search($coursetomove, $sortedcourses);
 // If coursetomove is not found or moveto < 0 or > count($sortedcourses) then throw error.

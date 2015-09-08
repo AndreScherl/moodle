@@ -1,0 +1,88 @@
+{
+    "name": "mbswizzard_sequence_first_learningsequence",
+    "steps": [{
+            "url": "/my",
+            "sel": "div.row .course_list, .mbsmycourses-list",
+            "tip": "Wählen Sie einen Ihrer Kurse aus der nachfolgenden Übersicht aus:",
+            "actionsel": "li.coursebox, div.category-course"
+        }, {
+            "url": "/course/view.php",
+            "sel": "div.singlebutton input[type=submit]",
+            "tip": "Ist der Bearbeitungsmodus aktiviert? <br/><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+            "placement": "left",
+            "actionsel": ".wizzard_next_step"
+        }, {
+            "url": "/course/view.php",
+            "sel": "span.section-modchooser-link",
+            "tip": "Hier klicken, um neues Material anzulegen. <br/> Wählen Sie in der daraufhin erscheinenden Liste den Typ \"<b>Aufgabe</b>\" und klicken dann auf \"<b>Hinzufügen</b>\".",
+            "placement": "top"
+        }, {
+            "url": "/course/modedit.php",
+            "sel": "div.fitem.required.fitem_ftext",
+            "tip": "Geben Sie einen aussagekräftigen Namen für Ihre Aufgabenstellung ein.<br/>z. B. <i>Verfasse einen Brief ...</i><br/><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+            "placement": "left",
+            "actionsel": ".wizzard_next_step"
+        }, {
+            "url": "/course/modedit.php",
+            "sel": "div.fitem.required.fitem_feditor",
+            "tip": "Geben Sie eine aussagekräftige Kurzbeschreibung für Ihre Aufgabenstellung ein.<br/>z. B. <i>Verfasse einen Beschwerdebrief an den amerikanischen Präsidenten.</i><br/><a class=\"wizzard_next_step\" href=\"#\"> weiter >> </a>",
+            "placement": "left",
+            "actionsel": ".wizzard_next_step"
+        }, {
+            "url": "/course/modedit.php",
+            "sel": "#id_showdescription",
+            "tip": "Setzen Sie hier ein Häckchen, damit die Kurzbeschreibung  in der Voransicht auch angezeigt wird.",
+            "placement": "right",
+            "actionsel": "div.felement.fcheckbox input[type=checkbox]"
+        }, {
+            "url": "/course/modedit.php",
+            "sel": "#id_submitbutton2",
+            "tip": "Klicken Sie hier, um Ihre Angaben zu speichern und zur Kursansicht zurückzukehren.",
+            "placement": "left"
+        }, {
+            "url": "/course/view.php",
+            "sel": "#coursedropdownmenu",
+            "tip": "Fahren Sie mit der Maus über das Hutsymbol, Klicken Sie auf \"<b>Rolle wechseln...</b>\", danach auf \"<b>Schüler</b>\".",
+            "placement": "left",
+            "viewport": {
+                "selector": "body",
+                "padding": 50
+            }
+        }, {
+            "url": "/course/view.php",
+            "sel": "div.activityinstance a",
+            "tip": "Wählen Sie nun die eben angelegte Aktivität \"Aufgabe\", um sich diese <b>aus der Sicht eines eingeloggten Schülers</b> anzusehen."
+        }, {
+            "url": "/mod/assign/view.php",
+            "sel": "div.box.generalbox.submissionaction input[type=submit]",
+            "tip": "Über diese Schaltfläche kann ein Schüler eine erstellte Lösung in Dateiform (z. B. als <i>Textdokument</i>) abgeben.",
+            "placement": "right",
+            "actionsel": "div.box.generalbox.submissionaction input[type=submit]"
+        }, {
+            "url": "/mod/assign/view.php",
+            "sel": "nav.breadcrumb-nav",
+            "tip": "Über einen Klick auf Ihren <b>Kursnamen</b> gelangen Sie zurück in den Kurs."
+        }, {
+            "url": "/course/view.php",
+            "sel": "#coursedropdownmenu",
+            "tip": "Sie wollen nun zu ihrer normalen Rolle zurückkehren. Fahren Sie dazu mit der Maus über das Hutsymbol, Klicken Sie auf \"<b>Rolle wechseln...</b>\".",
+            "placement": "left",
+            "viewport": {
+                "selector": "body",
+                "padding": 50
+            },
+            "actionsel": "#coursedropdownmenu"
+        }, {
+            "url": "/course/view.php",
+            "sel": "#coursedropdownmenu",
+            "tip": "Jetzt auf \"<b>Zurück zur Ausgangsrolle</b>\".",
+            "placement": "left",
+            "viewport": {
+                "selector": "body",
+                "padding": 50
+            },
+            "actionsel": "#coursedropdownmenu ul.dropdown-menu"
+        }
+    ],
+    "current_step": "0"
+}

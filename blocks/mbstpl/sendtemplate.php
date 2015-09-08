@@ -80,7 +80,7 @@ if ($form->is_cancelled()) {
     redirect($redirurl);
 }
 $data = (object)array(
-    'coursename' => mbst\course::TPLPREFIX . $course->shortname,
+    'coursename' => $course->shortname,
     'sendtpldate' => time(),
 );
 $form->set_data($data);

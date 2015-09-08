@@ -20,10 +20,11 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
 
     $roles = $DB->get_records('role');
-
+    $rolenames = role_fix_names($roles);
+    
     $choices = array();
-    foreach($roles as $role) {
-        if ($role->id != 1) $choices[$role->id] = $role->name;
+    foreach($rolenames as $role) {
+        if ($role->id != 1) $choices[$role->id] = $role->localname;
     }
 
     $settings->add(new admin_setting_configmulticheckbox('filter_sp_rolestosupport', get_string('sp_rolestosupport', 'filter_scriptprotection'),

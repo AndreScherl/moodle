@@ -1,0 +1,273 @@
+/*
+Here are to go all styles, which are NOT:
+
+- depending on special Page
+- depending on course format
+- depending on special Page layout
+- only used within course 
+- only used related to categories
+ 
+*/
+/* 
+    Created on : 16.05.2015, 18:52:40
+    Author     : Andreas Wagner, ISB Bayern
+*/
+
+#maincontent {
+    height : 0;
+}
+
+// Wrap content of standard moodle pages to ensure solid styles (NOT inverted!)
+#main-content-wrapper {
+
+    background: $white;
+    padding: 0 20px 20px;
+
+    div[role="main"] #maincontent {
+        margin-bottom: 20px;
+    }
+
+    #maincontent + h2 {
+        color : $white;
+        background: $bg-dark;
+        line-height: 1.5em;
+        margin : -20px -20px 20px;
+    }
+
+    .col-md-12.block-transparent .header {
+        margin: 0;
+    }
+
+    #adminsettings {
+
+        h2 {
+            margin-top : 0;
+        }
+        
+        fieldset {
+            margin-bottom : 20px;
+        }
+    }
+
+}
+
+// body color is intentionally NOT white, use this style to print outside of elements
+// with no background (for example: outside areas of main-content-wrapper)
+.no-background {
+    background: transparent;
+    color : $white;
+}
+
+div[role="main"] {
+
+    ul, ol {
+        padding: 0;
+        overflow: visible;
+    }
+}
+
+
+// general styles ordered alphabetically.
+.clearer {
+    height : 0;
+}
+
+.collapsed .fcontainer, .collapsed ul {
+    display: none;
+}
+
+.hiddenelement {
+    display: none;
+}
+
+.highlight {
+    display: inline-block;
+    padding: 0 2px;
+    background: $brand-primary;
+    color: $white;
+}
+
+.mform .felement.fstatic, .form-item .form-description {
+    color: #333;
+}
+
+input[type="checkbox"] + label {
+    margin-left:5px;
+}
+
+// Style form elements.
+.mform {
+
+    fieldset {
+
+        // style fieldset toggler with primary brand color and plus/minus icon.
+        .ftoggler {
+
+            background: $brand-primary;
+            padding: 20px;
+            margin-bottom: 0;
+            position: relative;
+
+            .helptooltip {
+                position: absolute;
+                right: 50px;
+                top: 19px;
+
+                a {
+                    color: $white;
+                    font-size: emCalc(11px);
+
+                    &:after {
+                        font-family: mebis-icons;
+                        speak: none;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        font-size: 0.875em;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                        content: "\e62f";
+
+                    }
+
+                    &:hover {
+                        color: $brand-secondary;
+                    }
+
+                    img { display: none; }
+                }
+            }
+        }
+
+        a.fheader {
+            display: block;
+            position: relative;
+            color: $white;
+
+            &:after {
+                font-family: mebis-icons;
+                speak: none;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1em;
+                font-size: emCalc(10px);
+                -webkit-font-smoothing: antialiased;
+                position: absolute;
+                right: 0;
+                top: 8px;
+                content: "\e63d";
+            }
+        }
+
+        &.collapsed, &.collapsible {
+            margin-bottom: 40px;
+
+            legend {
+                color: $white;
+                border: 0;
+                line-height: 1em;
+
+                a.fheader {
+                    background-image: none;
+                    line-height: 1em;
+                }
+
+            }
+
+            .fcontainer  {
+                background: $white;
+                padding: 20px;
+            }
+
+        }
+
+        &.collapsible a.fheader:after { content: "\e662"; }
+        &.collapsible.collapsed a.fheader:after { content: "\e63d"; }
+
+    }
+
+    input {
+
+        .form-submit,
+        [type="submit"] {
+            color: $white;
+            background: $brand-primary;
+        }
+
+    }
+}
+
+/* fhüb: Do we really need this? 
+.moodle-dialogue-base .moodle-dialogue-wrap {
+    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+}*/
+
+.pagination-row {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.tree_item  span, .tree_item span:focus {
+    outline: 0;
+}
+
+.text-mobile-left {
+    @media only screen and (max-width: $screen-xs-min) {
+        text-align: left !important;
+    }
+}
+
+// default tooltip of bootstrap
+.tooltip {
+    z-index: 1080;
+    opacity: 1;
+    .tooltip-inner {
+        background-color: $brand-secondary;
+        color: $white;
+        border: 2px solid $brand-secondary;
+        
+        a {
+            color: $brand-primary-dark;
+        }
+        
+        a:hover {
+            color: $white;
+        }
+    }
+}
+
+.tooltip.in {
+    opacity: 1;
+}
+
+.tooltip.top,
+.tooltip.top-left,
+.tooltip.top-right { 
+    .tooltip-arrow {
+        border-top-color: $brand-secondary;
+    }
+}
+
+.tooltip.left { 
+    .tooltip-arrow {
+        border-left-color: $brand-secondary;
+    }
+}
+
+.tooltip.bottom,
+.tooltip.bottom-left,
+.tooltip.bottom-right { 
+    .tooltip-arrow {
+        border-bottom-color: $brand-secondary;
+    }
+}
+
+.tooltip.right { 
+    .tooltip-arrow {
+        border-right-color: $brand-secondary;
+    }
+}

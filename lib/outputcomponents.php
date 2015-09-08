@@ -1583,7 +1583,11 @@ class html_writer {
 
             foreach ($table->data as $key => $row) {
                 if (($row === 'hr') && ($countcols)) {
-                    $output .= html_writer::tag('td', html_writer::tag('div', '', array('class' => 'tabledivider')), array('colspan' => $countcols));
+                    $output .= html_writer::start_tag('tr');
+                    $output .= html_writer::start_tag('td', array('colspan' => $countcols));
+                    $output .= html_writer::tag('div', '', array('class' => 'tabledivider'));
+                    $output .= html_writer::end_tag('td');
+                    $output .= html_writer::end_tag('tr') . "\n";
                 } else {
                     // Convert array rows to html_table_rows and cell strings to html_table_cell objects
                     if (!($row instanceof html_table_row)) {
@@ -1657,8 +1661,8 @@ class html_writer {
                         }
                         $output .= html_writer::tag($tagtype, $cell->text, $tdattributes) . "\n";
                     }
+                    $output .= html_writer::end_tag('tr') . "\n";
                 }
-                $output .= html_writer::end_tag('tr') . "\n";
             }
             $output .= html_writer::end_tag('tbody') . "\n";
         }
@@ -2356,7 +2360,7 @@ class paging_bar implements renderable {
                 $displaypage = $currpage + 1;
 
                 if ($this->page == $currpage) {
-                    $this->pagelinks[] = $displaypage;
+                    $this->pagelinks[] = html_writer::span($displaypage, 'current-page');
                 } else {
                     $pagelink = html_writer::link(new moodle_url($this->baseurl, array($this->pagevar=>$currpage)), $displaypage);
                     $this->pagelinks[] = $pagelink;
@@ -2822,7 +2826,13 @@ class custom_menu extends custom_menu_item {
                 $bits[1] = null;
             } else {
                 // Make sure the url is a moodle url
-                $bits[1] = new moodle_url(trim($bits[1]));
+                try {
+                    $bits[1] = new moodle_url(trim($bits[1]));
+                } catch (moodle_exception $exception) {
+                    // We're not actually worried about this, we don't want to mess up the display
+                    // just for a wrongly entered URL.
+                    $bits[1] = null;
+                }
             }
             if (!array_key_exists(2, $bits) or empty($bits[2])) {
                 // Set the title to null seeing as there isn't one

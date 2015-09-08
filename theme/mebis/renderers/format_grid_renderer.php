@@ -1,15 +1,37 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Overriding the grid renderer 
+ *
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/format/grid/renderer.php');
 require_once($CFG->dirroot . '/course/format/grid/lib.php');
 
+//fhüb: NOTE!!!!
+//
+// currently NOT inlcuded in theme/mebis/renderer.php
+
 /**
  * Basic renderer for onetopic format.
- *
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class theme_mebis_format_grid_renderer extends format_grid_renderer
 {
@@ -17,27 +39,6 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     private $courseformat; // Our course format object as defined in lib.php.
     private $settings; // Settings array.
     private $shadeboxshownarray = array(); // Value of 1 = not shown, value of 2 = shown - to reduce ambiguity in JS.
-    /**
-     * Constructor method, calls the parent constructor - MDL-21097
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-
-    public function __construct(moodle_page $page, $target)
-    {
-        parent::__construct($page, $target);
-        $this->courseformat = course_get_format($page->course);
-        $this->settings = $this->courseformat->get_settings();
-
-        if(!defined('PAGE_MENU_SET'))
-            define('PAGE_MENU_SET', true);
-
-        /* Since format_grid_renderer::section_edit_controls() only displays the 'Set current section' control when editing
-          mode is on we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any
-          other managing capability. */
-        $page->set_other_editing_capability('moodle/course:setcurrentsection');
-    }
 
     /**
      * Output the html for a multiple section page
@@ -48,13 +49,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
      * @param array $modnames
      * @param array $modnamesused
      */
-    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused)
-    {
+    public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused) {
         global $PAGE;
-
-        echo $this->render_page_action_menu($course, $sections, false);
-
-        //End side jump-navigation
 
         echo html_writer::start_tag('div', array('class' => 'course course-format-grid'));
 
@@ -171,8 +167,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
      * @param bool $onsectionpage true if being printed on a section page
      * @return array of links with edit controls
      */
-    protected function section_edit_controls($course, $section, $onsectionpage = false)
-    {
+    protected function section_edit_controls($course, $section, $onsectionpage = false) {
         global $PAGE;
 
         if (!$PAGE->user_is_editing()) {
@@ -217,8 +212,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
      * Makes section zero.
      */
     protected function make_block_topic0($course, $sections, $modinfo, $editing, $urlpicedit, $streditsummary,
-        $onsectionpage)
-    {
+        $onsectionpage) {
         //Returning nothing adds an initial help block so we add an empty, hidden block to counter it
         //@todo: this is probably not neccessary
         return '<div style="display:none;"></div>';
@@ -227,8 +221,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     /**
      * Makes the grid image containers.
      */
-    protected function make_block_icon_topics($contextid, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit)
-    {
+    protected function make_block_icon_topics($contextid, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit) {
         global $USER, $CFG;
 
         if ($this->settings['newactivity'] == 2) {
@@ -331,6 +324,8 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     $showimg = false;
+                    $imgurl = null;
+                    $localImageUrl = '';
                     if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
                         $imgurl = moodle_url::make_pluginfile_url(
                                 $contextid, 'course', 'section', $thissection->id, $gridimagepath,
@@ -342,9 +337,13 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
                     }
 
                     /* ToDo: If image is portrait-view */
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!
-                    $localImageUrl = $imgurl->out();
-                    // IF ERRORS SERVER COULD NOT RESOLVE LOCAL ENV DOMAIN!!!
+                    if (is_object($imgurl)) {
+                        $localImageUrl = $imgurl->out();
+                    }
+
+                    if (empty($localImageUrl)) {
+                        $showimg = false;
+                    }
 
                     if($showimg && @file_get_contents($localImageUrl)) {
                         list($imgWidth, $imgHeight) = getimagesize($localImageUrl);
@@ -527,8 +526,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     /**
      * If currently moving a file then show the current clipboard.
      */
-    protected function make_block_show_clipboard_if_file_moving($course)
-    {
+    protected function make_block_show_clipboard_if_file_moving($course) {
         global $USER;
 
         if (is_object($course) && ismoving($course->id)) {
@@ -550,8 +548,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
      * Makes the list of sections to show.
      */
     protected function make_block_topics($course, $sections, $modinfo, $editing, $hascapvishidsect, $streditsummary,
-        $urlpicedit, $onsectionpage)
-    {
+        $urlpicedit, $onsectionpage) {
         $context = context_course::instance($course->id);
         unset($sections[0]);
         for ($section = 1; $section <= $course->numsections; $section++) {
@@ -672,8 +669,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
     /**
      * Checks whether there has been new activity.
      */
-    protected function new_activity($course)
-    {
+    protected function new_activity($course) {
         global $CFG, $USER, $DB;
 
         $sectionsedited = array();
@@ -698,7 +694,7 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         return $sectionsedited;
     }
 
-    protected function render_page_action_menu($course, $sections, $onlyMobile=false) {
+    public function render_page_action_menu($course, $sections, $onlyMobile=false) {
         //Add side jump-navigation
         $menu_items = array();
 
@@ -712,38 +708,28 @@ class theme_mebis_format_grid_renderer extends format_grid_renderer
         }
 
         $visibleClass = ($onlyMobile) ? ' visible-xs' : '';
-        $output = html_writer::start_tag('div', array('class' => 'me-in-page-menu' . $visibleClass));
-
-        if(count($sections)) {
-            $icon = html_writer::tag('i', '', array('class' => 'icon-me-sprungnav-mobile-ansicht'));
-            $output .= html_writer::tag('span', $icon, array('class' => 'me-in-page-menu-mobile-trigger', 'data-status' => 'hidden'));
-        }
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-anchor-links'));
+        $output = html_writer::start_tag('div', array('class' => 'me-page-action-menu' . $visibleClass));
+        $output .= html_writer::start_tag('ul', array('class' => 'me-menu-anchor-links'));
         foreach($menu_items as $item) {
-            $output .= html_writer::tag('li', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::end_tag('li');
         }
-        $output .= html_writer::end_tag('ul');
-
-        $output .= html_writer::start_tag('ul', array('class' => 'me-in-page-menu-features'));
-        $output .= html_writer::tag('li', html_writer::link('#top', '<i class="icon-me-back-to-top"></i>', array('id' => 'me-back-top', 'data-scroll' => 'top')));
         $output .= html_writer::end_tag('ul');
         $output .= html_writer::end_tag('div');
 
         return $output;
     }
 
-    /**
-     * Renders course headline
-     * @param  string
+    /** Renders course headline
+     * 
+     * @param  string headline (i. e. the courses fullname)
      * @return string
      */
-    protected function render_course_headline($headline)
-    {
-        $course_headline = html_writer::start_tag('div', array('class' => 'course-headline'));
-        $course_headline .= html_writer::tag('h1', $headline);
-        $course_headline .= html_writer::end_tag('div');
-        return $course_headline;
+    protected function render_course_headline($headline) {
+
+        $o = html_writer::tag('h1', $headline);
+        return html_writer::div($o, 'course-headline');
     }
 
 }

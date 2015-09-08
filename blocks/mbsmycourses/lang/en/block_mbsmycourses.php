@@ -15,15 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings for mbsmycourses block
+ * Mainly taken from block course_overview, additional lang strings for this
+ * block at the end (which is easier to maintain new translations)
+ * 
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  2012 Adam Olley <adam.olley@netspot.com.au>
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['activityoverview'] = 'You have {$a}s that need attention';
-$string['alwaysshowall'] = 'Always show all';
+$string['alwaysshowall'] = 'All';
 $string['collapseall'] = 'Collapse all course lists';
 $string['configotherexpanded'] = 'If enabled, other courses will be expanded by default unless overriden by user preferences.';
 $string['configpreservestates'] = 'If enabled, the collapsed/expanded states set by the user are stored and used on each load.';
@@ -32,6 +35,7 @@ $string['mbsmycourses:addinstance'] = 'Add a new course overview block';
 $string['mbsmycourses:myaddinstance'] = 'Add a new course overview block to My home';
 $string['defaultmaxcourses'] = 'Default maximum courses';
 $string['defaultmaxcoursesdesc'] = 'Maximum courses which should be displayed on course overview block, 0 will show all courses';
+$string['displayname'] = 'My Courses';
 $string['expandall'] = 'Expand all course lists';
 $string['forcedefaultmaxcourses'] = 'Force maximum courses';
 $string['forcedefaultmaxcoursesdesc'] = 'If set then user will not be able to change his/her personal setting';
@@ -63,3 +67,18 @@ $string['view_edit_profile'] = '(View and edit your profile.)';
 $string['welcome'] = 'Welcome {$a}';
 $string['youhavemessages'] = 'You have {$a} unread ';
 $string['youhavenomessages'] = 'You have no unread ';
+
+//  Additional strings from customizing.
+$string['fullname'] = 'Course name';
+$string['grid'] = 'Gridview';
+$string['lastaccess'] = 'Last access';
+$string['list'] = 'Listview';
+$string['manual'] = 'Users sortorder';
+$string['movecategory'] = 'You are moving: {$a->fullname} ({$a->cancellink})';
+$string['movecatafterhere'] = 'Move {$a->movingcategoryname} category after {$a->currentcategoryname}';
+$string['new'] = 'NEW';
+$string['orderby'] = 'Order by...';
+$string['startdate'] = 'Start date';
+$string['selectschool'] = 'Select school';
+$string['toggle-navigation'] = 'Toggle navigation';
+

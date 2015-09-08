@@ -1,0 +1,74 @@
+/*
+    Styles, which are used for overlays
+
+    - moodle-dialogue-base
+    - newmessageoverlay
+    - user-enroller-panel
+*/
+/* 
+    Created on : 28.05.2015, 13:46:45
+    Author     : Franziska Hübler, ISB
+*/
+
+.moodle-dialogue-base {
+    // color: $brand-gray-dark;
+
+    /* fhüb: Do we really need this? 
+    .moodle-dialogue-wrap {
+          border-radius: 0;
+  
+          .moodle-dialogue-hd.moodle-dialogue-hd {
+              background: $gray-lighter;
+              text-shadow: none;
+          }
+  
+          input[type="text"] {
+              max-width: 0;
+              min-width: 100%;
+              display: block;
+          }
+  
+          .yui3-button.closebutton {
+              border-radius: 0;
+              box-shadow: none;
+          }
+  
+          label.control-label {
+              color: $brand-gray-dark;
+          }
+      }*/
+}
+
+#newmessageoverlay {
+    z-index: auto;   
+}
+
+@media only screen and (max-width: $screen-desktop) {
+
+    .moodle-dialogue-base {
+
+        .moodle-dialogue-fullscreen{
+            left: 10%;
+            width: 85%;
+            top: 100px;
+            bottom: 50px;          
+
+            .moodle-dialogue-content {
+                top: 0;
+                bottom: 0;
+            }
+        }
+    } 
+
+    #newmessageoverlay {
+        bottom: 50px;
+    }
+}
+
+@media only screen and (max-width: $screen-xs-min) {
+    
+    .user-enroller-panel {
+        left: 10% !important; //need important because of the element.style
+        width: auto;
+    }
+}

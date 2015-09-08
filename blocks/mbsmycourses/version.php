@@ -15,15 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Version Information
+ * mebis my courses block (based on course overview block)
  *
  * @package    block_mbsmycourses
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @copyright  2015 Andreas Wagner <andreas.wagener@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014121900;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014050800;        // Requires this Moodle version
-$plugin->component = 'block_mbsmycourses'; // Full name of the plugin (used for diagnostics)
+$plugin->version   = 2015042900;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2014050800;        // Requires this Moodle version.
+$plugin->component = 'block_mbsmycourses'; // Full name of the plugin (used for diagnostics).
+$plugin->dependencies = array('local_mbs' => ANY_VERSION);

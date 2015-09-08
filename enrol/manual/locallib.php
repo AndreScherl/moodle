@@ -54,7 +54,7 @@ class enrol_manual_potential_participant extends user_selector_base {
         $countfields = 'SELECT COUNT(1)';
         
         //+++ awag DS02:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \block_dlb\local\datenschutz::hook_enrol_manual_locallib_find_users($wherecondition);
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_manual_locallib_find_users($wherecondition);
         //--- awag
 
         $sql = " FROM {user} u

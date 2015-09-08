@@ -145,7 +145,7 @@ class template extends base {
      *
      * @return bool success
      */
-    public function touch() {
+    public function update_notouch() {
         parent::update();
     }
 

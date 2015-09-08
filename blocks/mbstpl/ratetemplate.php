@@ -54,7 +54,7 @@ if ($form->is_cancelled()) {
 
     $starrating->rating = $data->block_mbstpl_rating;
     $starrating->comment = $data->block_mbstpl_rating_comment;
-    $starrating->insertorupdate();
+    block_mbstpl\rating::save_userrating($template, $starrating);
 
     redirect($redirecturl);
 } else if ($starrating->fetched) {

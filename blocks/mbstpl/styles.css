@@ -1,3 +1,8 @@
+.block_mbstpl .content {
+    background-color: white!important;
+    color: black!important;
+}
+
 .mbstcoursebox  {
     border-style: solid;
     margin-bottom: 25px;
@@ -21,7 +26,8 @@
 .statusbox.statusarchived      {background-color: #cccccc}
 
 table.mytemplates tr {border: solid;}
-table.mytemplates td {width: 23%; padding-top: .5em;}
+table.mytemplates td {width: 23%; padding-top:.5em;}
+table.mytemplates td, table.mytemplates th {background-color: white!important;}
 table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .templateactionbtns {display: table;}
@@ -30,7 +36,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .mbstpl-search-form .fitem {
     display: inline-block;
-    width: 250px;
+    width: 100%;
 }
 
 .mbstpl-search-form .felement {
@@ -46,7 +52,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 }
 
 .mbstpl-search-form .fitemtitle {
-    width: auto !important;
+    width: 30%;
 }
 
 .mbstpl-search-listing {

@@ -281,4 +281,21 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
         return $html;
     }
+
+    public function rating($avg) {
+        $roundavg = round($avg * 2);
+        $inner = '';
+
+        for($i = 1; $i <= 5; $i++) {
+            if($roundavg >= $i * 2) {
+                $inner .= html_writer::div('', 'star fullstar');
+            } else if($roundavg >= $i * 2 - 1) {
+                $inner .= html_writer::div('', 'star halfstar');
+            } else {
+                $inner .= html_writer::div('', 'star emptystar');
+            }
+        }
+        $output = html_writer::div($inner, 'templaterating');
+        return $output;
+    }
 }

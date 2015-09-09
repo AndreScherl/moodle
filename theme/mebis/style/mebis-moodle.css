@@ -15320,6 +15320,7 @@ categorybox:
     - #page-mod-forum-discuss
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
+    - #page-mod-assign-mod
     - #page-mod-assign-view
     - #page-mod-book-view
     - #page-mod-choice-view
@@ -15350,6 +15351,11 @@ categorybox:
     width: 30%;
     float: left;
   }
+}
+
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1 {
+  /*height: 100%;*/
+  min-height: 0;
 }
 
 #page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {

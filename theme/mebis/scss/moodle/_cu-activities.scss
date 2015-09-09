@@ -10,6 +10,7 @@
     - #page-mod-forum-discuss
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
+    - #page-mod-assign-mod
     - #page-mod-assign-view
     - #page-mod-book-view
     - #page-mod-choice-view
@@ -41,6 +42,14 @@
         }
     }
 }
+
+//styling Assignment GeoGebra submissions
+#page-mod-assign-mod, #page-mod-assign-view {
+    
+    div#applet_container1 {
+        min-height: 0;
+    }
+} 
 
 #page-mod-assign-mod #main-content-wrapper {
 

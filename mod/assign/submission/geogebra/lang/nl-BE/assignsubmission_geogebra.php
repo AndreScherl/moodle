@@ -25,6 +25,6 @@ $string['ggbturl'] = 'GeoGebra template to use for student';
 $string['ggbturl_help'] = 'The perspective or GeoGebraTube material used as template for the student.';
 $string['perspective3d'] = '3D Graphics';
 $string['pluginname'] = 'GeoGebra submissions';
-$string['probCalc'] = 'Probability Calculator';
+$string['probCalc'] = 'Waarschijnlijkheidsrekening';
 $string['spreadsheet'] = 'Spreadsheet';
 $string['userdefined'] = 'User defined:';

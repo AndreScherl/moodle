@@ -2237,6 +2237,8 @@ function validate_' . $this->_formName . '_' . $escapedElementName . '(element) 
   ret = validate_' . $this->_formName . '_' . $escapedElementName.'(frm.elements[\''.$elementName.'\']) && ret;
   if (!ret && !first_focus) {
     first_focus = true;
+    Y.Global.fire(M.core.globalEvents.FORM_ERROR, {formid: \''. $this->_attributes['id'] .'\',
+                                                   elementid: \'id_error_'.$elementName.'\'});
     
     //fhüb: core hack - jump to eror message
     var element = document.getElementById(\'id_error_'.$elementName.'\');    
@@ -2920,7 +2922,7 @@ class MoodleQuickForm_Rule_Required extends HTML_QuickForm_Rule {
         global $CFG;
         if (!empty($CFG->strictformsrequired)) {
             if (!empty($format) && $format == FORMAT_HTML) {
-                return array('', "{jsVar}.replace(/(<[^img|hr|canvas]+>)|&nbsp;|\s+/ig, '') == ''");
+                return array('', "{jsVar}.replace(/(<(?!img|hr|canvas)[^>]*>)|&nbsp;|\s+/ig, '') == ''");
             } else {
                 return array('', "{jsVar}.replace(/^\s+$/g, '') == ''");
             }

@@ -628,7 +628,7 @@ var Mebis = (function ($) {
             //initAnchorScrolling();
             //setAnchorClass();
             handleSelectboxNavChange();
-//            initStickyHeader();;
+//            initStickyHeader();
             preventOverlappingSidebar();
         },
         resize: function () {

@@ -28,6 +28,7 @@ class qtype_geogebra_question extends question_graded_automatically {
     public $ggbcodebaseversion;
     public $ggbxml;
     public $israndomized;
+    public $isexercise;
     public $randomizedvar;
     public $constraints;
 
@@ -44,7 +45,7 @@ class qtype_geogebra_question extends question_graded_automatically {
      * @return question_behaviour the new behaviour object.
      */
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
-        if (empty($this->answers)) {
+        if (empty($this->answers) && !$this->isexercise) {
             return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
         }
         return parent::make_behaviour($qa, $preferredbehaviour);
@@ -116,6 +117,7 @@ class qtype_geogebra_question extends question_graded_automatically {
         $expected['answer'] = PARAM_RAW;
         $expected['ggbbase64'] = PARAM_RAW;
         $expected['ggbxml'] = PARAM_RAW;
+        $expected['exerciseresult'] = PARAM_RAW;
         return $expected;
     }
 
@@ -144,6 +146,9 @@ class qtype_geogebra_question extends question_graded_automatically {
         if (!empty($this->answers)) {
             $ret = $ret && array_key_exists('answer', $response) && ($response['answer'] || $response['answer'] === '0');
             $ret = $ret && (preg_replace("/[^0,1]/", "", $response['answer']) == $response['answer']);
+        }
+        if ($this->isexercise) {
+            $ret = $ret && array_key_exists('exerciseresult', $response) && ($response['exerciseresult']);
         }
         return $ret;
     }
@@ -180,6 +185,10 @@ class qtype_geogebra_question extends question_graded_automatically {
             }
         }
 
+        if ($this->isexercise) {
+            $ret = $ret && question_utils::arrays_same_at_key_missing_is_blank($prevresponse, $newresponse, 'exerciseresult');
+        }
+
         return $ret;
     }
 
@@ -202,36 +211,50 @@ class qtype_geogebra_question extends question_graded_automatically {
      * @return string a plain text summary of that response, that could be used in reports.
      */
     public function summarise_response(array $response) {
-        if (empty($this->answers)) {
+        if (empty($this->answers) && !$this->isexercise) {
             return "Response graded manually";
         } else {
             $resp = $response['answer'];
-            if ($resp === '') {
+            if ($resp === '' && !$this->isexercise) {
                 return get_string('noresponse', 'question');
             } else {
-                $j = 0;
-                $fraction = 0;
-                $summary = '';
-                foreach ($this->answers as $answer) {
-                    $correct = (bool)substr($resp, $j, 1);
-                    if ($summary !== '') {
-                        $summary .= ', ';
+                if (!$this->isexercise) {
+                    $j = 0;
+                    $fraction = 0;
+                    $summary = '';
+                    foreach ($this->answers as $answer) {
+                        $correct = (bool)substr($resp, $j, 1);
+                        if ($summary !== '') {
+                            $summary .= ', ';
+                        }
+                        $summary .= $answer->answer . '=';
+                        if ($correct) {
+                            $fraction += $answer->fraction;
+                            $summary .= 'true' . ', ' . get_string('grade', 'grades') . ': ' .
+                                    format_float($answer->fraction, 2, false, false);
+                        } else {
+                            $summary .= 'false' . ', ' . get_string('grade', 'grades') . ': 0';
+                        }
+                        $j++;
                     }
-                    $summary .= $answer->answer . '=';
-                    if ($correct) {
-                        $fraction += $answer->fraction;
-                        $summary .= 'true' . ', ' . get_string('grade', 'grades') . ': ' .
-                                format_float($answer->fraction, 2, false, false);
-                    } else {
-                        $summary .= 'false' . ', ' . get_string('grade', 'grades') . ': 0';
+                    if ($fraction > 1) {
+                        $fraction = 1;
                     }
-                    $j++;
+
+                    $summary .= '; ' . get_string('total', 'grades') . ': ' . $fraction;
+                    return $summary;
+                } else {
+                    $result = json_decode($response['exerciseresult'], true);
+                    $summary = '';
+                    foreach ($result as $key => $res) {
+                        if (is_array($res)) {
+                            $summary .= $key . '=' . $res['result'] . ': ' .
+                                    format_float($res['fraction'], 2, false, false);;
+                        } else {
+                            $summary .= '; ' . get_string('total', 'grades') . ': ' . $res;
+                        }
+                    }
                 }
-                if ($fraction > 1) {
-                    $fraction = 1;
-                }
-                $summary .= '; ' . get_string('total', 'grades') . ': ' . $fraction;
-                return $summary;
             }
         }
     }
@@ -258,9 +281,13 @@ class qtype_geogebra_question extends question_graded_automatically {
         if (!(preg_replace("/[^0,1]/", "", $response['answer']) == $response['answer'])) {
             return get_string('answerinvalid', 'qtype_geogebra');
         }
+        if ($this->isexercise && !(array_key_exists('exerciseresult', $response))) {
+            return get_string('exerciseresultmissing', 'qtype_geogebra');
+        }
         return '';
     }
 
+    //TODO not correct anymore for automatically checked exercises
     /**
      * Categorise the student's response according to the categories defined by
      * get_possible_responses.
@@ -314,21 +341,60 @@ class qtype_geogebra_question extends question_graded_automatically {
      */
     public function grade_response(array $response) {
         $fraction = 0;
-        if (empty($this->answers)) {
+        if (empty($this->answers) && !$this->isexercise) {
             return array($fraction, question_state::$needsgrading);
         } else {
-            $i = 0;
-            foreach ($this->answers as $answer) {
-                if ((bool)substr($response['answer'], $i, 1)) {
-                    $fraction += $answer->fraction;
+            if (!$this->isexercise) {
+                $i = 0;
+                foreach ($this->answers as $answer) {
+                    if ((bool)substr($response['answer'], $i, 1)) {
+                        $fraction += $answer->fraction;
+                    }
+                    $i++;
                 }
-                $i++;
-            }
-            if ($fraction > 1) {
-                $fraction = 1;
+                if ($fraction > 1) {
+                    $fraction = 1;
+                }
+            } else {
+                $exerciseresult = json_decode($response['exerciseresult']);
+                $fraction = $this->calculate_exercise_fraction($exerciseresult);
             }
             return array($fraction, question_state::graded_state_for_fraction($fraction));
         }
+    }
+
+    /**
+     * The overall fraction of the Exercise
+     *
+     * If one Assignment has 100%, the overall fraction will be 1 minus the sum
+     * of the fractions of the Assignments having negative Fractions.<br>
+     * Otherwise the overall fraction will be the sum of all positive fractions
+     * capped at 1 minus all negative fractions and then capped at 0.
+     *
+     * @param stdClass $exerciseresult
+     * @return int the sum of fractions for all assignments
+     */
+    private function calculate_exercise_fraction(stdClass $exerciseresult) {
+        $fractionsumplus = 0;
+        $fractionsumminus = 0;
+        $singleCorrectIgnoreOthers = false;
+        foreach ($exerciseresult as $assignment) {
+            if ($assignment->fraction >= 0) {
+                if (0.999 < $assignment->fraction) {
+                    $singleCorrectIgnoreOthers = true;
+                }
+                $fractionsumplus += $assignment->fraction;
+            } else {
+                $fractionsumminus += $assignment->fraction;
+            }
+        }
+        if ($singleCorrectIgnoreOthers || $fractionsumplus >= 0.999) {
+            $fraction = 1;
+        } else {
+            $fraction = $fractionsumplus;
+        }
+        $fraction += $fractionsumminus;
+        return $fraction < 0.001 ? 0 : $fraction;
     }
 }
 

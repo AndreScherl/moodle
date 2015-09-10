@@ -96,7 +96,11 @@ class renderer_base {
      * @return string
      */
     public function render(renderable $widget) {
-        $rendermethod = 'render_'.get_class($widget);
+        $classname = get_class($widget);
+        // Strip namespaces.
+        $classname = preg_replace('/^.*\\\/', '', $classname);
+
+        $rendermethod = 'render_'.$classname;
         if (method_exists($this, $rendermethod)) {
             return $this->$rendermethod($widget);
         }
@@ -216,7 +220,11 @@ class plugin_renderer_base extends renderer_base {
      * @return string
      */
     public function render(renderable $widget) {
-        $rendermethod = 'render_'.get_class($widget);
+        $classname = get_class($widget);
+        // Strip namespaces.
+        $classname = preg_replace('/^.*\\\/', '', $classname);
+
+        $rendermethod = 'render_'.$classname;
         if (method_exists($this, $rendermethod)) {
             return $this->$rendermethod($widget);
         }
@@ -3111,7 +3119,7 @@ EOD;
         $linkurl = new moodle_url('/theme/switchdevice.php', array('url' => $this->page->url, 'device' => $devicetype, 'sesskey' => sesskey()));
 
         $content  = html_writer::start_tag('div', array('id' => 'theme_switch_link'));
-        $content .= html_writer::link($linkurl, $linktext);
+        $content .= html_writer::link($linkurl, $linktext, array('rel' => 'nofollow'));
         $content .= html_writer::end_tag('div');
 
         return $content;

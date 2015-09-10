@@ -28,12 +28,12 @@ Y.on('mouseleave', function (e) {
     }
 }, '#applet_container1');
 
-function ggbOnInit(id) {
+function ggbAppletOnLoad(ggbAppletId) {
+    //document.querySelector('article').onkeypress = checkEnter;
+    document.querySelector('article').onkeydown = checkEnter;
     ggbparametersin.set('value', JSON.stringify(applet1.getParameters()));
     ggbviewsin.set('value', JSON.stringify(applet1.getViews()));
     ggbcodebaseversionin.set('value', applet1.getHTML5CodebaseVersion());
-
-    document.querySelector('article').onkeypress = checkEnter;
 }
 
 function checkEnter(e) {

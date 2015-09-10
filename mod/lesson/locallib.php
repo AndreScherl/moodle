@@ -575,7 +575,12 @@ function lesson_add_header_buttons($cm, $context, $extraeditbuttons=false, $less
             print_error('invalidpageid', 'lesson');
         }
         if (!empty($lessonpageid) && $lessonpageid != LESSON_EOL) {
-            $url = new moodle_url('/mod/lesson/editpage.php', array('id'=>$cm->id, 'pageid'=>$lessonpageid, 'edit'=>1));
+            $url = new moodle_url('/mod/lesson/editpage.php', array(
+                'id'       => $cm->id,
+                'pageid'   => $lessonpageid,
+                'edit'     => 1,
+                'returnto' => $PAGE->url->out(false)
+            ));
             $PAGE->set_button($OUTPUT->single_button($url, get_string('editpagecontent', 'lesson')));
         }
     }
@@ -697,6 +702,11 @@ abstract class lesson_add_page_form_base extends moodleform {
         $editoroptions = $this->_customdata['editoroptions'];
 
         $mform->addElement('header', 'qtypeheading', get_string('createaquestionpage', 'lesson', get_string($this->qtypestring, 'lesson')));
+
+        if (!empty($this->_customdata['returnto'])) {
+            $mform->addElement('hidden', 'returnto', $this->_customdata['returnto']);
+            $mform->setType('returnto', PARAM_URL);
+        }
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
@@ -1459,8 +1469,24 @@ class lesson extends lesson_base {
         $clusterpages = $this->get_sub_pages_of($pageid, array(LESSON_PAGE_ENDOFCLUSTER));
         $unseen = array();
         foreach ($clusterpages as $key=>$cluster) {
-            if ($cluster->type !== lesson_page::TYPE_QUESTION) {
+            // Remove the page if  it is in a branch table or is an endofbranch.
+            if ($this->is_sub_page_of_type($cluster->id,
+                    array(LESSON_PAGE_BRANCHTABLE), array(LESSON_PAGE_ENDOFBRANCH, LESSON_PAGE_CLUSTER))
+                    || $cluster->qtype == LESSON_PAGE_ENDOFBRANCH) {
                 unset($clusterpages[$key]);
+            } else if ($cluster->qtype == LESSON_PAGE_BRANCHTABLE) {
+                // If branchtable, check to see if any pages inside have been viewed.
+                $branchpages = $this->get_sub_pages_of($cluster->id, array(LESSON_PAGE_BRANCHTABLE, LESSON_PAGE_ENDOFBRANCH));
+                $flag = true;
+                foreach ($branchpages as $branchpage) {
+                    if (array_key_exists($branchpage->id, $seenpages)) {  // Check if any of the pages have been viewed.
+                        $flag = false;
+                    }
+                }
+                if ($flag && count($branchpages) > 0) {
+                    // Add branch table.
+                    $unseen[] = $cluster;
+                }
             } elseif ($cluster->is_unseen($seenpages)) {
                 $unseen[] = $cluster;
             }
@@ -1856,6 +1882,8 @@ abstract class lesson_page extends lesson_base {
         global $DB;
         // first delete all the associated records...
         $DB->delete_records("lesson_attempts", array("pageid" => $this->properties->id));
+
+        $DB->delete_records("lesson_branch", array("pageid" => $this->properties->id));
         // ...now delete the answers...
         $DB->delete_records("lesson_answers", array("pageid" => $this->properties->id));
         // ..and the page itself
@@ -2185,41 +2213,68 @@ abstract class lesson_page extends lesson_base {
         $properties->timemodified = time();
         $properties = file_postupdate_standard_editor($properties, 'contents', array('noclean'=>true, 'maxfiles'=>EDITOR_UNLIMITED_FILES, 'maxbytes'=>$maxbytes), $context, 'mod_lesson', 'page_contents', $properties->id);
         $DB->update_record("lesson_pages", $properties);
-
-        for ($i = 0; $i < $this->lesson->maxanswers; $i++) {
-            if (!array_key_exists($i, $this->answers)) {
-                $this->answers[$i] = new stdClass;
-                $this->answers[$i]->lessonid = $this->lesson->id;
-                $this->answers[$i]->pageid = $this->id;
-                $this->answers[$i]->timecreated = $this->timecreated;
+        if ($this->type == self::TYPE_STRUCTURE && $this->get_typeid() != LESSON_PAGE_BRANCHTABLE) {
+            if (count($answers) > 1) {
+                $answer = array_shift($answers);
+                foreach ($answers as $a) {
+                    $DB->delete_record('lesson_answers', array('id' => $a->id));
+                }
+            } else if (count($answers) == 1) {
+                $answer = array_shift($answers);
+            } else {
+                $answer = new stdClass;
+                $answer->lessonid = $properties->lessonid;
+                $answer->pageid = $properties->id;
+                $answer->timecreated = time();
             }
 
-            if (!empty($properties->answer_editor[$i]) && is_array($properties->answer_editor[$i])) {
-                $this->answers[$i]->answer = $properties->answer_editor[$i]['text'];
-                $this->answers[$i]->answerformat = $properties->answer_editor[$i]['format'];
+            $answer->timemodified = time();
+            if (isset($properties->jumpto[0])) {
+                $answer->jumpto = $properties->jumpto[0];
             }
-            if (!empty($properties->response_editor[$i]) && is_array($properties->response_editor[$i])) {
-                $this->answers[$i]->response = $properties->response_editor[$i]['text'];
-                $this->answers[$i]->responseformat = $properties->response_editor[$i]['format'];
+            if (isset($properties->score[0])) {
+                $answer->score = $properties->score[0];
             }
-
-            // we don't need to check for isset here because properties called it's own isset method.
-            if ($this->answers[$i]->answer != '') {
-                if (isset($properties->jumpto[$i])) {
-                    $this->answers[$i]->jumpto = $properties->jumpto[$i];
-                }
-                if ($this->lesson->custom && isset($properties->score[$i])) {
-                    $this->answers[$i]->score = $properties->score[$i];
-                }
-                if (!isset($this->answers[$i]->id)) {
-                    $this->answers[$i]->id =  $DB->insert_record("lesson_answers", $this->answers[$i]);
-                } else {
-                    $DB->update_record("lesson_answers", $this->answers[$i]->properties());
+            if (!empty($answer->id)) {
+                $DB->update_record("lesson_answers", $answer->properties());
+            } else {
+                $DB->insert_record("lesson_answers", $answer);
+            }
+        } else {
+            for ($i = 0; $i < $this->lesson->maxanswers; $i++) {
+                if (!array_key_exists($i, $this->answers)) {
+                    $this->answers[$i] = new stdClass;
+                    $this->answers[$i]->lessonid = $this->lesson->id;
+                    $this->answers[$i]->pageid = $this->id;
+                    $this->answers[$i]->timecreated = $this->timecreated;
                 }
 
-            } else if (isset($this->answers[$i]->id)) {
-                $DB->delete_records('lesson_answers', array('id'=>$this->answers[$i]->id));
-                unset($this->answers[$i]);
+                if (!empty($properties->answer_editor[$i]) && is_array($properties->answer_editor[$i])) {
+                    $this->answers[$i]->answer = $properties->answer_editor[$i]['text'];
+                    $this->answers[$i]->answerformat = $properties->answer_editor[$i]['format'];
+                }
+                if (!empty($properties->response_editor[$i]) && is_array($properties->response_editor[$i])) {
+                    $this->answers[$i]->response = $properties->response_editor[$i]['text'];
+                    $this->answers[$i]->responseformat = $properties->response_editor[$i]['format'];
+                }
+
+                if (isset($this->answers[$i]->answer) && $this->answers[$i]->answer != '') {
+                    if (isset($properties->jumpto[$i])) {
+                        $this->answers[$i]->jumpto = $properties->jumpto[$i];
+                    }
+                    if ($this->lesson->custom && isset($properties->score[$i])) {
+                        $this->answers[$i]->score = $properties->score[$i];
+                    }
+                    if (!isset($this->answers[$i]->id)) {
+                        $this->answers[$i]->id = $DB->insert_record("lesson_answers", $this->answers[$i]);
+                    } else {
+                        $DB->update_record("lesson_answers", $this->answers[$i]->properties());
+                    }
+
+                } else if (isset($this->answers[$i]->id)) {
+                    $DB->delete_records('lesson_answers', array('id' => $this->answers[$i]->id));
+                    unset($this->answers[$i]);
+                }
             }
         }
         return true;

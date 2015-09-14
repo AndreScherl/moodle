@@ -134,17 +134,18 @@
     }
 }
 
-#page-question-edit {
+#page-question-edit, #page-mod-quiz-edit {
 
-    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+    table#categoryquestions>tbody>tr.highlight {
         background: $brand-secondary;
+        display: table-row;
     }
 }
 
 #page-mod-quiz-attempt,
 #page-mod-quiz-review,
 #page-question-preview {
-
+    
     div.content {
 
         &:before {
@@ -176,7 +177,8 @@
 .que .formulation {
     background: $white;
     border-color: #ddd;
-
+    color: $black;
+    
     hr {
         border-top-color: #ddd;
     }
@@ -209,6 +211,16 @@
     padding-right: 5px;
 }
 
+//questiontype calculatedmulti
+.que.calculatedmulti {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 5px 0 0;
+        width: 15px;
+    }
+}
+    
 //questiontype multianswer
 .que.multianswer  {
 

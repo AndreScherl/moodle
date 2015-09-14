@@ -15354,7 +15354,6 @@ categorybox:
 }
 
 #page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1 {
-  /*height: 100%;*/
   min-height: 0;
 }
 
@@ -15405,8 +15404,9 @@ categorybox:
   background: #00a8d5;
 }
 
-#page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
+#page-question-edit table#categoryquestions > tbody > tr.highlight, #page-mod-quiz-edit table#categoryquestions > tbody > tr.highlight {
   background: #ff6600;
+  display: table-row;
 }
 
 #page-mod-quiz-attempt div.content:before,
@@ -15439,6 +15439,7 @@ categorybox:
 .que .formulation {
   background: #fff;
   border-color: #ddd;
+  color: #000;
 }
 .que .formulation hr {
   border-top-color: #ddd;
@@ -15458,6 +15459,12 @@ categorybox:
 .que.match .answer tr.r0 td.text,
 .que.match .answer tr.r1 td.text {
   padding-right: 5px;
+}
+
+.que.calculatedmulti .answer div.r0 input,
+.que.calculatedmulti .answer div.r1 input {
+  margin: 0 5px 0 0;
+  width: 15px;
 }
 
 .que.multianswer .answer div.r0 input,
@@ -16716,19 +16723,24 @@ input[type="checkbox"] + label {
   color: #333333;
 }
 
-#page-content, #page-admin-purgecaches {
+#page-content, #page-admin-purgecaches,
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
   background: #fff;
 }
-#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul {
+#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li {
+#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li {
   list-style: disc inside none;
 }
-#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol {
+#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
+#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li {
   list-style: decimal inside none;
 }
 

@@ -144,7 +144,8 @@
 // - print.php pages 
 // - #page-admin-purgecaches 
 // - page-popup
-#page-content, #page-admin-purgecaches {
+#page-content, #page-admin-purgecaches, 
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
     background: $white;   
     
     div[role="main"] {

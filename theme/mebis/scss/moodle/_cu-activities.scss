@@ -134,6 +134,14 @@
     }
 }
 
+#page-mod-quiz-edit .questionbankwindow a#showbankcmd, 
+#page-mod-quiz-edit .questionbankwindow a#hidebankcmd {
+    &:hover {
+        background-color: $brand-secondary;
+        color: $white;
+    }
+}
+
 #page-question-edit, #page-mod-quiz-edit {
 
     table#categoryquestions>tbody>tr.highlight {

@@ -1,6 +1,7 @@
 /*
     All Styles related to special Pages.
     - .path-course-view
+    - #page-calendar-view
     - #page-course-edit
     - #page-course-index-category
     - #page-enrol-users
@@ -49,6 +50,11 @@
 }
 //##### END: Need this styles for courseformats with backgroundcolor transparent #####
 
+//calendar
+#page-calendar-view #main-content-wrapper {
+    overflow: hidden;
+}
+
 #page-course-index-category {
 
     div[role="main"] > .generalbox {
@@ -87,6 +93,25 @@
 
         li {
             list-style: none;
+        }
+
+        .panel-default {
+
+            border: none;
+
+            > .panel-heading { 
+                border: none;
+                background-color: $brand-primary;
+                font-size: 27px;
+
+                a {
+                    color: $white;
+                }
+            }
+
+            > .panel-body {
+                color: $black;
+            }
         }
     }
 
@@ -147,7 +172,7 @@
 #page-content, #page-admin-purgecaches, 
 #page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
     background: $white;   
-    
+
     div[role="main"] {
         div div ul {
             padding-left: 10px;

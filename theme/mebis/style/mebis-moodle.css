@@ -15404,6 +15404,12 @@ categorybox:
   background: #00a8d5;
 }
 
+#page-mod-quiz-edit .questionbankwindow a#showbankcmd:hover,
+#page-mod-quiz-edit .questionbankwindow a#hidebankcmd:hover {
+  background-color: #ff6600;
+  color: #fff;
+}
+
 #page-question-edit table#categoryquestions > tbody > tr.highlight, #page-mod-quiz-edit table#categoryquestions > tbody > tr.highlight {
   background: #ff6600;
   display: table-row;
@@ -16628,6 +16634,7 @@ input[type="checkbox"] + label {
 /*
     All Styles related to special Pages.
     - .path-course-view
+    - #page-calendar-view
     - #page-course-edit
     - #page-course-index-category
     - #page-enrol-users
@@ -16662,6 +16669,10 @@ input[type="checkbox"] + label {
   background: #fff;
 }
 
+#page-calendar-view #main-content-wrapper {
+  overflow: hidden;
+}
+
 #page-course-index-category div[role="main"] > .generalbox {
   background: #fff;
   color: #000;
@@ -16688,6 +16699,20 @@ input[type="checkbox"] + label {
 }
 #page-enrol-index .box.generalbox.info li {
   list-style: none;
+}
+#page-enrol-index .box.generalbox.info .panel-default {
+  border: none;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-heading {
+  border: none;
+  background-color: #00a8d5;
+  font-size: 27px;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-heading a {
+  color: #fff;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-body {
+  color: #000;
 }
 #page-enrol-index fieldset .fcontainer {
   color: #000;

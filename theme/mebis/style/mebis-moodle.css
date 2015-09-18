@@ -14238,6 +14238,7 @@ button.close {
     border: none;
     min-height: 30px;
     margin-bottom: 0;
+    -webkit-transform: none;
   }
   .me-wrapper #topbar .container {
     position: relative;

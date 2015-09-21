@@ -82,8 +82,15 @@ if ($form->is_cancelled()) {
     );
     $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
     $deployment->set_custom_data($taskdata);
-    \core\task\manager::queue_adhoc_task($deployment);
-    redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
+
+    if (get_config('block_mbstpl', 'delayedrestore')) {
+        \core\task\manager::queue_adhoc_task($deployment);
+        redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
+    } else {
+        $deployment->execute(true);
+        $newcourseurl = new moodle_url('/course/view.php', array('id' => $deployment->get_courseid()));
+        redirect($newcourseurl, get_string('redirectdupcrsmsg_done', 'block_mbstpl'), 5);
+    }
 }
 echo $OUTPUT->header();
 

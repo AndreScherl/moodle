@@ -11,15 +11,25 @@ namespace block_mbstpl\task;
 use block_mbstpl\backup;
 
 class adhoc_deploy_secondary extends \core\task\adhoc_task {
-    public function execute() {
+
+    private $courseid;
+
+    public function get_courseid() {
+        return $this->courseid;
+    }
+
+    public function execute($rethrowexception = false) {
         $details = $this->get_custom_data();
         $template = new \block_mbstpl\dataobj\template($details->tplid, true, MUST_EXIST);
         try {
             $filename = backup::backup_secondary($template, $details->settings);
-            $courseid = backup::restore_secondary($template, $filename, $details->settings);
-            \block_mbstpl\notifications::email_duplicated($details->requesterid, $courseid);
+            $this->courseid = backup::restore_secondary($template, $filename, $details->settings);
+            \block_mbstpl\notifications::email_duplicated($details->requesterid, $this->courseid);
         } catch(\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);
+            if ($rethrowexception) {
+                throw $e;
+            }
             print_r($e->getMessage());
             print_r($e->getTrace());
             print_r($template);

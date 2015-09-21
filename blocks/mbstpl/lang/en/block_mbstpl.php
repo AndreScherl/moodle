@@ -132,6 +132,7 @@ $string['viewfeedback'] = 'View feedback for this revision';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';
 $string['rating'] = 'Rating';
+$string['ratingavg'] = 'Rating (average)';
 $string['rating_header'] = 'Rate this course\'s template';
 $string['rating_comments'] = 'Feedback / comments';
 $string['rating_submitbutton'] = 'Submit';

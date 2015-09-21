@@ -295,7 +295,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $inner .= html_writer::div('', 'star emptystar');
             }
         }
-        $output = html_writer::div($inner, 'templaterating');
+        $output = html_writer::div(get_string('ratingavg', 'block_mbstpl'));
+
+        $output .= html_writer::div($inner, 'templaterating');
         return $output;
     }
 }

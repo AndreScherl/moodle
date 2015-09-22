@@ -39,7 +39,7 @@ if (!$template->fetched) {
     redirect($redirecturl);
 }
 
-if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
+if (!mbst\perms::can_viewrating($coursecontext)) {
     redirect($redirecturl);
 }
 

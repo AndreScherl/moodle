@@ -79,7 +79,7 @@ class course {
             $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
         }
 
-        if (perms::can_viewfeedback($template, $coursecontext)) {
+        if (perms::can_viewrating($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewrating.php', array('course' => $cid));
             $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
         }

@@ -72,12 +72,12 @@ class qtype_menu extends qtype_base {
     }
 
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
-        $options = array('*' => get_string('any'));
         $values = explode("\n", $question->param1);
+        $boxes = array();
         for ($i = 0; $i < count($values); $i++) {
-            $options[$i.''] = $values[$i];
+            $boxes[] =& $form->createElement('checkbox', $i, null, $values[$i]);
         }
-        $form->addElement('select', $elname, $question->title, $options);
+        $form->addGroup($boxes, $elname, $question->title, \html_writer::empty_tag('br'));
     }
 
     public static function get_query_filters($question, $answer) {

@@ -139,3 +139,4 @@ $string['rating_submitbutton'] = 'Submit';
 $string['rating_cancelbutton'] = 'Cancel';
 $string['rating_star'] = '{$a} star';
 $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You will receive an email once the action has been completed.';
+$string['viewrating'] = 'View rating';

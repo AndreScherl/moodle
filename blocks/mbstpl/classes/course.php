@@ -79,6 +79,11 @@ class course {
             $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
         }
 
+        if (perms::can_viewfeedback($template, $coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/viewrating.php', array('course' => $cid));
+            $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
+        }
+
         if ($tplnode->has_children()) {
             $coursenode->add_node($tplnode);
         }
@@ -268,5 +273,14 @@ class course {
             $creators[] = fullname($result);
         }
         return implode(', ', $creators);
+    }
+
+    /**
+     * Convenience function for IDEs.
+     * @return \block_mbstpl_renderer
+     */
+    public static function get_renderer() {
+        global $PAGE;
+        return $PAGE->get_renderer('block_mbstpl');
     }
 }

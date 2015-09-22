@@ -55,7 +55,13 @@ $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
 foreach($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
-$customdata = array('courseid' => $courseid, 'questions' => $questions, 'freeze' => true);
+$customdata = array(
+    'courseid' => $courseid,
+    'questions' => $questions,
+    'freeze' => true,
+    'template' => $template,
+    'course' => $course,
+);
 $tform = new mbst\form\editmeta(null, $customdata);
 $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
 $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);

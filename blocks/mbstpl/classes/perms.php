@@ -156,4 +156,16 @@ class perms {
 
         return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
     }
+
+    /**
+     * Tells us whether the current user can rate the template
+     * @param \context_course $coursecontext
+     */
+    public static function can_viewrating(\context_course $coursecontext) {
+        if (!has_capability('block/mbstpl:viewrating', $coursecontext)) {
+            return false;
+        }
+
+        return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
+    }
 }

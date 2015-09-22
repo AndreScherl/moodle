@@ -129,9 +129,9 @@ class backup {
      */
     public static function backup_secondary(dataobj\template $template, $settings) {
         $filename = self::get_filename($template->id);
-        $parts = isset($settings->parts) ? $settings->parts : array();
+        $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
         $user = get_admin();
-        $filename = self::launch_secondary_backup($template->courseid, $template->id, $parts, $user->id);
+        $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
         // TODO actually backup.
         return $filename;
     }
@@ -345,11 +345,11 @@ class backup {
      *
      * @param int $courseid
      * @param int $templateid
-     * @param array $parts what parts to backup
+     * @param array $backupsettings what parts to backup
      * @param int $userid
      * @return mixed filename|false on error
      */
-    private static function launch_secondary_backup($courseid, $templateid, $parts, $userid) {
+    private static function launch_secondary_backup($courseid, $templateid, $backupsettings, $userid) {
         global $CFG;
 
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -357,7 +357,7 @@ class backup {
 
         $filename = self::get_filename($templateid, false);
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
-        $settings = array(
+        $settings = array_merge(array(
             'users' => 0,
             'anonymize' => 0,
             'role_assignments' => 0,
@@ -369,7 +369,7 @@ class backup {
             'completion_information' => 0,
             'logs' => 0,
             'histories' => 0,
-        );
+        ), $backupsettings);
 
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
         $backupok = true;

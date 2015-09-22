@@ -32,6 +32,7 @@ use \block_mbstpl AS mbst;
 $thisurl = new moodle_url('/blocks/mbstpl/dupcrs.php');
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
+$PAGE->add_body_class('path-backup');
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -56,28 +57,26 @@ if (empty($cats) && empty($courses)) {
     throw new moodle_exception('errornowheretorestore', 'block_mbstpl');
 }
 
+$step = optional_param('step', 1, PARAM_INT);
 $creator = mbst\course::get_creators($template->id);
 $customdata = array(
     'course' => $course,
     'cats' => $cats,
     'courses' => $courses,
     'creator' => $creator,
+    'step' => $step
 );
 $form = new mbst\form\dupcrs(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
-} else if ($data = $form->get_data()) {
+} else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_RAW)) {
+
     // Initiate deployment task.
-    $settings = array();
-    if ($data->restoreto == 'cat') {
-        $settings['tocat'] = $data->tocat;
-    } else {
-        $settings['tocrs'] = $data->tocrs;
-    }
+
     $taskdata = (object)array(
         'tplid' => $template->id,
-        'settings' => $settings,
+        'settings' => $form->get_task_settings(),
         'requesterid' => $USER->id,
     );
     $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();

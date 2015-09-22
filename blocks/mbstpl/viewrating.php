@@ -61,7 +61,7 @@ if (is_null($template->rating)) {
     echo $renderer->rating($template->rating);
 
     $table = new flexible_table('block_mbstpl_ratings');
-    $table->define_columns(array('timecreated', 'rating', 'comment', 'user'));
+    $table->define_columns(array('timecreated', 'rating', 'comment', 'fullname'));
     $table->define_headers(array(
         get_string('date'),
         get_string('rating', 'block_mbstpl'),
@@ -69,7 +69,8 @@ if (is_null($template->rating)) {
         get_string('user'),
     ));
     $table->define_baseurl($thisurl);
-    $table->no_sorting('feedback');
+    $table->sortable(true, 'date', 'ASC');
+    $table->no_sorting('comment');
     $table->setup();
 
     $ufnames = get_all_user_name_fields(true, 'u');

@@ -43,6 +43,7 @@ $courseid = $template->courseid;
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
+$course = $PAGE->course; // Save a DB query, as already loaded by require_login.
 
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('templatefeedback', 'block_mbstpl');
@@ -50,13 +51,20 @@ $PAGE->set_title($pagetitle);
 if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
+$overviewurl = new moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $course->id));
+$PAGE->navbar->add(get_string('templatefeedback', 'block_mbstpl'), $overviewurl);
+$PAGE->navbar->add(userdate($revhist->timecreated));
 
-echo $OUTPUT->header();
+/** @var block_mbstpl_renderer $output */
+$output = $PAGE->get_renderer('block_mbstpl');
 
-$renderer = $PAGE->get_renderer('block_mbstpl');
+echo $output->header();
+
 echo html_writer::tag('h2', $pagetitle);
+echo $output->coursebox($course, $template);
 
-$feedback = format_text($revhist->feedback, $revhist->feedbackformat);
-echo html_writer::div($feedback);
+echo $output->feedback($template, $revhist);
 
-echo $OUTPUT->footer();
+echo $output->single_button($overviewurl, get_string('backtemplatefeedback', 'block_mbstpl'), 'get');
+
+echo $output->footer();

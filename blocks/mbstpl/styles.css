@@ -170,3 +170,25 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 .templaterating .star.emptystar {
     background-image: url([[pix:block_mbstpl|emptystar]]);
 }
+
+.path-blocks-mbstpl dl.list dt {
+    float: left;
+    width: 180px;
+    overflow: hidden;
+    clear: left;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.path-blocks-mbstpl dl.list dd {
+    margin-left: 200px;
+}
+
+ul.mbsfilelist, ul.mbsfilelist li {
+    list-style-type: none;
+}
+
+.mbstpl-questionlabel {
+    font-weight: bold;
+}

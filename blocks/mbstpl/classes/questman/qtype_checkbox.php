@@ -39,9 +39,9 @@ class qtype_checkbox extends qtype_base {
         }
     }
 
-    public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
         $answer = empty($answer) ? 0 : 1;
-        return parent::save_answer($metaid, $questionid, $answer);
+        return parent::save_answer($metaid, $questionid, $answer, $comment);
     }
 
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {

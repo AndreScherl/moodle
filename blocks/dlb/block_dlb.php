@@ -197,23 +197,23 @@ class block_dlb extends block_base {
         $this->content->text = $str;
 
         // ...display the course requests here.
-        require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+        if (file_exists($CFG->dirroot.'/blocks/meineschulen/lib.php')) {
+            require_once($CFG->dirroot.'/blocks/meineschulen/lib.php');
+            $requests = meineschulen::get_course_requests();
 
-        $requests = meineschulen::get_course_requests();
+            $list = '';
+            $c = 0;
+            foreach ($requests as $request) {
+                $info = (object) array('name' => format_string($request->name), 'count' => $request->count);
+                $str = get_string('viewcourserequests', 'block_meineschulen', $info);
+                $list .= html_writer::tag('li', html_writer::link($request->viewurl, $str), array('class' => 'column c1'));
+                $c = ($c + 1) % 2;
+            }
 
-        $list = '';
-        $c = 0;
-        foreach ($requests as $request) {
-            $info = (object)array('name' => format_string($request->name), 'count' => $request->count);
-            $str = get_string('viewcourserequests', 'block_meineschulen', $info);
-            $list .= html_writer::tag('li', html_writer::link($request->viewurl, $str), array('class' => 'column c1'));
-            $c = ($c + 1) % 2;
+            if (!empty($list)) {
+                $this->content->text .= html_writer::tag('ul', $list, array('class' => 'meineschulen-courserequests'));
+            }
         }
-
-        if (!empty($list)) {
-            $this->content->text .= html_writer::tag('ul', $list, array('class' => 'meineschulen-courserequests'));
-        }
-
 
         return $this->content;
     }

@@ -25,6 +25,15 @@ use \block_mbstpl AS mbst;
 
 class block_mbstpl_renderer extends plugin_renderer_base {
 
+    protected function qtype_name($type) {
+        $gs = get_string_manager();
+        if ($gs->string_exists('pluginname', 'profilefield_'.$type)) {
+            return get_string('pluginname', 'profilefield_'.$type);
+        } else {
+            return get_string('field_'.$type, 'block_mbstpl');
+        }
+    }
+
     /**
      * List questions.
      * @param array $questions
@@ -62,7 +71,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     public function list_one_question($question, $canmoveup = true, $canmovedown = true) {
         $row = array();
         $row[] = $question->name;
-        $row[] = get_string('pluginname', 'profilefield_'.$question->datatype);
+        $row[] = $this->qtype_name($question->datatype);
         $url = new moodle_url('/blocks/mbstpl/questman/quest.php', array('id' => $question->id));
         $row[] = html_writer::link($url, get_string('edit'));
         $deltitle = $question->inuse ? get_string('removefromdraft', 'block_mbstpl') : get_string('delete');
@@ -113,7 +122,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     public function list_one_bank_question($question) {
         $row = array();
         $row[] = $question->name;
-        $row[] = get_string('pluginname', 'profilefield_'.$question->datatype);
+        $row[] = $this->qtype_name($question->datatype);
         $url = new moodle_url('/blocks/mbstpl/questman/quest.php', array('id' => $question->id));
         $row[] = html_writer::link($url, get_string('edit'));
         $usetitle = get_string('useq', 'block_mbstpl');
@@ -134,12 +143,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $authorname = mbst\course::get_creators($template->id);
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
         $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $courselink = html_writer::link($courseurl, format_string($course->fullname));
 
         $cbox = '';
         $table = new html_table();
         $table->attributes['class'] = 'boxtable';
         $table->data = array();
-        $table->data[] = array(get_string('coursename', 'block_mbstpl'), $course->fullname);
+        $table->data[] = array(get_string('coursename', 'block_mbstpl'), $courselink);
         $table->data[] = array(get_string('creator', 'block_mbstpl'), $authorname);
         $table->data[] = array(get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
         $table->data[] = array(get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
@@ -155,41 +165,51 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return html_writer::div($cbox, 'mbstcoursebox');
     }
 
-	/**
+    /**
+     * A box showing the current status of the template
+     *
+     * @param int $status
+     * @return string
+     * @throws coding_exception
+     */
+    public function status_box($status) {
+        $statusname = \block_mbstpl\course::get_statusshortname($status);
+        return html_writer::div(get_string($statusname, 'block_mbstpl'), "statusbox $statusname");
+    }
+
+    /**
      * Return list of tempalte history.
      * @param array $revhists
      */
-	public function templatehistory($revhists) {
-		$html = '';
-		$html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
-		$table = new html_table();
-		$table->header = array(
-			get_string('status'),
-			get_string('assigned', 'block_mbstpl'),
-			get_string('updated'),
+    public function templatehistory($revhists) {
+        $html = '';
+        $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
+        $table = new html_table();
+        $table->header = array(
+            get_string('status'),
+            get_string('assigned', 'block_mbstpl'),
+            get_string('updated'),
             '',
-		);
+        );
         $table->data = array();
         $commentpic = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/comments.png'), get_string('viewfeedback', 'block_mbstpl'));
-		foreach($revhists as $hist) {
-			$status = \block_mbstpl\course::get_statusshortname($hist->status);
-			$assignedname = $hist->firstname . ' ' . $hist->lastname;
-			$statusbox = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
+        foreach ($revhists as $hist) {
+            $assignedname = $hist->firstname.' '.$hist->lastname;
             $viewfdbk = '';
             if ($hist->hasfeedback) {
                 $feedbackurl = new \moodle_url('/blocks/mbstpl/feedbackdetail.php', array('id' => $hist->id));
                 $viewfdbk = \html_writer::link($feedbackurl, $commentpic);
             }
-			$table->data[] = array(
-				$statusbox,
-				$assignedname,
-				userdate($hist->timecreated),
+            $table->data[] = array(
+                $this->status_box($hist->status),
+                $assignedname,
+                userdate($hist->timecreated),
                 $viewfdbk,
-			);
-		}
-		$html .= html_writer::table($table);
-		return html_writer::div($html, 'mbstrevhist');
-	}
+            );
+        }
+        $html .= html_writer::table($table);
+        return html_writer::div($html, 'mbstrevhist');
+    }
 
     /**
      * Print all my tempates to the block.
@@ -231,9 +251,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                     $assignee = $assimg . ' ' . $assname;
                 }
                 $row[] = $assignee;
-                $viewurl->param('course', $template->courseid);
-                $viewlink = \html_writer::link($viewurl, $imgview);
-                $row[] = $viewlink;
+                if ($template->viewfeedback) {
+                    $viewurl->param('course', $template->courseid);
+                    $viewlink = \html_writer::link($viewurl, $imgview);
+                    $row[] = $viewlink;
+                } else {
+                    $row[] = '';
+                }
                 $table->data[] = $row;
             }
             $html .= html_writer::table($table);
@@ -301,5 +325,53 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         $output .= html_writer::div($inner, 'templaterating');
         return $output;
+    }
+
+    public function feedback(mbst\dataobj\template $template, mbst\dataobj\revhist $revhist) {
+        $out = '';
+
+        // Heading.
+        $out .= $this->output->heading(get_string('feedbackfor', 'block_mbstpl', $revhist->get_assigned_name()));
+
+        $info = '';
+
+        // Status.
+        $info .= html_writer::tag('dt', get_string('status'));
+        $info .= html_writer::tag('dd', $this->status_box($revhist->status));
+
+        // Timestamp.
+        $info .= html_writer::tag('dt', get_string('timeassigned', 'block_mbstpl'));
+        $info .= html_writer::tag('dd', userdate($revhist->timecreated));
+
+        // Feedback text.
+        $info .= html_writer::tag('dt', get_string('feedback', 'block_mbstpl'));
+        $info .= html_writer::tag('dd', format_text($revhist->feedback, $revhist->feedbackformat));
+
+        // Feedback files.
+        if ($files = $revhist->get_files(context_course::instance($template->courseid))) {
+            $info .= html_writer::tag('dt', get_string('feedbackfiles', 'block_mbstpl'));
+            $info .= html_writer::tag('dd', $this->file_list($files));
+        }
+
+        $out .= html_writer::tag('dl', $info, array('class' => 'list'));
+
+        return $out;
+    }
+
+    /**
+     * Output an ordered list of links to files
+     *
+     * @param stored_file[] $files
+     * @return string
+     */
+    public function file_list($files) {
+        $out = '';
+        foreach ($files as $file) {
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
+                                                   $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
+            $filename = s($file->get_filename());
+            $out .= html_writer::tag('li', html_writer::link($url, $filename));
+        }
+        return html_writer::tag('ul', $out, array('class' => 'mbsfilelist'));
     }
 }

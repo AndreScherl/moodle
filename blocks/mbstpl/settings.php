@@ -34,10 +34,14 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configselect('block_mbstpl/deploycat',
                                                   get_string('deploycat', 'block_mbstpl'), null, null, $options));
 
-    $roles = get_roles_with_capability('block/mbstpl:coursetemplatereview', CAP_ALLOW);
+    $roles = get_all_roles();
     $roles = role_fix_names($roles, null, ROLENAME_BOTH, true);
     $settings->add(new admin_setting_configselect('block_mbstpl/reviewerrole',
-                                                  get_string('reviewerrole', 'block_mbstpl'), null, null, $roles));
+                                                  get_string('reviewerrole', 'block_mbstpl'),
+                                                  get_string('reviewerrole_desc', 'block_mbstpl'), null, $roles));
 
+    $settings->add(new admin_setting_configselect('block_mbstpl/authorrole',
+                                                  get_string('authorrole', 'block_mbstpl'),
+                                                  get_string('authorrole_desc', 'block_mbstpl'), null, $roles));
 
 }

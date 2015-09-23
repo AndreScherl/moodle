@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mbstpl/db" VERSION="20150908" COMMENT="XMLDB file for Moodle blocks/mbstpl"
+<XMLDB PATH="blocks/mbstpl/db" VERSION="20150921" COMMENT="XMLDB file for Moodle blocks/mbstpl"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -46,6 +46,7 @@
         <FIELD NAME="data" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="dataformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="datakeyword" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="A searchable copy of data"/>
+        <FIELD NAME="comment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Feedback comment (mostly for 'checklist' types)."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -110,6 +111,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="backupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="license" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="The shortname of the license to apply to this template"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -148,6 +150,33 @@
         <INDEX NAME="courseid" UNIQUE="true" FIELDS="courseid"/>
         <INDEX NAME="templateid" UNIQUE="false" FIELDS="templateid"/>
       </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_mbstpl_tag" COMMENT="A tag linked to a course template">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="metaid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="tag" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="metaid" TYPE="foreign" FIELDS="metaid" REFTABLE="block_mbstpl_meta" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="tag" UNIQUE="false" FIELDS="tag"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_mbstpl_asset" COMMENT="List of assets used within the course with license information">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="metaid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="license" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="owner" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="metaid" TYPE="foreign" FIELDS="metaid" REFTABLE="block_mbstpl_meta" REFFIELDS="id"/>
+      </KEYS>
     </TABLE>
   </TABLES>
 </XMLDB>

@@ -26,14 +26,16 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
+use block_mbstpl\dataobj\asset;
 
 $systemcontext = context_system::instance();
-$thisurl = new moodle_url('/blocks/mbstpl/sendtemplate.php');
-$PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+
+$thisurl = new moodle_url('/blocks/mbstpl/sendtemplate.php', array('course' => $course->id));
+$PAGE->set_url($thisurl);
+$PAGE->set_pagelayout('course');
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
@@ -49,7 +51,7 @@ $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
 foreach($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
-$customdata = array('courseid' => $courseid, 'questions' => $questions);
+$customdata = array('courseid' => $courseid, 'questions' => $questions, 'creator' => $USER);
 $form = new mbst\form\sendtemplate(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
@@ -68,9 +70,45 @@ if ($form->is_cancelled()) {
     // Save answers to dynamic questions.
     foreach($questions as $questionid => $question) {
         $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-        $answer = empty($data->{$question->fieldname}) ? null : $data->{$question->fieldname};
+        $answer = isset($data->{$question->fieldname}) ? $data->{$question->fieldname} : null;
         $typeclass::save_answer($meta->id, $question->id, $answer);
     }
+
+    // Save the license field.
+    if ($meta->license != $data->license) {
+        $meta->license = $data->license;
+        $meta->update();
+    }
+
+    // Save the assets fields.
+    foreach ($data->asset_id as $idx => $assetid) {
+        $url = isset($data->asset_url[$idx]) ? trim($data->asset_url[$idx]) : '';
+        $license = isset($data->asset_license[$idx]) ? $data->asset_license[$idx] : $CFG->defaultsitelicense;
+        $owner = isset($data->asset_owner[$idx]) ? trim($data->asset_owner[$idx]) : '';
+        $hasdata = $url || $owner;
+
+        if ($assetid) {
+            $asset = new asset(array('id' => $assetid, 'metaid' => $meta->id), true, MUST_EXIST);
+            if (!$hasdata) {
+                $asset->delete();
+            }
+        } else {
+            $asset = new asset(array('metaid' => $meta->id), false);
+        }
+        if ($hasdata) {
+            $asset->url = $url;
+            $asset->license = $license;
+            $asset->owner = $owner;
+            if ($asset->id) {
+                $asset->update();
+            } else {
+                $asset->insert();
+            }
+        }
+    }
+
+    // Save the tags.
+    $meta->save_tags_string($data->tags);
 
     // Initiate deployment task.
     $deployment = new \block_mbstpl\task\adhoc_deploy_primary();

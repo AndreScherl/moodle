@@ -62,6 +62,34 @@ class user {
     }
 
     /**
+     * Enrol a user with the author role and notify them.
+     * @param $courseid
+     * @param $userid
+     */
+    public static function enrol_author($courseid, $userid) {
+        global $CFG, $DB;
+
+        // First, enrol.
+        require_once($CFG->dirroot.'/enrol/manual/lib.php');
+
+        if (!$roleid = get_config('block_mbstpl', 'authorrole')) {
+            throw new \moodle_exception('errorauthorrolenotset', 'block_mbstpl');
+        }
+
+        $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
+        $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
+        if (!$enrol) {
+            throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
+        }
+
+        $plugin = new \enrol_manual_plugin();
+        $plugin->enrol_user($enrol, $userid, $roleid);
+
+        // Now let them know about it.
+        notifications::notify_assignedauthor($course, $userid);
+    }
+
+    /**
      * Get all templates of the user (for any role).
      * @param null $userid use if not current user.
      * @return mixed array of template arrays or false if none found.
@@ -105,6 +133,10 @@ class user {
             } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
                 $template->type = 'published';
             }
+
+            $tplobj = new dataobj\template((array)$template, false);
+            $coursecontext = \context_course::instance($template->courseid);
+            $template->viewfeedback = perms::can_viewfeedback($tplobj, $coursecontext);
         }
         $presordeds = array();
 
@@ -135,5 +167,9 @@ class user {
             $toreturn[$template->type][] = $template;
         }
         return $toreturn;
+    }
+
+    public static function format_creator_name($user) {
+        return s(fullname($user).' '.$user->email);
     }
 }

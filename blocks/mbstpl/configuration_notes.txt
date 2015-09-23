@@ -1,0 +1,11 @@
+Before this plugin can be used, you need to set up the following:
+
+* A category to create copies of courses whilst they are being reviewed ('Deploy')
+** Configure the category to use at Site admin > Plugins > Blocks > Course templating
+* A role 'Course reviewer' with capability 'block/mbstpl:coursetemplatereview'
+** At least one user should be allocated this capability at the 'Deploy' category level (or above) - they are a course reviewer
+* A role 'Local course reviewer' with the ability to access activities in a course (editing teacher may be an appropriate starting point). Make sure they have capability 'block/mbstpl:assignauthor'.
+* A role 'Local course author' with the ability to access activitities in a course (editing teacher may be an appropriate starting point, but should not be able to edit course settings).)
+** Configure these roles to be used at Site admin > Plugins > Blocks > Course templating
+* Create some meta data questions at Site admin > Plugins > Blocks > Course templating > Manage question forms
+** Include some 'checklist' questions, which will be used to give feedback from reviewers to authors.

@@ -76,6 +76,14 @@ defined('MOODLE_INTERNAL') || die();
         'clonepermissionsfrom' => 'moodle/course:create'
     ),
 
+    'block/mbstpl:assignauthor' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            // Should be allocated to the 'local course reviewer' role.
+        )
+    ),
+
     'block/mbstpl:coursetemplateeditmeta' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,

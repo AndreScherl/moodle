@@ -46,6 +46,7 @@ class answer extends base {
         'data' => '',
         'dataformat' => FORMAT_MOODLE,
         'datakeyword' => '',
+        'comment' => '',
     );
     public $noduplfields = array('metaid', 'questionid');
 
@@ -71,6 +72,9 @@ class answer extends base {
 
     /* @var string datakeyword  */
     public $datakeyword;
+
+    /** @var string $comment */
+    public $comment;
 
     public function insert() {
         $this->datakeyword = substr($this->data, 0, 254);

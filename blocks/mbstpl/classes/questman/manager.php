@@ -311,4 +311,36 @@ class manager {
         }
         return $answers;
     }
+
+    /**
+     * Returns an array of the current enabled questions for the search form
+     */
+    public static function get_searchqs() {
+        $ordered = get_config('block_mbstpl', 'searchqs');
+        if (empty($ordered)) {
+            return array();
+        }
+        return implode(',', $ordered);
+    }
+
+    /**
+     * Get all questions for the search management page.
+     * @return array of questions in display order with id, title and enabled.
+     */
+    public static function searchmanage_getall() {
+        global $DB;
+        $allqs = $DB->get_records_menu('block_mbstpl_question', null, 'name ASC', 'id,name');
+        $allqskeys = array_keys($allqs);
+        $enableds = array();
+        $disableds = array();
+        foreach($allqs as $id => $question) {
+            $qobj = (object)array('id' => $question->id, 'name' => $question->name, 'enabled' => false);
+            if (isset($allqskeys[$id])) {
+                $qobj->enabled = true;
+                $enableds[] = $qobj;
+            } else {
+                $disableds[] = $qobj;
+            }
+        }
+    }
 }

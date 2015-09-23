@@ -58,7 +58,7 @@ $pagetitle = get_string('templatesearch', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
 echo $OUTPUT->header();
 
-$renderer = $PAGE->get_renderer('block_mbstpl');
+$renderer = mbst\course::get_renderer();
 echo html_writer::tag('h3', $pagetitle);
 
 echo $renderer->templatesearch($searchform, $courses, $layout);

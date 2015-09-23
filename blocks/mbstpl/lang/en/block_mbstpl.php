@@ -96,6 +96,7 @@ $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
 $string['license'] = 'Published under license';
+$string['managesearch'] = 'Manage search questions';
 $string['manageqforms'] = 'Manage question forms';
 $string['mbstpl:addinstance'] = 'Add a my course template information block instance';
 $string['mbstpl:assignauthor'] = 'Assign an author to a course';

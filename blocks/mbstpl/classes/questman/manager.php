@@ -36,6 +36,7 @@ class manager {
             'menu',
             'text',
             'textarea',
+            'checklist',
         );
     }
 
@@ -46,9 +47,14 @@ class manager {
     public static function list_datatypes() {
         $datatypes = array();
 
+        $sm = get_string_manager();
         $types = self::allowed_datatypes();
         foreach ($types as $type) {
-            $datatypes[$type] = get_string('pluginname', 'profilefield_'.$type);
+            if ($sm->string_exists('pluginname', 'profilefield_'.$type)) {
+                $datatypes[$type] = get_string('pluginname', 'profilefield_'.$type);
+            } else {
+                $datatypes[$type] = get_string('field_'.$type, 'block_mbstpl');
+            }
         }
         asort($datatypes);
 

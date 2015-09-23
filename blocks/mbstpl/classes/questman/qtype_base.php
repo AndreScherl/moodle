@@ -84,7 +84,7 @@ class qtype_base {
      * @param $dataformat
      * @return bool;
      */
-    public static function save_answer($metaid, $questionid, $answer, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
         if (is_null($answer)) {
             $answer = '';
         }
@@ -95,6 +95,10 @@ class qtype_base {
             'data' => $answer,
             'dataformat' => $dataformat,
         );
+        if ($comment !== null) {
+            $answerdata['comment'] = trim($comment);
+        }
+
         $answerobj = new \block_mbstpl\dataobj\answer($answerdata);
         $answerobj->insertorupdate();
         return true;
@@ -135,5 +139,22 @@ class qtype_base {
      */
     protected static function get_whereexists($extra = '', $qparam = '') {
         return "EXISTS (SELECT 1 FROM {block_mbstpl_answer} WHERE metaid = mta.id AND questionid = :$qparam $extra)";
+    }
+
+    /**
+     * Call the definition_after_data_internal functions for each of the question types.
+     *
+     * @param \MoodleQuickForm $form
+     */
+    public static function definition_after_data(\MoodleQuickForm $form) {
+        $dtypes = manager::allowed_datatypes();
+        foreach ($dtypes as $dtype) {
+            $typeclass = self::qtype_factory($dtype);
+            $typeclass::definition_after_data_internal($form);
+        }
+    }
+
+    protected static function definition_after_data_internal(\MoodleQuickForm $form) {
+        // Does nothing in the base class.
     }
 }

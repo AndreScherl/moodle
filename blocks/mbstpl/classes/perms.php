@@ -99,7 +99,7 @@ class perms {
     /**
      * Tells us whether the current user can publish edit the meta settings.
      * @param dataobj\template $template
-     * @param context_course $coursecontext
+     * @param \context_course $coursecontext
      * @return bool
      */
     public static function can_editmeta(dataobj\template $template, \context_course $coursecontext) {
@@ -109,17 +109,20 @@ class perms {
     /**
      * Tells us whether the course can be assigned an author
      * @param dataobj\template $template
-     * @param context_course $coursecontext
+     * @param \context_course $coursecontext
      * @return bool
      */
     public static function can_assignauthor(dataobj\template $template, \context_course $coursecontext) {
-        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+        if ($template->status != $template::STATUS_UNDER_REVIEW) {
+            return false; // Not currently with the reviewer, so cannot be passed on to the author.
+        }
+        return has_capability('block/mbstpl:assignauthor', $coursecontext);
     }
 
     /**
      * Tells us whether the course can be assigned a reviewer
      * @param dataobj\template $template
-     * @param context_course $coursecontext
+     * @param \context_course $coursecontext
      * @return bool
      */
     public static function can_assignreview(dataobj\template $template, \context_course $coursecontext) {
@@ -131,13 +134,39 @@ class perms {
     }
 
     /**
-     * Tells us whether the template can be duplicated to a course by the current user.
+     * The user can send the template back to the reviewer (but not choose who the reviewer is).
+     *
      * @param dataobj\template $template
-     * @param context_course $coursecontext
+     * @param \context_course $coursecontext
      * @return bool
      */
-    public static function can_coursefromtpl(dataobj\template $template, \context_course $coursecontext)
-    {
+    public static function can_returnreview(dataobj\template $template, \context_course $coursecontext) {
+        global $USER;
+
+        if (!$template->reviewerid) {
+            return false; // Must have a reviewer allocted, in order to send the course to them.
+        }
+        if ($template->status != $template::STATUS_UNDER_REVISION) {
+            return false; // Can only return to the reviewer if it is currently being revised by the author.
+        }
+
+        if ($template->authorid == $USER->id) {
+            return true; // Assigned author can return the course to the reviewer.
+        }
+        if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {
+            return true; // Course template manager can also return it to the reviewer.
+        }
+
+        return false;
+    }
+
+    /**
+     * Tells us whether the template can be duplicated to a course by the current user.
+     * @param dataobj\template $template
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function can_coursefromtpl(dataobj\template $template, \context_course $coursecontext) {
         if ($template->status != $template::STATUS_PUBLISHED) {
             return false;
         }
@@ -148,13 +177,14 @@ class perms {
     /**
      * Tells us whether the current user can rate the template
      * @param \context_course $coursecontext
+     * @return bool
      */
     public static function can_leaverating(\context_course $coursecontext) {
         if (!has_capability('block/mbstpl:ratetemplate', $coursecontext)) {
             return false;
         }
 
-        return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
+        return dataobj\template::get_from_course($coursecontext->instanceid) != null;
     }
 
     /**

@@ -22,6 +22,8 @@
 
 namespace block_mbstpl\form;
 
+use block_mbstpl\questman\qtype_base;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -38,20 +40,34 @@ class assign extends \moodleform {
     function definition() {
         $form = $this->_form;
 
-        $type = $this->_customdata['type'];
-        $form->addElement('hidden', 'type', $type);
-        $form->setType('type', PARAM_TEXT);
-
-        $form->addElement('hidden', 'course', $this->_customdata['courseid']);
+        $form->addElement('hidden', 'course');
         $form->setType('course', PARAM_INT);
 
-        $options = array();
-        foreach($this->_customdata['users'] as $user) {
-            $options[$user->id] = $user->firstname .' ' . $user->lastname;
-        }
-        $form->addElement('select', 'userid', get_string('selected'.$type, 'block_mbstpl'), $options);
+        $form->addElement('hidden', 'type');
+        $form->setType('type', PARAM_ALPHA);
 
-        $this->add_action_buttons(true, get_string('assign'.$type, 'block_mbstpl'));
+        if (!empty($this->_customdata['selector'])) {
+            $form->addElement('static', 'selectuser', get_string('selectuser', 'block_mbstpl'), $this->_customdata['selector']);
+        }
+
+        $form->addElement('editor', 'feedback_editor', get_string('tasknote', 'block_mbstpl'), $this->_customdata['editoropts']);
+
+        $form->addElement('filemanager', 'uploadfile_filemanager', get_string('uploadfile', 'block_mbstpl'),
+                          $this->_customdata['fileopts']);
+
+        if (isset($this->_customdata['questions'])) {
+            foreach ($this->_customdata['questions'] as $question) {
+                $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
+                $typeclass::add_template_element($form, $question);
+            }
+        }
+
+        $this->add_action_buttons(true, get_string('assign'.$this->_customdata['type'], 'block_mbstpl'));
+    }
+
+    function definition_after_data() {
+        parent::definition_after_data();
+        qtype_base::definition_after_data($this->_form);
     }
 
 }

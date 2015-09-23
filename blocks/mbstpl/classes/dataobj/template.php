@@ -27,6 +27,8 @@
  */
 namespace block_mbstpl\dataobj;
 
+use context_course;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -40,6 +42,8 @@ class template extends base {
     const STATUS_UNDER_REVISION = 2;
     const STATUS_PUBLISHED = 3;
     const STATUS_ARCHIVED = 4;
+
+    const FILEAREA = 'template';
 
     /**
      * Get the template associated with this course id. If there's no template with this course id,
@@ -163,7 +167,6 @@ class template extends base {
 
         $meta = new meta(array('templateid' => $this->id));
         $meta->insert();
-
     }
 
     /**
@@ -186,6 +189,30 @@ class template extends base {
         );
         $revhist = new revhist($params, false);
         $revhist->insert();
+
+        // Copy any attached files.
+        $context = context_course::instance($this->courseid);
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id, '', false);
+        foreach ($files as $file) {
+            $filerecord = (object)array(
+                'filearea' => revhist::FILEAREA,
+                'itemid' => $revhist->id,
+            );
+            $fs->create_file_from_storedfile($filerecord, $file);
+        }
+
+        /*
+        // Clear the feedback/files.
+        $this->feedback = '';
+        $this->update_notouch();
+        $fs->delete_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id);
+        */
     }
 
+    public function get_files() {
+        $fs = get_file_storage();
+        $context = context_course::instance($this->courseid);
+        return $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id);
+    }
 }

@@ -117,5 +117,86 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015090800, 'mbstpl');
     }
 
+    if ($oldversion < 2015091600) {
+
+        // Define field license to be added to block_mbstpl_meta.
+        $table = new xmldb_table('block_mbstpl_meta');
+        $field = new xmldb_field('license', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'templateid');
+
+        // Conditionally launch add field license.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015091600, 'mbstpl');
+    }
+
+    if ($oldversion < 2015091601) {
+
+        // Define table block_mbstpl_tag to be created.
+        $table = new xmldb_table('block_mbstpl_tag');
+
+        // Adding fields to table block_mbstpl_tag.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('metaid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('tag', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table block_mbstpl_tag.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('metaid', XMLDB_KEY_FOREIGN, array('metaid'), 'block_mbstpl_meta', array('id'));
+
+        // Adding indexes to table block_mbstpl_tag.
+        $table->add_index('tag', XMLDB_INDEX_NOTUNIQUE, array('tag'));
+
+        // Conditionally launch create table for block_mbstpl_tag.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015091601, 'mbstpl');
+    }
+
+    if ($oldversion < 2015091602) {
+
+        // Define table block_mbstpl_asset to be created.
+        $table = new xmldb_table('block_mbstpl_asset');
+
+        // Adding fields to table block_mbstpl_asset.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('metaid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('url', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('license', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('owner', XMLDB_TYPE_TEXT, null, null, null, null, null);
+
+        // Adding keys to table block_mbstpl_asset.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('metaid', XMLDB_KEY_FOREIGN, array('metaid'), 'block_mbstpl_meta', array('id'));
+
+        // Conditionally launch create table for block_mbstpl_asset.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015091602, 'mbstpl');
+    }
+
+    if ($oldversion < 2015092100) {
+
+        // Define field comment to be added to block_mbstpl_answer.
+        $table = new xmldb_table('block_mbstpl_answer');
+        $field = new xmldb_field('comment', XMLDB_TYPE_TEXT, null, null, null, null, null, 'datakeyword');
+
+        // Conditionally launch add field comment.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015092100, 'mbstpl');
+    }
+
     return true;
 }

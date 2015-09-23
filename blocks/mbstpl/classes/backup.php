@@ -115,13 +115,7 @@ class backup {
         // Copy over metadata.
         $bkpmeta = new dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
         $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-        $answers = dataobj\answer::fetch_all(array('metaid' => $bkpmeta->id));
-        foreach ($answers as $answer) {
-            $copied = clone($answer);
-            $copied->id = null;
-            $copied->metaid = $tplmeta->id;
-            $copied->insert();
-        }
+        $tplmeta->copy_from($bkpmeta);
 
         return $courseid;
     }

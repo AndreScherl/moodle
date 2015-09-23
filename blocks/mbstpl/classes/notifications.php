@@ -116,11 +116,36 @@ class notifications {
         global $DB;
 
         $touser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+        if (!$touser->email) {
+            return;
+        }
+
+        $fromuser = self::get_fromuser();
+        $url = new \moodle_url('/course/view.php', array('id' => $course->id));
+        $a = (object)array('url' => $url->out(false), 'fullname' => $course->fullname);
+        $subject = get_string('emailassignedreviewer_subj', 'block_mbstpl');
+        $body = get_string('emailassignedreviewer_body', 'block_mbstpl', $a);
+        email_to_user($touser, $fromuser, $subject, $body);
+    }
+
+    /**
+     * Tell the user that they have been assigned author.
+     * @param object $course must include id and fullname.
+     * @param int $userid
+     */
+    public static function notify_assignedauthor($course, $userid) {
+        global $DB;
+
+        $touser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+        if (!$touser->email) {
+            return;
+        }
+
         $fromuser = self::get_fromuser();
         $url = new \moodle_url('/course/view.php', array('id' => $course->id));
         $a = (object)array('url' => $url, 'fullname' => $course->fullname);
-        $subject = get_string('emailassignedreviewer_subj', 'block_mbstpl');
-        $body = get_string('emailassignedreviewer_body', 'block_mbstpl', $a);
+        $subject = get_string('emailassignedauthor_subj', 'block_mbstpl');
+        $body = get_string('emailassignedauthor_body', 'block_mbstpl', $a);
         email_to_user($touser, $fromuser, $subject, $body);
     }
 
@@ -133,6 +158,10 @@ class notifications {
 
         $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
         $touser = $DB->get_record('user', array('id' => $template->authorid));
+        if (!$touser->email) {
+            return;
+        }
+
         $fromuser = self::get_fromuser();
         $a = (object)array(
             'url' => new \moodle_url('/course/view.php', array('id' => $template->courseid)),
@@ -173,6 +202,10 @@ class notifications {
             $fromid = $template->authorid;
         }
         $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
+        if (!$touser->email) {
+            return;
+        }
+
         $fromuser = self::get_fromuser();
         $sender = $DB->get_record('user', array('id' => $fromid), '*', MUST_EXIST);
         $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);

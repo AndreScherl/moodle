@@ -37,11 +37,13 @@ class course {
     /**
      * Extends the navigation, depending on capability.
      * @param \navigation_node $coursenode
-     * @param \context $coursecontext
+     * @param \context_course $coursecontext
      */
-    public static function extend_coursenav(\navigation_node &$coursenode, \context $coursecontext) {
+    public static function extend_coursenav(\navigation_node &$coursenode, \context_course $coursecontext) {
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
+
+        /** @var dataobj\template $template */
         $template = dataobj\template::fetch(array('courseid' => $cid));
 
         if (!$template && has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
@@ -49,34 +51,36 @@ class course {
             $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
         }
 
-        if ($template && perms::can_assignauthor($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
-            $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
-        }
+        if ($template) {
+            if (perms::can_assignauthor($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
+                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
+            }
 
-        if ($template && perms::can_assignreview($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid));
-            $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
-        }
+            if (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
+                $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
+            }
 
-        if ($template && perms::can_viewfeedback($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
-            $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
-        }
+            if (perms::can_viewfeedback($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
+                $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
+            }
 
-        if ($template && perms::can_editmeta($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
-            $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
-        }
+            if (perms::can_editmeta($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
+                $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
+            }
 
-        if ($template && perms::can_coursefromtpl($template, $coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
-            $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
-        }
+            if (perms::can_coursefromtpl($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
+                $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
+            }
 
-        if (perms::can_leaverating($coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
-            $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
+            if (perms::can_leaverating($coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
+                $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
+            }
         }
 
         if (perms::can_viewrating($coursecontext)) {
@@ -201,38 +205,63 @@ class course {
     }
 
     /**
-     * Assign author to a course. Assumes can_assignauthor() has already been called.
-     * @param $courseid
-     * @param $userid
+     * Assign reviewer to a course. Assumes can_assignreview() has already been called.
+     * @param dataobj\template $template
+     * @param int $userid
      */
-    public static function assign_author($courseid, $userid) {
+    public static function assign_author(dataobj\template $template, $userid, $feedback = null, $feedbackformat = null) {
         // Mark reviewer in the template record.
-        $dobj = new dataobj\template(array('courseid' => $courseid));
-        if (empty($dobj->id)) {
-            throw new \moodle_exception('errorcoursenottemplate', 'block_mbstpl');
+        if ($userid) {
+            $template->authorid = $userid;
+        } else if (!$template->authorid) {
+            throw new \coding_exception('Must specify authorid if none already set');
         }
-        $dobj->authorid = $userid;
-        $dobj->status = dataobj\template::STATUS_UNDER_REVISION;
-        $dobj->update();
+        $template->status = dataobj\template::STATUS_UNDER_REVISION;
+
+        if ($feedback !== null) {
+            // Save the feedback as well.
+            if ($feedbackformat === null) {
+                throw new \coding_exception('Must specify feedbackformat when setting feedback');
+            }
+            $template->feedback = $feedback;
+            $template->feedbackformat = $feedbackformat;
+        }
+        $template->update();
+
+        // Enrol reviewer.
+        user::enrol_author($template->courseid, $userid);
     }
 
     /**
      * Assign reviewer to a course. Assumes can_assignreview() has already been called.
-     * @param $courseid
-     * @param $userid
+     * @param dataobj\template $template
+     * @param int $userid
      */
-    public static function assign_reviewer($courseid, $userid) {
+    public static function assign_reviewer(dataobj\template $template, $userid, $feedback = null, $feedbackformat = null) {
         // Mark reviewer in the template record.
-        $dobj = new dataobj\template(array('courseid' => $courseid));
-        if (empty($dobj->id)) {
-            throw new \moodle_exception('errorcoursenottemplate', 'block_mbstpl');
+        if ($userid) {
+            $template->reviewerid = $userid;
+        } else {
+            if (!$template->reviewerid) {
+                throw new \coding_exception('Must specify reviewerid if none already set');
+            }
+            $userid = $template->reviewerid;
         }
-        $dobj->reviewerid = $userid;
-        $dobj->status = dataobj\template::STATUS_UNDER_REVIEW;
-        $dobj->update();
+        $template->status = dataobj\template::STATUS_UNDER_REVIEW;
+
+        if ($feedback !== null) {
+            // Save the feedback as well.
+            if ($feedbackformat === null) {
+                throw new \coding_exception('Must specify feedbackformat when setting feedback');
+            }
+            $template->feedback = $feedback;
+            $template->feedbackformat = $feedbackformat;
+        }
+
+        $template->update();
 
         // Enrol reviewer.
-        user::enrol_reviewer($courseid, $userid);
+        user::enrol_reviewer($template->courseid, $userid);
     }
 
     /**

@@ -35,6 +35,8 @@ require_once($CFG->dirroot . '/completion/data_object.php');
 
 class revhist extends base {
 
+    const FILEAREA = 'revhist';
+
     /**
      * Array of required table fields, must start with 'id'.
      * Defaults to id, course, criteriatype, module, moduleinstane, courseinstance,
@@ -88,5 +90,34 @@ class revhist extends base {
     public function insert() {
         $this->timecreated = time();
         return parent::insert();
+    }
+
+    /**
+     * Get a list of files that were uploaded when this revision was created.
+     * @param \context_course $context
+     * @return \stored_file[]
+     */
+    public function get_files(\context_course $context) {
+        $fs = get_file_storage();
+        return $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id, 'filepath, filename', false);
+    }
+
+    /**
+     * Returns the full name of the user who was assigned at this point in the
+     * revision history
+     * WARNING: this uses a DB query to find the user - do not use this function
+     * if it is going to be called a lot of times.
+     *
+     * @return string
+     */
+    public function get_assigned_name() {
+        global $DB;
+        if (!$this->assignedid) {
+            return '';
+        }
+        if (!$user = $DB->get_record('user', array('id' => $this->assignedid), get_all_user_name_fields(true))) {
+            return '';
+        }
+        return fullname($user);
     }
 }

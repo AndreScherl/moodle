@@ -15323,6 +15323,7 @@ categorybox:
     - #page-mod-lesson-view
     - #page-mod-assign-mod
     - #page-mod-assign-view
+    - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
@@ -15331,6 +15332,11 @@ categorybox:
     - #page-mod-quiz-attempt
     - #page-mod-quiz-review
     - #page-mod-quiz-preview
+    - .que.calculatedmulti
+    - .que.ddmatch
+    - .que.ddwtos 
+    - .que.geogebra
+    - .que.match
     - .que.multichoice
     - .que.multianswer
 */
@@ -15354,8 +15360,14 @@ categorybox:
   }
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1 {
+#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
   min-height: 0;
+  height: inherit !important;
+}
+
+div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
+  min-height: 0;
+  height: inherit !important;
 }
 
 #page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {

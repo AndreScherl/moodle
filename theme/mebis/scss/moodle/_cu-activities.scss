@@ -12,6 +12,7 @@
     - #page-mod-lesson-view
     - #page-mod-assign-mod
     - #page-mod-assign-view
+    - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
@@ -20,6 +21,11 @@
     - #page-mod-quiz-attempt
     - #page-mod-quiz-review
     - #page-mod-quiz-preview
+    - .que.calculatedmulti
+    - .que.ddmatch
+    - .que.ddwtos 
+    - .que.geogebra
+    - .que.match
     - .que.multichoice
     - .que.multianswer
 */
@@ -44,12 +50,28 @@
 }
 
 //styling Assignment GeoGebra submissions
-#page-mod-assign-mod, #page-mod-assign-view {
-    
+#page-mod-assign-mod, #page-mod-assign-view, #page-question-type-geogebra {
+
     div#applet_container1 {
-        min-height: 0;
+        > div {
+            min-height: 0;
+            //need important because of element style
+            height: inherit !important;
+        }
     }
 } 
+//styling GeoGebra question
+div.que.geogebra {
+    div.formulation {
+        div[id$='ggbdiv'] {
+            > div {
+                min-height: 0;
+                //need important because of element style
+                height: inherit !important;
+            }
+        }
+    }
+}
 
 #page-mod-assign-mod #main-content-wrapper {
 
@@ -153,7 +175,7 @@
 #page-mod-quiz-attempt,
 #page-mod-quiz-review,
 #page-question-preview {
-    
+
     div.content {
 
         &:before {
@@ -186,7 +208,7 @@
     background: $white;
     border-color: #ddd;
     color: $black;
-    
+
     hr {
         border-top-color: #ddd;
     }
@@ -228,7 +250,7 @@
         width: 15px;
     }
 }
-    
+
 //questiontype multianswer
 .que.multianswer  {
 

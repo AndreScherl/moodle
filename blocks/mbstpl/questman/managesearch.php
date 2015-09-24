@@ -42,22 +42,28 @@ if (!is_siteadmin()) {
 
 $enableid = optional_param('enableid', 0, PARAM_INT);
 $disableid = optional_param('disableid', 0, PARAM_INT);
-$moveupid = optional_param('moveup', 0, PARAM_INT);
-$movedownid = optional_param('movedown', 0, PARAM_INT);
+$moveupid = optional_param('moveupid', 0, PARAM_INT);
+$movedownid = optional_param('movedownid', 0, PARAM_INT);
 
 if ($enableid) {
     require_sesskey();
-    manager::searchqs_setenabled($enableid);
+    manager::searchq_setenabled($enableid);
+    redirect($thisurl);
 }
 if ($disableid) {
     require_sesskey();
-    manager::searchqs_setenabled($disableid, false);
+    manager::searchq_setenabled($disableid, false);
+    redirect($thisurl);
 }
 if ($moveupid) {
     require_sesskey();
+    manager::searchq_move($moveupid);
+    redirect($thisurl);
 }
 if ($movedownid) {
     require_sesskey();
+    manager::searchq_move($movedownid, false);
+    redirect($thisurl);
 }
 
 $questions = manager::searchmanage_getall();

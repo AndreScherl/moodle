@@ -337,7 +337,7 @@ class manager {
      * @param $qid
      * @param bool|true $enable
      */
-    public static function searchqs_setenabled($qid, $enable = true) {
+    public static function searchq_setenabled($qid, $enable = true) {
         $qids = self::get_searchqs();
         if ($enable) {
             if (in_array($qid, $qids)) {
@@ -354,6 +354,25 @@ class manager {
         return self::set_searchqs($qids);
     }
 
+    /**
+     * Move a question in the search form up or down.
+     * @param $qid
+     * @param bool|true $up
+     */
+    public static function searchq_move($qid, $up = true) {
+        $qids = self::get_searchqs();
+        $pos = array_search($qid, $qids);
+        if ($pos === false) {
+            return; // Not there.
+        }
+        $swappos = $up ? $pos - 1 : $pos + 1;
+        if (!isset($qids[$swappos])) {
+            return; // Nowhere to move it.
+        }
+        $qids[$pos] = $qids[$swappos];
+        $qids[$swappos] = $qid;
+        return self::set_searchqs($qids);
+    }
 
 
     /**

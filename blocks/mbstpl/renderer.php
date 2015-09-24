@@ -400,7 +400,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('move'),
         );
         $table->align = array('left', 'center', 'center');
-        foreach($questions as $question) {
+        $questions = array_values($questions);
+        foreach($questions as $qpos => $question) {
             $cells = array();
             $class = '';
             $cells[] = $question->name;
@@ -414,6 +415,34 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $url->param('enableid', $question->id);
             }
             $cells[] = html_writer::link($url, $img);
+
+            $canup = false;
+            $candown = false;
+            if ($question->enabled) {
+                if (isset($questions[$qpos-1])) {
+                    $canup = true;
+                }
+                if (isset($questions[$qpos+1]) && $questions[$qpos+1]->enabled) {
+                    $candown = true;
+                }
+            }
+            $arrowhtml = '';
+            if ($canup) {
+                $url = clone($mainurl);
+                $url->param('moveupid', $question->id);
+                $arrowhtml .= html_writer::link($url, $imgup);
+            } else {
+                $arrowhtml .= $imgspacer;
+            }
+            if ($candown) {
+                $url = clone($mainurl);
+                $url->param('movedownid', $question->id);
+                $arrowhtml .= html_writer::link($url, $imgdown);
+            } else {
+                $arrowhtml .= $imgspacer;
+            }
+            $cells[] = $arrowhtml;
+
             $row = new html_table_row($cells);
             $row->attributes['class'] = $class;
             $table->data[] = $row;

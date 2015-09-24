@@ -149,7 +149,7 @@ class manager {
         $draft = self::get_qform_draft();
         $qids = explode(',', $draft);
         if (in_array($qid, $qids)) {
-            return false; // Alread there.
+            return false; // Already there.
         }
         $qids[] = $qid;
         $draft = implode(',', $qids);
@@ -322,6 +322,39 @@ class manager {
         }
         return explode(',', $ordered);
     }
+
+    /**
+     * Saves enabled questions for the search form
+     * @param array $qids question ids in order.
+     */
+    public static function set_searchqs($qids) {
+        $qlist = implode(',', $qids);
+        return set_config('searchqs', $qlist, 'block_mbstpl');
+    }
+
+    /**
+     * Adds or removes a question from the search form.
+     * @param $qid
+     * @param bool|true $enable
+     */
+    public static function searchqs_setenabled($qid, $enable = true) {
+        $qids = self::get_searchqs();
+        if ($enable) {
+            if (in_array($qid, $qids)) {
+                return; // Already there.
+            }
+            $qids[] = $qid;
+            return self::set_searchqs($qids);
+        }
+        $pos = array_search($qid, $qids);
+        if ($pos === false) {
+            return; // Already removed.
+        }
+        unset($qids[$pos]);
+        return self::set_searchqs($qids);
+    }
+
+
 
     /**
      * Get all questions for the search management page.

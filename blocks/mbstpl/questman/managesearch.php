@@ -25,6 +25,7 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
+use \block_mbstpl as mbst;
 use \block_mbstpl\questman\manager;
 
 $systemcontext = context_system::instance();
@@ -39,16 +40,18 @@ if (!is_siteadmin()) {
     require_capability('moodle/site:config', $systemcontext);
 }
 
-$activateid = optional_param('activateid', 0, PARAM_INT);
-$deactivateid = optional_param('deactivateid', 0, PARAM_INT);
+$enableid = optional_param('enableid', 0, PARAM_INT);
+$disableid = optional_param('disableid', 0, PARAM_INT);
 $moveupid = optional_param('moveup', 0, PARAM_INT);
 $movedownid = optional_param('movedown', 0, PARAM_INT);
 
-if ($activateid) {
+if ($enableid) {
     require_sesskey();
+    manager::searchqs_setenabled($enableid);
 }
-if ($deactivateid) {
+if ($disableid) {
     require_sesskey();
+    manager::searchqs_setenabled($disableid, false);
 }
 if ($moveupid) {
     require_sesskey();
@@ -58,11 +61,13 @@ if ($movedownid) {
 }
 
 $questions = manager::searchmanage_getall();
-
+$renderer = mbst\course::get_renderer();
 echo $OUTPUT->header();
 
 $pagetitle = get_string('managesearch', 'block_mbstpl');
 
 echo html_writer::tag('h2', $pagetitle);
+
+echo $renderer->manage_search($questions, $thisurl);
 
 echo $OUTPUT->footer();

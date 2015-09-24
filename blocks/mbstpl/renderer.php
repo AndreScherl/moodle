@@ -374,4 +374,50 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
         return html_writer::tag('ul', $out, array('class' => 'mbsfilelist'));
     }
+
+    /**
+     * List of questions that appear in the search
+     * @param array $questions questions in display order with id, title and enabled
+     * @param moodle_url $thisurl
+     * @return string
+     */
+    public function manage_search($questions, $thisurl) {
+        global $OUTPUT;
+
+        $mainurl = clone($thisurl);
+        $mainurl->param('sesskey', sesskey());
+        $attrs = array('class' => 'iconsmall');
+        $imgshow = html_writer::img($OUTPUT->pix_url('t/show'), 'disable', $attrs);
+        $imghide = html_writer::img($OUTPUT->pix_url('t/hide'), 'enable', $attrs);
+        $imgup = html_writer::img($OUTPUT->pix_url('t/up'), 'up', $attrs);
+        $imgdown = html_writer::img($OUTPUT->pix_url('t/down'), 'down', $attrs);
+        $imgspacer = html_writer::img($OUTPUT->pix_url('spacer'), '', $attrs);
+
+        $table = new html_table();
+        $table->head = array(
+            get_string('questionname', 'block_mbstpl'),
+            get_string('enable'),
+            get_string('move'),
+        );
+        $table->align = array('left', 'center', 'center');
+        foreach($questions as $question) {
+            $cells = array();
+            $class = '';
+            $cells[] = $question->name;
+            $url = clone($mainurl);
+            if ($question->enabled) {
+                $img = $imghide;
+                $url->param('disableid', $question->id);
+            } else {
+                $class = 'dimmed_text';
+                $img = $imgshow;
+                $url->param('enableid', $question->id);
+            }
+            $cells[] = html_writer::link($url, $img);
+            $row = new html_table_row($cells);
+            $row->attributes['class'] = $class;
+            $table->data[] = $row;
+        }
+        return html_writer::table($table);
+    }
 }

@@ -27,7 +27,12 @@ if ($ADMIN->fulltree) {
 
     $questmanurl = new moodle_url('/blocks/mbstpl/questman/index.php');
     $questmanlink = html_writer::link($questmanurl, get_string('manageqforms', 'block_mbstpl'));
-    $settings->add(new admin_setting_heading('questman', get_string('settings'), $questmanlink));
+    $searchqurl = new moodle_url('/blocks/mbstpl/questman/managesearch.php');
+    $managesearchlink = html_writer::link($searchqurl, get_string('managesearch', 'block_mbstpl'));
+
+    $links = $questmanlink . html_writer::empty_tag('br') . $managesearchlink;
+    $settings->add(new admin_setting_heading('questman', get_string('settings'), $links));
+
 
     $options = array();
     $options += coursecat::make_categories_list('moodle/category:manage', 0);
@@ -44,4 +49,7 @@ if ($ADMIN->fulltree) {
                                                   get_string('authorrole', 'block_mbstpl'),
                                                   get_string('authorrole_desc', 'block_mbstpl'), null, $roles));
 
+    $settings->add(new admin_setting_configtext('block_mbstpl/complainturl',
+                                                  get_string('complainturl', 'block_mbstpl'),
+                                                  get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
 }

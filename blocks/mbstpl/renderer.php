@@ -143,6 +143,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $authorname = mbst\course::get_creators($template->id);
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
         $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $courseurl = new moodle_url('/course/view.php', array('id' => $template->courseid));
         $courselink = html_writer::link($courseurl, format_string($course->fullname));
 
         $cbox = '';
@@ -276,6 +277,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         // Add layout and pagination controllers.
         $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
         $link = new moodle_url('#');
+        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
 
         // TODO: Add pagination controls.
 
@@ -294,10 +296,21 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
                 $listitem = \html_writer::link($courseurl, $course->fullname);
                 // TBD, see spec page 14.
-                $externalurl = new moodle_url('/complaint.html');
-                $listitem .= \html_writer::link($externalurl,
+                $externalurl = clone($complainturl);
+                $externalurl->param('courseid', $course->id);
+                $righticons = '';
+                $complaintlink = \html_writer::link($externalurl,
+                    \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
+                $righticons .= $complaintlink;
+                $courselink = \html_writer::link($courseurl,
                         \html_writer::img($OUTPUT->pix_url('t/collapsed_empty', 'core'), $course->fullname));
+                $righticons .= $courselink;
+                $listitem .= html_writer::div($righticons, 'righticons');
                 $listitem .= html_writer::div($course->catname, 'crsdetails');
+                $listitem .= html_writer::div(get_string('author', 'block_mbstpl').': ' .$course->authorname, 'crsauthor');
+                if (!is_null($course->rating)) {
+                    $listitem .= $this->rating($course->rating, false);
+                }
                 $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
             }
         } else {
@@ -308,7 +321,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $html;
     }
 
-    public function rating($avg) {
+    public function rating($avg, $label = true) {
         $roundavg = round($avg * 2);
         $inner = '';
 
@@ -321,7 +334,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $inner .= html_writer::div('', 'star emptystar');
             }
         }
-        $output = html_writer::div(get_string('ratingavg', 'block_mbstpl'));
+        $output = '';
+        if ($label) {
+            $output .= html_writer::div(get_string('ratingavg', 'block_mbstpl'));
+        }
 
         $output .= html_writer::div($inner, 'templaterating');
         return $output;
@@ -373,5 +389,80 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             $out .= html_writer::tag('li', html_writer::link($url, $filename));
         }
         return html_writer::tag('ul', $out, array('class' => 'mbsfilelist'));
+    }
+
+    /**
+     * List of questions that appear in the search
+     * @param array $questions questions in display order with id, title and enabled
+     * @param moodle_url $thisurl
+     * @return string
+     */
+    public function manage_search($questions, $thisurl) {
+        global $OUTPUT;
+
+        $mainurl = clone($thisurl);
+        $mainurl->param('sesskey', sesskey());
+        $attrs = array('class' => 'iconsmall');
+        $imgshow = html_writer::img($OUTPUT->pix_url('t/show'), 'disable', $attrs);
+        $imghide = html_writer::img($OUTPUT->pix_url('t/hide'), 'enable', $attrs);
+        $imgup = html_writer::img($OUTPUT->pix_url('t/up'), 'up', $attrs);
+        $imgdown = html_writer::img($OUTPUT->pix_url('t/down'), 'down', $attrs);
+        $imgspacer = html_writer::img($OUTPUT->pix_url('spacer'), '', $attrs);
+
+        $table = new html_table();
+        $table->head = array(
+            get_string('questionname', 'block_mbstpl'),
+            get_string('enable'),
+            get_string('move'),
+        );
+        $table->align = array('left', 'center', 'center');
+        $questions = array_values($questions);
+        foreach($questions as $qpos => $question) {
+            $cells = array();
+            $class = '';
+            $cells[] = $question->name;
+            $url = clone($mainurl);
+            if ($question->enabled) {
+                $img = $imghide;
+                $url->param('disableid', $question->id);
+            } else {
+                $class = 'dimmed_text';
+                $img = $imgshow;
+                $url->param('enableid', $question->id);
+            }
+            $cells[] = html_writer::link($url, $img);
+
+            $canup = false;
+            $candown = false;
+            if ($question->enabled) {
+                if (isset($questions[$qpos-1])) {
+                    $canup = true;
+                }
+                if (isset($questions[$qpos+1]) && $questions[$qpos+1]->enabled) {
+                    $candown = true;
+                }
+            }
+            $arrowhtml = '';
+            if ($canup) {
+                $url = clone($mainurl);
+                $url->param('moveupid', $question->id);
+                $arrowhtml .= html_writer::link($url, $imgup);
+            } else {
+                $arrowhtml .= $imgspacer;
+            }
+            if ($candown) {
+                $url = clone($mainurl);
+                $url->param('movedownid', $question->id);
+                $arrowhtml .= html_writer::link($url, $imgdown);
+            } else {
+                $arrowhtml .= $imgspacer;
+            }
+            $cells[] = $arrowhtml;
+
+            $row = new html_table_row($cells);
+            $row->attributes['class'] = $class;
+            $table->data[] = $row;
+        }
+        return html_writer::table($table);
     }
 }

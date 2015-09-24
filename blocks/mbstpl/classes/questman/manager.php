@@ -149,7 +149,7 @@ class manager {
         $draft = self::get_qform_draft();
         $qids = explode(',', $draft);
         if (in_array($qid, $qids)) {
-            return false; // Alread there.
+            return false; // Already there.
         }
         $qids[] = $qid;
         $draft = implode(',', $qids);
@@ -310,5 +310,91 @@ class manager {
             $answers[$question->fieldname] = $typeclass::process_answer($prec);
         }
         return $answers;
+    }
+
+    /**
+     * Returns an array of the current enabled questions for the search form
+     */
+    public static function get_searchqs() {
+        $ordered = get_config('block_mbstpl', 'searchqs');
+        if (empty($ordered)) {
+            return array();
+        }
+        return explode(',', $ordered);
+    }
+
+    /**
+     * Saves enabled questions for the search form
+     * @param array $qids question ids in order.
+     */
+    public static function set_searchqs($qids) {
+        $qlist = implode(',', $qids);
+        return set_config('searchqs', $qlist, 'block_mbstpl');
+    }
+
+    /**
+     * Adds or removes a question from the search form.
+     * @param $qid
+     * @param bool|true $enable
+     */
+    public static function searchq_setenabled($qid, $enable = true) {
+        $qids = self::get_searchqs();
+        if ($enable) {
+            if (in_array($qid, $qids)) {
+                return; // Already there.
+            }
+            $qids[] = $qid;
+            return self::set_searchqs($qids);
+        }
+        $pos = array_search($qid, $qids);
+        if ($pos === false) {
+            return; // Already removed.
+        }
+        unset($qids[$pos]);
+        return self::set_searchqs($qids);
+    }
+
+    /**
+     * Move a question in the search form up or down.
+     * @param $qid
+     * @param bool|true $up
+     */
+    public static function searchq_move($qid, $up = true) {
+        $qids = self::get_searchqs();
+        $pos = array_search($qid, $qids);
+        if ($pos === false) {
+            return; // Not there.
+        }
+        $swappos = $up ? $pos - 1 : $pos + 1;
+        if (!isset($qids[$swappos])) {
+            return; // Nowhere to move it.
+        }
+        $qids[$pos] = $qids[$swappos];
+        $qids[$swappos] = $qid;
+        return self::set_searchqs($qids);
+    }
+
+    /**
+     * Get all questions for the search management page.
+     * @return array of questions in display order with id, title and enabled.
+     */
+    public static function searchmanage_getall() {
+        global $DB;
+        $allqs = $DB->get_records_menu('block_mbstpl_question', null, 'name ASC', 'id,name');
+        $searchqs = self::get_searchqs();
+        $searchqskeys = array_flip($searchqs);
+        $enableds = array();
+        $disableds = array();
+        foreach($allqs as $id => $question) {
+            $qobj = (object)array('id' => $id, 'name' => $question, 'enabled' => false);
+            if (isset($searchqskeys[$id])) {
+                $qobj->enabled = true;
+                $enableds[$searchqskeys[$id]] = $qobj;
+            } else {
+                $disableds[] = $qobj;
+            }
+        }
+        ksort($enableds);
+        return array_merge($enableds, $disableds);
     }
 }

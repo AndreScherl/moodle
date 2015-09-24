@@ -31,13 +31,16 @@ $string['assigneddate'] = 'Assigned date';
 $string['assignee'] = 'Assignee';
 $string['assignauthor'] = 'Assign author';
 $string['assignreviewer'] = 'Assign reviewer';
+$string['author'] = 'Author';
 $string['authorrole'] = 'Author role';
 $string['authorrole_desc'] = 'The role to use when enrolling an author into a course';
 $string['backtemplatefeedback'] = 'Back to template feedback';
 $string['checklistexpln'] = 'Note: questions of this type will be displayed together at the end of the form, to act as a checklist of the features of this course.<br>
 Each item can be marked as \'Yes\', \'No\' or \'Not applicable\'.<br>
 It is not possible to search for courses based on these fields.';
-$string['comment'] = 'Commment';
+$string['comment'] = 'Comment';
+$string['complainturl'] = 'Complaint URL';
+$string['complainturl_desc'] = 'External URL for course complaints. courseid parameter will be appended.';
 $string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';
 $string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
 $string['copyright'] = 'Alle Inhalte des Kurses sind frei von Rechten Dritter';
@@ -96,6 +99,7 @@ $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
 $string['license'] = 'Published under license';
+$string['managesearch'] = 'Manage search questions';
 $string['manageqforms'] = 'Manage question forms';
 $string['mbstpl:addinstance'] = 'Add a my course template information block instance';
 $string['mbstpl:assignauthor'] = 'Assign an author to a course';

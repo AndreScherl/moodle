@@ -49,4 +49,7 @@ if ($ADMIN->fulltree) {
                                                   get_string('authorrole', 'block_mbstpl'),
                                                   get_string('authorrole_desc', 'block_mbstpl'), null, $roles));
 
+    $settings->add(new admin_setting_configtext('block_mbstpl/complainturl',
+                                                  get_string('complainturl', 'block_mbstpl'),
+                                                  get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
 }

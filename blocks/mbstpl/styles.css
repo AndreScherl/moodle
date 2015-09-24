@@ -81,12 +81,14 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     box-shadow: 0px 0px 10px #999;
 }
 
-.mbstpl-list-item-grid img {
+.mbstpl-list-item-grid > .righticons {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    width: 25px;
-    height: 25px;
+}
+
+.mbstpl-list-item-grid .crsauthor {
+    font-size: 60%;
 }
 
 .mbstpl-list-item-list {
@@ -97,12 +99,14 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     background-color: white;
 }
 
-.mbstpl-list-item-list img {
+.mbstpl-list-item-list > .righticons {
     position: absolute;
     right: 16px;
     top: 16px;
-    height: 30px;
-    width: 30px;
+}
+
+.mbstpl-list-item-list .crsauthor {
+    font-size: 60%;
 }
 
 .mbstpl-heading-panel {
@@ -148,7 +152,6 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 }
 
 .templaterating {
-    background-color: #888;
     width: 85px;
 }
 

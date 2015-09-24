@@ -101,8 +101,9 @@ class search {
         $wheres[] = 'tpl.status = :stpublished';
         $filterwheres = implode("\n          AND ", $wheres);
 
+        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
         $selectsql = "
-        SELECT c.id, c.fullname, cat.name AS catname
+        SELECT c.id, c.fullname, cat.name AS catname, tpl.rating, $authnamefield AS authorname
         ";
 
         $coresql = "
@@ -110,6 +111,7 @@ class search {
         JOIN {course_categories} cat ON cat.id = c.category
         JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id
         JOIN {block_mbstpl_meta} mta ON mta.templateid = tpl.id
+        LEFT JOIN {user} au ON au.id = tpl.authorid
         WHERE $filterwheres
         ";
 

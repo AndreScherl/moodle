@@ -374,7 +374,6 @@ class manager {
         return self::set_searchqs($qids);
     }
 
-
     /**
      * Get all questions for the search management page.
      * @return array of questions in display order with id, title and enabled.

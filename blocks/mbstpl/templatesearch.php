@@ -42,8 +42,8 @@ $pagenumber = optional_param('page', 1, PARAM_INT);
 $startrecord = ($pagenumber - 1) * $pagesize;
 
 // Load questions.
-$qidlist = \block_mbstpl\questman\manager::get_active_qform();
-$questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist->questions);
+$qidlist = \block_mbstpl\questman\manager::get_searchqs();
+$questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
 
 $searchform = new mbst\form\searchform(null, array('questions' => $questions));
 $courses = array();

@@ -320,7 +320,7 @@ class manager {
         if (empty($ordered)) {
             return array();
         }
-        return implode(',', $ordered);
+        return explode(',', $ordered);
     }
 
     /**
@@ -330,17 +330,20 @@ class manager {
     public static function searchmanage_getall() {
         global $DB;
         $allqs = $DB->get_records_menu('block_mbstpl_question', null, 'name ASC', 'id,name');
-        $allqskeys = array_keys($allqs);
+        $searchqs = self::get_searchqs();
+        $searchqskeys = array_flip($searchqs);
         $enableds = array();
         $disableds = array();
         foreach($allqs as $id => $question) {
-            $qobj = (object)array('id' => $question->id, 'name' => $question->name, 'enabled' => false);
-            if (isset($allqskeys[$id])) {
+            $qobj = (object)array('id' => $id, 'name' => $question, 'enabled' => false);
+            if (isset($searchqskeys[$id])) {
                 $qobj->enabled = true;
-                $enableds[] = $qobj;
+                $enableds[$searchqskeys[$id]] = $qobj;
             } else {
                 $disableds[] = $qobj;
             }
         }
+        ksort($enableds);
+        return array_merge($enableds, $disableds);
     }
 }

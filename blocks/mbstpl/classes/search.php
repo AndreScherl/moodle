@@ -113,9 +113,14 @@ class search {
             $params['tag'] = $this->tag;
         }
 
+        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
+        if (!empty($this->author)) {
+            $wheres[] = "$authnamefield LIKE :author";
+            $params['author'] = '%' . $this->author . '%';
+        }
+
         $filterwheres = implode("\n          AND ", $wheres);
 
-        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
         $selectsql = "
         SELECT c.id, c.fullname, cat.name AS catname, tpl.rating, $authnamefield AS authorname
         ";

@@ -52,8 +52,24 @@ class searchform extends \moodleform {
             $typeclass->add_to_searchform($form, $question, $elname);
         }
 
+        $form->addElement('text', 'tag', get_string('tag', 'block_mbstpl'));
+        $form->setType('tag', PARAM_TEXT);
+
+        $form->addElement('text', 'author', get_string('author', 'block_mbstpl'));
+        $form->setType('author', PARAM_TEXT);
+
         $form->addElement('text', 'keyword', get_string('coursekeyword', 'block_mbstpl'));
         $form->setType('keyword', PARAM_TEXT);
+
+        // Sorting.
+        $options = array();
+        $asc = ': ' . get_string('asc');
+        $desc = ': ' . get_string('desc');
+        foreach($questions as $question) {
+            $options['a_' . $question->id] = $question->name . $asc;
+            $options['d_' . $question->id] = $question->name . $desc;
+        }
+        $form->addElement('select', 'sortby', get_string('sort'), $options);
 
         $form->addElement('submit', 'submitbutton', get_string('search'));
     }

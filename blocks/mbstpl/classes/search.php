@@ -34,6 +34,15 @@ class search {
     /* @var array answers  */
     private $answers;
 
+    /* @var string tag  */
+    private $tag;
+
+    /* @var array author  */
+    private $author;
+
+    /* @var array keyword  */
+    private $keyword;
+
     /**
      * @param array $questions
      * @param \stdClass $formdata
@@ -41,6 +50,9 @@ class search {
     function __construct($questions, $formdata) {
         $this->questions = $questions;
         $this->answers = $this->formdata_to_answers($formdata);
+        $this->tag = trim($formdata->tag);
+        $this->author = trim($formdata->author);
+        $this->keyword = trim($formdata->keyword);
     }
 
     /**
@@ -99,6 +111,25 @@ class search {
             $params = array_merge($params, $toadd['params']);
         }
         $wheres[] = 'tpl.status = :stpublished';
+
+        if (!empty($this->tag)) {
+            $wheres[] = "EXISTS (SELECT 1 FROM {block_mbstpl_tag} WHERE metaid = mta.id AND tag = :tag)";
+            $params['tag'] = $this->tag;
+        }
+
+        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
+        if (!empty($this->author)) {
+            $wheres[] = "$authnamefield LIKE :author";
+            $params['author'] = '%' . $this->author . '%';
+        }
+
+        if (!empty($this->keyword)) {
+            $wheres[] = "(c.shortname LIKE :cname1 OR c.fullname LIKE :cname2)";
+            $keywordwc = '%' . $this->keyword . '%';
+            $params['cname1'] = $keywordwc;
+            $params['cname2'] = $keywordwc;
+        }
+
         $filterwheres = implode("\n          AND ", $wheres);
 
         $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');

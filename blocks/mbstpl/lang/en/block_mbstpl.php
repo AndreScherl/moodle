@@ -151,6 +151,7 @@ $string['statuscreated'] = 'Created';
 $string['statuspublished'] = 'Published';
 $string['statusunderreview'] = 'Under review';
 $string['statusunderrevision'] = 'Under revision';
+$string['tag'] = 'Tag';
 $string['tags'] = 'Tags';
 $string['tasknote'] = 'Task note';
 $string['templatefeedback'] = 'Template feedback';

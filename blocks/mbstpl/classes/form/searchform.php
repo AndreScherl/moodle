@@ -52,9 +52,13 @@ class searchform extends \moodleform {
             $typeclass->add_to_searchform($form, $question, $elname);
         }
 
-        $form->addElement('text', 'keyword', get_string('coursekeyword', 'block_mbstpl'));
-        $form->setType('keyword', PARAM_TEXT);
+        $form->addElement('text', 'tag', get_string('tag', 'block_mbstpl'));
+        $form->setType('tag', PARAM_TEXT);
 
-        $form->addElement('submit', 'submitbutton', get_string('search'));
+        $form->addElement('text', 'author', get_string('author', 'block_mbstpl'));
+        $form->setType('author', PARAM_TEXT);
+
+        $form->addElement('text', 'keyword', get_string('coursename', 'block_mbstpl'));
+        $form->setType('keyword', PARAM_TEXT);
     }
 }

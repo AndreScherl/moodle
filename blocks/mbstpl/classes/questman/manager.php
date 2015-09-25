@@ -91,6 +91,9 @@ class manager {
         if (!is_array($qids)) {
             $qids = explode(',', $qids);
         }
+        if (empty($qids)) {
+            return array();
+        }
         list($qidin, $params) = $DB->get_in_or_equal($qids);
         $questsions = $DB->get_records_select('block_mbstpl_question', "id $qidin", $params);
 
@@ -114,6 +117,9 @@ class manager {
 
         $draft = self::get_qform_draft();
         $qids = explode(',', $draft);
+        if (empty($qids)) {
+            return array();
+        }
         list($qidin, $params) = $DB->get_in_or_equal($qids, SQL_PARAMS_QM, null, false);
         $questsions = $DB->get_records_select('block_mbstpl_question', "id $qidin", $params);
         return $questsions;

@@ -60,5 +60,7 @@ class searchform extends \moodleform {
 
         $form->addElement('text', 'keyword', get_string('coursename', 'block_mbstpl'));
         $form->setType('keyword', PARAM_TEXT);
+
+        $form->addElement('submit', 'submitbutton', get_string('search'));
     }
 }

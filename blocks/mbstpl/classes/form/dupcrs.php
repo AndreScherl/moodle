@@ -38,7 +38,7 @@ require_once($CFG->libdir . '/formslib.php');
  * Create template to course duplication task request.
  */
 
-class dupcrs extends mbsform {
+class dupcrs extends \moodleform {
 
     function display() {
 

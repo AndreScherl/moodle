@@ -39,23 +39,15 @@ class user {
      * @param $userid
      */
     public static function enrol_reviewer($courseid, $userid) {
-        global $CFG, $DB;
-
-        // First, enrol.
-        require_once($CFG->dirroot . '/enrol/manual/lib.php');
+        global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'reviewerrole')) {
             throw new \moodle_exception('errorreviewerrolenotset', 'block_mbstpl');
         }
 
         $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
-        $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
-        if (!$enrol) {
-            throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
-        }
 
-        $plugin = new \enrol_manual_plugin();
-        $plugin->enrol_user($enrol, $userid, $roleid);
+        self::enrol_user_to_course($userid, $courseid, $roleid);
 
         // Now let them know about it.
         notifications::notify_assignedreviewer($course, $userid);
@@ -67,23 +59,15 @@ class user {
      * @param $userid
      */
     public static function enrol_author($courseid, $userid) {
-        global $CFG, $DB;
-
-        // First, enrol.
-        require_once($CFG->dirroot.'/enrol/manual/lib.php');
+        global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'authorrole')) {
             throw new \moodle_exception('errorauthorrolenotset', 'block_mbstpl');
         }
 
         $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
-        $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
-        if (!$enrol) {
-            throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
-        }
 
-        $plugin = new \enrol_manual_plugin();
-        $plugin->enrol_user($enrol, $userid, $roleid);
+        self::enrol_user_to_course($userid, $courseid, $roleid);
 
         // Now let them know about it.
         notifications::notify_assignedauthor($course, $userid);
@@ -96,13 +80,19 @@ class user {
      * @param unknown $userid
      */
     public static function enrol_teacher($courseid, $userid) {
-        global $CFG, $DB;
+        global $DB;
 
         $teacherroles = $DB->get_records('role', array('archetype' => 'editingteacher'));
         if (empty($teacherroles)) {
             throw new \moodle_exception('errornoteacherroles', 'block_mbstpl');
         }
         $teacherrole = array_shift($teacherroles);
+
+        self::enrol_user_to_course($userid, $courseid, $teacherrole->id);
+    }
+
+    private static function enrol_user_to_course($userid, $courseid, $roleid) {
+        global $CFG, $DB;
 
         $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
         if (!$enrol) {
@@ -111,7 +101,7 @@ class user {
 
         require_once($CFG->dirroot.'/enrol/manual/lib.php');
         $plugin = new \enrol_manual_plugin();
-        $plugin->enrol_user($enrol, $userid, $teacherrole->id);
+        $plugin->enrol_user($enrol, $userid, $roleid);
     }
 
     /**

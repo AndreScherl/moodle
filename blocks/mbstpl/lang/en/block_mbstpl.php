@@ -52,6 +52,7 @@ $string['currentrating'] = 'Current rating';
 $string['delayedrestore'] = 'Delayed Course Duplication';
 $string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
 $string['deploycat'] = 'Template deployment category';
+$string['destination'] = 'Destination';
 $string['duplcourseforuse'] = 'Duplicate course for use';
 $string['duplcourseforuse1'] = 'Select Sections and Activities to Duplicate';
 $string['duplcourseforuse2'] = 'Duplicate Course from Template';

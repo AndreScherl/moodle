@@ -22,6 +22,8 @@
 
 namespace block_mbstpl\questman;
 
+use \block_mbstpl as mbst;
+
 defined('MOODLE_INTERNAL') || die();
 
 class manager {
@@ -402,5 +404,37 @@ class manager {
         }
         ksort($enableds);
         return array_merge($enableds, $disableds);
+    }
+
+    public static function build_form($template, $course, $populate = false, $freeze = false) {
+
+        global $DB;
+
+        $courseid = $course->id;
+        $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
+        $qform = mbst\questman\manager::get_qform($backup->qformid);
+        $qidlist = $qform ? $qform->questions : '';
+        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
+        $creator = $DB->get_record('user', array('id' => $backup->creatorid));
+        foreach ($questions as $questionid => $question) {
+            $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
+        }
+        $customdata = array(
+            'courseid' => $courseid,
+            'questions' => $questions,
+            'freeze' => $freeze,
+            'template' => $template,
+            'course' => $course,
+            'creator' => $creator
+        );
+        $tform = new mbst\form\editmeta(null, $customdata);
+
+        if ($populate) {
+            $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+            $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+            $tform->set_data($answers);
+        }
+
+        return $tform;
     }
 }

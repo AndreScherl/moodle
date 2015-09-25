@@ -94,5 +94,12 @@ if ($form->is_cancelled()) {
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);
+
+$tform = mbst\questman\manager::build_form($template, $course, true, true);
+$tform->display();
+
+echo html_writer::tag('h3', get_string('destination', 'block_mbstpl'));
+
 $form->display();
+
 echo $OUTPUT->footer();

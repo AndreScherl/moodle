@@ -35,7 +35,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 
 class activatedraft extends \moodleform {
-    function definition() {
+    protected function definition() {
         $form = $this->_form;
 
         $form->addElement('text', 'formname', get_string('name'));

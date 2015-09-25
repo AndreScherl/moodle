@@ -89,7 +89,7 @@ if (is_null($template->rating)) {
     $table->pagesize($perpage, $matchcount);
     $results = $DB->get_recordset_sql("$select $from $where $sort", $params, $table->get_page_start(), $table->get_page_size());
 
-    foreach($results as $result) {
+    foreach ($results as $result) {
         $row = array();
         $row[] = userdate($result->timecreated);
         $row[] = $result->rating;

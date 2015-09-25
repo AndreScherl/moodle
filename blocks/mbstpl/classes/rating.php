@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* @package block_mbstpl
-* @copyright 2015 Yair Spielmann, Synergy Learning for ALP
-* @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 namespace block_mbstpl;
 
@@ -35,7 +35,8 @@ class rating {
         global $DB;
 
         $starrating->insertorupdate();
-        $average = $DB->get_field_sql("SELECT AVG(rating) FROM {block_mbstpl_starrating} WHERE templateid = ?", array($template->id));
+        $average = $DB->get_field_sql("SELECT AVG(rating) FROM {block_mbstpl_starrating} WHERE templateid = ?",
+            array($template->id));
         $template->rating = $average;
         $template->update_notouch();
     }

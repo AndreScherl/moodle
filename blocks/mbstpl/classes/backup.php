@@ -195,7 +195,8 @@ class backup {
             $settings['anonymize'] = 1;
         }
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
+            \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
             foreach ($settings as $setting => $value) {
@@ -204,13 +205,14 @@ class backup {
                 }
             }
 
-            // Set the default filename
+            // Set the default filename.
             $format = $bc->get_format();
             $type = $bc->get_type();
             $id = $bc->get_id();
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
-            $bc->get_plan()->get_setting('filename')->set_value(\backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            $bc->get_plan()->get_setting('filename')->set_value(
+                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -328,7 +330,8 @@ class backup {
         // Restore.
         $admin = get_admin();
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_CURRENT_ADDING);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
+                $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (Exception $e) {
@@ -371,7 +374,8 @@ class backup {
             'histories' => 0,
         ), $backupsettings);
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
+            \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
             foreach ($settings as $setting => $value) {
@@ -380,13 +384,14 @@ class backup {
                 }
             }
 
-            // Set the default filename
+            // Set the default filename.
             $format = $bc->get_format();
             $type = $bc->get_type();
             $id = $bc->get_id();
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
-            $bc->get_plan()->get_setting('filename')->set_value(\backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            $bc->get_plan()->get_setting('filename')->set_value(
+                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -491,7 +496,8 @@ class backup {
         // Restore.
         $admin = get_admin();
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_CURRENT_ADDING);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
+                $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (Exception $e) {
@@ -511,7 +517,7 @@ class backup {
         $page = new \moodle_page();
         $page->set_context(\context_course::instance($courseid));
 
-        // use the 1st available region of the theme's course layout
+        // Use the 1st available region of the theme's course layout.
         $region = $PAGE->theme->layouts['course']['regions'][0];
 
         $bm = new \block_manager($page);

@@ -35,7 +35,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 
 class questedit extends \moodleform {
-    function definition() {
+    protected function definition() {
         $form = $this->_form;
 
         $strrequired = get_string('required');
@@ -50,7 +50,8 @@ class questedit extends \moodleform {
         $form->addRule('name', $strrequired, 'required', null, 'client');
         $form->setType('name', PARAM_TEXT);
 
-        $form->addElement('textarea', 'title', get_string('questiontitle', 'block_mbstpl'), array('rows' => 3, 'cols' => 70, 'class' => 'smalltext'));
+        $form->addElement('textarea', 'title', get_string('questiontitle', 'block_mbstpl'),
+            array('rows' => 3, 'cols' => 70, 'class' => 'smalltext'));
         $form->addRule('title', $strrequired, 'required', null, 'client');
         $form->setType('title', PARAM_TEXT);
 
@@ -69,7 +70,8 @@ class questedit extends \moodleform {
         $maxlength = $question->param2;
 
         // Create the form field.
-        $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+        $form->addElement('text', $question->fieldname, format_string($question->title),
+            'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 

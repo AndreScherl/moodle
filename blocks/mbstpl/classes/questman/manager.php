@@ -99,8 +99,8 @@ class manager {
 
         // Now sort.
         $ordered = array();
-        foreach($qids as $key) {
-            if(array_key_exists($key, $questsions)) {
+        foreach ($qids as $key) {
+            if (array_key_exists($key, $questsions)) {
                 $ordered[$key] = $questsions[$key];
                 unset($questsions[$key]);
             }
@@ -294,7 +294,7 @@ class manager {
         $fieldnames = array();
         $qids = array();
         $answers = array();
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             $fieldnames[$question->fieldname] = '';
             $qids[$question->id] = $question->id;
         }
@@ -306,7 +306,7 @@ class manager {
         $params['meta'] = $metaid;
         $preprocesseds = $DB->get_records_select('block_mbstpl_answer', "metaid = :meta AND questionid $qidin", $params,
             '', 'id,data,dataformat,questionid');
-        foreach($preprocesseds as $prec) {
+        foreach ($preprocesseds as $prec) {
             $qid = $prec->questionid;
             if (!isset($questions[$qid])) {
                 continue;
@@ -391,7 +391,7 @@ class manager {
         $searchqskeys = array_flip($searchqs);
         $enableds = array();
         $disableds = array();
-        foreach($allqs as $id => $question) {
+        foreach ($allqs as $id => $question) {
             $qobj = (object)array('id' => $id, 'name' => $question, 'enabled' => false);
             if (isset($searchqskeys[$id])) {
                 $qobj->enabled = true;

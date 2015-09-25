@@ -59,23 +59,23 @@ class restoreformbuilder {
 
     public function prepare_section_elements() {
 
-        $add_settings = array();
+        $addsettings = array();
         $dependencies = array();
         $courseheading = false;
 
         foreach ($this->tasks as $task) {
             if (!($task instanceof backup_root_task)) {
                 if (!$courseheading) {
-                    // If we havn't already display a course heading to group nicely
+                    // If we havn't already display a course heading to group nicely.
                     $this->add_heading('coursesettings', get_string('includeactivities', 'backup'));
                     $courseheading = true;
                 }
-                // First add each setting
+                // First add each setting.
                 foreach ($task->get_settings() as $setting) {
                     $setting->set_value(1);
-                    $add_settings[] = array($setting, $task);
+                    $addsettings[] = array($setting, $task);
                 }
-                // The add all the dependencies
+                // The add all the dependencies.
                 foreach ($task->get_settings() as $setting) {
                     $setting->set_value(1);
                     $dependencies[] = $setting;
@@ -83,7 +83,7 @@ class restoreformbuilder {
             }
         }
 
-        $this->add_settings($add_settings);
+        $this->add_settings($addsettings);
 
         foreach ($dependencies as $depsetting) {
             $this->add_dependencies($depsetting);
@@ -120,10 +120,10 @@ class restoreformbuilder {
                 continue;
             }
 
-            // First add the formatting for this setting
+            // First add the formatting for this setting.
             $this->add_html_formatting($setting);
 
-            // Then call the add method with the get_element_properties array
+            // Then call the add method with the get_element_properties array.
             call_user_func_array(array($this->_form, 'addElement'), $setting->get_ui()->get_element_properties($task, $OUTPUT));
             $this->_form->setType($setting->get_ui_name(), $setting->get_param_validation());
             $defaults[$setting->get_ui_name()] = $setting->get_value();
@@ -139,8 +139,8 @@ class restoreformbuilder {
 
     private function add_dependencies(backup_setting $setting) {
         $mform = $this->_form;
-        // Apply all dependencies for backup
-        foreach ($setting->get_my_dependency_properties() as $key=>$dependency) {
+        // Apply all dependencies for backup.
+        foreach ($setting->get_my_dependency_properties() as $key => $dependency) {
             call_user_func_array(array($this->_form, 'disabledIf'), $dependency);
         }
     }
@@ -152,8 +152,8 @@ class restoreformbuilder {
      */
     private function add_html_formatting(backup_setting $setting) {
         $mform = $this->_form;
-        $isincludesetting = (strpos($setting->get_name(), '_include')!==false);
-        if ($isincludesetting && $setting->get_level() != backup_setting::ROOT_LEVEL)  {
+        $isincludesetting = (strpos($setting->get_name(), '_include') !== false);
+        if ($isincludesetting && $setting->get_level() != backup_setting::ROOT_LEVEL) {
             switch ($setting->get_level()) {
                 case backup_setting::COURSE_LEVEL:
                     if ($this->activitydiv) {
@@ -167,8 +167,8 @@ class restoreformbuilder {
                     if ($this->coursediv) {
                         $this->_form->addElement('html', html_writer::end_tag('div'));
                     }
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'grouped_settings course_level')));
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'include_setting course_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'grouped_settings course_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'include_setting course_level')));
                     $this->coursediv = true;
                     break;
                 case backup_setting::SECTION_LEVEL:
@@ -179,26 +179,26 @@ class restoreformbuilder {
                     if ($this->sectiondiv) {
                         $this->_form->addElement('html', html_writer::end_tag('div'));
                     }
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'grouped_settings section_level')));
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'include_setting section_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'grouped_settings section_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'include_setting section_level')));
                     $this->sectiondiv = true;
                     break;
                 case backup_setting::ACTIVITY_LEVEL:
                     if ($this->activitydiv) {
                         $this->_form->addElement('html', html_writer::end_tag('div'));
                     }
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'grouped_settings activity_level')));
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'include_setting activity_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'grouped_settings activity_level')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'include_setting activity_level')));
                     $this->activitydiv = true;
                     break;
                 default:
-                    $mform->addElement('html', html_writer::start_tag('div', array('class'=>'normal_setting')));
+                    $mform->addElement('html', html_writer::start_tag('div', array('class' => 'normal_setting')));
                     break;
             }
         } else if ($setting->get_level() == backup_setting::ROOT_LEVEL) {
-            $mform->addElement('html', html_writer::start_tag('div', array('class'=>'root_setting')));
+            $mform->addElement('html', html_writer::start_tag('div', array('class' => 'root_setting')));
         } else {
-            $mform->addElement('html', html_writer::start_tag('div', array('class'=>'normal_setting')));
+            $mform->addElement('html', html_writer::start_tag('div', array('class' => 'normal_setting')));
         }
     }
 
@@ -209,13 +209,16 @@ class restoreformbuilder {
             $this->add_html_formatting($setting);
             switch ($setting->get_status()) {
                 case backup_setting::LOCKED_BY_PERMISSION:
-                    $icon = ' '.$OUTPUT->pix_icon('i/permissionlock', get_string('lockedbypermission', 'backup'), 'moodle', array('class'=>'smallicon lockedicon permissionlock'));
+                    $icon = ' '.$OUTPUT->pix_icon('i/permissionlock', get_string('lockedbypermission', 'backup'), 'moodle',
+                        array('class' => 'smallicon lockedicon permissionlock'));
                     break;
                 case backup_setting::LOCKED_BY_CONFIG:
-                    $icon = ' '.$OUTPUT->pix_icon('i/configlock', get_string('lockedbyconfig', 'backup'), 'moodle', array('class'=>'smallicon lockedicon configlock'));
+                    $icon = ' '.$OUTPUT->pix_icon('i/configlock', get_string('lockedbyconfig', 'backup'), 'moodle',
+                        array('class' => 'smallicon lockedicon configlock'));
                     break;
                 case backup_setting::LOCKED_BY_HIERARCHY:
-                    $icon = ' '.$OUTPUT->pix_icon('i/hierarchylock', get_string('lockedbyhierarchy', 'backup'), 'moodle', array('class'=>'smallicon lockedicon configlock'));
+                    $icon = ' '.$OUTPUT->pix_icon('i/hierarchylock', get_string('lockedbyhierarchy', 'backup'), 'moodle',
+                        array('class' => 'smallicon lockedicon configlock'));
                     break;
                 default:
                     $icon = '';

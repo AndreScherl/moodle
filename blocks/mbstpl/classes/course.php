@@ -120,7 +120,7 @@ class course {
         // Clean up template.
         $templates = dataobj\template::fetch_all(array('courseid' => $cid));
         if (!empty($templates)) {
-            foreach($templates as $template) {
+            foreach ($templates as $template) {
                 $template->delete();
             }
         }
@@ -269,17 +269,17 @@ class course {
      * @param int $templateid
      * @return array
      */
-	public static function get_revhist($templateid) {
-		global $DB;
-		$sql = "
-		SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
-		FROM {block_mbstpl_revhist} rh
-		JOIN {user} u ON u.id = rh.assignedid
-		WHERE rh.templateid = ?
-		ORDER BY rh.id DESC
-		";
-		return $DB->get_records_sql($sql, array('', $templateid));
-	}
+    public static function get_revhist($templateid) {
+        global $DB;
+        $sql = "
+        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
+        FROM {block_mbstpl_revhist} rh
+        JOIN {user} u ON u.id = rh.assignedid
+        WHERE rh.templateid = ?
+        ORDER BY rh.id DESC
+        ";
+        return $DB->get_records_sql($sql, array('', $templateid));
+    }
 
     /**
      * Gets a list of everyone who created the course template.
@@ -298,7 +298,7 @@ class course {
         ";
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $creators[] = fullname($result);
         }
         return implode(', ', $creators);

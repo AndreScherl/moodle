@@ -52,7 +52,7 @@ $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST
 $qform = mbst\questman\manager::get_qform($backup->qformid);
 $qidlist = $qform ? $qform->questions : '';
 $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
-foreach($questions as $questionid => $question) {
+foreach ($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
 $customdata = array(

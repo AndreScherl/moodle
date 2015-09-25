@@ -37,7 +37,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 
 class assign extends \moodleform {
-    function definition() {
+    protected function definition() {
         $form = $this->_form;
 
         $form->addElement('hidden', 'course');

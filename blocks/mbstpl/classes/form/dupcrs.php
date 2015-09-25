@@ -56,7 +56,7 @@ class dupcrs extends \moodleform {
         parent::display();
     }
 
-    function definition() {
+    protected function definition() {
         $form = $this->_form;
 
         $course = $this->_customdata['course'];
@@ -83,7 +83,7 @@ class dupcrs extends \moodleform {
         if (!empty($this->_customdata['cats'])) {
             $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
             $options = array();
-            foreach($this->_customdata['cats'] as $cat) {
+            foreach ($this->_customdata['cats'] as $cat) {
                 $options[$cat->id] = $cat->name;
             }
             $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options);
@@ -92,7 +92,7 @@ class dupcrs extends \moodleform {
         if (!empty($this->_customdata['courses'])) {
             $form->addElement('radio', 'restoreto', get_string('restoretoexistingcourse', 'backup'), '', 'course');
             $options = array();
-            foreach($this->_customdata['courses'] as $crs) {
+            foreach ($this->_customdata['courses'] as $crs) {
                 $options[$crs->id] = $crs->fullname;
             }
             $form->addElement('select', 'tocrs', get_string('selectacourse', 'backup'), $options);
@@ -101,7 +101,7 @@ class dupcrs extends \moodleform {
         $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
 
         $form->addElement('static', 'license', '',
-            get_string('duplcourselicense', 'block_mbstpl',$this->_customdata['creator']));
+            get_string('duplcourselicense', 'block_mbstpl', $this->_customdata['creator']));
 
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
@@ -126,7 +126,8 @@ class dupcrs extends \moodleform {
 
         $form->addElement('static', 'message', '', get_string('selectsectionsandactivities', 'block_mbstpl'));
 
-        $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
+        $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE,
+            backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
         $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks());
         $builder->prepare_section_elements();
 

@@ -49,7 +49,7 @@ class user {
         }
 
         $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
-        $enrol = $DB->get_record('enrol', array('courseid'=>$courseid, 'enrol'=>'manual', 'status'=>ENROL_INSTANCE_ENABLED));
+        $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
         if (!$enrol) {
             throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
         }
@@ -125,8 +125,7 @@ class user {
                 $template->type = 'assigned';
             } else if ($template->authorid == $userid && $status == dataobj\template::STATUS_UNDER_REVISION) {
                 $template->type = 'assigned';
-            }
-            else if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
+            } else if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
                 $template->type = 'revision';
             } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
                 $template->type = 'review';
@@ -141,7 +140,7 @@ class user {
         $presordeds = array();
 
         // Pre-sort only the ones that have a type.
-        foreach($templates as $template) {
+        foreach ($templates as $template) {
             if (empty($template->type)) {
                 continue;
             }
@@ -153,17 +152,17 @@ class user {
 
         // Load assignees.
         $assigneeids = array();
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $assigneeids[$template->assigneeid] = $template->assigneeid;
         }
         list($uidin, $params) = $DB->get_in_or_equal($assigneeids);
         $assignees = $DB->get_records_select('user', "id $uidin", $params);
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $template->assignee = empty($assignees[$template->assigneeid]) ? null : $assignees[$template->assigneeid];
         }
 
         // Sort by type.
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $toreturn[$template->type][] = $template;
         }
         return $toreturn;

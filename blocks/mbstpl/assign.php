@@ -103,7 +103,7 @@ if ($type == 'author') {
 $showselector = ($type == 'author') || (mbst\perms::can_assignreview($template, $coursecontext));
 if ($showselector) {
     $allowedreviewerids = null;
-    if ($type =='reviewer') {
+    if ($type == 'reviewer') {
         // When selecting a reviewer, restrict to the available users.
         $catcontext = context_coursecat::instance($course->category);
         $users = get_users_by_capability($catcontext, 'block/mbstpl:coursetemplatereview', 'u.id');

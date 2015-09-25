@@ -52,7 +52,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->align = array('left', 'left', 'center', 'center', 'center', 'center');
         $numqs = count($questions);
         $qnum = 0;
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             $canmoveup = $qnum;
             $canmovedown = $qnum != $numqs - 1;
             $qnum++;
@@ -108,7 +108,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('useq', 'block_mbstpl'),
         );
         $table->align = array('left', 'left', 'center', 'center');
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             $table->data[] = $this->list_one_bank_question($question);
         }
         return html_writer::table($table);
@@ -155,7 +155,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->data[] = array(get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
         $table->data[] = array(get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
         if ($showstatus) {
-            $assignedname = $template->status == $template::STATUS_UNDER_REVISION ? $authorname: $reviewername;
+            $assignedname = $template->status == $template::STATUS_UNDER_REVISION ? $authorname : $reviewername;
             $status = \block_mbstpl\course::get_statusshortname($template->status);
             $statusbox = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
             $table->data[] = array(get_string('assigned', 'block_mbstpl'), $assignedname);
@@ -193,7 +193,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             '',
         );
         $table->data = array();
-        $commentpic = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/comments.png'), get_string('viewfeedback', 'block_mbstpl'));
+        $commentpic = \html_writer::img(
+            new moodle_url('/blocks/mbstpl/pix/comments.png'),
+            get_string('viewfeedback', 'block_mbstpl'));
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
             $viewfdbk = '';
@@ -228,7 +230,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         );
         $imgview = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/eye.png'), get_string('view'));
         $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
-        foreach($templates as $type => $typetemplates) {
+        foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;
             }
@@ -281,10 +283,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         // TODO: Add pagination controls.
 
-        $listcontrollers .= \html_writer::link($link,
-                \html_writer::img($OUTPUT->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l'=>'grid')));
-        $listcontrollers .= \html_writer::link($link,
-                \html_writer::img($OUTPUT->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l'=>'list')));
+        $listcontrollers .= \html_writer::link($link, \html_writer::img(
+            $OUTPUT->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l' => 'grid')));
+        $listcontrollers .= \html_writer::link($link, \html_writer::img(
+            $OUTPUT->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l' => 'list')));
         $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
 
         $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
@@ -325,10 +327,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $roundavg = round($avg * 2);
         $inner = '';
 
-        for($i = 1; $i <= 5; $i++) {
-            if($roundavg >= $i * 2) {
+        for ($i = 1; $i <= 5; $i++) {
+            if ($roundavg >= $i * 2) {
                 $inner .= html_writer::div('', 'star fullstar');
-            } else if($roundavg >= $i * 2 - 1) {
+            } else if ($roundavg >= $i * 2 - 1) {
                 $inner .= html_writer::div('', 'star halfstar');
             } else {
                 $inner .= html_writer::div('', 'star emptystar');
@@ -417,7 +419,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         );
         $table->align = array('left', 'center', 'center');
         $questions = array_values($questions);
-        foreach($questions as $qpos => $question) {
+        foreach ($questions as $qpos => $question) {
             $cells = array();
             $class = '';
             $cells[] = $question->name;
@@ -435,10 +437,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             $canup = false;
             $candown = false;
             if ($question->enabled) {
-                if (isset($questions[$qpos-1])) {
+                if (isset($questions[$qpos - 1])) {
                     $canup = true;
                 }
-                if (isset($questions[$qpos+1]) && $questions[$qpos+1]->enabled) {
+                if (isset($questions[$qpos + 1]) && $questions[$qpos + 1]->enabled) {
                     $candown = true;
                 }
             }

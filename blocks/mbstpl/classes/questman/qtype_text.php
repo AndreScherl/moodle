@@ -46,7 +46,8 @@ class qtype_text extends qtype_base {
         $maxlength = $question->param2;
 
         // Create the form field.
-        $form->addElement('text', $question->fieldname, format_string($question->title), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+        $form->addElement('text', $question->fieldname, format_string($question->title),
+            'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 

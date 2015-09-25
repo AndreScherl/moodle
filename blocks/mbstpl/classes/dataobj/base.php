@@ -113,7 +113,7 @@ abstract class base extends \data_object {
         return $this->update();
     }
 
-	/**
+    /**
      * Finds and returns all data_object instances based on params.
      *
      * @param array $params associative arrays varname => value
@@ -125,7 +125,7 @@ abstract class base extends \data_object {
             return $instances;
         }
         return array();
-	}
+    }
 
     /**
      * Get array of dependants. Extend in subclasses that have dependant tables in this namespace extending this class.
@@ -145,7 +145,7 @@ abstract class base extends \data_object {
         global $DB;
 
         if ($deleted) {
-            foreach(static::get_dependants() as $classname => $key) {
+            foreach (static::get_dependants() as $classname => $key) {
                 /** @var base $class */
                 $class = __NAMESPACE__ . '\\' .$classname;
                 if (!class_exists($class)) {
@@ -161,7 +161,7 @@ abstract class base extends \data_object {
                     $DB->delete_records($class::get_tablename(), array($key => $this->id));
                 } else {
                     $dependants = $class::fetch_all(array($key => $this->id));
-                    foreach($dependants as $dependant) {
+                    foreach ($dependants as $dependant) {
                         $dependant->delete();
                     }
                 }

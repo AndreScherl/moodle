@@ -64,7 +64,7 @@ class notifications {
         $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
-        foreach($managers as $manager) {
+        foreach ($managers as $manager) {
             email_to_user($manager, $from, $subject, $body);
         }
 
@@ -92,12 +92,12 @@ class notifications {
         $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
-        foreach($managers as $manager) {
+        foreach ($managers as $manager) {
             email_to_user($manager, $from, $subject, $body);
         }
 
         // Email to course author.
-        $requester = $DB->get_record('user', array('id' =>$requesterid), '*', MUST_EXIST);
+        $requester = $DB->get_record('user', array('id' => $requesterid), '*', MUST_EXIST);
         $subject = get_string('emaildupldeployed_subj', 'block_mbstpl');
         $a = (object)array(
             'fullname' => $course->fullname,
@@ -189,7 +189,7 @@ class notifications {
         }
         if ($USER->id == $template->reviewerid) {
             $isreviewer = true;
-        }  else if ($USER->id == $template->authorid) {
+        } else if ($USER->id == $template->authorid) {
             $isreviewer = false;
         } else {
             throw new \moodle_exception('errornotallwoedtosendfeedback', 'block_mbstpl');

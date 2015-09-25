@@ -500,4 +500,37 @@ class backup {
         remove_dir($tmpdir);
         return $course->id;
     }
+
+    public static function build_html_block($courseid, dataobj\template $template) {
+
+        global $CFG, $DB, $PAGE;
+
+        require_once($CFG->dirroot . "/lib/blocklib.php");
+        require_once($CFG->dirroot . "/lib/pagelib.php");
+
+        $page = new \moodle_page();
+        $page->set_context(\context_course::instance($courseid));
+
+        // use the 1st available region of the theme's course layout
+        $region = $PAGE->theme->layouts['course']['regions'][0];
+
+        $bm = new \block_manager($page);
+        $bm->add_region($region);
+        $bm->add_block('html', $region, 0, false, 'course-view-*');
+
+        $creators = course::get_creators($template->id);
+        $blockconfig = array(
+            'title' => get_string('newblocktitle', 'block_mbstpl'),
+            'text' => array(
+                'text' => get_string('duplcourselicense', 'block_mbstpl', $creators),
+                'format' => FORMAT_PLAIN,
+                'itemid' => file_get_submitted_draft_itemid('config_text')
+            )
+        );
+
+        $blockrecord = $DB->get_record('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
+        $block = block_instance('html', $blockrecord, $page);
+        $block->instance_config_save((object) $blockconfig);
+
+    }
 }

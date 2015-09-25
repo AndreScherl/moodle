@@ -121,6 +121,7 @@ $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';
 $string['myreview'] = 'My courses under review';
 $string['myrevision'] = 'My courses under revision';
+$string['newblocktitle'] = 'Course Template Information';
 $string['norating'] = 'This template has no ratings.';
 $string['notemplates'] = 'You have no active templates in this site.';
 $string['noresults'] = 'No results found.';

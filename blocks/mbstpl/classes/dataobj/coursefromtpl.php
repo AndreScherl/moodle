@@ -34,8 +34,8 @@ class coursefromtpl extends base {
     public $required_fields = array('id', 'courseid', 'templateid');
     public $noduplfields = array('courseid');
 
-    /* @var int cousreid  */
-    public $cousreid;
+    /* @var int courseid  */
+    public $courseid;
 
     /* @var int templateid */
     public $templateid;

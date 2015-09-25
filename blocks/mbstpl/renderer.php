@@ -143,6 +143,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $authorname = mbst\course::get_creators($template->id);
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
         $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $courseurl = new moodle_url('/course/view.php', array('id' => $template->courseid));
         $courselink = html_writer::link($courseurl, format_string($course->fullname));
 
         $cbox = '';

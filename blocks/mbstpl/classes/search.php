@@ -40,6 +40,9 @@ class search {
     /* @var array author  */
     private $author;
 
+    /* @var array keyword  */
+    private $keyword;
+
     /**
      * @param array $questions
      * @param \stdClass $formdata
@@ -49,6 +52,7 @@ class search {
         $this->answers = $this->formdata_to_answers($formdata);
         $this->tag = trim($formdata->tag);
         $this->author = trim($formdata->author);
+        $this->keyword = trim($formdata->keyword);
     }
 
     /**
@@ -117,6 +121,13 @@ class search {
         if (!empty($this->author)) {
             $wheres[] = "$authnamefield LIKE :author";
             $params['author'] = '%' . $this->author . '%';
+        }
+
+        if (!empty($this->keyword)) {
+            $wheres[] = "(c.shortname LIKE :cname1 OR c.fullname LIKE :cname2)";
+            $keywordwc = '%' . $this->keyword . '%';
+            $params['cname1'] = $keywordwc;
+            $params['cname2'] = $keywordwc;
         }
 
         $filterwheres = implode("\n          AND ", $wheres);

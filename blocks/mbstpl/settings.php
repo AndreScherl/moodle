@@ -52,4 +52,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_mbstpl/complainturl',
                                                   get_string('complainturl', 'block_mbstpl'),
                                                   get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
+    $settings->add(new admin_setting_configcheckbox('block_mbstpl/delayedrestore',
+                                                  get_string('delayedrestore', 'block_mbstpl'),
+                                                  get_string('delayedrestore_desc', 'block_mbstpl'), false));
+
 }

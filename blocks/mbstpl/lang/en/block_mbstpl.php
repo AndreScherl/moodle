@@ -85,6 +85,7 @@ $string['erroremailbody'] = 'An error has occurred: {$a->message}'."\n".'{$a->er
 $string['erroremailsubj'] = 'Templating error';
 $string['errormanualenrolnotset'] = 'Manual enrolment not set or enabled for course.';
 $string['errornowheretorestore'] = 'There are no categories or courses on this site in which you have permission to restore course.';
+$string['errornoteacherroles'] = 'There are no teacher roles in the system';
 $string['errorrestorefilenotexists'] = 'Restore file does not exist.';
 $string['errorincorrectdatatype'] = 'Incorrect data type provided.';
 $string['errornobackupfound'] = 'No backup was found for backup {$a}';

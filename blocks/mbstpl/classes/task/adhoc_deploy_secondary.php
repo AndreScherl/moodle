@@ -40,6 +40,7 @@ class adhoc_deploy_secondary extends \core\task\adhoc_task {
             $filename = backup::backup_secondary($template, $details->settings);
             $this->courseid = backup::restore_secondary($template, $filename, $details->settings);
             backup::build_html_block($this->courseid, $template);
+            \block_mbstpl\user::enrol_teacher($this->courseid, $details->requesterid);
             \block_mbstpl\notifications::email_duplicated($details->requesterid, $this->courseid);
         } catch (\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);

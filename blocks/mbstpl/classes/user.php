@@ -90,6 +90,31 @@ class user {
     }
 
     /**
+     * Enrol a user with the teacher role
+     *
+     * @param unknown $courseid
+     * @param unknown $userid
+     */
+    public static function enrol_teacher($courseid, $userid) {
+        global $CFG, $DB;
+
+        $teacherroles = $DB->get_records('role', array('archetype' => 'editingteacher'));
+        if (empty($teacherroles)) {
+            throw new \moodle_exception('errornoteacherroles', 'block_mbstpl');
+        }
+        $teacherrole = array_shift($teacherroles);
+
+        $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
+        if (!$enrol) {
+            throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
+        }
+
+        require_once($CFG->dirroot.'/enrol/manual/lib.php');
+        $plugin = new \enrol_manual_plugin();
+        $plugin->enrol_user($enrol, $userid, $teacherrole->id);
+    }
+
+    /**
      * Get all templates of the user (for any role).
      * @param null $userid use if not current user.
      * @return mixed array of template arrays or false if none found.

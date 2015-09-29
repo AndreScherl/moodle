@@ -45,7 +45,7 @@ class backup extends base {
     public $optional_fields = array(
         'creatorid' => 0,
         'incluserdata' => 1,
-        'lastverstion' => 0,
+        'lastversion' => 0,
     );
 
     /* @var int origcourseid id  */
@@ -63,8 +63,8 @@ class backup extends base {
     /* @var int incluserdata  */
     public $incluserdata;
 
-    /* @var int lastverstion  */
-    public $lastverstion;
+    /* @var int lastversion  */
+    public $lastversion;
 
     /* @var string feedback  */
     public $feedback;

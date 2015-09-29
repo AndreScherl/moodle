@@ -38,8 +38,9 @@ class adhoc_deploy_secondary extends \core\task\adhoc_task {
         $template = new \block_mbstpl\dataobj\template($details->tplid, true, MUST_EXIST);
         try {
             $filename = backup::backup_secondary($template, $details->settings);
-            $this->courseid = backup::restore_secondary($template, $filename, $details->settings, $details->requesterid);
-            backup::build_html_block($this->courseid, $template);
+            $coursefromtpl = backup::restore_secondary($template, $filename, $details->settings, $details->requesterid);
+            $this->courseid = $coursefromtpl->courseid;
+            backup::build_html_block($coursefromtpl, $template);
             \block_mbstpl\user::enrol_teacher($this->courseid, $details->requesterid);
             \block_mbstpl\notifications::email_duplicated($details->requesterid, $this->courseid);
         } catch (\moodle_exception $e) {

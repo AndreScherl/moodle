@@ -141,7 +141,7 @@ class backup {
      * @param \block_mbstpl\dataobj\template $template
      * @param string $filename
      * @param object $settings
-     * @return int course id.
+     * @return \block_mbstpl\dataobj\coursefromtpl
      */
     public static function restore_secondary(dataobj\template $template, $filename, $settings, $requesterid) {
         $targetcat = 0;
@@ -153,10 +153,17 @@ class backup {
         }
         $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
 
-        // Add id to coursefromtpl table.
-        $coursefromtpl = new dataobj\coursefromtpl(array('courseid' => $cid, 'templateid' => $template->id, 'createdby' => $requesterid));
+        // Add coursefromtpl entry.
+        $coursefromtpl = new dataobj\coursefromtpl(array(
+            'courseid' => $cid,
+            'templateid' => $template->id,
+            'createdby' => $requesterid,
+            'licence' => $settings->licence
+        ));
+
         $coursefromtpl->insert();
-        return $cid;
+
+        return $coursefromtpl;
     }
 
     /**
@@ -507,7 +514,7 @@ class backup {
         return $course->id;
     }
 
-    public static function build_html_block($courseid, dataobj\template $template) {
+    public static function build_html_block(dataobj\coursefromtpl $coursefromtpl, dataobj\template $template) {
 
         global $CFG, $DB, $PAGE;
 
@@ -515,7 +522,7 @@ class backup {
         require_once($CFG->dirroot . "/lib/pagelib.php");
 
         $page = new \moodle_page();
-        $page->set_context(\context_course::instance($courseid));
+        $page->set_context(\context_course::instance($coursefromtpl->courseid));
 
         // Use the 1st available region of the theme's course layout.
         $region = $PAGE->theme->layouts['course']['regions'][0];
@@ -528,7 +535,7 @@ class backup {
         $blockconfig = array(
             'title' => get_string('newblocktitle', 'block_mbstpl'),
             'text' => array(
-                'text' => get_string('duplcourselicense', 'block_mbstpl', $creators),
+                'text' => $coursefromtpl->licence,
                 'format' => FORMAT_PLAIN,
                 'itemid' => file_get_submitted_draft_itemid('config_text')
             )

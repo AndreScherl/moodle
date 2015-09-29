@@ -214,5 +214,13 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         }
     }
 
+    if ($oldversion < 2015092903) {
+        $table = new xmldb_table(\block_mbstpl\dataobj\coursefromtpl::get_tablename());
+        $field = new xmldb_field('licence', XMLDB_TYPE_TEXT);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

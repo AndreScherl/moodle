@@ -100,8 +100,12 @@ class dupcrs extends \moodleform {
         }
         $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
 
-        $form->addElement('static', 'license', '',
-            get_string('duplcourselicense', 'block_mbstpl', $this->_customdata['creator']));
+        $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3));
+        $form->addRule('licence', get_string('required'), 'required', null, 'client');
+
+        $this->set_data(array(
+            'licence' => get_string('duplcourselicensedefault', 'block_mbstpl', $this->_customdata['creator'])
+        ));
 
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
@@ -117,6 +121,7 @@ class dupcrs extends \moodleform {
 
         $form->addElement('hidden', 'step', 2);
         $form->addElement('hidden', 'doduplicate', 1);
+        $form->addElement('hidden', 'licence', optional_param('licence', '', PARAM_RAW));
 
         $restoreto = required_param('restoreto', PARAM_RAW);
         $form->addElement('hidden', 'restoreto', $restoreto);
@@ -156,6 +161,8 @@ class dupcrs extends \moodleform {
         }
 
         $settings['backupsettings'] = $backupsettings;
+
+        $settings['licence'] = $data->licence;
 
         return $settings;
     }

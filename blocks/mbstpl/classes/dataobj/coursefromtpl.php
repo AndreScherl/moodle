@@ -35,7 +35,8 @@ class coursefromtpl extends base {
     public $noduplfields = array('courseid');
     public $optional_fields = array(
         'createdby' => null,
-        'createdon' => null
+        'createdon' => null,
+        'licence' => null
     );
 
     /* @var int courseid  */
@@ -49,6 +50,9 @@ class coursefromtpl extends base {
 
     /* @var int createdon */
     public $createdon;
+
+    /* @var string licence */
+    public $licence;
 
     /**
      * Set the table name here.

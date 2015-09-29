@@ -116,4 +116,14 @@ defined('MOODLE_INTERNAL') || die();
         'clonepermissionsfrom' => 'moodle/course:create'
     ),
 
+    'block/mbstpl:viewhistory' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+
 );

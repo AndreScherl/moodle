@@ -22,6 +22,7 @@
 
 namespace block_mbstpl;
 
+use core\task\adhoc_task;
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -86,6 +87,11 @@ class course {
         if (perms::can_viewrating($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewrating.php', array('course' => $cid));
             $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
+        }
+
+        if (perms::can_viewhistory($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $cid));
+            $tplnode->add(get_string('viewhistory', 'block_mbstpl'), $url);
         }
 
         if ($tplnode->has_children()) {
@@ -302,6 +308,30 @@ class course {
             $creators[] = fullname($result);
         }
         return implode(', ', $creators);
+    }
+
+    public static function get_courses_with_creators($templateid) {
+        global $DB;
+
+        $fields = get_all_user_name_fields(true, 'u');
+
+        $sql = "
+            SELECT c.id course_id, c.fullname course_fullname, c.shortname course_shortname,
+            cft.createdon course_createdon, $fields, u.id user_id
+            FROM {course} c
+            JOIN {block_mbstpl_coursefromtpl} cft ON cft.courseid = c.id
+            JOIN {block_mbstpl_template} t ON cft.templateid = t.id
+            LEFT JOIN {user} u ON cft.createdby = u.id
+            WHERE t.id = ?";
+
+        $results = $DB->get_records_sql($sql, array($templateid));
+
+        return array_map(function($result) {
+            if ($result->user_id) {
+                $result->course_creator_name = fullname($result);
+            }
+            return $result;
+        }, $results);
     }
 
     /**

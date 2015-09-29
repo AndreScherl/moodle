@@ -198,5 +198,21 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015092100, 'mbstpl');
     }
 
+    if ($oldversion < 2015092902) {
+
+        $table = new xmldb_table(\block_mbstpl\dataobj\coursefromtpl::get_tablename());
+
+        $newfields = array(
+            new xmldb_field('createdby', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED),
+            new xmldb_field('createdon', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED)
+        );
+
+        foreach ($newfields as $field) {
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+        }
+    }
+
     return true;
 }

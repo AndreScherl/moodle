@@ -179,6 +179,40 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     /**
+     * Return template usage
+     * @param $template
+     */
+    public function templateusage($courseswithcreators) {
+
+        $html = '';
+
+        $html .= html_writer::tag('h3', get_string('coursesfromtemplate', 'block_mbstpl'));
+
+        $table = new html_table();
+        $table->head = array(
+            get_string('fullname'),
+            get_string('shortname'),
+            get_string('createdby', 'block_mbstpl'),
+            get_string('createdon', 'block_mbstpl')
+        );
+
+        $table->data = array_map(function($coursewithcreator) {
+            $courseurl = new \moodle_url('/course/view.php', array('id' => $coursewithcreator->course_id));
+            return array(
+                html_writer::link($courseurl, $coursewithcreator->course_fullname),
+                $coursewithcreator->course_shortname,
+                $coursewithcreator->course_creator_name,
+                userdate($coursewithcreator->course_createdon)
+            );
+        }, $courseswithcreators);
+
+        $html .= html_writer::table($table);
+
+        return $html;
+    }
+
+
+    /**
      * Return list of tempalte history.
      * @param array $revhists
      */

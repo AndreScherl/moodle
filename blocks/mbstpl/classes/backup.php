@@ -143,7 +143,7 @@ class backup {
      * @param object $settings
      * @return int course id.
      */
-    public static function restore_secondary(dataobj\template $template, $filename, $settings) {
+    public static function restore_secondary(dataobj\template $template, $filename, $settings, $requesterid) {
         $targetcat = 0;
         $targetcrs = 0;
         if (!empty($settings->tocat)) {
@@ -154,7 +154,7 @@ class backup {
         $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
 
         // Add id to coursefromtpl table.
-        $coursefromtpl = new dataobj\coursefromtpl(array('courseid' => $cid, 'templateid' => $template->id));
+        $coursefromtpl = new dataobj\coursefromtpl(array('courseid' => $cid, 'templateid' => $template->id, 'createdby' => $requesterid));
         $coursefromtpl->insert();
         return $cid;
     }

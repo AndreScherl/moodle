@@ -76,19 +76,17 @@ class user {
     /**
      * Enrol a user with the teacher role
      *
-     * @param unknown $courseid
-     * @param unknown $userid
+     * @param $courseid
+     * @param $userid
      */
     public static function enrol_teacher($courseid, $userid) {
         global $DB;
 
-        $teacherroles = $DB->get_records('role', array('archetype' => 'editingteacher'));
-        if (empty($teacherroles)) {
-            throw new \moodle_exception('errornoteacherroles', 'block_mbstpl');
+        if (!$roleid = get_config('block_mbstpl', 'teacherrole')) {
+            throw new \moodle_exception('errorteacherrolenotset', 'block_mbstpl');
         }
-        $teacherrole = array_shift($teacherroles);
 
-        self::enrol_user_to_course($userid, $courseid, $teacherrole->id);
+        self::enrol_user_to_course($userid, $courseid, $roleid);
     }
 
     private static function enrol_user_to_course($userid, $courseid, $roleid) {

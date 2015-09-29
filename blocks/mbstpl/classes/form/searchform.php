@@ -61,6 +61,21 @@ class searchform extends \moodleform {
         $form->addElement('text', 'keyword', get_string('coursename', 'block_mbstpl'));
         $form->setType('keyword', PARAM_TEXT);
 
+        // Sorting.
+        $asc = ': ' . get_string('asc');
+        $desc = ': ' . get_string('desc');
+        $strrating = get_string('rating', 'block_mbstpl');
+        $options = array(
+            'asc_rating' => $strrating . $asc,
+            'desc_rating' => $strrating . $desc,
+        );
+        foreach($questions as $question) {
+            $options['asc_' . $question->id] = $question->name . $asc;
+            $options['desc_' . $question->id] = $question->name . $desc;
+        }
+        $form->addElement('select', 'sortby', get_string('sort'), $options);
+        $form->setDefault('sortby', 'desc_rating');
+
         $form->addElement('submit', 'submitbutton', get_string('search'));
     }
 }

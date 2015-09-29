@@ -83,7 +83,7 @@ class qtype_menu extends qtype_base {
     public static function get_query_filters($question, $answer) {
         global $DB;
 
-        $toreturn = array('wheres' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array());
         if (empty($answer)) {
             return $toreturn;
         }
@@ -94,7 +94,7 @@ class qtype_menu extends qtype_base {
         list($dkwin, $dkwparams) = $DB->get_in_or_equal($checkids, SQL_PARAMS_NAMED, $apfx);
         $toreturn['params'] = $dkwparams;
         $toreturn['params'][$qparam] = $question->id;
-        $toreturn['wheres'][] = self::get_whereexists("AND datakeyword $dkwin", $qparam);
+        $toreturn['joins'][] = self::get_join("AND $qparam.datakeyword $dkwin", $qparam);
 
         return $toreturn;
     }

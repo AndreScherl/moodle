@@ -54,13 +54,13 @@ class qtype_checkbox extends qtype_base {
     }
 
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('wheres' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array());
         if ($answer == '*') {
             return $toreturn;
         }
         $qparam = 'q' . $question->id;
         $aparam = 'a' . $question->id;
-        $toreturn['wheres'][] = self::get_whereexists("AND datakeyword = :$aparam", $qparam);
+        $toreturn['joins'][] = self::get_join("AND $qparam.datakeyword = :$aparam", $qparam);
         $toreturn['params'][$qparam] = $question->id;
         $toreturn['params'][$aparam] = $answer;
         return $toreturn;

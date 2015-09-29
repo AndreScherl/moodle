@@ -123,22 +123,22 @@ class qtype_base {
     }
 
     /**
-     * Returns an array of arrays 'wheres' and 'params'. They may be empty.
+     * Returns an array of arrays with possibly 'wheres', 'joins' and 'params'.
      * @param object $question
      * @param mixed $answer
      */
     public static function get_query_filters($question, $answer) {
-        return array('wheres' => array(), 'params' => array());
+        return array();
     }
 
     /*
-     * Used to easily build a WHERE EXISTS clause that filters on the answer question id and adds any extra filter.
+     * Used to easily build a JOIN clause that filters on the answer question id and adds any extra filter.
      * @param string $extra extra filter.
-     * @param string $qparam param wildcard corresponding to the question id.
+     * @param string $alias param wildcard corresponding to the question id as well as join alias.
      * @return string
      */
-    protected static function get_whereexists($extra = '', $qparam = '') {
-        return "EXISTS (SELECT 1 FROM {block_mbstpl_answer} WHERE metaid = mta.id AND questionid = :$qparam $extra)";
+    protected static function get_join($extra = '', $alias = '') {
+        return "JOIN {block_mbstpl_answer} $alias ON $alias.metaid = mta.id AND $alias.questionid = :$alias $extra";
     }
 
     /**

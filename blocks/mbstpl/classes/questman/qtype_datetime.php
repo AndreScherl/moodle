@@ -89,7 +89,7 @@ class qtype_datetime extends qtype_base {
     }
 
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('wheres' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array());
         if (empty($answer['from']) && empty($answer['until'])) {
             return $toreturn;
         }
@@ -106,7 +106,7 @@ class qtype_datetime extends qtype_base {
             $filter .= " AND datakeyword <= :$aparam";
             $toreturn['params'][$aparam] = $answer['until'];
         }
-        $toreturn['wheres'][] = self::get_whereexists($filter, $qparam);
+        $toreturn['joins'][] = self::get_join($filter, $qparam);
         return $toreturn;
     }
 }

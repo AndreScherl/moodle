@@ -65,7 +65,7 @@ class qtype_text extends qtype_base {
         }
         $qparam = 'q' . $question->id;
         $aparam = 'a' . $question->id;
-        $toreturn['wheres'][] = self::get_whereexists("AND " . $DB->sql_like('datakeyword', ':'.$aparam), $qparam);
+        $toreturn['joins'][] = self::get_join("AND " . $DB->sql_like($qparam.'.datakeyword', ':'.$aparam), $qparam);
         $toreturn['params'][$qparam] = $question->id;
         $toreturn['params'][$aparam] = '%'.$DB->sql_like_escape($answer).'%';
         return $toreturn;

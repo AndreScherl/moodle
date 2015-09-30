@@ -327,9 +327,7 @@ class course {
         $results = $DB->get_records_sql($sql, array($templateid));
 
         return array_map(function($result) {
-            if ($result->user_id) {
-                $result->course_creator_name = fullname($result);
-            }
+            $result->course_creator_name = $result->user_id ? fullname($result) : "";
             return $result;
         }, $results);
     }

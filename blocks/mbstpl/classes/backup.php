@@ -531,7 +531,6 @@ class backup {
         $bm->add_region($region);
         $bm->add_block('html', $region, 0, false, 'course-view-*');
 
-        $creators = course::get_creators($template->id);
         $blockconfig = array(
             'title' => get_string('newblocktitle', 'block_mbstpl'),
             'text' => array(

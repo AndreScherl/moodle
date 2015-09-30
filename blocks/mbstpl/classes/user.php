@@ -80,7 +80,6 @@ class user {
      * @param $userid
      */
     public static function enrol_teacher($courseid, $userid) {
-        global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'teacherrole')) {
             throw new \moodle_exception('errorteacherrolenotset', 'block_mbstpl');

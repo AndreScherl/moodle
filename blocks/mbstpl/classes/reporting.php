@@ -13,16 +13,40 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstpl;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015093000;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->cron = 1; // TODO change to daily.
+/**'
+ * Class reporting
+ * For emailed reports etc.
+ * @package block_mbstpl
+ */
+class reporting {
+    public static function statscron() {
+        if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
+            set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
+            return;
+        }
+        if ($nextrun >= time()) {
+            echo get_string('statsreporttooearly', 'block_mbstpl', userdate($nextrun));
+        }
+
+        set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
+    }
+
+    private static function get_report($fromtime) {
+        
+    }
+
+    private static function get_recipients() {
+
+    }
+}

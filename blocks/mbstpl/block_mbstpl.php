@@ -62,4 +62,8 @@ class block_mbstpl extends block_base {
     function has_config() {
         return true;
     }
+
+    public function cron() {
+        \block_mbstpl\reporting::statscron();
+    }
 }

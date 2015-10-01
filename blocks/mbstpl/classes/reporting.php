@@ -31,6 +31,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class reporting {
     public static function statscron() {
+        global $DB;
+
         if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
             set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
             return;
@@ -39,10 +41,22 @@ class reporting {
             echo get_string('statsreporttooearly', 'block_mbstpl', userdate($nextrun));
         }
 
-        set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
-    }
+        // set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
 
-    private static function get_report($fromtime) {
+        $sql = "
+        SELECT tpl.id, c.fullname, c.shortname,
+          (SELECT COUNT(1) FROM {logstore_standard_log} WHERE courseid = c.id AND eventname = :eventname) AS tplviewed,
+          (SELECT COUNT(1) FROM {block_mbstpl_coursefromtpl} WHERE templateid = tpl.id) AS numdups,
+          (SELECT MAX(timeaccess) FROM {user_lastaccess} WHERE courseid = tpl.courseid) AS clastaccess,
+          (SELECT MAX(timecreated)
+            FROM {course} ic JOIN {block_mbstpl_coursefromtpl} ibmc ON ibmc.courseid = ic.id
+            WHERE ibmc.templateid = tpl.id
+          ) AS lastdup
+        FROM {block_mbstpl_template} tpl
+        JOIN {course} c ON c.id = tpl.courseid
+        ";
+        $params = array('eventname' => '\core\event\course_viewed');
+        $results = $DB->get_recordset_sql($sql, $params);
         
     }
 

@@ -31,14 +31,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class reporting {
     public static function statscron() {
-<<<<<<< HEAD
         global $CFG, $DB;
 
+<<<<<<< HEAD
         $interval = DAYSECS * 180;
-        $delim = ',';
 =======
-        global $DB;
->>>>>>> ALP-119 block_mbstpl stats report main query
+>>>>>>> ALP-119 block_mbstpl stats report csv
+        $delim = ',';
 
         if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
             set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
@@ -50,7 +49,6 @@ class reporting {
         }
 
         // set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
-<<<<<<< HEAD
 
         $sql = "
         SELECT tpl.id, c.fullname AS coursetplfull, c.shortname AS coursetplshort,
@@ -98,6 +96,7 @@ class reporting {
             );
             fputcsv($handle, $tocsv, $delim);
         }
+<<<<<<< HEAD
         fclose($handle);
 
         // Send mail.
@@ -112,22 +111,7 @@ class reporting {
         set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
 =======
 
-        $sql = "
-        SELECT tpl.id, c.fullname, c.shortname,
-          (SELECT COUNT(1) FROM {logstore_standard_log} WHERE courseid = c.id AND eventname = :eventname) AS tplviewed,
-          (SELECT COUNT(1) FROM {block_mbstpl_coursefromtpl} WHERE templateid = tpl.id) AS numdups,
-          (SELECT MAX(timeaccess) FROM {user_lastaccess} WHERE courseid = tpl.courseid) AS clastaccess,
-          (SELECT MAX(timecreated)
-            FROM {course} ic JOIN {block_mbstpl_coursefromtpl} ibmc ON ibmc.courseid = ic.id
-            WHERE ibmc.templateid = tpl.id
-          ) AS lastdup
-        FROM {block_mbstpl_template} tpl
-        JOIN {course} c ON c.id = tpl.courseid
-        ";
-        $params = array('eventname' => '\core\event\course_viewed');
-        $results = $DB->get_recordset_sql($sql, $params);
-        
->>>>>>> ALP-119 block_mbstpl stats report main query
+>>>>>>> ALP-119 block_mbstpl stats report csv
     }
 
     /**

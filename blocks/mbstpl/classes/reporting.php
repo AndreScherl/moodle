@@ -91,10 +91,25 @@ class reporting {
             );
             fputcsv($handle, $tocsv, $delim);
         }
+        fclose($handle);
 
+        // Send mail.
+        $users = self::get_recipients();
+        $subject = get_string('emailstatsrep_subj', 'block_mbstpl');
+        $messagetext = get_string('emailstatsrep_body', 'block_mbstpl');
+        $from = notifications::get_fromuser();
+        foreach($users as $user) {
+            email_to_user($user, $from, $messagetext, null, $filepath);
+        }
+        echo get_string('startsreportsent', 'block_mbstpl');
     }
 
+    /**
+     * Recipients for the stats report.
+     * @return array of users.
+     */
     private static function get_recipients() {
-
+        $users = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+        return $users;
     }
 }

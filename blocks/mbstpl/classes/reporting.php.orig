@@ -33,10 +33,7 @@ class reporting {
     public static function statscron() {
         global $CFG, $DB;
 
-<<<<<<< HEAD
         $interval = DAYSECS * 180;
-=======
->>>>>>> ALP-119 block_mbstpl stats report csv
         $delim = ',';
 
         if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
@@ -96,7 +93,6 @@ class reporting {
             );
             fputcsv($handle, $tocsv, $delim);
         }
-<<<<<<< HEAD
         fclose($handle);
 
         // Send mail.
@@ -108,10 +104,10 @@ class reporting {
             email_to_user($user, $from, $messagetext, null, $filepath);
         }
         echo get_string('startsreportsent', 'block_mbstpl');
+<<<<<<< HEAD
         set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
 =======
-
->>>>>>> ALP-119 block_mbstpl stats report csv
+>>>>>>> ALP-119 block_mbstpl stats report send mail
     }
 
     /**

@@ -31,7 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 class reporting {
     public static function statscron() {
-        global $DB;
+        global $CFG, $DB;
+
+        $delim = ',';
 
         if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
             set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
@@ -44,20 +46,52 @@ class reporting {
         // set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
 
         $sql = "
-        SELECT tpl.id, c.fullname, c.shortname,
-          (SELECT COUNT(1) FROM {logstore_standard_log} WHERE courseid = c.id AND eventname = :eventname) AS tplviewed,
-          (SELECT COUNT(1) FROM {block_mbstpl_coursefromtpl} WHERE templateid = tpl.id) AS numdups,
-          (SELECT MAX(timeaccess) FROM {user_lastaccess} WHERE courseid = tpl.courseid) AS clastaccess,
+        SELECT tpl.id, c.fullname AS coursetplfull, c.shortname AS coursetplshort,
+          (SELECT COUNT(1) FROM {logstore_standard_log} WHERE courseid = c.id AND eventname = :eventname) AS numviews,
+          (SELECT COUNT(1) FROM {block_mbstpl_coursefromtpl} WHERE templateid = tpl.id) AS numduplicated,
+          (SELECT MAX(timeaccess) FROM {user_lastaccess} WHERE courseid = tpl.courseid) AS tpllastaccess,
           (SELECT MAX(timecreated)
             FROM {course} ic JOIN {block_mbstpl_coursefromtpl} ibmc ON ibmc.courseid = ic.id
             WHERE ibmc.templateid = tpl.id
-          ) AS lastdup
+          ) AS lastdupdate
         FROM {block_mbstpl_template} tpl
         JOIN {course} c ON c.id = tpl.courseid
         ";
         $params = array('eventname' => '\core\event\course_viewed');
         $results = $DB->get_recordset_sql($sql, $params);
-        
+
+        // Create CSV.
+        $filename = 'tplstats_'.date('Ymd').'.csv';
+        $dir = $CFG->tempdir.'/mbstpl';
+        if (!check_dir_exists($dir)) {
+            throw new \moodle_exception('errorcsvdir', 'block_mbstpl');
+        }
+        $filepath = $dir . '/' . $filename;
+        @unlink($filepath);
+        $handle = fopen($filepath, 'w');
+        $headers = array(
+            'crsid',
+            'coursetplfull',
+            'coursetplshort',
+            'numviews',
+            'numduplicated',
+            'tpllastaccess',
+            'lastdupdate',
+        );
+        fputcsv($handle, $headers, $delim);
+        foreach($results as $result) {
+            $tocsv = array(
+                $result->id,
+                $result->coursetplfull,
+                $result->coursetplshort,
+                $result->numviews,
+                $result->numduplicated,
+                $result->tpllastaccess ? date('d/m/Y H:i:s', $result->tpllastaccess) : '',
+                $result->lastdupdate ? date('d/m/Y H:i:s', $result->lastdupdate) : '',
+            );
+            fputcsv($handle, $tocsv, $delim);
+        }
+
     }
 
     private static function get_recipients() {

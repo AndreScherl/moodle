@@ -61,7 +61,7 @@ if ($form->is_cancelled()) {
         'origcourseid' => $courseid,
         'creatorid' => $USER->id,
         'qformid' => $activeform->id,
-        'incluserdata' => empty($data->incluserdata) ? 0 :1,
+        'incluserdata' => empty($data->withanon) ? 0 :1,
     );
     $backup = new mbst\dataobj\backup($backupdata, false);
     $backup->insert();

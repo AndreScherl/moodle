@@ -361,6 +361,13 @@ class qformat_xml extends qformat_default {
      */
     public function import_hints($qo, $questionxml, $withparts = false,
             $withoptions = false, $defaultformat = 'html') {
+        
+        // +++ Hack awag: import creator when available.
+        if (!empty($questionxml['#']['createdby'][0]['#'])) {
+            $qo->createdby = (int) trim($questionxml['#']['createdby'][0]['#']);
+        }
+        // --- Hack awag: import creator when available.
+        
         if (!isset($questionxml['#']['hint'])) {
             return;
         }
@@ -929,6 +936,7 @@ class qformat_xml extends qformat_default {
 
         // Iterate through questions.
         foreach ($xml as $questionxml) {
+            
             $qo = $this->import_question($questionxml);
 
             // Stick the result in the $questions array.
@@ -1506,11 +1514,19 @@ class qformat_xml extends qformat_default {
      * @return string XML to output.
      */
     public function write_hints($question) {
+        
+        $output = '';
+        
+        // +++ Hack - awag: Write createdby to XML before hints.
+        $output .= "    <createdby>\n";
+        $output .= $question->createdby;
+        $output .= "    </createdby>\n";
+        // --- Hack - awag: Write createdby to XML before hints.
+        
         if (empty($question->hints)) {
-            return '';
+            return $output;
         }
 
-        $output = '';
         foreach ($question->hints as $hint) {
             $output .= $this->write_hint($hint, $question->contextid);
         }

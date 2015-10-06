@@ -60,8 +60,8 @@ class sendtemplate extends \moodleform {
         }
 
         $radioarray = array();
-        $radioarray[] = $form->createElement('radio', 'deleted', '', get_string('withanon', 'block_mbstpl'), 0);
-        $radioarray[] = $form->createElement('radio', 'deleted', '', get_string('withoutanon', 'block_mbstpl'), 1);
+        $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withanon', 'block_mbstpl'), 1);
+        $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withoutanon', 'block_mbstpl'), 0);
         $form->addGroup($radioarray, 'incluserdata', get_string('incluserdata', 'block_mbstpl'), array(' ', ' '), false);
 
         $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));

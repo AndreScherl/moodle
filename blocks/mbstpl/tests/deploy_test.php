@@ -70,7 +70,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         role_assign($reviewroleid, $reviewer->id, $deploycatcontext->id);
 
         // Assign reviewer.
-        mbst\course::assign_reviewer($courseid, $reviewer->id);
+        mbst\course::assign_reviewer($template, $reviewer->id);
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertEquals($template->reviewerid, $reviewer->id);
         $this->assertEquals($mailsink->count(), ++$mailcount);

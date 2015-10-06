@@ -79,6 +79,15 @@ abstract class base extends \data_object {
         return $result;
     }
 
+    public function insert() {
+        foreach ($this->optional_fields as $field => $value) {
+            if (!isset($this->$field)) {
+                $this->$field = $value;
+            }
+        }
+        parent::insert();
+    }
+
     /**
      * Update if already exists (found by matching $noduplfields), otherwise insert.
      * @return bool success

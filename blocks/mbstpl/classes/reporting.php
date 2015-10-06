@@ -33,14 +33,16 @@ class reporting {
     public static function statscron() {
         global $CFG, $DB;
 
+        $interval = DAYSECS * 180;
         $delim = ',';
 
         if (!$nextrun = get_config('block_mbstpl', 'nextstatsreport')) {
-            set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
+            set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
             return;
         }
         if ($nextrun >= time()) {
             echo get_string('statsreporttooearly', 'block_mbstpl', userdate($nextrun));
+            return;
         }
 
         // set_config('nextstatsreport', time() + 180 * DAYSECS, 'block_mbstpl');
@@ -102,6 +104,7 @@ class reporting {
             email_to_user($user, $from, $messagetext, null, $filepath);
         }
         echo get_string('startsreportsent', 'block_mbstpl');
+        set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
     }
 
     /**

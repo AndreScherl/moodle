@@ -34,7 +34,7 @@ class notifications {
     /**
      * The user which emails are sent from.
      */
-    private static function get_fromuser() {
+    public static function get_fromuser() {
         global $CFG;
 
         $user = get_admin();

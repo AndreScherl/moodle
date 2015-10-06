@@ -19,6 +19,8 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+use block_mbstpl\admin_setting_configdate;
+
 defined('MOODLE_INTERNAL') || die;
 
 global $DB;
@@ -52,4 +54,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_mbstpl/complainturl',
                                                   get_string('complainturl', 'block_mbstpl'),
                                                   get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
+
+    $settings->add(new admin_setting_configdate('block_mbstpl/nextstatsreport',
+                                                  get_string('nextstatsreport', 'block_mbstpl'),
+                                                  get_string('nextstatsreport_desc', 'block_mbstpl'), 0));
 }

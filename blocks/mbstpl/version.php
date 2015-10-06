@@ -21,7 +21,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015092401;
+$plugin->version   = 2015093000;
 $plugin->requires  = 2014051201;
 $plugin->component = 'block_mbstpl';
 $plugin->maturity  = MATURITY_STABLE;
+$plugin->cron = 1; // TODO change to daily.

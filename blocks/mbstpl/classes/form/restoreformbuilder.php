@@ -27,6 +27,8 @@ use backup_setting,
     base_task,
     html_writer;
 
+defined('MOODLE_INTERNAL') || die();
+
 /*
  * // --------- lifted from backup/util/ui/backup_moodleform.class.php
  * // --------- with a few minor modifications

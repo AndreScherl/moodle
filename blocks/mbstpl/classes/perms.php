@@ -22,6 +22,8 @@
 
 namespace block_mbstpl;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Class perms
  * For permission issues.

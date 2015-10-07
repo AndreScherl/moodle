@@ -25,6 +25,8 @@ namespace block_mbstpl\task;
 
 use block_mbstpl\backup;
 
+defined('MOODLE_INTERNAL') || die();
+
 class adhoc_deploy_secondary extends \core\task\adhoc_task {
 
     private $courseid;

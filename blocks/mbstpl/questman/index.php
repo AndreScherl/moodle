@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $OUTPUT;
 
 use \block_mbstpl\questman\manager;
 
@@ -39,7 +39,6 @@ if (!is_siteadmin()) {
     require_capability('moodle/site:config', $systemcontext);
 }
 
-$activate = optional_param('activate', false, PARAM_BOOL);
 $moveupid = optional_param('moveup', 0, PARAM_INT);
 $movedownid = optional_param('movedown', 0, PARAM_INT);
 $useqid = optional_param('useq', 0, PARAM_INT);

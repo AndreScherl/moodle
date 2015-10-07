@@ -39,8 +39,8 @@ class autocomplete {
         global $DB;
 
         // Course data suggestions.
-        $sql = 'SELECT C.fullname, C.idnumber, C.shortname FROM {block_mbstpl_template} as T';
-        $sql .= ' JOIN mdl_course as C ON T.courseid = C.id';
+        $sql = 'SELECT C.fullname, C.idnumber, C.shortname FROM {block_mbstpl_template} T';
+        $sql .= ' JOIN mdl_course C ON T.courseid = C.id';
         $sql .= ' WHERE T.status = ?';
         $sql .= ' AND (' . $DB->sql_like('C.fullname', '?', false);
         $sql .= ' OR ' . $DB->sql_like('C.idnumber', '?', false);
@@ -71,10 +71,10 @@ class autocomplete {
         global $DB;
 
         // Metadata suggestions.
-        $sql = 'SELECT DISTINCT A.data FROM {block_mbstpl_answer} as A';
-        $sql .= ' JOIN {block_mbstpl_question} as Q ON Q.id = A.questionid';
-        $sql .= ' JOIN {block_mbstpl_meta} AS M ON M.id = A.metaid';
-        $sql .= ' JOIN {block_mbstpl_template} as T on T.id = M.templateid';
+        $sql = 'SELECT DISTINCT A.data FROM {block_mbstpl_answer} A';
+        $sql .= ' JOIN {block_mbstpl_question} Q ON Q.id = A.questionid';
+        $sql .= ' JOIN {block_mbstpl_meta} M ON M.id = A.metaid';
+        $sql .= ' JOIN {block_mbstpl_template} T on T.id = M.templateid';
         $sql .= ' WHERE ' . $DB->sql_like('A.datakeyword', '?', false);
         $sql .= ' AND T.status = ?';
         $sql .= ' AND (Q.datatype = ? OR Q.datatype = ?)';

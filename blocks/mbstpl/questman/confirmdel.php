@@ -22,7 +22,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $DB, $OUTPUT;
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);

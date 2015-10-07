@@ -251,7 +251,7 @@ class backup {
             );
             $fs->create_file_from_pathname($filerecord, $filepath);
             @unlink($filepath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $backupok = false;
         }
 
@@ -341,7 +341,7 @@ class backup {
                 $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
@@ -415,7 +415,7 @@ class backup {
             if ($outcome) {
                 $file->delete();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $backupok = false;
         }
 
@@ -507,7 +507,7 @@ class backup {
                 $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);

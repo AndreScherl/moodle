@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 function block_mbstpl_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
-    global $CFG, $DB;
 
     if ($context->contextlevel != CONTEXT_COURSE) {
         return false;

@@ -36,7 +36,5 @@ $keyword = required_param("keyword", PARAM_TEXT);
 
 $suggestions = $autocomplete->get_suggestions($keyword);
 
-header('Content-Type: application/json; charset=utf-8');
-
 // Reset keys.
 echo json_encode($suggestions);

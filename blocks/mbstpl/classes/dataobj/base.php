@@ -69,7 +69,7 @@ abstract class base extends \data_object {
      * Finds and returns a data_object instance based on params.
      *
      * @param array $params associative arrays varname=>value
-     * @return data_object instance of data_object or false if none found.
+     * @return \data_object instance of data_object or false if none found.
      */
     public static function fetch($params) {
         $result = self::fetch_helper(static::get_tablename(), get_called_class(), $params);
@@ -117,7 +117,7 @@ abstract class base extends \data_object {
      * Finds and returns all data_object instances based on params.
      *
      * @param array $params associative arrays varname => value
-     * @throws coding_exception This function MUST be overridden
+     * @throws \coding_exception This function MUST be overridden
      * @return base[] array of data_object instances
      */
     public static function fetch_all($params) {
@@ -146,7 +146,7 @@ abstract class base extends \data_object {
 
         if ($deleted) {
             foreach (static::get_dependants() as $classname => $key) {
-                /** @var base $class */
+                /* @var $class base */
                 $class = __NAMESPACE__ . '\\' .$classname;
                 if (!class_exists($class)) {
                     echo $class;

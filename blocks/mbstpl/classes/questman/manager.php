@@ -293,11 +293,9 @@ class manager {
     public static function map_answers_to_fieldname($questions, $metaid) {
         global $DB;
 
-        $fieldnames = array();
         $qids = array();
         $answers = array();
         foreach ($questions as $question) {
-            $fieldnames[$question->fieldname] = '';
             $qids[$question->id] = $question->id;
         }
         if (empty($qids)) {
@@ -416,7 +414,7 @@ class manager {
         $qidlist = $qform ? $qform->questions : '';
         $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
         $creator = $DB->get_record('user', array('id' => $backup->creatorid));
-        foreach ($questions as $questionid => $question) {
+        foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
         }
         $customdata = array(

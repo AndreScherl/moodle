@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 
@@ -37,7 +37,6 @@ $PAGE->set_context($coursecontext);
 
 require_login($courseid, false);
 
-$course = get_course($courseid);
 $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
 
 if (!mbst\perms::can_viewhistory($coursecontext)) {

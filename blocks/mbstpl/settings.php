@@ -21,8 +21,6 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-global $DB;
-
 if ($ADMIN->fulltree) {
 
     $questmanurl = new moodle_url('/blocks/mbstpl/questman/index.php');

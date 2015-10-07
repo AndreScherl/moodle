@@ -28,8 +28,6 @@ global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 use \block_mbstpl AS mbst;
 use block_mbstpl\dataobj\asset;
 
-$systemcontext = context_system::instance();
-
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 

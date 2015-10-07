@@ -99,10 +99,6 @@ class notifications {
         // Email to course author.
         $requester = $DB->get_record('user', array('id' => $requesterid), '*', MUST_EXIST);
         $subject = get_string('emaildupldeployed_subj', 'block_mbstpl');
-        $a = (object)array(
-            'fullname' => $course->fullname,
-            'url' => new \moodle_url('/cousre/view.php', array('id' => $course->id)),
-        );
         $body = get_string('emaildupldeployed_body', 'block_mbstpl', $course);
         email_to_user($requester, $from, $subject, $body);
     }

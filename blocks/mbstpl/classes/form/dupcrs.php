@@ -64,8 +64,8 @@ class dupcrs extends \moodleform {
         $form->addElement('hidden', 'course', $course->id);
         $form->setType('course', PARAM_INT);
 
-        $readyforstep2 = optional_param('restoreto', false, PARAM_RAW)
-            && (optional_param("tocat", false, PARAM_RAW) || optional_param("tocrs", false, PARAM_RAW));
+        $readyforstep2 = optional_param('restoreto', false, PARAM_ALPHA)
+            && (optional_param("tocat", false, PARAM_INT) || optional_param("tocrs", false, PARAM_INT));
 
         if ($this->_customdata['step'] == 2 && $readyforstep2) {
             $this->definition_step2();
@@ -121,13 +121,13 @@ class dupcrs extends \moodleform {
 
         $form->addElement('hidden', 'step', 2);
         $form->addElement('hidden', 'doduplicate', 1);
-        $form->addElement('hidden', 'licence', optional_param('licence', '', PARAM_RAW));
+        $form->addElement('hidden', 'licence', optional_param('licence', '', PARAM_TEXT));
 
-        $restoreto = required_param('restoreto', PARAM_RAW);
+        $restoreto = required_param('restoreto', PARAM_ALPHA);
         $form->addElement('hidden', 'restoreto', $restoreto);
 
         $destparam = $restoreto == 'course' ? 'tocrs' : 'tocat';
-        $form->addElement('hidden', $destparam, required_param($destparam, PARAM_RAW));
+        $form->addElement('hidden', $destparam, required_param($destparam, PARAM_INT));
 
         $form->addElement('static', 'message', '', get_string('selectsectionsandactivities', 'block_mbstpl'));
 

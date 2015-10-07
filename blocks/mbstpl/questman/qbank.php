@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $OUTPUT;
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
@@ -42,9 +42,6 @@ echo $OUTPUT->header();
 $pagetitle = get_string('qbank', 'block_mbstpl');
 echo html_writer::tag('h2', $pagetitle);
 
-$options = \block_mbstpl\questman\manager::list_datatypes();
-$popupurl = new moodle_url('/blocks/mbstpl/questman/quest.php');
-$strcreaquestion = get_string('addquestion', 'block_mbstpl');
 $renderer = $PAGE->get_renderer('block_mbstpl');
 $questions = \block_mbstpl\questman\manager::get_bank_questions();
 echo $renderer->list_bank_questions($questions);

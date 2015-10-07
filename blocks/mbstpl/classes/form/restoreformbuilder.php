@@ -140,9 +140,8 @@ class restoreformbuilder {
     }
 
     private function add_dependencies(backup_setting $setting) {
-        $mform = $this->_form;
         // Apply all dependencies for backup.
-        foreach ($setting->get_my_dependency_properties() as $key => $dependency) {
+        foreach ($setting->get_my_dependency_properties() as $dependency) {
             call_user_func_array(array($this->_form, 'disabledIf'), $dependency);
         }
     }

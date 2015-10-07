@@ -22,7 +22,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-    $capabilities = array(
+$capabilities = array(
 
     'block/mbstpl:myaddinstance' => array(
         'captype' => 'write',

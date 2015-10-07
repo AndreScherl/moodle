@@ -303,7 +303,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     public function templatesearch($searchform, $courses, $layout) {
-        global $OUTPUT;
 
         // Add the search form.
         $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
@@ -318,9 +317,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         // TODO: Add pagination controls.
 
         $listcontrollers .= \html_writer::link($link, \html_writer::img(
-            $OUTPUT->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l' => 'grid')));
+            $this->output->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l' => 'grid')));
         $listcontrollers .= \html_writer::link($link, \html_writer::img(
-            $OUTPUT->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l' => 'list')));
+            $this->output->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l' => 'list')));
         $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
 
         $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
@@ -339,7 +338,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                     \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
                 $righticons .= $complaintlink;
                 $courselink = \html_writer::link($courseurl,
-                        \html_writer::img($OUTPUT->pix_url('t/collapsed_empty', 'core'), $course->fullname));
+                        \html_writer::img($this->output->pix_url('t/collapsed_empty', 'core'), $course->fullname));
                 $righticons .= $courselink;
                 $listitem .= html_writer::div($righticons, 'righticons');
                 $listitem .= html_writer::div($course->catname, 'crsdetails');
@@ -434,16 +433,15 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * @return string
      */
     public function manage_search($questions, $thisurl) {
-        global $OUTPUT;
 
         $mainurl = clone($thisurl);
         $mainurl->param('sesskey', sesskey());
         $attrs = array('class' => 'iconsmall');
-        $imgshow = html_writer::img($OUTPUT->pix_url('t/show'), 'disable', $attrs);
-        $imghide = html_writer::img($OUTPUT->pix_url('t/hide'), 'enable', $attrs);
-        $imgup = html_writer::img($OUTPUT->pix_url('t/up'), 'up', $attrs);
-        $imgdown = html_writer::img($OUTPUT->pix_url('t/down'), 'down', $attrs);
-        $imgspacer = html_writer::img($OUTPUT->pix_url('spacer'), '', $attrs);
+        $imgshow = html_writer::img($this->output->pix_url('t/show'), 'disable', $attrs);
+        $imghide = html_writer::img($this->output->pix_url('t/hide'), 'enable', $attrs);
+        $imgup = html_writer::img($this->output->pix_url('t/up'), 'up', $attrs);
+        $imgdown = html_writer::img($this->output->pix_url('t/down'), 'down', $attrs);
+        $imgspacer = html_writer::img($this->output->pix_url('spacer'), '', $attrs);
 
         $table = new html_table();
         $table->head = array(

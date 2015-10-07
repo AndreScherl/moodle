@@ -44,7 +44,7 @@ class course {
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
 
-        /** @var dataobj\template $template */
+        /* @var $template dataobj\template */
         $template = dataobj\template::fetch(array('courseid' => $cid));
 
         if (!$template && has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {

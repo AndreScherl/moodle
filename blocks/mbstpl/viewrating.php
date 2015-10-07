@@ -21,9 +21,10 @@
  */
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
-require_once($CFG->libdir.'/tablelib.php');
 
-global $PAGE, $OUTPUT, $USER;
+global $PAGE, $CFG, $OUTPUT, $DB;
+
+require_once($CFG->libdir.'/tablelib.php');
 
 use \block_mbstpl AS mbst;
 

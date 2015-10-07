@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $USER, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 

@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 use block_mbstpl\dataobj\asset;
@@ -69,7 +69,7 @@ $setdata = (object)array(
     'license' => $meta->license,
     'tags' => $meta->get_tags_string(),
 );
-/** @var mbst\dataobj\answer[] $answers */
+/* @var $answers mbst\dataobj\answer[] */
 $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
 foreach ($answers as $answer) {
     $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);

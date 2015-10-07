@@ -22,10 +22,11 @@
 
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
-require_once($CFG->libdir . '/coursecatlib.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+
+require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
+require_once($CFG->libdir . '/coursecatlib.php');
 
 use \block_mbstpl AS mbst;
 
@@ -70,7 +71,7 @@ $form = new mbst\form\dupcrs(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
-} else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_RAW)) {
+} else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_INT)) {
 
     // Initiate deployment task.
 

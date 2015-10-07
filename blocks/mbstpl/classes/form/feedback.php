@@ -44,7 +44,6 @@ class feedback extends \moodleform {
         $form->addElement('editor', 'feedback', get_string('feedback', 'block_mbstpl'));
 
         $towhom = $this->_customdata['isreviewr'] ? 'author' : 'reviewer';
-        $caption = get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
         $submit = get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
 
         $this->add_action_buttons(false, $submit);

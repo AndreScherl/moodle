@@ -167,19 +167,19 @@ class manager {
     /**
      * Delete a question if possible, otherwise just remove from draft.
      * @param object $question
-     * @return bool success
      */
     public static function delete_question($question) {
         global $DB;
 
         if (!$question->inuse) {
-            return $DB->delete_records('block_mbstpl_question', array('id' => $question->id));
+            $DB->delete_records('block_mbstpl_question', array('id' => $question->id));
+            return;
         }
         $draft = self::get_qform_draft();
         $qids = explode(',', $draft);
         $qindex = array_search($question->id, $qids);
         if ($qindex === false) {
-            return false;
+            return;
         }
         unset($qids[$qindex]);
         $draft = implode(',', $qids);
@@ -222,12 +222,11 @@ class manager {
      * Activates the current draft.
      * @param string $formname
      * @param bool $checkdraft unless set false will check if draft mode first.
-     * @return bool success
      */
     public static function activate_draft($formname, $checkdraft = true) {
         global $DB;
         if ($checkdraft && !self::is_draft()) {
-            return true;
+            return;
         }
         $draft = self::get_qform_draft();
         $formobj = (object)array(

@@ -96,6 +96,17 @@ class perms {
         $coursecontext = \context_course::instance($template->courseid);
         return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
     }
+
+    /**
+     * Tells us whether the current user can send the template for revision.
+     * @param dataobj\template $template
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function can_sendrevision(dataobj\template $template, \context_course $coursecontext) {
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+    }
+
     /**
      * Tells us whether the current user can publish edit the meta settings.
      * @param dataobj\template $template

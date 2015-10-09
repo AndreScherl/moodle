@@ -79,6 +79,7 @@ class dupcrs extends \moodleform {
         $form = $this->_form;
 
         $form->addElement('hidden', 'step', 2);
+        $form->setType('step', PARAM_INT);
 
         if (!empty($this->_customdata['cats'])) {
             $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
@@ -128,6 +129,14 @@ class dupcrs extends \moodleform {
 
         $destparam = $restoreto == 'course' ? 'tocrs' : 'tocat';
         $form->addElement('hidden', $destparam, required_param($destparam, PARAM_INT));
+
+        $form->setTypes(array(
+            'step' => PARAM_INT,
+            'doduplicate' => PARAM_INT,
+            'licence' => PARAM_TEXT,
+            'restoreto' => PARAM_ALPHA,
+            $destparam => PARAM_INT
+        ));
 
         $form->addElement('static', 'message', '', get_string('selectsectionsandactivities', 'block_mbstpl'));
 

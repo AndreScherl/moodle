@@ -66,6 +66,7 @@ $setdata = (object)array(
     'asset_url' => array(),
     'asset_license' => array(),
     'asset_owner' => array(),
+    'asset_source' => array(),
     'license' => $meta->license,
     'tags' => $meta->get_tags_string(),
 );
@@ -82,6 +83,7 @@ foreach ($meta->get_assets() as $asset) {
     $setdata->asset_url[$i] = $asset->url;
     $setdata->asset_license[$i] = $asset->license;
     $setdata->asset_owner[$i] = $asset->owner;
+    $setdata->asset_source[$i] = $asset->source;
     $i++;
 }
 $form->set_data($setdata);
@@ -101,37 +103,10 @@ if ($data = $form->get_data()) {
     }
 
     // Save the license field.
-    if ($meta->license != $data->license) {
-        $meta->license = $data->license;
-        $meta->update();
-    }
+    $form::update_meta_license_from_submitted_data($meta, $data);
 
     // Save the assets fields.
-    foreach ($data->asset_id as $idx => $assetid) {
-        $url = isset($data->asset_url[$idx]) ? trim($data->asset_url[$idx]) : '';
-        $license = isset($data->asset_license[$idx]) ? $data->asset_license[$idx] : $CFG->defaultsitelicense;
-        $owner = isset($data->asset_owner[$idx]) ? trim($data->asset_owner[$idx]) : '';
-        $hasdata = $url || $owner;
-
-        if ($assetid) {
-            $asset = new asset(array('id' => $assetid, 'metaid' => $meta->id), true, MUST_EXIST);
-            if (!$hasdata) {
-                $asset->delete();
-            }
-        } else {
-            $asset = new asset(array('metaid' => $meta->id), false);
-        }
-        if ($hasdata) {
-            $asset->url = $url;
-            $asset->license = $license;
-            $asset->owner = $owner;
-            if ($asset->id) {
-                $asset->update();
-            } else {
-                $asset->insert();
-            }
-        }
-    }
+    $form::update_assets_from_submitted_data($meta, $data);
 
     // Save the tags.
     $meta->save_tags_string($data->tags);

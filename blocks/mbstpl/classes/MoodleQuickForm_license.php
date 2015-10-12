@@ -25,37 +25,43 @@
 // Would like to namespace this class, but that just doesn't work with MoodleQuickForm.
 
 defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 require_once($CFG->libdir.'/form/select.php');
 
 class MoodleQuickForm_license extends MoodleQuickForm_select {
+
+    const NEWLICENSE_PARAM = '__createnewlicense__';
+
     private static $licenses = null;
 
     private static function get_license_list() {
-        global $CFG;
-        require_once($CFG->libdir.'/licenselib.php');
         if (self::$licenses === null) {
             self::$licenses = array();
-            $params = array('enabled' => 1);
-            foreach (\license_manager::get_licenses($params) as $license) {
+            /* @var $licenses \block_mbstpl\dataobj\license[] */
+            $licenses = \block_mbstpl\dataobj\license::fetch_all(array());
+            foreach ($licenses as $license) {
                 self::$licenses[$license->shortname] = $license->fullname;
             }
         }
         return self::$licenses;
     }
 
-    function MoodleQuickForm_license($elementName=null, $elementLabel=null, $attributes=null) {
+    private $_withnew;
+
+    function MoodleQuickForm_license($elementName = null, $elementLabel = null, $attributes = null, $withnew = false) {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_type = 'license';
         $this->_persistantFreeze = true;
+        $this->_withnew = $withnew;
     }
 
     function onQuickFormEvent($event, $arg, &$caller) {
         global $CFG;
 
-        switch($event) {
+        switch ($event) {
             case 'createElement':
-                $choices = self::get_license_list();
+                $choices = $this->get_choices($this->_withnew || !empty($arg[3]));
                 $this->load($choices);
                 $this->setSelected($CFG->sitedefaultlicense);
                 break;
@@ -63,7 +69,14 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
 
         return parent::onQuickFormEvent($event, $arg, $caller);
     }
+
+    private function get_choices($withnew) {
+        $choices = self::get_license_list();
+        if ($withnew) {
+            $choices[self::NEWLICENSE_PARAM] = get_string('newlicense', 'block_mbstpl');
+        }
+        return $choices;
+    }
 }
 
-MoodleQuickForm::registerElementType('license', $CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php',
-                                     'MoodleQuickForm_license');
+MoodleQuickForm::registerElementType('license', __FILE__, 'MoodleQuickForm_license');

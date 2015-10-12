@@ -20,24 +20,15 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use block_mbstpl\questman\manager;
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 global $PAGE, $OUTPUT;
 
-use \block_mbstpl\questman\manager;
+require_once($CFG->libdir.'/adminlib.php');
 
-$systemcontext = context_system::instance();
-$PAGE->set_context($systemcontext);
-$PAGE->set_title(get_string('manageqforms', 'block_mbstpl'));
-$thisurl = new moodle_url('/blocks/mbstpl/questman/index.php');
-$PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('admin');
-
-require_login(SITEID, false);
-if (!is_siteadmin()) {
-    require_capability('moodle/site:config', $systemcontext);
-}
+admin_externalpage_setup('blockmbstplmanageqforms');
 
 $moveupid = optional_param('moveup', 0, PARAM_INT);
 $movedownid = optional_param('movedown', 0, PARAM_INT);
@@ -57,7 +48,7 @@ if ($isdraft) {
     $actform = new \block_mbstpl\form\activatedraft();
     if ($data = $actform->get_data()) {
         manager::activate_draft($data->formname);
-        redirect($thisurl);
+        redirect($PAGE->url);
     }
 }
 echo $OUTPUT->header();

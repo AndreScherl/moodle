@@ -27,7 +27,7 @@ namespace block_mbstpl\dataobj;
 defined('MOODLE_INTERNAL') || die();
 
 class asset extends base {
-    public $required_fields = array('id', 'metaid', 'url', 'license', 'owner');
+    public $required_fields = array('id', 'metaid', 'url', 'license', 'owner', 'source');
 
     /** @var int $metaid */
     public $metaid;
@@ -37,6 +37,8 @@ class asset extends base {
     public $license;
     /** @var string $owner */
     public $owner;
+    /** @var string $source */
+    public $source;
 
     public static function get_tablename() {
         return 'block_mbstpl_asset';

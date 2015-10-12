@@ -22,16 +22,12 @@
 use block_mbstpl\admin_setting_configdate;
 
 defined('MOODLE_INTERNAL') || die;
+global $CFG;
+
+/* @var $ADMIN admin_root */
+/* @var $settings admin_settingpage */
+
 if ($ADMIN->fulltree) {
-
-    $questmanurl = new moodle_url('/blocks/mbstpl/questman/index.php');
-    $questmanlink = html_writer::link($questmanurl, get_string('manageqforms', 'block_mbstpl'));
-    $searchqurl = new moodle_url('/blocks/mbstpl/questman/managesearch.php');
-    $managesearchlink = html_writer::link($searchqurl, get_string('managesearch', 'block_mbstpl'));
-
-    $links = $questmanlink . html_writer::empty_tag('br') . $managesearchlink;
-    $settings->add(new admin_setting_heading('questman', get_string('settings'), $links));
-
 
     $options = array();
     $options += coursecat::make_categories_list('moodle/category:manage', 0);
@@ -69,3 +65,17 @@ if ($ADMIN->fulltree) {
                                                   get_string('delayedrestore_desc', 'block_mbstpl'), false));
 
 }
+
+$category = new admin_category('block_mbstpl', get_string('pluginnamecategory', 'block_mbstpl'));
+$ADMIN->add('blocksettings', $category);
+
+$category->add('block_mbstpl', new admin_externalpage('blockmbstplmanagelicenses',
+    get_string('licenses_header', 'block_mbstpl'), "$CFG->wwwroot/blocks/mbstpl/editlicenses.php"));
+
+$category->add('block_mbstpl', new admin_externalpage('blockmbstplmanagesearch',
+    get_string('managesearch', 'block_mbstpl'), "$CFG->wwwroot/blocks/mbstpl/questman/managesearch.php"));
+
+$category->add('block_mbstpl', new admin_externalpage('blockmbstplmanageqforms',
+    get_string('manageqforms', 'block_mbstpl'), "$CFG->wwwroot/blocks/mbstpl/questman/index.php"));
+
+unset($category);

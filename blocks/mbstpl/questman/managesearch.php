@@ -20,25 +20,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use block_mbstpl as mbst;
+use block_mbstpl\questman\manager;
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 global $PAGE, $OUTPUT;
 
-use \block_mbstpl as mbst;
-use \block_mbstpl\questman\manager;
+require_once($CFG->libdir.'/adminlib.php');
 
-$systemcontext = context_system::instance();
-$PAGE->set_context($systemcontext);
-$PAGE->set_title(get_string('manageqforms', 'block_mbstpl'));
-$thisurl = new moodle_url('/blocks/mbstpl/questman/managesearch.php');
-$PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('admin');
-
-require_login(SITEID, false);
-if (!is_siteadmin()) {
-    require_capability('moodle/site:config', $systemcontext);
-}
+admin_externalpage_setup('blockmbstplmanagesearch');
 
 $enableid = optional_param('enableid', 0, PARAM_INT);
 $disableid = optional_param('disableid', 0, PARAM_INT);
@@ -48,22 +39,22 @@ $movedownid = optional_param('movedownid', 0, PARAM_INT);
 if ($enableid) {
     require_sesskey();
     manager::searchq_setenabled($enableid);
-    redirect($thisurl);
+    redirect($PAGE->url);
 }
 if ($disableid) {
     require_sesskey();
     manager::searchq_setenabled($disableid, false);
-    redirect($thisurl);
+    redirect($PAGE->url);
 }
 if ($moveupid) {
     require_sesskey();
     manager::searchq_move($moveupid);
-    redirect($thisurl);
+    redirect($PAGE->url);
 }
 if ($movedownid) {
     require_sesskey();
     manager::searchq_move($movedownid, false);
-    redirect($thisurl);
+    redirect($PAGE->url);
 }
 
 $questions = manager::searchmanage_getall();
@@ -74,6 +65,6 @@ $pagetitle = get_string('managesearch', 'block_mbstpl');
 
 echo html_writer::tag('h2', $pagetitle);
 
-echo $renderer->manage_search($questions, $thisurl);
+echo $renderer->manage_search($questions, $PAGE->url);
 
 echo $OUTPUT->footer();

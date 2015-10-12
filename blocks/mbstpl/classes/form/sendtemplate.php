@@ -26,19 +26,13 @@ use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-
-require_once($CFG->libdir.'/formslib.php');
-
 /**
  * Class sendtemplate
  * @package block_mbstpl
  * Main question form
  */
-class sendtemplate extends \moodleform {
+class sendtemplate extends licenseandassetform {
     function definition() {
-        global $CFG;
-        require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
 
         $form = $this->_form;
 
@@ -67,32 +61,8 @@ class sendtemplate extends \moodleform {
         $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));
         $form->addRule('copyright', get_string('required'), 'required');
 
-        // License options.
-        $form->addElement('license', 'license', get_string('license', 'block_mbstpl'));
-        $form->addRule('license', null, 'required');
-
-        // List of 3rd-party assets.
-        $asset = array();
-        $asset[] = $form->createElement('hidden', 'asset_id');
-        $asset[] = $form->createElement('text', 'asset_url', get_string('url', 'block_mbstpl'),
-                                        array(
-                                            'size' => '30', 'inputmode' => 'url',
-                                            'placeholder' => get_string('url', 'block_mbstpl')
-                                        ));
-        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'));
-        $asset[] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'),
-                                        array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
-        $assetgroup = $form->createElement('group', 'asset', get_string('assets', 'block_mbstpl'), $asset, null, false);
-
-        $repeatcount = isset($this->_customdata['assetcount']) ? $this->_customdata['assetcount'] : 1;
-        $repeatcount += 2;
-        $repeatopts = array(
-            'asset_id' => array('type' => PARAM_INT),
-            'asset_url' => array('type' => PARAM_URL),
-            'asset_owner' => array('type' => PARAM_TEXT)
-        );
-        $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3,
-                               get_string('addassets', 'block_mbstpl'));
+        // Add license and asset fields.
+        parent::definition();
 
         // Tags.
         $form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));

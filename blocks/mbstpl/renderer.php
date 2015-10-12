@@ -499,4 +499,42 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
         return html_writer::table($table);
     }
+
+    /**
+     * Create a table of licenses
+     *
+     * @param \block_mbstpl\dataobj\license[] $licenses
+     * @param string[] $usedshortnames
+     */
+    public function license_table($licenses, $usedshortnames = array()) {
+
+        $table = new html_table();
+        $table->head = array(
+            get_string('license_shortname', 'block_mbstpl'),
+            get_string('license_fullname', 'block_mbstpl'),
+            get_string('license_source', 'block_mbstpl'),
+            get_string('license_used', 'block_mbstpl')
+        );
+
+        foreach ($licenses as $license) {
+
+            if (in_array($license->shortname, $usedshortnames)) {
+                $usage = get_string('license_used', 'block_mbstpl');
+            } else {
+                $url = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('deletelicenseid' => $license->id));
+                $usage = html_writer::link($url, get_string('delete'));
+            }
+
+            $row = new html_table_row(array(
+                $license->shortname,
+                $license->fullname,
+                $license->source,
+                $usage
+            ));
+
+            $table->data[] = $row;
+        }
+
+        return html_writer::table($table);
+    }
 }

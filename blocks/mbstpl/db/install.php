@@ -13,16 +13,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+function xmldb_block_mbstpl_install() {
 
-$plugin->version   = 2015100700;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->cron = 1; // TODO change to daily.
+    global $DB;
+
+    // Copy all enabled licenes to the block's license table
+    $select = "SELECT shortname, fullname, source FROM {license} WHERE enabled = 1";
+    $DB->execute("INSERT INTO {block_mbstpl_license} (shortname, fullname, source) $select");
+}

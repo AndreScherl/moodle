@@ -22,7 +22,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $DB, $OUTPUT;
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
@@ -54,7 +54,7 @@ $customdata = array('id' => $id, 'datatype' => $datatype, 'typeobj' => $typeobj,
 $mform = new \block_mbstpl\form\questedit(null, $customdata);
 if ($id) {
     if ($editors = $typeobj->get_editors()) {
-        foreach($editors as $editor) {
+        foreach ($editors as $editor) {
             if (!empty($question->{$editor})) {
                 $question->{$editor} = array('text' => $question->{$editor}, 'format' => FORMAT_HTML);
             }
@@ -63,11 +63,11 @@ if ($id) {
     $mform->set_data($question);
 }
 $redirurl = new moodle_url('/blocks/mbstpl/questman/index.php');
-if ($mform->is_cancelled()){
+if ($mform->is_cancelled()) {
     redirect($redirurl);
 } else if ($data = $mform->get_data()) {
     if ($editors = $typeobj->get_editors()) {
-        foreach($editors as $editor) {
+        foreach ($editors as $editor) {
             if (!empty($data->{$editor})) {
                 $data->{$editor} = $data->{$editor}['text'];
             }

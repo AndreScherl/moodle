@@ -129,9 +129,9 @@ class backup {
      */
     public static function backup_secondary(dataobj\template $template, $settings) {
         $filename = self::get_filename($template->id);
-        $parts = isset($settings->parts) ? $settings->parts : array();
+        $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
         $user = get_admin();
-        $filename = self::launch_secondary_backup($template->courseid, $template->id, $parts, $user->id);
+        $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
         // TODO actually backup.
         return $filename;
     }
@@ -141,9 +141,9 @@ class backup {
      * @param \block_mbstpl\dataobj\template $template
      * @param string $filename
      * @param object $settings
-     * @return int course id.
+     * @return \block_mbstpl\dataobj\coursefromtpl
      */
-    public static function restore_secondary(dataobj\template $template, $filename, $settings) {
+    public static function restore_secondary(dataobj\template $template, $filename, $settings, $requesterid) {
         $targetcat = 0;
         $targetcrs = 0;
         if (!empty($settings->tocat)) {
@@ -153,10 +153,17 @@ class backup {
         }
         $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
 
-        // Add id to coursefromtpl table.
-        $coursefromtpl = new dataobj\coursefromtpl(array('courseid' => $cid, 'templateid' => $template->id));
+        // Add coursefromtpl entry.
+        $coursefromtpl = new dataobj\coursefromtpl(array(
+            'courseid' => $cid,
+            'templateid' => $template->id,
+            'createdby' => $requesterid,
+            'licence' => $settings->licence
+        ));
+
         $coursefromtpl->insert();
-        return $cid;
+
+        return $coursefromtpl;
     }
 
     /**
@@ -195,7 +202,8 @@ class backup {
             $settings['anonymize'] = 1;
         }
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
+            \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
             foreach ($settings as $setting => $value) {
@@ -204,13 +212,14 @@ class backup {
                 }
             }
 
-            // Set the default filename
+            // Set the default filename.
             $format = $bc->get_format();
             $type = $bc->get_type();
             $id = $bc->get_id();
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
-            $bc->get_plan()->get_setting('filename')->set_value(\backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            $bc->get_plan()->get_setting('filename')->set_value(
+                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -242,7 +251,7 @@ class backup {
             );
             $fs->create_file_from_pathname($filerecord, $filepath);
             @unlink($filepath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $backupok = false;
         }
 
@@ -328,10 +337,11 @@ class backup {
         // Restore.
         $admin = get_admin();
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_CURRENT_ADDING);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
+                $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
@@ -345,11 +355,11 @@ class backup {
      *
      * @param int $courseid
      * @param int $templateid
-     * @param array $parts what parts to backup
+     * @param array $backupsettings what parts to backup
      * @param int $userid
      * @return mixed filename|false on error
      */
-    private static function launch_secondary_backup($courseid, $templateid, $parts, $userid) {
+    private static function launch_secondary_backup($courseid, $templateid, $backupsettings, $userid) {
         global $CFG;
 
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -357,7 +367,7 @@ class backup {
 
         $filename = self::get_filename($templateid, false);
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
-        $settings = array(
+        $settings = array_merge(array(
             'users' => 0,
             'anonymize' => 0,
             'role_assignments' => 0,
@@ -369,9 +379,10 @@ class backup {
             'completion_information' => 0,
             'logs' => 0,
             'histories' => 0,
-        );
+        ), $backupsettings);
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
+            \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
             foreach ($settings as $setting => $value) {
@@ -380,13 +391,14 @@ class backup {
                 }
             }
 
-            // Set the default filename
+            // Set the default filename.
             $format = $bc->get_format();
             $type = $bc->get_type();
             $id = $bc->get_id();
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
-            $bc->get_plan()->get_setting('filename')->set_value(\backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            $bc->get_plan()->get_setting('filename')->set_value(
+                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -403,7 +415,7 @@ class backup {
             if ($outcome) {
                 $file->delete();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $backupok = false;
         }
 
@@ -491,13 +503,46 @@ class backup {
         // Restore.
         $admin = get_admin();
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_CURRENT_ADDING);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
+                $admin->id, \backup::TARGET_CURRENT_ADDING);
             $rc->execute_precheck();
             $rc->execute_plan();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
         return $course->id;
+    }
+
+    public static function build_html_block(dataobj\coursefromtpl $coursefromtpl, dataobj\template $template) {
+
+        global $CFG, $DB, $PAGE;
+
+        require_once($CFG->dirroot . "/lib/blocklib.php");
+        require_once($CFG->dirroot . "/lib/pagelib.php");
+
+        $page = new \moodle_page();
+        $page->set_context(\context_course::instance($coursefromtpl->courseid));
+
+        // Use the 1st available region of the theme's course layout.
+        $region = $PAGE->theme->layouts['course']['regions'][0];
+
+        $bm = new \block_manager($page);
+        $bm->add_region($region);
+        $bm->add_block('html', $region, 0, false, 'course-view-*');
+
+        $blockconfig = array(
+            'title' => get_string('newblocktitle', 'block_mbstpl'),
+            'text' => array(
+                'text' => $coursefromtpl->licence,
+                'format' => FORMAT_PLAIN,
+                'itemid' => file_get_submitted_draft_itemid('config_text')
+            )
+        );
+
+        $blockrecord = $DB->get_record('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
+        $block = block_instance('html', $blockrecord, $page);
+        $block->instance_config_save((object) $blockconfig);
+
     }
 }

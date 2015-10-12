@@ -33,12 +33,26 @@ class coursefromtpl extends base {
 
     public $required_fields = array('id', 'courseid', 'templateid');
     public $noduplfields = array('courseid');
+    public $optional_fields = array(
+        'createdby' => null,
+        'createdon' => null,
+        'licence' => null
+    );
 
-    /* @var int cousreid  */
-    public $cousreid;
+    /* @var int courseid  */
+    public $courseid;
 
     /* @var int templateid */
     public $templateid;
+
+    /* @var int createdby */
+    public $createdby;
+
+    /* @var int createdon */
+    public $createdon;
+
+    /* @var string licence */
+    public $licence;
 
     /**
      * Set the table name here.
@@ -46,5 +60,10 @@ class coursefromtpl extends base {
      */
     public static function get_tablename() {
         return 'block_mbstpl_coursefromtpl';
+    }
+
+    public function insert() {
+        $this->createdon = time();
+        return parent::insert();
     }
 }

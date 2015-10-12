@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $USER, $DB;
 
 use \block_mbstpl AS mbst;
 use block_mbstpl\dataobj\template;
@@ -82,7 +82,7 @@ if ($type == 'author') {
     }
     $customdata['questions'] = $questions;
 
-    /** @var mbst\dataobj\answer[] $answers */
+    /* @var $answers mbst\dataobj\answer[] */
     $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
     foreach ($answers as $answer) {
         if (!isset($questions[$answer->questionid])) {
@@ -103,7 +103,7 @@ if ($type == 'author') {
 $showselector = ($type == 'author') || (mbst\perms::can_assignreview($template, $coursecontext));
 if ($showselector) {
     $allowedreviewerids = null;
-    if ($type =='reviewer') {
+    if ($type == 'reviewer') {
         // When selecting a reviewer, restrict to the available users.
         $catcontext = context_coursecat::instance($course->category);
         $users = get_users_by_capability($catcontext, 'block/mbstpl:coursetemplatereview', 'u.id');
@@ -176,7 +176,7 @@ if ($form->is_cancelled()) {
 }
 
 // Output the page.
-/** @var block_mbstpl_renderer $output */
+/* @var $output block_mbstpl_renderer */
 $output = $PAGE->get_renderer('block_mbstpl');
 
 echo $output->header();

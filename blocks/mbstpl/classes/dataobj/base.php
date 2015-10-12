@@ -69,7 +69,7 @@ abstract class base extends \data_object {
      * Finds and returns a data_object instance based on params.
      *
      * @param array $params associative arrays varname=>value
-     * @return data_object instance of data_object or false if none found.
+     * @return \data_object instance of data_object or false if none found.
      */
     public static function fetch($params) {
         $result = self::fetch_helper(static::get_tablename(), get_called_class(), $params);
@@ -113,11 +113,11 @@ abstract class base extends \data_object {
         return $this->update();
     }
 
-	/**
+    /**
      * Finds and returns all data_object instances based on params.
      *
      * @param array $params associative arrays varname => value
-     * @throws coding_exception This function MUST be overridden
+     * @throws \coding_exception This function MUST be overridden
      * @return base[] array of data_object instances
      */
     public static function fetch_all($params) {
@@ -125,7 +125,7 @@ abstract class base extends \data_object {
             return $instances;
         }
         return array();
-	}
+    }
 
     /**
      * Get array of dependants. Extend in subclasses that have dependant tables in this namespace extending this class.
@@ -145,8 +145,8 @@ abstract class base extends \data_object {
         global $DB;
 
         if ($deleted) {
-            foreach(static::get_dependants() as $classname => $key) {
-                /** @var base $class */
+            foreach (static::get_dependants() as $classname => $key) {
+                /* @var $class base */
                 $class = __NAMESPACE__ . '\\' .$classname;
                 if (!class_exists($class)) {
                     echo $class;
@@ -161,7 +161,7 @@ abstract class base extends \data_object {
                     $DB->delete_records($class::get_tablename(), array($key => $this->id));
                 } else {
                     $dependants = $class::fetch_all(array($key => $this->id));
-                    foreach($dependants as $dependant) {
+                    foreach ($dependants as $dependant) {
                         $dependant->delete();
                     }
                 }

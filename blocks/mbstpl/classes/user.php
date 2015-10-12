@@ -39,23 +39,15 @@ class user {
      * @param $userid
      */
     public static function enrol_reviewer($courseid, $userid) {
-        global $CFG, $DB;
-
-        // First, enrol.
-        require_once($CFG->dirroot . '/enrol/manual/lib.php');
+        global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'reviewerrole')) {
             throw new \moodle_exception('errorreviewerrolenotset', 'block_mbstpl');
         }
 
         $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
-        $enrol = $DB->get_record('enrol', array('courseid'=>$courseid, 'enrol'=>'manual', 'status'=>ENROL_INSTANCE_ENABLED));
-        if (!$enrol) {
-            throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
-        }
 
-        $plugin = new \enrol_manual_plugin();
-        $plugin->enrol_user($enrol, $userid, $roleid);
+        self::enrol_user_to_course($userid, $courseid, $roleid);
 
         // Now let them know about it.
         notifications::notify_assignedreviewer($course, $userid);
@@ -67,26 +59,46 @@ class user {
      * @param $userid
      */
     public static function enrol_author($courseid, $userid) {
-        global $CFG, $DB;
-
-        // First, enrol.
-        require_once($CFG->dirroot.'/enrol/manual/lib.php');
+        global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'authorrole')) {
             throw new \moodle_exception('errorauthorrolenotset', 'block_mbstpl');
         }
 
         $course = $DB->get_record('course', array('id' => $courseid), 'id,fullname', MUST_EXIST);
+
+        self::enrol_user_to_course($userid, $courseid, $roleid);
+
+        // Now let them know about it.
+        notifications::notify_assignedauthor($course, $userid);
+    }
+
+    /**
+     * Enrol a user with the teacher role
+     *
+     * @param $courseid
+     * @param $userid
+     */
+    public static function enrol_teacher($courseid, $userid) {
+
+        if (!$roleid = get_config('block_mbstpl', 'teacherrole')) {
+            throw new \moodle_exception('errorteacherrolenotset', 'block_mbstpl');
+        }
+
+        self::enrol_user_to_course($userid, $courseid, $roleid);
+    }
+
+    private static function enrol_user_to_course($userid, $courseid, $roleid) {
+        global $CFG, $DB;
+
         $enrol = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'manual', 'status' => ENROL_INSTANCE_ENABLED));
         if (!$enrol) {
             throw new \moodle_exception('errormanualenrolnotset', 'block_mbstpl');
         }
 
+        require_once($CFG->dirroot.'/enrol/manual/lib.php');
         $plugin = new \enrol_manual_plugin();
         $plugin->enrol_user($enrol, $userid, $roleid);
-
-        // Now let them know about it.
-        notifications::notify_assignedauthor($course, $userid);
     }
 
     /**
@@ -125,8 +137,7 @@ class user {
                 $template->type = 'assigned';
             } else if ($template->authorid == $userid && $status == dataobj\template::STATUS_UNDER_REVISION) {
                 $template->type = 'assigned';
-            }
-            else if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
+            } else if ($template->status == dataobj\template::STATUS_UNDER_REVISION) {
                 $template->type = 'revision';
             } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
                 $template->type = 'review';
@@ -141,7 +152,7 @@ class user {
         $presordeds = array();
 
         // Pre-sort only the ones that have a type.
-        foreach($templates as $template) {
+        foreach ($templates as $template) {
             if (empty($template->type)) {
                 continue;
             }
@@ -153,17 +164,17 @@ class user {
 
         // Load assignees.
         $assigneeids = array();
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $assigneeids[$template->assigneeid] = $template->assigneeid;
         }
         list($uidin, $params) = $DB->get_in_or_equal($assigneeids);
         $assignees = $DB->get_records_select('user', "id $uidin", $params);
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $template->assignee = empty($assignees[$template->assigneeid]) ? null : $assignees[$template->assigneeid];
         }
 
         // Sort by type.
-        foreach($presordeds as $template) {
+        foreach ($presordeds as $template) {
             $toreturn[$template->type][] = $template;
         }
         return $toreturn;

@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE;
 
 use \block_mbstpl AS mbst;
 
@@ -55,7 +55,7 @@ $overviewurl = new moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' 
 $PAGE->navbar->add(get_string('templatefeedback', 'block_mbstpl'), $overviewurl);
 $PAGE->navbar->add(userdate($revhist->timecreated));
 
-/** @var block_mbstpl_renderer $output */
+/* @var $output block_mbstpl_renderer */
 $output = $PAGE->get_renderer('block_mbstpl');
 
 echo $output->header();

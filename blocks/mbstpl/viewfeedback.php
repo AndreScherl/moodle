@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $USER, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 
@@ -69,7 +69,7 @@ if ($cansendfeedback) {
     if ($data = $feedbackform->get_data()) {
         $newstatus = $isreviewer ? $template::STATUS_UNDER_REVISION : $template::STATUS_UNDER_REVIEW;
         mbst\course::set_feedback($template, $data->feedback, $newstatus);
-		redirect($courseurl);
+        redirect($courseurl);
     }
 }
 
@@ -93,7 +93,7 @@ if (!empty($buttons)) {
     echo html_writer::div($buttons, 'templateactionbtns');
 }
 
-echo $renderer->coursebox($course,$template);
+echo $renderer->coursebox($course, $template);
 
 if ($cansendfeedback) {
     $feedbackform->display();

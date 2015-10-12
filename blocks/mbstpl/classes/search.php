@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  *
@@ -50,7 +50,7 @@ class search {
      * @param array $questions
      * @param \stdClass $formdata
      */
-    function __construct($questions, $formdata) {
+    public function __construct($questions, $formdata) {
         $this->questions = $questions;
         $this->answers = $this->formdata_to_answers($formdata);
         $this->sortby = $this->formdata_to_sort($formdata);
@@ -65,7 +65,7 @@ class search {
      */
     private function formdata_to_answers($formdata) {
         $answers = array();
-        foreach($formdata as $key => $answer) {
+        foreach ($formdata as $key => $answer) {
             if ($answer !== '0' && empty($answer)) {
                 continue;
             }
@@ -124,7 +124,7 @@ class search {
         $params = array();
         $alreadyjoineds = array();
 
-        foreach($this->answers as $qid => $answer) {
+        foreach ($this->answers as $qid => $answer) {
             if (!isset($this->questions[$qid])) {
                 continue;
             }
@@ -164,10 +164,7 @@ class search {
         $filterwheres = implode("\n          AND ", $wheres);
 
         $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
-        $selectsql = "
-        SELECT c.id, c.fullname, cat.name AS catname, tpl.rating, $authnamefield AS authorname
-        ";
-
+        $selectsql = "SELECT c.id, c.fullname, cat.name AS catname, tpl.rating, $authnamefield AS authorname";
 
         $orderby = '';
         if (!empty($this->sortby)) {

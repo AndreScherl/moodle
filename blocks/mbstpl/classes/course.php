@@ -22,6 +22,7 @@
 
 namespace block_mbstpl;
 
+use core\task\adhoc_task;
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -43,7 +44,7 @@ class course {
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
 
-        /** @var dataobj\template $template */
+        /* @var $template dataobj\template */
         $template = dataobj\template::fetch(array('courseid' => $cid));
 
         if (!$template && has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
@@ -88,6 +89,11 @@ class course {
             $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
         }
 
+        if (perms::can_viewhistory($coursecontext)) {
+            $url = new \moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $cid));
+            $tplnode->add(get_string('viewhistory', 'block_mbstpl'), $url);
+        }
+
         if ($tplnode->has_children()) {
             $coursenode->add_node($tplnode);
         }
@@ -120,7 +126,7 @@ class course {
         // Clean up template.
         $templates = dataobj\template::fetch_all(array('courseid' => $cid));
         if (!empty($templates)) {
-            foreach($templates as $template) {
+            foreach ($templates as $template) {
                 $template->delete();
             }
         }
@@ -269,17 +275,17 @@ class course {
      * @param int $templateid
      * @return array
      */
-	public static function get_revhist($templateid) {
-		global $DB;
-		$sql = "
-		SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
-		FROM {block_mbstpl_revhist} rh
-		JOIN {user} u ON u.id = rh.assignedid
-		WHERE rh.templateid = ?
-		ORDER BY rh.id DESC
-		";
-		return $DB->get_records_sql($sql, array('', $templateid));
-	}
+    public static function get_revhist($templateid) {
+        global $DB;
+        $sql = "
+        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
+        FROM {block_mbstpl_revhist} rh
+        JOIN {user} u ON u.id = rh.assignedid
+        WHERE rh.templateid = ?
+        ORDER BY rh.id DESC
+        ";
+        return $DB->get_records_sql($sql, array('', $templateid));
+    }
 
     /**
      * Gets a list of everyone who created the course template.
@@ -298,10 +304,32 @@ class course {
         ";
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $creators[] = fullname($result);
         }
         return implode(', ', $creators);
+    }
+
+    public static function get_courses_with_creators($templateid) {
+        global $DB;
+
+        $fields = get_all_user_name_fields(true, 'u');
+
+        $sql = "
+            SELECT c.id course_id, c.fullname course_fullname, c.shortname course_shortname,
+            cft.createdon course_createdon, $fields, u.id user_id
+            FROM {course} c
+            JOIN {block_mbstpl_coursefromtpl} cft ON cft.courseid = c.id
+            JOIN {block_mbstpl_template} t ON cft.templateid = t.id
+            LEFT JOIN {user} u ON cft.createdby = u.id
+            WHERE t.id = ?";
+
+        $results = $DB->get_records_sql($sql, array($templateid));
+
+        return array_map(function($result) {
+            $result->course_creator_name = $result->user_id ? fullname($result) : "";
+            return $result;
+        }, $results);
     }
 
     /**

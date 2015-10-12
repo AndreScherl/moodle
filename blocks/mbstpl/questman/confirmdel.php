@@ -22,7 +22,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $DB, $OUTPUT;
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
@@ -45,10 +45,12 @@ if ($confirm && confirm_sesskey()) {
     \block_mbstpl\questman\manager::delete_question($question);
     redirect($redirurl);
 }
-$actionurl = new moodle_url('/blocks/mbstpl/questman/confirmdel.php', array('id' => $id, 'sesskey'=>sesskey(), 'confirm'=>1));
+$actionurl = new moodle_url('/blocks/mbstpl/questman/confirmdel.php', array('id' => $id, 'sesskey' => sesskey(), 'confirm' => 1));
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox', 'notice');
-$promptstr = $question->inuse ? get_string('confirmdelquest', 'block_mbstpl'): get_string('confirmdelquestforever', 'block_mbstpl');
+$promptstr = $question->inuse ?
+    get_string('confirmdelquest', 'block_mbstpl') :
+    get_string('confirmdelquestforever', 'block_mbstpl');
 echo html_writer::tag('p', $promptstr);
 echo $OUTPUT->single_button($actionurl, get_string('delete'), 'post');
 echo html_writer::empty_tag('br');

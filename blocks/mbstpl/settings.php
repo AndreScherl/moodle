@@ -22,9 +22,6 @@
 use block_mbstpl\admin_setting_configdate;
 
 defined('MOODLE_INTERNAL') || die;
-
-global $DB;
-
 if ($ADMIN->fulltree) {
 
     $questmanurl = new moodle_url('/blocks/mbstpl/questman/index.php');
@@ -51,11 +48,24 @@ if ($ADMIN->fulltree) {
                                                   get_string('authorrole', 'block_mbstpl'),
                                                   get_string('authorrole_desc', 'block_mbstpl'), null, $roles));
 
+    $settings->add(new admin_setting_configselect('block_mbstpl/teacherrole',
+                                                  get_string('teacherrole', 'block_mbstpl'),
+                                                  get_string('teacherrole_desc', 'block_mbstpl'), null, $roles));
+
     $settings->add(new admin_setting_configtext('block_mbstpl/complainturl',
                                                   get_string('complainturl', 'block_mbstpl'),
                                                   get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
 
+
     $settings->add(new admin_setting_configdate('block_mbstpl/nextstatsreport',
                                                   get_string('nextstatsreport', 'block_mbstpl'),
                                                   get_string('nextstatsreport_desc', 'block_mbstpl'), 0));
+    $settings->add(new admin_setting_configcheckbox('block_mbstpl/delayedrestore',
+                                                  get_string('delayedrestore', 'block_mbstpl'),
+                                                  get_string('delayedrestore_desc', 'block_mbstpl'), false));
+
+    $settings->add(new admin_setting_configcheckbox('block_mbstpl/delayedrestore',
+                                                  get_string('delayedrestore', 'block_mbstpl'),
+                                                  get_string('delayedrestore_desc', 'block_mbstpl'), false));
+
 }

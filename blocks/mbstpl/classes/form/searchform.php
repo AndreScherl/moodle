@@ -69,7 +69,7 @@ class searchform extends \moodleform {
             'asc_rating' => $strrating . $asc,
             'desc_rating' => $strrating . $desc,
         );
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             $options['asc_' . $question->id] = $question->name . $asc;
             $options['desc_' . $question->id] = $question->name . $desc;
         }

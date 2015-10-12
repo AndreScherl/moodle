@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $OUTPUT;
 
 use \block_mbstpl as mbst;
 use \block_mbstpl\questman\manager;

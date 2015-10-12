@@ -201,13 +201,6 @@ class template extends base {
             );
             $fs->create_file_from_storedfile($filerecord, $file);
         }
-
-        /*
-        // Clear the feedback/files.
-        $this->feedback = '';
-        $this->update_notouch();
-        $fs->delete_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id);
-        */
     }
 
     public function get_files() {

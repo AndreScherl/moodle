@@ -23,7 +23,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+global $PAGE, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
 use block_mbstpl\dataobj\asset;
@@ -52,7 +52,7 @@ $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST
 $qform = mbst\questman\manager::get_qform($backup->qformid);
 $qidlist = $qform ? $qform->questions : '';
 $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
-foreach($questions as $questionid => $question) {
+foreach ($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
 $creator = $DB->get_record('user', array('id' => $backup->creatorid));
@@ -69,9 +69,9 @@ $setdata = (object)array(
     'license' => $meta->license,
     'tags' => $meta->get_tags_string(),
 );
-/** @var mbst\dataobj\answer[] $answers */
+/* @var $answers mbst\dataobj\answer[] */
 $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
-foreach($answers as $answer) {
+foreach ($answers as $answer) {
     $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
     $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
 }
@@ -93,7 +93,7 @@ if ($form->is_cancelled()) {
 
 if ($data = $form->get_data()) {
     // Save answers to dynamic questions.
-    foreach($questions as $questionid => $question) {
+    foreach ($questions as $questionid => $question) {
         $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
         $answer = isset($data->{$question->fieldname}) ? $data->{$question->fieldname} : null;
         $comment = isset($data->{$question->fieldname.'_comment'}) ? $data->{$question->fieldname.'_comment'} : '';

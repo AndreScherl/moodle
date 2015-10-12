@@ -47,25 +47,7 @@ if (!$template->fetched) {
     redirect($redirecturl);
 }
 
-// Show template details.
-$backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
-$qform = mbst\questman\manager::get_qform($backup->qformid);
-$qidlist = $qform ? $qform->questions : '';
-$questions = mbst\questman\manager::get_questsions_in_order($qidlist);
-foreach($questions as $questionid => $question) {
-    $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
-}
-$customdata = array(
-    'courseid' => $courseid,
-    'questions' => $questions,
-    'freeze' => true,
-    'template' => $template,
-    'course' => $course,
-);
-$tform = new mbst\form\editmeta(null, $customdata);
-$meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-$answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
-$tform->set_data($answers);
+$tform = mbst\questman\manager::build_form($template, $course, true, true);
 
 // Rate form.
 $starrating = new mbst\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));

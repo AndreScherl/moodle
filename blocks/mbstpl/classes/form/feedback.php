@@ -35,7 +35,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 
 class feedback extends \moodleform {
-    function definition() {
+    protected function definition() {
         $form = $this->_form;
 
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
@@ -43,8 +43,7 @@ class feedback extends \moodleform {
 
         $form->addElement('editor', 'feedback', get_string('feedback', 'block_mbstpl'));
 
-        $towhom =  $this->_customdata['isreviewr'] ? 'author' : 'reviewer';
-        $caption =  get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
+        $towhom = $this->_customdata['isreviewr'] ? 'author' : 'reviewer';
         $submit = get_string('sendfeedbackto'.$towhom, 'block_mbstpl');
 
         $this->add_action_buttons(false, $submit);

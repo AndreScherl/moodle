@@ -28,8 +28,6 @@ global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 use \block_mbstpl AS mbst;
 use block_mbstpl\dataobj\asset;
 
-$systemcontext = context_system::instance();
-
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
@@ -48,7 +46,7 @@ require_capability('block/mbstpl:sendcoursetemplate', $coursecontext);
 $activeform = mbst\questman\manager::get_active_qform();
 $qidlist = $activeform ? $activeform->questions : '';
 $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
-foreach($questions as $questionid => $question) {
+foreach ($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
 $customdata = array('courseid' => $courseid, 'questions' => $questions, 'creator' => $USER);
@@ -61,14 +59,14 @@ if ($form->is_cancelled()) {
         'origcourseid' => $courseid,
         'creatorid' => $USER->id,
         'qformid' => $activeform->id,
-        'incluserdata' => empty($data->withanon) ? 0 :1,
+        'incluserdata' => empty($data->withanon) ? 0 : 1,
     );
     $backup = new mbst\dataobj\backup($backupdata, false);
     $backup->insert();
     $meta = new mbst\dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
 
     // Save answers to dynamic questions.
-    foreach($questions as $questionid => $question) {
+    foreach ($questions as $questionid => $question) {
         $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
         $answer = isset($data->{$question->fieldname}) ? $data->{$question->fieldname} : null;
         $typeclass::save_answer($meta->id, $question->id, $answer);

@@ -22,6 +22,8 @@
 
 namespace block_mbstpl\questman;
 
+use \block_mbstpl as mbst;
+
 defined('MOODLE_INTERNAL') || die();
 
 class manager {
@@ -99,8 +101,8 @@ class manager {
 
         // Now sort.
         $ordered = array();
-        foreach($qids as $key) {
-            if(array_key_exists($key, $questsions)) {
+        foreach ($qids as $key) {
+            if (array_key_exists($key, $questsions)) {
                 $ordered[$key] = $questsions[$key];
                 unset($questsions[$key]);
             }
@@ -165,19 +167,19 @@ class manager {
     /**
      * Delete a question if possible, otherwise just remove from draft.
      * @param object $question
-     * @return bool success
      */
     public static function delete_question($question) {
         global $DB;
 
         if (!$question->inuse) {
-            return $DB->delete_records('block_mbstpl_question', array('id' => $question->id));
+            $DB->delete_records('block_mbstpl_question', array('id' => $question->id));
+            return;
         }
         $draft = self::get_qform_draft();
         $qids = explode(',', $draft);
         $qindex = array_search($question->id, $qids);
         if ($qindex === false) {
-            return false;
+            return;
         }
         unset($qids[$qindex]);
         $draft = implode(',', $qids);
@@ -220,12 +222,11 @@ class manager {
      * Activates the current draft.
      * @param string $formname
      * @param bool $checkdraft unless set false will check if draft mode first.
-     * @return bool success
      */
     public static function activate_draft($formname, $checkdraft = true) {
         global $DB;
         if ($checkdraft && !self::is_draft()) {
-            return true;
+            return;
         }
         $draft = self::get_qform_draft();
         $formobj = (object)array(
@@ -291,11 +292,9 @@ class manager {
     public static function map_answers_to_fieldname($questions, $metaid) {
         global $DB;
 
-        $fieldnames = array();
         $qids = array();
         $answers = array();
-        foreach($questions as $question) {
-            $fieldnames[$question->fieldname] = '';
+        foreach ($questions as $question) {
             $qids[$question->id] = $question->id;
         }
         if (empty($qids)) {
@@ -306,7 +305,7 @@ class manager {
         $params['meta'] = $metaid;
         $preprocesseds = $DB->get_records_select('block_mbstpl_answer', "metaid = :meta AND questionid $qidin", $params,
             '', 'id,data,dataformat,questionid');
-        foreach($preprocesseds as $prec) {
+        foreach ($preprocesseds as $prec) {
             $qid = $prec->questionid;
             if (!isset($questions[$qid])) {
                 continue;
@@ -391,7 +390,7 @@ class manager {
         $searchqskeys = array_flip($searchqs);
         $enableds = array();
         $disableds = array();
-        foreach($allqs as $id => $question) {
+        foreach ($allqs as $id => $question) {
             $qobj = (object)array('id' => $id, 'name' => $question, 'enabled' => false);
             if (isset($searchqskeys[$id])) {
                 $qobj->enabled = true;
@@ -402,5 +401,37 @@ class manager {
         }
         ksort($enableds);
         return array_merge($enableds, $disableds);
+    }
+
+    public static function build_form($template, $course, $populate = false, $freeze = false) {
+
+        global $DB;
+
+        $courseid = $course->id;
+        $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
+        $qform = mbst\questman\manager::get_qform($backup->qformid);
+        $qidlist = $qform ? $qform->questions : '';
+        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
+        $creator = $DB->get_record('user', array('id' => $backup->creatorid));
+        foreach (array_keys($questions) as $questionid) {
+            $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
+        }
+        $customdata = array(
+            'courseid' => $courseid,
+            'questions' => $questions,
+            'freeze' => $freeze,
+            'template' => $template,
+            'course' => $course,
+            'creator' => $creator
+        );
+        $tform = new mbst\form\editmeta(null, $customdata);
+
+        if ($populate) {
+            $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+            $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+            $tform->set_data($answers);
+        }
+
+        return $tform;
     }
 }

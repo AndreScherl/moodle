@@ -22,16 +22,18 @@
 
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
-require_once($CFG->libdir . '/coursecatlib.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+
+require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
+require_once($CFG->libdir . '/coursecatlib.php');
 
 use \block_mbstpl AS mbst;
 
 $thisurl = new moodle_url('/blocks/mbstpl/dupcrs.php');
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
+$PAGE->add_body_class('path-backup');
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -56,37 +58,50 @@ if (empty($cats) && empty($courses)) {
     throw new moodle_exception('errornowheretorestore', 'block_mbstpl');
 }
 
+$step = optional_param('step', 1, PARAM_INT);
 $creator = mbst\course::get_creators($template->id);
 $customdata = array(
     'course' => $course,
     'cats' => $cats,
     'courses' => $courses,
     'creator' => $creator,
+    'step' => $step
 );
 $form = new mbst\form\dupcrs(null, $customdata);
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);
-} else if ($data = $form->get_data()) {
+} else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_INT)) {
+
     // Initiate deployment task.
-    $settings = array();
-    if ($data->restoreto == 'cat') {
-        $settings['tocat'] = $data->tocat;
-    } else {
-        $settings['tocrs'] = $data->tocrs;
-    }
+
     $taskdata = (object)array(
         'tplid' => $template->id,
-        'settings' => $settings,
+        'settings' => $form->get_task_settings(),
         'requesterid' => $USER->id,
     );
     $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
     $deployment->set_custom_data($taskdata);
-    \core\task\manager::queue_adhoc_task($deployment);
-    redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
+
+    if (get_config('block_mbstpl', 'delayedrestore')) {
+        \core\task\manager::queue_adhoc_task($deployment);
+        redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
+    } else {
+        $deployment->execute(true);
+        $newcourseurl = new moodle_url('/course/view.php', array('id' => $deployment->get_courseid()));
+        redirect($newcourseurl, get_string('redirectdupcrsmsg_done', 'block_mbstpl'), 5);
+    }
 }
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);
+
+if ($step == 1) {
+    $tform = mbst\questman\manager::build_form($template, $course, true, true);
+    $tform->display();
+    echo html_writer::tag('h3', get_string('destination', 'block_mbstpl'));
+}
+
 $form->display();
+
 echo $OUTPUT->footer();

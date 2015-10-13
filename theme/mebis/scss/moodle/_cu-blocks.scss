@@ -73,7 +73,7 @@ aside.row {
         right: auto;
         width: 100%;
         padding: 0;
-        
+
         .blockannotation {
             color: $white;
         }
@@ -296,12 +296,41 @@ aside.row {
                 padding: 3px;
                 margin-bottom: 8px;
             }
+
+            .category-container {
+
+                .category-body
+                {
+                    display:block;
+                }
+
+                .category-title .category-toggle::before {
+
+                    font-family: 'mebis-icons';
+                    content: "\e662";
+                }
+            }
+
+            .collapsed {
+
+                .category-body
+                {
+                    display:none;
+                }
+
+                .category-title .category-toggle::before {
+
+                    font-family: 'mebis-icons';
+                    content: "\e63d";
+                }
+            }
         }
     }
 }
 
 .editing .block_mbsmycourses .move {
-    float: right; 
+    float: right;
+    padding: 22px 20px 0  0;
 }
 
 // more results button in mbscourses and mbssearch result page

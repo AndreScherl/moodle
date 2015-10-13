@@ -198,3 +198,7 @@
 #mbsmycourses_viewtype label {
     margin-right:10px;
 }
+
+.jsenabled .collapsed .collapsibleregioninner {
+    display:none;
+}

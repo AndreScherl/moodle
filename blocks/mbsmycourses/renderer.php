@@ -411,7 +411,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
         $output = '';
         $output .= '<div id="' . $id . '" class="collapsibleregion ' . $classes . '">';
         $output .= '<div id="' . $id . '_sizer">';
-        $output .= '<div id="' . $id . '_caption" class="collapsibleregioncaption"></div>';
+        $output .= '<div id="' . $id . '_caption" class="collapsibleregioncaption category-title"></div>';
         $output .= '<div>' . $caption . '</div>';
         $output .= '<div id="' . $id . '_inner" class="collapsibleregioninner">';
         $this->page->requires->js_init_call('M.block_mbsmycourses.collapsible', array($id, $userpref, get_string('clicktohideshow')));

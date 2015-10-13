@@ -154,59 +154,17 @@ M.block_mbsmycourses.CollapsibleRegion = function(Y, id, userpref, strtooltip) {
     this.div = Y.one('#' + id);
 
     // Get the caption for the collapsible region
-    var caption = this.div.one('#' + id + '_caption');
-    caption.setAttribute('title', strtooltip);
-
-    // Create a link
-    var a = Y.Node.create('<a href="#"></a>');
-    // Create a local scoped lamba function to move nodes to a new link
-    var movenode = function(node){
-        node.remove();
-        a.append(node);
-    };
-    // Apply the lamba function on each of the captions child nodes
-    caption.get('children').each(movenode, this);
-    caption.prepend(a);
-
-    // Get the height of the div at this point before we shrink it if required
-    var height = this.div.get('offsetHeight');
-    if (this.div.hasClass('collapsed')) {
-        // Shrink the div as it is collapsed by default
-        this.div.setStyle('height', caption.get('offsetHeight') + 'px');
-    }
-
-    // Create the animation.
-    var animation = new Y.Anim({
-        node: this.div,
-        duration: 0.3,
-        easing: Y.Easing.easeBoth,
-        to: {
-            height:caption.get('offsetHeight')
-            },
-        from: {
-            height:height
-        }
-    });
-
-    // Handler for the animation finishing.
-    animation.on('end', function() {
-        this.div.toggleClass('collapsed');
-    }, this);
-
-    // Hook up the event handler.
-    caption.on('click', function(e, animation) {
+    var caption = this.div.one('.category-title');
+    
+    caption.on('click', function(e) {
+        
         e.preventDefault();
-        // Animate to the appropriate size.
-        if (animation.get('running')) {
-            animation.stop();
-        }
-        animation.set('reverse', this.div.hasClass('collapsed'));
-        // Update the user preference.
+        this.div.toggleClass('collapsed');
+        
         if (this.userpref) {
-            M.util.set_user_preference(this.userpref, !this.div.hasClass('collapsed'));
+            M.util.set_user_preference(this.userpref, this.div.hasClass('collapsed'));
         }
-        animation.run();
-    }, this, animation);
+    }, this);
 };
 
 M.block_mbsmycourses.userpref = false;

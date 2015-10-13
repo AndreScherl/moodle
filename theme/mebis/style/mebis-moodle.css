@@ -15848,9 +15848,24 @@ aside.row .block-region .block {
   padding: 3px;
   margin-bottom: 8px;
 }
+.block_mbsmycourses .row.categorybox .category-box .category-container .category-body {
+  display: block;
+}
+.block_mbsmycourses .row.categorybox .category-box .category-container .category-title .category-toggle::before {
+  font-family: 'mebis-icons';
+  content: "\e662";
+}
+.block_mbsmycourses .row.categorybox .category-box .collapsed .category-body {
+  display: none;
+}
+.block_mbsmycourses .row.categorybox .category-box .collapsed .category-title .category-toggle::before {
+  font-family: 'mebis-icons';
+  content: "\e63d";
+}
 
 .editing .block_mbsmycourses .move {
   float: right;
+  padding: 22px 20px 0  0;
 }
 
 .path-blocks-mbssearch .add-more-results,

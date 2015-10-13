@@ -82,14 +82,17 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             }
 
             $header = '';
+            $headercontainer = '';    
+            
             // If user is editing, then add move icons.
+            $moveurl = '';
             if ($userediting && !$ismovingcategory) {
                 $moveicon = html_writer::empty_tag('img', array('src' => $this->pix_url('t/move')->out(false),
                             'alt' => get_string('movecategory', 'block_mbsmycourses', $categoryinfo->category->name),
                             'title' => get_string('move')));
                 $moveurl = new moodle_url($this->page->url, array('sesskey' => sesskey(), 'movecategory' => 1, 'categoryid' => $catid));
                 $moveurl = html_writer::link($moveurl, $moveicon);
-                $header .= html_writer::tag('div', $moveurl, array('class' => 'move'));
+                $headercontainer .= html_writer::tag('div', $moveurl, array('class' => 'move'));
             }
 
             $caturl = new moodle_url('#');
@@ -128,7 +131,8 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $header .= html_writer::tag('span', get_string('new', 'block_mbsmycourses') . " (" . $newcount . ")", array('class' => 'mbsmycourses-newinfo'));
             }
             $header .= html_writer::span('', 'category-toggle');
-            $headercontainer = html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
+            $headercontainer .= html_writer::tag('div', $header, array('class' => 'category-title category-toggle'));
+             
             $o .= $this->collapsible_region($c, 'category-container', 'category-box_' . $catid, $headercontainer, 'mbscourse-catcoll_' . $catid);
 
             $categoryordernumber++;
@@ -431,11 +435,13 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $classes .= ' collapsed';
         }
 
+        print_r())
+        
         $output = '';       
-         $output .= '<div id="' . $id . '">';
+       /*  $output .= '<div id="' . $id . '">';
         $output .= '<div id="' . $id . '_caption" "></div>';
-        $output .= '</div>';
-        $output .= '<div class="' . $classes . '">';
+        $output .= '</div>';*/
+        $output .= '<div id="' . $id . '" class="' . $classes . '">';
         $output .=  $caption;
         $output .= '<div class="category-body">';
         $this->page->requires->js_init_call('M.block_mbsmycourses.collapsible', array($id, $userpref, get_string('clicktohideshow')));

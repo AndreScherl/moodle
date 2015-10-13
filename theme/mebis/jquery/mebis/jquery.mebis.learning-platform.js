@@ -22,33 +22,10 @@ var MebisLearningPlatform = (function ($) {
         });
     }
 
-    function categorytoggles() {
-        $('span.category-toggle').click(function(evt){
-            evt.stopPropagation();
-            $(this).parent().parent().children('.category-body').slideToggle(200);
-            $(this).toggleClass('open');
-        });
-        
-        $('div.category-toggle').click(function(){
-            $(this).parent().children('.category-body').slideToggle(200);
-            $(this).toggleClass('open');
-        });
-        
-        $('span.infoToggle').click(function(){
-            $(this).parent().parent().children('.category-course-info').slideToggle(200);
-        });
-        
-        $('#page-course-index-category').delegate('.categoryname a', 'click', function (e) {
-            e.preventDefault();
-            $(this).parent().click();
-        });
-    }
-
     return {
         init: function () {
             preventLinkDefault();
             hiddennav();
-            categorytoggles();          
         }
     }
 

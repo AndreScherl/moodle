@@ -63,6 +63,7 @@ $string['showchildren'] = 'Show children';
 $string['showchildrendesc'] = 'Should child courses be listed underneath the main course title?';
 $string['showwelcomearea'] = 'Show welcome area';
 $string['showwelcomeareadesc'] = 'Show the welcome area above the course list?';
+$string['sortorder'] = 'Category order';
 $string['view_edit_profile'] = '(View and edit your profile.)';
 $string['welcome'] = 'Welcome {$a}';
 $string['youhavemessages'] = 'You have {$a} unread ';

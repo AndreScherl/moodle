@@ -435,12 +435,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $classes .= ' collapsed';
         }
 
-        print_r())
-        
         $output = '';       
-       /*  $output .= '<div id="' . $id . '">';
-        $output .= '<div id="' . $id . '_caption" "></div>';
-        $output .= '</div>';*/
         $output .= '<div id="' . $id . '" class="' . $classes . '">';
         $output .=  $caption;
         $output .= '<div class="category-body">';

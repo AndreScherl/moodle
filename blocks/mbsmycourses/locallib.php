@@ -33,7 +33,8 @@ class mbsmycourses {
         $sortmenu = array('manual' => get_string('manual', 'block_mbsmycourses'),
             'fullname' => get_string('fullname', 'block_mbsmycourses'),
             'lastaccess' => get_string('lastaccess', 'block_mbsmycourses'),
-            'startdate' => get_string('startdate', 'block_mbsmycourses'));
+            'startdate' => get_string('startdate', 'block_mbsmycourses'),
+            'sortorder'  => get_string('sortorder', 'block_mbsmycourses'));
 
         return $sortmenu;
     }
@@ -191,6 +192,21 @@ class mbsmycourses {
 
         return ($a->lastaccess > $b->lastaccess) ? -1 : 1;
     }
+    
+    /** 
+     * Helper to uasort by categories sortorder of course (type sortorder).
+     * 
+     * @param record $a course1 
+     * @param record $b course2
+     * @return int
+     */
+    protected static function order_by_catsortorder($a, $b) {
+        if ($a->catsortorder == $b->catsortorder) {
+            return 0;
+        }
+        return ($a->catsortorder > $b->catsortorder) ? 1 : -1;
+    }
+    
 
     /** sort courses using uasort
      * 
@@ -199,7 +215,8 @@ class mbsmycourses {
      * @return array sorted list of courses
      */
     protected static function sort_courses($courses, $sorttype) {
-
+        global $DB;
+        
         switch ($sorttype) {
 
             case 'manual' :
@@ -234,7 +251,31 @@ class mbsmycourses {
                 
                 uasort($courses, array('mbsmycourses', 'order_by_lastaccess'));
                 return $courses;
-                break;
+                
+            case 'sortorder' : 
+
+                // Gather all the uses cateories of courses.
+                $catids = array();
+                foreach ($courses as $course) {
+                    $catids[$course->category] = $course->category;
+                }
+                
+                if (empty($catids)) {
+                    return $courses;
+                }
+                
+                if (!$catid2sortorder = $DB->get_records_list('course_categories', 'id', $catids, '', 'id, sortorder')) {
+                    return $courses;
+                }
+                
+                foreach ($courses as $course) {
+                    $coursesort = ($course->sortorder == 0)? $catid2sortorder[$course->category]->sortorder : $course->sortorder;
+                    $course->catsortorder = $catid2sortorder[$course->category]->sortorder + $coursesort;
+                }
+                
+                uasort($courses, array('mbsmycourses', 'order_by_catsortorder'));
+                
+                return $courses;
 
             default:
                 return $courses;
@@ -289,7 +330,7 @@ class mbsmycourses {
         } else {
             $courses = enrol_get_my_courses('*');
         }
-
+        
         // ...unset site course.
         $site = get_site();
 

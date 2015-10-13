@@ -54,6 +54,7 @@ $string['numtodisplay'] = 'Angezeigte Kurse:';
 $string['otherexpanded'] = 'Weitere Kurse aufklappen';
 $string['pluginname'] = 'mebis Meine Kurse';
 $string['preservestates'] = 'Aufgeklappten Status beibehalten';
+$string['sortorder'] = 'wie in Kursbereich';
 $string['shortnameprefix'] = 'Enthält {$a}';
 $string['shortnamesufixprural'] = '(und {$a} weitere)';
 $string['shortnamesufixsingular'] = '(und {$a} weiterer)';

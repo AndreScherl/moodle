@@ -223,7 +223,8 @@ class backup {
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
-            $bc->execute_plan();
+            // Class \backup_anonymizer_helper is missing methods for anonymizing certain user data fields (MDL-46541).
+            @$bc->execute_plan();
             $results = $bc->get_results();
             $file = $results['backup_destination'];
             if (!check_dir_exists($dir)) {
@@ -368,8 +369,8 @@ class backup {
         $filename = self::get_filename($templateid, false);
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
         $settings = array_merge(array(
-            'users' => 0,
-            'anonymize' => 0,
+            'users' => 1,
+            'anonymize' => 1,
             'role_assignments' => 0,
             'user_files' => 0,
             'activities' => 1,
@@ -385,9 +386,19 @@ class backup {
             \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
-            foreach ($settings as $setting => $value) {
-                if ($bc->get_plan()->setting_exists($setting)) {
-                    $bc->get_plan()->get_setting($setting)->set_value($value);
+
+            foreach ($bc->get_plan()->get_settings() as $settingname => $setting) {
+
+                $hassetting = isset($settings[$settingname]);
+
+                // Since 'users' and 'anonymize' needs to start as 1, we need to explicity set each
+                // 'userinfo' setting, defaulting to 0 if it's not explicitly set by the user.
+                if ($setting instanceof \backup_activity_userinfo_setting
+                        || $setting instanceof \backup_section_userinfo_setting) {
+                    $value = $hassetting ? $settings[$settingname] : 0;
+                    $setting->set_value($value);
+                } else if ($hassetting) {
+                    $setting->set_value($settings[$settingname]);
                 }
             }
 
@@ -402,7 +413,8 @@ class backup {
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
-            $bc->execute_plan();
+            // Class \backup_anonymizer_helper is missing methods for anonymizing certain user data fields (MDL-46541).
+            @$bc->execute_plan();
             $results = $bc->get_results();
             $file = $results['backup_destination'];
             if (!check_dir_exists($dir)) {

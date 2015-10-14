@@ -58,6 +58,7 @@ $string[ 'finish'] = 'End of game';
 
 //db/access.php
 $string[ 'game:attempt'] = 'Play game';
+$string[ 'game:addinstance'] = 'Add a game activity to a course';
 $string[ 'game:deleteattempts'] = 'Delete attempts';
 $string[ 'game:grade'] = 'Grade games manually';
 $string[ 'game:manage'] = 'Manage';

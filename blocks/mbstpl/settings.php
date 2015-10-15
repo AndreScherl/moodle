@@ -24,7 +24,7 @@ use block_mbstpl\admin_setting_configdate;
 defined('MOODLE_INTERNAL') || die;
 global $CFG;
 
-/* @var $ADMIN admin_root */
+global $CFG;
 /* @var $settings admin_settingpage */
 
 if ($ADMIN->fulltree) {

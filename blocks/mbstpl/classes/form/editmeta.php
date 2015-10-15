@@ -26,20 +26,14 @@ use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-
-require_once($CFG->libdir . '/formslib.php');
-
 /**
  * Class editmeta
  * @package block_mbstpl
  * Edit tempalte meta form.
  */
 
-class editmeta extends \moodleform {
-    protected function definition() {
-        global $CFG;
-        require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
+class editmeta extends licenseandassetform {
+    function definition() {
 
         $form = $this->_form;
         $cdata = $this->_customdata;
@@ -50,49 +44,23 @@ class editmeta extends \moodleform {
         // Add template details if exists.
         if (!empty($cdata['template']) && !empty($cdata['course'])) {
             $form->addElement('static', 'crsname', get_string('course'), $cdata['course']->fullname);
-            $form->addElement('static', 'creationdate',
-                get_string('creationdate', 'block_mbstpl'), userdate($cdata['course']->timecreated));
-            $form->addElement('static', 'lastupdate',
-                get_string('lastupdate', 'block_mbstpl'), userdate($cdata['template']->timemodified));
+            $form->addElement('static', 'creationdate', get_string('creationdate', 'block_mbstpl'), userdate($cdata['course']->timecreated));
+            $form->addElement('static', 'lastupdate', get_string('lastupdate', 'block_mbstpl'), userdate($cdata['template']->timemodified));
             $creator = mbst\course::get_creators($cdata['template']->id);
             $form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
         }
 
         // Add custom questions.
         $questions = $cdata['questions'];
-        foreach ($questions as $question) {
+        foreach($questions as $question) {
             if ($question->datatype != 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
             }
         }
 
-        // License options.
-        $form->addElement('license', 'license', get_string('license', 'block_mbstpl'));
-        $form->addRule('license', null, 'required');
-
-        // List of 3rd-party assets.
-        $asset = array();
-        $asset[] = $form->createElement('hidden', 'asset_id');
-        $asset[] = $form->createElement('text', 'asset_url', get_string('url', 'block_mbstpl'),
-                                        array(
-                                            'size' => '30', 'inputmode' => 'url',
-                                            'placeholder' => get_string('url', 'block_mbstpl')
-                                        ));
-        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'));
-        $asset[] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'),
-                                        array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
-        $assetgroup = $form->createElement('group', 'asset', get_string('assets', 'block_mbstpl'), $asset, null, false);
-
-        $repeatcount = isset($this->_customdata['assetcount']) ? $this->_customdata['assetcount'] : 1;
-        $repeatcount += 2;
-        $repeatopts = array(
-            'asset_id' => array('type' => PARAM_INT),
-            'asset_url' => array('type' => PARAM_URL),
-            'asset_owner' => array('type' => PARAM_TEXT)
-        );
-        $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3,
-                               get_string('addassets', 'block_mbstpl'));
+        // Add license and asset fields.
+        parent::definition();
 
         // Tags.
         $form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
@@ -134,7 +102,7 @@ class editmeta extends \moodleform {
             $default_values = (array)$default_values;
         }
         $data = array();
-        foreach ($default_values as $key => $value) {
+        foreach($default_values as $key => $value) {
             if (!is_array($value) || !isset($value['text'])) {
                 $data[$key] = $value;
                 continue;

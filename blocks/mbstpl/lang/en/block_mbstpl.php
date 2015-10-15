@@ -167,6 +167,7 @@ $string['qformunsaved'] = 'New question form (unsaved draft)';
 $string['questionname'] = 'Question name';
 $string['questiontitle'] = 'Question title';
 $string['questiontype'] = 'Question type';
+$string['reasonforrevision'] = 'Reasons for revision';
 $string['removefromdraft'] = 'Remove from draft';
 $string['reviewerrole'] = 'Reviewer role';
 $string['reviewerrole_desc'] = 'The role to use when enrolling a reviewer into a course';

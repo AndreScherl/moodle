@@ -39,17 +39,24 @@ $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);
 
-$template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true);
-
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('forrevision', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
+
+$template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true);
 if (!mbst\perms::can_sendrevision($template, $coursecontext)) {
     throw new moodle_exception('errorcannotviewfeedback', 'block_mbstpl');
 }
 
-echo $OUTPUT->header();
-
+$form = new mbst\form\forrevision(null, array('courseid' => $courseid));
+if ($data = $form->get_data()) {
+    
+}
 $renderer = mbst\course::get_renderer();
+
+echo $OUTPUT->header();
 echo html_writer::tag('h2', $pagetitle);
+
+$form->display();
+
 echo $OUTPUT->footer();

@@ -81,6 +81,11 @@ class course {
                 $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
                 $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
             }
+
+            if (perms::can_sendrevision($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $cid));
+                $tplnode->add(get_string('forrevision', 'block_mbstpl'), $url);
+            }
         }
 
         if (perms::can_viewrating($coursecontext)) {

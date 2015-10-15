@@ -151,6 +151,7 @@ $string['newlicense_source'] = 'New license source';
 $string['newlicense_exists'] = 'License "{$a}" already exists - please specify a different short name';
 $string['newlicense_required'] = 'A short name is required';
 $string['nextstatsreport'] = 'Next statistics report';
+$string['nextstatsreport_desc'] = 'Date to run the next statistics report';
 $string['norating'] = 'This template has no ratings.';
 $string['notemplates'] = 'You have no active templates in this site.';
 $string['noresults'] = 'No results found.';

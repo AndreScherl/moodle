@@ -204,7 +204,7 @@ M.block_mbsmycourses.add_overlay = function(Y, id) {
 	});
 
         // Create an overlay from markup, using an existing contentBox.
-        var xy = Y.one("#mbsmycourses-overlay-position-" + id).getXY();
+        var xy = Y.one("#mbsmycourses-new-" + id).getXY();
         var overlay = new Y.Overlay({
             srcNode: "#mbsmycourses-overlay-" + id,
             width: "auto",
@@ -221,7 +221,12 @@ M.block_mbsmycourses.add_overlay = function(Y, id) {
             overlay.show();
         });
 
+        Y.one("#mbsmycourses-overlay-position-" + id + " .mbscourses-hide-overlay").on('click', function (e) {
+            e.preventDefault();
+        });
+
         Y.on("click", Y.bind(overlay.hide, overlay), ".mbscourses-hide-overlay");
+        
 
         // Make overlay draggable.
         new Y.DD.Drag({

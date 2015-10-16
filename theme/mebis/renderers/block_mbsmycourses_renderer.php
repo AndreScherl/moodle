@@ -208,6 +208,9 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         }
 
         $html .= html_writer::start_tag('ul', array('class' => 'block-grid-xs-1 block-grid-xc-2 block-grid-md-3 course_list courses'));
+        
+        $overlayhtml = '';
+        
         foreach ($courses as $key => $course) {
             // If moving course, then don't show course which needs to be moved.
             if ($ismovingcourse && ($course->id == $movingcourseid)) {
@@ -221,7 +224,10 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
                 $html .= html_writer::start_div('row');
                 $html .= html_writer::start_div('col-xs-6 course-is-new');
-                $html .= html_writer::tag('span', get_string('new', 'block_mbsmycourses'));
+                $new = html_writer::tag('span', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
+                //$new = html_writer::tag('a', get_string('new', 'block_mbsmycourses'), array('id' => 'mbsmycourses-new-' . $course->id));
+                $html .= html_writer::tag('div', $new, array('class' => 'mbsmycourses-new'));
+                $overlayhtml .= $this->activity_display($course, $overviews[$course->id]);
                 $html .= html_writer::end_div(); //class 'col-xs-6 course-is-new'
                 $html .= html_writer::start_div('col-xs-6 box-type text-right');
                 $html .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
@@ -294,10 +300,12 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
 
         $html .= html_writer::end_tag('ul');
 
+        $html .= $overlayhtml;
+        
         $html .= html_writer::tag('div', '', array('class' => 'clearfix'));
         // Wrap course list in a div and return.
         $course_list = html_writer::tag('div', $html, array('class' => 'col-md-12'));
-        return html_writer::tag('div', $course_list, array('class' => 'row'));
+        return html_writer::tag('div', $course_list, array('class' => 'row mycourses-grid'));
     }
 
     /**

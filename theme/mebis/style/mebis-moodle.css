@@ -15862,6 +15862,9 @@ aside.row .block-region .block {
   font-family: 'mebis-icons';
   content: "\e63d";
 }
+.block_mbsmycourses .mycourses-grid {
+  color: #333;
+}
 
 .editing .block_mbsmycourses .move {
   float: right;

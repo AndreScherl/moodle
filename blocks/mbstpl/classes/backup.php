@@ -136,6 +136,9 @@ class backup {
         return $filename;
     }
 
+
+
+
     /**
      * Deploy a backed up template.
      * @param \block_mbstpl\dataobj\template $template
@@ -165,6 +168,28 @@ class backup {
 
         return $coursefromtpl;
     }
+
+    /**
+     * Backup a template for revision.
+     * @param dataobj\template $template
+     * @return string filename or throws error on failure
+     */
+    public static function backup_revision(dataobj\template $template) {
+
+    }
+
+    /**
+     * Restore a tempate for revision.
+     * @param dataobj\template $template
+     * @param string $filename
+     * @param int $requeswtedid
+     * @return int course id.
+     */
+    public static function restore_revision(dataobj\template $template, $filename, $requesterid) {
+
+    }
+
+
 
     /**
      * Backup an original course.

@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 class adhoc_deploy_revision extends \core\task\adhoc_task {
     public function execute() {
         $details = $this->get_custom_data();
-        $template = new \block_mbstpl\dataobj\template($details->tplid, true, MUST_EXIST);
+        $template = new \block_mbstpl\dataobj\template($details->templateid, true, MUST_EXIST);
         try {
             $filename = backup::backup_revision($template);
             $coursefromtpl = backup::restore_revision($template, $filename, $details->requesterid);

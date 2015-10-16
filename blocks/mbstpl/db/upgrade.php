@@ -271,24 +271,5 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015100500, 'mbstpl');
     }
 
-    if ($oldversion < 2015100700) {
-
-        $tablename = \block_mbstpl\dataobj\license::get_tablename();
-
-        $table = new xmldb_table($tablename);
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('shortname', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('fullname', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
-        $table->add_field('source', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        $dbman->create_table($table);
-
-        $select = "SELECT shortname, fullname, source FROM {license} WHERE enabled = 1";
-        $DB->execute("INSERT INTO {{$tablename}} (shortname, fullname, source) $select");
-
-        upgrade_block_savepoint(true, 2015100700, 'mbstpl');
-    }
-
     return true;
 }

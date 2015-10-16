@@ -50,12 +50,16 @@ if (!mbst\perms::can_sendrevision($template, $coursecontext)) {
 
 $form = new mbst\form\forrevision(null, array('courseid' => $courseid));
 if ($data = $form->get_data()) {
-    
+    // Initiate duplication task.
+    $task = new \block_mbstpl\task\adhoc_deploy_revision();
+    $task->set_custom_data((object)array('templateid' => $template->id, 'requesterid' => $USER->id, 'reasons' => $data->reasons));
+    \core\task\manager::queue_adhoc_task($task);
 }
 $renderer = mbst\course::get_renderer();
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', $pagetitle);
+echo html_writer::tag('h3', $course->fullname);
 
 $form->display();
 

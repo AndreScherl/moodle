@@ -99,9 +99,13 @@ aside.row {
 
 // Block mbsnewcourse.
 .mbsnewcourse {
-    padding-bottom: 30px;
-    > ul {
-        list-style: none;
+    
+    ul {
+        list-style: none; 
+    }
+    
+    > ul.mbsnewcourse-actionlinks {
+        
         > li {
             float: right;
             margin-left: 50px;
@@ -110,6 +114,7 @@ aside.row {
             }
         }
     }
+    
 }
 
 // Block mbsgettingstarted
@@ -163,12 +168,6 @@ aside.row {
 
 // Block mbsmycourses.
 .block_mbsmycourses {
-
-    // Content of mbsnewcourse is nested in header!
-    .mbsnewcourse {
-        float: right;
-        padding: 20px 0 0;
-    }
 
     // Headline.
     .header { 

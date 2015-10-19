@@ -15694,17 +15694,14 @@ aside.row .block-region .block {
   margin-left: 10px;
 }
 
-.mbsnewcourse {
-  padding-bottom: 30px;
-}
-.mbsnewcourse > ul {
+.mbsnewcourse ul {
   list-style: none;
 }
-.mbsnewcourse > ul > li {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li {
   float: right;
   margin-left: 50px;
 }
-.mbsnewcourse > ul > li a i {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li a i {
   font-size: 1.25em !important;
 }
 
@@ -15745,10 +15742,6 @@ aside.row .block-region .block {
   list-style: none;
 }
 
-.block_mbsmycourses .mbsnewcourse {
-  float: right;
-  padding: 20px 0 0;
-}
 .block_mbsmycourses .header {
   margin-bottom: 20px;
 }

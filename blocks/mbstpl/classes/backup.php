@@ -175,11 +175,14 @@ class backup {
      * @return string filename or throws error on failure
      */
     public static function backup_revision(dataobj\template $template) {
-
+        $filename = self::get_filename($template->id);
+        $user = get_admin();
+        $filename = self::launch_secondary_backup($template->courseid, $template->id, array(), $user->id);
+        return $filename;
     }
 
     /**
-     * Restore a tempate for revision.
+     * Restore a template for revision.
      * @param dataobj\template $template
      * @param string $filename
      * @param int $requeswtedid

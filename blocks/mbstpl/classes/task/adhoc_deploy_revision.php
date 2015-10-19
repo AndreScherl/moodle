@@ -33,7 +33,7 @@ class adhoc_deploy_revision extends \core\task\adhoc_task {
         $template = new \block_mbstpl\dataobj\template($details->templateid, true, MUST_EXIST);
         try {
             $filename = backup::backup_revision($template);
-            $coursefromtpl = backup::restore_revision($template, $filename, $details->requesterid);
+            $coursefromtpl = backup::restore_revision($template, $filename, $details->reasons);
             // TODO email.
         } catch (\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);

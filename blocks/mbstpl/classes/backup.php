@@ -185,10 +185,10 @@ class backup {
      * Restore a template for revision.
      * @param dataobj\template $template
      * @param string $filename
-     * @param int $requeswtedid
+     * @param string $message
      * @return int course id.
      */
-    public static function restore_revision(dataobj\template $template, $filename, $requesterid) {
+    public static function restore_revision(dataobj\template $template, $filename, $message) {
         $targetcat = get_config('block_mbstpl', 'deploycat');
         $targetcrs = 0;
         $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
@@ -197,6 +197,8 @@ class backup {
         $newtpl = clone($template);
         $newtpl->id = null;
         $newtpl->courseid = $cid;
+        $newtpl->feedback = $message;
+        $newtpl->feedbackformat = FORMAT_PLAIN;
         $newtpl->rating = null;
         $newtpl->insert();
 

@@ -140,7 +140,7 @@ class theme_mebis_header_renderer extends renderer_base {
                 $output .= html_writer::end_tag('button');
                 $output .= html_writer::end_div();
                 // fontsize icons
-                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav change-fontsize visible-lg'));
+                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav change-fontsize-wrapper visible-lg'));
                     $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
                     $output .= html_writer::start_tag('li');
                         $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec'));

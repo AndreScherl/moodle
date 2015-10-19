@@ -14278,33 +14278,33 @@ button.close {
   .me-wrapper #topbar .container .navbar-collapse.collapse .nav li span {
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a {
     line-height: 2.1875em;
     padding-top: 0;
     padding-bottom: 0;
     display: block;
     color: #999999;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="inc"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="inc"] {
     padding-left: 0;
     font-size: 18px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"] {
     padding-top: 3px;
     padding-left: 10px;
     padding-right: 15px;
     font-size: 16px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"] i {
     margin-right: 0;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a:hover {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a:hover {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a i {
     font-size: 1em;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li.me-active a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li.me-active a {
     color: #ff6600;
   }
   .me-wrapper #topbar .container .divider-vertical {

@@ -433,3 +433,37 @@ categorybox:
     }
 
 }
+
+#coursecat-management {
+
+    .grid-row-r {
+        margin-left: -20px;
+        margin-right: -20px;
+        content: " ";
+        display: table;
+        width: 100%;
+        clear: both;
+    }
+
+    .grid-col {
+
+        position: relative;
+        min-height: 1px;
+        padding-left: 20px;
+        padding-right: 20px;
+        float: left;
+
+        &.span5 {
+            width: 41.66666667%;
+        }
+
+        &.span7 {
+            width: 58.33333333%;
+        }
+    }
+
+    #course-category-listings .detail-pair .pair-value select {
+        display: block;
+        width:100%;
+    }
+}

@@ -14901,6 +14901,32 @@ categorybox:
   color: #fff;
 }
 
+#coursecat-management .grid-row-r {
+  margin-left: -20px;
+  margin-right: -20px;
+  content: " ";
+  display: table;
+  width: 100%;
+  clear: both;
+}
+#coursecat-management .grid-col {
+  position: relative;
+  min-height: 1px;
+  padding-left: 20px;
+  padding-right: 20px;
+  float: left;
+}
+#coursecat-management .grid-col.span5 {
+  width: 41.66666667%;
+}
+#coursecat-management .grid-col.span7 {
+  width: 58.33333333%;
+}
+#coursecat-management #course-category-listings .detail-pair .pair-value select {
+  display: block;
+  width: 100%;
+}
+
 /* This file contains Styles related to display courses in a grid element (box) */
 /* 
     Created on : 19.05.2015

@@ -189,7 +189,22 @@ class backup {
      * @return int course id.
      */
     public static function restore_revision(dataobj\template $template, $filename, $requesterid) {
+        $targetcat = get_config('block_mbstpl', 'deploycat');
+        $targetcrs = 0;
+        $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
 
+        // Add template entry.
+        $newtpl = clone($template);
+        $newtpl->id = null;
+        $newtpl->courseid = $cid;
+        $newtpl->rating = null;
+        $newtpl->insert();
+
+        // Copy over metadata.
+        $origmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tplmeta->copy_from($origmeta);
+        return $cid;
     }
 
 

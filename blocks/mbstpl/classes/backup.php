@@ -201,6 +201,7 @@ class backup {
         $newtpl->feedback = $message;
         $newtpl->feedbackformat = FORMAT_PLAIN;
         $newtpl->rating = null;
+        $newtpl->reminded = 0;
         $newtpl->insert();
 
         // Copy over metadata.

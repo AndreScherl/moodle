@@ -454,11 +454,6 @@ class backup {
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 
-        $catid = get_config('block_mbstpl', 'deploycat');
-        if (!$catid || !$DB->record_exists('course_categories', array('id' => $catid))) {
-            throw new \moodle_exception('errorcatnotexists', 'block_mbstpl');
-        }
-
         // Move backup file to restore location.
         $backupdir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
         $backuppath = $backupdir . '/' . $filename;

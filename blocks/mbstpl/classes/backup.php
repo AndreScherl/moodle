@@ -197,6 +197,7 @@ class backup {
         $newtpl = clone($template);
         $newtpl->id = null;
         $newtpl->courseid = $cid;
+        $newtpl->status = dataobj\template::STATUS_UNDER_REVISION;
         $newtpl->feedback = $message;
         $newtpl->feedbackformat = FORMAT_PLAIN;
         $newtpl->rating = null;

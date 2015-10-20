@@ -54,6 +54,7 @@ if ($data = $form->get_data()) {
     $task = new \block_mbstpl\task\adhoc_deploy_revision();
     $task->set_custom_data((object)array('templateid' => $template->id, 'requesterid' => $USER->id, 'reasons' => $data->reasons));
     \core\task\manager::queue_adhoc_task($task);
+    redirect($courseurl);
 }
 $renderer = mbst\course::get_renderer();
 

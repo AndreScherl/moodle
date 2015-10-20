@@ -153,6 +153,7 @@ $string['newlicense_source'] = 'New license source';
 $string['newlicense_exists'] = 'License "{$a}" already exists - please specify a different short name';
 $string['newlicense_required'] = 'A short name is required';
 $string['nextstatsreport'] = 'Next statistics report';
+$string['nextstatsreport_desc'] = 'Date to run the next statistics report';
 $string['norating'] = 'This template has no ratings.';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:'."\n".'{$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';

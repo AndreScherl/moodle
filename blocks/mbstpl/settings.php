@@ -22,7 +22,6 @@
 use block_mbstpl\admin_setting_configdate;
 
 defined('MOODLE_INTERNAL') || die;
-global $CFG;
 
 global $CFG;
 /* @var $settings admin_settingpage */

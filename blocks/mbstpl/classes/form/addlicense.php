@@ -40,6 +40,12 @@ class addlicense extends \moodleform {
         $form->addElement('text', 'newlicense_shortname', get_string('newlicense_shortname', 'block_mbstpl'));
         $form->addElement('text', 'newlicense_fullname', get_string('newlicense_fullname', 'block_mbstpl'));
         $form->addElement('text', 'newlicense_source', get_string('newlicense_source', 'block_mbstpl'));
+        $form->setTypes(array(
+            'newlicense_shortname' => PARAM_TEXT,
+            'newlicense_fullname' => PARAM_TEXT,
+            'newlicense_source' => PARAM_TEXT
+        ));
+
         $form->addRule('newlicense_shortname', get_string('newlicense_required', 'block_mbstpl'), 'required');
 
         $this->add_action_buttons(false, get_string('newlicense_add', 'block_mbstpl'));

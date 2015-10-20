@@ -64,6 +64,11 @@ if ($ADMIN->fulltree) {
                                                   get_string('delayedrestore', 'block_mbstpl'),
                                                   get_string('delayedrestore_desc', 'block_mbstpl'), false));
 
+    $settings->add(new admin_setting_configduration('block_mbstpl/tplremindafter',
+                                                  get_string('tplremindafter', 'block_mbstpl'),
+                                                  get_string('tplremindafter_desc', 'block_mbstpl'),
+                                                  DAYSECS * 180, DAYSECS));
+
 }
 
 $category = new admin_category('block_mbstpl', get_string('pluginnamecategory', 'block_mbstpl'));

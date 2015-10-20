@@ -101,14 +101,43 @@ class reporting {
         $messagetext = get_string('emailstatsrep_body', 'block_mbstpl');
         $from = notifications::get_fromuser();
         foreach($users as $user) {
-            email_to_user($user, $from, $messagetext, null, $filepath);
+            email_to_user($user, $from, $subject, $messagetext, '', $filepath);
         }
         echo get_string('startsreportsent', 'block_mbstpl');
         set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
     }
 
     /**
-     * Recipients for the stats report.
+     * Reminder for untouched templates.
+     */
+    public static function remindercron() {
+        global $DB;
+
+        if (!$period = get_config('block_mbstpl', 'tplremindafter')) {
+            return;
+        }
+        $fromtime = time() - $period;
+
+        $sql = "
+        SELECT tpl.id
+        FROM {block_mbstpl_template} tpl
+        JOIN {course} c ON c.id = tpl.cousreid
+        WHERE tpl.reminded = 0
+        AND tpl.timemodified <= :fromtime1
+        AND c.timecreated <= :fromtime2
+        AND c.timemodified <= :fromtime3
+        AND NOT EXISTS(SELECT 1 FROM {logstore_standard_log} WHERE courseid = tpl.courseid)
+        ";
+        $params = array(
+            'fromtime1' => $fromtime,
+            'fromtime2' => $fromtime,
+            'fromtime3' => $fromtime,
+        );
+        $templates = $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Recipients for the stats report and reminders.
      * @return array of users.
      */
     private static function get_recipients() {

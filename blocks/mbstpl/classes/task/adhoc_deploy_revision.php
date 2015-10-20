@@ -13,15 +13,35 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstpl\task;
+
+
+use block_mbstpl as mbst;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015102001;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+class adhoc_deploy_revision extends \core\task\adhoc_task {
+    public function execute() {
+        $details = $this->get_custom_data();
+        $template = new mbst\dataobj\template($details->templateid, true, MUST_EXIST);
+        try {
+            $filename = mbst\backup::backup_revision($template);
+            $cid = mbst\backup::restore_revision($template, $filename, $details->reasons);
+            $newtpl = new mbst\dataobj\template(array('courseid' => $cid), true, MUST_EXIST);
+            mbst\notifications::notify_forrevision($newtpl);
+        } catch (\moodle_exception $e) {
+            \block_mbstpl\notifications::notify_error('errordeploying', $e);
+            print_r($e->getMessage());
+            print_r($e->getTrace());
+            print_r($template);
+        }
+        return true;
+    }
+}

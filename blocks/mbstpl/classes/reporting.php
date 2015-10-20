@@ -41,7 +41,7 @@ class reporting {
             return;
         }
         if ($nextrun >= time()) {
-            echo get_string('statsreporttooearly', 'block_mbstpl', userdate($nextrun));
+            mtrace(get_string('statsreporttooearly', 'block_mbstpl', userdate($nextrun)));
             return;
         }
 
@@ -101,14 +101,73 @@ class reporting {
         $messagetext = get_string('emailstatsrep_body', 'block_mbstpl');
         $from = notifications::get_fromuser();
         foreach($users as $user) {
-            email_to_user($user, $from, $messagetext, null, $filepath);
+            email_to_user($user, $from, $subject, $messagetext, '', $filepath);
         }
-        echo get_string('startsreportsent', 'block_mbstpl');
+        mtrace(get_string('startsreportsent', 'block_mbstpl'));
         set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
     }
 
     /**
-     * Recipients for the stats report.
+     * Reminder for untouched templates.
+     */
+    public static function remindercron() {
+        global $DB;
+
+        if (!$period = get_config('block_mbstpl', 'tplremindafter')) {
+            return;
+        }
+        $fromtime = time() - $period;
+
+        $sql = "
+        SELECT tpl.id, c.id AS cid, c.fullname AS cname
+        FROM {block_mbstpl_template} tpl
+        JOIN {course} c ON c.id = tpl.courseid
+        WHERE tpl.reminded = 0
+        AND tpl.timemodified <= :fromtime1
+        AND c.timecreated <= :fromtime2
+        AND c.timemodified <= :fromtime3
+        AND NOT EXISTS(SELECT 1 FROM {logstore_standard_log} WHERE courseid = tpl.courseid AND timecreated > :fromtime4)
+        ";
+        $params = array(
+            'fromtime1' => $fromtime,
+            'fromtime2' => $fromtime,
+            'fromtime3' => $fromtime,
+            'fromtime4' => $fromtime,
+        );
+        $templates = $DB->get_records_sql($sql, $params);
+        if (empty($templates)) {
+            mtrace(get_string('nountouchedtemplates', 'block_mbstpl'));
+            return;
+        }
+
+        // Send mail.
+        $users = self::get_recipients();
+        $from = notifications::get_fromuser();
+        $ids = array();
+        $lines = array();
+        $url = new \moodle_url('/course/view.php');
+        foreach($templates as $template) {
+            $ids[] = $template->id;
+            $url->param('id', $template->cid);
+            $lines[] = $url . ' ' . $template->cname;
+        }
+        $a = implode("\n", $lines);
+        $subject = get_string('noactiontpls_subj', 'block_mbstpl');
+        $messagetext = get_string('noactiontpls_body', 'block_mbstpl', $a);
+        foreach($users as $user) {
+            email_to_user($user, $from, $subject, $messagetext);
+        }
+        mtrace(get_string('tplremindersent', 'block_mbstpl'));
+
+        // Update templates - notification is sent only once per template.
+        list($idin, $params) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED);
+        $params['reminded'] = 1;
+        $sql = "UPDATE {block_mbstpl_template} SET reminded = :reminded WHERE id $idin";
+        $DB->execute($sql, $params);
+    }
+
+    /**
+     * Recipients for the stats report and reminders.
      * @return array of users.
      */
     private static function get_recipients() {

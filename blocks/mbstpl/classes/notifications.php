@@ -209,7 +209,7 @@ class notifications {
         $a = (object)array(
             'reviewer' => fullname($sender),
             'fullname' => $coursename,
-            'courseurl' => $courseurl,
+            'courseurl' => (string)$courseurl,
         );
         if ($isreviewer) {
             $subject = get_string('emailfeedbackrev_subj', 'block_mbstpl');
@@ -218,6 +218,31 @@ class notifications {
             $subject = get_string('emailfeedbackauth_subj', 'block_mbstpl');
             $body = get_string('emailfeedbackauth_body', 'block_mbstpl', $a);
         }
+        email_to_user($touser, $fromuser, $subject, $body);
+    }
+
+    /**
+     * Notify the local review about the template created for revision.
+     * @param dataobj\template $template
+     */
+    public static function notify_forrevision(dataobj\template $template) {
+        global $DB;
+
+        if (empty($template->reviewerid)) {
+            return;
+        }
+        $toid = $template->reviewerid;
+        $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
+        $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
+        $a = (object)array(
+            'fullname' => $coursename,
+            'reason' => $template->feedback,
+            'url' => (string)$courseurl,
+        );
+        $subject = get_string('emailrevision_subj', 'block_mbstpl');
+        $body = get_string('emailrevision_body', 'block_mbstpl', $a);
+        $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
+        $fromuser = self::get_fromuser();
         email_to_user($touser, $fromuser, $subject, $body);
     }
 

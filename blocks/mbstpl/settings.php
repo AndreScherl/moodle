@@ -22,7 +22,6 @@
 use block_mbstpl\admin_setting_configdate;
 
 defined('MOODLE_INTERNAL') || die;
-global $CFG;
 
 global $CFG;
 /* @var $settings admin_settingpage */
@@ -63,6 +62,11 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_mbstpl/delayedrestore',
                                                   get_string('delayedrestore', 'block_mbstpl'),
                                                   get_string('delayedrestore_desc', 'block_mbstpl'), false));
+
+    $settings->add(new admin_setting_configduration('block_mbstpl/tplremindafter',
+                                                  get_string('tplremindafter', 'block_mbstpl'),
+                                                  get_string('tplremindafter_desc', 'block_mbstpl'),
+                                                  DAYSECS * 180, DAYSECS));
 
 }
 

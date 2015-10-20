@@ -271,5 +271,47 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015100500, 'mbstpl');
     }
 
+    if ($oldversion < 2015102000) {
+
+        // Define field reminded to be added to block_mbstpl_template.
+        $table = new xmldb_table('block_mbstpl_template');
+
+        // Conditionally launch add field reminded.
+        $field = new xmldb_field('reminded', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'rating');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Conditionally launch add index reminded.
+        $index = new xmldb_index('reminded', XMLDB_INDEX_NOTUNIQUE, array('reminded'));
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015102000, 'mbstpl');
+    }
+
+    if ($oldversion < 2015102000) {
+
+        // Define field reminded to be added to block_mbstpl_template.
+        $table = new xmldb_table('block_mbstpl_template');
+
+        // Conditionally launch add field reminded.
+        $field = new xmldb_field('reminded', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'rating');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Conditionally launch add index reminded.
+        $index = new xmldb_index('reminded', XMLDB_INDEX_NOTUNIQUE, array('reminded'));
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015102000, 'mbstpl');
+    }
+
     return true;
 }

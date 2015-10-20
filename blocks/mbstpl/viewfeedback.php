@@ -75,7 +75,7 @@ if ($cansendfeedback) {
 
 echo $OUTPUT->header();
 
-$renderer = $PAGE->get_renderer('block_mbstpl');
+$renderer = mbst\course::get_renderer();
 echo html_writer::tag('h2', $pagetitle);
 
 $buttons = '';
@@ -101,5 +101,15 @@ if ($cansendfeedback) {
 
 $revhists = mbst\course::get_revhist($template->id);
 echo $renderer->templatehistory($revhists);
+
+if (mbst\perms::can_sendrevision($template, $coursecontext)) {
+    $url = new moodle_url('/block/mbstpl/forrevision.php');
+    echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
+}
+
+if (mbst\perms::can_sendrevision($template, $coursecontext)) {
+    $url = new moodle_url('/block/mbstpl/forrevision.php');
+    echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
+}
 
 echo $OUTPUT->footer();

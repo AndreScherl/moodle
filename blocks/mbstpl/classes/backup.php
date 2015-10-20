@@ -136,6 +136,9 @@ class backup {
         return $filename;
     }
 
+
+
+
     /**
      * Deploy a backed up template.
      * @param \block_mbstpl\dataobj\template $template
@@ -165,6 +168,50 @@ class backup {
 
         return $coursefromtpl;
     }
+
+    /**
+     * Backup a template for revision.
+     * @param dataobj\template $template
+     * @return string filename or throws error on failure
+     */
+    public static function backup_revision(dataobj\template $template) {
+        $filename = self::get_filename($template->id);
+        $user = get_admin();
+        $filename = self::launch_secondary_backup($template->courseid, $template->id, array(), $user->id);
+        return $filename;
+    }
+
+    /**
+     * Restore a template for revision.
+     * @param dataobj\template $template
+     * @param string $filename
+     * @param string $message
+     * @return int course id.
+     */
+    public static function restore_revision(dataobj\template $template, $filename, $message) {
+        $targetcat = get_config('block_mbstpl', 'deploycat');
+        $targetcrs = 0;
+        $cid = self::launch_secondary_restore($template, $filename, $targetcat, $targetcrs);
+
+        // Add template entry.
+        $newtpl = clone($template);
+        $newtpl->id = null;
+        $newtpl->courseid = $cid;
+        $newtpl->status = dataobj\template::STATUS_UNDER_REVISION;
+        $newtpl->feedback = $message;
+        $newtpl->feedbackformat = FORMAT_PLAIN;
+        $newtpl->rating = null;
+        $newtpl->reminded = 0;
+        $newtpl->insert();
+
+        // Copy over metadata.
+        $origmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tplmeta->copy_from($origmeta);
+        return $cid;
+    }
+
+
 
     /**
      * Backup an original course.

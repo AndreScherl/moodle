@@ -13,15 +13,30 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_mbstpl\task;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015102001;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+use \block_mbstpl as mbst;
+
+
+class reporting extends \core\task\scheduled_task {
+
+    public function get_name() {
+        // Shown in admin screens
+        return get_string('scheduledreporting', 'block_mbstpl');
+    }
+
+    public function execute() {
+        mbst\reporting::statscron();
+        mbst\reporting::remindercron();
+
+    }
+} 

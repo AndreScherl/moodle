@@ -81,6 +81,7 @@ class template extends base {
         'feedbackformat' => FORMAT_MOODLE,
         'timemodified' => 0,
         'rating' => null,
+        'reminded' => 0,
     );
 
     /* @var int Course id  */
@@ -109,6 +110,9 @@ class template extends base {
 
     /* @var float rating  */
     public $rating;
+
+    /* @var int reminded  */
+    public $reminded;
 
     /**
      * Set the table name here.

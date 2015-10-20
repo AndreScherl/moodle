@@ -22,6 +22,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use \block_mbstpl as mbst;
+
 class block_mbstpl extends block_base {
 
     public function init() {
@@ -48,7 +50,7 @@ class block_mbstpl extends block_base {
         $searchlink = html_writer::link($searchurl, get_string('templatesearch', 'block_mbstpl'));
         $this->content->text .= html_writer::tag('p', $searchlink);
 
-        $templates = \block_mbstpl\user::get_templates();
+        $templates = mbst\user::get_templates();
         if (empty($templates)) {
             $this->content->text .= get_string('notemplates', 'block_mbstpl');
         } else {
@@ -64,6 +66,7 @@ class block_mbstpl extends block_base {
     }
 
     public function cron() {
-        \block_mbstpl\reporting::statscron();
+        mbst\reporting::statscron();
+        mbst\reporting::remindercron();
     }
 }

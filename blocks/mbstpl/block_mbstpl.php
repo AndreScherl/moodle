@@ -64,9 +64,4 @@ class block_mbstpl extends block_base {
     function has_config() {
         return true;
     }
-
-    public function cron() {
-        mbst\reporting::statscron();
-        mbst\reporting::remindercron();
-    }
 }

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package block_mbstpl
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
@@ -21,7 +22,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015102001;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+$tasks = array(
+    array(
+        'classname' => 'block_mbstpl\task\reporting',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '12',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
+);

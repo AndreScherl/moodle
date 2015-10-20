@@ -174,6 +174,7 @@ $string['removefromdraft'] = 'Remove from draft';
 $string['reviewerrole'] = 'Reviewer role';
 $string['reviewerrole_desc'] = 'The role to use when enrolling a reviewer into a course';
 $string['save'] = 'Save';
+$string['scheduledreporting'] = 'Scheduled template reporting';
 $string['selectedauthor'] = 'Selected author';
 $string['selectedreviewer'] = 'Selected reviewer';
 $string['selecteduser'] = 'Selected user';

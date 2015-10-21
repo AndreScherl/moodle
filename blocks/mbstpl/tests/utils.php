@@ -21,7 +21,10 @@
  */
 
 use block_mbstpl\dataobj\template,
-    block_mbstpl\dataobj\coursefromtpl;
+    block_mbstpl\dataobj\coursefromtpl,
+    block_mbstpl\dataobj\meta,
+    block_mbstpl\dataobj\asset,
+    block_mbstpl\dataobj\license;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,6 +32,8 @@ defined('MOODLE_INTERNAL') || die();
  * Utility class for testing
  */
 class block_mbstpl_test_utils {
+
+    const DEFAULT_ASSET_URL = 'http://example.org/';
 
     public static function create_template($courseid = 1, $backupid = 1, $authorid = 1) {
 
@@ -52,5 +57,47 @@ class block_mbstpl_test_utils {
         $coursefromtpl->insert();
 
         return $coursefromtpl;
+    }
+
+    public static function create_meta($license = null, $backupid = null) {
+
+        $meta = new meta(array(
+            'license' => $license,
+            'backupid' => $backupid ? $backupid : 1
+        ));
+        $meta->insert();
+
+        return $meta;
+    }
+
+    public static function create_asset($metaid,
+            $license = '',
+            $url = self::DEFAULT_ASSET_URL,
+            $owner = null,
+            $source = null) {
+
+        $asset = new asset(array(
+            'metaid' => $metaid,
+            'url' => $url,
+            'license' => $license,
+            'owner' => $owner ? $owner : 'owner' . random_string(),
+            'source' => $source ? $source : 'source' . random_string()
+        ));
+        $asset->insert();
+
+        return $asset;
+    }
+
+    public static function create_license($shortname, $fullname = null, $source = null) {
+
+        $license = new license(array(
+            'shortname' => $shortname,
+            'fullname' => $fullname ? $fullname : 'license fullname',
+            'source' => $source ? $source : 'license source'
+        ));
+
+        $license->insert();
+
+        return $license;
     }
 }

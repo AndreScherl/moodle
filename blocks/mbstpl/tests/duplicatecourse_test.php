@@ -28,7 +28,7 @@ require_once(__DIR__ . '/utils.php');
  * Test case for duplicating a course from a template
  * @group block_mbstpl
  */
-class block_mbstpl_duplicatecourse extends advanced_testcase {
+class block_mbstpl_duplicatecourse_test extends advanced_testcase {
 
     public function test_duplicate_course() {
 

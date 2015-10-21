@@ -194,6 +194,7 @@ $string['searchresult'] = 'Search Result';
 $string['startsreportsent'] = 'Statistics report sent successfully.';
 $string['statsreporttooearly'] = 'Too early for the next statistics report. Scheduled for {$a}.';
 $string['source'] = 'Name of Primary Source';
+$string['sourcesblock:title'] = 'Used References';
 $string['statusarchived'] = 'Archived';
 $string['statuscreated'] = 'Created';
 $string['statuspublished'] = 'Published';

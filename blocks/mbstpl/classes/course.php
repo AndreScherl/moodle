@@ -104,6 +104,34 @@ class course {
         }
     }
 
+    /**
+     * Used to add blocks to the template-course region
+     *
+     * @param \context_course $context
+     */
+    public static function add_template_blocks(\context_course $context) {
+        global $PAGE;
+
+        $courseid = $context->instanceid;
+
+        $basetemplate = dataobj\template::get_from_course($courseid);
+
+        if ($basetemplate) {
+
+            $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
+            $assets = $meta->get_assets();
+            $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
+
+            $renderer = $PAGE->get_renderer('block_mbstpl');
+
+            $bc = new \block_contents(array(
+                'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
+            $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
+            $bc->content = $renderer->references_block_content($assets, $licenses);
+
+            $PAGE->blocks->add_fake_block($bc, 'course-template');
+        }
+    }
 
     /**
      * Returns the shortname of the status.
@@ -344,5 +372,34 @@ class course {
     public static function get_renderer() {
         global $PAGE;
         return $PAGE->get_renderer('block_mbstpl');
+    }
+
+    /**
+     * Get the complaint url for this course, if its a template or template-based course
+     *
+     * @return \moodle_url complaint url for the current course/template
+     *                     or null if not on a template or course template
+     */
+    public static function get_complaint_url() {
+        global $PAGE;
+
+        $complainturl = get_config('block_mbstpl', 'complainturl');
+        if (!$complainturl) {
+            return null;
+        }
+
+        $courseid = $PAGE->context->instanceid;
+        $template = dataobj\template::get_from_course($courseid);
+        if (!$template) {
+            return null;
+        }
+
+        $params = array('templateid' => $template->id);
+        if ($template->id != $courseid) {
+            $params['courseid'] = $courseid;
+        }
+
+        $complainturl = new \moodle_url($complainturl, $params);
+        return $complainturl;
     }
 }

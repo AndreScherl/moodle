@@ -537,4 +537,32 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         return html_writer::table($table);
     }
+
+    /**
+     * Render a list of assets used by a template
+     *
+     * @param \block_mbstpl\dataobj\asset[] $assets
+     * @param \block_mbstpl\dataobj\license[] $licenses
+     */
+    public function references_block_content($assets, $licenses) {
+
+        $items = array();
+        foreach ($assets as $asset) {
+
+            $item = html_writer::link($asset->url, $asset->url);
+            $item .= ' ';
+            $item .= $asset->owner . ', ' . $asset->source;
+
+            /* @var $license \block_mbstpl\dataobj\license */
+            $license = $licenses[$asset->license];
+            if ($license) {
+                $item .= ' (' . html_writer::link($license->source, $license->fullname) . ')';
+            }
+
+
+            $items[] = $item;
+        }
+
+        return html_writer::alist($items, null, 'ol');
+    }
 }

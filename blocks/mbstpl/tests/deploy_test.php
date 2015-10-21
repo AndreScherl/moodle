@@ -41,7 +41,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         $deploycat = $this->getDataGenerator()->create_category(array('name' => 'deployhere'));
         set_config('deploycat', $deploycat->id, 'block_mbstpl');
 
-        // Create backup and template.
+        // Create backup.
         $activeform = mbst\questman\manager::get_active_qform();
         $backupdata = array(
             'origcourseid' => $origcourse->id,
@@ -52,13 +52,19 @@ class mbstpl_deploy_test extends advanced_testcase {
         $backup = new mbst\dataobj\backup($backupdata);
         $backup->insert();
         $this->assertNotEmpty($backup->id);
-        mbst\backup::backup_primary($backup);
-        $courseid = mbst\backup::restore_primary($backup);
+
+        // Manually execute task which creates template etc.
+        $task = new \block_mbstpl\task\adhoc_deploy_primary();
+        $task->set_custom_data(array('id' => $backup->id));
+        $task->execute(true);
+        $courseid = $task->get_courseid();
+
         $this->assertNotEmpty($courseid);
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
         $this->assertCount(1, $mods, 'Expecting 1 module in restored template');
+        $this->assertEquals($mailsink->count(), ++$mailcount, "An email should have been sent after the template course was created");
 
         // Roles and capabilities.
         $systemcontext = context_system::instance();

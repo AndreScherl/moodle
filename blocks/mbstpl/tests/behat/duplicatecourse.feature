@@ -34,7 +34,15 @@ Feature: Duplicate a course
 		And I log in as "admin"
 		And I trigger cron
 		And I am on homepage
-		And I follow "#region-main .courses .coursename a.dimmed"
+		And I follow "Course 1"
+		And I should see "C1_musterkurs_1"
+		And I follow "News forum"
+		And I press "Add a new topic"
+		And I set the field "Subject" to "Discussion topic subject"
+		And I set the field "Message" to "Discussion topic message body"
+		And I press "Post to forum"
+		And I wait to be redirected
+		And I follow "Course 1"
 		And I expand "Course templating" node
 		And I follow "Template feedback"
 		And I press "Publish"
@@ -43,10 +51,26 @@ Feature: Duplicate a course
 	Scenario: Duplicate a template with anonymised user data
 		Given I expand "Course templating" node
 		And I follow "Duplicate course for use"
-		And I pause scenario execution
-		Then I should see "Course 1"
+		And I click on "#id_restoreto_cat" "css_element"
+		And I press "Select Sections and Activities to Duplicate"
+		And I click on "#backup-all-included" "css_element"
+		And I click on "#backup-all-userdata" "css_element"
+		And I press "Duplicate Course from Template"
+		When I wait to be redirected
+		Then I should see "C1_musterkurs_1_dpl_1"
+		And I follow "News forum"
+		And I should see "Discussion topic subject" in the ".topic a" "css_element"
+		And I should see "anonfirstname1 anonlastname1" in the ".author a" "css_element"
 
-#	@javascript
-#	Scenario: Duplicate a template without user data
-#		And I duplicate duplicate the new template without user data
-#		Then I should see
+	@javascript
+	Scenario: Duplicate a template without user data
+		Given I expand "Course templating" node
+		And I follow "Duplicate course for use"
+		And I click on "#id_restoreto_cat" "css_element"
+		And I press "Select Sections and Activities to Duplicate"
+		And I click on "#backup-all-included" "css_element"
+		And I press "Duplicate Course from Template"
+		When I wait to be redirected
+		Then I should see "C1_musterkurs_1_dpl_1"
+		And I follow "News forum"
+		And I should see "(No news has been posted yet)"

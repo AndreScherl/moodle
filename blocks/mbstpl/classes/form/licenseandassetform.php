@@ -111,6 +111,11 @@ class licenseandassetform extends \moodleform {
 
         /* @var $newlicense \MoodleQuickForm_newlicense */
         $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
+        $form->setTypes(array(
+            'newlicense_shortname' => PARAM_TEXT,
+            'newlicense_fullname' => PARAM_TEXT,
+            'newlicense_source' => PARAM_TEXT
+        ));
 
         if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
             foreach ($newlicense->getElements() as $newlicenseelement) {

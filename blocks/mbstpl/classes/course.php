@@ -189,34 +189,7 @@ class course {
 
         // Unenrol reviewer and author.
         $userids = array($template->reviewerid, $template->authorid);
-        $plugins = enrol_get_plugins(true);
-        $instances = enrol_get_instances($cid, true);
-        foreach ($instances as $key => $instance) {
-            if (!isset($plugins[$instance->enrol])) {
-                unset($instances[$key]);
-                continue;
-            }
-        }
-        list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
-        $params['courseid'] = $cid;
-        $params['courselevel'] = CONTEXT_COURSE;
-        $sql = "SELECT ue.*
-                FROM {user_enrolments} ue
-                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
-                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
-                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
-        $enrolments = $DB->get_records_sql($sql, $params);
-        foreach ($enrolments as $ue) {
-            if (!isset($instances[$ue->enrolid])) {
-                continue;
-            }
-            $instance = $instances[$ue->enrolid];
-            $plugin = $plugins[$instance->enrol];
-            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
-                continue;
-            }
-            $plugin->unenrol_user($instance, $ue->userid);
-        }
+        self::unenrol_users($cid, $userids);
 
         // Notify user.
         notifications::notify_published($template);
@@ -401,5 +374,66 @@ class course {
 
         $complainturl = new \moodle_url($complainturl, $params);
         return $complainturl;
+    }
+
+
+    /**
+     * Archive the course.
+     * @param dataobj\template $template
+     * @return bool success
+     */
+    public static function archive(dataobj\template $template) {
+        if (!perms::can_archive($template)) {
+            return false;
+        }
+
+        // Unenrol reviewer and author.
+        $userids = array($template->reviewerid, $template->authorid);
+        self::unenrol_users($template->courseid, $userids);
+
+        // Update status.
+        $template->status = $template::STATUS_ARCHIVED;
+        $template->update();
+        return true;
+    }
+
+    /**
+     * Convenience function to unenrol given userids from all plugins of course.
+     * @param int $cid
+     * @param array $userids
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    private static function unenrol_users($cid, $userids) {
+        global $DB;
+
+        $plugins = enrol_get_plugins(true);
+        $instances = enrol_get_instances($cid, true);
+        foreach ($instances as $key => $instance) {
+            if (!isset($plugins[$instance->enrol])) {
+                unset($instances[$key]);
+                continue;
+            }
+        }
+        list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
+        $params['courseid'] = $cid;
+        $params['courselevel'] = CONTEXT_COURSE;
+        $sql = "SELECT ue.*
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
+                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
+                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
+        $enrolments = $DB->get_records_sql($sql, $params);
+        foreach ($enrolments as $ue) {
+            if (!isset($instances[$ue->enrolid])) {
+                continue;
+            }
+            $instance = $instances[$ue->enrolid];
+            $plugin = $plugins[$instance->enrol];
+            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
+                continue;
+            }
+            $plugin->unenrol_user($instance, $ue->userid);
+        }
     }
 }

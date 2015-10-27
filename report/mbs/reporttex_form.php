@@ -15,22 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
- * settings.
- *
+ * report table which contains more then one $$
+ * report form.
+ * 
  * @package    report
  * @subpackage mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once($CFG->dirroot . '/lib/formslib.php');
 
-defined('MOODLE_INTERNAL') || die();
+class reporttex_form extends moodleform {
 
-$plugin->version   = 2015102700;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2011112900;        // Requires this Moodle version.
-$plugin->cron = 0;
-$plugin->component = 'report_mbs';       // Full name of the plugin (used for diagnostics).
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->release   = '2.7+ (Build: 2014072400)';
+    protected function definition() {
+
+        $mform = $this->_form;
+
+        $buttonarray = array();
+        $buttonarray[] = &$mform->createElement('submit', 'search', get_string('search', 'report_mbs'));
+        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $mform->closeHeaderBefore('buttonar');
+
+    }
+}

@@ -25,16 +25,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['check'] = 'Check';
 $string['courseid'] = 'Cousrse-ID';
 $string['coursename'] = 'Coursename';
 $string['coordinators'] = 'Coordinator';
+$string['count'] = 'Counts';
 $string['pluginname'] = 'mebis - Report';
+$string['replacetex'] = 'Replace TeX';
 $string['reportpimped'] = 'Report pimped courses';
 $string['reportpimpeddesc'] = 'You may search the content of {$a} HTML blocks for the entered Ssarchpattern.';
+$string['reporttex'] = 'Report tables with $$';
+$string['reporttexdesc'] = 'You may search all table of text containing $$.';
 $string['school'] = 'School';
 $string['search'] = 'Search';
 $string['searchpattern'] = 'Searchpattern';
 $string['searchpatterndesc'] = 'You may define more parts to search for when seperated by |';
 $string['searchpattern_help'] = 'You may define more parts to search for when seperated by |';
+$string['tablename'] = 'Table';
 $string['trainer'] = 'Trainer';
 $string['viewhtml'] = 'View HTML code';

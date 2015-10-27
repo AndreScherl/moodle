@@ -285,6 +285,9 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
 
         $output = html_writer::start_tag('div', array('id' => "mbsmycourses-overlay-" . $course->id, 'class' => 'yui3-overlay-loading'));
 
+        $closebutton = html_writer::tag('a', 'X', array('class' => 'mbscourses-hide-overlay', 'href' => '#'));
+        $output .= html_writer::tag('div', $closebutton . $course->fullname, array('class' => 'yui3-widget-hd'));
+        
         foreach (array_keys($overview) as $module) {
 
             $url = new moodle_url("/mod/$module/index.php", array('id' => $course->id));
@@ -295,10 +298,7 @@ class block_mbsmycourses_renderer extends plugin_renderer_base {
             } else {
                 $icontext .= get_string("activityoverview", 'block_mbsmycourses', $modulename);
             }
-
-            $closebutton = html_writer::tag('a', 'X', array('class' => 'mbscourses-hide-overlay', 'href' => '#'));
-
-            $output .= html_writer::tag('div', $closebutton . $course->fullname, array('class' => 'yui3-widget-hd'));
+            
             $output .= html_writer::tag('div', $icontext . $overview[$module], array('class' => 'yui3-widget-bd'));
             $output .= html_writer::tag('div', '', array('class' => 'yui3-widget-ft', 'style' => 'display:none'));
         }

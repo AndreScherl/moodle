@@ -318,6 +318,9 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
     protected function activity_display($course, $overview) {
 
         $output = html_writer::start_tag('div', array('id' => "mbsmycourses-overlay-" . $course->id, 'class' => 'yui3-overlay-loading'));
+        
+        $closebutton = html_writer::tag('a', 'X', array('class' => 'mbscourses-hide-overlay', 'href' => '#'));
+        $output .= html_writer::tag('div', $closebutton . $course->fullname, array('class' => 'yui3-widget-hd'));
 
         foreach (array_keys($overview) as $module) {
 
@@ -330,9 +333,6 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
                 $icontext .= get_string("activityoverview", 'block_mbsmycourses', $modulename);
             }
 
-            $closebutton = html_writer::tag('a', 'X', array('class' => 'mbscourses-hide-overlay', 'href' => '#'));
-
-            $output .= html_writer::tag('div', $closebutton . $course->fullname, array('class' => 'yui3-widget-hd'));
             $output .= html_writer::tag('div', $icontext . $overview[$module], array('class' => 'yui3-widget-bd'));
             $output .= html_writer::tag('div', '', array('class' => 'yui3-widget-ft', 'style' => 'display:none'));
         }

@@ -187,7 +187,7 @@ class theme_mebis_header_renderer extends renderer_base {
                         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
                         $output .= html_writer::start_tag('li');
                         $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
-                            $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . $themeswitchurl, 'id' => 'me-invert'));
+                            $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
                                 $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
                                 $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
                             $output .= html_writer::end_tag('a');

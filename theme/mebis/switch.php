@@ -22,16 +22,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../../config.php');
+require_once(dirname(__FILE__) . '/../../config.php');
 
 $context = context_system::instance();
 $PAGE->set_context($context);
 
 //sicherstellen, dass ein gültiges barrierearmes Theme ausgewählt wurde:
-$themenames = array_keys(get_plugin_list('theme'));
+$themenames = array_keys(core_component::get_plugin_list('theme'));
 
-if (!in_array($PAGE->theme->settings->contrast_theme, $themenames)) {
-    throw new coding_exception("Value \"contrast_theme\" ({$PAGE->theme->settings->contrast_theme})in theme_mebis Configuration is not valid. Theme not changed.");
+if (!in_array(get_config("theme_mebis", "contrast_theme"), $themenames)) {
+    throw new coding_exception("Value \"contrast_theme\" (".get_config("theme_mebis", "contrast_theme").") in theme_mebis Configuration is not valid. Theme not changed.");
 }
 
 //Falls ein SESSION-THEME gesetzt ist dieses Löschen, sonst setzen, falls dieses gültig ist

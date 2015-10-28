@@ -68,7 +68,7 @@
 
             .coursename{
                 font-size: emCalc(20px);
-                color: $gray-dark;
+                color: $brand-gray-dark;
 
                 &:before {
                     color: $brand-primary;
@@ -77,7 +77,7 @@
 
             .coursetype {
                 font-size: emCalc(12px);
-                color: $gray-dark;
+                color: $brand-gray-dark;
             }
 
         }

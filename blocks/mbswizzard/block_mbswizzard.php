@@ -54,7 +54,7 @@ class block_mbswizzard extends block_base {
         
         $renderer = $PAGE->get_renderer('block_mbswizzard');
         
-        if($PAGE->theme->name != 'mebis') {
+        if($PAGE->theme->name != ('mebis' || 'mebiscontrast')) {
             $this->content->text = get_string('onlymebistheme', 'block_mbswizzard');
             return $this->content;
         }

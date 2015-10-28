@@ -50,6 +50,20 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW, 255);
     $settings->add($setting);
 
+    // mebis contrast theme
+    $choices = array();
+    $themenames = array_keys(get_plugin_list('theme'));
+    $choices[0] = get_string('select');
+    foreach ($themenames as $themename) {
+        $theme = theme_config::load($themename);
+        $choices[$themename] = $theme->name;
+    }
+    $name = 'theme_mebis/contrast_theme';
+    $title = get_string('contrasttheme', 'theme_mebis');
+    $description = get_string('contrasttheme-descr', 'theme_mebis');
+    $default = 'mebiscontrast';
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $settings->add($setting);
 
     // Footer Links
     $name = 'theme_mebis/footer_links';

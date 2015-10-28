@@ -24,13 +24,13 @@
  */
 
 $string['changepassword'] = 'Passwort';
-$string['configtitle'] = 'mebis';
-$string['choosereadme'] = ' <p>mebis Theme basierend auf Bootstrap 3</p>';
+$string['configtitle'] = 'mebis Kontrast';
+$string['choosereadme'] = 'mebis Kontrast basiert auf dem Theme mebis';
 $string['editusersurl'] = 'Nutzerverwaltung';
 $string['editmysettings'] = 'Lernplattform-Einstellungen';
 $string['editmebisprofile'] = 'Profil bearbeiten';
 $string['mebisprofile'] = 'Profil';
-$string['pluginname'] = 'mebis';
+$string['pluginname'] = 'mebis Kontrast';
 
 $string['contrasttheme'] = 'barrierearmes Theme';
 $string['contrasttheme-descr'] = 'Dieses barrierearme Theme kann durch den Schalter in der Toolbar für die aktuelle Session ausgewählt werden.';

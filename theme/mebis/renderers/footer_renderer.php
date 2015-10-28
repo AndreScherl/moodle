@@ -157,7 +157,7 @@ class theme_mebis_footer_renderer extends renderer_base {
 
     protected function get_footer_links() {
         global $PAGE;
-        $links = $PAGE->theme->settings->footer_links;
+        $links = get_config("theme_mebis", "footer_links");
         $links = explode("\n", $links);
 
         $footer_links = array();

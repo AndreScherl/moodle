@@ -1,9 +1,25 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Header renderer.
  *
- * @package theme_mebis
+ * @package   theme_mebis
+ * @copyright 2015 ISB Bayern
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -153,7 +169,18 @@ class theme_mebis_header_renderer extends renderer_base {
                         $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-vergroessern'));
                         $output .= html_writer::end_tag('a');
                     $output .= html_writer::end_tag('li');
-                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));                    
+                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+                $output .= html_writer::end_tag('ul');
+                //contrast mode
+                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav switch-theme visible-lg'));
+                    $output .= html_writer::start_tag('li');
+                    $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
+                        $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
+                            $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
+                            $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
+                        $output .= html_writer::end_tag('a');
+                    $output .= html_writer::end_tag('li');
+                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
                 $output .= html_writer::end_tag('ul');
                 // userbar
                 $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right pull-right'));                
@@ -167,14 +194,14 @@ class theme_mebis_header_renderer extends renderer_base {
                     $output .= $this->main_sidebar();
                     // Links to contrast, support and idm.
                     $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu'));
-                        //contrast mode is not working, so no display of the icon
-                        /* $output .= html_writer::start_tag('li', array('class' => 'text'));
-                            $output .= html_writer::start_tag('a', array('href' => '#invert', 'id' => 'me-invert'));
+                        //contrast mode
+                        $output .= html_writer::start_tag('li', array('class' => 'hidden-lg'));
+                        $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
+                            $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
                                 $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
                                 $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
                             $output .= html_writer::end_tag('a');
-                        $output .= html_writer::end_tag('li');
-                        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));*/
+                        $output .= html_writer::end_tag('li');                        
                         // Support link.
                         $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
                         $output .= html_writer::start_tag('li');

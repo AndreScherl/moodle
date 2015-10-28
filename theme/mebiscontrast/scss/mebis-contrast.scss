@@ -1,0 +1,50 @@
+@import "compass/css3";
+@import "../../mebis/mbsglobaldesign/scss/mixins";
+@import "../../mebis/mbsglobaldesign/scss/variables";
+@import "variables-contrast";
+@import "../../mebis/mbsglobaldesign/scss/fonts";
+
+@import "bootstrap";
+@import "../../mebis/mbsglobaldesign/scss/bootstrap-advanced";
+
+@import "../../mebis/mbsglobaldesign/vendor/font-awesome/font-awesome";
+
+// Vendor CSS
+@import "../../mebis/mbsglobaldesign/vendor/tooltipster/tooltipster";
+
+// Import Compass-Modules
+//@import "compass/layout/sticky-footer";
+
+// General Styles for all mebis components
+@import "../../mebis/mbsglobaldesign/scss/layout";
+@import "../../mebis/mbsglobaldesign/scss/pageheader";
+@import "../../mebis/mbsglobaldesign/scss/sidebar";
+@import "../../mebis/mbsglobaldesign/scss/topbar";
+
+// Pages
+@import "../../mebis/scss/learning-platform";
+
+// Moodle Style Overwrites
+
+@import "../../mebis/scss/moodle/category";
+@import "../../mebis/scss/moodle/coursebox";
+@import "../../mebis/scss/moodle/fastaccessnavigation";
+@import "../../mebis/scss/moodle/headertoolbar";
+@import "../../mebis/scss/moodle/pageheader";
+@import "../../mebis/scss/moodle/pagefooter";
+@import "../../mebis/scss/moodle/schoolbox";
+
+@import "../../mebis/scss/moodle/cu-activities";
+@import "../../mebis/scss/moodle/cu-admin";
+@import "../../mebis/scss/moodle/cu-blocks";
+@import "../../mebis/scss/moodle/cu-course";
+@import "../../mebis/scss/moodle/cu-courseformats";
+@import "../../mebis/scss/moodle/cu-general";
+@import "../../mebis/scss/moodle/cu-overlays";
+@import "../../mebis/scss/moodle/cu-pages";
+@import "../../mebis/scss/moodle/cu-userfilemanager";
+@import "../../mebis/scss/moodle/cu-usermessages";
+@import "../../mebis/scss/moodle/cu-userprofile";
+
+// Changes of contrast theme, hopefully minimal
+@import "contrastchanges";

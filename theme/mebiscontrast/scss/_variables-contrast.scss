@@ -1,7 +1,11 @@
 // Contrast-Mode-Variables
 
 //== Colors
-$brand-primary:         #000000; // black
-$brand-primary-dark:    #505050; // = $brand-gray-medium
+$brand-primary:         $black;
+$brand-primary-dark:    $brand-gray-medium;
+$brand-primary-light:   $brand-gray-light;
 
-$brand-gray-medium:     #505050;
+$brand-secondary:       $brand-gray-dark;
+
+$link-color:            $brand-primary;
+$link-hover-color:      $brand-secondary;

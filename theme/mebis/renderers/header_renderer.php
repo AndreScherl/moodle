@@ -169,7 +169,18 @@ class theme_mebis_header_renderer extends renderer_base {
                         $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-vergroessern'));
                         $output .= html_writer::end_tag('a');
                     $output .= html_writer::end_tag('li');
-                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));                    
+                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+                $output .= html_writer::end_tag('ul');
+                //contrast mode
+                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav switch-theme visible-lg'));
+                    $output .= html_writer::start_tag('li');
+                    $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
+                        $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
+                            $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
+                            $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
+                        $output .= html_writer::end_tag('a');
+                    $output .= html_writer::end_tag('li');
+                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
                 $output .= html_writer::end_tag('ul');
                 // userbar
                 $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right pull-right'));                
@@ -184,8 +195,7 @@ class theme_mebis_header_renderer extends renderer_base {
                     // Links to contrast, support and idm.
                     $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu'));
                         //contrast mode
-                        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
-                        $output .= html_writer::start_tag('li');
+                        $output .= html_writer::start_tag('li', array('class' => 'hidden-lg'));
                         $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
                             $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
                                 $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));

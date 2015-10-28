@@ -14278,33 +14278,40 @@ button.close {
   .me-wrapper #topbar .container .navbar-collapse.collapse .nav li span {
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a {
     line-height: 2.1875em;
     padding-top: 0;
     padding-bottom: 0;
     display: block;
     color: #999999;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="inc"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="inc"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="inc"] {
     padding-left: 0;
     font-size: 18px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] {
     padding-top: 3px;
     padding-left: 10px;
     padding-right: 15px;
     font-size: 16px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] i {
     margin-right: 0;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a:hover {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a:hover,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a:hover {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a i {
     font-size: 1em;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li.me-active a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li.me-active a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li.me-active a {
     color: #ff6600;
   }
   .me-wrapper #topbar .container .divider-vertical {
@@ -14493,7 +14500,7 @@ div[role="main"] > h2 {
     padding-bottom: 30px;
   }
   .wrapper-learning-platform .me-help-note .me-help-note-container .text-right a {
-    color: #eeeeee;
+    color: #e6e6e6;
     display: inline-block;
     margin-left: 10px;
   }
@@ -15065,7 +15072,7 @@ categorybox:
   color: #333333;
 }
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown {
-  background-color: #222222;
+  background-color: #333333;
   padding: 0 20px;
   margin: 0 -20px;
 }
@@ -16609,7 +16616,7 @@ input[type="checkbox"] + label {
         border-radius: 0;
 
         .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $gray-lighter;
+            background: $brand-gray-lighter;
             text-shadow: none;
         }
 

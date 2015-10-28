@@ -8,7 +8,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2015102000;
+$plugin->version   = 2015102800;
 $plugin->requires  = 2014051200;
 $plugin->release  = 2015102000;
 $plugin->maturity  = MATURITY_BETA;

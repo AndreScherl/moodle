@@ -29,11 +29,13 @@ $THEME->doctype = 'html5';
 
 $THEME->sheets = array('mebis-contrast', 'mebis-moodle');
 
+$THEME->lessfile = 'moodle';
+
 $THEME->parents_exclude_sheets = array('bootstrap' => array('moodle'));
 
 $THEME->supportscssoptimisation = false;
+$THEME->yuicssmodules = array();
 $THEME->enable_dock = false;
+$THEME->editor_sheets = array();
 
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
-
-

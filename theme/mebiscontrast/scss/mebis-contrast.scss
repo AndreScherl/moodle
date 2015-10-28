@@ -7,7 +7,13 @@
 @import "bootstrap";
 @import "../../mebis/mbsglobaldesign/scss/bootstrap-advanced";
 
+@import "../../mebis/mbsglobaldesign/vendor/font-awesome/font-awesome";
 
+// Vendor CSS
+@import "../../mebis/mbsglobaldesign/vendor/tooltipster/tooltipster";
+
+// Import Compass-Modules
+//@import "compass/layout/sticky-footer";
 
 // General Styles for all mebis components
 @import "../../mebis/mbsglobaldesign/scss/layout";
@@ -40,4 +46,5 @@
 @import "../../mebis/scss/moodle/cu-usermessages";
 @import "../../mebis/scss/moodle/cu-userprofile";
 
-
+// Changes of contrast theme, hopefully minimal
+@import "contrastchanges";

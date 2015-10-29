@@ -565,4 +565,48 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         return html_writer::alist($items, null, 'ol');
     }
+
+    /**
+     * Displays a backup files viewer. Modified from \core_backup_renderer\render_backup_files_viewer()
+     *
+     * @param array $options
+     * @return string
+     */
+    public function render_backup_files_viewer(array $options = null) {
+        $viewer = new backup_files_viewer($options);
+        $files = $viewer->files;
+
+        $table = new html_table();
+        $table->attributes['class'] = 'backup-files-table generaltable';
+        $table->head = array(get_string('filename', 'backup'), get_string('time'), get_string('size'), get_string('download'), get_string('restore'));
+        $table->width = '100%';
+        $table->data = array();
+
+        foreach ($files as $file) {
+            if ($file->is_directory()) {
+                continue;
+            }
+            $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
+            $params = array();
+            $params['action'] = 'choosebackupfile';
+            $params['filename'] = $file->get_filename();
+            $params['filepath'] = $file->get_filepath();
+            $params['component'] = $file->get_component();
+            $params['filearea'] = $file->get_filearea();
+            $params['filecontextid'] = $file->get_contextid();
+            $params['contextid'] = $viewer->currentcontext->id;
+            $params['itemid'] = $file->get_itemid();
+            $restoreurl = new moodle_url('/backup/restorefile.php', $params);
+            $table->data[] = array(
+                $file->get_filename(),
+                userdate($file->get_timemodified()),
+                display_size($file->get_filesize()),
+                html_writer::link($fileurl, get_string('download')),
+                html_writer::link($restoreurl, get_string('restore')),
+            );
+        }
+
+        $html = html_writer::table($table);
+        return $html;
+    }
 }

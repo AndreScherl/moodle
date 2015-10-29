@@ -24,32 +24,42 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use \block_mbstpl as mbst;
+
 function block_mbstpl_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
-
-    if ($context->contextlevel != CONTEXT_COURSE) {
-        return false;
-    }
-
-    require_course_login($course, true);
-
     $itemid = (int)array_shift($args);
     $filename = array_pop($args);
-    $filepath = '/'.implode('/', $args);
-    if ($filepath != '/') {
-        $filepath .= '/';
-    }
 
-    if ($filearea == \block_mbstpl\dataobj\revhist::FILEAREA) {
-        $revhist = new \block_mbstpl\dataobj\revhist(array('id' => $itemid), true, MUST_EXIST);
-        $template = new \block_mbstpl\dataobj\template(array('id' => $revhist->templateid), true, MUST_EXIST);
-    } else if ($filearea = \block_mbstpl\dataobj\template::FILEAREA) {
-        $template = new \block_mbstpl\dataobj\template(array('id' => $itemid), true, MUST_EXIST);
+    if ($filearea == 'backups' && $context->contextlevel == CONTEXT_SYSTEM) {
+        // If downloading backups.
+        if (!mbst\perms::can_viewbackups()) {
+            return false;
+        }
+        $filepath = '/';
     } else {
-        return false;
-    }
+        if ($context->contextlevel != CONTEXT_COURSE) {
+            return false;
+        }
 
-    if (!\block_mbstpl\perms::can_viewfeedback($template, $context)) {
-        return false;
+        require_course_login($course, true);
+
+        $filepath = '/' . implode('/', $args);
+        if ($filepath != '/') {
+            $filepath .= '/';
+        }
+
+        if ($filearea == \block_mbstpl\dataobj\revhist::FILEAREA) {
+            $revhist = new \block_mbstpl\dataobj\revhist(array('id' => $itemid), true, MUST_EXIST);
+            $template = new \block_mbstpl\dataobj\template(array('id' => $revhist->templateid), true, MUST_EXIST);
+        } else if ($filearea = \block_mbstpl\dataobj\template::FILEAREA) {
+            $template = new \block_mbstpl\dataobj\template(array('id' => $itemid), true, MUST_EXIST);
+        } else {
+            return false;
+        }
+
+        if (!\block_mbstpl\perms::can_viewfeedback($template, $context)) {
+            return false;
+        }
     }
 
     $fs = get_file_storage();

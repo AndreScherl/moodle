@@ -99,6 +99,11 @@ if ($action == 'choosebackupfile') {
         }
         redirect($restore_url);
     } else {
+        // SYNERGY LEARNING ALP-109 restore template backups START.
+        if ($component == 'block_mbstpl' && class_exists('block_mbstpl\backup')) {
+            block_mbstpl\backup::restorefile_redirect_restore($itemid, $filename);
+        }
+        // SYNERGY LEARNING ALP-109 restore template backups END.
         redirect($url, get_string('filenotfound', 'error'));
     }
     die;
@@ -188,5 +193,11 @@ if (!empty($automatedbackups)) {
     echo $renderer->backup_files_viewer($treeview_options);
     echo $OUTPUT->container_end();
 }
+
+// SYNERGY LEARNING ALP-109 list template backups START.
+if (class_exists('block_mbstpl\backup')) {
+    block_mbstpl\backup::restorefile_add_tplbackups($context);
+}
+// SYNERGY LEARNING ALP-109 list template backups END.
 
 echo $OUTPUT->footer();

@@ -599,4 +599,52 @@ class backup {
         $block->instance_config_save((object) $blockconfig);
 
     }
+
+    /**
+     * Adds the template backups to /backup/restorefile.php (needs to be called by core).
+     * @param \context $currentcontext
+     */
+    public static function restorefile_add_tplbackups(\context $currentcontext) {
+        if (!perms::can_viewbackups()) {
+            return;
+        }
+        $context = \context_system::instance();
+        $renderer = course::get_renderer();
+        echo $renderer->heading(get_string('cousretemplates', 'block_mbstpl'));
+        echo $renderer->container_start();
+        $treeview_options = array();
+        $treeview_options['filecontext'] = $context;
+        $treeview_options['currentcontext'] = $currentcontext;
+        $treeview_options['component']   = 'block_mbstpl';
+        $treeview_options['context']     = $context;
+        $treeview_options['filearea']    = 'backups';
+        echo $renderer->render_backup_files_viewer($treeview_options);
+        echo $renderer->container_end();
+    }
+
+    /**
+     * Copy the backup and redirect from restorefile.php to the correct restore url.
+     * @param $itemid
+     * @param $filename
+     */
+    public static function restorefile_redirect_restore($itemid, $filename) {
+        global $CFG;
+
+        if (!perms::can_viewbackups()) {
+            return;
+        }
+
+        $context = \context_system::instance();
+        $fs = get_file_storage();
+        if (!$file = $fs->get_file($context->id, 'block_mbstpl', 'backups', $itemid, '/', $filename)) {
+            return;
+        }
+
+        $filename = \restore_controller::get_tempdir_name();
+        $pathname = $CFG->tempdir . '/backup/' . $filename;
+        $file->copy_content_to($pathname);
+        $restore_url = new \moodle_url('/backup/restore.php', array(
+            'contextid' => $context->id, 'filename' => $filename));
+        redirect($restore_url);
+    }
 }

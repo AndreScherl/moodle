@@ -116,9 +116,15 @@ echo $OUTPUT->doctype()
             <?php echo $OUTPUT->mebis_footer(); ?>
         </div>
 
+        <?php echo $OUTPUT->main_footer(); ?>
+        <div class="me-page-action-menu visible-lg">
+            <ul class="me-menu-anchor-links">
+            <?php
+            echo $OUTPUT->page_fastaccess_navigation();
+            ?>
+            </ul>
+        </div>
         <?php
-        echo $OUTPUT->main_footer();
-        echo $OUTPUT->page_fastaccess_navigation();
         echo $OUTPUT->page_action_navigation();
 
         $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));

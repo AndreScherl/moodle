@@ -14278,33 +14278,40 @@ button.close {
   .me-wrapper #topbar .container .navbar-collapse.collapse .nav li span {
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a {
     line-height: 2.1875em;
     padding-top: 0;
     padding-bottom: 0;
     display: block;
     color: #999999;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="inc"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="inc"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="inc"] {
     padding-left: 0;
     font-size: 18px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] {
     padding-top: 3px;
     padding-left: 10px;
     padding-right: 15px;
     font-size: 16px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"] i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] i {
     margin-right: 0;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a:hover {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a:hover,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a:hover {
     color: #333333;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a i {
     font-size: 1em;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li.me-active a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li.me-active a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li.me-active a {
     color: #333333;
   }
   .me-wrapper #topbar .container .divider-vertical {
@@ -14466,6 +14473,9 @@ button.close {
   }
   .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li span {
     vertical-align: middle;
+  }
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.js-navbar-collapse-submenu li:nth-child(2) {
+    margin-bottom: 12px;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -14896,6 +14906,35 @@ categorybox:
 }
 #page-course-index-category .content .courses .coursebox a {
   color: #fff;
+}
+
+#coursecat-management .grid-row-r {
+  margin-left: -20px;
+  margin-right: -20px;
+  content: " ";
+  display: table;
+  width: 100%;
+  clear: both;
+}
+#coursecat-management .grid-col {
+  position: relative;
+  min-height: 1px;
+  padding-left: 20px;
+  padding-right: 20px;
+  float: left;
+}
+#coursecat-management .grid-col.span5 {
+  width: 41.66666667%;
+}
+#coursecat-management .grid-col.span7 {
+  width: 58.33333333%;
+}
+#coursecat-management .grid-col.span4 {
+  width: 33%;
+}
+#coursecat-management #course-category-listings .detail-pair .pair-value select {
+  display: block;
+  width: 100%;
 }
 
 /* This file contains Styles related to display courses in a grid element (box) */
@@ -15691,17 +15730,14 @@ aside.row .block-region .block {
   margin-left: 10px;
 }
 
-.mbsnewcourse {
-  padding-bottom: 30px;
-}
-.mbsnewcourse > ul {
+.mbsnewcourse ul {
   list-style: none;
 }
-.mbsnewcourse > ul > li {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li {
   float: right;
   margin-left: 50px;
 }
-.mbsnewcourse > ul > li a i {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li a i {
   font-size: 1.25em !important;
 }
 
@@ -15742,10 +15778,6 @@ aside.row .block-region .block {
   list-style: none;
 }
 
-.block_mbsmycourses .mbsnewcourse {
-  float: right;
-  padding: 20px 0 0;
-}
 .block_mbsmycourses .header {
   margin-bottom: 20px;
 }
@@ -15858,6 +15890,9 @@ aside.row .block-region .block {
 .block_mbsmycourses .row.categorybox .category-box .collapsed .category-title .category-toggle::before {
   font-family: 'mebis-icons';
   content: "\e63d";
+}
+.block_mbsmycourses .mycourses-grid {
+  color: #333;
 }
 
 .editing .block_mbsmycourses .move {
@@ -16697,6 +16732,13 @@ input[type="checkbox"] + label {
 #page-calendar-view #main-content-wrapper {
   overflow: hidden;
 }
+#page-calendar-view #main-content-wrapper .heightcontainer {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+#page-calendar-view .homepage-container {
+  width: 90%;
+}
 
 #page-course-index-category div[role="main"] > .generalbox {
   background: #fff;
@@ -16888,16 +16930,21 @@ input[type="checkbox"] + label {
   background-color: #000;
 }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 28.10.2015, 13:43:11
-    Author     : Scherl
-*/
+/**
+ * Theme mebiscontrast style changes file.
+ *
+ * @package     theme_mebiscontrast
+ * @author      Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright   2015, ISB Bayern
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+/**
+ * This is a very quick solution. There will be a lot of issues. It has to be clearified how important a contrast theme really is.
+ */
 a {
+  color: #fff;
+}
+a:hover, a:focus {
   color: #fff;
 }
 
@@ -16916,7 +16963,9 @@ a {
 
 .block a,
 .moodle-menu a,
-.footer-copyright a {
+.footer-copyright a,
+#page-course-management a,
+#page-mod-chat-view a {
   color: #000;
 }
 
@@ -16925,6 +16974,10 @@ a {
 }
 .moodle-menu .dropdown-inner a:hover {
   color: #fff !important;
+}
+
+.block_mbsmycourses .my-courses-filter label input:checked + i {
+  color: #e6e6e6;
 }
 
 .pagelayout-course a {
@@ -16937,17 +16990,6 @@ a {
 .schoolbox .schoolbox-meta .box-type i {
   background: #999999;
   color: #fff;
-}
-.schoolbox .schoolbox-inner {
-        /*&:hover {
-            .schoolbox-link {
-                color: $brand-gray-dark;
-            }
-
-            .vbox {
-                color: $brand-gray-dark;
-            }
-        }*/
 }
 .schoolbox .schoolbox-inner .schoolbox-link {
   background-color: #999999;

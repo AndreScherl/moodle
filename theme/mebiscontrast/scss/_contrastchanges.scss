@@ -26,10 +26,17 @@
  * This is a very quick solution. There will be a lot of issues. It has to be clearified how important a contrast theme really is.
  */
 
+// General Styles
 a {
     color: $white;
+    
+    &:hover,
+    &:focus {
+        color: $white;
+    }
 }
 
+// My Dashboard
 #page-navbar {
     
     .breadcrumb-nav .breadcrumb {
@@ -53,7 +60,9 @@ a {
 
 .block,
 .moodle-menu,
-.footer-copyright {
+.footer-copyright,
+#page-course-management,
+#page-mod-chat-view {
     a {
         color: $black;
     }
@@ -65,6 +74,13 @@ a {
     
     &:hover {
         color: $white !important;
+    }
+}
+
+.block_mbsmycourses {
+    
+    .my-courses-filter label input:checked + i {
+        color: $brand-gray-light;
     }
 }
 

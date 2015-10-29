@@ -16732,6 +16732,13 @@ input[type="checkbox"] + label {
 #page-calendar-view #main-content-wrapper {
   overflow: hidden;
 }
+#page-calendar-view #main-content-wrapper .heightcontainer {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+#page-calendar-view .homepage-container {
+  width: 90%;
+}
 
 #page-course-index-category div[role="main"] > .generalbox {
   background: #fff;

@@ -51,8 +51,19 @@
 //##### END: Need this styles for courseformats with backgroundcolor transparent #####
 
 //calendar
-#page-calendar-view #main-content-wrapper {
-    overflow: hidden;
+#page-calendar-view { 
+    #main-content-wrapper {
+        overflow: hidden;
+
+        .heightcontainer {
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+    }
+    
+    .homepage-container {
+        width: 90%;
+    }
 }
 
 #page-course-index-category {

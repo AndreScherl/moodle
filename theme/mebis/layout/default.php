@@ -30,6 +30,7 @@ $knownregiontop = $PAGE->blocks->is_known_region('top');
 $knownregionsidepre = $PAGE->blocks->is_known_region('side-pre');
 $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 $knownregionbottom = $PAGE->blocks->is_known_region('bottom');
+$knownregiontemplate = $PAGE->blocks->is_known_region('course-template');
 
 $ismydashboard = ($PAGE->pagetype == 'my-index');
 $theuser = clone($USER); 
@@ -68,6 +69,7 @@ $PAGE->set_popup_notification_allowed($ismydashboard);
 // Check whether regions has content.
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
+$hascoursetemplate = $PAGE->blocks->region_has_content('course-template', $OUTPUT);
 
 // TODO: discuss this line - deprecated?
 // $regions = theme_mebis_bootstrap_grid($hasapps, null);
@@ -138,6 +140,12 @@ echo $OUTPUT->doctype()
                 <?php
                 echo $OUTPUT->course_content_footer();
                 ?>
+
+                <?php if ($knownregiontemplate && $hascoursetemplate) { ?>
+                <div class="row" id="mbs-course-templates">
+                    <?php echo $OUTPUT->blocks('course-template') ?>
+                </div>
+                <?php } ?>
 
                 <?php if ($hassidepre || $hassidepost) { ?>
                 

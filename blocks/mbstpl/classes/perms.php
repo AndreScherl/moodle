@@ -223,4 +223,12 @@ class perms {
 
         return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
     }
+
+    /**
+     * Does the user have the capability to view template backups on the system level.
+     * @return bool
+     */
+    public static function can_viewbackups() {
+        return has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance());
+    }
 }

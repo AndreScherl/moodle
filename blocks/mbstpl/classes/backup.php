@@ -270,7 +270,8 @@ class backup {
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
-            $bc->execute_plan();
+            // Class \backup_anonymizer_helper is missing methods for anonymizing certain user data fields (MDL-46541).
+            @$bc->execute_plan();
             $results = $bc->get_results();
             $file = $results['backup_destination'];
             if (!check_dir_exists($dir)) {
@@ -415,8 +416,8 @@ class backup {
         $filename = self::get_filename($templateid, false);
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
         $settings = array_merge(array(
-            'users' => 0,
-            'anonymize' => 0,
+            'users' => 1,
+            'anonymize' => 1,
             'role_assignments' => 0,
             'user_files' => 0,
             'activities' => 1,
@@ -432,9 +433,19 @@ class backup {
             \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
-            foreach ($settings as $setting => $value) {
-                if ($bc->get_plan()->setting_exists($setting)) {
-                    $bc->get_plan()->get_setting($setting)->set_value($value);
+
+            foreach ($bc->get_plan()->get_settings() as $settingname => $setting) {
+
+                $hassetting = isset($settings[$settingname]);
+
+                // Since 'users' and 'anonymize' needs to start as 1, we need to explicity set each
+                // 'userinfo' setting, defaulting to 0 if it's not explicitly set by the user.
+                if ($setting instanceof \backup_activity_userinfo_setting
+                        || $setting instanceof \backup_section_userinfo_setting) {
+                    $value = $hassetting ? $settings[$settingname] : 0;
+                    $setting->set_value($value);
+                } else if ($hassetting) {
+                    $setting->set_value($settings[$settingname]);
                 }
             }
 
@@ -449,7 +460,8 @@ class backup {
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
-            $bc->execute_plan();
+            // Class \backup_anonymizer_helper is missing methods for anonymizing certain user data fields (MDL-46541).
+            @$bc->execute_plan();
             $results = $bc->get_results();
             $file = $results['backup_destination'];
             if (!check_dir_exists($dir)) {
@@ -488,11 +500,6 @@ class backup {
         require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
-
-        $catid = get_config('block_mbstpl', 'deploycat');
-        if (!$catid || !$DB->record_exists('course_categories', array('id' => $catid))) {
-            throw new \moodle_exception('errorcatnotexists', 'block_mbstpl');
-        }
 
         // Move backup file to restore location.
         $backupdir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
@@ -591,5 +598,53 @@ class backup {
         $block = block_instance('html', $blockrecord, $page);
         $block->instance_config_save((object) $blockconfig);
 
+    }
+
+    /**
+     * Adds the template backups to /backup/restorefile.php (needs to be called by core).
+     * @param \context $currentcontext
+     */
+    public static function restorefile_add_tplbackups(\context $currentcontext) {
+        if (!perms::can_viewbackups()) {
+            return;
+        }
+        $context = \context_system::instance();
+        $renderer = course::get_renderer();
+        echo $renderer->heading(get_string('cousretemplates', 'block_mbstpl'));
+        echo $renderer->container_start();
+        $treeview_options = array();
+        $treeview_options['filecontext'] = $context;
+        $treeview_options['currentcontext'] = $currentcontext;
+        $treeview_options['component']   = 'block_mbstpl';
+        $treeview_options['context']     = $context;
+        $treeview_options['filearea']    = 'backups';
+        echo $renderer->render_backup_files_viewer($treeview_options);
+        echo $renderer->container_end();
+    }
+
+    /**
+     * Copy the backup and redirect from restorefile.php to the correct restore url.
+     * @param $itemid
+     * @param $filename
+     */
+    public static function restorefile_redirect_restore($itemid, $filename) {
+        global $CFG;
+
+        if (!perms::can_viewbackups()) {
+            return;
+        }
+
+        $context = \context_system::instance();
+        $fs = get_file_storage();
+        if (!$file = $fs->get_file($context->id, 'block_mbstpl', 'backups', $itemid, '/', $filename)) {
+            return;
+        }
+
+        $filename = \restore_controller::get_tempdir_name();
+        $pathname = $CFG->tempdir . '/backup/' . $filename;
+        $file->copy_content_to($pathname);
+        $restore_url = new \moodle_url('/backup/restore.php', array(
+            'contextid' => $context->id, 'filename' => $filename));
+        redirect($restore_url);
     }
 }

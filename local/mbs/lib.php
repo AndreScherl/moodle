@@ -61,6 +61,18 @@ function local_mbs_extends_navigation(global_navigation $navigation) {
             $node->add_node($newchildren);
         }
     }
+
+    // Extend for block_mbstpl.
+    if (!($PAGE->context instanceof context_course)) {
+        return;
+    }
+    if ($PAGE->context->instanceid == get_site()->id) {
+        return;
+    }
+    if (!class_exists('block_mbstpl\course')) {
+        return;
+    }
+    block_mbstpl\course::add_template_blocks($PAGE->context);
 }
 
 /** Do all the manipulation for the settings navigation

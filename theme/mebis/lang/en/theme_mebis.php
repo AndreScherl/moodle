@@ -41,6 +41,8 @@ $string['region-admin-navi'] = 'Website-Administration';
 $string['sidebar-apps'] = 'My Apps';
 $string['sidebar-search'] = 'Search';
 
+$string['url-complaints'] = 'File a complaint for this course';
+
 $string['url-support'] = 'Link to support';
 $string['url-support-descr'] = 'Link to support';
 
@@ -88,6 +90,7 @@ $string['nav-contrast'] = 'Contrast';
 $string['nav-support'] = 'Support';
 $string['nav-management'] = 'Management';
 $string['nav-read'] = 'Read out';
+$string['nav-used-references'] = 'used references';
 
 $string['header-img-title'] = 'Mebis Logo Learning Platform';
 

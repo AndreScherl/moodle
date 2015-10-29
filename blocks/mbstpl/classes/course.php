@@ -104,6 +104,34 @@ class course {
         }
     }
 
+    /**
+     * Used to add blocks to the template-course region
+     *
+     * @param \context_course $context
+     */
+    public static function add_template_blocks(\context_course $context) {
+        global $PAGE;
+
+        $courseid = $context->instanceid;
+
+        $basetemplate = dataobj\template::get_from_course($courseid);
+
+        if ($basetemplate) {
+
+            $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
+            $assets = $meta->get_assets();
+            $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
+
+            $renderer = $PAGE->get_renderer('block_mbstpl');
+
+            $bc = new \block_contents(array(
+                'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
+            $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
+            $bc->content = $renderer->references_block_content($assets, $licenses);
+
+            $PAGE->blocks->add_fake_block($bc, 'course-template');
+        }
+    }
 
     /**
      * Returns the shortname of the status.
@@ -161,34 +189,7 @@ class course {
 
         // Unenrol reviewer and author.
         $userids = array($template->reviewerid, $template->authorid);
-        $plugins = enrol_get_plugins(true);
-        $instances = enrol_get_instances($cid, true);
-        foreach ($instances as $key => $instance) {
-            if (!isset($plugins[$instance->enrol])) {
-                unset($instances[$key]);
-                continue;
-            }
-        }
-        list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
-        $params['courseid'] = $cid;
-        $params['courselevel'] = CONTEXT_COURSE;
-        $sql = "SELECT ue.*
-                FROM {user_enrolments} ue
-                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
-                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
-                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
-        $enrolments = $DB->get_records_sql($sql, $params);
-        foreach ($enrolments as $ue) {
-            if (!isset($instances[$ue->enrolid])) {
-                continue;
-            }
-            $instance = $instances[$ue->enrolid];
-            $plugin = $plugins[$instance->enrol];
-            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
-                continue;
-            }
-            $plugin->unenrol_user($instance, $ue->userid);
-        }
+        self::unenrol_users($cid, $userids);
 
         // Notify user.
         notifications::notify_published($template);
@@ -344,5 +345,95 @@ class course {
     public static function get_renderer() {
         global $PAGE;
         return $PAGE->get_renderer('block_mbstpl');
+    }
+
+    /**
+     * Get the complaint url for this course, if its a template or template-based course
+     *
+     * @return \moodle_url complaint url for the current course/template
+     *                     or null if not on a template or course template
+     */
+    public static function get_complaint_url() {
+        global $PAGE;
+
+        $complainturl = get_config('block_mbstpl', 'complainturl');
+        if (!$complainturl) {
+            return null;
+        }
+
+        $courseid = $PAGE->context->instanceid;
+        $template = dataobj\template::get_from_course($courseid);
+        if (!$template) {
+            return null;
+        }
+
+        $params = array('templateid' => $template->id);
+        if ($template->id != $courseid) {
+            $params['courseid'] = $courseid;
+        }
+
+        $complainturl = new \moodle_url($complainturl, $params);
+        return $complainturl;
+    }
+
+
+    /**
+     * Archive the course.
+     * @param dataobj\template $template
+     * @return bool success
+     */
+    public static function archive(dataobj\template $template) {
+        if (!perms::can_archive($template)) {
+            return false;
+        }
+
+        // Unenrol reviewer and author.
+        $userids = array($template->reviewerid, $template->authorid);
+        self::unenrol_users($template->courseid, $userids);
+
+        // Update status.
+        $template->status = $template::STATUS_ARCHIVED;
+        $template->update();
+        return true;
+    }
+
+    /**
+     * Convenience function to unenrol given userids from all plugins of course.
+     * @param int $cid
+     * @param array $userids
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    private static function unenrol_users($cid, $userids) {
+        global $DB;
+
+        $plugins = enrol_get_plugins(true);
+        $instances = enrol_get_instances($cid, true);
+        foreach ($instances as $key => $instance) {
+            if (!isset($plugins[$instance->enrol])) {
+                unset($instances[$key]);
+                continue;
+            }
+        }
+        list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
+        $params['courseid'] = $cid;
+        $params['courselevel'] = CONTEXT_COURSE;
+        $sql = "SELECT ue.*
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
+                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
+                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
+        $enrolments = $DB->get_records_sql($sql, $params);
+        foreach ($enrolments as $ue) {
+            if (!isset($instances[$ue->enrolid])) {
+                continue;
+            }
+            $instance = $instances[$ue->enrolid];
+            $plugin = $plugins[$instance->enrol];
+            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
+                continue;
+            }
+            $plugin->unenrol_user($instance, $ue->userid);
+        }
     }
 }

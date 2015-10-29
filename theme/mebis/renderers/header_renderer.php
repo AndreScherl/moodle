@@ -334,6 +334,15 @@ class theme_mebis_header_renderer extends renderer_base {
             }
             $button .= html_writer::tag('div', $loggedinas, array('class' => 'loggedinas'));
         }
+
+        if ($this->page->blocks->region_has_content('course-template', $OUTPUT)) {
+            if (!empty($button)){
+                $button .= '<span class="space">|</span>';
+            }
+            $usedreferences = html_writer::link('#mbs-course-templates', get_string('nav-used-references', 'theme_mebis'));
+            $button .= html_writer::tag('div', $usedreferences, array('class' => 'loggedinas'));
+        }
+
         return $button;
     }
 
@@ -526,6 +535,15 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // add all the course related administration stuff.
         $content .= $this->render_menubar_courseadmin_menu();
+
+        // add a complaints link for all courses / course templates
+        if (class_exists('\block_mbstpl\course') && $url = \block_mbstpl\course::get_complaint_url()) {
+            $text = html_writer::tag('i', '', array('class' => 'fa fa-share-square'));
+            $complaintlink = html_writer::link($url, $text, array(
+                'class' => 'me-component-nav-mobile-spacer',
+                'title' => get_string('url-complaints', 'theme_mebis')));
+            $content .= html_writer::tag('li', $complaintlink);
+        }
 
         $contentlist = html_writer::tag('ul', $content, array('class' => 'nav'));
         return html_writer::div($contentlist, 'moodle-menu');

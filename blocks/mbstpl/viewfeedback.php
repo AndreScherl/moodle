@@ -54,9 +54,8 @@ if ($do == 'publish' && mbst\course::publish($template)) {
     $template->update();
     redirect($courseurl);
 }
-if ($do == 'archive' && mbst\perms::can_archive($template)) {
-    $template->status = $template::STATUS_ARCHIVED;
-    $template->update();
+if ($do == 'archive') {
+    mbst\course::archive($template);
     redirect($courseurl);
 }
 

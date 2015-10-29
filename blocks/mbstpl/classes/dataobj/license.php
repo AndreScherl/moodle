@@ -49,6 +49,27 @@ class license extends base {
         return array_unique($allshortnames);
     }
 
+    /**
+     * @param \block_mbstpl\dataobj\asset[] $assets
+     * @return \block_mbstpl\dataobj\license[]
+     */
+    public static function fetch_all_mapped_by_shortname($assets) {
+
+        $shortnames = array_map(function($asset) {
+            return $asset->license;
+        }, $assets);
+
+        $licenses = array();
+        foreach (array_unique($shortnames) as $shortname) {
+            $license = self::fetch(array('shortname' => $shortname));
+            if ($license) {
+                $licenses[$shortname] = $license;
+            }
+        }
+
+        return $licenses;
+    }
+
     public $required_fields = array('id', 'shortname', 'fullname', 'source');
     public $noduplfields = array('shortname');
 

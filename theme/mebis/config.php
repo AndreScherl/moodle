@@ -51,7 +51,7 @@ $THEME->layouts = array(
     ),
     'course' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre'),
+        'regions' => array('side-pre', 'course-template'),
         'defaultregion' => 'side-pre'
     ),
     'coursecategory' => array(
@@ -61,7 +61,7 @@ $THEME->layouts = array(
     ),
     'incourse' => array(
         'file' => 'default.php',
-        'regions' => array('side-pre'),
+        'regions' => array('side-pre', 'course-template'),
         'defaultregion' => 'side-pre'
     ),
     'admin' => array(

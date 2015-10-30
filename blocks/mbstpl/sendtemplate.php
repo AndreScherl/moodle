@@ -90,7 +90,7 @@ if ($form->is_cancelled()) {
 }
 $data = (object)array(
     'coursename' => $course->shortname,
-    'sendtpldate' => time(),
+    'sendtpldate' => userdate(time()),
 );
 $form->set_data($data);
 

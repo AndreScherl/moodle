@@ -42,7 +42,7 @@ class sendtemplate extends licenseandassetform {
         $form->addElement('text', 'coursename', get_string('coursename', 'block_mbstpl'));
         $form->setType('coursename', PARAM_TEXT);
 
-        $form->addElement('date_time_selector', 'sendtpldate', get_string('sendtpldate', 'block_mbstpl'));
+        $form->addElement('static', 'sendtpldate', get_string('sendtpldate', 'block_mbstpl'));
 
         // Add custom questions.
         $questions = $this->_customdata['questions'];
@@ -57,6 +57,7 @@ class sendtemplate extends licenseandassetform {
         $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withanon', 'block_mbstpl'), 1);
         $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withoutanon', 'block_mbstpl'), 0);
         $form->addGroup($radioarray, 'incluserdata', get_string('incluserdata', 'block_mbstpl'), array(' ', ' '), false);
+        $form->setDefault('withanon', 1);
 
         $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));
         $form->addRule('copyright', get_string('required'), 'required');
@@ -82,7 +83,7 @@ class sendtemplate extends licenseandassetform {
 
         $this->add_action_buttons(true, get_string('sendforreviewing', 'block_mbstpl'));
 
-        $form->freeze(array('coursename', 'sendtpldate'));
+        $form->freeze(array('coursename'));
     }
 
     function definition_after_data() {

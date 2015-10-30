@@ -35,7 +35,7 @@ class adhoc_deploy_revision extends \core\task\adhoc_task {
             $filename = mbst\backup::backup_revision($template);
             $cid = mbst\backup::restore_revision($template, $filename, $details->reasons);
             $newtpl = new mbst\dataobj\template(array('courseid' => $cid), true, MUST_EXIST);
-            mbst\notifications::notify_forrevision($newtpl);
+            mbst\notifications::notify_forrevision($newtpl, $template->reviewerid);
         } catch (\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);
             print_r($e->getMessage());

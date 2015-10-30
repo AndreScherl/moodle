@@ -224,14 +224,14 @@ class notifications {
     /**
      * Notify the local review about the template created for revision.
      * @param dataobj\template $template
+     * @param int $reviewerid
      */
-    public static function notify_forrevision(dataobj\template $template) {
+    public static function notify_forrevision(dataobj\template $template, $reviewerid) {
         global $DB;
-
         if (empty($template->reviewerid)) {
             return;
         }
-        $toid = $template->reviewerid;
+        $toid = $reviewerid;
         $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
         $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
         $a = (object)array(

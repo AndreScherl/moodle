@@ -24,6 +24,11 @@ defined('MOODLE_INTERNAL') || die();
 use \block_mbstpl AS mbst;
 use block_mbstpl\backup;
 
+
+/**
+ * Test case for deploying an original backup to template.
+ * @group block_mbstpl
+ */
 class mbstpl_deploy_test extends advanced_testcase {
     public function test_deploytemplate() {
 
@@ -64,7 +69,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
         $this->assertCount(1, $mods, 'Expecting 1 module in restored template');
-        $this->assertEquals($mailsink->count(), ++$mailcount, "An email should have been sent after the template course was created");
+        $this->assertEquals(++$mailcount, $mailsink->count(), "An email should have been sent after the template course was created");
 
         // Roles and capabilities.
         $systemcontext = context_system::instance();
@@ -79,11 +84,11 @@ class mbstpl_deploy_test extends advanced_testcase {
         mbst\course::assign_reviewer($template, $reviewer->id);
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertEquals($template->reviewerid, $reviewer->id);
-        $this->assertEquals($mailsink->count(), ++$mailcount);
+        $this->assertEquals(++$mailcount, $mailsink->count());
 
         // Publish.
         $this->setUser($reviewer);
         mbst\course::publish($template);
-        $this->assertEquals($mailsink->count(), ++$mailcount);
+        $this->assertEquals(++$mailcount, $mailsink->count());
     }
 }

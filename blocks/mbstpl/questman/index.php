@@ -53,7 +53,11 @@ if ($isdraft) {
 }
 echo $OUTPUT->header();
 
-$pagetitle = $isdraft ? get_string('qformunsaved', 'block_mbstpl') : get_string('qformactive', 'block_mbstpl');
+if (!$isdraft && $active = manager::get_active_qform()) {
+    $pagetitle = $active->name;
+} else {
+    $pagetitle = get_string('qformunsaved', 'block_mbstpl');
+}
 echo html_writer::tag('h2', $pagetitle);
 
 $options = manager::list_datatypes();

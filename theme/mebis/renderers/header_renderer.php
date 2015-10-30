@@ -93,11 +93,11 @@ class theme_mebis_header_renderer extends renderer_base {
         $userBar = '';
         $muserBar = '';
 
-        $url_support = isset($PAGE->theme->settings->url_support) ? $PAGE->theme->settings->url_support : '#';
-        $url_login = isset($PAGE->theme->settings->url_login) ? $PAGE->theme->settings->url_login : '#';
-        $url_logout = isset($PAGE->theme->settings->url_logout) ? $PAGE->theme->settings->url_logout : '#';
-        $url_preferences = isset($PAGE->theme->settings->url_preferences) ? $PAGE->theme->settings->url_preferences : '#';
-        $url_preferences_personal = isset($PAGE->theme->settings->url_preferences_personal) ? $PAGE->theme->settings->url_preferences_personal : '#';
+        $url_support = get_config("theme_mebis", "url_support") ? get_config("theme_mebis", "url_support") : '#';
+        $url_login = get_config("theme_mebis", "url_login") ? get_config("theme_mebis", "url_login") : '#';
+        $url_logout = get_config("theme_mebis", "url_logout") ? get_config("theme_mebis", "url_logout") : '#';
+        $url_preferences = get_config("theme_mebis", "url_preferences") ? get_config("theme_mebis", "url_preferences") : '#';
+        $url_preferences_personal = get_config("theme_mebis", "url_preferences_personal") ? get_config("theme_mebis", "url_preferences_personal") : '#';
         // Roles with capability to view the link to the IDM in topbar.
         $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
         $canseeidmlink = false;

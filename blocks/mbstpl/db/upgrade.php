@@ -313,5 +313,25 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015102000, 'mbstpl');
     }
 
+    if ($oldversion < 2015110900) {
+
+        // Define fields createdby, createdon, licence to be added to block_mbstpl_coursefromtpl.
+        $table = new xmldb_table('block_mbstpl_coursefromtpl');
+        $fields = array(
+            new xmldb_field('createdby', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'templateid'),
+            new xmldb_field('createdon', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'createdby'),
+            new xmldb_field('licence', XMLDB_TYPE_TEXT, null, null, null, null, null, 'createdon'),
+            );
+
+        // Conditionally launch add field.
+        foreach($fields as $field) {
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015110900, 'mbstpl');
+    }
     return true;
 }

@@ -139,7 +139,7 @@ class notifications {
 
         $fromuser = self::get_fromuser();
         $url = new \moodle_url('/course/view.php', array('id' => $course->id));
-        $a = (object)array('url' => $url, 'fullname' => $course->fullname);
+        $a = (object)array('url' => $url->out(false), 'fullname' => $course->fullname);
         $subject = get_string('emailassignedauthor_subj', 'block_mbstpl');
         $body = get_string('emailassignedauthor_body', 'block_mbstpl', $a);
         email_to_user($touser, $fromuser, $subject, $body);

@@ -30,6 +30,9 @@ defined('MOODLE_INTERNAL') || die;
 $ADMIN->add('reports', new admin_externalpage('reportpimpedcourses', get_string('pluginname', 'report_mbs'),
                 "$CFG->wwwroot/report/mbs/reportpimped.php", 'moodle/site:config'));
 
+$ADMIN->add('reports', new admin_externalpage('replacetex', get_string('replacetex', 'report_mbs'),
+                "$CFG->wwwroot/report/mbs/reporttex.php", 'moodle/site:config'));
+
 if ($ADMIN->fulltree) {
 
     $settings = new admin_settingpage('reportmbs',

@@ -47,4 +47,7 @@ if ($ADMIN->fulltree) {
             array('old' => new lang_string('dollars', 'qtype_algebra'),
                   'new' => new lang_string('brackets', 'qtype_algebra')
             )));
+    // Filter for display response.
+    $settings->add(new admin_setting_configtext('qtype_algebra_displayresponse',
+            get_string('responsedisplay', 'qtype_algebra'), '', 'https://cdn.mathjax.org/mathjax/2.5-latest/MathJax.js?config=TeX-AMS_HTML', PARAM_TEXT));
 }

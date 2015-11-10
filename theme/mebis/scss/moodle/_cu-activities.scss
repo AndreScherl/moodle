@@ -10,7 +10,9 @@
     - #page-mod-forum-discuss
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
+    - #page-mod-assign-mod
     - #page-mod-assign-view
+    - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
@@ -19,6 +21,11 @@
     - #page-mod-quiz-attempt
     - #page-mod-quiz-review
     - #page-mod-quiz-preview
+    - .que.calculatedmulti
+    - .que.ddmatch
+    - .que.ddwtos 
+    - .que.geogebra
+    - .que.match
     - .que.multichoice
     - .que.multianswer
 */
@@ -38,6 +45,30 @@
         @media only screen and (max-width: $screen-tablet) {
             width: 30%;
             float:left;
+        }
+    }
+}
+
+//styling Assignment GeoGebra submissions
+#page-mod-assign-mod, #page-mod-assign-view, #page-question-type-geogebra {
+
+    div#applet_container1 {
+        > div {
+            min-height: 0;
+            //need important because of element style
+            height: inherit !important;
+        }
+    }
+} 
+//styling GeoGebra question
+div.que.geogebra {
+    div.formulation {
+        div[id$='ggbdiv'] {
+            > div {
+                min-height: 0;
+                //need important because of element style
+                height: inherit !important;
+            }
         }
     }
 }
@@ -125,10 +156,19 @@
     }
 }
 
-#page-question-edit {
+#page-mod-quiz-edit .questionbankwindow a#showbankcmd, 
+#page-mod-quiz-edit .questionbankwindow a#hidebankcmd {
+    &:hover {
+        background-color: $brand-secondary;
+        color: $white;
+    }
+}
 
-    table#categoryquestions>tbody>tr:nth-of-type(even).highlight {
+#page-question-edit, #page-mod-quiz-edit {
+
+    table#categoryquestions>tbody>tr.highlight {
         background: $brand-secondary;
+        display: table-row;
     }
 }
 
@@ -167,6 +207,7 @@
 .que .formulation {
     background: $white;
     border-color: #ddd;
+    color: $black;
 
     hr {
         border-top-color: #ddd;
@@ -198,6 +239,16 @@
 .que.match .answer tr.r0 td.text,
 .que.match .answer tr.r1 td.text {
     padding-right: 5px;
+}
+
+//questiontype calculatedmulti
+.que.calculatedmulti {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 5px 0 0;
+        width: 15px;
+    }
 }
 
 //questiontype multianswer

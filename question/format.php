@@ -384,7 +384,11 @@ class qformat_default {
             $question->category = $this->category->id;
             $question->stamp = make_unique_id_code();  // Set the unique code (not to be changed)
 
-            $question->createdby = $USER->id;
+            // +++ Hack awag: import createdby, when available. 
+            if (empty($question->createdby)) {
+                $question->createdby = $USER->id;
+            }
+            // +++ Hack awag: mport createdby, when available. 
             $question->timecreated = time();
             $question->modifiedby = $USER->id;
             $question->timemodified = time();

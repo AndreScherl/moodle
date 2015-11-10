@@ -7,16 +7,16 @@
 .pagelayout-admin {
 
     .admin-content {
-        color: $gray-dark;
+        color: $brand-gray-dark;
         font-size: emCalc(14px);
 
         div[role="main"] {
-            color: $gray-dark;
+            color: $brand-gray-dark;
             background: $white;
             padding: 20px;
 
             label, .header {
-                color: $gray-dark!important;
+                color: $brand-gray-dark!important;
                 margin-top: 0;
             }
 
@@ -30,14 +30,14 @@
             }
 
             .form-label, .form-setting, .form-description {
-                color: $gray-dark;
+                color: $brand-gray-dark;
             }
 
             .fitemtitle, .felement {
                 width: 100%;
                 float: none;
                 text-align: left;
-                color: $gray-dark;
+                color: $brand-gray-dark;
             }
 
             input[type="submit"]#id_submitbutton,
@@ -57,7 +57,7 @@
     }
 
     .choosercontainer #chooseform .option label, label, .text_to_html {
-        color: $gray-dark;
+        color: $brand-gray-dark;
     }
 
     .alloptions {
@@ -118,7 +118,7 @@
     }
 
     .course-detail span {
-        color: $gray-dark;
+        color: $brand-gray-dark;
     }
 }
 

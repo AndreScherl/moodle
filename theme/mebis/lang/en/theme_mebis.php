@@ -32,6 +32,9 @@ $string['editmebisprofile'] = 'Edit Profile';
 $string['mebisprofile'] = 'Profile';
 $string['pluginname'] = 'Mebis';
 
+$string['contrasttheme'] = 'accessibility theme';
+$string['contrasttheme-descr'] = 'This accessibility theme can be selected by the counter in the tool bar for the topical session.';
+
 $string['region-side-post'] = 'Right';
 $string['region-side-pre'] = 'Left';
 $string['region-top'] = 'Top';

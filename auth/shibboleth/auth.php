@@ -124,7 +124,7 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             if ($key == 'institution') {
                 global $DB;
                 $olduser = $DB->get_record('user', array('username' => $username));
-                if ($olduser->institution != $_SERVER['mebisSchoolID'] && isset($olduser->institution)) {
+                if (isset($olduser->institution) && $olduser->institution != $_SERVER['mebisSchoolID']) {
                     $category = $DB->get_record('course_categories', array('idnumber' => $olduser->institution));
                     $context = context_coursecat::instance($category->id);
                     $roleid = $DB->get_field('role', 'id', array('shortname' => 'kursersteller'));
@@ -157,7 +157,8 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         $configarray = (array) $this->config;
 
         $moodleattributes = array();
-        foreach ($this->userfields as $field) {
+        $userfields = array_merge($this->userfields, $this->get_custom_user_profile_fields());
+        foreach ($userfields as $field) {
             if (isset($configarray["field_map_$field"])) {
                 $moodleattributes[$field] = $configarray["field_map_$field"];
             }

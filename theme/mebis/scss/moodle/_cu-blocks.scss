@@ -73,7 +73,7 @@ aside.row {
         right: auto;
         width: 100%;
         padding: 0;
-        
+
         .blockannotation {
             color: $white;
         }
@@ -99,9 +99,13 @@ aside.row {
 
 // Block mbsnewcourse.
 .mbsnewcourse {
-    padding-bottom: 30px;
-    > ul {
-        list-style: none;
+    
+    ul {
+        list-style: none; 
+    }
+    
+    > ul.mbsnewcourse-actionlinks {
+        
         > li {
             float: right;
             margin-left: 50px;
@@ -110,6 +114,7 @@ aside.row {
             }
         }
     }
+    
 }
 
 // Block mbsgettingstarted
@@ -164,12 +169,6 @@ aside.row {
 // Block mbsmycourses.
 .block_mbsmycourses {
 
-    // Content of mbsnewcourse is nested in header!
-    .mbsnewcourse {
-        float: right;
-        padding: 20px 0 0;
-    }
-
     // Headline.
     .header { 
 
@@ -213,7 +212,7 @@ aside.row {
         label {
             position: relative;
             cursor: pointer;
-            color: $gray-dark;
+            color: $brand-gray-dark;
             margin-left: 10px;
 
             &:hover {
@@ -296,12 +295,45 @@ aside.row {
                 padding: 3px;
                 margin-bottom: 8px;
             }
+
+            .category-container {
+
+                .category-body
+                {
+                    display:block;
+                }
+
+                .category-title .category-toggle::before {
+
+                    font-family: 'mebis-icons';
+                    content: "\e662";
+                }
+            }
+
+            .collapsed {
+
+                .category-body
+                {
+                    display:none;
+                }
+
+                .category-title .category-toggle::before {
+
+                    font-family: 'mebis-icons';
+                    content: "\e63d";
+                }
+            }
         }
+    }
+
+    .mycourses-grid {
+        color:#333;
     }
 }
 
 .editing .block_mbsmycourses .move {
-    float: right; 
+    float: right;
+    padding: 22px 20px 0  0;
 }
 
 // more results button in mbscourses and mbssearch result page

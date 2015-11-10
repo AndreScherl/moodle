@@ -32,6 +32,9 @@ $string['editmebisprofile'] = 'Profil bearbeiten';
 $string['mebisprofile'] = 'Profil';
 $string['pluginname'] = 'mebis';
 
+$string['contrasttheme'] = 'barrierearmes Theme';
+$string['contrasttheme-descr'] = 'Dieses barrierearme Theme kann durch den Schalter in der Toolbar für die aktuelle Session ausgewählt werden.';
+
 $string['region-side-post'] = 'Rechts';
 $string['region-side-pre'] = 'Links';
 $string['region-top'] = 'Oben';

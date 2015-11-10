@@ -46,7 +46,7 @@ echo $OUTPUT->doctype()
         <title><?php echo $OUTPUT->page_title(); ?></title>
         <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
         <?php echo $OUTPUT->standard_head_html(); ?>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
         <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
@@ -116,9 +116,15 @@ echo $OUTPUT->doctype()
             <?php echo $OUTPUT->mebis_footer(); ?>
         </div>
 
+        <?php echo $OUTPUT->main_footer(); ?>
+        <div class="me-page-action-menu visible-lg">
+            <ul class="me-menu-anchor-links">
+            <?php
+            echo $OUTPUT->page_fastaccess_navigation();
+            ?>
+            </ul>
+        </div>
         <?php
-        echo $OUTPUT->main_footer();
-        echo $OUTPUT->page_fastaccess_navigation();
         echo $OUTPUT->page_action_navigation();
 
         $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));

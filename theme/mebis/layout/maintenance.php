@@ -22,7 +22,7 @@ echo $OUTPUT->doctype()
     <head>
         <title><?php echo $OUTPUT->page_title(); ?></title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
         <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png','mebis');?>">
         <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">

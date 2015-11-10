@@ -219,10 +219,10 @@ div.block,
 }
 
 .box.generalbox {
-    color: $gray-dark;
+    color: $brand-gray-dark;
 
     th,td, label, .cap-name {
-        color: $gray-dark;
+        color: $brand-gray-dark;
     }
 
 }
@@ -256,7 +256,7 @@ div.block,
 
             th, td {
                 padding: 10px;
-                color: $gray-dark;
+                color: $brand-gray-dark;
             }
         }
 
@@ -264,7 +264,7 @@ div.block,
             background: $white;
 
             .header  {
-                color: $gray-dark;
+                color: $brand-gray-dark;
             }
 
             select {
@@ -273,13 +273,13 @@ div.block,
         }
 
         .cell, #livelogs-pause-button, .fitemtitle  {
-            color: $gray-dark;
+            color: $brand-gray-dark;
         }
 
 
     }
     h2 {
-        color: $gray-dark!important;
+        color: $brand-gray-dark!important;
         margin-top: 0;
     }
 }

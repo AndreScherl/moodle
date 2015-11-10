@@ -14238,6 +14238,7 @@ button.close {
     border: none;
     min-height: 30px;
     margin-bottom: 0;
+    -webkit-transform: none;
   }
   .me-wrapper #topbar .container {
     position: relative;
@@ -14277,33 +14278,40 @@ button.close {
   .me-wrapper #topbar .container .navbar-collapse.collapse .nav li span {
     vertical-align: middle;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a {
     line-height: 2.1875em;
     padding-top: 0;
     padding-bottom: 0;
     display: block;
     color: #999999;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="inc"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="inc"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="inc"] {
     padding-left: 0;
     font-size: 18px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"],
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] {
     padding-top: 3px;
     padding-left: 10px;
     padding-right: 15px;
     font-size: 16px;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a[data-change="dec"] i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a[data-change="dec"] i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a[data-change="dec"] i {
     margin-right: 0;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a:hover {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a:hover,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a:hover {
     color: #ff6600;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li a i {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a i,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a i {
     font-size: 1em;
   }
-  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize li.me-active a {
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li.me-active a,
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li.me-active a {
     color: #ff6600;
   }
   .me-wrapper #topbar .container .divider-vertical {
@@ -14495,7 +14503,7 @@ div[role="main"] > h2 {
     padding-bottom: 30px;
   }
   .wrapper-learning-platform .me-help-note .me-help-note-container .text-right a {
-    color: #eeeeee;
+    color: #e6e6e6;
     display: inline-block;
     margin-left: 10px;
   }
@@ -14900,6 +14908,35 @@ categorybox:
   color: #fff;
 }
 
+#coursecat-management .grid-row-r {
+  margin-left: -20px;
+  margin-right: -20px;
+  content: " ";
+  display: table;
+  width: 100%;
+  clear: both;
+}
+#coursecat-management .grid-col {
+  position: relative;
+  min-height: 1px;
+  padding-left: 20px;
+  padding-right: 20px;
+  float: left;
+}
+#coursecat-management .grid-col.span5 {
+  width: 41.66666667%;
+}
+#coursecat-management .grid-col.span7 {
+  width: 58.33333333%;
+}
+#coursecat-management .grid-col.span4 {
+  width: 33%;
+}
+#coursecat-management #course-category-listings .detail-pair .pair-value select {
+  display: block;
+  width: 100%;
+}
+
 /* This file contains Styles related to display courses in a grid element (box) */
 /* 
     Created on : 19.05.2015
@@ -15067,7 +15104,7 @@ categorybox:
   color: #333333;
 }
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li .dropdown-inner .admin-dropdown {
-  background-color: #222222;
+  background-color: #333333;
   padding: 0 20px;
   margin: 0 -20px;
 }
@@ -15320,7 +15357,9 @@ categorybox:
     - #page-mod-forum-discuss
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
+    - #page-mod-assign-mod
     - #page-mod-assign-view
+    - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
@@ -15329,6 +15368,11 @@ categorybox:
     - #page-mod-quiz-attempt
     - #page-mod-quiz-review
     - #page-mod-quiz-preview
+    - .que.calculatedmulti
+    - .que.ddmatch
+    - .que.ddwtos 
+    - .que.geogebra
+    - .que.match
     - .que.multichoice
     - .que.multianswer
 */
@@ -15350,6 +15394,16 @@ categorybox:
     width: 30%;
     float: left;
   }
+}
+
+#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
+  min-height: 0;
+  height: inherit !important;
+}
+
+div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
+  min-height: 0;
+  height: inherit !important;
 }
 
 #page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span {
@@ -15399,8 +15453,15 @@ categorybox:
   background: #00a8d5;
 }
 
-#page-question-edit table#categoryquestions > tbody > tr:nth-of-type(even).highlight {
+#page-mod-quiz-edit .questionbankwindow a#showbankcmd:hover,
+#page-mod-quiz-edit .questionbankwindow a#hidebankcmd:hover {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+#page-question-edit table#categoryquestions > tbody > tr.highlight, #page-mod-quiz-edit table#categoryquestions > tbody > tr.highlight {
   background: #ff6600;
+  display: table-row;
 }
 
 #page-mod-quiz-attempt div.content:before,
@@ -15433,6 +15494,7 @@ categorybox:
 .que .formulation {
   background: #fff;
   border-color: #ddd;
+  color: #000;
 }
 .que .formulation hr {
   border-top-color: #ddd;
@@ -15452,6 +15514,12 @@ categorybox:
 .que.match .answer tr.r0 td.text,
 .que.match .answer tr.r1 td.text {
   padding-right: 5px;
+}
+
+.que.calculatedmulti .answer div.r0 input,
+.que.calculatedmulti .answer div.r1 input {
+  margin: 0 5px 0 0;
+  width: 15px;
 }
 
 .que.multianswer .answer div.r0 input,
@@ -15662,17 +15730,14 @@ aside.row .block-region .block {
   margin-left: 10px;
 }
 
-.mbsnewcourse {
-  padding-bottom: 30px;
-}
-.mbsnewcourse > ul {
+.mbsnewcourse ul {
   list-style: none;
 }
-.mbsnewcourse > ul > li {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li {
   float: right;
   margin-left: 50px;
 }
-.mbsnewcourse > ul > li a i {
+.mbsnewcourse > ul.mbsnewcourse-actionlinks > li a i {
   font-size: 1.25em !important;
 }
 
@@ -15713,10 +15778,6 @@ aside.row .block-region .block {
   list-style: none;
 }
 
-.block_mbsmycourses .mbsnewcourse {
-  float: right;
-  padding: 20px 0 0;
-}
 .block_mbsmycourses .header {
   margin-bottom: 20px;
 }
@@ -15816,9 +15877,27 @@ aside.row .block-region .block {
   padding: 3px;
   margin-bottom: 8px;
 }
+.block_mbsmycourses .row.categorybox .category-box .category-container .category-body {
+  display: block;
+}
+.block_mbsmycourses .row.categorybox .category-box .category-container .category-title .category-toggle::before {
+  font-family: 'mebis-icons';
+  content: "\e662";
+}
+.block_mbsmycourses .row.categorybox .category-box .collapsed .category-body {
+  display: none;
+}
+.block_mbsmycourses .row.categorybox .category-box .collapsed .category-title .category-toggle::before {
+  font-family: 'mebis-icons';
+  content: "\e63d";
+}
+.block_mbsmycourses .mycourses-grid {
+  color: #333;
+}
 
 .editing .block_mbsmycourses .move {
   float: right;
+  padding: 22px 20px 0  0;
 }
 
 .path-blocks-mbssearch .add-more-results,
@@ -16565,7 +16644,7 @@ input[type="checkbox"] + label {
         border-radius: 0;
 
         .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $gray-lighter;
+            background: $brand-gray-lighter;
             text-shadow: none;
         }
 
@@ -16615,6 +16694,7 @@ input[type="checkbox"] + label {
 /*
     All Styles related to special Pages.
     - .path-course-view
+    - #page-calendar-view
     - #page-course-edit
     - #page-course-index-category
     - #page-enrol-users
@@ -16649,6 +16729,17 @@ input[type="checkbox"] + label {
   background: #fff;
 }
 
+#page-calendar-view #main-content-wrapper {
+  overflow: hidden;
+}
+#page-calendar-view #main-content-wrapper .heightcontainer {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+#page-calendar-view .homepage-container {
+  width: 90%;
+}
+
 #page-course-index-category div[role="main"] > .generalbox {
   background: #fff;
   color: #000;
@@ -16675,6 +16766,20 @@ input[type="checkbox"] + label {
 }
 #page-enrol-index .box.generalbox.info li {
   list-style: none;
+}
+#page-enrol-index .box.generalbox.info .panel-default {
+  border: none;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-heading {
+  border: none;
+  background-color: #00a8d5;
+  font-size: 27px;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-heading a {
+  color: #fff;
+}
+#page-enrol-index .box.generalbox.info .panel-default > .panel-body {
+  color: #000;
 }
 #page-enrol-index fieldset .fcontainer {
   color: #000;
@@ -16710,19 +16815,24 @@ input[type="checkbox"] + label {
   color: #333333;
 }
 
-#page-content, #page-admin-purgecaches {
+#page-content, #page-admin-purgecaches,
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
   background: #fff;
 }
-#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul {
+#page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li {
+#page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li {
   list-style: disc inside none;
 }
-#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol {
+#page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol {
   padding-left: 10px;
 }
-#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li {
+#page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li {
   list-style: decimal inside none;
 }
 

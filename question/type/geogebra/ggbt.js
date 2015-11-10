@@ -92,11 +92,15 @@ M.form_ggbt.injectapplet = function (id) {
     parameters = {"material_id": id};
     parameters.language = lang;
     parameters.moodle = "editingQuestionOrSubmission";
+    // Since we only support HTML5 this should work for js-code in the applet to get executed (ggboninit).
+    parameters.useBrowserForJS = false;
 
     document.getElementById('applet_container1').style.display = "block";
 
     applet1 = new GGBApplet(parameters, true);
+
     applet1.inject("applet_container1", "preferHTML5");
+
 };
 
 M.form_ggbt.getrandvars = function () {
@@ -147,9 +151,9 @@ M.form_ggbt.update_feedback = function (answernode) {
     feedbackfromfile.set('value', fbstring);
 };
 
-// Function ggbOnInit gets called as soon as the applet is loaded.
+// Function ggbAppletOnLoad gets called as soon as the applet is loaded (as ggbOnInit).
 //noinspection JSUnusedGlobalSymbols
-function ggbOnInit(id) {
+function ggbAppletOnLoad(id) {
     Y.one('input[name="ggbparameters"]').set('value', JSON.stringify(parameters));
     Y.one('input[name="ggbviews"]').set('value', JSON.stringify(applet1.getViews()));
     Y.one('input[name="ggbcodebaseversion"]').set('value', applet1.getHTML5CodebaseVersion());
@@ -157,6 +161,7 @@ function ggbOnInit(id) {
     if (typeof(ggbcheckb) == "undefined") {
         var applet = document.ggbApplet;
         Y.one('input[name="ggbxml"]').set('value', applet.getXML());
+        Y.one('input[name="ggbexercise"]').set('value', JSON.stringify(applet.getExerciseResult()));
 
         var randomizedvar = document.getElementById('id_randomizedvar');
         if (!randomizedvar.value) {
@@ -166,15 +171,18 @@ function ggbOnInit(id) {
         var i = 0;
         var answer = Y.one('#id_answer_' + i);
         while (!(answer === null)) {
-            answer.on(['change', 'focus'], function (e) {
-                e.preventDefault();
-                M.form_ggbt.update_feedback(e.target)
-            });
-            M.form_ggbt.update_feedback(answer);
+            if (answer.get('value')) {
+                answer.on(['change', 'focus'], function (e) {
+                    e.preventDefault();
+                    M.form_ggbt.update_feedback(e.target)
+                });
+                M.form_ggbt.update_feedback(answer);
+            }
             answer = Y.one('#id_answer_' + ++i);
         }
         document.querySelector('article').onkeypress = checkEnter;
     }
+
 
     if (usefile.checked) {
         document.getElementById('applet_container1').style.display = "block";
@@ -221,7 +229,7 @@ function initoptions() {
 function handlesettingschanged(evt) {
     parameters[evt.target.id] = (evt.target.checked);
     Y.one('input[name="ggbparameters"]').set('value', JSON.stringify(parameters));
-    if (evt.target.id == "showToolBar" || evt.target.id == "showMenuBar") {
+    if (evt.target.id == "showToolBar" || evt.target.id == "showMenuBar" || evt.target.id == "showAlgebraInput") {
         applet1 = new GGBApplet(parameters, true);
         applet1.inject("applet_container1", "preferHTML5");
     } else {
@@ -283,6 +291,7 @@ function handleDrop(e) {
         file = e.dataTransfer.files[0];
         ggbf.classList.remove('hover');
         document.getElementById('applet_container1').style.removeProperty("visibility");
+        document.getElementById('applet_container1').style.display = "block";
         document.getElementById('applet_options').style.display = "block";
 
         document.getElementById('id_ggbturl').value = "";
@@ -295,7 +304,7 @@ function handleDrop(e) {
             var base64 = event.target.result.replace("data:application/vnd.geogebra.file;base64,", "");
             parameters = {"ggbBase64": base64};
             parameters.language = lang;
-            parameters.useBrowserForJS = true;
+//            parameters.useBrowserForJS = true;
             parameters.enableRightClick = enable_right_click.checked;
             parameters.enableLabelDrags = enable_label_drags.checked;
             parameters.showResetIcon = show_reset_icon.checked;

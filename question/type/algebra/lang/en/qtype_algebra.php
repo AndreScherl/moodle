@@ -141,3 +141,4 @@ $string['uri'] = 'uri of SAGE server';
 $string['texdelimiters'] = 'Delimiters for TeX expressions';
 $string['dollars'] = '$$...$$';
 $string['brackets'] = '\[...\]';
+$string['responsedisplay'] = 'Filter for display response, if MathJax-Filter is activated';

@@ -100,16 +100,20 @@ class block_mbsnewcourse_renderer extends plugin_renderer_base {
             return '';
         }
 
-        $o = '';
+        $l = '';
 
         foreach ($courserequests as $courserequest) {
             $link = \html_writer::link($courserequest->viewurl, $courserequest->name);
-            $o .= html_writer::tag('li', $link);
+            $l .= html_writer::tag('li', $link);
         }
 
-        $o = html_writer::tag('ul', $o);
-
-        $o = html_writer::tag('div', get_string('coursespending', 'block_mbsnewcourse').':').$o;
+        $l = html_writer::tag('ul', $l);
+       
+        $o = html_writer::tag('div', get_string('coursespending', 'block_mbsnewcourse').':');
+        $o .= html_writer::tag('div' ,'', array('class' => 'clearfix')); 
+        $o .= $l;
+        $o .= html_writer::tag('div' ,'', array('class' => 'clearfix')); 
+        
         return $o;
 
     }

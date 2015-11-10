@@ -34,8 +34,8 @@ class theme_mebis_block_mbsnewcourse_renderer extends block_mbsnewcourse_rendere
             $out .= html_writer::tag('li', $createlink);
         }
 
-        $out = html_writer::tag('ul', $out);
-
+        $out = html_writer::tag('ul', $out, array('class' => 'mbsnewcourse-actionlinks'));
+        
         if (\block_mbsnewcourse\local\mbs_course_request::can_approve_course($categoryid)) {
             $out .= $this->render_request_list();
         }

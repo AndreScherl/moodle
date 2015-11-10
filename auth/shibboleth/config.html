@@ -137,14 +137,13 @@ $config->changepasswordurl = '';
     <?php // ...awag: additional urls needed for LDAP-Portal. 
 
     if (!isset($config->editmebisprofileurl)) {
-
-    $config->editmebisprofileurl = '';
+        $config->editmebisprofileurl = '';
     }
 
     if (!isset($config->editusersurl)) {
-
-    $config->editusersurl = '';
+        $config->editusersurl = '';
     }
+    
     ?>
     <tr valign="top">
         <td align="right"><label for="editmebisprofileurl"><?php print_string('auth_shib_editmebisprofileurl', 'auth_shibboleth') ?>: </label></td>
@@ -197,7 +196,7 @@ $config->changepasswordurl = '';
     </tr>
     <?php
 
-    print_auth_lock_options($this->authtype, $user_fields, '<!-- empty help -->', true, false);
+    print_auth_lock_options($this->authtype, $user_fields, '<!-- empty help -->', true, false, $this->get_custom_user_profile_fields());
 
     ?>
 </table>

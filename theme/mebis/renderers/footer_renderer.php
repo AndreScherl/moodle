@@ -17,9 +17,9 @@ class theme_mebis_footer_renderer extends renderer_base {
     public function main_footer() {
         global $CFG, $PAGE;
         
-        $url_newsletter = isset($PAGE->theme->settings->footer_url_newsletter) ? $PAGE->theme->settings->footer_url_newsletter : '#';
-        $url_about = isset($PAGE->theme->settings->footer_url_about) ? $PAGE->theme->settings->footer_url_about : '#';
-        $url_contact = isset($PAGE->theme->settings->footer_url_contact) ? $PAGE->theme->settings->footer_url_contact : '#';
+        $url_newsletter = get_config("theme_mebis", "footer_url_newsletter") ? get_config("theme_mebis", "footer_url_newsletter") : '#';
+        $url_about = get_config("theme_mebis", "footer_url_about") ? get_config("theme_mebis", "footer_url_about") : '#';
+        $url_contact = get_config("theme_mebis", "footer_url_contact") ? get_config("theme_mebis", "footer_url_contact") : '#';
         
         $output = '';
 
@@ -157,7 +157,7 @@ class theme_mebis_footer_renderer extends renderer_base {
 
     protected function get_footer_links() {
         global $PAGE;
-        $links = $PAGE->theme->settings->footer_links;
+        $links = get_config("theme_mebis", "footer_links");
         $links = explode("\n", $links);
 
         $footer_links = array();

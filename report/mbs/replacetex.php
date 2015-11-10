@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,45 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class for ajax call
+ * report texed tables
  *
- * @package    theme_mebis
- * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @package    report
+ * @subpackage mbs
+ * @copyright  ISB Bayern
+ * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->libdir . '/adminlib.php');
 
-require_sesskey();
+// Check access.
 require_login();
-global $THEME, $PAGE;
 
-$PAGE->set_context(context_system::instance());
+// Check capability.
+$context = context_system::instance();
+require_capability('moodle/site:config', $context);
 
+$baseurl = new moodle_url('/report/mbs/replacetex.php');
 
-//0 - mebis
-//1 - mebis-contrast
-$change = optional_param('mode', 0, PARAM_BOOL);
+$PAGE->set_url($baseurl);
+$PAGE->set_pagelayout('admin');
+$PAGE->set_context($context);
 
+$tablenames = optional_param_array('table', '', PARAM_TEXT);
 
-if ($change) {
-    $PAGE->theme->sheets = array('mebis-contrast'); 
-    theme_reset_all_caches();
-} else {
-     $PAGE->theme->sheets = array('mebis');
-    theme_reset_all_caches();
+$result = array();
+if (!empty($tablenames)) {
+    $result = \report_mbs\local\reporttex::replace_tex(array_keys($tablenames));
 }
 
-/**
- * Simple helper to debug to the console
- *
- * @param  object, array, string $data
- * @return string
- */
-function debug_to_console($data) {
-    $output = '';
-    $output .= 'console.info( \'Debug in Console:\' );';
-    $output .= 'console.log(' . json_encode($data) . ');';
+echo $OUTPUT->header();
 
-    echo '<script>' . $output . '</script>';
-}
+echo $OUTPUT->footer();

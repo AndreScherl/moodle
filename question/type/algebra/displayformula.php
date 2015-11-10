@@ -70,4 +70,9 @@ if (!empty($CFG->additionalhtmlhead) && stripos($CFG->additionalhtmlhead, 'MathJ
     <body bgcolor="#FFFFFF">
         <?php echo $text; ?>
     </body>
+    <?php 
+    //fhüb - 18.09.2015 - making display response working with MathJax-Filter
+    if (filter_is_enabled('mathjaxloader') && !empty($CFG->qtype_algebra_displayresponse)) {
+        echo '<script type="text/javascript" src="'.$CFG->qtype_algebra_displayresponse.'"></script>';
+    }?>
 </html>

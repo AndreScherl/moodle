@@ -30,7 +30,7 @@ class qtype_geogebra_renderer extends qtype_renderer {
      */
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         global $PAGE, $CFG;
-        $PAGE->requires->js(new moodle_url('https://www.geogebratube.org/scripts/deployggb.js'));
+        $PAGE->requires->js(new moodle_url('https://tube.geogebra.org/scripts/deployggb.js'));
 
         $result = '';
 
@@ -76,6 +76,19 @@ class qtype_geogebra_renderer extends qtype_renderer {
 
         $result .= html_writer::empty_tag('input', $answerinputattributes);
 
+        $exercisecurrent = $qa->get_last_qt_var('exerciseresult');
+        $exerciseinputname = $qa->get_qt_field_name('exerciseresult');
+
+        $exerciseinputattributes = array(
+                'type'  => 'hidden',
+                'name'  => $exerciseinputname,
+                'value' => $exercisecurrent,
+                'id'    => $exerciseinputname,
+                'size'  => 80,
+        );
+
+        $result .= html_writer::empty_tag('input', $exerciseinputattributes);
+
         $questiontext = $question->format_questiontext($qa);
 
         $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
@@ -90,17 +103,18 @@ class qtype_geogebra_renderer extends qtype_renderer {
             }
         }
 
-        $options = array('parameters'       => $question->ggbparameters,
-                         'views'            => $question->ggbviews,
-                         'codebase'         => $question->ggbcodebaseversion,
-                         'html5NoWebSimple' => true,
-                         'div'              => $ggbdivname,
-                         'vars'             => $question->currentvals,
-                         'b64input'         => $b64inputname,
-                         'xmlinput'         => $xmlinputname,
-                         'answerinput'      => $answerinputname,
-                         'responsevars'     => $responsevars,
-                         'lang'             => current_language()
+        $options = array('parameters'          => $question->ggbparameters,
+                         'views'               => $question->ggbviews,
+                         'codebase'            => $question->ggbcodebaseversion,
+                         'html5NoWebSimple'    => true,
+                         'div'                 => $ggbdivname,
+                         'vars'                => $question->currentvals,
+                         'b64input'            => $b64inputname,
+                         'xmlinput'            => $xmlinputname,
+                         'answerinput'         => $answerinputname,
+                         'exerciseresultinput' => $exerciseinputname,
+                         'responsevars'        => $responsevars,
+                         'lang'                => current_language()
         );
 
         // Loading the js in fullpath works on local test but not on server???
@@ -110,9 +124,10 @@ class qtype_geogebra_renderer extends qtype_renderer {
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
-                    $question->get_validation_error(array('answer'    => $answercurrent,
-                                                          'ggbxml'    => $xmlcurrent,
-                                                          'ggbbase64' => $b64current)),
+                    $question->get_validation_error(array('answer'         => $answercurrent,
+                                                          'ggbxml'         => $xmlcurrent,
+                                                          'ggbbase64'      => $b64current,
+                                                          'exerciseresult' => $exercisecurrent)),
                     array('class' => 'validationerror'));
         }
 
@@ -131,15 +146,44 @@ class qtype_geogebra_renderer extends qtype_renderer {
     public function specific_feedback(question_attempt $qa) {
         /* @var $question qtype_geogebra_question */
         $question = $qa->get_question();
-        $response = $qa->get_last_qt_var('answer');
         $feedback = '';
-        $i = 0;
-        foreach ($question->answers as $answer) {
-            if ((bool)substr($response, $i, 1)) {
-                $feedback .= $question->format_text($answer->feedback, $answer->feedbackformat,
-                        $qa, 'question', 'answerfeedback', $answer->id);
+        $itemid = 0;
+        if ($question->isexercise) {
+            $exerciseresult = json_decode($qa->get_last_qt_var('exerciseresult'));
+            $singleCorrectIgnoreOthers = false;
+            foreach ($exerciseresult as $assignment) {
+                if (0.999 < $assignment->fraction) {
+                    $singleCorrectIgnoreOthers = true;
+                    if ($assignment->hint) {
+                        if ($feedback) {
+                            $feedback .= "<br>";
+                        };
+                        $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
+                                $qa, 'question', 'answerfeedback', $itemid++);
+                    }
+                }
             }
-            $i++;
+            foreach ($exerciseresult as $assignment) {
+                if (!$singleCorrectIgnoreOthers || $assignment->fraction < 0) {
+                    if ($assignment->hint) {
+                        if ($feedback) {
+                            $feedback .= "<br>";
+                        };
+                        $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
+                                $qa, 'question', 'answerfeedback', $itemid++);
+                    }
+                }
+            }
+        } else {
+            $response = $qa->get_last_qt_var('answer');
+            $i = 0;
+            foreach ($question->answers as $answer) {
+                if ((bool)substr($response, $i, 1)) {
+                    $feedback .= $question->format_text($answer->feedback, $answer->feedbackformat,
+                            $qa, 'question', 'answerfeedback', $answer->id);
+                }
+                $i++;
+            }
         }
         return $feedback;
     }

@@ -43,7 +43,7 @@ if (!mbst\perms::can_viewhistory($coursecontext)) {
     redirect($courseurl);
 }
 
-$template = mbst\dataobj\template::get_from_course($courseid);
+$template = new mbst\dataobj\template(array('courseid' => $courseid), true, MUST_EXIST);
 $templatecourse = get_course($template->courseid);
 
 $renderer = $PAGE->get_renderer('block_mbstpl');

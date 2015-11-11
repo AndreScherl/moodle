@@ -29,85 +29,148 @@ use \block_mbstpl\dataobj\template;
 
 class autocomplete {
 
-    /**
-     * Provide suggestions based on the published course templates.
-     *
-     * @param string $likekeyword
-     * @return array suggestions
-     */
-    private function get_course_suggestions($likekeyword) {
-        global $DB;
-
-        // Course data suggestions.
-        $sql = 'SELECT C.fullname, C.idnumber, C.shortname FROM {block_mbstpl_template} T';
-        $sql .= ' JOIN mdl_course C ON T.courseid = C.id';
-        $sql .= ' WHERE T.status = ?';
-        $sql .= ' AND (' . $DB->sql_like('C.fullname', '?', false);
-        $sql .= ' OR ' . $DB->sql_like('C.idnumber', '?', false);
-        $sql .= ' OR ' . $DB->sql_like('C.shortname', '?', false) . ')';
-        $coursesuggestionrecords = $DB->get_records_sql($sql,
-                array(template::STATUS_PUBLISHED, $likekeyword, $likekeyword, $likekeyword
-                ));
-
-        // Rearrange the result into a flat array.
-        $coursesuggestions = array();
-        foreach ($coursesuggestionrecords as $suggestion) {
-            $coursesuggestions[] = $suggestion->fullname;
-            $coursesuggestions[] = $suggestion->idnumber;
-            $coursesuggestions[] = $suggestion->shortname;
-        }
-
-        return $coursesuggestions;
-    }
+    const MAXLENGTH = 27;
 
     /**
-     * Provide suggestions based on the form answers.
-     *
-     * @param string $likekeyword
-     *
-     * @return array suggestions
+     * Get keyword suggestions for the autocomplete by fieldname
+     * @param $fieldname
+     * @param $keyword
+     * @return array
      */
-    private function get_metadata_suggestions($likekeyword) {
-        global $DB;
-
-        // Metadata suggestions.
-        $sql = 'SELECT DISTINCT A.data FROM {block_mbstpl_answer} A';
-        $sql .= ' JOIN {block_mbstpl_question} Q ON Q.id = A.questionid';
-        $sql .= ' JOIN {block_mbstpl_meta} M ON M.id = A.metaid';
-        $sql .= ' JOIN {block_mbstpl_template} T on T.id = M.templateid';
-        $sql .= ' WHERE ' . $DB->sql_like('A.datakeyword', '?', false);
-        $sql .= ' AND T.status = ?';
-        $sql .= ' AND (Q.datatype = ? OR Q.datatype = ?)';
-
-        $metadatasuggestions = $DB->get_fieldset_sql($sql,
-                array($likekeyword, template::STATUS_PUBLISHED, 'text', 'textarea'
-                ));
-
-        return $metadatasuggestions;
-    }
-
-    public function get_suggestions($keyword) {
+    public function get_suggestions($fieldname, $keyword) {
         global $DB;
 
         // Escape the keyword.
         $keyword = $DB->sql_like_escape($keyword);
         $likekeyword = "%{$keyword}%";
 
-        // Merge the two resultset.
-        $suggestions = array_merge($this->get_course_suggestions($likekeyword),
-                $this->get_metadata_suggestions($likekeyword));
+        if ($fieldname == 'tag') {
+            return $this->get_tag_suggestions($likekeyword);
+        } else if ($fieldname == 'author') {
+            return $this->get_author_suggestions($likekeyword);
+        } else if ($fieldname == 'coursename') {
+            return $this->get_course_suggestions($likekeyword);
+        } else if (substr($fieldname, 0, 2) == 'q_') {
+            return $this->get_customq_suggestions($fieldname, $likekeyword);
+        }
+        print_error('incorrectfieldname', 'block_mbstpl');
+    }
 
-        // Filter out empty values and duplicates.
-        $suggestions = array_unique(
-                array_filter($suggestions,
-                        function ($value) use($keyword) {
-                            return !!$value &&
-                                     strpos(strtolower($value), strtolower($keyword)) !== false;
-                        }));
+    /**
+     * Provide course name suggestions (can be in shortname, longname or idnumber).
+     *
+     * @param string $likekeyword pre-escaped and %%ed for like
+     * @return array suggestions
+     */
+    private function get_course_suggestions($likekeyword) {
+        global $DB;
 
-        // Sort into alphabetical order.
-        asort($suggestions);
+        $sql = "
+        SELECT DISTINCT(c.fullname)
+        FROM {course} c
+        JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id
+        WHERE tpl.status = :status
+        AND (
+             ".$DB->sql_like('c.fullname', ':kw1', false)."
+          OR ".$DB->sql_like('c.shortname', ':kw2', false)."
+          OR ".$DB->sql_like('c.idnumber', ':kw3', false)."
+        )
+        ORDER BY c.fullname ASC
+        ";
+        $params = array(
+            'status' => template::STATUS_PUBLISHED,
+            'kw1' => $likekeyword,
+            'kw2' => $likekeyword,
+            'kw3' => $likekeyword,
+        );
+        $results = $DB->get_records_sql_menu($sql, $params);
+        return array_keys($results);
+    }
 
-        return array_values($suggestions);
+    /**
+     * Provide tag suggestions.
+     *
+     * @param string $likekeyword pre-escaped and %%ed for like
+     * @return array suggestions
+     */
+    private function get_tag_suggestions($likekeyword) {
+        global $DB;
+
+        $sql = "
+        SELECT DISTINCT (tag)
+        FROM {block_mbstpl_tag}
+        WHERE ".$DB->sql_like('tag', ':kw', false)."
+        ORDER BY tag ASC
+        ";
+        $params = array('kw' => $likekeyword);
+        $results = $DB->get_records_sql_menu($sql, $params);
+        return array_keys($results);
+    }
+
+
+    /**
+     * Provide author suggestions.
+     *
+     * @param string $likekeyword pre-escaped and %%ed for like
+     * @return array suggestions
+     */
+    private function get_author_suggestions($likekeyword) {
+        global $DB;
+
+        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
+
+        $sql = "
+        SELECT DISTINCT ($authnamefield) author
+        FROM {block_mbstpl_template} tpl
+        JOIN {user} au ON au.id = tpl.authorid
+        WHERE tpl.status = :status
+        AND ".$DB->sql_like($authnamefield, ':kw', false)."
+        ORDER BY author ASC
+        ";
+        $params = array(
+            'status' => template::STATUS_PUBLISHED,
+            'kw' => $likekeyword,
+        );
+        $results = $DB->get_records_sql_menu($sql, $params);
+        return array_keys($results);
+    }
+
+
+    /**
+     * Provide suggestions from a custom text field question.
+     *
+     * @param string $fieldname
+     * @param string $likekeyword pre-escaped and %%ed for like
+     * @return array suggestions
+     */
+    private function get_customq_suggestions($fieldname, $likekeyword) {
+        global $DB;
+
+        $fieldexp = explode('_', $fieldname);
+        if (empty($fieldexp[1])) {
+            print_error('incorrectfieldname', 'block_mbstpl');
+        }
+        $qid = (int)$fieldexp[1];
+        if (empty($qid)) {
+            print_error('incorrectfieldname', 'block_mbstpl');
+        }
+
+        $sql = "
+        SELECT DISTINCT(".$DB->sql_substr('ans.datakeyword', 1, self::MAXLENGTH).")
+        FROM {block_mbstpl_template} tpl
+        JOIN {block_mbstpl_meta} mta ON mta.templateid = tpl.id
+        JOIN {block_mbstpl_answer} ans ON ans.metaid = mta.id
+        WHERE tpl.status = :status
+        AND ans.questionid = :qid
+        AND ".$DB->sql_like('ans.datakeyword', ':kw', false)."
+        ORDER BY datakeyword ASC
+        ";
+        $params = array(
+            'status' => template::STATUS_PUBLISHED,
+            'qid' => $qid,
+            'kw' => $likekeyword,
+        );
+        $results = $DB->get_records_sql_menu($sql, $params);
+        return array_keys($results);
     }
 }

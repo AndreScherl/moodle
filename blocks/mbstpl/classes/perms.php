@@ -231,4 +231,14 @@ class perms {
     public static function can_viewbackups() {
         return has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance());
     }
+
+
+    /**
+     * Does the user have the capability to search for templates.
+     * @return bool
+     */
+    public static function can_searchtemplates() {
+        return has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance());
+    }
+
 }

@@ -77,6 +77,9 @@ class editmeta extends licenseandassetform {
         mbst\questman\qtype_checklist::edit_comments(true);
         foreach ($questions as $question) {
             if ($question->datatype == 'checklist') {
+                if (!empty($cdata['freeze'])) {
+                    continue; // Do not display where form is frozen (e.g. in cousre rating)
+                }
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
             }

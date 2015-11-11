@@ -106,9 +106,4 @@ if (mbst\perms::can_sendrevision($template, $coursecontext)) {
     echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
 }
 
-if (mbst\perms::can_sendrevision($template, $coursecontext)) {
-    $url = new moodle_url('/block/mbstpl/forrevision.php');
-    echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
-}
-
 echo $OUTPUT->footer();

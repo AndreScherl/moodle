@@ -37,8 +37,9 @@ class user {
      * Enrol a user with the reviewer role and notify them.
      * @param $courseid
      * @param $userid
+     * @param $notify
      */
-    public static function enrol_reviewer($courseid, $userid) {
+    public static function enrol_reviewer($courseid, $userid, $notify = true) {
         global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'reviewerrole')) {
@@ -99,6 +100,9 @@ class user {
         require_once($CFG->dirroot.'/enrol/manual/lib.php');
         $plugin = new \enrol_manual_plugin();
         $plugin->enrol_user($enrol, $userid, $roleid);
+        if ($notify) {
+            notifications::notify_assignedreviewer($course, $userid);
+        }
     }
 
     /**

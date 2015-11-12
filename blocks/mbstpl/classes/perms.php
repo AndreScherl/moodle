@@ -221,7 +221,10 @@ class perms {
             return false;
         }
 
-        return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
+        if (!\block_mbstpl\dataobj\template::fetch(array('courseid' => $coursecontext->instanceid))) {
+            return false;
+        }
+        return true;
     }
 
     /**

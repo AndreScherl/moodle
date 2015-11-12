@@ -422,7 +422,7 @@ class course {
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                 JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
-                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
+                WHERE ue.userid $useridin";
         $enrolments = $DB->get_records_sql($sql, $params);
         foreach ($enrolments as $ue) {
             if (!isset($instances[$ue->enrolid])) {

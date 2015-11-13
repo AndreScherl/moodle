@@ -60,33 +60,8 @@ $customdata = array('courseid' => $courseid, 'questions' => $questions, 'creator
 
 // Set up the form.
 $form = new mbst\form\editmeta(null, $customdata);
-// Load the answers to the dynamic questions.
-$setdata = (object)array(
-    'asset_id' => array(),
-    'asset_url' => array(),
-    'asset_license' => array(),
-    'asset_owner' => array(),
-    'asset_source' => array(),
-    'license' => $meta->license,
-    'tags' => $meta->get_tags_string(),
-);
-/* @var $answers mbst\dataobj\answer[] */
-$answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
-foreach ($answers as $answer) {
-    $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
-    $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
-}
-// Load the assets fields.
-$i = 0;
-foreach ($meta->get_assets() as $asset) {
-    $setdata->asset_id[$i] = $asset->id;
-    $setdata->asset_url[$i] = $asset->url;
-    $setdata->asset_license[$i] = $asset->license;
-    $setdata->asset_owner[$i] = $asset->owner;
-    $setdata->asset_source[$i] = $asset->source;
-    $i++;
-}
-$form->set_data($setdata);
+
+mbst\questman\manager::populate_meta_and_assets($form, $meta);
 
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {

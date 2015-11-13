@@ -105,27 +105,31 @@ class licenseandassetform extends \moodleform {
         require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_newlicense.php');
 
         $form = $this->_form;
+        $cdata = $this->_customdata;
 
         // License options.
         $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, true);
 
-        /* @var $newlicense \MoodleQuickForm_newlicense */
-        $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
-        $form->setTypes(array(
-            'newlicense_shortname' => PARAM_TEXT,
-            'newlicense_fullname' => PARAM_TEXT,
-            'newlicense_source' => PARAM_TEXT
-        ));
+        if (empty($cdata['freeze'])) {
 
-        if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-            foreach ($newlicense->getElements() as $newlicenseelement) {
-                /* @var $newlicenseelement \MoodleQuickForm_text */
-                $newlicenseelement->updateAttributes(array('disabled' => 'disabled'));
+            /* @var $newlicense \MoodleQuickForm_newlicense */
+            $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
+            $form->setTypes(array(
+                'newlicense_shortname' => PARAM_TEXT,
+                'newlicense_fullname' => PARAM_TEXT,
+                'newlicense_source' => PARAM_TEXT
+            ));
+
+            if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
+                foreach ($newlicense->getElements() as $newlicenseelement) {
+                    /* @var $newlicenseelement \MoodleQuickForm_text */
+                    $newlicenseelement->updateAttributes(array('disabled' => 'disabled'));
+                }
+            } else {
+                $form->addGroupRule('newlicense', array(
+                    'newlicense_shortname' => array(array(get_string('newlicense_required', 'block_mbstpl'), 'required'))
+                ), 'required');
             }
-        } else {
-            $form->addGroupRule('newlicense', array(
-                'newlicense_shortname' => array(array(get_string('newlicense_required', 'block_mbstpl'), 'required'))
-            ), 'required');
         }
 
         $form->addRule('license', null, 'required');

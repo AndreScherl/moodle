@@ -36,12 +36,16 @@ class reset_course_userdata {
      */
     public static function reset_course_from_template($courseid) {
 
+        global $DB, $CFG;
+
         $template = \block_mbstpl\dataobj\template::get_from_course($courseid);
         if (!$template) {
             return false;
         }
 
-        $data = (object) array(
+        $course = get_course($courseid);
+
+        $data = array(
             'id' => $courseid,
             'reset_events' => true,
             'reset_notes' => true,
@@ -49,7 +53,6 @@ class reset_course_userdata {
             'reset_completion' => true,
             'reset_roles_overrides' => true,
             'reset_roles_local' => true,
-            'unenrol_users' => array(/* TODO: need an array of role ids */),
             'reset_groups_members' => true,
             'reset_groups_remove' => true,
             'reset_groupings_members' => true,
@@ -58,6 +61,29 @@ class reset_course_userdata {
             'reset_gradebook_grades' => true,
             'reset_comments' => true
         );
+
+        // Set student as default in unenrol user list, if role with student archetype exist.
+        if ($studentrole = get_archetype_roles('student')) {
+            $data['unenrol_users'] = array_keys($studentrole);
+        }
+
+        if ($allmods = $DB->get_records('modules') ) {
+            foreach ($allmods as $mod) {
+                $modname = $mod->name;
+                $modfile = $CFG->dirroot."/mod/$modname/lib.php";
+                $mod_reset_course_form_defaults = $modname.'_reset_course_form_defaults';
+                if (file_exists($modfile)) {
+                    @include_once($modfile);
+                    if (function_exists($mod_reset_course_form_defaults)) {
+                        if ($moddefs = $mod_reset_course_form_defaults($course)) {
+                            $data = $data + $moddefs;
+                        }
+                    }
+                }
+            }
+        }
+
+        $data = (object) $data;
 
         reset_course_userdata($data);
 

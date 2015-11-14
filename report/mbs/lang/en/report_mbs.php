@@ -18,29 +18,33 @@
  * report pimped courses (style and js customisations using html - block)
  * settings.
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['activatecron'] = 'Activate Cron';
 $string['check'] = 'Check';
 $string['courseid'] = 'Cousrse-ID';
 $string['coursename'] = 'Coursename';
 $string['coordinators'] = 'Coordinator';
 $string['count'] = 'Counts';
+$string['nodata'] = 'no data';
 $string['pluginname'] = 'mebis - Report';
 $string['replacetex'] = 'Replace TeX';
 $string['reportpimped'] = 'Report pimped courses';
 $string['reportpimpeddesc'] = 'You may search the content of {$a} HTML blocks for the entered Ssarchpattern.';
 $string['reporttex'] = 'Report tables with $$';
 $string['reporttexdesc'] = 'You may search all table of text containing $$.';
+$string['reporttexcontent'] = 'Report tables that contain $$';
+$string['replacetexcontent'] = 'Replace $$ with new tex notation';
 $string['school'] = 'School';
 $string['search'] = 'Search';
 $string['searchpattern'] = 'Searchpattern';
 $string['searchpatterndesc'] = 'You may define more parts to search for when seperated by |';
 $string['searchpattern_help'] = 'You may define more parts to search for when seperated by |';
 $string['tablename'] = 'Table';
+$string['timemodified'] = 'Stand';
 $string['trainer'] = 'Trainer';
 $string['viewhtml'] = 'View HTML code';

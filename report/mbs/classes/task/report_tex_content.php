@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
- * settings.
  *
  * @package    report_mbs
  * @copyright  ISB Bayern
@@ -24,12 +22,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace report_mbs\task;
 
-$plugin->version   = 2015111104;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2011112900;        // Requires this Moodle version.
-$plugin->cron = 0;
-$plugin->component = 'report_mbs';       // Full name of the plugin (used for diagnostics).
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->release   = '2.7+ (Build: 2014072400)';
+class report_tex_content extends \core\task\scheduled_task {
+
+    public function get_name() {
+        // Shown in admin screens.
+        return get_string('reporttexcontent', 'report_mbs');
+    }
+
+    public function execute() {
+        
+        \report_mbs\local\reporttex::report_tables();
+    }
+
+}

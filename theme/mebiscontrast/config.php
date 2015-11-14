@@ -16,45 +16,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class for ajax call
+ * Theme mebiscontrast config file.
  *
- * @package    theme_mebis
+ * @package theme_mebiscontrast
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->libdir . '/adminlib.php');
 
-require_sesskey();
-require_login();
-global $THEME, $PAGE;
+$THEME->name = 'mebiscontrast';
+$THEME->parents = array('mebis','bootstrap');
+$THEME->doctype = 'html5';
 
-$PAGE->set_context(context_system::instance());
+$THEME->sheets = array('mebis-contrast', 'mebis-moodle');
 
+$THEME->lessfile = 'moodle';
 
-//0 - mebis
-//1 - mebis-contrast
-$change = optional_param('mode', 0, PARAM_BOOL);
+$THEME->parents_exclude_sheets = array('bootstrap' => array('moodle'));
 
+$THEME->supportscssoptimisation = false;
+$THEME->yuicssmodules = array();
+$THEME->enable_dock = false;
+$THEME->editor_sheets = array();
 
-if ($change) {
-    $PAGE->theme->sheets = array('mebis-contrast'); 
-    theme_reset_all_caches();
-} else {
-     $PAGE->theme->sheets = array('mebis');
-    theme_reset_all_caches();
-}
-
-/**
- * Simple helper to debug to the console
- *
- * @param  object, array, string $data
- * @return string
- */
-function debug_to_console($data) {
-    $output = '';
-    $output .= 'console.info( \'Debug in Console:\' );';
-    $output .= 'console.log(' . json_encode($data) . ');';
-
-    echo '<script>' . $output . '</script>';
-}
+$THEME->rendererfactory = 'theme_overridden_renderer_factory';

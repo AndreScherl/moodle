@@ -1,6 +1,6 @@
 var MebisLearningPlatform = (function ($) {
     'use strict';
-
+    
     function preventLinkDefault() {
         var $preventLinks = $('[data-prevent="default"]');
         $preventLinks.on('click', function (e) {
@@ -25,7 +25,7 @@ var MebisLearningPlatform = (function ($) {
     return {
         init: function () {
             preventLinkDefault();
-            hiddennav();
+            hiddennav();            
         }
     }
 

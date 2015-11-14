@@ -25,7 +25,7 @@ div[role="main"] > h2 {
                 .text-right {
 
                     a {
-                        color: $gray-lighter;
+                        color: $brand-gray-light;
                         display: inline-block;
                         margin-left: 10px;
 
@@ -59,7 +59,7 @@ div[role="main"] > h2 {
             padding-top: 5px;
 
             a {
-                color: $gray-dark;
+                color: $brand-gray-dark;
                 font-size: emCalc(24px);
                 display: inline-block;
                 margin-left: 10px;
@@ -108,7 +108,7 @@ div[role="main"] > h2 {
                 a {
                     display: block;
                     padding: 10px;
-                    background: $gray-dark;
+                    background: $brand-gray-dark;
                     color: #fff;
 
                     &:hover {

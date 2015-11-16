@@ -25,6 +25,7 @@ namespace block_mbstpl\form;
 use block_mbstpl\dataobj\meta;
 use block_mbstpl\dataobj\asset;
 use block_mbstpl\dataobj\license;
+use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,7 +33,7 @@ global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
 
-class licenseandassetform extends \moodleform {
+abstract class licenseandassetform extends \moodleform {
 
     public static function update_assets_from_submitted_data(meta $meta, $data) {
         global $CFG;
@@ -98,7 +99,7 @@ class licenseandassetform extends \moodleform {
         return $data->license;
     }
 
-    function definition() {
+    protected function define_license() {
 
         global $CFG;
         require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
@@ -133,6 +134,11 @@ class licenseandassetform extends \moodleform {
         }
 
         $form->addRule('license', null, 'required');
+    }
+
+    protected function define_assets() {
+
+        $form = $this->_form;
 
         // List of 3rd-party assets.
         $asset = array();
@@ -158,8 +164,49 @@ class licenseandassetform extends \moodleform {
             'asset_source' => array('type' => PARAM_TEXT)
         );
         $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3,
-            get_string('addassets', 'block_mbstpl'));
+            get_string('addassets', 'block_mbstpl'), true);
+    }
 
+    protected function define_tags() {
+        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
+        $this->_form->setType('tags', PARAM_TEXT);
+    }
+
+    protected function define_creator() {
+        $creator = '';
+        if (!empty($this->_customdata['creator'])) {
+            $creator = user::format_creator_name($this->_customdata['creator']);
+        }
+        $this->_form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
+    }
+
+    protected function define_legalinfo_fieldset($includechecklist = true) {
+
+        $this->_form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
+
+        // License.
+        $this->define_license();
+
+        // Assets.
+        $this->define_assets();
+
+        // Checklist questions.
+        if ($includechecklist) {
+            $this->define_checklist_questions();
+        }
+
+        $this->_form->setExpanded('legalinfo');
+
+        $this->_form->closeHeaderBefore('legalinfo');
+    }
+
+    protected function define_checklist_questions() {
+        foreach ($this->_customdata['questions'] as $question) {
+            if ($question->datatype == 'checklist') {
+                $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
+                $typeclass::add_template_element($this->_form, $question);
+            }
+        }
     }
 
     function validation($data, $files) {

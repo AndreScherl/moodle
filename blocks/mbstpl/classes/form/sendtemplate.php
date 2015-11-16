@@ -22,7 +22,7 @@
 
 namespace block_mbstpl\form;
 use \block_mbstpl as mbst;
-use block_mbstpl\user;
+
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,6 +35,8 @@ class sendtemplate extends licenseandassetform {
     function definition() {
 
         $form = $this->_form;
+
+        $form->addElement('header', 'coursemetadata', get_string('coursemetadata', 'block_mbstpl'));
 
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
@@ -62,24 +64,16 @@ class sendtemplate extends licenseandassetform {
         $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));
         $form->addRule('copyright', get_string('required'), 'required');
 
-        // Add license and asset fields.
-        parent::definition();
-
         // Tags.
-        $form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
-        $form->setType('tags', PARAM_TEXT);
+        $this->define_tags();
 
         // Creator.
-        $creator = user::format_creator_name($this->_customdata['creator']);
-        $form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
+        $this->define_creator();
 
-        // Checklist questions.
-        foreach ($questions as $question) {
-            if ($question->datatype == 'checklist') {
-                $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question);
-            }
-        }
+        $form->setExpanded('coursemetadata');
+        $form->closeHeaderBefore('coursemetadata');
+
+        $this->define_legalinfo_fieldset();
 
         $this->add_action_buttons(true, get_string('sendforreviewing', 'block_mbstpl'));
 

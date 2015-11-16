@@ -97,7 +97,7 @@ echo $OUTPUT->header();
 echo html_writer::tag('h2', $pagetitle);
 
 if ($step == 1) {
-    $tform = mbst\questman\manager::build_form($template, $course, true, true);
+    $tform = mbst\questman\manager::build_form($template, $course, array('freeze' => true));
     $tform->display();
     echo html_writer::tag('h3', get_string('destination', 'block_mbstpl'));
 }

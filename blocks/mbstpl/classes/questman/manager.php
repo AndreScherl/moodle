@@ -403,7 +403,7 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form($template, $course, $populate = false, $freeze = false) {
+    public static function build_form($template, $course, $customdata = array()) {
 
         global $DB;
 
@@ -416,23 +416,20 @@ class manager {
         foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
         }
-        $customdata = array(
+        $customdata += array(
             'courseid' => $courseid,
             'questions' => $questions,
-            'freeze' => $freeze,
             'template' => $template,
             'course' => $course,
             'creator' => $creator
         );
         $tform = new mbst\form\editmeta(null, $customdata);
 
-        if ($populate) {
-            $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-            $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
-            $tform->set_data($answers);
+        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+        $tform->set_data($answers);
 
-            self::populate_meta_and_assets($tform, $meta, false);
-        }
+        self::populate_meta_and_assets($tform, $meta, false);
 
         return $tform;
     }

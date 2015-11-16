@@ -43,20 +43,7 @@ class perms {
             return true;
         }
 
-        if ($template->authorid == $USER->id) {
-            return $template->status == $template::STATUS_UNDER_REVISION;
-        }
-
-        if ($template->reviewerid == $USER->id) {
-            $allowed = array(
-                $template::STATUS_PUBLISHED,
-                $template::STATUS_UNDER_REVIEW,
-                $template::STATUS_ARCHIVED,
-            );
-            return in_array($template->status, $allowed);
-        }
-
-        return false;
+        return $template->authorid == $USER->id || $template->reviewerid == $USER->id;
     }
 
     /**

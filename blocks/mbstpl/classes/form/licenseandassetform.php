@@ -142,7 +142,7 @@ class licenseandassetform extends \moodleform {
                 'size' => '30', 'inputmode' => 'url',
                 'placeholder' => get_string('url', 'block_mbstpl')
             ));
-        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'));
+        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'), array('class' => 'mbstpl-asset-license'));
         $asset[] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'),
             array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
         $asset[] = $form->createElement('text', 'asset_source', get_string('source', 'block_mbstpl'),

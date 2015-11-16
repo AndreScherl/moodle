@@ -61,9 +61,6 @@ class sendtemplate extends licenseandassetform {
         $form->addGroup($radioarray, 'incluserdata', get_string('incluserdata', 'block_mbstpl'), array(' ', ' '), false);
         $form->setDefault('withanon', 1);
 
-        $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));
-        $form->addRule('copyright', get_string('required'), 'required');
-
         // Add license and asset fields.
         parent::definition();
 

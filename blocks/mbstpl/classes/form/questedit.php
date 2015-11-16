@@ -57,6 +57,10 @@ class questedit extends \moodleform {
 
         // Type-specific fields.
         $this->get_typeobj()->extend_form($form, $this->_customdata['inuse']);
+        
+        $form->addElement('checkbox', 'required', get_string('questionrequired', 'block_mbstpl'));
+        
+        $form->addElement('editor', 'help', get_string('questionhelp', 'block_mbstpl'));
 
         $this->add_action_buttons(true);
     }

@@ -19,7 +19,6 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 global $PAGE, $DB, $OUTPUT;
@@ -73,10 +72,10 @@ if ($mform->is_cancelled()) {
             }
         }
     }
-    $dataobj = (object)array(
-        'name' => $data->name,
-        'title' => $data->title,
-        'defaultdata' => $data->defaultdata,
+    $dataobj = (object) array(
+                'name' => $data->name,
+                'title' => $data->title,
+                'defaultdata' => $data->defaultdata,
     );
     if (isset($data->param1)) {
         $dataobj->param1 = $data->param1;
@@ -84,14 +83,21 @@ if ($mform->is_cancelled()) {
     if (isset($data->param2)) {
         $dataobj->param2 = $data->param2;
     }
+
+    $dataobj->help = $data->help;
+    $dataobj->required = (isset($data->required)) ? 1 : 0;
+
     if ($id) {
         $dataobj->id = $id;
         $DB->update_record('block_mbstpl_question', $dataobj);
+        \block_mbstpl\questman\manager::save_help_text($id, $data->title, $data->help);
     } else {
         $dataobj->datatype = $datatype;
         $qid = $DB->insert_record('block_mbstpl_question', $dataobj);
         \block_mbstpl\questman\manager::add_question_to_draft($qid);
+        \block_mbstpl\questman\manager::save_help_text($qid, $data->title, $data->help);
     }
+    
     redirect($redirurl);
 }
 

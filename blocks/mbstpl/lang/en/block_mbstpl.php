@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,10 +16,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Local language pack from http://localhost/mebis2
+ *
+ * @package    block
+ * @subpackage mbstpl
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 $string['addassets'] = 'Add {no} more asset spaces';
 $string['addfrombank'] = 'Add a question from the question bank';
@@ -63,21 +68,38 @@ $string['duplcourseforuse2'] = 'Duplicate Course from Template';
 $string['duplcourselicensedefault'] = 'This course has been created by {$a} and is licensed under the CC-NC-SA';
 $string['duplcourselicense'] = 'License';
 $string['editmeta'] = 'Edit meta settings';
-$string['emailassignedreviewer_body'] = 'Dear course reviewer,'."\n".'The you have been assigned to review template course {$a->fullname}. You can review it now at at: {$a->url} .';
+$string['emailassignedreviewer_body'] = 'Dear course reviewer,
+The you have been assigned to review template course {$a->fullname}. You can review it now at at: {$a->url} .';
 $string['emailassignedreviewer_subj'] = 'You have been assigned to review';
-$string['emailassignedauthor_body'] = 'Dear course author,'."\n".'You have been asked to make some changes to template course {$a->fullname}. You can review it now at at: {$a->url} .';
+$string['emailassignedauthor_body'] = 'Dear course author,
+You have been asked to make some changes to template course {$a->fullname}. You can review it now at at: {$a->url} .';
 $string['emailassignedauthor_subj'] = 'You have been assigned as a template author';
-$string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:'."\n".'{$a->url}';
+$string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
+{$a->url}';
 $string['emailcoursepublished_subj'] = 'Template course published';
-$string['emaildupldeployed_body'] = 'The template course {$a->fullname} has been duplicated into a new copy. It can be viewed at:'."\n".'{$a->url}';
+$string['emaildupldeployed_body'] = 'The template course {$a->fullname} has been duplicated into a new copy. It can be viewed at:
+{$a->url}';
 $string['emaildupldeployed_subj'] = 'Template duplicated';
-$string['emailfeedbackauth_body'] = 'Dear template reviewer,'."\n".'The author of course course {$a->fullname}, {$a->reviewer}, has adjusted the course. The following feedback has been given:'."\n".'{$a->feedback}'."\n\n".'You can review it again now at at: {$a->url} .';
+$string['emailfeedbackauth_body'] = 'Dear template reviewer,
+The author of course course {$a->fullname}, {$a->reviewer}, has adjusted the course. The following feedback has been given:
+{$a->feedback}
+
+You can review it again now at at: {$a->url} .';
 $string['emailfeedbackauth_subj'] = 'Template feedback';
-$string['emailfeedbackrev_body'] = 'Dear template author,'."\n".'The template you have created for course {$a->fullname} has been reviewed by {$a->reviewer}. The following feedback has been given:'."\n".'{$a->feedback}'."\n\n".'You can adjust the cousre now it now at at: {$a->url} .';
+$string['emailfeedbackrev_body'] = 'Dear template author,
+The template you have created for course {$a->fullname} has been reviewed by {$a->reviewer}. The following feedback has been given:
+{$a->feedback}
+
+You can adjust the cousre now it now at at: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Template reviewed';
-$string['emailreadyforreview_body'] = 'Dear course manager,'."\n".'The template course {$a->fullname} is ready for review at: {$a->url} .';
+$string['emailreadyforreview_body'] = 'Dear course manager,
+The template course {$a->fullname} is ready for review at: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Template course ready for review';
-$string['emailrevision_body'] = 'A copy of template {$a->fullname} has been created for revision. The reason provided is: '."\n".'{$a->reason} '."\n\n".' The new course is available at:'."\n".'{$a->url} .';
+$string['emailrevision_body'] = 'A copy of template {$a->fullname} has been created for revision. The reason provided is: 
+{$a->reason} 
+
+ The new course is available at:
+{$a->url} .';
 $string['emailrevision_subj'] = 'Revision created';
 $string['emailstatsrep_body'] = 'Please find attached the template statistics report.';
 $string['emailstatsrep_subj'] = 'Template statistics report.';
@@ -92,7 +114,8 @@ $string['errorcannotviewfeedback'] = 'You cannot view feedback for this course.'
 $string['errorcatnotexists'] = 'Restore category does not exist.';
 $string['errorcoursenottemplate'] = 'Course is not a template.';
 $string['errordeploying'] = 'Error deploying template.';
-$string['erroremailbody'] = 'An error has occurred: {$a->message}'."\n".'{$a->errorstr}';
+$string['erroremailbody'] = 'An error has occurred: {$a->message}
+{$a->errorstr}';
 $string['erroremailsubj'] = 'Templating error';
 $string['errormanualenrolnotset'] = 'Manual enrolment not set or enabled for course.';
 $string['errornowheretorestore'] = 'There are no categories or courses on this site in which you have permission to restore course.';
@@ -104,8 +127,6 @@ $string['errornotallwoedtosendfeedback'] = 'User not allowed to send feedback (n
 $string['errorreviewerrolenotset'] = 'Reviewer role not set. Needs to be set in the plugin settings.';
 $string['exceptiondeletingusedlicense'] = 'Unable to delete a license that is being used';
 $string['errorteacherrolenotset'] = 'Teacher role not set. Needs to be set in the plugin settings.';
-$string['delayedrestore'] = 'Delayed Course Duplication';
-$string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
 $string['feedback'] = 'Feedback';
 $string['feedbackfiles'] = 'Feedback files';
 $string['feedbackfor'] = 'Feedback for {$a}';
@@ -132,7 +153,6 @@ $string['mbstpl:assignauthor'] = 'Assign an author to a course';
 $string['mbstpl:coursetemplateeditmeta'] = 'Course template edit meta';
 $string['mbstpl:coursetemplatereview'] = 'Course template review';
 $string['mbstpl:coursetemplatemanager'] = 'Course template manager';
-$string['mbstpl:coursetemplatereview'] = 'Course template review';
 $string['mbstpl:createcoursefromtemplate'] = 'Create course from template';
 $string['mbstpl:myaddinstance'] = 'Add a my course template information block instance to My Home';
 $string['mbstpl:ratetemplate'] = 'Rate template';
@@ -157,21 +177,22 @@ $string['newlicense_required'] = 'A short name is required';
 $string['nextstatsreport'] = 'Next statistics report';
 $string['nextstatsreport_desc'] = 'Date to run the next statistics report';
 $string['norating'] = 'This template has no ratings.';
-$string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:'."\n".'{$a}';
+$string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
+{$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';
 $string['notemplates'] = 'You have no active templates in this site.';
 $string['noresults'] = 'No results found.';
 $string['nountouchedtemplates'] = 'No templates untouched during the set period.';
 $string['owner'] = 'Name of owner';
-$string['notemplates'] = 'You have no active templates in this site.';
 $string['pluginname'] = 'Course templating';
 $string['pluginnamecategory'] = 'Course templating (more)';
 $string['qformactivate'] = 'Activate this draft';
 $string['qbank'] = 'Question bank';
 $string['qformdiscard'] = 'Discard question form';
-$string['qformdiscard'] = 'Discard question form';
 $string['qformunsaved'] = 'New question form (unsaved draft)';
+$string['questionhelp'] = 'Helptext for question';
 $string['questionname'] = 'Question name';
+$string['questionrequired'] = 'Required';
 $string['questiontitle'] = 'Question title';
 $string['questiontype'] = 'Question type';
 $string['reasonforrevision'] = 'Reasons for revision';
@@ -230,3 +251,5 @@ $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You 
 $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
+$string['custq1_help'] = '';
+$string['custq1'] = 'Haben sie das erledigt?';

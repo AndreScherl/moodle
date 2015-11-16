@@ -33,7 +33,7 @@ class qtype_textarea extends qtype_base {
     }
 
     public static function get_editors() {
-        return array('defaultdata');
+        return array('help', 'defaultdata');
     }
 
     public static function add_template_element(\MoodleQuickForm $form, $question) {

@@ -47,7 +47,7 @@ class qtype_base {
      * @param bool $islocked
      */
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
-
+        
     }
 
     /**
@@ -64,7 +64,7 @@ class qtype_base {
      * @return array
      */
     public static function get_editors() {
-        return array();
+        return array('help');
     }
 
     /**
@@ -72,8 +72,24 @@ class qtype_base {
      * @param \MoodleQuickForm $form
      * @param object $question
      */
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form,
+                                                $question) {
+        
+    }
 
+    public static function add_help_button(\MoodleQuickForm $form, $question) {
+
+        if (!empty($question->help)) {
+
+            $form->addHelpButton($question->fieldname, $question->fieldname, 'block_mbstpl');
+        }
+    }
+
+    public static function add_rule(\MoodleQuickForm $form, $question) {
+
+        if (!empty($question->required)) {
+            $form->addRule($question->fieldname, get_string('required'), 'required', null, 'client');
+        }
     }
 
     /**
@@ -84,7 +100,9 @@ class qtype_base {
      * @param $dataformat
      * @return bool;
      */
-    public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer,
+                                       $comment = null,
+                                       $dataformat = FORMAT_MOODLE) {
         if (is_null($answer)) {
             $answer = '';
         }
@@ -108,6 +126,7 @@ class qtype_base {
      * Gets answer according to type (by default the data, for some fields an array)
      * @param object $answer
      */
+
     public static function process_answer($answer) {
         return $answer->data;
     }
@@ -118,8 +137,9 @@ class qtype_base {
      * @param $question
      * @param string $elname the element name.
      */
-    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
-
+    public static function add_to_searchform(\MoodleQuickForm $form, $question,
+                                             $elname) {
+        
     }
 
     /**
@@ -137,6 +157,7 @@ class qtype_base {
      * @param string $alias param wildcard corresponding to the question id as well as join alias.
      * @return string
      */
+
     protected static function get_join($extra = '', $alias = '') {
         return "JOIN {block_mbstpl_answer} $alias ON $alias.metaid = mta.id AND $alias.questionid = :$alias $extra";
     }
@@ -157,4 +178,5 @@ class qtype_base {
     protected static function definition_after_data_internal(\MoodleQuickForm $form) {
         // Does nothing in the base class.
     }
+
 }

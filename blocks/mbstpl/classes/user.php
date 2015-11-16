@@ -51,7 +51,9 @@ class user {
         self::enrol_user_to_course($userid, $courseid, $roleid);
 
         // Now let them know about it.
-        notifications::notify_assignedreviewer($course, $userid);
+        if ($notify) {
+            notifications::notify_assignedreviewer($course, $userid);
+        }
     }
 
     /**
@@ -100,9 +102,6 @@ class user {
         require_once($CFG->dirroot.'/enrol/manual/lib.php');
         $plugin = new \enrol_manual_plugin();
         $plugin->enrol_user($enrol, $userid, $roleid);
-        if ($notify) {
-            notifications::notify_assignedreviewer($course, $userid);
-        }
     }
 
     /**

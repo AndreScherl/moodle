@@ -144,7 +144,7 @@ class user {
                 $template->type = 'revision';
             } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
                 $template->type = 'review';
-            } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
+            } else if ($template->authorid == $userid && $template->status == dataobj\template::STATUS_PUBLISHED) {
                 $template->type = 'published';
             }
 

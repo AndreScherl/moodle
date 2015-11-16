@@ -306,17 +306,28 @@ class course {
      * Gets a list of everyone who created the course template.
      * @param $templateid
      */
-    public static function get_creators($templateid) {
+    public static function get_creators($templateid, $includereviehistory = false) {
         global $DB;
 
         $fields = get_all_user_name_fields(true, 'u');
-        $sql = "
-        SELECT u.id, $fields
-        FROM {block_mbstpl_revhist} rh
-        JOIN {user} u ON u.id = rh.assignedid
-        WHERE rh.templateid = ?
-        GROUP BY u.id
-        ";
+
+        if ($includereviehistory) {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_revhist} rh
+            JOIN {user} u ON u.id = rh.assignedid
+            WHERE rh.templateid = ?
+            GROUP BY u.id
+            ";
+        } else {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_template} tpl
+            JOIN {user} u ON u.id = tpl.authorid
+            WHERE tpl.id = ?
+            ";
+        }
+
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
         foreach ($results as $result) {

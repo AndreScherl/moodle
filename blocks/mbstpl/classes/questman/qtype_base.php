@@ -80,7 +80,6 @@ class qtype_base {
     public static function add_help_button(\MoodleQuickForm $form, $question) {
 
         if (!empty($question->help)) {
-
             $form->addHelpButton($question->fieldname, $question->fieldname, 'block_mbstpl');
         }
     }

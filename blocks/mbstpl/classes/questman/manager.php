@@ -36,6 +36,7 @@ class manager {
             'checkbox',
             'datetime',
             'menu',
+            'checkboxgroup',
             'text',
             'textarea',
             'checklist',

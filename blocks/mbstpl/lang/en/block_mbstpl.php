@@ -16,11 +16,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://localhost/mebis2
+ * Language pack from http://localhost/mebis2
  *
  * @package    block
  * @subpackage mbstpl
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -131,6 +132,7 @@ $string['feedback'] = 'Feedback';
 $string['feedbackfiles'] = 'Feedback files';
 $string['feedbackfor'] = 'Feedback for {$a}';
 $string['field_checklist'] = 'Checklist';
+$string['field_checkboxgroup'] = 'Checkboxgroup';
 $string['forrevision'] = 'For revision';
 $string['history'] = 'History';
 $string['incluserdata'] = 'Publish user data';
@@ -251,5 +253,4 @@ $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You 
 $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
-$string['custq1_help'] = '';
-$string['custq1'] = 'Haben sie das erledigt?';
+

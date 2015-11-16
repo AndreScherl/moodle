@@ -218,6 +218,7 @@ $string['tplremindersent'] = 'Template reminders sent.';
 $string['uploadfile'] = 'Upload file';
 $string['url'] = 'Site URL';
 $string['useq'] = 'Use question';
+$string['usedref'] = '{$a->link} by {$a->owner}';
 $string['viewfeedback'] = 'View feedback for this revision';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';

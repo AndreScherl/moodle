@@ -438,7 +438,7 @@ class course {
         list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
         $params['courseid'] = $cid;
         $params['courselevel'] = CONTEXT_COURSE;
-        $sql = "SELECT ue.*
+        $sql = "SELECT DISTINCT ue.*
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                 JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)

@@ -69,10 +69,6 @@ if ($cansendfeedback) {
     if ($data = $feedbackform->get_data()) {
         $newstatus = $isreviewer ? $template::STATUS_UNDER_REVISION : $template::STATUS_UNDER_REVIEW;
         mbst\course::set_feedback($template, $data->feedback, $newstatus);
-        if ($isreviewer) {
-            // If the reviewer just submitted the form, enrol the author as an author.
-            mbst\user::enrol_author($template->courseid, $template->authorid);
-        }
         redirect($courseurl);
     }
 }

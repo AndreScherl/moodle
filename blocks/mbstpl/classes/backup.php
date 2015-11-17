@@ -117,6 +117,9 @@ class backup {
         $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta->copy_from($bkpmeta);
 
+        // Enrol creator as author.
+        user::enrol_author($template->courseid, $backup->creatorid);
+
         return $courseid;
     }
 

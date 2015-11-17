@@ -249,7 +249,7 @@ class course {
         }
         $template->update();
 
-        // Enrol reviewer.
+        // Enrol author.
         user::enrol_author($template->courseid, $userid);
     }
 

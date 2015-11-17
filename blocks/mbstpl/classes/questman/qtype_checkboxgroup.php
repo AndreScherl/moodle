@@ -1,0 +1,122 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package block_mbstpl
+ * @copyright 2015 Andreas Wagner, ISB
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace block_mbstpl\questman;
+
+defined('MOODLE_INTERNAL') || die();
+
+class qtype_checkboxgroup extends qtype_menu {
+  
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
+        
+        if (isset($question->param1)) {
+            $rawoptions = explode("\n", $question->param1);
+        } else {
+            $rawoptions = array();
+        }
+        
+        $boxes = array();
+        foreach ($rawoptions as $key => $option) {
+            $boxes[] =& $form->createElement('checkbox', $key, null, format_string($option));
+        }
+
+        $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
+    }
+    
+    /**
+     * Save the answer when template is sended.
+     * @param $metaid
+     * @param $questionid
+     * @param $data
+     * @param $dataformat
+     * @return bool;
+     */
+    public static function save_answer($metaid, $questionid, $answer,
+                                       $comment = null,
+                                       $dataformat = FORMAT_MOODLE) {
+        
+        if (is_null($answer)) {
+            $answer = array();
+        }
+        
+        // Implode all the checked options.
+        $answer = "#".implode('#', array_keys($answer))."#";
+
+        $answerdata = array(
+            'metaid' => $metaid,
+            'questionid' => $questionid,
+            'data' => $answer,
+            'dataformat' => $dataformat,
+        );
+        if ($comment !== null) {
+            $answerdata['comment'] = trim($comment);
+        }
+
+        $answerobj = new \block_mbstpl\dataobj\answer($answerdata);
+        $answerobj->insertorupdate();
+        return true;
+    }
+    
+
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+        $values = explode("\n", $question->param1);
+        $boxes = array();
+        for ($i = 0; $i < count($values); $i++) {
+            $boxes[] =& $form->createElement('checkbox', $i, null, $values[$i]);
+        }
+        $form->addGroup($boxes, $elname, $question->title, \html_writer::empty_tag('br'));
+    }
+
+    /**
+     * Set the query filter for this matedata filter. Note that using like will
+     * slow down performance when more options are selected.
+     * 
+     * @param type $question
+     * @param type $answer
+     * @return array
+     */
+    public static function get_query_filters($question, $answer) {
+        global $DB;
+
+        $toreturn = array('joins' => array(), 'params' => array());
+        if (empty($answer)) {
+            return $toreturn;
+        }
+        
+        $checkids = array_keys($answer);
+
+        $like = array();
+        $qparam = 'q' . $question->id;
+        
+        foreach ($checkids as $optionid) {
+            $like[] = $DB->sql_like($qparam.'.data', ':option'.$optionid);
+            $toreturn['params']['option'.$optionid] = '%#'.$optionid.'#%';
+        }
+       
+        $likes = "(" .implode( " OR ", $like). ")";
+        
+        $toreturn['params'][$qparam] = $question->id;
+        $toreturn['joins'][] = self::get_join("AND $likes", $qparam);
+
+        return $toreturn;
+    }
+}

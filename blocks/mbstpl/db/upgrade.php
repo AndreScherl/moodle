@@ -19,7 +19,6 @@
  * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -321,10 +320,10 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
             new xmldb_field('createdby', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'templateid'),
             new xmldb_field('createdon', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'createdby'),
             new xmldb_field('licence', XMLDB_TYPE_TEXT, null, null, null, null, null, 'createdon'),
-            );
+        );
 
         // Conditionally launch add field.
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
             if (!$dbman->field_exists($table, $field)) {
                 $dbman->add_field($table, $field);
             }
@@ -333,5 +332,28 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015110900, 'mbstpl');
     }
+
+    if ($oldversion < 2015111600) {
+
+        // Define field help to be added to block_mbstpl_question.
+        $table = new xmldb_table('block_mbstpl_question');
+        $field = new xmldb_field('help', XMLDB_TYPE_TEXT, null, null, null, null, null, 'param2');
+
+        // Conditionally launch add field help.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('required', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'help');
+
+        // Conditionally launch add field required.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015111600, 'mbstpl');
+    }
+
     return true;
 }

@@ -36,6 +36,7 @@ class manager {
             'checkbox',
             'datetime',
             'menu',
+            'checkboxgroup',
             'text',
             'textarea',
             'checklist',
@@ -433,5 +434,109 @@ class manager {
         }
 
         return $tform;
+    }
+    
+     /**
+     * Writes strings into a local language pack file
+     *
+     * @param string $component the name of the component
+     * @param array $strings
+     */
+    protected static function dump_strings($lang, $component, $filepath, $strings) {
+        global $CFG;
+
+        if ($lang !== clean_param($lang, PARAM_LANG)) {
+            debugging('Unable to dump local strings for non-installed language pack .'.s($lang));
+            return false;
+        }
+        if ($component !== clean_param($component, PARAM_COMPONENT)) {
+            throw new coding_exception('Incorrect component name');
+        }
+     /*   if (!$filename = self::get_component_filename($component)) {
+            debugging('Unable to find the filename for the component '.s($component));
+            return false;
+        }
+        if ($filename !== clean_param($filename, PARAM_FILE)) {
+            throw new coding_exception('Incorrect file name '.s($filename));
+        }*/
+        list($package, $subpackage) = \core_component::normalize_component($component);
+        $packageinfo = " * @package    $package";
+        if (!is_null($subpackage)) {
+            $packageinfo .= "\n * @subpackage $subpackage";
+        }
+        /*$filepath = self::get_localpack_location($lang);
+        $filepath = $filepath.'/'.$filename;*/
+        if (!is_dir(dirname($filepath))) {
+            check_dir_exists(dirname($filepath));
+        }
+
+        if (!$f = fopen($filepath, 'w')) {
+            debugging('Unable to write '.s($filepath));
+            return false;
+        }
+        fwrite($f, <<<EOF
+<?php
+
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Language pack from $CFG->wwwroot
+ *
+$packageinfo
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+
+EOF
+        );
+
+        foreach ($strings as $stringid => $text) {
+            if ($stringid !== clean_param($stringid, PARAM_STRINGID)) {
+                debugging('Invalid string identifier '.s($stringid));
+                continue;
+            }
+            fwrite($f, '$string[\'' . $stringid . '\'] = ');
+            fwrite($f, var_export($text, true));
+            fwrite($f, ";\n");
+        }
+        fclose($f);
+        @chmod($filepath, $CFG->filepermissions);
+    }
+    
+    
+    /**
+     * Save the helptext for a custom field with given fieldid.
+     * 
+     * @param type $fieldid
+     * @param type $helptext
+     */
+    public static function save_help_text($fieldid, $title, $helptext) {
+        global $CFG;
+        
+        include($CFG->dirroot.'/blocks/mbstpl/lang/en/block_mbstpl.php');
+        
+        $string['custq'.$fieldid] = $title;
+        $string['custq'.$fieldid.'_help'] = $helptext;
+        
+        self::dump_strings('en', 'block_mbstpl', $CFG->dirroot.'/blocks/mbstpl/lang/en/block_mbstpl.php', $string);
+        
+        $sm = get_string_manager();
+        $sm->reset_caches();
     }
 }

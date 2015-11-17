@@ -50,6 +50,8 @@ class sendtemplate extends licenseandassetform {
             if ($question->datatype != 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
+                $typeclass::add_help_button($form, $question);
+                $typeclass::add_rule($form, $question);
             }
         }
 
@@ -58,9 +60,6 @@ class sendtemplate extends licenseandassetform {
         $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withoutanon', 'block_mbstpl'), 0);
         $form->addGroup($radioarray, 'incluserdata', get_string('incluserdata', 'block_mbstpl'), array(' ', ' '), false);
         $form->setDefault('withanon', 1);
-
-        $form->addElement('checkbox', 'copyright', get_string('copyright', 'block_mbstpl'));
-        $form->addRule('copyright', get_string('required'), 'required');
 
         // Add license and asset fields.
         parent::definition();
@@ -78,6 +77,8 @@ class sendtemplate extends licenseandassetform {
             if ($question->datatype == 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
+                $typeclass::add_help_button($form, $question);
+                $typeclass::add_rule($form, $question);
             }
         }
 

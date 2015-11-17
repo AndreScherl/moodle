@@ -181,7 +181,6 @@ class theme_mebis_block_mbssearch_renderer extends block_mbssearch_renderer {
         // .coursebox-inner
         $html .= html_writer::start_div('coursebox-inner');
         $html .= html_writer::start_div('course_title');
-        $attributes = array('title' => $course->fullname);
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
         $coursefullname = format_string(get_course_display_name_for_list($course), true, $course->id);
         $html .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $courseurl));

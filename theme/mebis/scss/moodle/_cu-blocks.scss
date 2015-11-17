@@ -99,13 +99,13 @@ aside.row {
 
 // Block mbsnewcourse.
 .mbsnewcourse {
-    
+
     ul {
         list-style: none; 
     }
-    
+
     > ul.mbsnewcourse-actionlinks {
-        
+
         > li {
             float: right;
             margin-left: 50px;
@@ -114,7 +114,7 @@ aside.row {
             }
         }
     }
-    
+
 }
 
 // Block mbsgettingstarted
@@ -351,6 +351,30 @@ aside.row {
         }        
     }
 }
+
+//search page of block mbstpl
+#page-blocks-mbstpl-templatesearch {
+    #main-content-wrapper {
+        background: transparent;
+        padding-left: 0;
+        padding-right: 0;
+        color: $white;
+        
+        .col-md-12 {
+            padding-left: 0;
+            padding-right: 0;
+            
+            .righticons {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                padding-right: 20px;
+                padding-bottom: 10px;
+            }
+        }
+    }
+}
+
 // Block mbsmyschools.
 .block_mbsmyschools {
 

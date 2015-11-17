@@ -303,7 +303,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     public function templatesearch($searchform, $courses, $layout) {
-
+        
         // Add the search form.
         $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
 
@@ -312,7 +312,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         // Add layout and pagination controllers.
         $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
         $link = new moodle_url('#');
-        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
 
         // TODO: Add pagination controls.
 
@@ -325,12 +324,27 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
 
         // Render result listing.
+        $searchlisting = $this->mbstpl_resultlist($courses, $layout);
+        $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
+        return $html;
+    }
+
+    /**
+     * render result listing of block mbstpl
+     *
+     * @param array $courses list of courses
+     * @param string $layout
+     * @return string html to be displayed
+     */
+    public function mbstpl_resultlist($courses, $layout) {
         $searchlisting = '';
+        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
+        
         if (count($courses) > 0) {
             foreach ($courses as $course) {
                 $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                $listitem = \html_writer::link($courseurl, $course->fullname);
-                // TBD, see spec page 14.
+                $listitem = \html_writer::link($courseurl, $course->fullname);                
+                // TBD, see spec page 14.                
                 $externalurl = clone($complainturl);
                 $externalurl->param('courseid', $course->id);
                 $righticons = '';
@@ -351,11 +365,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         } else {
             $searchlisting .= \html_writer::tag('em', get_string('noresults', 'block_mbstpl'));
         }
-
-        $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
-        return $html;
+        return $searchlisting;
     }
-
+    
     public function rating($avg, $label = true) {
         $roundavg = round($avg * 2);
         $inner = '';

@@ -15851,6 +15851,23 @@ aside.row .block-region .block {
   margin-left: 0;
 }
 
+#page-blocks-mbstpl-templatesearch #main-content-wrapper {
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  color: #fff;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-right: 20px;
+}
+
 .block_mbsmyschools .header .title .col-md-6 {
   padding-left: 0;
   padding-right: 0;

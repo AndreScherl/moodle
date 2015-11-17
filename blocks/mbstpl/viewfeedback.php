@@ -107,7 +107,7 @@ $revhists = mbst\course::get_revhist($template->id);
 echo $renderer->templatehistory($revhists);
 
 if (mbst\perms::can_sendrevision($template, $coursecontext)) {
-    $url = new moodle_url('/block/mbstpl/forrevision.php');
+    $url = new moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $courseid));
     echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
 }
 

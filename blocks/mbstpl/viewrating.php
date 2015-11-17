@@ -64,21 +64,19 @@ if (is_null($template->rating)) {
     echo $renderer->rating($template->rating);
 
     $table = new flexible_table('block_mbstpl_ratings');
-    $table->define_columns(array('timecreated', 'rating', 'comment', 'fullname'));
+    $table->define_columns(array('timecreated', 'rating', 'fullname'));
     $table->define_headers(array(
         get_string('date'),
         get_string('rating', 'block_mbstpl'),
-        get_string('feedback', 'block_mbstpl'),
         get_string('user'),
     ));
     $table->define_baseurl($thisurl);
     $table->sortable(true, 'date', 'ASC');
-    $table->no_sorting('comment');
     $table->setup();
 
     $ufnames = get_all_user_name_fields(true, 'u');
 
-    $select = "SELECT rat.id, rat.rating, rat.comment, rat.timecreated, rat.userid, $ufnames";
+    $select = "SELECT rat.id, rat.rating, rat.timecreated, rat.userid, $ufnames";
     $from = "
     FROM {block_mbstpl_starrating} rat
     JOIN {user} u ON u.id = rat.userid
@@ -96,7 +94,6 @@ if (is_null($template->rating)) {
         $row = array();
         $row[] = userdate($result->timecreated);
         $row[] = $result->rating;
-        $row[] = $result->comment;
         $row[] = html_writer::link(new moodle_url('/user/view.php', array('id' => $result->userid)), fullname($result));
         $table->add_data($row);
     }

@@ -25,6 +25,13 @@
 .statusbox.statuspublished     {background-color: #e5afff}
 .statusbox.statusarchived      {background-color: #cccccc}
 
+.statuslink.statuscreated {background-color: #dad3eb}
+.statuslink.statusunderreview {background-color: #c9e2be}
+.statuslink.statusunderrevision {background-color: #f3c89c}
+.statuslink.statuspublished {background-color: #e5afff}
+.statuslink.statusarchived {background-color: #cccccc}
+.statuslink.viewfeedback {font-weight: bold}
+
 table.mytemplates tr {border: solid;}
 table.mytemplates td {width: 23%; padding-top:.5em;}
 table.mytemplates td, table.mytemplates th {background-color: white!important;}

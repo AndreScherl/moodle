@@ -352,6 +352,48 @@ aside.row {
     }
 }
 
+// teachSHARE block mbstpl
+.block_mbstpl {
+    .statuslink {
+        &.statuscreated {background-color: $brand-primary-light}
+        &.statusunderreview {background-color: $brand-secondary}
+        &.statusunderrevision {background-color: $brand-secondary}
+        &.statuspublished {background-color: $brand-primary-dark}
+        &.statusarchived {background-color: $brand-gray-light}
+        padding: 0px 5px;
+    }
+    
+    li {
+        padding: 2px 0;
+        
+        a {
+            color: $white;
+            &:hover {
+                color: $black;
+            }
+        }
+    }
+    
+    ul {
+        list-style: none;
+    }
+}
+
+//view feedback page of block mbstpl
+#page-blocks-mbstpl-viewfeedback,
+#page-blocks-mbstpl-assign,
+#page-blocks-mbstpl-viewhistory {
+    .statusbox {
+        &.statuscreated {background-color: $brand-primary-light}
+        &.statusunderreview {background-color: $brand-secondary}
+        &.statusunderrevision {background-color: $brand-secondary}
+        &.statuspublished {background-color: $brand-primary-dark}
+        &.statusarchived {background-color: $brand-gray-light}
+        color:$white;
+        border: none;
+    }
+}
+
 //search page of block mbstpl
 #page-blocks-mbstpl-templatesearch {
     #main-content-wrapper {

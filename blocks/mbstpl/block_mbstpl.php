@@ -48,7 +48,7 @@ class block_mbstpl extends block_base {
 
         $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php');
         $searchlink = html_writer::link($searchurl, get_string('templatesearch', 'block_mbstpl'));
-        $this->content->text .= html_writer::tag('p', $searchlink);
+        $this->content->text .= html_writer::tag('button', $searchlink);
 
         $templates = mbst\user::get_templates();
         if (empty($templates)) {

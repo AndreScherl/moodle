@@ -15851,6 +15851,69 @@ aside.row .block-region .block {
   margin-left: 0;
 }
 
+.block_mbstpl .statuslink {
+  padding: 0px 5px;
+}
+.block_mbstpl .statuslink.statuscreated {
+  background-color: #00c5fa;
+}
+.block_mbstpl .statuslink.statusunderreview {
+  background-color: #ff6600;
+}
+.block_mbstpl .statuslink.statusunderrevision {
+  background-color: #ff6600;
+}
+.block_mbstpl .statuslink.statuspublished {
+  background-color: #00637d;
+}
+.block_mbstpl .statuslink.statusarchived {
+  background-color: #e6e6e6;
+}
+.block_mbstpl li {
+  padding: 2px 0;
+}
+.block_mbstpl li a {
+  color: #fff;
+}
+.block_mbstpl li a:hover {
+  color: #000;
+}
+.block_mbstpl ul {
+  list-style: none;
+}
+
+#page-blocks-mbstpl-viewfeedback .statusbox,
+#page-blocks-mbstpl-assign .statusbox,
+#page-blocks-mbstpl-viewhistory .statusbox {
+  color: #fff;
+  border: none;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statuscreated,
+#page-blocks-mbstpl-assign .statusbox.statuscreated,
+#page-blocks-mbstpl-viewhistory .statusbox.statuscreated {
+  background-color: #00c5fa;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusunderreview,
+#page-blocks-mbstpl-assign .statusbox.statusunderreview,
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderreview {
+  background-color: #ff6600;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusunderrevision,
+#page-blocks-mbstpl-assign .statusbox.statusunderrevision,
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderrevision {
+  background-color: #ff6600;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statuspublished,
+#page-blocks-mbstpl-assign .statusbox.statuspublished,
+#page-blocks-mbstpl-viewhistory .statusbox.statuspublished {
+  background-color: #00637d;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusarchived,
+#page-blocks-mbstpl-assign .statusbox.statusarchived,
+#page-blocks-mbstpl-viewhistory .statusbox.statusarchived {
+  background-color: #e6e6e6;
+}
+
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {
   background: transparent;
   padding-left: 0;
@@ -15866,6 +15929,7 @@ aside.row .block-region .block {
   right: 0;
   bottom: 0;
   padding-right: 20px;
+  padding-bottom: 10px;
 }
 
 .block_mbsmyschools .header .title .col-md-6 {

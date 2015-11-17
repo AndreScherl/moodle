@@ -262,42 +262,30 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('assignee', 'block_mbstpl'),
             '',
         );
-        $imgview = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/eye.png'), get_string('view'));
+        $imgview = html_writer::img(new moodle_url('/blocks/mbstpl/pix/eye.png'), get_string('view'));
         $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
         foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;
             }
-            $html .= \html_writer::tag('h4', get_string('my'.$type, 'block_mbstpl'));
-            $table = new html_table();
-            $table->head = $commonhead;
-            if ($type == 'assigned') {
-                $table->head[3] = '';
-            }
-            $table->attributes['class'] = 'mytemplates';
+            $html .= html_writer::start_tag('p');
+            $html .= html_writer::div(get_string('my'.$type, 'block_mbstpl'));
+            $html .= html_writer::start_tag('ul');
+            
             foreach ($typetemplates as $template) {
-                $row = array();
-                $row[] = $template->coursename;
-                $status = \block_mbstpl\course::get_statusshortname($template->status);
-                $row[] = html_writer::div(get_string($status, 'block_mbstpl'), "statusbox $status");
-                $row[] = userdate($template->timemodified);
-                $assignee = '';
-                if ($type != 'assigned' && !empty($template->assignee)) {
-                    $assimg = $this->user_picture($template->assignee, array('size' => 25));
-                    $assname = fullname($template->assignee);
-                    $assignee = $assimg . ' ' . $assname;
-                }
-                $row[] = $assignee;
+                $courseitemstatus = \block_mbstpl\course::get_statusshortname($template->status);
+                $viewurl->param('course', $template->courseid);
+                $courseitemclasses = 'statuslink';
                 if ($template->viewfeedback) {
-                    $viewurl->param('course', $template->courseid);
-                    $viewlink = \html_writer::link($viewurl, $imgview);
-                    $row[] = $viewlink;
-                } else {
-                    $row[] = '';
+                    $courseitemclasses .= ' viewfeedback';
                 }
-                $table->data[] = $row;
+                $courseitemlink = html_writer::link($viewurl, $template->coursename, array('class' => $courseitemclasses . ' ' . $courseitemstatus));
+                $courseitem = html_writer::tag('li', $courseitemlink);
+                $html .= $courseitem;
             }
-            $html .= html_writer::table($table);
+            $html .= html_writer::end_tag('ul');
+            $html .= html_writer::end_tag('p');
+            
         }
         return $html;
     }

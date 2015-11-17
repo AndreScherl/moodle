@@ -58,14 +58,12 @@ if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
     $starrating->rating = $data->block_mbstpl_rating;
-    $starrating->comment = $data->block_mbstpl_rating_comment;
     mbst\rating::save_userrating($template, $starrating);
 
     redirect($redirecturl);
 } else if ($starrating->fetched) {
     $form->set_data(array(
         'block_mbstpl_rating' => $starrating->rating,
-        'block_mbstpl_rating_comment' => $starrating->comment
     ));
 }
 $renderer = $PAGE->get_renderer('block_mbstpl');

@@ -111,12 +111,15 @@ class perms {
 
     /**
      * Tells us whether the current user can publish edit the meta settings.
+     * He needs to be the last assignee and to have the capability coursetemplateeditmeta.
      * @param dataobj\template $template
      * @param \context_course $coursecontext
      * @return bool
      */
     public static function can_editmeta(dataobj\template $template, \context_course $coursecontext) {
-        return has_capability('block/mbstpl:coursetemplatereview', $coursecontext);
+        global $USER;
+        $assigned = (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id);
+        return (has_capability('block/mbstpl:coursetemplateeditmeta', $coursecontext) && $assigned);
     }
 
     /**

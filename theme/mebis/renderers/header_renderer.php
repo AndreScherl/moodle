@@ -507,7 +507,6 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the menubar
      */
     public function main_menubar() {
-
         $content = '';
 
         // Messages menu item.
@@ -565,7 +564,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // add a complaints link for all courses / course templates
         if (class_exists('\block_mbstpl\course') && $url = \block_mbstpl\course::get_complaint_url()) {
-            $text = html_writer::tag('i', '', array('class' => 'fa fa-share-square'));
+            $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
             $complaintlink = html_writer::link($url, $text, array(
                 'class' => 'me-component-nav-mobile-spacer',
                 'title' => get_string('url-complaints', 'theme_mebis')));

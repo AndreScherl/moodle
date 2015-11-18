@@ -83,7 +83,7 @@ class qtype_checkboxgroup extends qtype_menu {
         for ($i = 0; $i < count($values); $i++) {
             $boxes[] =& $form->createElement('checkbox', $i, null, $values[$i]);
         }
-        $form->addGroup($boxes, $elname, $question->title, \html_writer::empty_tag('br'));
+        $form->addGroup($boxes, $elname, $question->title, "&nbsp;");
     }
 
     /**

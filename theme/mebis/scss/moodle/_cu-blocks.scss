@@ -399,6 +399,19 @@ aside.row {
     }
 }
 
+#page-blocks-mbstpl-templatesearch,
+#page-blocks-mbstpl-sendtemplate {
+    form {
+        fieldset {
+            .fitem.fitem_fgroup {
+                span {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
 //search page of block mbstpl
 #page-blocks-mbstpl-templatesearch {
     #main-content-wrapper {
@@ -406,6 +419,10 @@ aside.row {
         padding-left: 0;
         padding-right: 0;
         color: $white;
+        
+        label {
+            font-weight: normal;
+        }
         
         .col-md-12 {
             padding-left: 0;

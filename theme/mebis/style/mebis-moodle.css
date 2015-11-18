@@ -15861,7 +15861,7 @@ aside.row .block-region .block {
   background-color: #00c5fa;
 }
 .block_mbstpl .statuslink.statusunderreview {
-  background-color: #ff6600;
+  background-color: #00a8d5;
 }
 .block_mbstpl .statuslink.statusunderrevision {
   background-color: #ff6600;
@@ -15899,7 +15899,7 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-viewfeedback .statusbox.statusunderreview,
 #page-blocks-mbstpl-assign .statusbox.statusunderreview,
 #page-blocks-mbstpl-viewhistory .statusbox.statusunderreview {
-  background-color: #ff6600;
+  background-color: #00a8d5;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statusunderrevision,
 #page-blocks-mbstpl-assign .statusbox.statusunderrevision,

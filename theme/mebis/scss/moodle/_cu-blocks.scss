@@ -360,7 +360,7 @@ aside.row {
     
     .statuslink {
         &.statuscreated {background-color: $brand-primary-light}
-        &.statusunderreview {background-color: $brand-secondary}
+        &.statusunderreview {background-color: $brand-primary}
         &.statusunderrevision {background-color: $brand-secondary}
         &.statuspublished {background-color: $brand-primary-dark}
         &.statusarchived {background-color: $brand-gray-light}
@@ -389,7 +389,7 @@ aside.row {
 #page-blocks-mbstpl-viewhistory {
     .statusbox {
         &.statuscreated {background-color: $brand-primary-light}
-        &.statusunderreview {background-color: $brand-secondary}
+        &.statusunderreview {background-color: $brand-primary}
         &.statusunderrevision {background-color: $brand-secondary}
         &.statuspublished {background-color: $brand-primary-dark}
         &.statusarchived {background-color: $brand-gray-light}

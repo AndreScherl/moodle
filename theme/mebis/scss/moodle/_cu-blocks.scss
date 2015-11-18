@@ -354,6 +354,10 @@ aside.row {
 
 // teachSHARE block mbstpl
 .block_mbstpl {
+    button {
+        color: $black;
+    }
+    
     .statuslink {
         &.statuscreated {background-color: $brand-primary-light}
         &.statusunderreview {background-color: $brand-secondary}

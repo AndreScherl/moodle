@@ -15851,6 +15851,9 @@ aside.row .block-region .block {
   margin-left: 0;
 }
 
+.block_mbstpl button {
+  color: #000;
+}
 .block_mbstpl .statuslink {
   padding: 0px 5px;
 }

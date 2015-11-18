@@ -357,7 +357,7 @@ aside.row {
     button {
         color: $black;
     }
-    
+
     .statuslink {
         &.statuscreated {background-color: $brand-primary-light}
         &.statusunderreview {background-color: $brand-primary}
@@ -366,10 +366,10 @@ aside.row {
         &.statusarchived {background-color: $brand-gray-light}
         padding: 0px 5px;
     }
-    
+
     li {
         padding: 2px 0;
-        
+
         a {
             color: $white;
             &:hover {
@@ -377,7 +377,7 @@ aside.row {
             }
         }
     }
-    
+
     ul {
         list-style: none;
     }
@@ -408,6 +408,11 @@ aside.row {
                 //label and checkbox of qtype_checkboxgroup
                 span {
                     display: inline-block;
+                    padding-right: 8px;
+                }
+
+                fieldset.felement.fgroup {
+                    padding-top: 8px;
                 }
             }
         }
@@ -421,21 +426,28 @@ aside.row {
         padding-left: 0;
         padding-right: 0;
         color: $white;
-        
+
         label {
             font-weight: normal;
         }
-        
+
         .col-md-12 {
             padding-left: 0;
             padding-right: 0;
-            
+
             .righticons {
                 position: absolute;
                 right: 0;
                 bottom: 0;
                 padding-right: 20px;
                 padding-bottom: 10px;
+
+                i.fa {
+                    margin-right: 0;
+                    &:hover, &:active, &:focus {
+                        color: $white;
+                    }
+                }
             }
         }
     }

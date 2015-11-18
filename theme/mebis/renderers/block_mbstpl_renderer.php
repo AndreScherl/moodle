@@ -66,7 +66,8 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
      */
     public function mbstpl_grid($courses) {
         $output = html_writer::start_tag('div', array('class' => 'col-md-12'));
-        $output .= html_writer::start_tag("ul", array("class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3", 'id' => 'mbstpl-search-listing'));
+        $output .= html_writer::start_tag("ul", array("class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3", 
+            'id' => 'mbstpl-search-listing'));
 
         foreach ($courses as $course) {
             // ...start coursebox.          
@@ -97,8 +98,9 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
                 $externalurl = clone($complainturl);
                 $externalurl->param('courseid', $course->id);
                 $righticons = '';
-                $complaintlink = \html_writer::link($externalurl,
-                    \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
+                $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
+                $complaintlink = \html_writer::link($externalurl, $text, 
+                        array('title' => get_string('url-complaints', 'theme_mebis')));
                 $righticons .= $complaintlink;
                 $html .= html_writer::div($righticons, 'righticons');                
             $html .= html_writer::end_tag('div'); //end class 'course_title'

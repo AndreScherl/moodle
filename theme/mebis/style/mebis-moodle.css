@@ -15887,33 +15887,39 @@ aside.row .block-region .block {
 
 #page-blocks-mbstpl-viewfeedback .statusbox,
 #page-blocks-mbstpl-assign .statusbox,
-#page-blocks-mbstpl-viewhistory .statusbox {
+#page-blocks-mbstpl-viewhistory .statusbox,
+#page-blocks-mbstpl-feedbackdetail .statusbox {
   color: #fff;
   border: none;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statuscreated,
 #page-blocks-mbstpl-assign .statusbox.statuscreated,
-#page-blocks-mbstpl-viewhistory .statusbox.statuscreated {
+#page-blocks-mbstpl-viewhistory .statusbox.statuscreated,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statuscreated {
   background-color: #00c5fa;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statusunderreview,
 #page-blocks-mbstpl-assign .statusbox.statusunderreview,
-#page-blocks-mbstpl-viewhistory .statusbox.statusunderreview {
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderreview,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusunderreview {
   background-color: #00a8d5;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statusunderrevision,
 #page-blocks-mbstpl-assign .statusbox.statusunderrevision,
-#page-blocks-mbstpl-viewhistory .statusbox.statusunderrevision {
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderrevision,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusunderrevision {
   background-color: #ff6600;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statuspublished,
 #page-blocks-mbstpl-assign .statusbox.statuspublished,
-#page-blocks-mbstpl-viewhistory .statusbox.statuspublished {
+#page-blocks-mbstpl-viewhistory .statusbox.statuspublished,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statuspublished {
   background-color: #00637d;
 }
 #page-blocks-mbstpl-viewfeedback .statusbox.statusarchived,
 #page-blocks-mbstpl-assign .statusbox.statusarchived,
-#page-blocks-mbstpl-viewhistory .statusbox.statusarchived {
+#page-blocks-mbstpl-viewhistory .statusbox.statusarchived,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusarchived {
   background-color: #e6e6e6;
 }
 

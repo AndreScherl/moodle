@@ -386,7 +386,8 @@ aside.row {
 //view feedback page of block mbstpl
 #page-blocks-mbstpl-viewfeedback,
 #page-blocks-mbstpl-assign,
-#page-blocks-mbstpl-viewhistory {
+#page-blocks-mbstpl-viewhistory,
+#page-blocks-mbstpl-feedbackdetail {
     .statusbox {
         &.statuscreated {background-color: $brand-primary-light}
         &.statusunderreview {background-color: $brand-primary}

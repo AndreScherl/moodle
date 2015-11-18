@@ -15914,11 +15914,19 @@ aside.row .block-region .block {
   background-color: #e6e6e6;
 }
 
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span {
+  display: inline-block;
+}
+
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {
   background: transparent;
   padding-left: 0;
   padding-right: 0;
   color: #fff;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper label {
+  font-weight: normal;
 }
 #page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 {
   padding-left: 0;

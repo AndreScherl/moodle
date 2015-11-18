@@ -15924,6 +15924,7 @@ aside.row .block-region .block {
 }
 
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span {
   display: inline-block;
 }

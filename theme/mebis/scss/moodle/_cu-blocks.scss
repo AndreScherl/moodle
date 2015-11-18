@@ -400,10 +400,12 @@ aside.row {
 }
 
 #page-blocks-mbstpl-templatesearch,
+#page-blocks-mbstpl-editmeta,
 #page-blocks-mbstpl-sendtemplate {
     form {
         fieldset {
             .fitem.fitem_fgroup {
+                //label and checkbox of qtype_checkboxgroup
                 span {
                     display: inline-block;
                 }

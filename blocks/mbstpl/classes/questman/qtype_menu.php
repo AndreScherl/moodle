@@ -82,13 +82,13 @@ class qtype_menu extends qtype_base {
 
     public static function get_query_filters($question, $answer) {
         global $DB;
-
-        $toreturn = array('joins' => array(), 'params' => array());
-        if (empty($answer)) {
+ 
+        $toreturn = array('joins' => array(), 'params' => array());   
+        if ($answer == '*') {
             return $toreturn;
         }
-        $checkids = array_keys($answer);
-
+        $checkids = $answer;
+        
         $apfx = 'a' . $question->id . '_';
         $qparam = 'q' . $question->id;
         list($dkwin, $dkwparams) = $DB->get_in_or_equal($checkids, SQL_PARAMS_NAMED, $apfx);

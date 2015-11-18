@@ -292,6 +292,24 @@ class course {
         ";
         return $DB->get_records_sql($sql, array('', $templateid));
     }
+    
+    /**
+     * Get template's current/last assignee out of revision history.
+     * @param int $templateid
+     * @return array
+     */
+    public static function get_lastassignee($templateid) {
+        global $DB;
+        $sql = "
+        SELECT u.firstname, u.lastname, u.id
+        FROM {block_mbstpl_revhist} rh
+        JOIN {user} u ON u.id = rh.assignedid
+        WHERE rh.templateid = ?
+        ORDER BY rh.id DESC
+        LIMIT 1
+        ";
+        return $DB->get_record_sql($sql, array($templateid));
+    }
 
     /**
      * Gets a list of everyone who created the course template.

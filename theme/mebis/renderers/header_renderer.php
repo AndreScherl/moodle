@@ -507,8 +507,6 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the menubar
      */
     public function main_menubar() {
-        global $CFG;
-
         $content = '';
 
         // Messages menu item.

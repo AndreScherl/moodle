@@ -15924,8 +15924,15 @@ aside.row .block-region .block {
 }
 
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span {
   display: inline-block;
+  padding-right: 8px;
+}
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
+  padding-top: 8px;
 }
 
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {
@@ -15947,6 +15954,12 @@ aside.row .block-region .block {
   bottom: 0;
   padding-right: 20px;
   padding-bottom: 10px;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa {
+  margin-right: 0;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:hover, #page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:active, #page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:focus {
+  color: #fff;
 }
 
 .block_mbsmyschools .header .title .col-md-6 {

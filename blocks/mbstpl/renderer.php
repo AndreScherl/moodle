@@ -262,7 +262,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('assignee', 'block_mbstpl'),
             '',
         );
-        $imgview = html_writer::img(new moodle_url('/blocks/mbstpl/pix/eye.png'), get_string('view'));
         $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
         foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {

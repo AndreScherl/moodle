@@ -57,6 +57,7 @@ $courseswithcreators = mbst\course::get_courses_with_creators($template->id);
 echo $renderer->templateusage($courseswithcreators);
 
 $revhists = mbst\course::get_revhist($template->id);
-echo $renderer->templatehistory($revhists);
+$files = mbst\course::get_revhist_files($revhists, $template);
+echo $renderer->templatehistory($revhists, $files);
 
 echo $OUTPUT->footer();

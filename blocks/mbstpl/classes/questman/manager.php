@@ -385,7 +385,15 @@ class manager {
      */
     public static function searchmanage_getall() {
         global $DB;
-        $allqs = $DB->get_records_menu('block_mbstpl_question', null, 'name ASC', 'id,name');
+
+        $draft = self::get_qform_draft();
+        $qids = explode(',', $draft);
+        if (empty($qids)) {
+            return array();
+        }
+        list($qidin, $params) = $DB->get_in_or_equal($qids, SQL_PARAMS_QM, null, false);
+        $allqs = $DB->get_records_select_menu('block_mbstpl_question', "id $qidin", $params, 'name ASC', 'id,name');
+
         $searchqs = self::get_searchqs();
         $searchqskeys = array_flip($searchqs);
         $enableds = array();

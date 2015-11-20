@@ -51,8 +51,8 @@ class starrating extends \moodleform {
         $mform->setType('block_mbstpl_rating_comment', PARAM_RAW_TRIMMED);
 
         $buttonarray = array();
-        $buttonarray[] =& $mform->createElement('submit', 'submitbutton', get_string('rating_submitbutton', 'block_mbstpl'));
-        $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('rating_cancelbutton', 'block_mbstpl'));
+        $buttonarray[] =& $mform->createElement('submit', 'submitbutton', get_string('submitbutton', 'block_mbstpl'));
+        $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('cancelbutton', 'block_mbstpl'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
     }
 

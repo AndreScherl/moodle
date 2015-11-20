@@ -611,17 +611,11 @@ class backup {
         if (!perms::can_viewbackups()) {
             return;
         }
-        $context = \context_system::instance();
         $renderer = course::get_renderer();
         echo $renderer->heading(get_string('cousretemplates', 'block_mbstpl'));
         echo $renderer->container_start();
-        $treeview_options = array();
-        $treeview_options['filecontext'] = $context;
-        $treeview_options['currentcontext'] = $currentcontext;
-        $treeview_options['component']   = 'block_mbstpl';
-        $treeview_options['context']     = $context;
-        $treeview_options['filearea']    = 'backups';
-        echo $renderer->render_backup_files_viewer($treeview_options);
+        $files = self::get_backup_files();
+        echo $renderer->render_backup_files_viewer();
         echo $renderer->container_end();
     }
 
@@ -649,5 +643,41 @@ class backup {
         $restore_url = new \moodle_url('/backup/restore.php', array(
             'contextid' => $context->id, 'filename' => $filename));
         redirect($restore_url);
+    }
+
+    /**
+     * Returns all area files within the limit. Modified from get_area_files().
+     * @param int $limitfrom
+     * @param int $limitnum
+     * @return stored_file[] array of stored_files indexed by pathanmehash
+     */
+    public static function get_backup_files($limitfrom = null, $limitnum = null) {
+        global $DB;
+
+        $context = \context_system::instance();
+        $conditions = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups');
+        $fs = get_file_storage();
+
+        $sql = "SELECT f.id AS id, f.contenthash, f.pathnamehash, f.contextid, f.component, f.filearea, f.itemid,
+                       f.filepath, f.filename, f.userid, f.filesize, f.mimetype, f.status, f.source, f.author,
+                       f.license, f.timecreated, f.timemodified, f.sortorder, f.referencefileid,
+                       r.repositoryid AS repositoryid, r.reference AS reference, r.lastsync AS referencelastsync
+                  FROM {files} f
+             LEFT JOIN {files_reference} r
+                       ON f.referencefileid = r.id
+                 WHERE f.contextid = :contextid
+                       AND f.component = :component
+                       AND f.filearea = :filearea
+                 ORDER BY itemid, filepath, filename
+                       ";
+        $result = array();
+        $filerecords = $DB->get_records_sql($sql, $conditions, $limitfrom, $limitnum);
+        foreach ($filerecords as $filerecord) {
+            if ($filerecord->filename === '.') {
+                continue;
+            }
+            $result[$filerecord->pathnamehash] = $fs->get_file_instance($filerecord);
+        }
+        return array_reverse($result);
     }
 }

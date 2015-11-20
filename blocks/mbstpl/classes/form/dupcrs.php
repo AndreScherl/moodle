@@ -85,8 +85,8 @@ class dupcrs extends \moodleform {
         if (!empty($this->_customdata['cats'])) {
             $restoreto = $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
             $options = array();
-            foreach ($this->_customdata['cats'] as $cat) {
-                $options[$cat->id] = $cat->name;
+            foreach ($this->_customdata['cats'] as $catid => $catname) {
+                $options[$catid] = $catname;
             }
             $selectcat = $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options, $disabled);
             $form->disabledIf('tocat', 'restoreto', 'neq', 'cat');

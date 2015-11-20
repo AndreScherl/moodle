@@ -50,8 +50,7 @@ if (!mbst\perms::can_coursefromtpl($template, $coursecontext)) {
 }
 
 // Load allowed courses and categories.
-$catsearch = new restore_category_search();
-$cats = $catsearch->get_results();
+$cats = coursecat::make_categories_list('moodle/course:create');
 $coursesearch = new restore_course_search(array(), $course->id);
 $courses = $coursesearch->get_results();
 if (empty($cats) && empty($courses)) {

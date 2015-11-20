@@ -20,7 +20,7 @@
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 global $PAGE, $OUTPUT, $USER;
 
@@ -33,8 +33,16 @@ $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
 
 $thisurl = new moodle_url('/blocks/mbstpl/complaintreport.php', array('course' => $courseid));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
-$PAGE->set_context($coursecontext);
+$PAGE->set_pagelayout('incourse');
+//$PAGE->set_context($coursecontext);
+$PAGE->set_context(context_user::instance($USER->id));
+
+//Adding breadcrumb navigation. 
+require_login($courseid, false);
+//Extending the navigation for the course. 
+$coursenode = $PAGE->navigation->find($courseid, navigation_node::TYPE_COURSE);
+$pagenode = $coursenode->add(get_string('complaintform', 'block_mbstpl'));
+$pagenode->make_active();
 
 $pagetitle = get_string('complaintform', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
@@ -55,7 +63,7 @@ if ($form->is_cancelled()) {
     redirect($redirecturl);
 }
 
-$renderer = mbst\course::get_renderer();
+$renderer = $PAGE->get_renderer('block_mbstpl');
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);

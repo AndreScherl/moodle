@@ -135,7 +135,6 @@ class backup {
         $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
         $user = get_admin();
         $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
-        // TODO actually backup.
         return $filename;
     }
 
@@ -647,18 +646,24 @@ class backup {
 
     /**
      * Returns all area files within the limit. Modified from get_area_files().
-     * @param $justcount
+     * @param bool $justcount
      * @param int $limitfrom
      * @param int $limitnum
+     * @param $sort
      * @return stored_file[] array of stored_files indexed by pathanmehash
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public static function get_backup_files($justcount = false, $limitfrom = null, $limitnum = null) {
+    public static function get_backup_files($justcount = false, $limitfrom = null, $limitnum = null, $sort = '') {
         global $DB;
 
         $context = \context_system::instance();
         $params = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups', 'dir'=> '.');
         $fs = get_file_storage();
+
+        if (empty($sort)) {
+            $sort = 'itemid ASC, filepath ASC, filename ASC';
+        }
 
         $select = "
         SELECT f.id AS id, f.contenthash, f.pathnamehash, f.contextid, f.component, f.filearea, f.itemid,
@@ -674,7 +679,7 @@ class backup {
                        AND f.component = :component
                        AND f.filearea = :filearea
                        AND f.filename <> :dir
-                 ORDER BY itemid, filepath, filename
+                 ORDER BY $sort
                        ";
         if ($justcount) {
             return $DB->count_records_sql("SELECT COUNT(1) $basesql", $params);
@@ -683,11 +688,11 @@ class backup {
         $select
         $basesql
         ";
-        $result = array();
+        $results = array();
         $filerecords = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
         foreach ($filerecords as $filerecord) {
-            $result[$filerecord->pathnamehash] = $fs->get_file_instance($filerecord);
+            $results[] = $fs->get_file_instance($filerecord);
         }
-        return array_reverse($result);
+        return $results;
     }
 }

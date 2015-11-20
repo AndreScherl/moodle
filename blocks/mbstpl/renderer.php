@@ -25,7 +25,7 @@ use \block_mbstpl AS mbst;
 
 class block_mbstpl_renderer extends plugin_renderer_base {
 
-    const BACKUPS_PERPAGE = 10;
+    const BACKUPS_PERPAGE = 20;
 
     protected function qtype_name($type) {
         $gs = get_string_manager();
@@ -581,13 +581,17 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->define_headers(array(get_string('filename', 'backup'), get_string('time'), get_string('size'), get_string('download'), get_string('restore')));
         $table->set_attribute('class', 'backup-files-table generaltable');
         $table->define_baseurl($thisurl);
-        $table->sortable = false;
+        $table->sortable(true, 'timemodified', SORT_DESC);
+        $table->no_sorting('download');
+        $table->no_sorting('restore');
+
         $table->setup();
         $matchcount = mbst\backup::get_backup_files(true);
         $table->pagesize(self::BACKUPS_PERPAGE, $matchcount);
         $startpage = $table->get_page_start();
         $pagecount = $table->get_page_size();
-        $files = mbst\backup::get_backup_files(false, $startpage, $pagecount);
+        $sort = $table->get_sql_sort();
+        $files = mbst\backup::get_backup_files(false, $startpage, $pagecount, $sort);
 
         foreach ($files as $file) {
             $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);

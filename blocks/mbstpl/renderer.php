@@ -319,7 +319,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         // Add layout and pagination controllers.
         $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
         $link = new moodle_url('#');
-        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
 
         // TODO: Add pagination controls.
 
@@ -338,8 +337,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
                 $listitem = \html_writer::link($courseurl, $course->fullname);
                 // TBD, see spec page 14.
-                $externalurl = clone($complainturl);
-                $externalurl->param('courseid', $course->id);
+                $externalurl = mbst\course::get_complaint_url($course->id);
                 $righticons = '';
                 $complaintlink = \html_writer::link($externalurl,
                     \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
@@ -564,7 +562,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             /* @var $license \block_mbstpl\dataobj\license */
             $license = $licenses[$asset->license];
             if ($license) {
-                $item .= ', ' . html_writer::link($license->source, $license->fullname);
+                $item .= ', ' . ($license->source
+                    ? html_writer::link($license->source, $license->fullname)
+                    : $license->fullname);
             }
 
             $items[] = $item;

@@ -200,7 +200,7 @@ ul.mbsfilelist, ul.mbsfilelist li {
     margin-top: 25px;
 }
 
-.block-usedreferences ol {
+div[role="main"] .block-usedreferences ol {
     padding-left: 26px;
 }
 

@@ -399,15 +399,22 @@ class course {
      * @return \moodle_url complaint url for the current course/template
      *                     or null if not on a template or course template
      */
-    public static function get_complaint_url() {
-        global $PAGE;
+    public static function get_complaint_url($courseid = null) {
 
-        $complainturl = get_config('block_mbstpl', 'complainturl');
+        static $complainturl = null;
+        if ($complainturl === null) {
+            $complainturl = get_config('block_mbstpl', 'complainturl');
+        }
+
         if (!$complainturl) {
             return null;
         }
 
-        $courseid = $PAGE->context->instanceid;
+        if (!$courseid) {
+            global $PAGE;
+            $courseid = $PAGE->context->instanceid;
+        }
+
         $template = dataobj\template::get_from_course($courseid);
         if (!$template) {
             return null;

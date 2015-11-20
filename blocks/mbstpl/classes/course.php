@@ -293,13 +293,34 @@ class course {
     public static function get_revhist($templateid) {
         global $DB;
         $sql = "
-        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
+        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback, rh.feedbackformat
         FROM {block_mbstpl_revhist} rh
         JOIN {user} u ON u.id = rh.assignedid
         WHERE rh.templateid = ?
         ORDER BY rh.id DESC
         ";
-        return $DB->get_records_sql($sql, array('', $templateid));
+
+        return $DB->get_records_sql($sql, array($templateid));
+    }
+
+    /**
+     * Get all files associated with an array of rev history objects
+     *
+     * @param \block_mbstpl\dataobj\revhist[] $revhist
+     * @return array associative array mapping revhist id to an array of files
+     */
+    public static function get_revhist_files($revhists, $template) {
+
+        $context = \context_course::instance($template->courseid);
+        $files = array();
+        foreach ($revhists as $hist) {
+            if (!($hist instanceof dataobj\revhist)) {
+                $hist = new dataobj\revhist((array) $hist, false);
+            }
+            $files[$hist->id] = $hist->get_files($context);
+        }
+
+        return $files;
     }
 
     /**

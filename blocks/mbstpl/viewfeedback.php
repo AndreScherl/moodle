@@ -100,7 +100,8 @@ if ($cansendfeedback) {
 }
 
 $revhists = mbst\course::get_revhist($template->id);
-echo $renderer->templatehistory($revhists);
+$files = mbst\course::get_revhist_files($revhists, $template);
+echo $renderer->templatehistory($revhists, $files);
 
 if (mbst\perms::can_sendrevision($template, $coursecontext)) {
     $url = new moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $courseid));

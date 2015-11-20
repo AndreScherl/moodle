@@ -37,6 +37,7 @@ $string['region-side-pre'] = 'Left';
 $string['region-top'] = 'Top';
 $string['region-bottom'] = 'Bottom';
 $string['region-admin-navi'] = 'Website-Administration';
+$string['region-course-template'] = 'Course Template';
 
 $string['sidebar-apps'] = 'My Apps';
 $string['sidebar-search'] = 'Search';

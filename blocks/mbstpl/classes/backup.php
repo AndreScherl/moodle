@@ -614,8 +614,8 @@ class backup {
         $renderer = course::get_renderer();
         echo $renderer->heading(get_string('cousretemplates', 'block_mbstpl'));
         echo $renderer->container_start();
-        $files = self::get_backup_files();
-        echo $renderer->render_backup_files_viewer();
+        $files = self::get_backup_files(false);
+        $renderer->render_backup_files_viewer();
         echo $renderer->container_end();
     }
 
@@ -647,35 +647,45 @@ class backup {
 
     /**
      * Returns all area files within the limit. Modified from get_area_files().
+     * @param $justcount
      * @param int $limitfrom
      * @param int $limitnum
      * @return stored_file[] array of stored_files indexed by pathanmehash
+     * @throws \dml_exception
      */
-    public static function get_backup_files($limitfrom = null, $limitnum = null) {
+    public static function get_backup_files($justcount = false, $limitfrom = null, $limitnum = null) {
         global $DB;
 
         $context = \context_system::instance();
-        $conditions = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups');
+        $params = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups', 'dir'=> '.');
         $fs = get_file_storage();
 
-        $sql = "SELECT f.id AS id, f.contenthash, f.pathnamehash, f.contextid, f.component, f.filearea, f.itemid,
+        $select = "
+        SELECT f.id AS id, f.contenthash, f.pathnamehash, f.contextid, f.component, f.filearea, f.itemid,
                        f.filepath, f.filename, f.userid, f.filesize, f.mimetype, f.status, f.source, f.author,
                        f.license, f.timecreated, f.timemodified, f.sortorder, f.referencefileid,
                        r.repositoryid AS repositoryid, r.reference AS reference, r.lastsync AS referencelastsync
+        ";
+        $basesql = "
                   FROM {files} f
              LEFT JOIN {files_reference} r
                        ON f.referencefileid = r.id
                  WHERE f.contextid = :contextid
                        AND f.component = :component
                        AND f.filearea = :filearea
+                       AND f.filename <> :dir
                  ORDER BY itemid, filepath, filename
                        ";
+        if ($justcount) {
+            return $DB->count_records_sql("SELECT COUNT(1) $basesql", $params);
+        }
+        $sql = "
+        $select
+        $basesql
+        ";
         $result = array();
-        $filerecords = $DB->get_records_sql($sql, $conditions, $limitfrom, $limitnum);
+        $filerecords = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
         foreach ($filerecords as $filerecord) {
-            if ($filerecord->filename === '.') {
-                continue;
-            }
             $result[$filerecord->pathnamehash] = $fs->get_file_instance($filerecord);
         }
         return array_reverse($result);

@@ -403,11 +403,12 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form($template, $course, $populate = false, $freeze = false) {
+    public static function build_form($template, $course, $customdata = array()) {
 
         global $DB;
 
         $courseid = $course->id;
+        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';
@@ -416,22 +417,56 @@ class manager {
         foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
         }
-        $customdata = array(
+        $customdata += array(
             'courseid' => $courseid,
             'questions' => $questions,
-            'freeze' => $freeze,
             'template' => $template,
+            'assetcount' => $meta->get_asset_count(),
             'course' => $course,
             'creator' => $creator
         );
-        $tform = new mbst\form\editmeta(null, $customdata);
 
-        if ($populate) {
-            $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-            $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
-            $tform->set_data($answers);
-        }
+        $tform = new mbst\form\editmeta(null, $customdata);
+        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+        $tform->set_data($answers);
+
+        self::populate_meta_and_assets($tform, $meta, false);
 
         return $tform;
+    }
+
+    public static function populate_meta_and_assets(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
+
+        $setdata = (object)array(
+            'asset_id' => array(),
+            'asset_url' => array(),
+            'asset_license' => array(),
+            'asset_owner' => array(),
+            'asset_source' => array(),
+            'license' => $meta->license,
+            'tags' => $meta->get_tags_string(),
+        );
+
+        if ($setanswers) {
+            // Load the answers to the dynamic questions.
+            /* @var $answers mbst\dataobj\answer[] */
+            $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
+            foreach ($answers as $answer) {
+                $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
+                $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
+            }
+        }
+
+        // Load the assets fields.
+        $i = 0;
+        foreach ($meta->get_assets() as $asset) {
+            $setdata->asset_id[$i] = $asset->id;
+            $setdata->asset_url[$i] = $asset->url;
+            $setdata->asset_license[$i] = $asset->license;
+            $setdata->asset_owner[$i] = $asset->owner;
+            $setdata->asset_source[$i] = $asset->source;
+            $i++;
+        }
+        $form->set_data($setdata);
     }
 }

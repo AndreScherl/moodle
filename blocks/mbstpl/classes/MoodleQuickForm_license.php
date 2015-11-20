@@ -77,6 +77,11 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
         }
         return $choices;
     }
+
+    function getFrozenHtml() {
+        $html = parent::getFrozenHtml();
+        return html_writer::div($html, $this->getAttribute('class'));
+    }
 }
 
 MoodleQuickForm::registerElementType('license', __FILE__, 'MoodleQuickForm_license');

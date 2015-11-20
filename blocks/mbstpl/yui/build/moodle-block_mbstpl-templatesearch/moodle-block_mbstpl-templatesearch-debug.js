@@ -7,7 +7,7 @@ M.block_mbstpl.templatesearch = {
 	 * Initiate the module.
 	 */
 	init : function() {
-		inputAction = function(e) {
+		var inputAction = function(e) {
 			var keyword = e.currentTarget.getDOMNode().value;
 			/*
 			 * The autocomplete only kicks in after 3 characters to avoid unnecessary
@@ -42,7 +42,7 @@ M.block_mbstpl.templatesearch = {
 			e.preventDefault();
 			// Set desired layout for next search query
 			var field = Y.one('.mbstpl-search-form input[name="layout"]'),
-			layout = e.target.getAttribute('l');
+				layout = e.target.getAttribute('l');
 			field.set('value', layout);
 
 			// Change CSS classes on list items to reflect the selected layout.
@@ -95,7 +95,7 @@ M.block_mbstpl.templatesearch = {
 		x = inputField.getX();
 		y = inputField.getY() + inputField.getDOMNode().offsetHeight;
 
-		sendOnclick = function(e) {
+		var sendOnclick = function(e) {
 			M.block_mbstpl.templatesearch.selectSuggestion(e, inputField);
 		};
 
@@ -110,5 +110,6 @@ M.block_mbstpl.templatesearch = {
 		}
 	}
 };
+
 
 }, '@VERSION@', {"requires": ["base", "node"]});

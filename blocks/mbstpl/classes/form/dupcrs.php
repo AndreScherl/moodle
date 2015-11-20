@@ -80,28 +80,31 @@ class dupcrs extends \moodleform {
 
         $form->addElement('hidden', 'step', 2);
         $form->setType('step', PARAM_INT);
+        $disabled = array('disabled' => 'disabled');
 
         if (!empty($this->_customdata['cats'])) {
-            $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
+            $restoreto = $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
             $options = array();
             foreach ($this->_customdata['cats'] as $cat) {
                 $options[$cat->id] = $cat->name;
             }
-            $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options);
+            $selectcat = $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options, $disabled);
             $form->disabledIf('tocat', 'restoreto', 'neq', 'cat');
+            $this->enable_on_click($restoreto, $selectcat);
         }
         if (!empty($this->_customdata['courses'])) {
-            $form->addElement('radio', 'restoreto', get_string('restoretoexistingcourse', 'backup'), '', 'course');
+            $restoreto = $form->addElement('radio', 'restoreto', get_string('restoretoexistingcourse', 'backup'), '', 'course');
             $options = array();
             foreach ($this->_customdata['courses'] as $crs) {
                 $options[$crs->id] = $crs->fullname;
             }
-            $form->addElement('select', 'tocrs', get_string('selectacourse', 'backup'), $options);
+            $selectcourse = $form->addElement('select', 'tocrs', get_string('selectacourse', 'backup'), $options, $disabled);
             $form->disabledIf('tocrs', 'restoreto', 'neq', 'course');
+            $this->enable_on_click($restoreto, $selectcourse);
         }
         $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
 
-        $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3));
+        $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3))->freeze();
         $form->addRule('licence', get_string('required'), 'required', null, 'client');
 
         $this->set_data(array(
@@ -146,6 +149,17 @@ class dupcrs extends \moodleform {
         $builder->prepare_section_elements();
 
         $this->add_action_buttons(true, get_string('duplcourseforuse2', 'block_mbstpl'));
+    }
+
+    private function enable_on_click($eltoclick, $eltoenable) {
+        global $PAGE;
+
+        $eltoclick->_generateId();
+        $eltoenable->_generateId();
+        $idtoclick = $eltoclick->getAttribute('id');
+        $idtoenable = $eltoenable->getAttribute('id');
+
+        $PAGE->requires->js_init_code("$('#$idtoclick').click(function() { $('#$idtoenable').removeAttr('disabled'); });", true);
     }
 
     public function get_task_settings() {

@@ -110,7 +110,10 @@ class course {
      * @param \context_course $context
      */
     public static function add_template_blocks(\context_course $context) {
-        global $PAGE;
+
+        if (defined('MBSTPL_SKIP_USED_REFERENCES') && MBSTPL_SKIP_USED_REFERENCES) {
+            return;
+        }
 
         $courseid = $context->instanceid;
 
@@ -120,16 +123,22 @@ class course {
 
             $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
             $assets = $meta->get_assets();
-            $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
 
-            $renderer = $PAGE->get_renderer('block_mbstpl');
+            if (!empty($assets)) {
 
-            $bc = new \block_contents(array(
-                'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
-            $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
-            $bc->content = $renderer->references_block_content($assets, $licenses);
+                global $PAGE;
 
-            $PAGE->blocks->add_fake_block($bc, 'course-template');
+                $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
+
+                $renderer = $PAGE->get_renderer('block_mbstpl');
+
+                $bc = new \block_contents(array(
+                    'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
+                $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
+                $bc->content = $renderer->references_block_content($assets, $licenses);
+
+                $PAGE->blocks->add_fake_block($bc, 'course-template');
+            }
         }
     }
 
@@ -240,7 +249,7 @@ class course {
         }
         $template->update();
 
-        // Enrol reviewer.
+        // Enrol author.
         user::enrol_author($template->courseid, $userid);
     }
 
@@ -297,17 +306,28 @@ class course {
      * Gets a list of everyone who created the course template.
      * @param $templateid
      */
-    public static function get_creators($templateid) {
+    public static function get_creators($templateid, $includereviehistory = false) {
         global $DB;
 
         $fields = get_all_user_name_fields(true, 'u');
-        $sql = "
-        SELECT u.id, $fields
-        FROM {block_mbstpl_revhist} rh
-        JOIN {user} u ON u.id = rh.assignedid
-        WHERE rh.templateid = ?
-        GROUP BY u.id
-        ";
+
+        if ($includereviehistory) {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_revhist} rh
+            JOIN {user} u ON u.id = rh.assignedid
+            WHERE rh.templateid = ?
+            GROUP BY u.id
+            ";
+        } else {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_template} tpl
+            JOIN {user} u ON u.id = tpl.authorid
+            WHERE tpl.id = ?
+            ";
+        }
+
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
         foreach ($results as $result) {
@@ -418,7 +438,7 @@ class course {
         list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
         $params['courseid'] = $cid;
         $params['courselevel'] = CONTEXT_COURSE;
-        $sql = "SELECT ue.*
+        $sql = "SELECT DISTINCT ue.*
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                 JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)

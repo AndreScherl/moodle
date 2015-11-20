@@ -203,3 +203,8 @@ ul.mbsfilelist, ul.mbsfilelist li {
 .block-usedreferences ol {
     padding-left: 26px;
 }
+
+.mbstpl-asset-license {
+    margin: 9px auto;
+    display: inline-block;
+}

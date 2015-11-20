@@ -25,6 +25,7 @@ namespace block_mbstpl\form;
 use block_mbstpl\dataobj\meta;
 use block_mbstpl\dataobj\asset;
 use block_mbstpl\dataobj\license;
+use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,7 +33,9 @@ global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
 
-class licenseandassetform extends \moodleform {
+abstract class licenseandassetform extends \moodleform {
+
+    const ASSET_SPACES = 3;
 
     public static function update_assets_from_submitted_data(meta $meta, $data) {
         global $CFG;
@@ -98,37 +101,46 @@ class licenseandassetform extends \moodleform {
         return $data->license;
     }
 
-    function definition() {
+    protected function define_license() {
 
         global $CFG;
         require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
         require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_newlicense.php');
 
         $form = $this->_form;
+        $cdata = $this->_customdata;
 
         // License options.
         $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, true);
 
-        /* @var $newlicense \MoodleQuickForm_newlicense */
-        $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
-        $form->setTypes(array(
-            'newlicense_shortname' => PARAM_TEXT,
-            'newlicense_fullname' => PARAM_TEXT,
-            'newlicense_source' => PARAM_TEXT
-        ));
+        if (empty($cdata['freeze'])) {
 
-        if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-            foreach ($newlicense->getElements() as $newlicenseelement) {
-                /* @var $newlicenseelement \MoodleQuickForm_text */
-                $newlicenseelement->updateAttributes(array('disabled' => 'disabled'));
+            /* @var $newlicense \MoodleQuickForm_newlicense */
+            $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
+            $form->setTypes(array(
+                'newlicense_shortname' => PARAM_TEXT,
+                'newlicense_fullname' => PARAM_TEXT,
+                'newlicense_source' => PARAM_TEXT
+            ));
+
+            if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
+                foreach ($newlicense->getElements() as $newlicenseelement) {
+                    /* @var $newlicenseelement \MoodleQuickForm_text */
+                    $newlicenseelement->updateAttributes(array('disabled' => 'disabled'));
+                }
+            } else {
+                $form->addGroupRule('newlicense', array(
+                    'newlicense_shortname' => array(array(get_string('newlicense_required', 'block_mbstpl'), 'required'))
+                ), 'required');
             }
-        } else {
-            $form->addGroupRule('newlicense', array(
-                'newlicense_shortname' => array(array(get_string('newlicense_required', 'block_mbstpl'), 'required'))
-            ), 'required');
         }
 
         $form->addRule('license', null, 'required');
+    }
+
+    protected function define_assets() {
+
+        $form = $this->_form;
 
         // List of 3rd-party assets.
         $asset = array();
@@ -138,15 +150,18 @@ class licenseandassetform extends \moodleform {
                 'size' => '30', 'inputmode' => 'url',
                 'placeholder' => get_string('url', 'block_mbstpl')
             ));
-        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'));
+        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'), array('class' => 'mbstpl-asset-license'));
         $asset[] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'),
             array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
         $asset[] = $form->createElement('text', 'asset_source', get_string('source', 'block_mbstpl'),
             array('size' => '20', 'placeholder' => get_string('source', 'block_mbstpl')));
         $assetgroup = $form->createElement('group', 'asset', get_string('assets', 'block_mbstpl'), $asset, null, false);
 
-        $repeatcount = isset($this->_customdata['assetcount']) ? $this->_customdata['assetcount'] : 1;
-        $repeatcount += 2;
+        $repeatcount = empty($this->_customdata['assetcount']) ? self::ASSET_SPACES : $this->_customdata['assetcount'];
+        if (empty($this->_customdata['freeze']) && ($extraslots = $repeatcount % self::ASSET_SPACES)) {
+            $repeatcount += self::ASSET_SPACES - $extraslots;
+        }
+
         $repeatopts = array(
             'asset_id' => array('type' => PARAM_INT),
             'asset_url' => array('type' => PARAM_URL),
@@ -154,8 +169,52 @@ class licenseandassetform extends \moodleform {
             'asset_source' => array('type' => PARAM_TEXT)
         );
         $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3,
-            get_string('addassets', 'block_mbstpl'));
+            get_string('addassets', 'block_mbstpl'), true);
+    }
 
+    protected function define_tags() {
+        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
+        $this->_form->setType('tags', PARAM_TEXT);
+    }
+
+    protected function define_creator() {
+        $creator = '';
+        if (!empty($this->_customdata['creator'])) {
+            $creator = user::format_creator_name($this->_customdata['creator']);
+        }
+        $this->_form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
+    }
+
+    protected function define_legalinfo_fieldset($includechecklist = true) {
+
+        $this->_form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
+
+        // License.
+        $this->define_license();
+
+        // Assets.
+        $this->define_assets();
+
+        // Checklist questions.
+        if ($includechecklist) {
+            $this->define_checklist_questions();
+        }
+
+        // Tags.
+        $this->define_tags();
+
+        $this->_form->setExpanded('legalinfo');
+
+        $this->_form->closeHeaderBefore('legalinfo');
+    }
+
+    protected function define_checklist_questions() {
+        foreach ($this->_customdata['questions'] as $question) {
+            if ($question->datatype == 'checklist') {
+                $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
+                $typeclass::add_template_element($this->_form, $question);
+            }
+        }
     }
 
     function validation($data, $files) {

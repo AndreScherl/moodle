@@ -549,16 +549,16 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $items = array();
         foreach ($assets as $asset) {
 
-            $item = html_writer::link($asset->url, $asset->url);
-            $item .= ' ';
-            $item .= $asset->owner . ', ' . $asset->source;
+            // Setting 'link' for translation string.
+            $a = clone($asset);
+            $a->link = html_writer::link($asset->url, $asset->source);
+            $item = get_string('usedref', 'block_mbstpl', $a);
 
             /* @var $license \block_mbstpl\dataobj\license */
             $license = $licenses[$asset->license];
             if ($license) {
-                $item .= ' (' . html_writer::link($license->source, $license->fullname) . ')';
+                $item .= ', ' . html_writer::link($license->source, $license->fullname);
             }
-
 
             $items[] = $item;
         }

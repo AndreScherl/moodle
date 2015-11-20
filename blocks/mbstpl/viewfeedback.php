@@ -20,6 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('MBSTPL_SKIP_USED_REFERENCES', true);
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
@@ -102,7 +103,7 @@ $revhists = mbst\course::get_revhist($template->id);
 echo $renderer->templatehistory($revhists);
 
 if (mbst\perms::can_sendrevision($template, $coursecontext)) {
-    $url = new moodle_url('/block/mbstpl/forrevision.php');
+    $url = new moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $courseid));
     echo $OUTPUT->single_button($url, get_string('forrevision', 'block_mbstpl'));
 }
 

@@ -41,6 +41,8 @@ class course {
      * @param \context_course $coursecontext
      */
     public static function extend_coursenav(\navigation_node &$coursenode, \context_course $coursecontext) {
+        global $USER;
+
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
 
@@ -53,12 +55,15 @@ class course {
         }
 
         if ($template) {
+
+            $isauthor = $template->authorid == $USER->id;
+
             if (perms::can_assignauthor($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
                 $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
             }
 
-            if (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext)) {
+            if (!$isauthor && (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext))) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
                 $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
             }

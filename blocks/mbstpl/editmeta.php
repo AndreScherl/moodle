@@ -57,7 +57,12 @@ foreach ($questions as $questionid => $question) {
     $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
 }
 $creator = $DB->get_record('user', array('id' => $backup->creatorid));
-$customdata = array('courseid' => $courseid, 'questions' => $questions, 'creator' => $creator);
+$customdata = array(
+    'courseid' => $courseid,
+    'questions' => $questions,
+    'creator' => $creator,
+    'assetcount' => $meta->get_asset_count()
+);
 
 // Set up the form.
 $form = new mbst\form\editmeta(null, $customdata);

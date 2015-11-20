@@ -408,6 +408,7 @@ class manager {
         global $DB;
 
         $courseid = $course->id;
+        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';
@@ -420,12 +421,12 @@ class manager {
             'courseid' => $courseid,
             'questions' => $questions,
             'template' => $template,
+            'assetcount' => $meta->get_asset_count(),
             'course' => $course,
             'creator' => $creator
         );
-        $tform = new mbst\form\editmeta(null, $customdata);
 
-        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tform = new mbst\form\editmeta(null, $customdata);
         $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
         $tform->set_data($answers);
 

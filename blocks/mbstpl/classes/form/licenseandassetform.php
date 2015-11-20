@@ -35,6 +35,8 @@ require_once($CFG->libdir . '/formslib.php');
 
 abstract class licenseandassetform extends \moodleform {
 
+    const ASSET_SPACES = 3;
+
     public static function update_assets_from_submitted_data(meta $meta, $data) {
         global $CFG;
 
@@ -155,8 +157,11 @@ abstract class licenseandassetform extends \moodleform {
             array('size' => '20', 'placeholder' => get_string('source', 'block_mbstpl')));
         $assetgroup = $form->createElement('group', 'asset', get_string('assets', 'block_mbstpl'), $asset, null, false);
 
-        $repeatcount = isset($this->_customdata['assetcount']) ? $this->_customdata['assetcount'] : 1;
-        $repeatcount += 2;
+        $repeatcount = empty($this->_customdata['assetcount']) ? self::ASSET_SPACES : $this->_customdata['assetcount'];
+        if (empty($this->_customdata['freeze']) && ($extraslots = $repeatcount % self::ASSET_SPACES)) {
+            $repeatcount += self::ASSET_SPACES - $extraslots;
+        }
+
         $repeatopts = array(
             'asset_id' => array('type' => PARAM_INT),
             'asset_url' => array('type' => PARAM_URL),
@@ -194,6 +199,9 @@ abstract class licenseandassetform extends \moodleform {
         if ($includechecklist) {
             $this->define_checklist_questions();
         }
+
+        // Tags.
+        $this->define_tags();
 
         $this->_form->setExpanded('legalinfo');
 

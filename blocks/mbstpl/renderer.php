@@ -216,32 +216,37 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * Return list of tempalte history.
      * @param array $revhists
      */
-    public function templatehistory($revhists) {
+    public function templatehistory($revhists, $files) {
         $html = '';
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
         $table = new html_table();
-        $table->header = array(
+        $table->head = array(
             get_string('status'),
             get_string('assigned', 'block_mbstpl'),
-            get_string('updated'),
-            '',
+            get_string('updated', 'block_mbstpl'),
+            get_string('feedback', 'block_mbstpl')
         );
         $table->data = array();
-        $commentpic = \html_writer::img(
-            new moodle_url('/blocks/mbstpl/pix/comments.png'),
-            get_string('viewfeedback', 'block_mbstpl'));
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
-            $viewfdbk = '';
-            if ($hist->hasfeedback) {
-                $feedbackurl = new \moodle_url('/blocks/mbstpl/feedbackdetail.php', array('id' => $hist->id));
-                $viewfdbk = \html_writer::link($feedbackurl, $commentpic);
+            $feedback = '';
+
+            if ($hist->feedback) {
+
+                $feedback = html_writer::tag('dt', get_string('message', 'block_mbstpl'));
+                $feedback .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
+
+                if (isset($files[$hist->id])) {
+                    $feedback .= html_writer::tag('dt', get_string('feedbackfiles', 'block_mbstpl'));
+                    $feedback .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
+                }
             }
+
             $table->data[] = array(
                 $this->status_box($hist->status),
                 $assignedname,
                 userdate($hist->timecreated),
-                $viewfdbk,
+                $feedback ? html_writer::tag('dl', $feedback) : ''
             );
         }
         $html .= html_writer::table($table);
@@ -548,16 +553,16 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $items = array();
         foreach ($assets as $asset) {
 
-            $item = html_writer::link($asset->url, $asset->url);
-            $item .= ' ';
-            $item .= $asset->owner . ', ' . $asset->source;
+            // Setting 'link' for translation string.
+            $a = clone($asset);
+            $a->link = html_writer::link($asset->url, $asset->source);
+            $item = get_string('usedref', 'block_mbstpl', $a);
 
             /* @var $license \block_mbstpl\dataobj\license */
             $license = $licenses[$asset->license];
             if ($license) {
-                $item .= ' (' . html_writer::link($license->source, $license->fullname) . ')';
+                $item .= ', ' . html_writer::link($license->source, $license->fullname);
             }
-
 
             $items[] = $item;
         }

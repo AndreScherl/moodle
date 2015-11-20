@@ -58,8 +58,8 @@ class searchform extends \moodleform {
         $form->addElement('text', 'author', get_string('author', 'block_mbstpl'));
         $form->setType('author', PARAM_TEXT);
 
-        $form->addElement('text', 'keyword', get_string('coursename', 'block_mbstpl'));
-        $form->setType('keyword', PARAM_TEXT);
+        $form->addElement('text', 'coursename', get_string('coursename', 'block_mbstpl'));
+        $form->setType('coursename', PARAM_TEXT);
 
         // Sorting.
         $asc = ': ' . get_string('asc');

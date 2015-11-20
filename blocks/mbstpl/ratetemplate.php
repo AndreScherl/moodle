@@ -20,6 +20,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('MBSTPL_SKIP_USED_REFERENCES', true);
+
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 global $PAGE, $OUTPUT, $USER;
@@ -47,7 +49,11 @@ if (!$template->fetched) {
     redirect($redirecturl);
 }
 
-$tform = mbst\questman\manager::build_form($template, $course, true, true);
+$tform = mbst\questman\manager::build_form($template, $course, array(
+    'justtags' => true,
+    'withrating' => true,
+    'freeze' => true
+));
 
 // Rate form.
 $starrating = new mbst\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));
@@ -56,26 +62,20 @@ if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
     $starrating->rating = $data->block_mbstpl_rating;
-    $starrating->comment = $data->block_mbstpl_rating_comment;
     mbst\rating::save_userrating($template, $starrating);
 
     redirect($redirecturl);
 } else if ($starrating->fetched) {
     $form->set_data(array(
         'block_mbstpl_rating' => $starrating->rating,
-        'block_mbstpl_rating_comment' => $starrating->comment
     ));
 }
-$renderer = $PAGE->get_renderer('block_mbstpl');
+
 echo $OUTPUT->header();
 
 echo html_writer::tag('h1', $course->fullname);
 
 echo html_writer::div($tform->render(), 'template_rating');
-
-if (!is_null($template->rating)) {
-    echo $renderer->rating($template->rating);
-}
 
 echo html_writer::tag('h3', get_string('rating_header', 'block_mbstpl'));
 

@@ -22,7 +22,6 @@
 
 namespace block_mbstpl\form;
 use \block_mbstpl as mbst;
-use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -37,17 +36,22 @@ class editmeta extends licenseandassetform {
 
         $form = $this->_form;
         $cdata = $this->_customdata;
+        $template = isset($cdata['template']) ? $cdata['template'] : null;
+        $course = isset($cdata['course']) ? $cdata['course'] : null;
 
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
 
         // Add template details if exists.
-        if (!empty($cdata['template']) && !empty($cdata['course'])) {
-            $form->addElement('static', 'crsname', get_string('course'), $cdata['course']->fullname);
-            $form->addElement('static', 'creationdate', get_string('creationdate', 'block_mbstpl'), userdate($cdata['course']->timecreated));
-            $form->addElement('static', 'lastupdate', get_string('lastupdate', 'block_mbstpl'), userdate($cdata['template']->timemodified));
-            $creator = mbst\course::get_creators($cdata['template']->id);
+        if (isset($template) && isset($course)) {
+            $form->addElement('header', 'coursemetadata', get_string('coursemetadata', 'block_mbstpl'));
+            $form->addElement('static', 'crsname', get_string('course'), $course->fullname);
+            $form->addElement('static', 'creationdate', get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
+            $form->addElement('static', 'lastupdate', get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
+            $creator = mbst\course::get_creators($template->id);
             $form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
+            $form->setExpanded('coursemetadata');
+            $form->closeHeaderBefore('coursemetadata');
         }
 
         // Add custom questions.
@@ -59,27 +63,20 @@ class editmeta extends licenseandassetform {
             }
         }
 
-        // Add license and asset fields.
-        parent::definition();
+        if (empty($cdata['justtags'])) {
+            mbst\questman\qtype_checklist::edit_comments(true);
 
-        // Tags.
-        $form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
-        $form->setType('tags', PARAM_TEXT);
-
-        // Creator.
-        $creator = '';
-        if (!empty($this->_customdata['creator'])) {
-            $creator = user::format_creator_name($this->_customdata['creator']);
+            $includechecklist = empty($cdata['freeze']);
+            $this->define_legalinfo_fieldset($includechecklist);
+        } else {
+            $this->define_tags();
         }
-        $form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
 
-        // Checklist questions.
-        mbst\questman\qtype_checklist::edit_comments(true);
-        foreach ($questions as $question) {
-            if ($question->datatype == 'checklist') {
-                $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question);
-            }
+        if (!empty($cdata['withrating']) && !empty($template->rating)) {
+            global $PAGE;
+            $renderer = $PAGE->get_renderer('block_mbstpl');
+            $ratingelement = $form->addElement('static', 'rating', get_string('ratingavg', 'block_mbstpl'), $renderer->rating($template->rating, false));
+            $ratingelement->_type = 'html';
         }
 
         $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));

@@ -19,7 +19,7 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+define('MBSTPL_SKIP_USED_REFERENCES', true);
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
@@ -97,7 +97,7 @@ echo $OUTPUT->header();
 echo html_writer::tag('h2', $pagetitle);
 
 if ($step == 1) {
-    $tform = mbst\questman\manager::build_form($template, $course, true, true);
+    $tform = mbst\questman\manager::build_form($template, $course, array('freeze' => true));
     $tform->display();
     echo html_writer::tag('h3', get_string('destination', 'block_mbstpl'));
 }

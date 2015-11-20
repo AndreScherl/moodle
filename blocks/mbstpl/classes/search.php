@@ -40,8 +40,8 @@ class search {
     /* @var array author  */
     private $author;
 
-    /* @var array keyword  */
-    private $keyword;
+    /* @var array coursename  */
+    private $coursename;
 
     /* @var object sortby */
     private $sortby;
@@ -56,7 +56,7 @@ class search {
         $this->sortby = $this->formdata_to_sort($formdata);
         $this->tag = trim($formdata->tag);
         $this->author = trim($formdata->author);
-        $this->keyword = trim($formdata->keyword);
+        $this->coursename = trim($formdata->coursename);
     }
 
     /**
@@ -155,11 +155,11 @@ class search {
             $params['author'] = '%' . $this->author . '%';
         }
 
-        if (!empty($this->keyword)) {
+        if (!empty($this->coursename)) {
             $wheres[] = "(c.shortname LIKE :cname1 OR c.fullname LIKE :cname2)";
-            $keywordwc = '%' . $this->keyword . '%';
-            $params['cname1'] = $keywordwc;
-            $params['cname2'] = $keywordwc;
+            $coursenamewc = '%' . $this->coursename . '%';
+            $params['cname1'] = $coursenamewc;
+            $params['cname2'] = $coursenamewc;
         }
         $filterwheres = implode("\n          AND ", $wheres);
 

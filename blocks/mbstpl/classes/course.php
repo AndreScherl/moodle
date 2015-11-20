@@ -41,6 +41,8 @@ class course {
      * @param \context_course $coursecontext
      */
     public static function extend_coursenav(\navigation_node &$coursenode, \context_course $coursecontext) {
+        global $USER;
+
         $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
 
@@ -53,12 +55,15 @@ class course {
         }
 
         if ($template) {
+
+            $isauthor = $template->authorid == $USER->id;
+
             if (perms::can_assignauthor($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
                 $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
             }
 
-            if (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext)) {
+            if (!$isauthor && (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext))) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
                 $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
             }
@@ -110,7 +115,10 @@ class course {
      * @param \context_course $context
      */
     public static function add_template_blocks(\context_course $context) {
-        global $PAGE;
+
+        if (defined('MBSTPL_SKIP_USED_REFERENCES') && MBSTPL_SKIP_USED_REFERENCES) {
+            return;
+        }
 
         $courseid = $context->instanceid;
 
@@ -120,16 +128,22 @@ class course {
 
             $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
             $assets = $meta->get_assets();
-            $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
 
-            $renderer = $PAGE->get_renderer('block_mbstpl');
+            if (!empty($assets)) {
 
-            $bc = new \block_contents(array(
-                'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
-            $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
-            $bc->content = $renderer->references_block_content($assets, $licenses);
+                global $PAGE;
 
-            $PAGE->blocks->add_fake_block($bc, 'course-template');
+                $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
+
+                $renderer = $PAGE->get_renderer('block_mbstpl');
+
+                $bc = new \block_contents(array(
+                    'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
+                $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
+                $bc->content = $renderer->references_block_content($assets, $licenses);
+
+                $PAGE->blocks->add_fake_block($bc, 'course-template');
+            }
         }
     }
 
@@ -240,7 +254,7 @@ class course {
         }
         $template->update();
 
-        // Enrol reviewer.
+        // Enrol author.
         user::enrol_author($template->courseid, $userid);
     }
 
@@ -284,13 +298,34 @@ class course {
     public static function get_revhist($templateid) {
         global $DB;
         $sql = "
-        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback <> ? AS hasfeedback
+        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback, rh.feedbackformat
         FROM {block_mbstpl_revhist} rh
         JOIN {user} u ON u.id = rh.assignedid
         WHERE rh.templateid = ?
         ORDER BY rh.id DESC
         ";
-        return $DB->get_records_sql($sql, array('', $templateid));
+
+        return $DB->get_records_sql($sql, array($templateid));
+    }
+
+    /**
+     * Get all files associated with an array of rev history objects
+     *
+     * @param \block_mbstpl\dataobj\revhist[] $revhist
+     * @return array associative array mapping revhist id to an array of files
+     */
+    public static function get_revhist_files($revhists, $template) {
+
+        $context = \context_course::instance($template->courseid);
+        $files = array();
+        foreach ($revhists as $hist) {
+            if (!($hist instanceof dataobj\revhist)) {
+                $hist = new dataobj\revhist((array) $hist, false);
+            }
+            $files[$hist->id] = $hist->get_files($context);
+        }
+
+        return $files;
     }
     
     /**
@@ -315,17 +350,28 @@ class course {
      * Gets a list of everyone who created the course template.
      * @param $templateid
      */
-    public static function get_creators($templateid) {
+    public static function get_creators($templateid, $includereviehistory = false) {
         global $DB;
 
         $fields = get_all_user_name_fields(true, 'u');
-        $sql = "
-        SELECT u.id, $fields
-        FROM {block_mbstpl_revhist} rh
-        JOIN {user} u ON u.id = rh.assignedid
-        WHERE rh.templateid = ?
-        GROUP BY u.id
-        ";
+
+        if ($includereviehistory) {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_revhist} rh
+            JOIN {user} u ON u.id = rh.assignedid
+            WHERE rh.templateid = ?
+            GROUP BY u.id
+            ";
+        } else {
+            $sql = "
+            SELECT u.id, $fields
+            FROM {block_mbstpl_template} tpl
+            JOIN {user} u ON u.id = tpl.authorid
+            WHERE tpl.id = ?
+            ";
+        }
+
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
         foreach ($results as $result) {
@@ -436,11 +482,11 @@ class course {
         list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
         $params['courseid'] = $cid;
         $params['courselevel'] = CONTEXT_COURSE;
-        $sql = "SELECT ue.*
+        $sql = "SELECT DISTINCT ue.*
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                 JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
-                JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid $useridin)";
+                WHERE ue.userid $useridin";
         $enrolments = $DB->get_records_sql($sql, $params);
         foreach ($enrolments as $ue) {
             if (!isset($instances[$ue->enrolid])) {

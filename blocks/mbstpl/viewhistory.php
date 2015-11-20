@@ -20,6 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('MBSTPL_SKIP_USED_REFERENCES', true);
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
@@ -43,7 +44,7 @@ if (!mbst\perms::can_viewhistory($coursecontext)) {
     redirect($courseurl);
 }
 
-$template = mbst\dataobj\template::get_from_course($courseid);
+$template = new mbst\dataobj\template(array('courseid' => $courseid), true, MUST_EXIST);
 $templatecourse = get_course($template->courseid);
 
 $renderer = $PAGE->get_renderer('block_mbstpl');
@@ -56,6 +57,7 @@ $courseswithcreators = mbst\course::get_courses_with_creators($template->id);
 echo $renderer->templateusage($courseswithcreators);
 
 $revhists = mbst\course::get_revhist($template->id);
-echo $renderer->templatehistory($revhists);
+$files = mbst\course::get_revhist_files($revhists, $template);
+echo $renderer->templatehistory($revhists, $files);
 
 echo $OUTPUT->footer();

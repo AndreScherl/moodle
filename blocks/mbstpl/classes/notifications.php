@@ -58,21 +58,20 @@ class notifications {
             $course = $DB->get_record('course', array('id' => $course));
             $course->url = (string)new \moodle_url('/course/view.php?id=' . $course->id);
         }
-        $from = self::get_fromuser();
 
         // Email to managers.
         $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
         foreach ($managers as $manager) {
-            email_to_user($manager, $from, $subject, $body);
+            self::send_message('deployed', $manager, $subject, $body);
         }
 
         // Email to course author.
         $author = $DB->get_record('user', array('id' => $backup->creatorid), '*', MUST_EXIST);
         $subject = get_string('emailtempldeployed_subj', 'block_mbstpl');
         $body = get_string('emailtempldeployed_body', 'block_mbstpl', $course);
-        email_to_user($author, $from, $subject, $body);
+        self::send_message('deployed', $author, $subject, $body);
     }
 
     /** Notify the relevant users that the secondary restore is successful.
@@ -86,21 +85,20 @@ class notifications {
             $course = $DB->get_record('course', array('id' => $course));
             $course->url = (string)new \moodle_url('/course/view.php?id=' . $course->id);
         }
-        $from = self::get_fromuser();
 
         // Email to managers.
         $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
         foreach ($managers as $manager) {
-            email_to_user($manager, $from, $subject, $body);
+            self::send_message('duplicated', $manager, $subject, $body);
         }
 
         // Email to course author.
         $requester = $DB->get_record('user', array('id' => $requesterid), '*', MUST_EXIST);
         $subject = get_string('emaildupldeployed_subj', 'block_mbstpl');
         $body = get_string('emaildupldeployed_body', 'block_mbstpl', $course);
-        email_to_user($requester, $from, $subject, $body);
+        self::send_message('duplicated', $requester, $subject, $body);
     }
 
     /**
@@ -112,16 +110,12 @@ class notifications {
         global $DB;
 
         $touser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
-        if (!$touser->email) {
-            return;
-        }
 
-        $fromuser = self::get_fromuser();
         $url = new \moodle_url('/course/view.php', array('id' => $course->id));
         $a = (object)array('url' => $url->out(false), 'fullname' => $course->fullname);
         $subject = get_string('emailassignedreviewer_subj', 'block_mbstpl');
         $body = get_string('emailassignedreviewer_body', 'block_mbstpl', $a);
-        email_to_user($touser, $fromuser, $subject, $body);
+        self::send_message('assignedreviewer', $touser, $subject, $body);
     }
 
     /**
@@ -133,16 +127,12 @@ class notifications {
         global $DB;
 
         $touser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
-        if (!$touser->email) {
-            return;
-        }
 
-        $fromuser = self::get_fromuser();
         $url = new \moodle_url('/course/view.php', array('id' => $course->id));
         $a = (object)array('url' => $url->out(false), 'fullname' => $course->fullname);
         $subject = get_string('emailassignedauthor_subj', 'block_mbstpl');
         $body = get_string('emailassignedauthor_body', 'block_mbstpl', $a);
-        email_to_user($touser, $fromuser, $subject, $body);
+        self::send_message('assignedauthor', $touser, $subject, $body);
     }
 
     /**
@@ -154,18 +144,15 @@ class notifications {
 
         $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
         $touser = $DB->get_record('user', array('id' => $template->authorid));
-        if (!$touser->email) {
-            return;
-        }
 
-        $fromuser = self::get_fromuser();
         $a = (object)array(
             'url' => new \moodle_url('/course/view.php', array('id' => $template->courseid)),
             'coursename' => $coursename,
         );
         $subject = get_string('emailcoursepublished_subj', 'block_mbstpl');
         $body = get_string('emailcoursepublished_body', 'block_mbstpl', $a);
-        email_to_user($touser, $fromuser, $subject, $body);
+
+        self::send_message('published', $touser, $subject, $body);
     }
 
     /**
@@ -198,11 +185,7 @@ class notifications {
             $fromid = $template->authorid;
         }
         $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
-        if (!$touser->email) {
-            return;
-        }
 
-        $fromuser = self::get_fromuser();
         $sender = $DB->get_record('user', array('id' => $fromid), '*', MUST_EXIST);
         $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
         $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
@@ -218,7 +201,8 @@ class notifications {
             $subject = get_string('emailfeedbackauth_subj', 'block_mbstpl');
             $body = get_string('emailfeedbackauth_body', 'block_mbstpl', $a);
         }
-        email_to_user($touser, $fromuser, $subject, $body);
+
+        self::send_message('feedback', $touser, $subject, $body);
     }
 
     /**
@@ -242,8 +226,7 @@ class notifications {
         $subject = get_string('emailrevision_subj', 'block_mbstpl');
         $body = get_string('emailrevision_body', 'block_mbstpl', $a);
         $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
-        $fromuser = self::get_fromuser();
-        email_to_user($touser, $fromuser, $subject, $body);
+        self::send_message('forrevision', $touser, $subject, $body);
     }
 
     /**
@@ -252,13 +235,27 @@ class notifications {
      * @param \Exception $e
      */
     public static function notify_error($identifier, \Exception $e = null) {
-        $from = self::get_fromuser();
         $to = get_admin();
         $message = empty($e) ? '' : $e->getMessage();
         $errorstr = get_string($identifier, 'block_mbstpl', $identifier);
         $subject = get_string('erroremailsubj', 'block_mbstpl');
         $a = (object)array('message' => $message, 'errorstr' => $errorstr);
         $body = get_string('erroremailbody', 'block_mbstpl', $a);
-        email_to_user($to, $from, $subject, $body);
+        self::send_message('error', $to, $subject, $body);
+    }
+
+    private static function send_message($messagetype, $touser, $subject, $body) {
+        $message = new \stdClass();
+        $message->component         = 'block_mbstpl';
+        $message->name              = $messagetype;
+        $message->userfrom          = self::get_fromuser();
+        $message->userto            = $touser;
+        $message->subject           = $subject;
+        $message->fullmessage       = $body;
+        $message->fullmessageformat = FORMAT_PLAIN;
+        $message->fullmessagehtml   = '';
+        $message->smallmessage      = '';
+        $message->notification      = 1;
+        message_send($message);
     }
 }

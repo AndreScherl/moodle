@@ -185,7 +185,7 @@ abstract class licenseandassetform extends \moodleform {
         $this->_form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
     }
 
-    protected function define_legalinfo_fieldset($includechecklist = true) {
+    protected function define_legalinfo_fieldset($includechecklist = true, $includetags = true) {
 
         $this->_form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
 
@@ -201,7 +201,9 @@ abstract class licenseandassetform extends \moodleform {
         }
 
         // Tags.
-        $this->define_tags();
+        if ($includetags) {
+            $this->define_tags();
+        }
 
         $this->_form->setExpanded('legalinfo');
 

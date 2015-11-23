@@ -73,7 +73,7 @@ class sendtemplate extends licenseandassetform {
         $form->setExpanded('coursemetadata');
         $form->closeHeaderBefore('coursemetadata');
 
-        $this->define_legalinfo_fieldset();
+        $this->define_legalinfo_fieldset(true, false);
 
         $this->add_action_buttons(true, get_string('sendforreviewing', 'block_mbstpl'));
 

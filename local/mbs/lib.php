@@ -63,16 +63,30 @@ function local_mbs_extends_navigation(global_navigation $navigation) {
     }
 
     // Extend for block_mbstpl.
-    if (!($PAGE->context instanceof context_course)) {
-        return;
+    $context = local_mbs_get_block_mbstpl_context($PAGE->context);
+    if ($context) {
+        block_mbstpl\course::add_template_blocks($context);
     }
-    if ($PAGE->context->instanceid == get_site()->id) {
-        return;
+}
+
+function local_mbs_get_block_mbstpl_context($context) {
+
+    if ($context instanceof context_module) {
+        $context = $context->get_course_context();
+    }
+
+    if (!($context instanceof context_course)) {
+        return null;
+    }
+
+    if ($context->instanceid == get_site()->id) {
+        return null;
     }
     if (!class_exists('block_mbstpl\course')) {
-        return;
+        return null;
     }
-    block_mbstpl\course::add_template_blocks($PAGE->context);
+
+    return $context;
 }
 
 /** Do all the manipulation for the settings navigation
@@ -92,16 +106,10 @@ function local_mbs_extends_settings_navigation(settings_navigation $navigation, 
     }
 
     // Extend for block_mbstpl.
-    if (!($context instanceof context_course)) {
-        return;
+    $context = local_mbs_get_block_mbstpl_context($context);
+    if ($context) {
+        block_mbstpl\course::extend_coursenav($navigation, $context);
     }
-    if ($context->instanceid == get_site()->id) {
-        return;
-    }
-    if (!class_exists('block_mbstpl\course')) {
-        return;
-    }
-    block_mbstpl\course::extend_coursenav($navigation, $context);
 }
 
 /**

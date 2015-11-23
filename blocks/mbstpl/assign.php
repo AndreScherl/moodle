@@ -19,7 +19,7 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+define('MBSTPL_SKIP_USED_REFERENCES', true);
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 

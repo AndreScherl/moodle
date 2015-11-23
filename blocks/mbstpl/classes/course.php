@@ -35,6 +35,8 @@ class course {
     const TPLPREFIX = 'Musterkurs';
     const BACKUP_LOCALPATH = 'mbstpl';
 
+    private static $skiptemplateblockson = ['/enrol/index.php'];
+
     /**
      * Extends the navigation, depending on capability.
      * @param \navigation_node $coursenode
@@ -117,6 +119,11 @@ class course {
     public static function add_template_blocks(\context_course $context) {
 
         if (defined('MBSTPL_SKIP_USED_REFERENCES') && MBSTPL_SKIP_USED_REFERENCES) {
+            return;
+        }
+
+        global $PAGE;
+        if (in_array($PAGE->url->get_path(), self::$skiptemplateblockson)) {
             return;
         }
 

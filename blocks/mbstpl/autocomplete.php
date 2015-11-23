@@ -32,9 +32,10 @@ require_sesskey();
 
 $autocomplete = new \block_mbstpl\autocomplete();
 
-$keyword = required_param("keyword", PARAM_TEXT);
+$keyword = required_param('keyword', PARAM_TEXT);
+$fieldname = required_param('field', PARAM_TEXT);
 
-$suggestions = $autocomplete->get_suggestions($keyword);
+$suggestions = $autocomplete->get_suggestions($fieldname, $keyword);
 
 // Reset keys.
 echo json_encode($suggestions);

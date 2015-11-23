@@ -401,11 +401,13 @@ aside.row {
 
 #page-blocks-mbstpl-templatesearch,
 #page-blocks-mbstpl-editmeta,
-#page-blocks-mbstpl-sendtemplate {
+#page-blocks-mbstpl-sendtemplate,
+#page-blocks-mbstpl-ratetemplate {
     form {
         fieldset {
+            //qtype_checkboxgroup
             .fitem.fitem_fgroup {
-                //label and checkbox of qtype_checkboxgroup
+                //label and checkbox
                 span {
                     display: inline-block;
                     padding-right: 8px;
@@ -447,6 +449,23 @@ aside.row {
                     &:hover, &:active, &:focus {
                         color: $white;
                     }
+                }
+            }
+        }
+    }
+}
+
+//complaintreport form of block mbstpl
+#page-blocks-mbstpl-complaintreport {
+    form {
+        fieldset {
+            //radiobuttongroup
+            .fitem.fitem_fgroup {
+                input {
+                    margin-right: 4px;
+                }
+                fieldset.felement.fgroup {
+                    padding-top: 8px;
                 }
             }
         }

@@ -186,4 +186,12 @@ class meta extends base {
         }
         return $this->assets;
     }
+
+    /**
+     * Get the number of asset objects associated with this meta data.
+     * @return number
+     */
+    public function get_asset_count() {
+        return count($this->get_assets());
+    }
 }

@@ -33,6 +33,9 @@ $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('course');
 
 require_login();
+if (!mbst\perms::can_searchtemplates()) {
+    throw new moodle_exception('errorcannotsearch', 'block_mbstpl');
+}
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);

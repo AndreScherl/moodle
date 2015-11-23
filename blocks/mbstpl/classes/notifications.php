@@ -261,4 +261,58 @@ class notifications {
         $body = get_string('erroremailbody', 'block_mbstpl', $a);
         email_to_user($to, $from, $subject, $body);
     }
+    
+    /**
+     * Send complain to support.
+     * @param $errordata
+     */
+    public static function send_complaint($errordata) {
+        global $DB;
+        $user = (object)array(
+            'email' => $errordata->email,
+            'id' => $errordata->userid,
+            'maildisplay' => true
+        );
+        $admin = get_admin();
+        $support = (object)array(
+            'email' => get_config('block_mbstpl', 'complaintemail'),
+            'id' => $admin->id
+        );
+        $from = $user;
+        $to = $support;
+        $coursename = $DB->get_field('course', 'fullname', array('id' => $errordata->courseid), MUST_EXIST);
+        $courseurl = new \moodle_url('/course/view.php', array('id' => $errordata->courseid));
+        $a = (object)array(
+            'coursename' => $coursename,
+            'details' => $errordata->details,
+            'error' => $errordata->errortype,
+            'from' => $from,
+            'url' => $courseurl
+        );
+        $subject = get_string('emailcomplaint_subj', 'block_mbstpl');
+        $body = get_string('emailcomplaint_body', 'block_mbstpl', $a);
+        email_to_user($to, $from, $subject, $body);
+    }
+    
+    /**
+     * Notify the user that the complaint arrived.
+     * @param $errordata
+     */
+    public static function notify_complaint_sent($userid, $email) {
+        $user = (object)array(
+            'email' => $email,
+            'id' => $userid
+        );
+        $admin = get_admin();
+        $support = (object)array(
+            'email' => get_config('block_mbstpl', 'complaintemail'),
+            'id' => $admin->id,
+            'maildisplay' => true
+        );
+        $from = $support;
+        $to = $user;
+        $subject = get_string('emailcomplaintsend_subj', 'block_mbstpl');
+        $body = get_string('emailcomplaintsend_body', 'block_mbstpl');
+        email_to_user($to, $from, $subject, $body);
+    }
 }

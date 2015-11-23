@@ -37,8 +37,9 @@ class user {
      * Enrol a user with the reviewer role and notify them.
      * @param $courseid
      * @param $userid
+     * @param $notify
      */
-    public static function enrol_reviewer($courseid, $userid) {
+    public static function enrol_reviewer($courseid, $userid, $notify = true) {
         global $DB;
 
         if (!$roleid = get_config('block_mbstpl', 'reviewerrole')) {
@@ -50,7 +51,9 @@ class user {
         self::enrol_user_to_course($userid, $courseid, $roleid);
 
         // Now let them know about it.
-        notifications::notify_assignedreviewer($course, $userid);
+        if ($notify) {
+            notifications::notify_assignedreviewer($course, $userid);
+        }
     }
 
     /**
@@ -141,7 +144,7 @@ class user {
                 $template->type = 'revision';
             } else if ($template->status == dataobj\template::STATUS_UNDER_REVIEW) {
                 $template->type = 'review';
-            } else if ($template->status == dataobj\template::STATUS_PUBLISHED) {
+            } else if ($template->authorid == $userid && $template->status == dataobj\template::STATUS_PUBLISHED) {
                 $template->type = 'published';
             }
 

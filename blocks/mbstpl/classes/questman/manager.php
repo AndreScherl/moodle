@@ -404,11 +404,12 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form($template, $course, $populate = false, $freeze = false) {
+    public static function build_form($template, $course, $customdata = array()) {
 
         global $DB;
 
         $courseid = $course->id;
+        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';
@@ -417,108 +418,58 @@ class manager {
         foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
         }
-        $customdata = array(
+        $customdata += array(
             'courseid' => $courseid,
             'questions' => $questions,
-            'freeze' => $freeze,
             'template' => $template,
+            'assetcount' => $meta->get_asset_count(),
             'course' => $course,
             'creator' => $creator
         );
-        $tform = new mbst\form\editmeta(null, $customdata);
 
-        if ($populate) {
-            $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-            $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
-            $tform->set_data($answers);
-        }
+        $tform = new mbst\form\editmeta(null, $customdata);
+        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+        $tform->set_data($answers);
+
+        self::populate_meta_and_assets($tform, $meta, false);
 
         return $tform;
     }
-    
-     /**
-     * Writes strings into a local language pack file
-     *
-     * @param string $component the name of the component
-     * @param array $strings
-     */
-    protected static function dump_strings($lang, $component, $filepath, $strings) {
-        global $CFG;
 
-        if ($lang !== clean_param($lang, PARAM_LANG)) {
-            debugging('Unable to dump local strings for non-installed language pack .'.s($lang));
-            return false;
-        }
-        if ($component !== clean_param($component, PARAM_COMPONENT)) {
-            throw new coding_exception('Incorrect component name');
-        }
-     /*   if (!$filename = self::get_component_filename($component)) {
-            debugging('Unable to find the filename for the component '.s($component));
-            return false;
-        }
-        if ($filename !== clean_param($filename, PARAM_FILE)) {
-            throw new coding_exception('Incorrect file name '.s($filename));
-        }*/
-        list($package, $subpackage) = \core_component::normalize_component($component);
-        $packageinfo = " * @package    $package";
-        if (!is_null($subpackage)) {
-            $packageinfo .= "\n * @subpackage $subpackage";
-        }
-        /*$filepath = self::get_localpack_location($lang);
-        $filepath = $filepath.'/'.$filename;*/
-        if (!is_dir(dirname($filepath))) {
-            check_dir_exists(dirname($filepath));
-        }
+    public static function populate_meta_and_assets(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
 
-        if (!$f = fopen($filepath, 'w')) {
-            debugging('Unable to write '.s($filepath));
-            return false;
-        }
-        fwrite($f, <<<EOF
-<?php
-
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
-/**
- * Language pack from $CFG->wwwroot
- *
-$packageinfo
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-defined('MOODLE_INTERNAL') || die();
-
-
-EOF
+        $setdata = (object)array(
+            'asset_id' => array(),
+            'asset_url' => array(),
+            'asset_license' => array(),
+            'asset_owner' => array(),
+            'asset_source' => array(),
+            'license' => $meta->license,
+            'tags' => $meta->get_tags_string(),
         );
 
-        foreach ($strings as $stringid => $text) {
-            if ($stringid !== clean_param($stringid, PARAM_STRINGID)) {
-                debugging('Invalid string identifier '.s($stringid));
-                continue;
+        if ($setanswers) {
+            // Load the answers to the dynamic questions.
+            /* @var $answers mbst\dataobj\answer[] */
+            $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
+            foreach ($answers as $answer) {
+                $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
+                $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
             }
-            fwrite($f, '$string[\'' . $stringid . '\'] = ');
-            fwrite($f, var_export($text, true));
-            fwrite($f, ";\n");
         }
-        fclose($f);
-        @chmod($filepath, $CFG->filepermissions);
+
+        // Load the assets fields.
+        $i = 0;
+        foreach ($meta->get_assets() as $asset) {
+            $setdata->asset_id[$i] = $asset->id;
+            $setdata->asset_url[$i] = $asset->url;
+            $setdata->asset_license[$i] = $asset->license;
+            $setdata->asset_owner[$i] = $asset->owner;
+            $setdata->asset_source[$i] = $asset->source;
+            $i++;
+        }
+        $form->set_data($setdata);
     }
-    
     
     /**
      * Save the helptext for a custom field with given fieldid.

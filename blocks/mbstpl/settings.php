@@ -51,6 +51,9 @@ if ($ADMIN->fulltree) {
                                                   get_string('complainturl', 'block_mbstpl'),
                                                   get_string('complainturl_desc', 'block_mbstpl'), null, PARAM_URL));
 
+    $settings->add(new admin_setting_configtext('block_mbstpl/complaintemail',
+                                                  get_string('complaintemail', 'block_mbstpl'),
+                                                  get_string('complaintemail_desc', 'block_mbstpl'), 'mebis@alp.dillingen.de', PARAM_EMAIL));
 
     $settings->add(new admin_setting_configdate('block_mbstpl/nextstatsreport',
                                                   get_string('nextstatsreport', 'block_mbstpl'),

@@ -7,15 +7,14 @@ M.block_mbstpl.templatesearch = {
 	 * Initiate the module.
 	 */
 	init : function() {
-		var inputField = Y.one('input#id_keyword'),
-		inputAction = function(e) {
+		var inputAction = function(e) {
 			var keyword = e.currentTarget.getDOMNode().value;
 			/*
-			 * The autocomplete only kicks in after 3 characters to avoid unneccesary
+			 * The autocomplete only kicks in after 3 characters to avoid unnecessary
 			 * server load.
 			 */
 			if (keyword.length >= 3) {
-				M.block_mbstpl.templatesearch.requestSuggestions(keyword);
+				M.block_mbstpl.templatesearch.requestSuggestions(keyword, e.currentTarget);
 			} else {
 				// Remove previous suggestions.
 				Y.all('.mbstpl-suggestion').remove();
@@ -23,17 +22,19 @@ M.block_mbstpl.templatesearch = {
 		};
 
 		// Set autocomplete triggers.
-		inputField.on('keyup', inputAction);
-		inputField.on('focus', inputAction);
-		inputField.on('blur', function() {
-			/*
-			 * The timeout is essential, otherwise the box is removed before the
-			 * click action gets triggered.
-			 * */
-			setTimeout(function() {
-				// Remove previous suggestions.
-				Y.all('.mbstpl-suggestion').remove();
-			}, 100);
+		Y.all('input[type=text]').each(function(inputField) {
+			inputField.on('keyup', inputAction);
+			inputField.on('focus', inputAction);
+			inputField.on('blur', function() {
+				/*
+				 * The timeout is essential, otherwise the box is removed before the
+				 * click action gets triggered.
+				 * */
+				setTimeout(function() {
+					// Remove previous suggestions.
+					Y.all('.mbstpl-suggestion').remove();
+				}, 100);
+			});
 		});
 
 		// Set layout change listener.
@@ -41,7 +42,7 @@ M.block_mbstpl.templatesearch = {
 			e.preventDefault();
 			// Set desired layout for next search query
 			var field = Y.one('.mbstpl-search-form input[name="layout"]'),
-			layout = e.target.getAttribute('l');
+				layout = e.target.getAttribute('l');
 			field.set('value', layout);
 
 			// Change CSS classes on list items to reflect the selected layout.
@@ -55,16 +56,17 @@ M.block_mbstpl.templatesearch = {
 	/**
 	 * Make a request to the back-end for suggestions.
 	 */
-	requestSuggestions : function(keyword) {
+	requestSuggestions : function(keyword, inputField) {
 		// Set up request params.
 		var request = {
 			method : "POST",
 			sync : false,
 			timeout : 5000,
-			data : { 'sesskey' : M.cfg.sesskey, 'keyword' : keyword },
+			data : { 'sesskey' : M.cfg.sesskey, 'keyword' : keyword, 'field' : inputField.getDOMNode().name },
 			on : {
-				success : M.block_mbstpl.templatesearch.renderAutocomplete,
-				failure : function(id, data) { Y.log(data); }
+				success : function(id, data) {M.block_mbstpl.templatesearch.renderAutocomplete(id, data, inputField);},
+				failure : function(id, data) { Y.log(data);Y.log(e);}
+
 			}
 		};
 
@@ -75,35 +77,39 @@ M.block_mbstpl.templatesearch = {
 	/**
 	 * Put the suggestion into the input box.
 	 */
-	selectSuggestion: function(e) {
+	selectSuggestion: function(e, inputField) {
 		var value = e.currentTarget.getHTML();
-		Y.one('input#id_keyword').set('value', value);
+		inputField.set('value', value);
 		Y.all('.mbstpl-suggestion').remove();
 	},
 
 	/**
 	 * Render a "drop-down" menu for suggestions.
 	 */
-	renderAutocomplete: function(id, data) {
+	renderAutocomplete: function(id, data, inputField) {
 		// Remove previous suggestions.
 		Y.all('.mbstpl-suggestion').remove();
 
 		var suggestions = JSON.parse(data.response),
-		inputField = Y.one('input#id_keyword'),
 		w = inputField.getDOMNode().offsetWidth,
 		x = inputField.getX();
 		y = inputField.getY() + inputField.getDOMNode().offsetHeight;
+
+		var sendOnclick = function(e) {
+			M.block_mbstpl.templatesearch.selectSuggestion(e, inputField);
+		};
 
 		// Render boxes under each other.
 		for (var i = 0; i < suggestions.length; i++) {
 			var nodeContent = '<div class="mbstpl-suggestion" style=" top:' + y +
 			'px; left:' + x + 'px;width:' + w + 'px">' + suggestions[i] + '</div>',
 			suggestionNode = Y.Node.create(nodeContent);
-			suggestionNode.on('click', M.block_mbstpl.templatesearch.selectSuggestion);
+			suggestionNode.on('click', sendOnclick);
 			Y.one('body').append(suggestionNode),
 			y += suggestionNode.getDOMNode().offsetHeight;
 		}
 	}
 };
+
 
 }, '@VERSION@', {"requires": ["base", "node"]});

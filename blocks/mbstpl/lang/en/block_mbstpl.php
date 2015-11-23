@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language pack from http://localhost/mebis2
+ * Language pack from http://localhost/mebis
  *
  * @package    block
  * @subpackage mbstpl
@@ -45,13 +45,24 @@ $string['checklistexpln'] = 'Note: questions of this type will be displayed toge
 Each item can be marked as \'Yes\', \'No\' or \'Not applicable\'.<br>
 It is not possible to search for courses based on these fields.';
 $string['comment'] = 'Comment';
+$string['complaintemail'] = 'Complaint Email';
+$string['complaintemail_desc'] = 'Email for template complaints.';
+$string['complaintform'] = 'Complaint Report';
+$string['complaintformdetails_default'] = 'Details...';
+$string['complaintformemail'] = 'Why do we require an email address?';
+$string['complaintformemail_default'] = 'Please enter your email';
+$string['complaintformemail_help'] = 'We use your email for inquiries. With content mistakes the course author will contact you, perhaps.';
+$string['complaintformerrortype'] = 'Kind of mistake';
+$string['complaintformerrortype_1'] = 'moral rights infringement';
+$string['complaintformerrortype_2'] = 'terms of use infringement';
+$string['complaintformerrortype_3'] = 'other';
 $string['complainturl'] = 'Complaint URL';
 $string['complainturl_desc'] = 'External URL for course complaints. courseid parameter will be appended.';
 $string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';
 $string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
-$string['copyright'] = 'Alle Inhalte des Kurses sind frei von Rechten Dritter';
 $string['coursekeyword'] = 'Course keyword';
 $string['coursename'] = 'Course name';
+$string['coursemetadata'] = 'Course Metadata';
 $string['coursesfromtemplate'] = 'Courses created from this template';
 $string['cousretemplates'] = 'Course templates';
 $string['creator'] = 'Creator';
@@ -78,8 +89,24 @@ $string['emailassignedauthor_subj'] = 'You have been assigned as a template auth
 $string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
 {$a->url}';
 $string['emailcoursepublished_subj'] = 'Template course published';
-$string['emaildupldeployed_body'] = 'The template course {$a->fullname} has been duplicated into a new copy. It can be viewed at:
+$string['emailcomplaint_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
 {$a->url}';
+$string['emailcomplaint_subj'] = 'Complaint';
+$string['emailcomplaintsend_body'] = 'There is a complaint for the template course {$a->coursename}. It can be viewed at:
+{$a->url}';
+$string['emailcomplaintsend_subj'] = 'Complaint sent';
+$string['emaildupldeployed_body'] = 'Dear teachSHARE user,
+    
+    thanks for your complaint. 
+    
+Best regards, 
+your support team
+Andrea Taras
+Akademie für Lehrerfortbildung und Personalführung
+Kardinal-von-Waldburg-Str. 6-7
+Hotline: 09071 - 53 300
+mebis@alp.dillingen.de
+www.mebis.bayern.de';
 $string['emaildupldeployed_subj'] = 'Template duplicated';
 $string['emailfeedbackauth_body'] = 'Dear template reviewer,
 The author of course course {$a->fullname}, {$a->reviewer}, has adjusted the course. The following feedback has been given:
@@ -110,6 +137,7 @@ $string['errorcannotassignauthor'] = 'You cannot assign authors for this course.
 $string['errorcannotassignreviewer'] = 'You cannot assign a reviewer for this course.';
 $string['errorcannotdupcrs'] = 'You cannot duplicate this course.';
 $string['errorcannotmovefile'] = 'Could not move course backup file to restore location.';
+$string['errorcannotsearch'] = 'You cannot search for templates on this site.';
 $string['errorcannotsendforrevision'] = 'You cannot send this course template for revision.';
 $string['errorcannotviewfeedback'] = 'You cannot view feedback for this course.';
 $string['errorcatnotexists'] = 'Restore category does not exist.';
@@ -136,11 +164,13 @@ $string['field_checkboxgroup'] = 'Checkboxgroup';
 $string['forrevision'] = 'For revision';
 $string['history'] = 'History';
 $string['incluserdata'] = 'Publish user data';
+$string['incorrectfieldname'] = 'Incorrect field name provided.';
 $string['initialform'] = 'Initial form';
 $string['lastupdate'] = 'Last update';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
+$string['legalinfo'] = 'Legal Information';
 $string['license'] = 'Published under license';
 $string['licenses_header'] = 'Available licenses';
 $string['licenses_edit'] = 'Manage licenses';
@@ -162,6 +192,7 @@ $string['mbstpl:sendcoursetemplate'] = 'Send course template';
 $string['mbstpl:viewcoursetemplatebackups'] = 'View course template backups';
 $string['mbstpl:viewhistory'] = 'View course history';
 $string['mbstpl:viewrating'] = 'View course rating';
+$string['message'] = 'Message';
 $string['mustselectuser'] = 'You must select a user';
 $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';
@@ -236,9 +267,11 @@ $string['timeassigned'] = 'Time assigned';
 $string['tplremindafter'] = 'Send template reminder after';
 $string['tplremindafter_desc'] = 'Anyone with the system context capability of cousretemplatemanager will receive notification when a template has not been updated for the specified time.';
 $string['tplremindersent'] = 'Template reminders sent.';
+$string['updated'] = 'Updated';
 $string['uploadfile'] = 'Upload file';
 $string['url'] = 'Site URL';
 $string['useq'] = 'Use question';
+$string['usedref'] = '{$a->link} by {$a->owner}';
 $string['viewfeedback'] = 'View feedback for this revision';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';
@@ -246,11 +279,23 @@ $string['rating'] = 'Rating';
 $string['ratingavg'] = 'Rating (average)';
 $string['rating_header'] = 'Rate this course\'s template';
 $string['rating_comments'] = 'Feedback / comments';
-$string['rating_submitbutton'] = 'Submit';
-$string['rating_cancelbutton'] = 'Cancel';
+$string['submitbutton'] = 'Submit';
+$string['cancelbutton'] = 'Cancel';
 $string['rating_star'] = '{$a} star';
 $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You will receive an email once the action has been completed.';
 $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
-
+$string['custq8'] = 'Schulart';
+$string['custq8_help'] = '';
+$string['custq9'] = 'Jahrgangsstufe';
+$string['custq9_help'] = '';
+$string['custq10'] = 'Personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
+$string['custq10_help'] = '<ul>
+<li>Profilnamen werden automatisch anonymisiert, z. B. Autor eines Forenbeitrags.</li>
+<li>Namensnennungen in Texteingaben müssen selbstständig editiert werden, z. B.  „Eva hat ein tolles Referat gehalten.“ -&gt; „SchülerX hat ein tolles Referat gehalten.“ </li>
+</ul>';
+$string['custq11'] = 'Fächer';
+$string['custq11_help'] = '';
+$string['custq12'] = 'Örtlichkeit';
+$string['custq12_help'] = '';

@@ -43,20 +43,7 @@ class perms {
             return true;
         }
 
-        if ($template->authorid == $USER->id) {
-            return $template->status == $template::STATUS_UNDER_REVISION;
-        }
-
-        if ($template->reviewerid == $USER->id) {
-            $allowed = array(
-                $template::STATUS_PUBLISHED,
-                $template::STATUS_UNDER_REVIEW,
-                $template::STATUS_ARCHIVED,
-            );
-            return in_array($template->status, $allowed);
-        }
-
-        return false;
+        return $template->authorid == $USER->id || $template->reviewerid == $USER->id;
     }
 
     /**
@@ -224,7 +211,10 @@ class perms {
             return false;
         }
 
-        return \block_mbstpl\dataobj\template::get_from_course($coursecontext->instanceid) != null;
+        if (!\block_mbstpl\dataobj\template::fetch(array('courseid' => $coursecontext->instanceid))) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -234,4 +224,14 @@ class perms {
     public static function can_viewbackups() {
         return has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance());
     }
+
+
+    /**
+     * Does the user have the capability to search for templates.
+     * @return bool
+     */
+    public static function can_searchtemplates() {
+        return has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance());
+    }
+
 }

@@ -139,7 +139,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 
 .mbstpl-suggestion {
 	position: absolute;
-	min-height: 39px;
+	min-height: 30px;
 	cursor: pointer;
 	padding: 6px 12px;
 	font-size: 18px;
@@ -204,4 +204,9 @@ ul.mbsfilelist, ul.mbsfilelist li {
 
 .block-usedreferences ol {
     padding-left: 26px;
+}
+
+.mbstpl-asset-license {
+    margin: 9px auto;
+    display: inline-block;
 }

@@ -103,7 +103,6 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' => 'moodle/course:create'
     ),
 
     'block/mbstpl:viewrating' => array(
@@ -113,8 +112,8 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' => 'moodle/course:create'
     ),
+
 
     'block/mbstpl:viewhistory' => array(
         'captype' => 'read',

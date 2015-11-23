@@ -30,5 +30,7 @@ $messageproviders = array(
     'error' => [],
     'forrevision' => [],
     'published' => [],
-    'feedback' => []
+    'feedback' => [],
+    'stats' => [],
+    'reminder' => []
 );

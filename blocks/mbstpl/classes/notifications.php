@@ -60,7 +60,7 @@ class notifications {
         }
 
         // Email to managers.
-        $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+        $managers = self::get_managers();
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
         foreach ($managers as $manager) {
@@ -87,7 +87,7 @@ class notifications {
         }
 
         // Email to managers.
-        $managers = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+        $managers = self::get_managers();
         $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
         $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
         foreach ($managers as $manager) {
@@ -244,7 +244,72 @@ class notifications {
         self::send_message('error', $to, $subject, $body);
     }
 
-    private static function send_message($messagetype, $touser, $subject, $body) {
+    /**
+     * Send a statistics notification to all
+     * @param string $pathname the path to the stats csv file
+     */
+    public static function notify_stats($pathname) {
+
+        $file = self::get_stored_file($pathname, 'stats');
+
+        $managers = self::get_managers();
+        $subject = get_string('emailstatsrep_subj', 'block_mbstpl');
+        $messagetext = get_string('emailstatsrep_body', 'block_mbstpl');
+        foreach ($managers as $user) {
+            self::send_message('stats', $user, $subject, $messagetext, $file);
+        }
+    }
+
+    public static function notify_reminder($templates) {
+
+        $lines = array();
+        $url = new \moodle_url('/course/view.php');
+        foreach ($templates as $template) {
+            $url->param('id', $template->cid);
+            $lines[] = $url . ' ' . $template->cname;
+        }
+        $a = implode("\n", $lines);
+
+        $subject = get_string('noactiontpls_subj', 'block_mbstpl');
+        $messagetext = get_string('noactiontpls_body', 'block_mbstpl', $a);
+        $managers = self::get_managers();
+        foreach ($managers as $user) {
+            self::send_message('reminder', $user, $subject, $messagetext);
+        }
+    }
+
+    private static function get_stored_file($pathname, $filearea, $itemid = 0, $contextid = null) {
+
+        if ($contextid === null) {
+            $contextid = \context_system::instance()->id;
+        }
+
+        $fr = (object) array(
+            'contextid' => $contextid,
+            'component' => 'block_mbstpl',
+            'filearea' => $filearea,
+            'itemid' => $itemid,
+            'filepath' => '/',
+            'filename' => basename($pathname),
+        );
+        $fs = get_file_storage();
+
+        $file = $fs->get_file($fr->contextid, $fr->component, $fr->filearea, $fr->itemid, $fr->filepath, $fr->filename);
+        if ($file) {
+            return $file;
+        }
+
+        return $fs->create_file_from_pathname($fr, $pathname);
+    }
+
+    /**
+     * Get all managers (ie. Master Reviewers)
+     */
+    private static function get_managers() {
+        return get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+    }
+
+    private static function send_message($messagetype, $touser, $subject, $body, $attachment = null) {
         $message = new \stdClass();
         $message->component         = 'block_mbstpl';
         $message->name              = $messagetype;
@@ -256,6 +321,14 @@ class notifications {
         $message->fullmessagehtml   = '';
         $message->smallmessage      = '';
         $message->notification      = 1;
+
+        if ($attachment instanceof \stored_file) {
+            $message->attachment = $attachment;
+            $message->attachname = $attachment->get_filename();
+        } else if ($attachment !== null) {
+            debugging("Attachments must be instances of stored_file");
+        }
+
         message_send($message);
     }
 }

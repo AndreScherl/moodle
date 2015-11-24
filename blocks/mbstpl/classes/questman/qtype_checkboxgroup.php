@@ -25,23 +25,24 @@ namespace block_mbstpl\questman;
 defined('MOODLE_INTERNAL') || die();
 
 class qtype_checkboxgroup extends qtype_menu {
-  
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
-        
+
+    public static function add_template_element(\MoodleQuickForm $form,
+                                                $question) {
+
         if (isset($question->param1)) {
             $rawoptions = explode("\n", $question->param1);
         } else {
             $rawoptions = array();
         }
-        
+
         $boxes = array();
         foreach ($rawoptions as $key => $option) {
-            $boxes[] =& $form->createElement('checkbox', $key, null, format_string($option));
+            $boxes[] = & $form->createElement('checkbox', $key, null, format_string($option));
         }
 
         $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
     }
-    
+
     /**
      * Save the answer when template is sended.
      * @param $metaid
@@ -53,13 +54,13 @@ class qtype_checkboxgroup extends qtype_menu {
     public static function save_answer($metaid, $questionid, $answer,
                                        $comment = null,
                                        $dataformat = FORMAT_MOODLE) {
-        
+
         if (is_null($answer)) {
             $answer = array();
         }
-        
+
         // Implode all the checked options.
-        $answer = "#".implode('#', array_keys($answer))."#";
+        $answer = "#" . implode('#', array_keys($answer)) . "#";
 
         $answerdata = array(
             'metaid' => $metaid,
@@ -75,13 +76,13 @@ class qtype_checkboxgroup extends qtype_menu {
         $answerobj->insertorupdate();
         return true;
     }
-    
 
-    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
+    public static function add_to_searchform(\MoodleQuickForm $form, $question,
+                                             $elname) {
         $values = explode("\n", $question->param1);
         $boxes = array();
         for ($i = 0; $i < count($values); $i++) {
-            $boxes[] =& $form->createElement('checkbox', $i, null, $values[$i]);
+            $boxes[] = & $form->createElement('checkbox', $i, null, $values[$i]);
         }
         $form->addGroup($boxes, $elname, $question->title, "&nbsp;");
     }
@@ -101,22 +102,47 @@ class qtype_checkboxgroup extends qtype_menu {
         if (empty($answer)) {
             return $toreturn;
         }
-        
+
         $checkids = array_keys($answer);
 
         $like = array();
         $qparam = 'q' . $question->id;
-        
+
         foreach ($checkids as $optionid) {
-            $like[] = $DB->sql_like($qparam.'.data', ':option'.$optionid);
-            $toreturn['params']['option'.$optionid] = '%#'.$optionid.'#%';
+            $like[] = $DB->sql_like($qparam . '.data', ':option' . $optionid);
+            $toreturn['params']['option' . $optionid] = '%#' . $optionid . '#%';
         }
-       
-        $likes = "(" .implode( " OR ", $like). ")";
-        
+
+        $likes = "(" . implode(" OR ", $like) . ")";
+
         $toreturn['params'][$qparam] = $question->id;
         $toreturn['joins'][] = self::get_join("AND $likes", $qparam);
 
         return $toreturn;
     }
+
+    /**
+     * Prepare the data, which is given as numbers separated by #.
+     * Note that data is not changed, when it don't start with '#'.
+     * 
+     * This method must be called before $form->set_data();
+     * 
+     * @param string $data, the data for the field
+     * @return array|string the array of field indices, which should be checked or original data.
+     */
+    public static function prepare_data($data) {
+
+        if ($data[0] != '#') {
+            return $data;
+        }
+
+        $value = trim($data, '#');
+
+        if (empty($value)) {
+            return array();
+        } else {
+            return array_fill_keys(explode('#', $value), 1);
+        }
+    }
+
 }

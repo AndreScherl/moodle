@@ -21,6 +21,7 @@
  */
 
 namespace block_mbstpl\form;
+
 use \block_mbstpl as mbst;
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,8 +31,8 @@ defined('MOODLE_INTERNAL') || die();
  * @package block_mbstpl
  * Edit tempalte meta form.
  */
-
 class editmeta extends licenseandassetform {
+
     function definition() {
 
         $form = $this->_form;
@@ -56,10 +57,12 @@ class editmeta extends licenseandassetform {
 
         // Add custom questions.
         $questions = $cdata['questions'];
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             if ($question->datatype != 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
+                $typeclass::add_help_button($form, $question);
+                $typeclass::add_rule($form, $question);
             }
         }
 
@@ -96,21 +99,29 @@ class editmeta extends licenseandassetform {
             return;
         }
         if (is_object($default_values)) {
-            $default_values = (array)$default_values;
+            $default_values = (array) $default_values;
         }
         $data = array();
-        foreach($default_values as $key => $value) {
+        foreach ($default_values as $key => $value) {
             if (!is_array($value) || !isset($value['text'])) {
                 $data[$key] = $value;
                 continue;
             }
             $type = $this->_form->getElementType($key);
+
             if ($type == 'editor') {
                 $data[$key] = $value;
             } else {
                 $data[$key] = $value['text'];
             }
+
+            // Set multiple selects for checkboxgroup.
+            if ($type == 'group') {
+                $data[$key] = mbst\questman\qtype_checkboxgroup::prepare_data($data[$key]);
+            }
         }
+
         parent::set_data($data);
     }
+
 }

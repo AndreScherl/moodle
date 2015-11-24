@@ -471,6 +471,80 @@ class manager {
         $form->set_data($setdata);
     }
     
+     /**
+     * Writes strings into a local language pack file
+     *
+     * @param string $component the name of the component
+     * @param array $strings
+     */
+    protected static function dump_strings($lang, $component, $filepath, $strings) {
+        global $CFG;
+
+        if ($lang !== clean_param($lang, PARAM_LANG)) {
+            debugging('Unable to dump local strings for non-installed language pack .'.s($lang));
+            return false;
+        }
+        if ($component !== clean_param($component, PARAM_COMPONENT)) {
+            throw new coding_exception('Incorrect component name');
+        }
+        list($package, $subpackage) = \core_component::normalize_component($component);
+        $packageinfo = " * @package    $package";
+        if (!is_null($subpackage)) {
+            $packageinfo .= "\n * @subpackage $subpackage";
+        }
+        if (!is_dir(dirname($filepath))) {
+            check_dir_exists(dirname($filepath));
+        }
+
+        if (!$f = fopen($filepath, 'w')) {
+            debugging('Unable to write '.s($filepath));
+            return false;
+        }
+        fwrite($f, <<<EOF
+<?php
+
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Language pack from $CFG->wwwroot
+ *
+$packageinfo
+ * @copyright 2015 Andreas Wagner, andreas.wagner@isb.bayern.de
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+
+EOF
+        );
+
+        foreach ($strings as $stringid => $text) {
+            if ($stringid !== clean_param($stringid, PARAM_STRINGID)) {
+                debugging('Invalid string identifier '.s($stringid));
+                continue;
+            }
+            fwrite($f, '$string[\'' . $stringid . '\'] = ');
+            fwrite($f, var_export($text, true));
+            fwrite($f, ";\n");
+        }
+        fclose($f);
+        @chmod($filepath, $CFG->filepermissions);
+    }
+    
     /**
      * Save the helptext for a custom field with given fieldid.
      * 

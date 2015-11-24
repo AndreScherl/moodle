@@ -16,11 +16,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language pack from http://localhost/mebis
+ * Language pack from http://localhost/mebis2
  *
  * @package    block
  * @subpackage mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @copyright 2015 Andreas Wagner, andreas.wagner@isb.bayern.de
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -70,6 +70,7 @@ $string['createdby'] = 'Created By';
 $string['createdon'] = 'Created On';
 $string['creationdate'] = 'Creation date';
 $string['currentrating'] = 'Current rating';
+$string['description'] = 'Description';
 $string['delayedrestore'] = 'Delayed Course Duplication';
 $string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
 $string['deploycat'] = 'Template deployment category';
@@ -299,3 +300,9 @@ $string['custq11'] = 'Fächer';
 $string['custq11_help'] = '';
 $string['custq12'] = 'Örtlichkeit';
 $string['custq12_help'] = '';
+$string['custq2'] = 'Schularten';
+$string['custq2_help'] = 'Wählen Sie die Schulart';
+$string['custq5'] = 'Urheberrecht';
+$string['custq5_help'] = 'Hilfe zum Urheberrecht';
+$string['custq6'] = 'Fremdinhalte';
+$string['custq6_help'] = '';

@@ -136,7 +136,9 @@ $string['emailtempldeployed_body'] = 'Thank you for your submission. The templat
 $string['emailtempldeployed_subj'] = 'Template deployed';
 $string['errorcannotassignauthor'] = 'You cannot assign authors for this course.';
 $string['errorcannotassignreviewer'] = 'You cannot assign a reviewer for this course.';
+$string['errorcannotcomplain'] = 'You cannot send a complaint.';
 $string['errorcannotdupcrs'] = 'You cannot duplicate this course.';
+$string['errorcannoteditmeta'] = 'You cannot edit the meta data settings.';
 $string['errorcannotmovefile'] = 'Could not move course backup file to restore location.';
 $string['errorcannotsearch'] = 'You cannot search for templates on this site.';
 $string['errorcannotsendforrevision'] = 'You cannot send this course template for revision.';
@@ -296,10 +298,6 @@ $string['custq10_help'] = '<ul>
 <li>Profilnamen werden automatisch anonymisiert, z. B. Autor eines Forenbeitrags.</li>
 <li>Namensnennungen in Texteingaben müssen selbstständig editiert werden, z. B.  „Eva hat ein tolles Referat gehalten.“ -&gt; „SchülerX hat ein tolles Referat gehalten.“ </li>
 </ul>';
-$string['custq11'] = 'Fächer';
-$string['custq11_help'] = '';
-$string['custq12'] = 'Örtlichkeit';
-$string['custq12_help'] = '';
 $string['custq2'] = 'Schularten';
 $string['custq2_help'] = 'Wählen Sie die Schulart';
 $string['custq5'] = 'Urheberrecht';

@@ -37,6 +37,10 @@ $PAGE->set_pagelayout('incourse');
 //$PAGE->set_context($coursecontext);
 $PAGE->set_context(context_user::instance($USER->id));
 
+if (!mbst\perms::can_complain($coursecontext)) {
+    throw new moodle_exception('errorcannotcomplain', 'block_mbstpl');
+}
+
 //Adding breadcrumb navigation. 
 require_login($courseid, false);
 //Extending the navigation for the course. 

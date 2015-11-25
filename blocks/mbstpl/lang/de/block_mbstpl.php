@@ -62,4 +62,5 @@ Hotline: 09071 - 53 300
 mebis@alp.dillingen.de
 www.mebis.bayern.de';
 $string['emailtempldeployed_subj'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.';
+$string['errorcannotcomplain'] = 'Sie können zu diesem Kurs kein Problem melden.';
 $string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';

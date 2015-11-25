@@ -233,5 +233,14 @@ class perms {
     public static function can_searchtemplates() {
         return has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance());
     }
+    
+    /**
+     * Tells us whether the current user can send a complaint.
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function can_complain($coursecontext) {
+        return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
+    }
 
 }

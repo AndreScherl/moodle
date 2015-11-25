@@ -32,7 +32,7 @@ use \block_mbstpl AS mbst;
 
 $thisurl = new moodle_url('/blocks/mbstpl/dupcrs.php');
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 $PAGE->add_body_class('path-backup');
 
 $courseid = required_param('course', PARAM_INT);

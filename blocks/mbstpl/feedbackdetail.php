@@ -31,7 +31,7 @@ $id = required_param('id', PARAM_INT);
 
 $thisurl = new moodle_url('/blocks/mbstpl/feedbackdetail.php', array('id' => $id));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 
 // Load data from revision history id.
 $revhist = new mbst\dataobj\revhist(array('id' => $id), true, MUST_EXIST);

@@ -33,7 +33,7 @@ $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 $thisurl = new moodle_url('/blocks/mbstpl/sendtemplate.php', array('course' => $course->id));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);

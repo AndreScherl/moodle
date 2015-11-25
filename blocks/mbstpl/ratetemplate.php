@@ -41,7 +41,7 @@ $thisurl = new moodle_url('/blocks/mbstpl/ratetemplate.php');
 $thisurl->param('course', $courseid);
 
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 $PAGE->set_context($coursecontext);
 
 $template = mbst\dataobj\template::get_from_course($courseid);

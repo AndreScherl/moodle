@@ -38,11 +38,15 @@ class starrating extends \moodleform {
         $radioname = 'block_mbstpl_rating';
 
         $radioarray = array();
+        $ids = array();
         for ($i = 1; $i <= 5; $i++) {
-            $radioarray[] =& $mform->createElement('radio', $radioname, '', '', $i);
+            $radioel = $mform->createElement('radio', $radioname, '', '', $i);
+            $radioel->_generateId();
+            $ids[] = $radioel->getAttribute('id');
+            $radioarray[] = $radioel;
         }
 
-        $mform->addGroup($radioarray, 'radioar', get_string('rating', 'block_mbstpl'), '', false);
+        $mform->addGroup($radioarray, 'radioar', get_string('yourrating', 'block_mbstpl'), '', false);
         $mform->addGroupRule('radioar', get_string('required'), 'required');
 
         $buttonarray = array();
@@ -50,7 +54,13 @@ class starrating extends \moodleform {
         $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('rating_cancelbutton', 'block_mbstpl'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
 
-        $PAGE->requires->yui_module('moodle-block_mbstpl-starrating', 'M.block_mbstpl.starrating.init', array($radioname));
+        $freeze = !empty($this->_customdata['freeze']);
+        if ($freeze) {
+            $mform->freeze();
+        }
+
+        $PAGE->requires->yui_module('moodle-block_mbstpl-starrating', 'M.block_mbstpl.starrating.init',
+            array($ids, $freeze));
     }
 
     protected function get_form_identifier() {

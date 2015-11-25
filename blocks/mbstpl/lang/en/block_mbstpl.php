@@ -246,3 +246,4 @@ $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You 
 $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
+$string['yourrating'] = 'Your Rating';

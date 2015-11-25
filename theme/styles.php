@@ -168,6 +168,7 @@ if ($type === 'editor') {
     }
 
     // Older IEs require smaller chunks.
+    ini_set('max_execution_time',0);
     $csscontent = $theme->get_css_content();
 
     $relroot = preg_replace('|^http.?://[^/]+|', '', $CFG->wwwroot);

@@ -160,6 +160,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     width: 17px;
     height: 17px;
     position: relative;
+    margin: 0;
 }
 
 .templaterating .star.fullstar {

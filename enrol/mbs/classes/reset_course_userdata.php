@@ -40,7 +40,7 @@ class reset_course_userdata {
 
         $template = \block_mbstpl\dataobj\template::get_from_course($courseid);
         if (!$template) {
-            return false;
+            throw new \moodle_exception('errorunabletoresetnontemplate', 'enrol_mbs');
         }
 
         $course = get_course($courseid);
@@ -90,7 +90,5 @@ class reset_course_userdata {
         if ($template->reviewerid) {
             \block_mbstpl\user::enrol_reviewer($courseid, $template->reviewerid, false);
         }
-
-        return true;
     }
 }

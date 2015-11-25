@@ -45,11 +45,8 @@ class starrating extends \moodleform {
         $mform->addGroup($radioarray, 'radioar', get_string('rating', 'block_mbstpl'), '', false);
         $mform->addGroupRule('radioar', get_string('required'), 'required');
 
-        $buttonarray = array();
-        $buttonarray[] =& $mform->createElement('submit', 'submitbutton', get_string('submitbutton', 'block_mbstpl'));
-        $buttonarray[] =& $mform->createElement('submit', 'cancel', get_string('cancelbutton', 'block_mbstpl'));
-        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
-
+        $this->add_action_buttons(true, get_string('submitbutton', 'block_mbstpl')); 
+        
         $PAGE->requires->yui_module('moodle-block_mbstpl-starrating', 'M.block_mbstpl.starrating.init', array($radioname));
     }
 

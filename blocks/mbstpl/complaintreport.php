@@ -20,6 +20,9 @@
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+define('MBSTPL_SKIP_USED_REFERENCES', true);
+
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 global $PAGE, $OUTPUT, $USER;

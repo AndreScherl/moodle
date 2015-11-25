@@ -85,7 +85,8 @@ class theme_mebis_help_renderer extends renderer_base {
         $course = $this->page->course;
         
         $pagelayout = $this->page->pagelayout;
-        if ($pagelayout != 'course') {
+        $pagetype = $this->page->pagetype;
+        if ($pagelayout != 'course' || $pagetype == 'enrol-index') {
             return null;
         }        
         

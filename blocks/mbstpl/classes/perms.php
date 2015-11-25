@@ -225,14 +225,13 @@ class perms {
         return has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance());
     }
 
-
     /**
      * Does the user have the capability to search for templates.
      * @return bool
      */
-    public static function can_searchtemplates() {
+    public static function can_searchtemplates() {        
         return has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance());
-    }
+    }     
     
     /**
      * Tells us whether the current user can send a complaint.
@@ -240,6 +239,15 @@ class perms {
      * @return bool
      */
     public static function can_complain($coursecontext) {
+        return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
+    }
+    
+    /**
+     * Tells us whether the current user can view the information about the template.
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function can_viewabout($coursecontext) {
         return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
     }
 

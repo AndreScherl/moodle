@@ -15934,14 +15934,16 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup span {
+#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup span,
+#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fgroup span {
   display: inline-block;
   padding-right: 8px;
 }
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
+#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
+#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
   padding-top: 8px;
 }
 
@@ -15972,9 +15974,6 @@ aside.row .block-region .block {
   color: #fff;
 }
 
-#page-blocks-mbstpl-complaintreport form fieldset .fitem.fitem_fgroup input {
-  margin-right: 4px;
-}
 #page-blocks-mbstpl-complaintreport form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
   padding-top: 8px;
 }

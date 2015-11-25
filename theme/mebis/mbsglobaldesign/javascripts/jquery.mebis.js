@@ -428,7 +428,6 @@ var Mebis = (function ($) {
 
             window.location.hash = anchor; // for older browsers, leaves a # behind
             history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
-
         });
     }
     /*

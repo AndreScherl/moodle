@@ -285,32 +285,6 @@ class theme_mebis_format_onetopic_renderer extends format_onetopic_renderer
         echo html_writer::end_tag('div');
     }
 
-    public function render_page_action_menu($course, $sections, $onlyMobile=false) {
-        //Add side jump-navigation
-        $menu_items = array();
-        $output = '';
-
-        if($onlyMobile != 'simple') {
-
-            if(count($sections)) {
-                for($i = 1;$i <= $course->numsections;$i++){
-                    if($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available ){
-                        $menu_items[] = html_writer::link('#section-'.$i, '<span>'.$this->section_title($sections[$i], $course).'</span>',
-                            array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-'.$i));
-                    }
-                }
-            }
-        }
-
-        foreach($menu_items as $item) {
-            $output .= html_writer::start_tag('li');
-            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
-            $output .= html_writer::end_tag('li');
-        }
-
-        return $output;
-    }
-
     /** Renders course headline
      * 
      * @param  string headline (i. e. the courses fullname)

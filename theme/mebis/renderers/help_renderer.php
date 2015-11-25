@@ -81,33 +81,69 @@ class theme_mebis_help_renderer extends renderer_base {
      * @author Franziska Hübler, franziska.huebler@isb.bayern.de
      */
     public function page_action_menu() {
-        global $PAGE, $DB;
-        $course = $PAGE->course;
+        global $DB;
+        $course = $this->page->course;
+        
+        $pagelayout = $this->page->pagelayout;
+        if ($pagelayout != 'course') {
+            return null;
+        }        
+        
+        // get the course format
+        $courseformat = course_get_format($course);
+        $format = $courseformat->get_format();     
+        
+        $excludeformats = array('singleactivity', 'grid', 'onetopic', 'social', 'singleactivity');
+        if (in_array($format, $excludeformats)) {
+            return null;
+        }
+        
+        // get the course settings
+        $coursesettings = $courseformat->get_course();
+        // don't show navigation for setting "show one section per page"
+        if ($coursesettings->coursedisplay === 1){
+            return null;
+        }
+
         //get the number of sections
         $numsections = $DB->get_field('course_format_options', 'value', array('courseid' => $course->id, 'name' => 'numsections'));
-        $course->numsections = $numsections;
-        // get the course format
-        $courseformat = course_get_format($PAGE->course);
-        $format = $courseformat->get_format();
+        $course->numsections = $numsections;      
 
         // call the renderer
         $modinfo = get_fast_modinfo($course);
-        $sectioninfo = $modinfo->get_section_info_all();
-        switch ($format) {
-            case 'topics':
-                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
-                return $renderer->render_page_action_menu($course, $sectioninfo);
-            case 'topcoll':
-                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
-                return $renderer->render_page_action_menu($course, $sectioninfo);
-            case 'onetopic':
-                $renderer = $PAGE->get_renderer('theme_mebis', 'format_' . $format);
-                return $renderer->render_page_action_menu($course, $sectioninfo, 'simple');
-            default:
-                break;
-        }
-    }
+        $sectioninfo = $modinfo->get_section_info_all();        
+        return $this->render_page_action_menu($course, $sectioninfo);
+    }    
+    
+    /** 
+     * Render the page action menu (i. e. the menu on the right side to jump to sections)
+     * 
+     * @param object $course
+     * @param array $sections
+     * @return string HTML fo the section menu.
+     */
+    public function render_page_action_menu($course, $sections) {
+        //Add side jump-navigation
+        $menu_items = array();
+        $output = '';
+        
+        if (count($sections)>1) {
+            for ($i = 1; $i <= $course->numsections; $i++) {
+                if ($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available) {
+                    $menu_items[] = html_writer::link('#section-' . $i, '<span>' . get_section_name($course, $sections[$i]) . '</span>', array());
+                }
+            }
+        }        
 
+        foreach ($menu_items as $item) {
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
+            $output .= html_writer::end_tag('li');
+        }
+        
+        return $output;
+    }
+    
     public function get_adminnav_selectbox() {
         $nav = new mebis_admin_nav();
         return $nav->render_as_selectbox();
@@ -120,7 +156,7 @@ class mebis_admin_nav {
     public $navigation;
 
     public function __construct() {
-        global $PAGE, $CFG, $OUTPUT;
+        global $PAGE;
 
         $this->page = $PAGE;
         $nav = $this->page->settingsnav;

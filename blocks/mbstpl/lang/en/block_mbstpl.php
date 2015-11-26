@@ -218,7 +218,6 @@ $string['norating'] = 'This template has no ratings.';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
 {$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';
-$string['notemplates'] = 'You have no active templates in this site.';
 $string['noresults'] = 'No results found.';
 $string['nountouchedtemplates'] = 'No templates untouched during the set period.';
 $string['owner'] = 'Name of owner';

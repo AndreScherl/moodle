@@ -49,6 +49,20 @@
     }
 }
 
+//Styles for mod-data selections
+#page-mod-data-edit {
+    #main-content-wrapper form {
+        div.defaulttemplate {
+            overflow: hidden;
+
+            select {
+                width: auto;
+                max-width: 100%;
+            }
+        }
+    }
+}
+
 //styling Assignment GeoGebra submissions
 #page-mod-assign-mod, #page-mod-assign-view, #page-question-type-geogebra {
 
@@ -246,7 +260,6 @@ div.que.geogebra {
 
     .answer div.r0 input, 
     .answer div.r1 input {
-        margin: 0 5px 0 0;
         width: 15px;
     }
 }
@@ -256,7 +269,6 @@ div.que.geogebra {
 
     .answer div.r0 input, 
     .answer div.r1 input {
-        margin: 0 5px 0 0;
         width: 15px;
     }
 
@@ -269,13 +281,19 @@ div.que.geogebra {
 }
 
 //questiontype multichoice
-.que.multichoice .ablock,
-.que.multichoice .qtext {
-    margin: 0;    
-}
+.que.multichoice {
+    .ablock, .qtext {
+        margin: 0;    
+    }
 
-.que.multichoice .ablock .prompt {
-    display: none;
+    .ablock .prompt {
+        display: none;
+    }
+    
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 0 0 5px;
+    }
 }
 
 //questiontype drag and drop on text

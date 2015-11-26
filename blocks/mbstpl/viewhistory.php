@@ -33,7 +33,7 @@ $coursecontext = context_course::instance($courseid);
 
 $thisurl = new moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $courseid));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 $PAGE->set_context($coursecontext);
 
 require_login($courseid, false);

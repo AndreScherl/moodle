@@ -402,7 +402,8 @@ aside.row {
 #page-blocks-mbstpl-templatesearch,
 #page-blocks-mbstpl-editmeta,
 #page-blocks-mbstpl-sendtemplate,
-#page-blocks-mbstpl-ratetemplate {
+#page-blocks-mbstpl-ratetemplate,
+#page-blocks-mbstpl-abouttemplate {
     form {
         fieldset {
             //qtype_checkboxgroup
@@ -461,9 +462,6 @@ aside.row {
         fieldset {
             //radiobuttongroup
             .fitem.fitem_fgroup {
-                input {
-                    margin-right: 4px;
-                }
                 fieldset.felement.fgroup {
                     padding-top: 8px;
                 }

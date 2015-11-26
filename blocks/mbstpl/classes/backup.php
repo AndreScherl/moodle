@@ -613,7 +613,7 @@ class backup {
         }
         $context = \context_system::instance();
         $renderer = course::get_renderer();
-        echo $renderer->heading(get_string('cousretemplates', 'block_mbstpl'));
+        echo $renderer->heading(get_string('coursetemplates', 'block_mbstpl'));
         echo $renderer->container_start();
         $treeview_options = array();
         $treeview_options['filecontext'] = $context;

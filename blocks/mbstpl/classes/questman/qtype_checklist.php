@@ -37,26 +37,28 @@ class qtype_checklist extends qtype_base {
     protected static $checkremove = array();
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
+
+        $form->addElement('editor', 'param1', get_string('description', 'block_mbstpl'));
+        $form->addRule('param1', get_string('required'), 'required', null, 'client');
+
         $expln = \html_writer::tag('p', get_string('checklistexpln', 'block_mbstpl'));
         $form->addElement('html', $expln);
         $form->addElement('hidden', 'defaultdata', null);
         $form->setType('defaultdata', PARAM_RAW);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
-        $label = \html_writer::label(format_string($question->title), 'id_'.$question->fieldname, true,
-                                     array('class' => 'mbstpl-questionlabel'));
-        $label = \html_writer::div($label);
-        $form->addElement('html', $label);
+    public static function add_template_element(\MoodleQuickForm $form,
+                                                $question) {
 
         $radiogroup = array(
+            $form->createElement('static', 'description', '', \html_writer::tag('div', format_text($question->param1))),
             $form->createElement('radio', $question->fieldname, '', get_string('yes'), self::ANSWER_YES),
             $form->createElement('radio', $question->fieldname, '', get_string('no'), self::ANSWER_NO),
             $form->createElement('radio', $question->fieldname, '', get_string('na', 'block_mbstpl'), self::ANSWER_NA),
         );
-        $form->addGroup($radiogroup, $question->fieldname.'_group', '', null, false);
+        $form->addGroup($radiogroup, $question->fieldname, format_string($question->title), null, false);
 
-        $commentname = $question->fieldname.'_comment';
+        $commentname = $question->fieldname . '_comment';
         $form->addElement('textarea', $commentname, get_string('comment', 'block_mbstpl'), array('rows' => 3, 'cols' => 30));
         $form->setType($commentname, PARAM_TEXT);
         if (!self::$editcomments) {
@@ -84,5 +86,13 @@ class qtype_checklist extends qtype_base {
      */
     public static function edit_comments($edit) {
         self::$editcomments = $edit;
+    }
+
+    /**
+     * If the type has text editor fields, let them be known.
+     * @return array
+     */
+    public static function get_editors() {
+        return array('help', 'param1');
     }
 }

@@ -36,7 +36,7 @@ $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_E
 
 $thisurl = new moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $course->id));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 
 require_login($courseid, false);
 $coursecontext = context_course::instance($courseid);

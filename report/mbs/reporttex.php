@@ -42,70 +42,58 @@ $PAGE->set_context($context);
 $PAGE->set_heading(get_string('reporttex', 'report_mbs'));
 $PAGE->set_title(get_string('reporttex', 'report_mbs'));
 
-$reporttexform = new reporttex_form($baseurl);
-
 echo $OUTPUT->header();
 
 echo $OUTPUT->heading(get_string('reporttex', 'report_mbs'));
 
-$reporttexform->display();
-
 echo html_writer::start_tag('div', array('class' => 'reporttex-tablewrapper'));
 
-
-if ($reporttexform->is_submitted()) {
-
-    $table = new flexible_table('report-mbs-pimped');
-
-    $table->set_attribute('cellspacing', '0');
-    $table->set_attribute('cellpadding', '3');
-    $table->set_attribute('class', 'generaltable');
-
-    $columns = array('check', 'tablename', 'count');
-    $headers = array('check', 'tablename', 'count');
-
-    foreach ($headers as $i => $header) {
-        $headers[$i] = get_string($header, 'report_mbs');
-    }
-
-    $table->headers = $headers;
-    $table->define_columns($columns);
-    $table->define_baseurl($baseurl);
-    $table->sortable(false);
-
-    $table->is_downloadable(false);
-    $table->defaultdownloadformat = 'excel';
-
-    $table->setup();
-
-    echo html_writer::start_tag('form', array('method' => 'post', 'action' => 'replacetex.php'));
-
-    $data = \report_mbs\local\reporttex::get_reports_data();
-
-    foreach ($data as $tablename => $counts) {
-
-        $checkbox = html_writer::checkbox("table[$tablename]", 1, false);
-
-        $countstr = '';
-        if (!empty($counts)) {
-
-            $colstr = array();
-            foreach ($counts as $key => $count) {
-                $colstr[] = $key . " (" . $count . ")";
-            }
-            $countstr = implode(", ", $colstr);
-        }
-
-        $row = array($checkbox, $tablename, $countstr);
-
-        $table->add_data($row);
-    }
-
-    $table->finish_html();
-
-    echo html_writer::empty_tag('input', array('value' => get_string('replacetex', 'report_mbs'), 'type' => 'submit'));
-    echo html_writer::end_tag('form');
+if (!empty($_REQUEST)) {
+    $active = optional_param_array('table', array(), PARAM_TEXT);
+    \report_mbs\local\reporttex::save($active);
 }
+
+$table = new flexible_table('report-mbs-pimped');
+
+$table->set_attribute('cellspacing', '0');
+$table->set_attribute('cellpadding', '3');
+$table->set_attribute('class', 'generaltable');
+
+$columns = array('check', 'tablename', 'count', 'timemodified');
+$headers = array('check', 'tablename', 'count', 'timemodified');
+
+foreach ($headers as $i => $header) {
+    $headers[$i] = get_string($header, 'report_mbs');
+}
+
+$table->headers = $headers;
+$table->define_columns($columns);
+$table->define_baseurl($baseurl);
+$table->sortable(false);
+
+$table->is_downloadable(false);
+$table->defaultdownloadformat = 'excel';
+
+$table->setup();
+
+echo html_writer::start_tag('form', array('method' => 'post', 'action' => 'reporttex.php'));
+echo html_writer::empty_tag('input', array('value' => get_string('activatecron', 'report_mbs'), 'type' => 'submit'));
+
+$data = \report_mbs\local\reporttex::get_reports_data();
+
+foreach ($data as $date) {
+
+    $checkbox = html_writer::checkbox("table[$date->tablename]", 1, ($date->active == 1));
+
+    $row = array($checkbox, $date->tablename, $date->count, userdate($date->timemodified));
+
+    $table->add_data($row);
+}
+
+$table->finish_html();
+
+echo html_writer::empty_tag('input', array('value' => get_string('activatecron', 'report_mbs'), 'type' => 'submit'));
+echo html_writer::end_tag('form');
 
 echo html_writer::end_tag('div');
 echo $OUTPUT->footer();

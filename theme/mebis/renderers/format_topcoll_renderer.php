@@ -43,34 +43,6 @@ class theme_mebis_format_topcoll_renderer extends format_topcoll_renderer {
         return html_writer::div($o, 'course-headline');
     }
 
-    /** render the page action menu (i. e. the menu on the right side to jump to sections
-     * 
-     * @param object $course
-     * @param arra $sections
-     * @param boolean $onlyMobile
-     * @return string HTML fo the section menu.
-     */
-    public function render_page_action_menu($course, $sections, $onlyMobile = false) {
-        //Add side jump-navigation
-        $menu_items = array();
-        $output = '';
-        
-        for ($i = 1; $i <= $course->numsections; $i++) {
-            if ($sections[$i]->uservisible && $sections[$i]->visible && $sections[$i]->available) {
-                $menu_items[] = html_writer::link('#section-' . $i, '<span>' . get_section_name($course, $sections[$i]) . '</span>',
-                        array('class' => 'jumpnavigation-point', 'data-scroll' => '#section-' . $i));
-            }
-        }
-
-        foreach ($menu_items as $item) {
-            $output .= html_writer::start_tag('li');
-            $output .= html_writer::tag('div', '<span>' . $item . '</span>', array('class' => 'internal'));
-            $output .= html_writer::end_tag('li');
-        }
-
-        return $output;
-    }
-
     /**
      * Output the html for a multiple section page
      *

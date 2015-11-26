@@ -259,6 +259,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * @return string
      */
     public function mytemplates($templates) {
+        global $USER;
         $html = '';
         $commonhead = array(
             get_string('coursename', 'block_mbstpl'),
@@ -280,7 +281,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $courseitemstatus = \block_mbstpl\course::get_statusshortname($template->status);
                 $viewurl->param('course', $template->courseid);
                 $courseitemclasses = 'statuslink';
-                if ($template->viewfeedback) {
+                if (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id) {
                     $courseitemclasses .= ' viewfeedback';
                 }
                 $courseitemlink = html_writer::link($viewurl, $template->coursename, array('class' => $courseitemclasses . ' ' . $courseitemstatus));

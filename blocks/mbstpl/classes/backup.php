@@ -361,25 +361,14 @@ class backup {
             throw new \backup_helper_exception('missing_moodle_backup_xml_file', $moodlefile);
         }
 
-        // Load format.
+        // Load info.
         $info = \backup_general_helper::get_backup_information($tmpname);
-        $format = $info->format;
-        $plugins = get_sorted_course_formats();
-        if (!in_array($format, $plugins)) {
-            if ($origformat = $DB->get_field('course', 'format', array('id' => $backup->origcourseid))) {
-                $format = $origformat;
-            } else {
-                $format = reset($plugins);
-            }
-        }
 
         // Create course.
         $cdata = (object)array(
             'category' => $catid,
             'shortname' => self::generate_course_shortname($info->original_course_shortname, $backup->lastversion),
             'fullname' => $info->original_course_fullname,
-            'format' => $format,
-            'numsections' => empty($info->sections) ? 0 : count($info->sections),
             'visible' => 0,
         );
         $course = create_course($cdata);
@@ -388,13 +377,24 @@ class backup {
         $admin = get_admin();
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, \backup::TARGET_CURRENT_ADDING);
+                $admin->id, \backup::TARGET_NEW_COURSE);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
+
+        // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
+        $upd = (object)array(
+            'id' => $course->id,
+            'shortname' => $cdata->shortname,
+            'fullname' => $cdata->fullname,
+            'visible' => $cdata->visible,
+            'visibleold' => $cdata->visible,
+        );
+        $DB->update_record('course', $upd);
+
         return $course->id;
     }
 
@@ -529,17 +529,8 @@ class backup {
             throw new \backup_helper_exception('missing_moodle_backup_xml_file', $moodlefile);
         }
 
-        // Load format.
+        // Load info.
         $info = \backup_general_helper::get_backup_information($tmpname);
-        $format = $info->format;
-        $plugins = get_sorted_course_formats();
-        if (!in_array($format, $plugins)) {
-            if ($origformat = $DB->get_field('course', 'format', array('id' => $template->courseid))) {
-                $format = $origformat;
-            } else {
-                $format = reset($plugins);
-            }
-        }
 
         if ($targetcat) {
             // Create course.
@@ -547,26 +538,39 @@ class backup {
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
-                'format' => $format,
-                'numsections' => empty($info->sections) ? 0 : count($info->sections),
                 'visible' => 0,
             );
             $course = create_course($cdata);
+            $restoretype = \backup::TARGET_NEW_COURSE;
         } else {
             $course = get_course($targetcrs);
+            $restoretype = \backup::TARGET_EXISTING_ADDING;
         }
 
         // Restore.
         $admin = get_admin();
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, \backup::TARGET_CURRENT_ADDING);
+                $admin->id, $restoretype);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
+
+        // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
+        if ($restoretype == \backup::TARGET_NEW_COURSE && isset($cdata)) {
+            $upd = (object)array(
+                'id' => $course->id,
+                'shortname' => $cdata->shortname,
+                'fullname' => $cdata->fullname,
+                'visible' => $cdata->visible,
+                'visibleold' => $cdata->visible,
+            );
+            $DB->update_record('course', $upd);
+        }
+
         return $course->id;
     }
 

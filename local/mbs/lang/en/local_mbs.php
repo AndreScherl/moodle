@@ -21,11 +21,13 @@
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['enrolledteachers'] = 'Enrolled teachers';
 $string['fixgapcategories'] = 'Fix course sortorder in categories';
 $string['mbs:adddeleteblock'] = 'Add or/and delete a specific block';
 $string['mbs:editschoolid'] = 'Edit school ID-Number';
 $string['mbs:globalblockscleanup'] = 'Global cleanup of all (user) blocks';
 $string['mbs:viewcourselist'] = 'View list of courses';
+$string['mbs:viewteacherlist'] = 'View list of teachers on category management page';
 $string['pluginname'] = 'Mebis - Adjustments';
 $string['schoolnode'] = 'My schools';
 

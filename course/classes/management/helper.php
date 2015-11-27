@@ -23,6 +23,9 @@
  */
 
 namespace core_course\management;
+// fhüb - mbscoordinators-Hack: show enrolled teachers list.
+use local_mbs as mbs;
+// fhüb - mbscoordinators-Hack: show enrolled teachers list.
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -112,7 +115,7 @@ class helper {
             $sql = 'SELECT ra.roleid, COUNT(ra.id) AS rolecount
                       FROM {role_assignments} ra
                      WHERE ra.contextid = :contextid
-                  GROUP BY ra.roleid';
+                  GROUP BY ra.roleid';   
             $rolecounts = $DB->get_records_sql($sql, array('contextid' => $course->get_context()->id));
             $roledetails = array();
             foreach ($rolecounts as $result) {
@@ -127,6 +130,15 @@ class helper {
                 'value' => join('<br />', $roledetails)
             );
         }
+        // fhüb - mbscoordinators-Hack: show enrolled teachers list.
+        if(has_capability('local/mbs:viewteacherlist', \context_coursecat::instance($category->id))) {                    
+            $teachers = mbs\local\core_changes::get_teachers_in_course($course);
+            $details['teachers'] = array(
+                'key' => $teachers['key'],
+                'value' => join('<br />', $teachers['value'])
+            );
+        }  
+        // fhüb - mbscoordinators-Hack: show enrolled teachers list.
         if ($course->can_review_enrolments()) {
             $enrolmentlines = array();
             $instances = \enrol_get_instances($course->id, true);

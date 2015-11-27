@@ -147,7 +147,7 @@ class dupcrs extends \moodleform {
         $this->add_action_buttons(true, get_string('duplcourseforuse2', 'block_mbstpl'));
     }
 
-    private function enable_on_click($eltoclick, $eltoenable) {
+    private function enable_on_click(\HTML_QuickForm_element $eltoclick, \HTML_QuickForm_element $eltoenable) {
         global $PAGE;
 
         $eltoclick->_generateId();
@@ -155,6 +155,7 @@ class dupcrs extends \moodleform {
         $idtoclick = $eltoclick->getAttribute('id');
         $idtoenable = $eltoenable->getAttribute('id');
 
+        $PAGE->requires->jquery();
         $PAGE->requires->js_init_code("$('#$idtoclick').click(function() { $('#$idtoenable').removeAttr('disabled'); });", true);
     }
 

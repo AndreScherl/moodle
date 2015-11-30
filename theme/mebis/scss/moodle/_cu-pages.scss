@@ -186,15 +186,17 @@
 
     div[role="main"] {
         div div ul {
-            padding-left: 10px;
+            padding-left: 30px;
             > li {
-                list-style: disc inside none;
+                list-style-position: outside;
+                list-style-image: none;
             }
         }
         div div ol {
-            padding-left: 10px;
+            padding-left: 30px;
             > li {
-                list-style: decimal inside none;
+                list-style-position: outside;
+                list-style-image: none;
             }
         }        
     }

@@ -15373,7 +15373,7 @@ categorybox:
     - .que.ddwtos 
     - .que.geogebra
     - .que.match
-    - .que.multichoice
+    - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
 */
 /* 
@@ -15570,16 +15570,18 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 }
 
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 
 #page-mod-imscp-view .yui-layout {
@@ -15595,6 +15597,10 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 #page-mod-assign-view .homepage-container {
   width: 100%;
   max-width: 1692px;
+}
+
+#page-mod-lesson-view input[type="submit"] {
+  white-space: normal;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -16026,16 +16032,18 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 }
 
 .course-content .section .content div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 .course-content .section .content div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 .course-content .section .content div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 .course-content .section .content div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 .course-content ul li.section.main {
   background-color: #fff;
@@ -16328,16 +16336,18 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   border: none;
 }
 #page-course-view-grid #gridshadebox_content div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-course-view-grid #gridshadebox_content div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-course-view-grid #gridshadebox_content div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-course-view-grid #gridshadebox_content div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-course-view-grid #gridshadebox_content #gridshadebox_close {
   padding-top: 5px;
@@ -16830,19 +16840,21 @@ input[type="checkbox"] + label {
 }
 #page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
 }
 #page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 
 /*

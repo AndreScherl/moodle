@@ -221,38 +221,26 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     public function templatehistory($revhists, $files) {
         $html = '';
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
-        $table = new html_table();
-        $table->head = array(
-            get_string('status'),
-            get_string('assigned', 'block_mbstpl'),
-            get_string('updated', 'block_mbstpl')
-        );
-        $table->data = array();
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
+            $assignedname = html_writer::tag('strong', $assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
+            $assigneddate = userdate($hist->timecreated);
 
-            $table->data[] = array(
-                $this->status_box($hist->status),
-                $assignedname,
-                userdate($hist->timecreated)
-            );
+            $item = html_writer::div("$assignedname, $assigneddate", 'mbstrevhist-name');
+            $item .= html_writer::div($this->status_box($hist->status), 'mbstrevhist-status');
 
             if ($hist->feedback) {
 
-                $feedback = html_writer::tag('dt', get_string('message', 'block_mbstpl'));
-                $feedback .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
+                $item .= html_writer::tag('dt', get_string('message', 'block_mbstpl'));
+                $item .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
 
                 if (isset($files[$hist->id])) {
-                    $feedback .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
+                    $item .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
                 }
-
-                $feedbackcell = new html_table_cell($feedback);
-                $feedbackcell->colspan = 3;
-                $feedbackcell->style = 'border-top:0;';
-                $table->data[] = new html_table_row(array($feedbackcell));
             }
+
+            $html .= html_writer::div($item, 'mbstrevhist-item clearfix');
         }
-        $html .= html_writer::table($table);
         return html_writer::div($html, 'mbstrevhist');
     }
 

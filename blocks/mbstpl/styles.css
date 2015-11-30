@@ -209,3 +209,14 @@ div[role="main"] .block-usedreferences ol {
     margin: 9px auto;
     display: inline-block;
 }
+
+.mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
+.mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
+.mbstrevhist-item {
+    padding: 4px;
+    border-top: 1px solid #ccc;
+}
+.mbstrevhist-item:nth-child(even) { background-color: #f4f4f4; }
+.mbstrevhist-item:nth-child(even):hover { background-color: #eeeeee; }
+.mbstrevhist-item:nth-child(odd) { background-color: #fff; }
+.mbstrevhist-item:nth-child(odd):hover { background-color: #f9f9f9; }

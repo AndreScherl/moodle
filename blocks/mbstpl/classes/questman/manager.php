@@ -391,7 +391,7 @@ class manager {
         if (empty($qids)) {
             return array();
         }
-        list($qidin, $params) = $DB->get_in_or_equal($qids, SQL_PARAMS_QM, null, false);
+        list($qidin, $params) = $DB->get_in_or_equal($qids);
         $allqs = $DB->get_records_select_menu('block_mbstpl_question', "id $qidin", $params, 'name ASC', 'id,name');
 
         $searchqs = self::get_searchqs();

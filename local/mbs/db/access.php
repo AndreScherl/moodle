@@ -54,6 +54,15 @@ $capabilities = array(
         )
     ),
     
+    'local/mbs:viewteacherlist' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSECAT,
+        'archetypes' => array(
+            'schulkoordinator' => CAP_ALLOW,
+            'user' => CAP_PROHIBIT
+        )
+    ),
+    
     'local/mbs:globalblockscleanup' => array (
         'captype' => 'write',
         'riskbitmask' => RISK_DATALOSS,

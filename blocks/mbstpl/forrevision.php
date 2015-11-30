@@ -32,7 +32,7 @@ $courseid = required_param('course', PARAM_INT);
 
 $thisurl = new moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $courseid));
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));

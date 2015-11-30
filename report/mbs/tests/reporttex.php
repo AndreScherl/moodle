@@ -15,17 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
+ * report texed tables
  *
- * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    report
+ * @subpackage mbs
+ * @copyright  ISB Bayern
+ * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
+require_once(dirname(__FILE__) . '/../../../config.php');
 
-$plugin->version = 2015112700;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';
+
+// Check access.
+require_login();
+
+// Check capability.
+$context = context_system::instance();
+require_capability('moodle/site:config', $context);
+
+//\report_mbs\local\reporttex::report_tables();
+
+/*$text = 'asdf asdf <p> $$\frac{1}{2}$$</p><div>$$test$$</div>';
+echo $text;
+$text = \report_mbs\local\reporttex::/*($text);
+
+echo $text;*/
+
+\report_mbs\local\reporttex::replace_tex();

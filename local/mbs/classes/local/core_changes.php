@@ -26,6 +26,7 @@ namespace local_mbs\local;
 
 use context_system;
 use moodle_url;
+use html_writer;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -238,4 +239,57 @@ class core_changes {
         global $DB;
         return $DB->get_field('role', 'id', array('shortname' => $shortname));
     }
+        
+    /**
+     * mbscoordinators-Hack:
+     * 
+     * Get users by id
+     * 
+     * @param array $ids
+     * @return array of objects
+     */    
+    public static function get_users_by_id($ids) {
+        global $DB;        
+        list($searchcriteria, $params) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED);
+        $searchcriteria = 'id ' . $searchcriteria;
+        $users = $DB->get_records_select('user', $searchcriteria, $params);
+        return $users;        
+    }
+    
+    /**
+     * mbscoordinators-Hack:
+     * 
+     * prepare a list of enrolled teachers in the given course
+     * called from course\classes\management\helper.php -> get_course_detail_array()
+     * 
+     * @param $course
+     * @return array
+     */
+    public static function get_teachers_in_course($course) {
+        $output = array();
+        $output['key'] = get_string('enrolledteachers', 'local_mbs');
+        $output['value'] = array('-');
+        
+        $teacherroleid = self::get_roleid_by_shortname(self::$teacherroleshortname);         
+        $teacheridsincourse = get_role_users($teacherroleid, $course->get_context(), false, 'ra.userid', null, false);      
+        if (!empty($teacheridsincourse)) {
+            $teacherids = array();
+            foreach($teacheridsincourse as $key => $value) {
+                array_push($teacherids, $key); 
+            }
+            $teachers = self::get_users_by_id($teacherids);
+        }
+        if (!empty($teachers)) {
+            $teachernames = array();
+            foreach ($teachers as $teacher) {
+                $messageurl = new moodle_url('/message/index.php', array('id' => $teacher->id)); 
+                $link = html_writer::link($messageurl, fullname($teacher));
+                array_push($teachernames, $link);
+            }
+            $output['value'] = $teachernames;
+        }
+        
+        return $output;
+    }
+    
 }

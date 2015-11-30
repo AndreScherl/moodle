@@ -50,7 +50,7 @@ $thisurl = new moodle_url('/blocks/mbstpl/viewrating.php');
 $thisurl->param('course', $courseid);
 
 $PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$PAGE->set_pagelayout('incourse');
 $PAGE->set_context($coursecontext);
 
 $renderer = mbst\course::get_renderer();

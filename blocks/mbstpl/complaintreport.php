@@ -20,6 +20,9 @@
  * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+define('MBSTPL_SKIP_USED_REFERENCES', true);
+
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 global $PAGE, $OUTPUT, $USER;
@@ -34,8 +37,11 @@ $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
 $thisurl = new moodle_url('/blocks/mbstpl/complaintreport.php', array('course' => $courseid));
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('incourse');
-//$PAGE->set_context($coursecontext);
-$PAGE->set_context(context_user::instance($USER->id));
+$PAGE->set_context($coursecontext);
+
+if (!mbst\perms::can_complain($coursecontext)) {
+    throw new moodle_exception('errorcannotcomplain', 'block_mbstpl');
+}
 
 //Adding breadcrumb navigation. 
 require_login($courseid, false);

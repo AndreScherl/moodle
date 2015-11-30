@@ -55,7 +55,7 @@ class block_mbstpl extends block_base {
 
         $templates = mbst\user::get_templates();
         if (empty($templates)) {
-            $this->content->text .= get_string('notemplates', 'block_mbstpl');
+            $this->content->text .= html_writer::tag('p', null);
         } else {
             $renderer = $PAGE->get_renderer('block_mbstpl');
             $this->content->text .= $renderer->mytemplates($templates);

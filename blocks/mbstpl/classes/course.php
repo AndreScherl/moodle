@@ -78,14 +78,19 @@ class course {
                 $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
             }
 
-            if (perms::can_coursefromtpl($template, $coursecontext)) {
-                $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
-                $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
-            }
+            if (perms::can_viewabout($coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/abouttemplate.php', array('course' => $cid));
+                $tplnode->add(get_string('mbstpl:abouttemplate', 'block_mbstpl'), $url);
+            }            
 
             if (perms::can_leaverating($coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
                 $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
+            }
+            
+            if (perms::can_coursefromtpl($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
+                $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
             }
 
             if (perms::can_sendrevision($template, $coursecontext)) {

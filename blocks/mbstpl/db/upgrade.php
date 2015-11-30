@@ -314,5 +314,42 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015110900, 'mbstpl');
     }
+
+    if ($oldversion < 2015113000) {
+
+        $table = new xmldb_table('block_mbstpl_backup');
+
+        // Define field userdataids to be added to block_mbstpl_backup.
+        $field = new xmldb_field('userdataids', XMLDB_TYPE_TEXT, null, null, null, null, null, 'lastversion');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field excludedeploydataids to be added to block_mbstpl_backup.
+        $field = new xmldb_field('excludedeploydataids', XMLDB_TYPE_TEXT, null, null, null, null, null, 'userdataids');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015113000, 'mbstpl');
+    }
+
+    if ($oldversion < 2015120100) {
+
+        // Define field excludedeploydataids to be added to block_mbstpl_template.
+        $table = new xmldb_table('block_mbstpl_template');
+        $field = new xmldb_field('excludedeploydataids', XMLDB_TYPE_TEXT, null, null, null, null, null, 'reminded');
+
+        // Conditionally launch add field excludedeploydataids.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015120100, 'mbstpl');
+    }
+
+
     return true;
 }

@@ -34,6 +34,11 @@ class backup {
     const PREFIX_PRIMARY = 'origbkp_';
     const PREFIX_SECONDARY = 'tplbkp_';
 
+    /** @var dataobj\backup */
+    private static $primaryrestoreof = null;
+    /** @var int[] */
+    private static $mappedexcludedeploydataids = null;
+
     /**
      * Generates filename.
      * @param int $id of the backup or template.
@@ -110,7 +115,9 @@ class backup {
             'authorid' => $backup->creatorid,
         );
         $template = new dataobj\template($templatedata);
+        $template->set_exclude_deploydata_ids(self::$mappedexcludedeploydataids);
         $template->insert();
+        self::$mappedexcludedeploydataids = null;
 
         // Copy over metadata.
         $bkpmeta = new dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
@@ -251,6 +258,9 @@ class backup {
             $settings['anonymize'] = 1;
         }
 
+        $backup = new dataobj\backup(array('id' => $backupid));
+        $userdataids = $backup->get_userdata_ids();
+
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
             \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
@@ -258,6 +268,22 @@ class backup {
             foreach ($settings as $setting => $value) {
                 if ($bc->get_plan()->setting_exists($setting)) {
                     $bc->get_plan()->get_setting($setting)->set_value($value);
+                }
+            }
+            if ($withusers && $userdataids !== null) {
+                // Remove userdata from any activities that have been excluded.
+                /** @var \backup_setting $setting */
+                foreach ($bc->get_plan()->get_settings() as $setting) {
+                    $parts = explode('_', $setting->get_name(), 3);
+                    if (count($parts) < 3) {
+                        continue;
+                    }
+                    if ($parts[2] != 'userinfo' || $parts[0] == 'section') {
+                        continue;
+                    }
+                    if (!in_array($parts[1], $userdataids)) {
+                        $setting->set_value(0); // Disable user data for this field.
+                    }
                 }
             }
 
@@ -375,6 +401,7 @@ class backup {
 
         // Restore.
         $admin = get_admin();
+        self::$primaryrestoreof = $backup;
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
                 $admin->id, \backup::TARGET_NEW_COURSE);
@@ -383,6 +410,7 @@ class backup {
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
+        self::$primaryrestoreof = null;
         remove_dir($tmpdir);
 
         // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
@@ -398,6 +426,22 @@ class backup {
         return $course->id;
     }
 
+    public static function fix_exclude_deploydata_ids($restoreid) {
+        if (!self::$primaryrestoreof) {
+            return; // Only include if we're doing a primary restore.
+        }
+        // The excludedeploydataids are the cmids in the original course that are not allowed to deploy with user data in them.
+        // These need to be mapped onto the cmids in the template course (and saved into the template record).
+        $excludeids = self::$primaryrestoreof->get_exclude_deploydata_ids();
+        $newexcludeids = array();
+        foreach ($excludeids as $excludeid) {
+            $rec = \restore_dbops::get_backup_ids_record($restoreid, 'course_module', $excludeid);
+            if ($rec && $rec->newitemid) {
+                $newexcludeids[] = (int)$rec->newitemid;
+            }
+        }
+        self::$mappedexcludedeploydataids = $newexcludeids;
+    }
 
     /**
      * Backup an template

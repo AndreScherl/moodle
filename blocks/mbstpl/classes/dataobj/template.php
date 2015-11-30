@@ -82,6 +82,7 @@ class template extends base {
         'timemodified' => 0,
         'rating' => null,
         'reminded' => 0,
+        'excludedeploydataids' => '',
     );
 
     /* @var int Course id  */
@@ -113,6 +114,9 @@ class template extends base {
 
     /* @var int reminded  */
     public $reminded;
+
+    /** @var string */
+    public $excludedeploydataids;
 
     /**
      * Set the table name here.
@@ -233,5 +237,26 @@ class template extends base {
 
         $licence = license::fetch(array('shortname' => $meta->license));
         return $licence ? $licence->fullname : null;
+    }
+
+    /**
+     * @param int[]|null $excludedeploydataids
+     */
+    public function set_exclude_deploydata_ids($excludedeploydataids) {
+        if ($excludedeploydataids === null) {
+            $this->excludedeploydataids = null;
+        } else {
+            $this->excludedeploydataids = implode(',', $excludedeploydataids);
+        }
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function get_exclude_deploydata_ids() {
+        if (!trim($this->excludedeploydataids)) {
+            return array();
+        }
+        return explode(',', $this->excludedeploydataids);
     }
 }

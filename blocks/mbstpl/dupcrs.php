@@ -64,7 +64,8 @@ $customdata = array(
     'cats' => $cats,
     'courses' => $courses,
     'creator' => $creator,
-    'step' => $step
+    'step' => $step,
+    'template' => $template
 );
 
 $licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(

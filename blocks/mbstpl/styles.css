@@ -220,3 +220,10 @@ div[role="main"] .block-usedreferences ol {
 .mbstrevhist-item:nth-child(even):hover { background-color: #eeeeee; }
 .mbstrevhist-item:nth-child(odd) { background-color: #fff; }
 .mbstrevhist-item:nth-child(odd):hover { background-color: #f9f9f9; }
+
+.path-blocks-mbstpl .path-backup .mform .fitem .fitemtitle {
+    width: 200px;
+}
+.path-blocks-mbstpl .path-backup .mform .fitem .felement {
+    margin-left: 210px;
+}

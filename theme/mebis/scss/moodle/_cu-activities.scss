@@ -26,7 +26,7 @@
     - .que.ddwtos 
     - .que.geogebra
     - .que.match
-    - .que.multichoice
+    - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
 */
 /* 
@@ -363,6 +363,11 @@ div.que.geogebra {
     max-width: 1692px;
 }
 
+#page-mod-lesson-view {
+    input[type="submit"] {
+        white-space: normal;
+    }
+}
 
 @media only screen and (min-width: $screen-lg-min) { 
     #page-mod-assign-view .homepage-container {

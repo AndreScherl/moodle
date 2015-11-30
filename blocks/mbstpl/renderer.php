@@ -225,13 +225,17 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->head = array(
             get_string('status'),
             get_string('assigned', 'block_mbstpl'),
-            get_string('updated', 'block_mbstpl'),
-            get_string('feedback', 'block_mbstpl')
+            get_string('updated', 'block_mbstpl')
         );
         $table->data = array();
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
-            $feedback = '';
+
+            $table->data[] = array(
+                $this->status_box($hist->status),
+                $assignedname,
+                userdate($hist->timecreated)
+            );
 
             if ($hist->feedback) {
 
@@ -239,17 +243,14 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $feedback .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
 
                 if (isset($files[$hist->id])) {
-                    $feedback .= html_writer::tag('dt', get_string('feedbackfiles', 'block_mbstpl'));
                     $feedback .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
                 }
-            }
 
-            $table->data[] = array(
-                $this->status_box($hist->status),
-                $assignedname,
-                userdate($hist->timecreated),
-                $feedback ? html_writer::tag('dl', $feedback) : ''
-            );
+                $feedbackcell = new html_table_cell($feedback);
+                $feedbackcell->colspan = 3;
+                $feedbackcell->style = 'border-top:0;';
+                $table->data[] = new html_table_row(array($feedbackcell));
+            }
         }
         $html .= html_writer::table($table);
         return html_writer::div($html, 'mbstrevhist');

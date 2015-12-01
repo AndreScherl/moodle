@@ -90,6 +90,6 @@ class license extends base {
      * @return string
      */
     public static function get_tablename() {
-        return 'block_mbstpl_license';
+        return 'license';
     }
 }

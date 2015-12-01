@@ -93,6 +93,41 @@ class editmeta extends licenseandassetform {
         mbst\questman\qtype_checklist::definition_after_data($this->_form);
     }
 
+    function add_usercreated_license($licenses) {
+        global $DB;
+        
+        list($inshortname, $inparams) = $DB->get_in_or_equal($licenses);
+        $inparams[] = \block_mbstpl\dataobj\license::$licensetype['usercreated'];
+        
+        $sql = "SELECT DISTINCT shortname, fullname FROM {block_mbstpl_license} WHERE shortname $inshortname AND type = ?";
+        
+        if (!$usercreatedshortnames = $DB->get_records_sql($sql, $inparams)) {
+            return false;
+        }
+        
+        $form = $this->_form;
+        
+        foreach ($licenses as $idx => $license) {
+            if (isset($usercreatedshortnames[$license])) {
+                $group = $form->getElement("asset[$idx]");
+                $groupelements = $group->getElements();
+                
+                $license = $usercreatedshortnames[$license];
+                $choices = array($license->shortname => $license->fullname);
+                
+                $groupelements[$this->licenseindex]->load($choices);
+            }
+        }
+        
+         //print_r($data);
+
+     /*   $form = $this->_form;
+        $test = $form->getElement('asset[0]');
+        $license = $test->getElements();
+        $choices = array('Neue Lizenz' => 'Neue LInzenz');
+        $license[4]->load($choices);*/
+    }
+
     function set_data($default_values) {
         if (!empty($this->_customdata['freeze'])) {
             parent::set_data($default_values);
@@ -101,12 +136,20 @@ class editmeta extends licenseandassetform {
         if (is_object($default_values)) {
             $default_values = (array) $default_values;
         }
+
+        // When there are usercreated asset licenses, add them to select box.
+        if (!empty($default_values['asset_license'])) {
+            $this->add_usercreated_license($default_values['asset_license']);
+        }
+
         $data = array();
         foreach ($default_values as $key => $value) {
+
             if (!is_array($value) || !isset($value['text'])) {
                 $data[$key] = $value;
                 continue;
             }
+
             $type = $this->_form->getElementType($key);
 
             if ($type == 'editor') {
@@ -120,7 +163,6 @@ class editmeta extends licenseandassetform {
                 $data[$key] = mbst\questman\qtype_checkboxgroup::prepare_data($data[$key]);
             }
         }
-
         parent::set_data($data);
     }
 

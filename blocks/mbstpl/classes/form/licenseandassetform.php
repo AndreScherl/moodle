@@ -36,11 +36,38 @@ require_once($CFG->libdir . '/formslib.php');
 abstract class licenseandassetform extends \moodleform {
 
     const ASSET_SPACES = 3;
+    protected $licenseindex = 4;
+
+    /**
+     * Returns the submitted license shortname. If a new license was submitted,
+     * will create a new license and return that license's shortname.
+     *
+     * @param object $data
+     * @return string
+     */
+    protected static function get_submitted_license_shortname($data, $idx) {
+
+        if ($data->asset_license[$idx] == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
+
+            $license = new license(array(
+                'shortname' => $data->newlicense_shortname[$idx],
+                'fullname' => $data->newlicense_fullname[$idx],
+                'source' => $data->newlicense_source[$idx],
+                'type' => \block_mbstpl\dataobj\license::$licensetype['usercreated']
+            ));
+            $license->insert();
+
+            return $license->shortname;
+        }
+
+        return $data->asset_license[$idx];
+    }
 
     public static function update_assets_from_submitted_data(meta $meta, $data) {
         global $CFG;
 
         foreach ($data->asset_id as $idx => $assetid) {
+
             $url = isset($data->asset_url[$idx]) ? trim($data->asset_url[$idx]) : '';
             $license = isset($data->asset_license[$idx]) ? $data->asset_license[$idx] : $CFG->defaultsitelicense;
             $owner = isset($data->asset_owner[$idx]) ? trim($data->asset_owner[$idx]) : '';
@@ -56,8 +83,12 @@ abstract class licenseandassetform extends \moodleform {
                 $asset = new asset(array('metaid' => $meta->id), false);
             }
             if ($hasdata) {
+
+                // Create new (user-) license, if necessary.
+                $submittedlicense = self::get_submitted_license_shortname($data, $idx);
+
                 $asset->url = $url;
-                $asset->license = $license;
+                $asset->license = $submittedlicense;
                 $asset->owner = $owner;
                 $asset->source = $source;
                 if ($asset->id) {
@@ -69,92 +100,64 @@ abstract class licenseandassetform extends \moodleform {
         }
     }
 
-    public static function update_meta_license_from_submitted_data(meta $meta, $data) {
-        $submittedlicense = self::get_submitted_license_shortname($data);
+    public static function update_meta_license_from_submitted_data(meta $meta,
+                                                                   $data) {
+        $submittedlicense = $data->license;
         if ($meta->license != $submittedlicense) {
             $meta->license = $submittedlicense;
             $meta->update();
         }
     }
 
-    /**
-     * Returns the submitted license shortname. If a new license was submitted,
-     * will create a new license and return that license's shortname.
-     *
-     * @param object $data
-     * @return string
-     */
-    public static function get_submitted_license_shortname($data) {
-
-        if ($data->license == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-
-            $license = new license(array(
-                'shortname' => $data->newlicense_shortname,
-                'fullname' => $data->newlicense_fullname,
-                'source' => $data->newlicense_source
-            ));
-            $license->insert();
-
-            return $license->shortname;
-        }
-
-        return $data->license;
-    }
-
     protected function define_license() {
 
         global $CFG;
-        require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
-        require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_newlicense.php');
+        require_once($CFG->dirroot . '/blocks/mbstpl/classes/MoodleQuickForm_license.php');
 
         $form = $this->_form;
-        $cdata = $this->_customdata;
 
         // License options.
-        $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, true);
-
-        if (empty($cdata['freeze'])) {
-
-            /* @var $newlicense \MoodleQuickForm_newlicense */
-            $newlicense = $form->addElement('newlicense', 'newlicense', 'license');
-            $form->setTypes(array(
-                'newlicense_shortname' => PARAM_TEXT,
-                'newlicense_fullname' => PARAM_TEXT,
-                'newlicense_source' => PARAM_TEXT
-            ));
-
-            if (optional_param('license', null, PARAM_ALPHAEXT) != \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-                foreach ($newlicense->getElements() as $newlicenseelement) {
-                    /* @var $newlicenseelement \MoodleQuickForm_text */
-                    $newlicenseelement->updateAttributes(array('disabled' => 'disabled'));
-                }
-            } else {
-                $form->addGroupRule('newlicense', array(
-                    'newlicense_shortname' => array(array(get_string('newlicense_required', 'block_mbstpl'), 'required'))
-                ), 'required');
-            }
-        }
+        $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, false);
 
         $form->addRule('license', null, 'required');
     }
 
     protected function define_assets() {
+        global $PAGE;
 
         $form = $this->_form;
+        $cdata = $this->_customdata;
 
         // List of 3rd-party assets.
         $asset = array();
-        $asset[] = $form->createElement('hidden', 'asset_id');
-        $asset[] = $form->createElement('text', 'asset_url', get_string('url', 'block_mbstpl'),
-            array(
-                'size' => '30', 'inputmode' => 'url',
-                'placeholder' => get_string('url', 'block_mbstpl')
+        $asset[0] = $form->createElement('hidden', 'asset_id');
+        $asset[1] = $form->createElement('text', 'asset_url', get_string('url', 'block_mbstpl'), array(
+            'size' => '30', 'inputmode' => 'url',
+            'placeholder' => get_string('url', 'block_mbstpl')
+        ));
+        $asset[2] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'), array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
+        $asset[3] = $form->createElement('text', 'asset_source', get_string('source', 'block_mbstpl'), array('size' => '20', 'placeholder' => get_string('source', 'block_mbstpl')));
+        
+        // When changing the order of the asset elements, it is necessary to change the licenseindex too.
+        $asset[4] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'), array('class' => 'mbstpl-asset-license'), true);
+        // This index is used to update the license dropdown, when a usercreated license was saved
+        // Example: this is set to 4, because the license field has this index in $asset array.
+        $this->licenseindex = 4;
+        
+        if (empty($cdata['freeze'])) {
+
+            /* @var $newlicense \MoodleQuickForm_newlicense */
+            $asset[] = $form->createElement('text', 'newlicense_shortname', '', array('placeholder' => get_string('newlicense_shortname', 'block_mbstpl')));
+            $asset[] = $form->createElement('text', 'newlicense_fullname', '', array('placeholder' => get_string('newlicense_fullname', 'block_mbstpl')));
+            $asset[] = $form->createElement('text', 'newlicense_source', '', array('placeholder' => get_string('newlicense_source', 'block_mbstpl')));
+
+            $form->setTypes(array(
+                'newlicense_shortname' => PARAM_TEXT,
+                'newlicense_fullname' => PARAM_TEXT,
+                'newlicense_source' => PARAM_TEXT
             ));
-        $asset[] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'), array('class' => 'mbstpl-asset-license'));
-        $asset[] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'),
-            array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
-        $asset[] = $form->createElement('text', 'asset_source', get_string('source', 'block_mbstpl'),
-            array('size' => '20', 'placeholder' => get_string('source', 'block_mbstpl')));
+        }
+
         $assetgroup = $form->createElement('group', 'asset', get_string('assets', 'block_mbstpl'), $asset, null, false);
 
         $repeatcount = empty($this->_customdata['assetcount']) ? self::ASSET_SPACES : $this->_customdata['assetcount'];
@@ -168,8 +171,15 @@ abstract class licenseandassetform extends \moodleform {
             'asset_owner' => array('type' => PARAM_TEXT),
             'asset_source' => array('type' => PARAM_TEXT)
         );
-        $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3,
-            get_string('addassets', 'block_mbstpl'), true);
+        $this->repeat_elements(array($assetgroup), $repeatcount, $repeatopts, 'assets', 'assets_add', 3, get_string('addassets', 'block_mbstpl'), true);
+    }
+
+    public function set_data($default_values) {
+        global $PAGE;
+        parent::set_data($default_values);
+
+        $args = array();
+        $PAGE->requires->yui_module('moodle-block_mbstpl-newlicense', 'M.block_mbstpl.newlicense.init', $args, null, true);
     }
 
     protected function define_tags() {
@@ -222,15 +232,28 @@ abstract class licenseandassetform extends \moodleform {
     function validation($data, $files) {
 
         // If a new license is being created, ensure that one doesn't exists with the same shortname.
-        if ($data['license'] == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-            $shortname = $data['newlicense_shortname'];
-            $existinglicense = license::fetch(array('shortname' => $shortname));
-            if ($existinglicense) {
-                return array('newlicense' => get_string('newlicense_exists', 'block_mbstpl', $shortname));
+
+        if (!empty($data['asset_license'])) {
+
+            foreach ($data['asset_license'] as $idx => $licenseshortname) {
+
+                if ($licenseshortname == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
+
+                    $shortname = $data['newlicense_shortname'][$idx];
+                    $existinglicense = license::fetch(array('shortname' => $shortname));
+
+                    if ($existinglicense) {
+                        return array("asset[$idx]" => get_string('newlicense_exists', 'block_mbstpl', $shortname));
+                    }
+                    
+                    if (empty($data['newlicense_fullname'][$idx])) {
+                        return array("asset[$idx]" => get_string('newlicense_fullnamerequired', 'block_mbstpl', $shortname));
+                    }
+                }
             }
+
+            return array();
         }
-
-        return array();
     }
-
 }
+    

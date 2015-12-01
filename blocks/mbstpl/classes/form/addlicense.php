@@ -47,6 +47,8 @@ class addlicense extends \moodleform {
         ));
 
         $form->addRule('newlicense_shortname', get_string('newlicense_required', 'block_mbstpl'), 'required');
+        
+        $form->addElement('checkbox', 'newlicense_typecourse', get_string('newlicense_typecourse', 'block_mbstpl'));
 
         $this->add_action_buttons(false, get_string('newlicense_add', 'block_mbstpl'));
     }

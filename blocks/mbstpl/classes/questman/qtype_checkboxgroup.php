@@ -132,7 +132,7 @@ class qtype_checkboxgroup extends qtype_menu {
      */
     public static function prepare_data($data) {
 
-        if ($data[0] != '#') {
+        if (empty($data[0]) or ($data[0] != '#')) {
             return $data;
         }
 

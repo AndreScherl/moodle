@@ -334,5 +334,26 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015111600, 'mbstpl');
     }
 
+    if ($oldversion < 2015113000) {
+
+        // Define field type to be added to block_mbstpl_license.
+        $table = new xmldb_table('block_mbstpl_license');
+        $field = new xmldb_field('type', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'source');
+
+        // Conditionally launch add field type.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $licenses = $DB->get_records('block_mbstpl_license');
+        foreach ($licenses as $license) {
+            $license->type = 1;
+            $DB->update_record('block_mbstpl_license', $license);
+        }
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015113000, 'mbstpl');
+    }
+
     return true;
 }

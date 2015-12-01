@@ -518,9 +518,12 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('license_shortname', 'block_mbstpl'),
             get_string('license_fullname', 'block_mbstpl'),
             get_string('license_source', 'block_mbstpl'),
+            get_string('license_type', 'block_mbstpl'),
             get_string('license_used', 'block_mbstpl')
         );
 
+        $licensenames = array_flip(\block_mbstpl\dataobj\license::$licensetype);
+        
         foreach ($licenses as $license) {
 
             if (in_array($license->shortname, $usedshortnames)) {
@@ -534,6 +537,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $license->shortname,
                 $license->fullname,
                 $license->source,
+                get_string('licensetype_'.$licensenames[$license->type], 'block_mbstpl'),
                 $usage
             ));
 

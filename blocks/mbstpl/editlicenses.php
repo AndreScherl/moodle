@@ -51,7 +51,8 @@ if ($data = $form->get_data()) {
     $license = new mbst\dataobj\license(array(
         'shortname' => $data->newlicense_shortname,
         'fullname' => $data->newlicense_fullname,
-        'source' => $data->newlicense_source
+        'source' => $data->newlicense_source,
+        'type' => $data->newlicense_typecourse
     ));
     $license->insert();
     redirect($PAGE->url);

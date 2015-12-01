@@ -461,6 +461,7 @@ class manager {
         // Load the assets fields.
         $i = 0;
         foreach ($meta->get_assets() as $asset) {
+            
             $setdata->asset_id[$i] = $asset->id;
             $setdata->asset_url[$i] = $asset->url;
             $setdata->asset_license[$i] = $asset->license;

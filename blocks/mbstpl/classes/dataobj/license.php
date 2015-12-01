@@ -30,6 +30,9 @@ defined('MOODLE_INTERNAL') || die();
  * @package block_mbstpl
  */
 class license extends base {
+    
+    // Type of license (default means 3rd party and course). 
+    public static $licensetype = array('default' => 0, 'course' => 1, 'usercreated' => 2);
 
     public static function fetch_all_used_shortnames() {
         global $DB;
@@ -70,7 +73,7 @@ class license extends base {
         return $licenses;
     }
 
-    public $required_fields = array('id', 'shortname', 'fullname', 'source');
+    public $required_fields = array('id', 'shortname', 'fullname', 'source', 'type');
     public $noduplfields = array('shortname');
 
     /* @var $shortname string */

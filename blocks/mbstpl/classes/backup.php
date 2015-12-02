@@ -39,6 +39,9 @@ class backup {
     /** @var int[] */
     private static $mappedexcludedeploydataids = null;
 
+    /** @var \context_course nasty hack to get course context when deep inside the backup anonymisation code */
+    private static $coursecontext = null;
+
     /**
      * Generates filename.
      * @param int $id of the backup or template.
@@ -220,7 +223,24 @@ class backup {
         return $cid;
     }
 
+    /**
+     * Should this particular user be anonymised?
+     * @param \base_final_element $element
+     * @return bool
+     */
+    public static function should_anonymise(\base_final_element $element) {
+        if (!self::$coursecontext) {
+            return true; // If coursecontext is not set, then this is not a partial-anonymisation backup.
+        }
 
+        $parent = $element->get_parent();
+        if ($parent->get_name() != 'user') {
+            return true; // The parent element is not a user, so carry on as usual.
+        }
+
+        $userid = $parent->get_attribute('id');
+        return !has_capability('block/mbstpl:notanonymised', self::$coursecontext, $userid->get_value());
+    }
 
     /**
      * Backup an original course.
@@ -260,6 +280,9 @@ class backup {
 
         $backup = new dataobj\backup(array('id' => $backupid));
         $userdataids = $backup->get_userdata_ids();
+
+        // Needed to determine partial anonymisations.
+        self::$coursecontext = \context_course::instance($courseid);
 
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
             \backup::MODE_AUTOMATED, $userid);
@@ -330,6 +353,8 @@ class backup {
         } catch (\Exception $e) {
             $backupok = false;
         }
+
+        self::$coursecontext = null;
 
         $bc->destroy();
         unset($bc);
@@ -475,6 +500,9 @@ class backup {
             'histories' => 0,
         ), $backupsettings);
 
+        // Needed to determine partial anonymisations.
+        self::$coursecontext = \context_course::instance($courseid);
+
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
             \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
@@ -523,6 +551,8 @@ class backup {
         } catch (\Exception $e) {
             $backupok = false;
         }
+
+        self::$coursecontext = null;
 
         $bc->destroy();
         unset($bc);

@@ -139,6 +139,7 @@ $string['mbstpl:coursetemplatereview'] = 'Course template review';
 $string['mbstpl:coursetemplatemanager'] = 'Course template manager';
 $string['mbstpl:coursetemplatereview'] = 'Course template review';
 $string['mbstpl:createcoursefromtemplate'] = 'Create course from template';
+$string['mbstpl:notanonymised'] = 'Not anonymised during template creation';
 $string['mbstpl:myaddinstance'] = 'Add a my course template information block instance to My Home';
 $string['mbstpl:ratetemplate'] = 'Rate template';
 $string['mbstpl:sendcoursetemplate'] = 'Send course template';

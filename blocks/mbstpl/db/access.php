@@ -125,4 +125,12 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:create'
     ),
 
+    'block/mbstpl:notanonymised' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+        )
+    ),
+
 );

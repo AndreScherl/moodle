@@ -23,9 +23,6 @@
  */
 
 namespace core_course\management;
-// fhüb - mbscoordinators-Hack: show enrolled teachers list.
-use local_mbs as mbs;
-// fhüb - mbscoordinators-Hack: show enrolled teachers list.
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -132,7 +129,7 @@ class helper {
         }
         // fhüb - mbscoordinators-Hack: show enrolled teachers list.
         if(has_capability('local/mbs:viewteacherlist', \context_coursecat::instance($category->id))) {                    
-            $teachers = mbs\local\core_changes::get_teachers_in_course($course);
+            $teachers = \local_mbs\local\core_changes::get_teachers_in_course($course);
             $details['teachers'] = array(
                 'key' => $teachers['key'],
                 'value' => join('<br />', $teachers['value'])

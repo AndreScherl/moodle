@@ -50,6 +50,8 @@ class qtype_checklist extends qtype_base {
     public static function add_template_element(\MoodleQuickForm $form,
                                                 $question) {
 
+        $question->title = self::add_help_button($question);
+        
         $radiogroup = array(
             $form->createElement('static', 'description', '', \html_writer::tag('div', format_text($question->param1))),
             $form->createElement('radio', $question->fieldname, '', get_string('yes'), self::ANSWER_YES),

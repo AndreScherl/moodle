@@ -68,6 +68,7 @@ class qtype_menu extends qtype_base {
             $options[$key] = format_string($option); // Multilang formatting.
         }
 
+        $question->title = self::add_help_button($question);
         $form->addElement('select', $question->fieldname, $question->title, $options);
     }
 

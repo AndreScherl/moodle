@@ -37,7 +37,9 @@ class qtype_textarea extends qtype_base {
     }
 
     public static function add_template_element(\MoodleQuickForm $form, $question) {
-        $form->addElement('editor', $question->fieldname, format_string($question->title));
+        
+        $question->title = self::add_help_button($question);
+        $form->addElement('editor', $question->fieldname, $question->title);
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 

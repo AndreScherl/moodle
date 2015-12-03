@@ -54,7 +54,11 @@ class filter_mbslicenseinfo extends moodle_text_filter {
             'filename' => $filename));
         
         // get the license info of the file
-        $license = $DB->get_record('license', array('shortname' => $file->license));
+        $license = new stdClass();
+        $license->shortname = '';
+        $license->fullname = '';
+        $license->source = '';
+        if(!empty($file->license)) $license = $DB->get_record('license', array('shortname' => $file->license));
         
         // build the markup (container div, img, license info)
         $licenselink = html_writer::link($license->source, $license->fullname, array('target' => '_blank'));

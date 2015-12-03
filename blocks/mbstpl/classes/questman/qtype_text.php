@@ -42,11 +42,13 @@ class qtype_text extends qtype_base {
     }
 
     public static function add_template_element(\MoodleQuickForm $form, $question) {
+        
         $size = $question->param1;
         $maxlength = $question->param2;
 
+        $question->title = self::add_help_button($question);
         // Create the form field.
-        $form->addElement('text', $question->fieldname, format_string($question->title),
+        $form->addElement('text', $question->fieldname, $question->title,
             'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $form->setType($question->fieldname, PARAM_TEXT);
     }

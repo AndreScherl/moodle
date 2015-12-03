@@ -77,17 +77,25 @@ class qtype_base {
         
     }
 
-    public static function add_help_button(\MoodleQuickForm $form, $question) {
-
+    public static function add_help_button($question) {
+        global $OUTPUT;
+        
         if (!empty($question->help)) {
-            $form->addHelpButton($question->fieldname, $question->fieldname, 'block_mbstpl');
+            
+            $icon = $OUTPUT->pix_icon('a/help', get_string('help'), 'moodle', array('class' => 'iconhelp'));
+            $helpurl = new \moodle_url('/blocks/mbstpl/help.php', array('qid' => $question->id));
+            $helplink = \html_writer::link($helpurl, $icon, array('target' => '_blank', 'aria-haspopup' => 'true', 'title' => $question->title));
+            $question->title .= \html_writer::tag('span', $helplink, array('class' => 'helptooltip'));
         }
+        
+        return $question->title;
     }
 
     public static function add_rule(\MoodleQuickForm $form, $question) {
 
         if (!empty($question->required)) {
             $form->addRule($question->fieldname, get_string('required'), 'required', null, 'client');
+
         }
     }
 

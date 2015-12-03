@@ -40,6 +40,7 @@ class qtype_checkboxgroup extends qtype_menu {
             $boxes[] = & $form->createElement('checkbox', $key, null, format_string($option));
         }
 
+        $question->title = self::add_help_button($question);
         $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
     }
 

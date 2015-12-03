@@ -61,7 +61,6 @@ class editmeta extends licenseandassetform {
             if ($question->datatype != 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
-                $typeclass::add_help_button($form, $question);
                 $typeclass::add_rule($form, $question);
             }
         }

@@ -90,12 +90,10 @@ if ($mform->is_cancelled()) {
     if ($id) {
         $dataobj->id = $id;
         $DB->update_record('block_mbstpl_question', $dataobj);
-        \block_mbstpl\questman\manager::save_help_text($id, $data->title, $data->help);
     } else {
         $dataobj->datatype = $datatype;
         $qid = $DB->insert_record('block_mbstpl_question', $dataobj);
         \block_mbstpl\questman\manager::add_question_to_draft($qid);
-        \block_mbstpl\questman\manager::save_help_text($qid, $data->title, $data->help);
     }
     
     redirect($redirurl);

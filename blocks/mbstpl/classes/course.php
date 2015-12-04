@@ -99,11 +99,6 @@ class course {
             }
         }
 
-        if (perms::can_viewrating($coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/viewrating.php', array('course' => $cid));
-            $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
-        }
-
         if (perms::can_viewhistory($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $cid));
             $tplnode->add(get_string('viewhistory', 'block_mbstpl'), $url);

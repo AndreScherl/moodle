@@ -219,7 +219,6 @@ $string['newlicense_fullnamerequired'] = 'A full name for new license "{$a}" is 
 $string['newlicense_typecourse'] = 'Use as course license';
 $string['nextstatsreport'] = 'Next statistics report';
 $string['nextstatsreport_desc'] = 'Date to run the next statistics report';
-$string['norating'] = 'This template has no ratings.';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
 {$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';

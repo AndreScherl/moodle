@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 class block_mbslicenseinfo extends block_base {
 
     function init() {
-        $this->title = get_string('pluginname', 'block_mbslicenseinfo');
+        $this->title = get_string('displayname', 'block_mbslicenseinfo');
     }
 
     function get_content() {
@@ -43,28 +43,16 @@ class block_mbslicenseinfo extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
-        $this->content->footer = '';
-
-        // user/index.php expect course context, so get one if page has module context.
-        $currentcontext = $this->page->context->get_course_context(false);
-
-        if (! empty($this->config->text)) {
-            $this->content->text = $this->config->text;
-        }
-
-        $this->content = '';
-        if (empty($currentcontext)) {
-            return $this->content;
-        }
-        if ($this->page->course->id == SITEID) {
-            $this->content->text .= "site context";
-        }
+        $this->content->text = '';
 
         if (! empty($this->config->text)) {
             $this->content->text .= $this->config->text;
         }
+        
+        $formurl = new moodle_url('/blocks/mbslicenseinfo/editlicenses.php');
+        $editbutton = html_writer::tag('button', get_string('editlicenses', 'block_mbslicenseinfo'));
+        $editlink = html_writer::link($formurl, $editbutton);
+        $this->content->text .= $editlink;
 
         return $this->content;
     }

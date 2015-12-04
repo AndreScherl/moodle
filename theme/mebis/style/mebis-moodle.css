@@ -15978,6 +15978,10 @@ aside.row .block-region .block {
   padding-top: 8px;
 }
 
+.block_mbslicenseinfo button {
+  color: #000;
+}
+
 .block_mbsmyschools .header .title .col-md-6 {
   padding-left: 0;
   padding-right: 0;
@@ -16523,6 +16527,10 @@ Here are to go all styles, which are NOT:
 div[role="main"] ul, div[role="main"] ol {
   padding: 0;
   overflow: visible;
+}
+
+button {
+  white-space: normal;
 }
 
 .clearer {

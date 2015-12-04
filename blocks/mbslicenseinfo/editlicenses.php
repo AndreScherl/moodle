@@ -16,15 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'block_mbslicenseinfo', language 'de'
- *
- * @package   block_mbslicenseinfo
- * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_mbslicenseinfo
+ * @copyright   2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['displayname'] = 'Quellenangaben';
-$string['editlicenses'] = 'Quellenangaben für Kursinhalte bearbeiten';
-$string['mbslicenseinfo:addinstance'] = 'Block mebis Quellenangaben hinzufügen';
-$string['mbslicenseinfo:myaddinstance'] = 'Block mebis Quellenangaben zum Schreibtisch hinzufügen';
-$string['pluginname'] = 'mebis Quellenangaben';
+

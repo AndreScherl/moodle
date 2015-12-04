@@ -24,6 +24,7 @@
  */
 
 $string['displayname'] = 'Licenseinfo';
+$string['editlicenses'] = 'Edit Licenses information';
 $string['mbslicenseinfo:addinstance'] = 'Add a mbslicenseinfo block';
 $string['mbslicenseinfo:myaddinstance'] = 'Add a mbslicenseinfo block to my moodle';
 $string['pluginname'] = 'mebis licenseinfo';

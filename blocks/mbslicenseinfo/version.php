@@ -24,6 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015120200;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2015120400;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2014051203;        // Requires this Moodle version
 $plugin->component = 'block_mbslicenseinfo'; // Full name of the plugin (used for diagnostics)

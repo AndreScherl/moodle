@@ -234,6 +234,7 @@ $string['qbank'] = 'Question bank';
 $string['qformdiscard'] = 'Discard question form';
 $string['qformunsaved'] = 'New question form (unsaved draft)';
 $string['questionhelp'] = 'Helptext for question';
+$string['questionhelppopupheading'] = 'Help: {$a}';
 $string['questionname'] = 'Question name';
 $string['questionrequired'] = 'Required';
 $string['questiontitle'] = 'Question title';
@@ -296,18 +297,3 @@ $string['redirectdupcrsmsg'] = 'Your duplication request has been received. You 
 $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
-$string['custq8'] = 'Schulart';
-$string['custq8_help'] = '';
-$string['custq9'] = 'Jahrgangsstufe';
-$string['custq9_help'] = '';
-$string['custq10'] = 'Personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
-$string['custq10_help'] = '<ul>
-<li>Profilnamen werden automatisch anonymisiert, z. B. Autor eines Forenbeitrags.</li>
-<li>Namensnennungen in Texteingaben müssen selbstständig editiert werden, z. B.  „Eva hat ein tolles Referat gehalten.“ -&gt; „SchülerX hat ein tolles Referat gehalten.“ </li>
-</ul>';
-$string['custq2'] = 'Schularten';
-$string['custq2_help'] = 'Wählen Sie die Schulart';
-$string['custq5'] = 'Urheberrecht';
-$string['custq5_help'] = 'Hilfe zum Urheberrecht';
-$string['custq6'] = 'Fremdinhalte';
-$string['custq6_help'] = '';

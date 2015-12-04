@@ -65,6 +65,7 @@ class qtype_datetime extends qtype_base {
             'optional'  => false,
         );
 
+        $question->title = self::add_help_button($question);
         $form->addElement('date_time_selector', $question->fieldname, $question->title, $attributes);
     }
 

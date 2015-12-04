@@ -354,6 +354,29 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015113000, 'mbstpl');
     }
+    
+     if ($oldversion < 2015120400) {
+
+        // Define table block_mbstpl_clicense to be created.
+        $table = new xmldb_table('block_mbstpl_clicense');
+
+        // Adding fields to table block_mbstpl_clicense.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('shortname', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+
+        // Adding keys to table block_mbstpl_clicense.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('shortname', XMLDB_KEY_FOREIGN_UNIQUE, array('shortname'), 'license', array('shortname'));
+
+        // Conditionally launch create table for block_mbstpl_clicense.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015120400, 'mbstpl');
+    }
+
 
     return true;
 }

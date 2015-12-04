@@ -90,13 +90,10 @@ $string['emailassignedauthor_subj'] = 'You have been assigned as a template auth
 $string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
 {$a->url}';
 $string['emailcoursepublished_subj'] = 'Template course published';
-$string['emailcomplaint_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
-{$a->url}';
+$string['emailcomplaint_body'] = 'There is a complaint for the template course {$a->coursename}. It can be viewed at:
+{$a->url}';        
 $string['emailcomplaint_subj'] = 'Complaint';
-$string['emailcomplaintsend_body'] = 'There is a complaint for the template course {$a->coursename}. It can be viewed at:
-{$a->url}';
-$string['emailcomplaintsend_subj'] = 'Complaint sent';
-$string['emaildupldeployed_body'] = 'Dear teachSHARE user,
+$string['emailcomplaintsend_body'] = 'Dear teachSHARE user,
     
     thanks for your complaint. 
     
@@ -108,6 +105,8 @@ Kardinal-von-Waldburg-Str. 6-7
 Hotline: 09071 - 53 300
 mebis@alp.dillingen.de
 www.mebis.bayern.de';
+$string['emailcomplaintsend_subj'] = 'Complaint sent';
+$string['emaildupldeployed_body'] = 'The template course {$a->fullname} has been duplicated into a new copy. It can be viewed at:'."\n".'{$a->url}';
 $string['emaildupldeployed_subj'] = 'Template duplicated';
 $string['emailfeedbackauth_body'] = 'Dear template reviewer,
 The author of course course {$a->fullname}, {$a->reviewer}, has adjusted the course. The following feedback has been given:

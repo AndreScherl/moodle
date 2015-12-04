@@ -40,7 +40,6 @@ $string['backtemplatefeedback'] = 'Zurück zum Feedback für diesen Kurs';
 $string['checklistexpln'] = 'Anm.: Fragen dieser Art werden am Ende des Formulars als Checkliste für die Inhalte dieses Kurses angezeigt<br>
 Jeder Inhalt kann als \'Ja\', \'Nein\', oder \'Nicht anwendbar\' markiert werden.<br>
 Es kann keine Kurssuche ausgeführt werden, die auf diesen Feldern basiert.';
-$string['comment'] = 'Kommentar';
 $string['complaintemail'] = 'Emailadresse für Beschwerden';
 $string['complaintemail_desc'] = 'E-Mail-Adresse für gemeldete Probleme bei Austauschkursen.';
 $string['complaintform'] = 'Problem melden';
@@ -272,7 +271,6 @@ $string['withoutanon'] = 'Ohne Nutzerdaten';
 $string['rating'] = 'Bewertung';
 $string['ratingavg'] = 'durchschnittliche Bewertung';
 $string['rating_header'] = 'Bewertung abgeben';
-$string['rating_comments'] = 'Feedback / comments';
 $string['submitbutton'] = 'Senden';
 $string['cancelbutton'] = 'Abbrechen';
 $string['rating_star'] = '{$a} Stern';

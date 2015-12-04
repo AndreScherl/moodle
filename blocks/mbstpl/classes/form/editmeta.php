@@ -64,14 +64,11 @@ class editmeta extends licenseandassetform {
                 $typeclass::add_rule($form, $question);
             }
         }
+        $this->define_tags();
 
         if (empty($cdata['justtags'])) {
-            mbst\questman\qtype_checklist::edit_comments(true);
-
             $includechecklist = empty($cdata['freeze']);
             $this->define_legalinfo_fieldset($includechecklist);
-        } else {
-            $this->define_tags();
         }
 
         if (!empty($cdata['withrating']) && !empty($template->rating)) {

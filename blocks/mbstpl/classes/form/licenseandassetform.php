@@ -210,9 +210,6 @@ abstract class licenseandassetform extends \moodleform {
             $this->define_checklist_questions();
         }
 
-        // Tags.
-        $this->define_tags();
-
         $this->_form->setExpanded('legalinfo');
 
         $this->_form->closeHeaderBefore('legalinfo');

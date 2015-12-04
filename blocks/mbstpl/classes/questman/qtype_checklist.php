@@ -33,7 +33,6 @@ class qtype_checklist extends qtype_base {
     const ANSWER_NO = 2;
     const ANSWER_NA = 3;
 
-    protected static $editcomments = false;
     protected static $checkremove = array();
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
@@ -59,14 +58,6 @@ class qtype_checklist extends qtype_base {
             $form->createElement('radio', $question->fieldname, '', get_string('na', 'block_mbstpl'), self::ANSWER_NA),
         );
         $form->addGroup($radiogroup, $question->fieldname, format_string($question->title), null, false);
-
-        $commentname = $question->fieldname . '_comment';
-        $form->addElement('textarea', $commentname, get_string('comment', 'block_mbstpl'), array('rows' => 3, 'cols' => 30));
-        $form->setType($commentname, PARAM_TEXT);
-        if (!self::$editcomments) {
-            self::$checkremove[] = $commentname; // Note the name of the field, so it can be removed if there is no comment.
-            $form->hardFreeze(array($commentname));
-        }
     }
 
     protected static function definition_after_data_internal(\MoodleQuickForm $form) {
@@ -79,15 +70,6 @@ class qtype_checklist extends qtype_base {
             }
         }
         self::$checkremove = array();
-    }
-
-    /**
-     * Allow reviewers to edit comments (authors can only view them).
-     *
-     * @param bool $edit
-     */
-    public static function edit_comments($edit) {
-        self::$editcomments = $edit;
     }
 
     /**

@@ -195,7 +195,7 @@ abstract class licenseandassetform extends \moodleform {
         $this->_form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
     }
 
-    protected function define_legalinfo_fieldset($includechecklist = true) {
+    protected function define_legalinfo_fieldset($includechecklist = true, $includecheckbox = true) {
 
         $this->_form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
 
@@ -205,9 +205,12 @@ abstract class licenseandassetform extends \moodleform {
         // Assets.
         $this->define_assets();
 
-        // Checklist questions.
+        // Legal data questions.
         if ($includechecklist) {
-            $this->define_checklist_questions();
+            $this->define_questions('checklist');
+        }
+        if ($includecheckbox) {
+            $this->define_questions('checkbox');
         }
 
         $this->_form->setExpanded('legalinfo');
@@ -215,9 +218,9 @@ abstract class licenseandassetform extends \moodleform {
         $this->_form->closeHeaderBefore('legalinfo');
     }
 
-    protected function define_checklist_questions() {
+    protected function define_questions($quedatatype) {
         foreach ($this->_customdata['questions'] as $question) {
-            if ($question->datatype == 'checklist') {
+            if ($question->datatype == $quedatatype) {
                 $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($this->_form, $question);
                 $typeclass::add_rule($this->_form, $question);

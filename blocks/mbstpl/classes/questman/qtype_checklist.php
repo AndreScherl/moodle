@@ -33,7 +33,7 @@ class qtype_checklist extends qtype_base {
     const ANSWER_NO = 2;
     const ANSWER_NA = 3;
 
-    protected static $checkremove = array();
+//    protected static $checkremove = array();
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
 
@@ -60,17 +60,20 @@ class qtype_checklist extends qtype_base {
         $form->addGroup($radiogroup, $question->fieldname, format_string($question->title), null, false);
     }
 
-    protected static function definition_after_data_internal(\MoodleQuickForm $form) {
-        foreach (self::$checkremove as $fieldname) {
-            if (!$form->elementExists($fieldname)) {
-                continue;
-            }
-            if (trim($form->getElementValue($fieldname)) == '') {
-                $form->removeElement($fieldname);
-            }
-        }
-        self::$checkremove = array();
-    }
+    /*
+     * fhüb: in use?
+     */
+//    protected static function definition_after_data_internal(\MoodleQuickForm $form) {
+//        foreach (self::$checkremove as $fieldname) {
+//            if (!$form->elementExists($fieldname)) {
+//                continue;
+//            }
+//            if (trim($form->getElementValue($fieldname)) == '') {
+//                $form->removeElement($fieldname);
+//            }
+//        }
+//        self::$checkremove = array();
+//    }
 
     /**
      * If the type has text editor fields, let them be known.

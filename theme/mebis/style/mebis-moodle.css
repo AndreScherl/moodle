@@ -15946,6 +15946,20 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
   padding-top: 8px;
 }
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox label,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox label,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox label,
+#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fcheckbox label,
+#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fcheckbox label {
+  margin-bottom: 12.5px;
+}
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox div.text_to_html,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox div.text_to_html,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html,
+#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html,
+#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html {
+  position: absolute;
+}
 
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {
   background: transparent;

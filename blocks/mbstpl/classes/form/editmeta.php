@@ -57,8 +57,9 @@ class editmeta extends licenseandassetform {
 
         // Add custom questions.
         $questions = $cdata['questions'];
+        $excludequestions = array('checklist', 'checkbox');
         foreach ($questions as $question) {
-            if ($question->datatype != 'checklist') {
+            if (!in_array($question->datatype,$excludequestions)) {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
                 $typeclass::add_rule($form, $question);
@@ -68,7 +69,8 @@ class editmeta extends licenseandassetform {
 
         if (empty($cdata['justtags'])) {
             $includechecklist = empty($cdata['freeze']);
-            $this->define_legalinfo_fieldset($includechecklist);
+            $includecheckbox = empty($cdata['freeze']);
+            $this->define_legalinfo_fieldset($includechecklist, $includecheckbox);
         }
 
         if (!empty($cdata['withrating']) && !empty($template->rating)) {
@@ -84,10 +86,13 @@ class editmeta extends licenseandassetform {
             $form->freeze();
         }
     }
-
-    function definition_after_data() {
-        mbst\questman\qtype_checklist::definition_after_data($this->_form);
-    }
+    
+    /*
+     * fhüb: in use?
+     */
+//    function definition_after_data() {
+//        mbst\questman\qtype_checklist::definition_after_data($this->_form);
+//    }
 
     function add_usercreated_license($licenses) {
         global $DB;

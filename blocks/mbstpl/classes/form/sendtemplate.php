@@ -48,8 +48,10 @@ class sendtemplate extends licenseandassetform {
 
         // Add custom questions.
         $questions = $this->_customdata['questions'];
+        $excludequestions = array('checklist', 'checkbox');
+
         foreach ($questions as $question) {
-            if ($question->datatype != 'checklist') {
+            if (!in_array($question->datatype,$excludequestions)) {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
                 $typeclass::add_rule($form, $question);

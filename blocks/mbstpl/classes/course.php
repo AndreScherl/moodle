@@ -115,8 +115,11 @@ class course {
      * @param \context_course $context
      */
     public static function add_template_blocks(\context_course $context) {
-
-        if (defined('MBSTPL_SKIP_USED_REFERENCES') && MBSTPL_SKIP_USED_REFERENCES) {
+        global $PAGE;
+        
+        $pagelayout = $PAGE->pagelayout;
+        $pagetype = $PAGE->pagetype;
+        if ($pagelayout != 'course' || $pagetype == 'enrol-index') {
             return;
         }
 

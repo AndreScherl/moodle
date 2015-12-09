@@ -31,7 +31,7 @@ class block_mbslicenseinfo extends block_base {
     }
 
     function get_content() {
-        global $CFG, $OUTPUT;
+        global $CFG, $OUTPUT, $COURSE;
 
         if ($this->content !== null) {
             return $this->content;
@@ -49,7 +49,7 @@ class block_mbslicenseinfo extends block_base {
             $this->content->text .= $this->config->text;
         }
         
-        $formurl = new moodle_url('/blocks/mbslicenseinfo/editlicenses.php');
+        $formurl = new moodle_url('/blocks/mbslicenseinfo/editlicenses.php', array('courseid' => $COURSE->id));
         $editbutton = html_writer::tag('button', get_string('editlicenses', 'block_mbslicenseinfo'));
         $editlink = html_writer::link($formurl, $editbutton);
         $this->content->text .= $editlink;

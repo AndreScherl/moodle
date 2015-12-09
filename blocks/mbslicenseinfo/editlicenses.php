@@ -21,4 +21,10 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+
+$courseid = required_param('courseid', PARAM_INT);
+
+$files = \block_mbslicenseinfo\local\mbslicenseinfo::get_course_files($courseid);
+print_r($files);
 

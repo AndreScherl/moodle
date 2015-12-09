@@ -83,7 +83,7 @@ class notifications {
 
         if (!is_object($course)) {
             $course = $DB->get_record('course', array('id' => $course));
-            $course->url = (string)new \moodle_url('/course/view.php?id=' . $course->id);
+            $course->url = (string)new \moodle_url('/course/view.php', array('id' => $course->id));
         }
 
         // Email to managers.
@@ -146,7 +146,7 @@ class notifications {
         $touser = $DB->get_record('user', array('id' => $template->authorid));
 
         $a = (object)array(
-            'url' => new \moodle_url('/course/view.php', array('id' => $template->courseid)),
+            'url' => (string) new \moodle_url('/course/view.php', array('id' => $template->courseid)),
             'coursename' => $coursename,
         );
         $subject = get_string('emailcoursepublished_subj', 'block_mbstpl');
@@ -192,7 +192,8 @@ class notifications {
         $a = (object)array(
             'reviewer' => fullname($sender),
             'fullname' => $coursename,
-            'courseurl' => (string)$courseurl,
+            'url' => (string)$courseurl,
+            'feedback' => $template->feedback
         );
         if ($isreviewer) {
             $subject = get_string('emailfeedbackrev_subj', 'block_mbstpl');

@@ -61,15 +61,51 @@ class mbslicenseinfo {
         return $files;
     }
     
-    public static function update_course_files () {
+    /*
+     * Update the course files information
+     * 
+     * @param array $files - file objects
+     * @return mixed - array containing ids of updated files, false if something went wrong or nothing was updated
+     */
+    public static function update_course_files($files) {
         
     }
     
-    public static function get_course_licenses () {
-        
+    /*
+     * Get all user licenses of one user
+     * 
+     * @param int $userid
+     * @return mixed - array with database records or false
+     */
+    public static function get_user_licenses($userid) {
+        global $DB;
+        if ($dbl = $DB->get_records('block_mbslicenseinfo_ul', array('userid' => $USER->id))){
+            return $dbl;
+        }
+        return false;
     }
     
-    public static function get_user_licenses () {
-        
+    /*
+     * Get system licenses 
+     * 
+     * @return array of objects of license table
+     */
+    public static function get_system_licenses() {
+        global $DB;
+        return $DB->get_records('licenses');
+    }
+
+    /*
+     * Get licenses for dropdown field in e.g. license info form
+     * 
+     * @global USER
+     * @return array - license objects
+     */
+    public static function get_licenses_for_filedropdown() {
+        global $USER;
+        $licenses = array();
+        $licenses[] = $this->get_system_licenses();
+        $licenses[] = $this->get_user_licenses($USER->id);
+        return $licenses;
     }
 }

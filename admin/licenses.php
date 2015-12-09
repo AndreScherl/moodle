@@ -41,11 +41,23 @@ if (!confirm_sesskey()) {
 $return = true;
 switch ($action) {
     case 'disable':
-        license_manager::disable($license);
+        // fhüb - licensemanager-Hack: use license table and user license table.
+        if (!class_exists('\local_mbs\local\licensemanager')) {
+            license_manager::disable($license);
+        } else {
+            \local_mbs\local\licensemanager::disable($license);
+        }        
+        // fhüb - licensemanager-Hack: use license table and user license table.        
         break;
 
     case 'enable':
-        license_manager::enable($license);
+        // fhüb - licensemanager-Hack: use license table and user license table.
+        if (!class_exists('\local_mbs\local\licensemanager')) {
+            license_manager::enable($license);
+        } else {
+            \local_mbs\local\licensemanager::enable($license);
+        }
+        // fhüb - licensemanager-Hack: use license table and user license table.
         break;
 
     default:

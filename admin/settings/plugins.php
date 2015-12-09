@@ -128,12 +128,21 @@ if ($hassiteconfig) {
     $ADMIN->add('modules', new admin_category('licensesettings', new lang_string('licenses')));
     $temp = new admin_settingpage('managelicenses', new lang_string('managelicenses', 'admin'));
 
-    require_once($CFG->libdir . '/licenselib.php');
+    // fhüb - licensemanager-Hack: use license table and user license table.
     $licenses = array();
-    $array = explode(',', $CFG->licenses);
-    foreach ($array as $value) {
-        $licenses[$value] = new lang_string($value, 'license');
+    if (!class_exists('\local_mbs\local\licensemanager')) {
+        require_once($CFG->libdir . '/licenselib.php');        
+        $array = explode(',', $CFG->licenses);
+        foreach ($array as $value) {
+            $licenses[$value] = new lang_string($value, 'license');
+        }
+    } else {
+        $lobjects = \local_mbs\local\licensemanager::get_core_licenses();
+        foreach ($lobjects as $license) {
+            $licenses[$license->shortname] = $license->fullname;
+        }
     }
+    // fhüb - licensemanager-Hack: use license table and user license table.
     $temp->add(new admin_setting_configselect('sitedefaultlicense', new lang_string('configsitedefaultlicense','admin'), new lang_string('configsitedefaultlicensehelp','admin'), 'allrightsreserved', $licenses));
     $temp->add(new admin_setting_managelicenses());
     $ADMIN->add('licensesettings', $temp);

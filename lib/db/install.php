@@ -288,8 +288,14 @@ function xmldb_main_install() {
     set_config('gdversion', 2);
 
     // Install licenses
-    require_once($CFG->libdir . '/licenselib.php');
-    license_manager::install_licenses();
+    // fhüb - licensemanager-Hack: use license table and user license table.
+    if (!class_exists('\local_mbs\local\licensemanager')) {
+        require_once($CFG->libdir . '/licenselib.php');
+        license_manager::install_licenses();
+    } else {
+        \local_mbs\local\licensemanager::install_licenses();
+    }
+    // fhüb - licensemanager-Hack: use license table and user license table.
 
     // Init profile pages defaults
     if ($DB->record_exists('my_pages', array())) {

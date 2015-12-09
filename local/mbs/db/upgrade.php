@@ -15,17 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
- *
+ * @since      Moodle 2.7
  * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
+ * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2015120907;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';
+/**
+ * Handles upgrading instances of this plugin
+ *
+ * @param int $oldversion
+ * @param object $block
+ */
+function xmldb_local_mbs_upgrade($oldversion) {
+
+    global $DB;
+
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2015120907) {        
+        \local_mbs\local\licensemanager::install_licenses();
+        
+        upgrade_plugin_savepoint(true, 2015120907, 'local', 'mbs');
+    }
+    
+    return true;
+}
+

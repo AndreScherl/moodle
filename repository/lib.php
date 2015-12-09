@@ -3240,16 +3240,24 @@ function initialise_filepicker($args) {
     require_once($CFG->libdir . '/licenselib.php');
 
     $return = new stdClass();
+    
+    // fhüb - licensemanager-Hack: use license table and user license table.
     $licenses = array();
-    if (!empty($CFG->licenses)) {
-        $array = explode(',', $CFG->licenses);
-        foreach ($array as $license) {
-            $l = new stdClass();
-            $l->shortname = $license;
-            $l->fullname = get_string($license, 'license');
-            $licenses[] = $l;
+    if (!class_exists('\local_mbs\local\licensemanager')) {        
+        if (!empty($CFG->licenses)) {
+            $array = explode(',', $CFG->licenses);
+            foreach ($array as $license) {
+                $l = new stdClass();
+                $l->shortname = $license;
+                $l->fullname = get_string($license, 'license');
+                $licenses[] = $l;
+            }
         }
+    } else {
+        $licenses = \local_mbs\local\licensemanager::get_licenses(array('userid'=>$USER->id, 'enabled'=>1));
     }
+    // fhüb - licensemanager-Hack: use license table and user license table.
+    
     if (!empty($CFG->sitedefaultlicense)) {
         $return->defaultlicense = $CFG->sitedefaultlicense;
     }

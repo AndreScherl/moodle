@@ -6265,7 +6265,9 @@ class admin_setting_managelicenses extends admin_setting {
 
         // display strings
         $txt = get_strings(array('administration', 'settings', 'name', 'enable', 'disable', 'none'));
-        $licenses = license_manager::get_licenses();
+        // fhüb - licensemanager-Hack: use license table and user license table.
+        $licenses = \local_mbs\local\licensemanager::get_core_licenses();
+        // fhüb - licensemanager-Hack: use license table and user license table.
 
         $return = $OUTPUT->heading(get_string('availablelicenses', 'admin'), 3, 'main', true);
 
@@ -6279,8 +6281,9 @@ class admin_setting_managelicenses extends admin_setting {
         $table->data  = array();
 
         foreach ($licenses as $value) {
-            $displayname = html_writer::link($value->source, get_string($value->shortname, 'license'), array('target'=>'_blank'));
-
+            // fhüb - licensemanager-Hack: use license table and user license table.
+            $displayname = html_writer::link($value->source, $value->fullname, array('target'=>'_blank'));
+            // fhüb - licensemanager-Hack: use license table and user license table.
             if ($value->enabled == 1) {
                 $hideshow = html_writer::link($url.'&action=disable&license='.$value->shortname,
                     html_writer::tag('img', '', array('src'=>$OUTPUT->pix_url('t/hide'), 'class'=>'iconsmall', 'alt'=>'disable')));

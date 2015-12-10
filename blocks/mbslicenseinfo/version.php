@@ -19,11 +19,11 @@
  *
  * @package   block_mbslicenseinfo
  * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015120900;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2015121001;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2014051203;        // Requires this Moodle version
 $plugin->component = 'block_mbslicenseinfo'; // Full name of the plugin (used for diagnostics)

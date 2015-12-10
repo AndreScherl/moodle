@@ -25,6 +25,17 @@
 
 $string['displayname'] = 'Licenseinfo';
 $string['editlicenses'] = 'Edit Licenses information';
+$string['editlicensesdescr'] = 'Edit Licenses information for this course';
+$string['editlicensesformfileautor'] = 'Name of Author';
+$string['editlicensesformfilename'] = 'Name of File';
+$string['editlicensesformfiletitle'] = 'Name of Primary Source';
+$string['editlicensesformfileurl'] = 'Source URL';
+$string['editlicensesformlicense'] = 'License';
+$string['editlicensesformlicensename'] = 'Name of License';
+$string['editlicensesformlicenseurl'] = 'License URL';
+$string['editlicensesheader'] = 'Used contents of the course';
+$string['errorcannotedit'] = 'You cannot edit licenses for this course.';
 $string['mbslicenseinfo:addinstance'] = 'Add a mbslicenseinfo block';
 $string['mbslicenseinfo:myaddinstance'] = 'Add a mbslicenseinfo block to my moodle';
 $string['pluginname'] = 'mebis licenseinfo';
+$string['submitbutton'] = 'Submit';

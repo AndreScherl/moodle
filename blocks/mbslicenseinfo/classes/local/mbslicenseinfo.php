@@ -51,7 +51,6 @@ class mbslicenseinfo {
                  WHERE f.filename <> '.' AND ";
         $likecondition = $DB->sql_like('c.path', ':contextpath');
         
-        echo $sql.$likecondition;
         $fileids = $DB->get_fieldset_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'));
         
         foreach ($fileids as $fileid) {
@@ -68,6 +67,11 @@ class mbslicenseinfo {
      * @return mixed - array containing ids of updated files, false if something went wrong or nothing was updated
      */
     public static function update_course_files($files) {
+        
+    }
+    
+    
+    protected static function manage_formdata($data){
         
     }
     

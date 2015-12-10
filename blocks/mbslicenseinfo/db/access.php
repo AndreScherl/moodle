@@ -35,5 +35,16 @@ $capabilities = array(
         ),
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
+    
+    'block/mbslicenseinfo:editlicenses' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/course:create'
     )
 );

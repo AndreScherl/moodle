@@ -50,7 +50,7 @@ class block_mbslicenseinfo extends block_base {
         }
         
         $formurl = new moodle_url('/blocks/mbslicenseinfo/editlicenses.php', array('courseid' => $COURSE->id));
-        $editbutton = html_writer::tag('button', get_string('editlicenses', 'block_mbslicenseinfo'));
+        $editbutton = html_writer::tag('button', get_string('editlicensesdescr', 'block_mbslicenseinfo'));
         $editlink = html_writer::link($formurl, $editbutton);
         $this->content->text .= $editlink;
 

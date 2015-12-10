@@ -24,7 +24,18 @@
  */
 
 $string['displayname'] = 'Quellenangaben';
-$string['editlicenses'] = 'Quellenangaben für Kursinhalte bearbeiten';
+$string['editlicenses'] = 'Quellenangaben bearbeiten';
+$string['editlicensesdescr'] = 'Quellenangaben für Kursinhalte bearbeiten';
+$string['editlicensesformfileautor'] = 'Urheber (Autor)';
+$string['editlicensesformfilename'] = 'Dateiname';
+$string['editlicensesformfiletitle'] = 'Titel des Werkes';
+$string['editlicensesformfileurl'] = 'URL der Datei';
+$string['editlicensesformlicense'] = 'Lizenz';
+$string['editlicensesformlicensename'] = 'Name der Lizenz';
+$string['editlicensesformlicenseurl'] = 'URL der Lizenz';
+$string['editlicensesheader'] = 'Verwendete (Fremd)inhalte des Kurses';
+$string['errorcannotedit'] = 'Sie können für diesen Kurs keine Kurslizenzen bearbeiten.';
 $string['mbslicenseinfo:addinstance'] = 'Block mebis Quellenangaben hinzufügen';
 $string['mbslicenseinfo:myaddinstance'] = 'Block mebis Quellenangaben zum Schreibtisch hinzufügen';
 $string['pluginname'] = 'mebis Quellenangaben';
+$string['submitbutton'] = 'Speichern';

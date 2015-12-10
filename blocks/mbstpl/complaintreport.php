@@ -69,7 +69,6 @@ if ($form->is_cancelled()) {
     redirect($redirecturl);
 }
 
-$renderer = $PAGE->get_renderer('block_mbstpl');
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);

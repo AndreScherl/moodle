@@ -135,6 +135,8 @@ class template extends base {
         );
     }
 
+    /** @var \block_mbstpl\dataobj\meta */
+    private $meta;
 
     /**
      * Updates this object in the Database, based on its object variables. ID must be set.
@@ -211,5 +213,25 @@ class template extends base {
         $fs = get_file_storage();
         $context = context_course::instance($this->courseid);
         return $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id);
+    }
+
+    public function get_meta() {
+        if (!$this->meta) {
+            $this->meta = new meta(array('templateid' => $this->id), true, MUST_EXIST);
+        }
+        return $this->meta;
+    }
+
+    /**
+     * @return string the fullname of the this template's licence
+     */
+    public function get_licence() {
+        $meta = $this->get_meta();
+        if (!$meta) {
+            return null;
+        }
+
+        $licence = license::fetch(array('shortname' => $meta->license));
+        return $licence ? $licence->fullname : null;
     }
 }

@@ -107,10 +107,6 @@ class dupcrs extends \moodleform {
         $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3))->freeze();
         $form->addRule('licence', get_string('required'), 'required', null, 'client');
 
-        $this->set_data(array(
-            'licence' => get_string('duplcourselicensedefault', 'block_mbstpl', $this->_customdata['creator'])
-        ));
-
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
 

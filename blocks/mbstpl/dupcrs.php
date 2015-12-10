@@ -66,7 +66,14 @@ $customdata = array(
     'creator' => $creator,
     'step' => $step
 );
+
+$licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+    'creator' => $creator,
+    'licence' => $template->get_licence()
+));
 $form = new mbst\form\dupcrs(null, $customdata);
+$form->set_data(array('licence' => $licence));
+
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);

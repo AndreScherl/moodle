@@ -411,12 +411,12 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form($template, $course, $customdata = array()) {
+    public static function build_form(mbst\dataobj\template $template, $course, $customdata = array()) {
 
         global $DB;
 
         $courseid = $course->id;
-        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $meta = $template->get_meta();
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';

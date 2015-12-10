@@ -26,3 +26,4 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['filtername'] = 'mebis License Infos';
+$string['source'] = 'Source';

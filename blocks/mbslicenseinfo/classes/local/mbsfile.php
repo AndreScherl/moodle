@@ -70,18 +70,13 @@ class mbsfile {
         $license->shortname = $shortname;
         $license->fullname = null;
         $license->source = null;
-        
-        // check for license of moodle core license table
-        if ($lic = $DB->get_record('license', array('shortname' => $shortname))) {
+            
+        // get the license from license manager
+        if ($lic = \local_mbs\local\licensemanager::get_license_by_shortname($shortname)) {
             $license->id = $lic->id;
-            $license->fullname = $lic->fullname;
-            $license->source = $lic->source;
-        }
-        
-        // check for user license of block_mbslicenseinfo_ul table
-        if ($lic = $DB->get_record('block_mbslicenseinfo_ul', array('shortname' => $shortname))) {
-            $license->id = $lic->id;
-            $license->userid = $lic->userid;
+            if(!empty($lic->userid)) {
+                $license->userid = $lic->userid;
+            }
             $license->fullname = $lic->fullname;
             $license->source = $lic->source;
         }

@@ -25,11 +25,15 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015112300;
+$plugin->version   = 2015121000;
 $plugin->requires  = 2010112400; // 2.0
 $plugin->component = 'filter_mbslicenseinfo';
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->release   = '0.1 (Build: 2015112300)';
+$plugin->dependencies = array(
+    'local_mbs'  => 2015120907,
+    'block_mbslicenseinfo' => 2015121000
+);
  
 
 

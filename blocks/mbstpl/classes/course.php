@@ -113,6 +113,26 @@ class course {
             $coursenode->add_node($tplnode);
         }
     }
+    
+    /**
+     * Get all the licenses to fill the course license dropdown.
+     * 
+     * @return array list of available licenses
+     */
+    public static function get_course_licenses() {
+        global $DB;
+        $sql = 'SELECT * 
+                  FROM {block_mbstpl_clicense} AS cl
+                  JOIN {license} AS l
+                    ON cl.id = l.id';
+        $recordsoutput = array();
+        // get licenses by conditions
+        if ($records = $DB->get_records_sql($sql)) {
+            $recordsoutput = $records;
+        }         
+        return $recordsoutput;
+    }
+    
 
     /**
      * Used to add blocks to the template-course region

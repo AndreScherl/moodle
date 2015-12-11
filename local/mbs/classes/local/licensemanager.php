@@ -66,15 +66,16 @@ class licensemanager {
         if (empty($param) || !is_array($param)) {
             $paramuserl = array(); 
             $paramcorel = array();
-        }        
-        if (!empty($param['userid'])) {
+        } else {   
+            $paramuserl = $param;
             $paramcorel = $param;
+        }
+        if (!empty($param['userid'])) {
             unset($paramcorel['userid']);
         }
         if (!empty($param['enabled'])) {
-            $paramuserl = $param;
             unset($paramuserl['enabled']);
-        }
+        }        
         
         $recordsoutput = array();
         // get licenses by conditions

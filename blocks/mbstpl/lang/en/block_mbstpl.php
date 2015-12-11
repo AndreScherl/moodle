@@ -44,7 +44,6 @@ $string['backtemplatefeedback'] = 'Back to template feedback';
 $string['checklistexpln'] = 'Note: questions of this type will be displayed together at the end of the form, to act as a checklist of the features of this course.<br>
 Each item can be marked as \'Yes\', \'No\' or \'Not applicable\'.<br>
 It is not possible to search for courses based on these fields.';
-$string['comment'] = 'Comment';
 $string['complaintemail'] = 'Complaint Email';
 $string['complaintemail_desc'] = 'Email for template complaints.';
 $string['complaintform'] = 'Complaint Report';
@@ -219,7 +218,6 @@ $string['newlicense_fullnamerequired'] = 'A full name for new license "{$a}" is 
 $string['newlicense_typecourse'] = 'Use as course license';
 $string['nextstatsreport'] = 'Next statistics report';
 $string['nextstatsreport_desc'] = 'Date to run the next statistics report';
-$string['norating'] = 'This template has no ratings.';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
 {$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';
@@ -288,7 +286,6 @@ $string['withoutanon'] = 'Without user data';
 $string['rating'] = 'Rating';
 $string['ratingavg'] = 'Rating (average)';
 $string['rating_header'] = 'Rate this course\'s template';
-$string['rating_comments'] = 'Feedback / comments';
 $string['submitbutton'] = 'Submit';
 $string['cancelbutton'] = 'Cancel';
 $string['rating_star'] = '{$a} star';

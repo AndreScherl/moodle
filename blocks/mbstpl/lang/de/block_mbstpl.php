@@ -40,7 +40,6 @@ $string['backtemplatefeedback'] = 'Zurück zum Feedback für diesen Kurs';
 $string['checklistexpln'] = 'Anm.: Fragen dieser Art werden am Ende des Formulars als Checkliste für die Inhalte dieses Kurses angezeigt<br>
 Jeder Inhalt kann als \'Ja\', \'Nein\', oder \'Nicht anwendbar\' markiert werden.<br>
 Es kann keine Kurssuche ausgeführt werden, die auf diesen Feldern basiert.';
-$string['comment'] = 'Kommentar';
 $string['complaintemail'] = 'Emailadresse für Beschwerden';
 $string['complaintemail_desc'] = 'E-Mail-Adresse für gemeldete Probleme bei Austauschkursen.';
 $string['complaintform'] = 'Problem melden';
@@ -76,12 +75,13 @@ $string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
 $string['duplcourseforuse1'] = 'Abschnitte und Aktivitäten zur Duplizierung auswählen';
 $string['duplcourseforuse2'] = 'Kurs aus dieser Vorlage erstellen';
 $string['duplcourselicensedefault'] = 'Dieser Kurs ist von {$a} erstellt worden und steht unter der Lizenz CC-BY';
-$string['duplcourselicense'] = 'Dieser Kurs ist von {$a} erstellt worden und steht unter der Lizenz CC-NC-SA';
+$string['duplcourselicense'] = 'Lizenzinformation des Kurses';
 $string['editmeta'] = 'Kursinformationen editieren';
 $string['emailassignedreviewer_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'Sie wurden ausgewählt, diesen Kurs zu überprüfen: {$a->fullname}. Sie können den Kurs nun unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailassignedreviewer_subj'] = 'Sie wurden als Reviewer zugeteilt.';
-$string['emailassignedauthor_body'] = 'Sehr geehrter Kurs-Autor,'."\n".'Sie werden gebeten, bei folgendem Kurs Änderungen einzupflegen: {$a->fullname}. Sie können den Kurs nun unter folgender Adresse überprüfen: {$a->url} .';
-$string['emailassignedauthor_subj'] = 'Sie wurden als Kurs-Autor eingeschrieben.';
+$string['emailassignedauthor_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
+sie wurden im Kurs {$a->fullname} als Kursautor eingeschrieben. Sie können den Kurs unter folgender Adresse einsehen: {$a->url} .';
+$string['emailassignedauthor_subj'] = 'Sie wurden als Kursautor eingeschrieben.';
 $string['emailcoursepublished_body'] = 'Der Kurs {$a->coursename} ist vom Reviewer veröffentlicht worden. Er kann unter folgender Adresse abgerufen werden:'."\n".'{$a->url}';
 $string['emailcoursepublished_subj'] = 'Kurs veröffentlicht';
 $string['emailcomplaint_body'] = 'Liebes Support-Team,
@@ -93,17 +93,15 @@ $string['emailcomplaint_body'] = 'Liebes Support-Team,
     Link zu dem entsprechenden teachSHARE-Kurs {$a->url}
 
 Vielen Dank und viele Grüße
-
 Eure ISB-Programmierer';
 $string['emailcomplaint_subj'] = 'teachSHARE-Problembericht eingegangen';
 $string['emailcomplaintsend_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
     
-vielen Dank für Ihre Problemmeldung. Wir werden Ihren Problembericht so schnell wie möglich bearbeiten.
+vielen Dank für Ihre Problemmeldung zum teachSHARE-Kurs.
+Wir werden Ihren Problembericht so schnell wie möglich bearbeiten.
     
 Mit freundlichen Grüßen
-
 Ihr Support-Team der mebis-Lernplattform
-Andrea Taras / Beate Talwar
 
 Akademie für Lehrerfortbildung und Personalführung
 Kardinal-von-Waldburg-Str. 6-7
@@ -114,17 +112,17 @@ $string['emailcomplaintsend_subj'] = 'Ihr Problembericht ist eingegangen.';
 $string['emaildupldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
 der Austauschkurs {$a->fullname} wurde für Sie kopiert. Er kann unter folgender Adresse abgerufen werden:'."\n".'{$a->url}';
 $string['emaildupldeployed_subj'] = 'Austauschkurs kopiert';
-$string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'Der Autor des Kurses {$a->fullname}, {$a->reviewer}, hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
+$string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'der Autor des Kurses {$a->fullname}, {$a->reviewer}, hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailfeedbackauth_subj'] = 'Kurs-Feedback';
-$string['emailfeedbackrev_body'] = 'Sehr geehrter Kurs-Autor,'."\n".'Die Vorlage, die Sie für den Kurs {$a->fullname} erstellt haben, wurde von {$a->reviewer} überprüft. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse bearbeiten: {$a->url} .';
+$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut bearbeiten: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Kurs überprüft';
-$string['emailreadyforreview_body'] = 'Sehr geehrter Kursmanager,'."\n".'Der Kurs {$a->fullname} steht unter folgender Adresse für die Review bereit: {$a->url} .';
+$string['emailreadyforreview_body'] = 'Sehr geehrter Master Reviewer,'."\n".'Der Kurs {$a->fullname} steht unter folgender Adresse für die Review bereit: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Kurs bereit für Review';
 $string['emailrevision_body'] = 'Eine Kopie der Vorlage {$a->fullname} wurde zur Überarbeitung erstellt. Als Begründung wird angegeben: '."\n".'{$a->reason} '."\n\n".' Der neue Kurs ist unter folgender Adresse verfügbar:'."\n".'{$a->url} .';
 $string['emailrevision_subj'] = 'Überarbeitung nötig';
 $string['emailstatsrep_body'] = 'Im Anhang finden Sie den Statistikbericht für Austauschkurse.';
 $string['emailstatsrep_subj'] = 'Statistikbericht für Austauschkurse.';
-$string['emailtempldeployed_body'] = 'Vielen Dank für Ihre Einreichung. Der Kurs wird geprüft.';
+$string['emailtempldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,'."\n".'vielen Dank für Ihre Einreichung. Sie erhalten eine Nachricht wenn Ihr Kurs veröffentlicht wurde.';
 $string['emailtempldeployed_subj'] = 'Kurs eingereicht';
 $string['errorcannotassignauthor'] = 'Sie können keine Autoren für diesen Kurs zuweisen.';
 $string['errorcannotassignreviewer'] = 'Sie können keinen Reviewer für diesen Kurs zuweisen.';
@@ -156,7 +154,7 @@ $string['feedbackfiles'] = 'Anhang';
 $string['feedbackfor'] = 'Feedback für {$a}';
 $string['field_checklist'] = 'Checklist';
 $string['field_checkboxgroup'] = 'Checkboxgroup';
-$string['forrevision'] = 'Zur Bearbeitung';
+$string['forrevision'] = 'Überarbeitung nötig';
 $string['history'] = 'Verlauf';
 $string['incluserdata'] = 'Nutzerdaten veröffentlichen';
 $string['incorrectfieldname'] = 'Eingabe eines falschen Feldnamens.';
@@ -205,7 +203,6 @@ $string['newlicense_exists'] = 'Lizenz "{$a}" existiert bereits - bitte geben Si
 $string['newlicense_required'] = 'Ein Kurzname muss angegeben werden';
 $string['nextstatsreport'] = 'Neuer Statistikbericht';
 $string['nextstatsreport_desc'] = 'Datum zur Ausführung des nächsten Statistikberichts';
-$string['norating'] = 'Diese Vorlage ist noch nicht bewertet worden.';
 $string['noactiontpls_body'] = 'Folgende(r) Kurs(e) wurde(n) während der letzten Bearbeitungsperiode nicht geändert:'."\n".'{$a}';
 $string['noactiontpls_subj'] = 'Ungeprüfte Vorlagen';
 $string['noresults'] = 'Keine Suchergebnisse.';
@@ -272,11 +269,11 @@ $string['withoutanon'] = 'Ohne Nutzerdaten';
 $string['rating'] = 'Bewertung';
 $string['ratingavg'] = 'durchschnittliche Bewertung';
 $string['rating_header'] = 'Bewertung abgeben';
-$string['rating_comments'] = 'Feedback / comments';
 $string['submitbutton'] = 'Senden';
 $string['cancelbutton'] = 'Abbrechen';
 $string['rating_star'] = '{$a} Stern';
-$string['redirectdupcrsmsg'] = 'Ihr Antrag auf Kopieren ist eingegangen. Sie erhalten eine Lernplattform-Benachrichtigung, sobald die Aktion fertiggestellt ist.';
+$string['redirectdupcrsmsg'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
+ihr Antrag für eine Kurskopie ist eingegangen. Sie erhalten eine Nachricht, sobald die Aktion ausgeführt wurde.';
 $string['viewhistory'] = 'Chronik anschauen';
 $string['viewrating'] = 'Bewertung anschauen';
-$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert, Sie erhalten eine E-Mail zur Bestätigung. Weiterleitung zum kopierten Kurs.';
+$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert. Sie werden zum kopierten Kurs weitergeleitet.';

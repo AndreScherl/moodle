@@ -99,11 +99,6 @@ class course {
             }
         }
 
-        if (perms::can_viewrating($coursecontext)) {
-            $url = new \moodle_url('/blocks/mbstpl/viewrating.php', array('course' => $cid));
-            $tplnode->add(get_string('viewrating', 'block_mbstpl'), $url);
-        }
-
         if (perms::can_viewhistory($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $cid));
             $tplnode->add(get_string('viewhistory', 'block_mbstpl'), $url);
@@ -120,8 +115,11 @@ class course {
      * @param \context_course $context
      */
     public static function add_template_blocks(\context_course $context) {
-
-        if (defined('MBSTPL_SKIP_USED_REFERENCES') && MBSTPL_SKIP_USED_REFERENCES) {
+        global $PAGE;
+        
+        $pagelayout = $PAGE->pagelayout;
+        $pagetype = $PAGE->pagetype;
+        if ($pagelayout != 'course' || $pagetype == 'enrol-index') {
             return;
         }
 

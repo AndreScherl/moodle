@@ -37,27 +37,27 @@ class addlicense extends \moodleform {
 
         $form = $this->_form;
 
-        $form->addElement('text', 'newlicense_shortname', get_string('newlicense_shortname', 'block_mbstpl'));
-        $form->addElement('text', 'newlicense_fullname', get_string('newlicense_fullname', 'block_mbstpl'));
-        $form->addElement('text', 'newlicense_source', get_string('newlicense_source', 'block_mbstpl'));
+        $form->addElement('text', 'newlicense_shortname', get_string('newlicense_shortname', 'local_mbs'));
+        $form->addElement('text', 'newlicense_fullname', get_string('newlicense_fullname', 'local_mbs'));
+        $form->addElement('text', 'newlicense_source', get_string('newlicense_source', 'local_mbs'));
         $form->setTypes(array(
             'newlicense_shortname' => PARAM_TEXT,
             'newlicense_fullname' => PARAM_TEXT,
             'newlicense_source' => PARAM_TEXT
         ));
 
-        $form->addRule('newlicense_shortname', get_string('newlicense_required', 'block_mbstpl'), 'required');
+        $form->addRule('newlicense_shortname', get_string('newlicense_required', 'local_mbs'), 'required');
         
-        $form->addElement('checkbox', 'newlicense_typecourse', get_string('newlicense_typecourse', 'block_mbstpl'));
+        $form->addElement('checkbox', 'newlicense_typecourse', get_string('newlicense_typecourse', 'local_mbs'));
 
-        $this->add_action_buttons(false, get_string('newlicense_add', 'block_mbstpl'));
+        $this->add_action_buttons(false, get_string('newlicense_add', 'local_mbs'));
     }
 
     public function validation($data, $files) {
         $shortname = $data['newlicense_shortname'];
         $existinglicense = \block_mbstpl\dataobj\license::fetch(array('shortname' => $shortname));
         if ($existinglicense) {
-            return array('newlicense_shortname' => get_string('newlicense_exists', 'block_mbstpl', $shortname));
+            return array('newlicense_shortname' => get_string('newlicense_exists', 'local_mbs', $shortname));
         }
         return array();
     }

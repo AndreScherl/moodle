@@ -58,3 +58,15 @@ $string['local_mbs_mebis_sites_default'] =
         'Mediathek,https://mediathek.mebis.bayern.de;'.
         'Lernplattform,https://lernplattform.mebis.bayern.de;'.        
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';
+
+
+//MoodleQuickForm Lizenzen
+$string['newlicense'] = 'New License ...';
+$string['newlicense_add'] = 'Add new license';
+$string['newlicense_shortname'] = 'New license short name';
+$string['newlicense_fullname'] = 'New license full name';
+$string['newlicense_fullnamerequired'] = 'A full name for new license "{$a}" is required';
+$string['newlicense_source'] = 'New license source';
+$string['newlicense_exists'] = 'License "{$a}" already exists - please specify a different short name';
+$string['newlicense_required'] = 'A short name is required';
+$string['newlicense_typecourse'] = 'Use as course license';

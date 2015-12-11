@@ -93,17 +93,15 @@ $string['emailcomplaint_body'] = 'Liebes Support-Team,
     Link zu dem entsprechenden teachSHARE-Kurs {$a->url}
 
 Vielen Dank und viele Grüße
-
 Eure ISB-Programmierer';
 $string['emailcomplaint_subj'] = 'teachSHARE-Problembericht eingegangen';
 $string['emailcomplaintsend_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
     
-vielen Dank für Ihre Problemmeldung. Wir werden Ihren Problembericht so schnell wie möglich bearbeiten.
+vielen Dank für Ihre Problemmeldung zum teachSHARE-Kurs.
+Wir werden Ihren Problembericht so schnell wie möglich bearbeiten.
     
 Mit freundlichen Grüßen
-
 Ihr Support-Team der mebis-Lernplattform
-Andrea Taras / Beate Talwar
 
 Akademie für Lehrerfortbildung und Personalführung
 Kardinal-von-Waldburg-Str. 6-7
@@ -116,7 +114,7 @@ der Austauschkurs {$a->fullname} wurde für Sie kopiert. Er kann unter folgender
 $string['emaildupldeployed_subj'] = 'Austauschkurs kopiert';
 $string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'der Autor des Kurses {$a->fullname}, {$a->reviewer}, hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailfeedbackauth_subj'] = 'Kurs-Feedback';
-$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname}, wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut bearbeiten: {$a->url} .';
+$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut bearbeiten: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Kurs überprüft';
 $string['emailreadyforreview_body'] = 'Sehr geehrter Master Reviewer,'."\n".'Der Kurs {$a->fullname} steht unter folgender Adresse für die Review bereit: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Kurs bereit für Review';
@@ -278,4 +276,4 @@ $string['redirectdupcrsmsg'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattfo
 ihr Antrag für eine Kurskopie ist eingegangen. Sie erhalten eine Nachricht, sobald die Aktion ausgeführt wurde.';
 $string['viewhistory'] = 'Chronik anschauen';
 $string['viewrating'] = 'Bewertung anschauen';
-$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert, Sie erhalten eine Nachricht zur Bestätigung. Sie werden zum kopierten Kurs weitergeleitet.';
+$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert. Sie werden zum kopierten Kurs weitergeleitet.';

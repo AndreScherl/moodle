@@ -17,7 +17,7 @@
 /**
  * Drop-down select with a list of available licenses
  *
- * @package   block_mbstpl
+ * @package   local_mbs
  * @copyright 2015 Davo Smith, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,64 +32,7 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
 
     const NEWLICENSE_PARAM = '__createnewlicense__';
 
-    private static $courselicenses = null;
-    private static $assetlicenses = null;
     private $_withnew;
-
-    /**
-     * Get all the licenses to fill the asset dropdown box.
-     * 
-     * Note that the asset licenses may ONLY include
-     * licenses with licensetype 0 (= default) and 1 (=course)
-     * 
-     * Usercreated licenses must be loaded seperately (see set_data() of the form).
-     * 
-     * @return array list of available licenses
-     */
-    private static function get_asset_licenses() {
-        global $DB;
-
-        if (self::$assetlicenses === null) {
-
-            self::$assetlicenses = array();
-
-            $select = " type != :type";
-            $params = array('type' => \block_mbstpl\dataobj\license::$licensetype['usercreated']);
-
-            $licenses = $DB->get_records_select('block_mbstpl_license', $select, $params);
-
-            foreach ($licenses as $license) {
-                self::$assetlicenses[$license->shortname] = $license->fullname;
-            }
-        }
-        return self::$assetlicenses;
-    }
-
-    /**
-     * Get all the licenses to fill the course license dropdown.
-     * 
-     * Note that this are the licenses with licensetype 1 (=course)
-     * 
-     * @return array list of available licenses
-     */
-    private static function get_course_licenses() {
-        global $DB;
-
-        if (self::$courselicenses === null) {
-
-            self::$courselicenses = array();
-
-            $select = " type = :type";
-            $params = array('type' => \block_mbstpl\dataobj\license::$licensetype['course']);
-
-            $licenses = $DB->get_records_select('block_mbstpl_license', $select, $params);
-
-            foreach ($licenses as $license) {
-                self::$courselicenses[$license->shortname] = $license->fullname;
-            }
-        }
-        return self::$courselicenses;
-    }
 
     function MoodleQuickForm_license($elementName = null, $elementLabel = null,
                                      $attributes = null, $withnew = false) {
@@ -101,7 +44,6 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
 
     function onQuickFormEvent($event, $arg, &$caller) {
         global $CFG;
-
         switch ($event) {
             case 'createElement':
                 $choices = $this->get_choices($this->_withnew || !empty($arg[3]));
@@ -114,12 +56,20 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
     }
 
     private function get_choices($withnew) {
-
+        global $USER;
         if ($withnew) {
-            $choices[self::NEWLICENSE_PARAM] = get_string('newlicense', 'block_mbstpl');
-            $choices = $choices + self::get_asset_licenses();
+            $choices[self::NEWLICENSE_PARAM] = get_string('newlicense', 'local_mbs');
+            $licenseobjects = \local_mbs\local\licensemanager::get_licenses(array('userid' => $USER->id, 'enabled' => 1));
+            foreach ($licenseobjects as $license) {
+                $licenses[$license->shortname] = $license->fullname;
+            }
+            $choices = array_merge($licenses, $choices);
         } else {
-            $choices = self::get_course_licenses();
+            $lobjects = \block_mbstpl\course::get_course_licenses();
+            foreach ($lobjects as $license) {
+                $licenses[$license->shortname] = $license->fullname;
+            }
+            $choices = $licenses;
         }
         return $choices;
     }

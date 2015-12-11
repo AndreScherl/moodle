@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   block_mbstpl
+ * @package   local_mbs
  * @copyright 2015 Janek Lasocki-Biczysko, Synergy Learning
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,7 +36,7 @@ class MoodleQuickForm_newlicense extends MoodleQuickForm_group {
 
         $elements = array_map(function($elname) {
             $elname = 'newlicense_' . $elname;
-            $attrs = array('placeholder' => get_string($elname, 'block_mbstpl'));
+            $attrs = array('placeholder' => get_string($elname, 'local_mbs'));
             return @MoodleQuickForm::createElement('text', $elname, '', $attrs);
         }, array('shortname', 'fullname', 'source'));
 
@@ -47,7 +47,7 @@ class MoodleQuickForm_newlicense extends MoodleQuickForm_group {
         parent::accept($renderer, $required, $error);
 
         global $PAGE;
-        $PAGE->requires->yui_module('moodle-block_mbstpl-newlicense', 'M.block_mbstpl.newlicense.init', array(
+        $PAGE->requires->yui_module('moodle-local_mbs-newlicense', 'M.local_mbs.newlicense.init', array(
             $this->getName(), $this->_licensename
         ), null, true);
     }

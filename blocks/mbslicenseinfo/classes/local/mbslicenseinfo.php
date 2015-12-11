@@ -63,16 +63,76 @@ class mbslicenseinfo {
     /*
      * Update the course files information
      * 
-     * @param array $files - file objects
-     * @return mixed - array containing ids of updated files, false if something went wrong or nothing was updated
+     * @param object $data - object containing form data (arrays for fiels with similar name)
+     * @return bool - success of operation
      */
-    public static function update_course_files($files) {
+    public static function update_course_files($data) {
+        global $DB;
+        $files = self::resort_formdata($data);
+        $success = true;
         
+        foreach($files as $file) {
+            // update files table (no insert because the file must exist)
+            $filedata = new \stdClass();
+            $filedata->id = $file->id;
+            $filedata->filename = $file->filename;
+            $filedata->author = $file->author;
+            $filedata->license = $file->license->shortname;
+            $success *= $DB->update_record('files', $filedata);
+            
+            // insert/update block_mbslicenseinfo_fmeta table
+            $filemeta = new \stdClass();
+            $filemeta->title = $file->title;
+            $filemeta->source = $file->source;
+            if($fmid = $DB->get_field('block_mbslicenseinfo_fmeta', 'id', array('files_id' => $file->id))) {
+                $filemeta->id = $fmid;
+                $success *= $DB->update_record('block_mbslicenseinfo_fmeta', $filemeta);
+            } else {
+                $filemeta->files_id = $file->id;
+                $success *= $DB->insert_record('block_mbslicenseinfo_fmeta', $filemeta);
+            }
+            
+            // insert/update block_mbslicenseinfo_ul table
+            if(!empty($file->license->userid)) {
+                $ul = $file->license;
+                if($ulid = $DB->get_field('block_mbslicenseinfo_ul', 'id', array('shortname' => $ul->shortname))) {
+                    $ul->id = $ulid;
+                    $success *= $DB->update_record('block_mbslicenseinfo_ul', $ul);
+                } else {
+                    $success *= $DB->insert_record('block_mbslicenseinfo_ul', $ul);
+                }
+            }
+        }
+        
+        return $success;
     }
     
-    
-    protected static function manage_formdata($data){
+    /*
+     * Change the sort style of edit form data from column to row
+     * 
+     * @param object $data - object containing form data (arrays for fiels with similar name)
+     * @return array of mbsfiles objects
+     */
+    protected static function resort_formdata($data){
+        $files = array();
+        for($i=0; $i<count($data->fileid); $i++) {
+            $file = new mbsfile();
+            $file->id = $data->fileid[$i];
+            $file->filename = $data->filename[$i];
+            $file->title = $data->title[$i];
+            $file->source = $data->filesource[$i];
+            $file->author = $data->author[$i];
+            $license = new \stdClass();
+            $license->id = (empty($data->licenseid[$i])) ? null : $data->licenseid[$i];
+            $license->userid = (empty($data->userid[$i])) ? null : $data->userid[$i];
+            $license->shortname = (empty($data->shortname[$i])) ? null: $data->shortname[$i];
+            $license->fullname = (empty($data->fullname[$i])) ? null: $data->fullname[$i];
+            $license->source = (empty($data->licensesource[$i])) ? null: $data->licensesource[$i];
+            $file->license = $license;
+            $files[] = $file;
+        }
         
+        return $files;
     }
     
 }

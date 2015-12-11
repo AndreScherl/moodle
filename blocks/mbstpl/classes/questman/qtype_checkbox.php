@@ -27,6 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_checkbox extends qtype_base {
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
+        
+        $form->addElement('editor', 'param1', get_string('description', 'block_mbstpl'));
+        $form->addRule('param1', get_string('required'), 'required', null, 'client');
+        
         $form->addElement('selectyesno', 'defaultdata', get_string('profiledefaultchecked', 'admin'));
         $form->setDefault('defaultdata', 0); // Defaults to 'no'.
         $form->setType('defaultdata', PARAM_BOOL);
@@ -35,17 +39,17 @@ class qtype_checkbox extends qtype_base {
     public static function add_template_element(\MoodleQuickForm $form, $question) {
         
         $question->title = self::add_help_button($question);
-        $form->addElement('checkbox', $question->fieldname, $question->title);
+        $form->addElement('checkbox', $question->fieldname, format_string($question->title), format_text($question->param1));
         if ($question->defaultdata) {
             $form->setDefault($question->fieldname, true);
-        }
+        }     
     }
 
     public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
         $answer = empty($answer) ? 0 : 1;
         return parent::save_answer($metaid, $questionid, $answer, $comment);
     }
-
+    
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
         $options = array(
             '*' => get_string('any'),
@@ -67,5 +71,12 @@ class qtype_checkbox extends qtype_base {
         $toreturn['params'][$aparam] = $answer;
         return $toreturn;
     }
-
+    
+    /**
+     * If the type has text editor fields, let them be known.
+     * @return array
+     */
+    public static function get_editors() {
+        return array('help', 'param1');
+    }
 }

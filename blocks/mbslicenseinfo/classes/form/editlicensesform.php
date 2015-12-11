@@ -46,7 +46,7 @@ class editlicensesform extends \moodleform {
         $mform->setType('courseid', PARAM_INT);     
 
         $files = \block_mbslicenseinfo\local\mbslicenseinfo::get_course_files($courseid);              
-        print_r($files);
+        //print_r($files);
         foreach ($files as $fid => $file) {
             $filename = $file->filename;
             

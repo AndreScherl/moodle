@@ -94,7 +94,7 @@ class mbsfile {
      * @param int $id - id of the file in files table
      * @return object - files object (row of database table)
      */
-    private function get_file($id) {
+    protected function get_file($id) {
         global $DB;
         return $DB->get_record('files', array('id' => $id));
     }
@@ -105,7 +105,7 @@ class mbsfile {
      * @param int $id - id of the file in files table
      * @return object - metadata (row of database table)
      */
-    private function get_filemeta($id) {
+    protected function get_filemeta($id) {
         global $DB;
         return $DB->get_record('block_mbslicenseinfo_fmeta', array('files_id' => $id));
     }

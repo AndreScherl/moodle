@@ -53,8 +53,7 @@ $form = new \block_mbslicenseinfo\form\editlicensesform(null, array('courseid' =
 if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
-    \block_mbslicenseinfo\local\mbslicenseinfo::manage_formdata($data);
-    //print_r($data);
+    \block_mbslicenseinfo\local\mbslicenseinfo::update_course_files($data);
     redirect($redirecturl);
 }
 

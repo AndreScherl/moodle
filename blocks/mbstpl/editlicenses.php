@@ -31,34 +31,52 @@ require_once($CFG->libdir.'/adminlib.php');
 
 admin_externalpage_setup('blockmbstplmanagelicenses');
 
-$usedshortnames = mbst\dataobj\license::fetch_all_used_shortnames();
+$usedshortnames = \local_mbs\local\licensemanager::get_all_used_shortnames();
 
 $deleteid = optional_param('deletelicenseid', 0, PARAM_INT);
+$unchecklid = optional_param('unchecklid', 0, PARAM_INT);
+$checklid = optional_param('checklid', 0, PARAM_INT);
+
 if ($deleteid) {
-    $license = license::fetch(array('id' => $deleteid));
+    $license = \local_mbs\local\licensemanager::get_core_license(array('id' => $deleteid));
     if ($license) {
         if (in_array($license->shortname, $usedshortnames)) {
             throw new moodle_exception('exceptiondeletingusedlicense', 'block_mbstpl');
         }
-        $DB->delete_records(license::get_tablename(), array('id' => $deleteid));
+        $DB->delete_records('license', array('id' => $deleteid));
+        mbst\course::remove_course_license($license->shortname);
         redirect($PAGE->url);
     }
+}
+
+if ($unchecklid) {
+    $license = \local_mbs\local\licensemanager::get_core_license(array('id' => $unchecklid));
+    mbst\course::remove_course_license($license->shortname);
+    redirect($PAGE->url);
+}
+
+if ($checklid) {
+    $license = \local_mbs\local\licensemanager::get_core_license(array('id' => $checklid));
+    mbst\course::add_course_license($license->shortname);
+    redirect($PAGE->url);
 }
 
 $form = new mbst\form\addlicense();
 if ($data = $form->get_data()) {
 
-    $license = new mbst\dataobj\license(array(
-        'shortname' => $data->newlicense_shortname,
-        'fullname' => $data->newlicense_fullname,
-        'source' => $data->newlicense_source,
-        'type' => $data->newlicense_typecourse
-    ));
-    $license->insert();
+    $license = new \stdClass();
+    $license->shortname = $data->newlicense_shortname;
+    $license->fullname = $data->newlicense_fullname;
+    $license->source = $data->newlicense_source;
+    $license->version = date("Ymd").'00';
+    $license->enabled = true;
+    
+    \local_mbs\local\licensemanager::new_core_license($license);
+    
     redirect($PAGE->url);
 }
 
-$licenses = mbst\dataobj\license::fetch_all(array());
+$licenses = \local_mbs\local\licensemanager::get_core_licenses();
 
 echo $OUTPUT->header();
 

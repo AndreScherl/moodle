@@ -508,22 +508,22 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     /**
      * Create a table of licenses
      *
+     * global $DB;
      * @param \block_mbstpl\dataobj\license[] $licenses
      * @param string[] $usedshortnames
      */
     public function license_table($licenses, $usedshortnames = array()) {
-
+        global $DB;
+        
         $table = new html_table();
         $table->head = array(
             get_string('license_shortname', 'block_mbstpl'),
             get_string('license_fullname', 'block_mbstpl'),
             get_string('license_source', 'block_mbstpl'),
-            get_string('license_type', 'block_mbstpl'),
+            get_string('courselicense', 'block_mbstpl'),
             get_string('license_used', 'block_mbstpl')
         );
-
-        $licensenames = array_flip(\block_mbstpl\dataobj\license::$licensetype);
-        
+    
         foreach ($licenses as $license) {
 
             if (in_array($license->shortname, $usedshortnames)) {
@@ -532,12 +532,23 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $url = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('deletelicenseid' => $license->id));
                 $usage = html_writer::link($url, get_string('delete'));
             }
+            
+            $clcheckbox = '';
+            if ($clid = mbst\course::get_course_license($license->shortname)) {
+                $clcheckboxurl = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('unchecklid' => $license->id));
+                $clcheckboxicon = html_writer::tag('i', '', array('class' => 'fa fa-check-square-o'));
+                $clcheckbox = html_writer::link($clcheckboxurl, $clcheckboxicon);
+            } else {
+                $clcheckboxurl = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('checklid' => $license->id));
+                $clcheckboxicon = html_writer::tag('i', '', array('class' => 'fa fa-square-o'));
+                $clcheckbox = html_writer::link($clcheckboxurl, $clcheckboxicon);
+            }
 
             $row = new html_table_row(array(
                 $license->shortname,
                 $license->fullname,
                 $license->source,
-                get_string('licensetype_'.$licensenames[$license->type], 'block_mbstpl'),
+                $clcheckbox,
                 $usage
             ));
 

@@ -128,6 +128,43 @@ class course {
         return $recordsoutput;
     }
     
+    /**
+     * Add course license
+     * 
+     * @global $DB
+     * @param string $shortname
+     * @return bool|int true or insert id
+     */
+    public static function add_course_license($shortname) {
+        global $DB;
+        $data = new \stdClass();
+        $data->shortname = $shortname;
+        return $DB->insert_record('block_mbstpl_clicense', $data);
+    }
+    
+    /**
+     * Get single course license by shortname
+     * 
+     * @global $DB
+     * @param string $shortname
+     * @return bool|object - database record or false
+     */
+    public static function get_course_license($shortname) {
+        global $DB;
+        return $DB->get_record('block_mbstpl_clicense', array('shortname' => $shortname));
+    }
+    
+    /**
+     * Remove course license
+     * 
+     * @global $DB
+     * @param string $shortname
+     * @return bool true
+     */
+    public static function remove_course_license($shortname) {
+        global $DB;
+        return $DB->delete_records('block_mbstpl_clicense', array('shortname' => $shortname));
+    }
 
     /**
      * Used to add blocks to the template-course region

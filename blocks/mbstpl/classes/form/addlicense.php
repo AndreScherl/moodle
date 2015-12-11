@@ -47,15 +47,13 @@ class addlicense extends \moodleform {
         ));
 
         $form->addRule('newlicense_shortname', get_string('newlicense_required', 'local_mbs'), 'required');
-        
-        $form->addElement('checkbox', 'newlicense_typecourse', get_string('newlicense_typecourse', 'local_mbs'));
 
         $this->add_action_buttons(false, get_string('newlicense_add', 'local_mbs'));
     }
 
     public function validation($data, $files) {
         $shortname = $data['newlicense_shortname'];
-        $existinglicense = \block_mbstpl\dataobj\license::fetch(array('shortname' => $shortname));
+        $existinglicense = \local_mbs\local\licensemanager::get_license_by_shortname($shortname);
         if ($existinglicense) {
             return array('newlicense_shortname' => get_string('newlicense_exists', 'local_mbs', $shortname));
         }

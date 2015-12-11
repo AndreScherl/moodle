@@ -193,6 +193,67 @@ class licensemanager {
         }
         set_config('licenses', implode(',', $result));
     }
+    
+    /**
+     * Get single core license
+     * 
+     * @global $DB
+     * @param array $param - parameters for where clause
+     * @return object - database record
+     */
+    static public function get_core_license($param) {
+        global $DB;
+        return $DB->get_record('license', $param);
+    }
+    
+    /**
+     * Insert new core license
+     * 
+     * @global $DB
+     * @param object $data - data object holding the values of the table row
+     * @return bool|int - false or id of inserted record
+     */
+    static public function new_core_license($data) {
+        global $DB;
+        return $DB->insert_record('license', $data);
+    }
+    
+    /**
+     * remove core license
+     * 
+     * @global $DB
+     * @param int $id
+     * @return bool true
+     */
+    static public function remove_core_license($id) {
+        global $DB;
+        return $DB->delete_records('license', array('id' => $id));
+    }
+    
+    /**
+     * Get all shortnames of all used licenses
+     * 
+     * @global $DB
+     * @return array
+     */
+    public static function get_all_used_shortnames() {
+        global $DB;
+
+        $allshortnames = array();
+
+        $tables = array(
+            'block_mbstpl_asset' => 'license',
+            'block_mbstpl_meta' => 'license',
+            'files' => 'license'
+        );
+
+        foreach ($tables as $table => $column) {
+            $shortnames = $DB->get_records_sql_menu("SELECT id,$column FROM {{$table}}");
+            $allshortnames = array_merge($allshortnames, array_values($shortnames));
+        }
+
+        return array_unique($allshortnames);
+    }
 
     /**
      * Install new mebis build-in licenses

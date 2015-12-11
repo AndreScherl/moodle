@@ -119,7 +119,7 @@ class course {
         $sql = 'SELECT * 
                   FROM {block_mbstpl_clicense} AS cl
                   JOIN {license} AS l
-                    ON cl.id = l.id';
+                    ON cl.shortname = l.shortname';
         $recordsoutput = array();
         // get licenses by conditions
         if ($records = $DB->get_records_sql($sql)) {

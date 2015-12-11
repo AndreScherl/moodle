@@ -112,18 +112,16 @@ abstract class licenseandassetform extends \moodleform {
     protected function define_license() {
 
         global $CFG;
-        require_once($CFG->dirroot . '/blocks/mbstpl/classes/MoodleQuickForm_license.php');
+        require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_license.php');
 
         $form = $this->_form;
 
-        // License options.
         $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, false);
 
         $form->addRule('license', null, 'required');
     }
 
     protected function define_assets() {
-        global $PAGE;
 
         $form = $this->_form;
         $cdata = $this->_customdata;
@@ -147,9 +145,9 @@ abstract class licenseandassetform extends \moodleform {
         if (empty($cdata['freeze'])) {
 
             /* @var $newlicense \MoodleQuickForm_newlicense */
-            $asset[] = $form->createElement('text', 'newlicense_shortname', '', array('placeholder' => get_string('newlicense_shortname', 'block_mbstpl')));
-            $asset[] = $form->createElement('text', 'newlicense_fullname', '', array('placeholder' => get_string('newlicense_fullname', 'block_mbstpl')));
-            $asset[] = $form->createElement('text', 'newlicense_source', '', array('placeholder' => get_string('newlicense_source', 'block_mbstpl')));
+            $asset[] = $form->createElement('text', 'newlicense_shortname', '', array('placeholder' => get_string('newlicense_shortname', 'local_mbs')));
+            $asset[] = $form->createElement('text', 'newlicense_fullname', '', array('placeholder' => get_string('newlicense_fullname', 'local_mbs')));
+            $asset[] = $form->createElement('text', 'newlicense_source', '', array('placeholder' => get_string('newlicense_source', 'local_mbs')));
 
             $form->setTypes(array(
                 'newlicense_shortname' => PARAM_TEXT,
@@ -179,7 +177,7 @@ abstract class licenseandassetform extends \moodleform {
         parent::set_data($default_values);
 
         $args = array();
-        $PAGE->requires->yui_module('moodle-block_mbstpl-newlicense', 'M.block_mbstpl.newlicense.init', $args, null, true);
+        $PAGE->requires->yui_module('moodle-local_mbs-newlicense', 'M.local_mbs.newlicense.init', $args, null, true);
     }
 
     protected function define_tags() {
@@ -242,11 +240,11 @@ abstract class licenseandassetform extends \moodleform {
                     $existinglicense = license::fetch(array('shortname' => $shortname));
 
                     if ($existinglicense) {
-                        return array("asset[$idx]" => get_string('newlicense_exists', 'block_mbstpl', $shortname));
+                        return array("asset[$idx]" => get_string('newlicense_exists', 'local_mbs', $shortname));
                     }
                     
                     if (empty($data['newlicense_fullname'][$idx])) {
-                        return array("asset[$idx]" => get_string('newlicense_fullnamerequired', 'block_mbstpl', $shortname));
+                        return array("asset[$idx]" => get_string('newlicense_fullnamerequired', 'local_mbs', $shortname));
                     }
                 }
             }

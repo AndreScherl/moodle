@@ -1,7 +1,7 @@
 {
-    "name": "moodle-block_mbstpl-newlicense",
+    "name": "moodle-local_mbs-newlicense",
     "builds": {
-         "moodle-block_mbstpl-newlicense": {
+         "moodle-local_mbs-newlicense": {
              "jsfiles": [
                  "newlicense.js"
              ]

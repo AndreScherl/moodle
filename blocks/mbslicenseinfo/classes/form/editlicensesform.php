@@ -123,4 +123,13 @@ class editlicensesform extends \moodleform {
 
         $this->add_action_buttons(true, get_string('submitbutton', 'block_mbslicenseinfo')); 
     }
+    
+    protected function define_licenses() {
+        $form = $this->_form;
+
+        // License options.
+       // $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, false);
+
+    }
+        
 }

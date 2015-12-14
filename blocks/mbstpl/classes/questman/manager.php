@@ -386,7 +386,15 @@ class manager {
      */
     public static function searchmanage_getall() {
         global $DB;
-        $allqs = $DB->get_records_menu('block_mbstpl_question', null, 'name ASC', 'id,name');
+
+        $draft = self::get_qform_draft();
+        $qids = explode(',', $draft);
+        if (empty($qids)) {
+            return array();
+        }
+        list($qidin, $params) = $DB->get_in_or_equal($qids);
+        $allqs = $DB->get_records_select_menu('block_mbstpl_question', "id $qidin", $params, 'name ASC', 'id,name');
+
         $searchqs = self::get_searchqs();
         $searchqskeys = array_flip($searchqs);
         $enableds = array();
@@ -404,12 +412,12 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form($template, $course, $customdata = array()) {
+    public static function build_form(mbst\dataobj\template $template, $course, $customdata = array()) {
 
         global $DB;
 
         $courseid = $course->id;
-        $meta = new mbst\dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $meta = $template->get_meta();
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';

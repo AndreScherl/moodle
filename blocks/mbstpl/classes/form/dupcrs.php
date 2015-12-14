@@ -85,8 +85,8 @@ class dupcrs extends \moodleform {
         if (!empty($this->_customdata['cats'])) {
             $restoreto = $form->addElement('radio', 'restoreto', get_string('restoretonewcourse', 'backup'), '', 'cat');
             $options = array();
-            foreach ($this->_customdata['cats'] as $cat) {
-                $options[$cat->id] = $cat->name;
+            foreach ($this->_customdata['cats'] as $catid => $catname) {
+                $options[$catid] = $catname;
             }
             $selectcat = $form->addElement('select', 'tocat', get_string('selectacategory', 'backup'), $options, $disabled);
             $form->disabledIf('tocat', 'restoreto', 'neq', 'cat');
@@ -107,10 +107,6 @@ class dupcrs extends \moodleform {
         $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3))->freeze();
         $form->addRule('licence', get_string('required'), 'required', null, 'client');
 
-        $this->set_data(array(
-            'licence' => get_string('duplcourselicensedefault', 'block_mbstpl', $this->_customdata['creator'])
-        ));
-
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
 
@@ -122,6 +118,7 @@ class dupcrs extends \moodleform {
 
         $form = $this->_form;
         $courseid = $this->_customdata['course']->id;
+        $template = $this->_customdata['template'];
 
         $form->addElement('hidden', 'step', 2);
         $form->addElement('hidden', 'doduplicate', 1);
@@ -145,13 +142,13 @@ class dupcrs extends \moodleform {
 
         $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE,
             backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
-        $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks());
+        $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks(), $template);
         $builder->prepare_section_elements();
 
         $this->add_action_buttons(true, get_string('duplcourseforuse2', 'block_mbstpl'));
     }
 
-    private function enable_on_click($eltoclick, $eltoenable) {
+    private function enable_on_click(\HTML_QuickForm_element $eltoclick, \HTML_QuickForm_element $eltoenable) {
         global $PAGE;
 
         $eltoclick->_generateId();
@@ -159,6 +156,7 @@ class dupcrs extends \moodleform {
         $idtoclick = $eltoclick->getAttribute('id');
         $idtoenable = $eltoenable->getAttribute('id');
 
+        $PAGE->requires->jquery();
         $PAGE->requires->js_init_code("$('#$idtoclick').click(function() { $('#$idtoenable').removeAttr('disabled'); });", true);
     }
 

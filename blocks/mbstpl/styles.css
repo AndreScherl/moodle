@@ -162,6 +162,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
     width: 17px;
     height: 17px;
     position: relative;
+    margin: 0;
 }
 
 .templaterating .star.fullstar {
@@ -202,11 +203,29 @@ ul.mbsfilelist, ul.mbsfilelist li {
     margin-top: 25px;
 }
 
-.block-usedreferences ol {
+div[role="main"] .block-usedreferences ol {
     padding-left: 26px;
 }
 
 .mbstpl-asset-license {
     margin: 9px auto;
     display: inline-block;
+}
+
+.mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
+.mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
+.mbstrevhist-item {
+    padding: 4px;
+    border-top: 1px solid #ccc;
+}
+.mbstrevhist-item:nth-child(even) { background-color: #f4f4f4; }
+.mbstrevhist-item:nth-child(even):hover { background-color: #eeeeee; }
+.mbstrevhist-item:nth-child(odd) { background-color: #fff; }
+.mbstrevhist-item:nth-child(odd):hover { background-color: #f9f9f9; }
+
+.path-blocks-mbstpl .path-backup .mform .fitem .fitemtitle {
+    width: 200px;
+}
+.path-blocks-mbstpl .path-backup .mform .fitem .felement {
+    margin-left: 210px;
 }

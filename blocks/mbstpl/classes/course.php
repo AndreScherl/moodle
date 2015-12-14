@@ -35,6 +35,8 @@ class course {
     const TPLPREFIX = 'Musterkurs';
     const BACKUP_LOCALPATH = 'mbstpl';
 
+    private static $skiptemplateblockson = ['/enrol/index.php'];
+
     /**
      * Extends the navigation, depending on capability.
      * @param \navigation_node $coursenode
@@ -120,6 +122,11 @@ class course {
         $pagelayout = $PAGE->pagelayout;
         $pagetype = $PAGE->pagetype;
         if ($pagelayout != 'course' || $pagetype == 'enrol-index') {
+            return;
+        }
+
+        global $PAGE;
+        if (in_array($PAGE->url->get_path(), self::$skiptemplateblockson)) {
             return;
         }
 
@@ -420,15 +427,22 @@ class course {
      * @return \moodle_url complaint url for the current course/template
      *                     or null if not on a template or course template
      */
-    public static function get_complaint_url() {
-        global $PAGE;
+    public static function get_complaint_url($courseid = null) {
 
-        $complainturl = get_config('block_mbstpl', 'complainturl');
+        static $complainturl = null;
+        if ($complainturl === null) {
+            $complainturl = get_config('block_mbstpl', 'complainturl');
+        }
+
         if (!$complainturl) {
             return null;
         }
 
-        $courseid = $PAGE->context->instanceid;
+        if (!$courseid) {
+            global $PAGE;
+            $courseid = $PAGE->context->instanceid;
+        }
+
         $template = dataobj\template::get_from_course($courseid);
         if (!$template) {
             return null;

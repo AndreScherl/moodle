@@ -61,7 +61,7 @@ $tform = mbst\questman\manager::build_form($template, $course, array(
 
 // Rate form.
 $starrating = new mbst\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));
-$form = new mbst\form\starrating($thisurl);
+$form = new mbst\form\starrating($thisurl, array('freeze' => $starrating->fetched && $starrating->rating));
 if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {

@@ -93,6 +93,7 @@ class reset_course_userdata_task extends \core\task\adhoc_task {
 
         require_once("$CFG->dirroot/enrol/mbs/lib.php");
         $instance = \enrol_mbs_plugin::get_instance($data->instanceid, $data->courseid);
+        mtrace("Reset user data for course $data->courseid");
 
         self::schedule_single_reset_task($instance);
     }

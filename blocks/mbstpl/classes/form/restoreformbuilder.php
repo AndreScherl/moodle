@@ -51,12 +51,17 @@ class restoreformbuilder {
      */
     protected $activitydiv = false;
 
+    /** @var \MoodleQuickForm  */
     private $_form;
+    /** @var base_task[] */
     private $tasks;
+    /** @var \block_mbstpl\dataobj\template */
+    private $template;
 
-    public function __construct(\MoodleQuickForm $mform, $tasks) {
+    public function __construct(\MoodleQuickForm $mform, $tasks, \block_mbstpl\dataobj\template $template) {
         $this->_form = $mform;
         $this->tasks = $tasks;
+        $this->template = $template;
     }
 
     public function prepare_section_elements() {
@@ -64,6 +69,8 @@ class restoreformbuilder {
         $addsettings = array();
         $dependencies = array();
         $courseheading = false;
+
+        $excludedeploydataids = $this->template->get_exclude_deploydata_ids();
 
         foreach ($this->tasks as $task) {
             if (!($task instanceof backup_root_task)) {
@@ -81,6 +88,21 @@ class restoreformbuilder {
                 foreach ($task->get_settings() as $setting) {
                     $setting->set_value(1);
                     $dependencies[] = $setting;
+                }
+
+                /** @var \base_setting $setting */
+                foreach ($task->get_settings() as $setting) {
+                    $parts = explode('_', $setting->get_name(), 3);
+                    if (count($parts) < 3) {
+                        continue;
+                    }
+                    if ($parts[2] != 'userinfo' || $parts[0] == 'section') {
+                        continue; // Only interested in activity userinfo.
+                    }
+                    if (in_array($parts[1], $excludedeploydataids)) {
+                        $setting->set_value(0); // Disable user data for this field.
+                        $setting->set_status(\base_setting::LOCKED_BY_CONFIG);
+                    }
                 }
             }
         }

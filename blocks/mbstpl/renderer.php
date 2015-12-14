@@ -25,6 +25,8 @@ use \block_mbstpl AS mbst;
 
 class block_mbstpl_renderer extends plugin_renderer_base {
 
+    const BACKUPS_PERPAGE = 20;
+
     protected function qtype_name($type) {
         $gs = get_string_manager();
         if ($gs->string_exists('pluginname', 'profilefield_'.$type)) {
@@ -219,37 +221,26 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     public function templatehistory($revhists, $files) {
         $html = '';
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
-        $table = new html_table();
-        $table->head = array(
-            get_string('status'),
-            get_string('assigned', 'block_mbstpl'),
-            get_string('updated', 'block_mbstpl'),
-            get_string('feedback', 'block_mbstpl')
-        );
-        $table->data = array();
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
-            $feedback = '';
+            $assignedname = html_writer::tag('strong', $assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
+            $assigneddate = userdate($hist->timecreated);
+
+            $item = html_writer::div("$assignedname, $assigneddate", 'mbstrevhist-name');
+            $item .= html_writer::div($this->status_box($hist->status), 'mbstrevhist-status');
 
             if ($hist->feedback) {
 
-                $feedback = html_writer::tag('dt', get_string('message', 'block_mbstpl'));
-                $feedback .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
+                $item .= html_writer::tag('dt', get_string('message', 'block_mbstpl'));
+                $item .= html_writer::tag('dd', format_text($hist->feedback, $hist->feedbackformat));
 
                 if (isset($files[$hist->id])) {
-                    $feedback .= html_writer::tag('dt', get_string('feedbackfiles', 'block_mbstpl'));
-                    $feedback .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
+                    $item .= html_writer::tag('dd', $this->file_list($files[$hist->id]));
                 }
             }
 
-            $table->data[] = array(
-                $this->status_box($hist->status),
-                $assignedname,
-                userdate($hist->timecreated),
-                $feedback ? html_writer::tag('dl', $feedback) : ''
-            );
+            $html .= html_writer::div($item, 'mbstrevhist-item clearfix');
         }
-        $html .= html_writer::table($table);
         return html_writer::div($html, 'mbstrevhist');
     }
 
@@ -336,10 +327,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         if (count($courses) > 0) {
             foreach ($courses as $course) {
                 $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                $listitem = \html_writer::link($courseurl, $course->fullname);                
-                // TBD, see spec page 14.                
-                $externalurl = clone($complainturl);
-                $externalurl->param('courseid', $course->id);
+                $listitem = \html_writer::link($courseurl, $course->fullname);
+                // TBD, see spec page 14.
+                $externalurl = mbst\course::get_complaint_url($course->id);
                 $righticons = '';
                 $complaintlink = \html_writer::link($externalurl,
                     \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
@@ -577,7 +567,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             /* @var $license \block_mbstpl\dataobj\license */
             $license = $licenses[$asset->license];
             if ($license) {
-                $item .= ', ' . html_writer::link($license->source, $license->fullname);
+                $item .= ', ' . ($license->source
+                    ? html_writer::link($license->source, $license->fullname)
+                    : $license->fullname);
             }
 
             $items[] = $item;
@@ -588,24 +580,30 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Displays a backup files viewer. Modified from \core_backup_renderer\render_backup_files_viewer()
-     *
-     * @param array $options
-     * @return string
      */
-    public function render_backup_files_viewer(array $options = null) {
-        $viewer = new backup_files_viewer($options);
-        $files = $viewer->files;
+    public function render_backup_files_viewer() {
+        global $CFG;
+        require_once($CFG->libdir.'/tablelib.php');
 
-        $table = new html_table();
-        $table->attributes['class'] = 'backup-files-table generaltable';
-        $table->head = array(get_string('filename', 'backup'), get_string('time'), get_string('size'), get_string('download'), get_string('restore'));
-        $table->width = '100%';
-        $table->data = array();
+        $thisurl = $this->page->__get('url');
+        $table = new flexible_table('mbstpl_backups');
+        $table->define_columns(array('filename', 'timemodified', 'filesize', 'download', 'restore'));
+        $table->define_headers(array(get_string('filename', 'backup'), get_string('time'), get_string('size'), get_string('download'), get_string('restore')));
+        $table->set_attribute('class', 'backup-files-table generaltable');
+        $table->define_baseurl($thisurl);
+        $table->sortable(true, 'timemodified', SORT_DESC);
+        $table->no_sorting('download');
+        $table->no_sorting('restore');
+
+        $table->setup();
+        $matchcount = mbst\backup::get_backup_files(true);
+        $table->pagesize(self::BACKUPS_PERPAGE, $matchcount);
+        $startpage = $table->get_page_start();
+        $pagecount = $table->get_page_size();
+        $sort = $table->get_sql_sort();
+        $files = mbst\backup::get_backup_files(false, $startpage, $pagecount, $sort);
 
         foreach ($files as $file) {
-            if ($file->is_directory()) {
-                continue;
-            }
             $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
             $params = array();
             $params['action'] = 'choosebackupfile';
@@ -614,19 +612,18 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             $params['component'] = $file->get_component();
             $params['filearea'] = $file->get_filearea();
             $params['filecontextid'] = $file->get_contextid();
-            $params['contextid'] = $viewer->currentcontext->id;
+            $params['contextid'] = $file->get_contextid();
             $params['itemid'] = $file->get_itemid();
             $restoreurl = new moodle_url('/backup/restorefile.php', $params);
-            $table->data[] = array(
+            $row = array(
                 $file->get_filename(),
                 userdate($file->get_timemodified()),
                 display_size($file->get_filesize()),
                 html_writer::link($fileurl, get_string('download')),
                 html_writer::link($restoreurl, get_string('restore')),
             );
+            $table->add_data($row);
         }
-
-        $html = html_writer::table($table);
-        return $html;
+        $table->finish_output();
     }
 }

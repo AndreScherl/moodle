@@ -46,6 +46,8 @@ class backup extends base {
         'creatorid' => 0,
         'incluserdata' => 1,
         'lastversion' => 0,
+        'userdataids' => null,
+        'excludedeploydataids' => null,
     );
 
     /* @var int origcourseid id  */
@@ -74,6 +76,12 @@ class backup extends base {
 
     /* @var int timemodified  */
     public $timemodified;
+
+    /* @var string */
+    public $userdataids;
+
+    /* @var string */
+    public $excludedeploydataids;
 
     /**
      * Set the table name here.
@@ -117,5 +125,50 @@ class backup extends base {
         $meta = new meta(array('backupid' => $this->id));
         $meta->insert();
         return $this->id;
+    }
+
+    /**
+     * @param int[]|null $userdataids
+     */
+    public function set_userdata_ids($userdataids) {
+        if ($userdataids === null) {
+            $this->userdataids = null;
+        } else {
+            $this->userdataids = implode(',', $userdataids);
+        }
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function get_userdata_ids() {
+        if ($this->userdataids === null) {
+            return null;
+        }
+        if (!trim($this->userdataids)) {
+            return array();
+        }
+        return explode(',', $this->userdataids);
+    }
+
+    /**
+     * @param int[]|null $excludedeploydataids
+     */
+    public function set_exclude_deploydata_ids($excludedeploydataids) {
+        if ($excludedeploydataids === null) {
+            $this->excludedeploydataids = null;
+        } else {
+            $this->excludedeploydataids = implode(',', $excludedeploydataids);
+        }
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function get_exclude_deploydata_ids() {
+        if (!trim($this->excludedeploydataids)) {
+            return array();
+        }
+        return explode(',', $this->excludedeploydataids);
     }
 }

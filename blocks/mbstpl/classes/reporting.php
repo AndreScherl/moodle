@@ -95,14 +95,8 @@ class reporting {
         }
         fclose($handle);
 
-        // Send mail.
-        $users = self::get_recipients();
-        $subject = get_string('emailstatsrep_subj', 'block_mbstpl');
-        $messagetext = get_string('emailstatsrep_body', 'block_mbstpl');
-        $from = notifications::get_fromuser();
-        foreach($users as $user) {
-            email_to_user($user, $from, $subject, $messagetext, '', $filepath);
-        }
+        notifications::notify_stats($filepath);
+
         mtrace(get_string('startsreportsent', 'block_mbstpl'));
         set_config('nextstatsreport', time() + $interval, 'block_mbstpl');
     }
@@ -140,38 +134,16 @@ class reporting {
             return;
         }
 
-        // Send mail.
-        $users = self::get_recipients();
-        $from = notifications::get_fromuser();
-        $ids = array();
-        $lines = array();
-        $url = new \moodle_url('/course/view.php');
-        foreach($templates as $template) {
-            $ids[] = $template->id;
-            $url->param('id', $template->cid);
-            $lines[] = $url . ' ' . $template->cname;
-        }
-        $a = implode("\n", $lines);
-        $subject = get_string('noactiontpls_subj', 'block_mbstpl');
-        $messagetext = get_string('noactiontpls_body', 'block_mbstpl', $a);
-        foreach($users as $user) {
-            email_to_user($user, $from, $subject, $messagetext);
-        }
+        notifications::notify_reminder($templates);
+
         mtrace(get_string('tplremindersent', 'block_mbstpl'));
 
         // Update templates - notification is sent only once per template.
+        $ids = array_map(function($template) { return $template->id; }, $templates);
         list($idin, $params) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED);
         $params['reminded'] = 1;
         $sql = "UPDATE {block_mbstpl_template} SET reminded = :reminded WHERE id $idin";
         $DB->execute($sql, $params);
     }
 
-    /**
-     * Recipients for the stats report and reminders.
-     * @return array of users.
-     */
-    private static function get_recipients() {
-        $users = get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
-        return $users;
-    }
 }

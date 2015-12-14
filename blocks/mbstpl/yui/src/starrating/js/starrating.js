@@ -4,16 +4,34 @@ M.block_mbstpl.starrating = {
 	/**
 	 * Initiate the module.
 	 */
-	init: function(radioname) {
+	init: function(radioids, freeze) {
 
-		var radios = Y.all('form input[name=' + radioname + ']'),
+		var radioselector = 'input[type=radio]#',
+			radios = Y.all(radioselector + radioids.join(',' + radioselector)),
 			size = radios.size(),
-			emptystar = M.cfg.wwwroot + '/blocks/mbstpl/pix/emptystar.png',
-			fullstar = M.cfg.wwwroot + '/blocks/mbstpl/pix/fullstar.png',
 			labels = {};
 
 		function radioValue(radio) {
-			return parseInt(radio.get('value'), 10);
+			var value = parseInt(radio.get('value'), 10);
+			if (value) {
+				return value;
+			}
+
+			// if the value doesn't exist, the form is frozen.
+			// and we can extract the value from the generated id
+			var id = radio.get('id'),
+				matches = id.match(/^.+_(\d+)$/);
+
+			if (matches) {
+				return parseInt(matches[1], 10);
+			}
+
+			return null;
+		}
+
+		function toggleRating(label, on) {
+			label.removeClass(on ? 'emptystar' : 'fullstar');
+			label.addClass(on ? 'fullstar' : 'emptystar');
 		}
 
 		/*
@@ -35,7 +53,7 @@ M.block_mbstpl.starrating = {
 		 */
 		function setStars(rating) {
 			for (var r in labels) {
-				labels[r].one('img').setAttribute('src', r <= rating ? fullstar : emptystar);
+				toggleRating(labels[r], r <= rating);
 			}
 		}
 
@@ -62,15 +80,22 @@ M.block_mbstpl.starrating = {
 			var radio = radios.item(i),
 				value = radioValue(radio),
 				id = radio.getAttribute('id'),
-				label = Y.Node.create('<label for="' + id + '"><img src="' + (value <= startrating ? fullstar : emptystar) + '"></label>');
+				parent = radio.ancestor(),
+				label = Y.Node.create('<label for="' + id + '"></label>');
 
-			label.on('mouseover', setStarsFromRadio);
-			label.on('mouseout', resetStars);
-			label.setData('value', value);
-			label.appendTo(radio.ancestor());
+			if (!freeze) {
+				label.on('mouseover', setStarsFromRadio);
+				label.on('mouseout', resetStars);
+			}
+
+			label.addClass('star');
+			parent.addClass('templaterating');
+			label.appendTo(parent);
 			labels[value] = label;
 
 			radio.setStyle('display', 'none');
+
+			toggleRating(label, value <= startrating);
 		}
 
 	}

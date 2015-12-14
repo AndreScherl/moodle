@@ -82,6 +82,7 @@ class template extends base {
         'timemodified' => 0,
         'rating' => null,
         'reminded' => 0,
+        'excludedeploydataids' => '',
     );
 
     /* @var int Course id  */
@@ -114,6 +115,9 @@ class template extends base {
     /* @var int reminded  */
     public $reminded;
 
+    /** @var string */
+    public $excludedeploydataids;
+
     /**
      * Set the table name here.
      * @return string
@@ -135,6 +139,8 @@ class template extends base {
         );
     }
 
+    /** @var \block_mbstpl\dataobj\meta */
+    private $meta;
 
     /**
      * Updates this object in the Database, based on its object variables. ID must be set.
@@ -211,5 +217,46 @@ class template extends base {
         $fs = get_file_storage();
         $context = context_course::instance($this->courseid);
         return $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id);
+    }
+
+    public function get_meta() {
+        if (!$this->meta) {
+            $this->meta = new meta(array('templateid' => $this->id), true, MUST_EXIST);
+        }
+        return $this->meta;
+    }
+
+    /**
+     * @return string the fullname of the this template's licence
+     */
+    public function get_licence() {
+        $meta = $this->get_meta();
+        if (!$meta) {
+            return null;
+        }
+
+        $licence = license::fetch(array('shortname' => $meta->license));
+        return $licence ? $licence->fullname : null;
+    }
+
+    /**
+     * @param int[]|null $excludedeploydataids
+     */
+    public function set_exclude_deploydata_ids($excludedeploydataids) {
+        if ($excludedeploydataids === null) {
+            $this->excludedeploydataids = null;
+        } else {
+            $this->excludedeploydataids = implode(',', $excludedeploydataids);
+        }
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function get_exclude_deploydata_ids() {
+        if (!trim($this->excludedeploydataids)) {
+            return array();
+        }
+        return explode(',', $this->excludedeploydataids);
     }
 }

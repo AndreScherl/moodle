@@ -49,8 +49,7 @@ if (!mbst\perms::can_coursefromtpl($template, $coursecontext)) {
 }
 
 // Load allowed courses and categories.
-$catsearch = new restore_category_search();
-$cats = $catsearch->get_results();
+$cats = coursecat::make_categories_list('moodle/course:create');
 $coursesearch = new restore_course_search(array(), $course->id);
 $courses = $coursesearch->get_results();
 if (empty($cats) && empty($courses)) {
@@ -64,9 +63,17 @@ $customdata = array(
     'cats' => $cats,
     'courses' => $courses,
     'creator' => $creator,
-    'step' => $step
+    'step' => $step,
+    'template' => $template
 );
+
+$licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+    'creator' => $creator,
+    'licence' => $template->get_licence()
+));
 $form = new mbst\form\dupcrs(null, $customdata);
+$form->set_data(array('licence' => $licence));
+
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
     redirect($redirurl);

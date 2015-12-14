@@ -34,6 +34,14 @@ class backup {
     const PREFIX_PRIMARY = 'origbkp_';
     const PREFIX_SECONDARY = 'tplbkp_';
 
+    /** @var dataobj\backup */
+    private static $primaryrestoreof = null;
+    /** @var int[] */
+    private static $mappedexcludedeploydataids = null;
+
+    /** @var \context_course nasty hack to get course context when deep inside the backup anonymisation code */
+    private static $coursecontext = null;
+
     /**
      * Generates filename.
      * @param int $id of the backup or template.
@@ -110,7 +118,9 @@ class backup {
             'authorid' => $backup->creatorid,
         );
         $template = new dataobj\template($templatedata);
+        $template->set_exclude_deploydata_ids(self::$mappedexcludedeploydataids);
         $template->insert();
+        self::$mappedexcludedeploydataids = null;
 
         // Copy over metadata.
         $bkpmeta = new dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
@@ -135,7 +145,6 @@ class backup {
         $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
         $user = get_admin();
         $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
-        // TODO actually backup.
         return $filename;
     }
 
@@ -214,7 +223,24 @@ class backup {
         return $cid;
     }
 
+    /**
+     * Should this particular user be anonymised?
+     * @param \base_final_element $element
+     * @return bool
+     */
+    public static function should_anonymise(\base_final_element $element) {
+        if (!self::$coursecontext) {
+            return true; // If coursecontext is not set, then this is not a partial-anonymisation backup.
+        }
 
+        $parent = $element->get_parent();
+        if ($parent->get_name() != 'user') {
+            return true; // The parent element is not a user, so carry on as usual.
+        }
+
+        $userid = $parent->get_attribute('id');
+        return !has_capability('block/mbstpl:notanonymised', self::$coursecontext, $userid->get_value());
+    }
 
     /**
      * Backup an original course.
@@ -252,6 +278,12 @@ class backup {
             $settings['anonymize'] = 1;
         }
 
+        $backup = new dataobj\backup(array('id' => $backupid));
+        $userdataids = $backup->get_userdata_ids();
+
+        // Needed to determine partial anonymisations.
+        self::$coursecontext = \context_course::instance($courseid);
+
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
             \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
@@ -259,6 +291,22 @@ class backup {
             foreach ($settings as $setting => $value) {
                 if ($bc->get_plan()->setting_exists($setting)) {
                     $bc->get_plan()->get_setting($setting)->set_value($value);
+                }
+            }
+            if ($withusers && $userdataids !== null) {
+                // Remove userdata from any activities that have been excluded.
+                /** @var \backup_setting $setting */
+                foreach ($bc->get_plan()->get_settings() as $setting) {
+                    $parts = explode('_', $setting->get_name(), 3);
+                    if (count($parts) < 3) {
+                        continue;
+                    }
+                    if ($parts[2] != 'userinfo' || $parts[0] == 'section') {
+                        continue;
+                    }
+                    if (!in_array($parts[1], $userdataids)) {
+                        $setting->set_value(0); // Disable user data for this field.
+                    }
                 }
             }
 
@@ -305,6 +353,8 @@ class backup {
         } catch (\Exception $e) {
             $backupok = false;
         }
+
+        self::$coursecontext = null;
 
         $bc->destroy();
         unset($bc);
@@ -362,43 +412,61 @@ class backup {
             throw new \backup_helper_exception('missing_moodle_backup_xml_file', $moodlefile);
         }
 
-        // Load format.
+        // Load info.
         $info = \backup_general_helper::get_backup_information($tmpname);
-        $format = $info->format;
-        $plugins = get_sorted_course_formats();
-        if (!in_array($format, $plugins)) {
-            if ($origformat = $DB->get_field('course', 'format', array('id' => $backup->origcourseid))) {
-                $format = $origformat;
-            } else {
-                $format = reset($plugins);
-            }
-        }
 
         // Create course.
         $cdata = (object)array(
             'category' => $catid,
             'shortname' => self::generate_course_shortname($info->original_course_shortname, $backup->lastversion),
             'fullname' => $info->original_course_fullname,
-            'format' => $format,
-            'numsections' => empty($info->sections) ? 0 : count($info->sections),
             'visible' => 0,
         );
         $course = create_course($cdata);
 
         // Restore.
         $admin = get_admin();
+        self::$primaryrestoreof = $backup;
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, \backup::TARGET_CURRENT_ADDING);
+                $admin->id, \backup::TARGET_NEW_COURSE);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
+        self::$primaryrestoreof = null;
         remove_dir($tmpdir);
+
+        // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
+        $upd = (object)array(
+            'id' => $course->id,
+            'shortname' => $cdata->shortname,
+            'fullname' => $cdata->fullname,
+            'visible' => $cdata->visible,
+            'visibleold' => $cdata->visible,
+        );
+        $DB->update_record('course', $upd);
+
         return $course->id;
     }
 
+    public static function fix_exclude_deploydata_ids($restoreid) {
+        if (!self::$primaryrestoreof) {
+            return; // Only include if we're doing a primary restore.
+        }
+        // The excludedeploydataids are the cmids in the original course that are not allowed to deploy with user data in them.
+        // These need to be mapped onto the cmids in the template course (and saved into the template record).
+        $excludeids = self::$primaryrestoreof->get_exclude_deploydata_ids();
+        $newexcludeids = array();
+        foreach ($excludeids as $excludeid) {
+            $rec = \restore_dbops::get_backup_ids_record($restoreid, 'course_module', $excludeid);
+            if ($rec && $rec->newitemid) {
+                $newexcludeids[] = (int)$rec->newitemid;
+            }
+        }
+        self::$mappedexcludedeploydataids = $newexcludeids;
+    }
 
     /**
      * Backup an template
@@ -431,6 +499,9 @@ class backup {
             'logs' => 0,
             'histories' => 0,
         ), $backupsettings);
+
+        // Needed to determine partial anonymisations.
+        self::$coursecontext = \context_course::instance($courseid);
 
         $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
             \backup::MODE_AUTOMATED, $userid);
@@ -481,6 +552,8 @@ class backup {
             $backupok = false;
         }
 
+        self::$coursecontext = null;
+
         $bc->destroy();
         unset($bc);
 
@@ -530,17 +603,8 @@ class backup {
             throw new \backup_helper_exception('missing_moodle_backup_xml_file', $moodlefile);
         }
 
-        // Load format.
+        // Load info.
         $info = \backup_general_helper::get_backup_information($tmpname);
-        $format = $info->format;
-        $plugins = get_sorted_course_formats();
-        if (!in_array($format, $plugins)) {
-            if ($origformat = $DB->get_field('course', 'format', array('id' => $template->courseid))) {
-                $format = $origformat;
-            } else {
-                $format = reset($plugins);
-            }
-        }
 
         if ($targetcat) {
             // Create course.
@@ -548,26 +612,39 @@ class backup {
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
-                'format' => $format,
-                'numsections' => empty($info->sections) ? 0 : count($info->sections),
                 'visible' => 0,
             );
             $course = create_course($cdata);
+            $restoretype = \backup::TARGET_NEW_COURSE;
         } else {
             $course = get_course($targetcrs);
+            $restoretype = \backup::TARGET_EXISTING_ADDING;
         }
 
         // Restore.
         $admin = get_admin();
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, \backup::TARGET_CURRENT_ADDING);
+                $admin->id, $restoretype);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
         remove_dir($tmpdir);
+
+        // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
+        if ($restoretype == \backup::TARGET_NEW_COURSE && isset($cdata)) {
+            $upd = (object)array(
+                'id' => $course->id,
+                'shortname' => $cdata->shortname,
+                'fullname' => $cdata->fullname,
+                'visible' => $cdata->visible,
+                'visibleold' => $cdata->visible,
+            );
+            $DB->update_record('course', $upd);
+        }
+
         return $course->id;
     }
 
@@ -611,17 +688,11 @@ class backup {
         if (!perms::can_viewbackups()) {
             return;
         }
-        $context = \context_system::instance();
         $renderer = course::get_renderer();
         echo $renderer->heading(get_string('coursetemplates', 'block_mbstpl'));
         echo $renderer->container_start();
-        $treeview_options = array();
-        $treeview_options['filecontext'] = $context;
-        $treeview_options['currentcontext'] = $currentcontext;
-        $treeview_options['component']   = 'block_mbstpl';
-        $treeview_options['context']     = $context;
-        $treeview_options['filearea']    = 'backups';
-        echo $renderer->render_backup_files_viewer($treeview_options);
+        $files = self::get_backup_files(false);
+        $renderer->render_backup_files_viewer();
         echo $renderer->container_end();
     }
 
@@ -649,5 +720,57 @@ class backup {
         $restore_url = new \moodle_url('/backup/restore.php', array(
             'contextid' => $context->id, 'filename' => $filename));
         redirect($restore_url);
+    }
+
+    /**
+     * Returns all area files within the limit. Modified from get_area_files().
+     * @param bool $justcount
+     * @param int $limitfrom
+     * @param int $limitnum
+     * @param $sort
+     * @return stored_file[] array of stored_files indexed by pathanmehash
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public static function get_backup_files($justcount = false, $limitfrom = null, $limitnum = null, $sort = '') {
+        global $DB;
+
+        $context = \context_system::instance();
+        $params = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups', 'dir'=> '.');
+        $fs = get_file_storage();
+
+        if (empty($sort)) {
+            $sort = 'itemid ASC, filepath ASC, filename ASC';
+        }
+
+        $select = "
+        SELECT f.id AS id, f.contenthash, f.pathnamehash, f.contextid, f.component, f.filearea, f.itemid,
+                       f.filepath, f.filename, f.userid, f.filesize, f.mimetype, f.status, f.source, f.author,
+                       f.license, f.timecreated, f.timemodified, f.sortorder, f.referencefileid,
+                       r.repositoryid AS repositoryid, r.reference AS reference, r.lastsync AS referencelastsync
+        ";
+        $basesql = "
+                  FROM {files} f
+             LEFT JOIN {files_reference} r
+                       ON f.referencefileid = r.id
+                 WHERE f.contextid = :contextid
+                       AND f.component = :component
+                       AND f.filearea = :filearea
+                       AND f.filename <> :dir
+                 ORDER BY $sort
+                       ";
+        if ($justcount) {
+            return $DB->count_records_sql("SELECT COUNT(1) $basesql", $params);
+        }
+        $sql = "
+        $select
+        $basesql
+        ";
+        $results = array();
+        $filerecords = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
+        foreach ($filerecords as $filerecord) {
+            $results[] = $fs->get_file_instance($filerecord);
+        }
+        return $results;
     }
 }

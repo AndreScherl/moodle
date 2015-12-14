@@ -32,8 +32,8 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
-require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_license.php');
-require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_newlicense.php');
+require_once($CFG->dirroot.'/local/mbs/classes/form/MoodleQuickForm_license.php');
+require_once($CFG->dirroot.'/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
 
 abstract class licenseandassetform extends \moodleform {
 

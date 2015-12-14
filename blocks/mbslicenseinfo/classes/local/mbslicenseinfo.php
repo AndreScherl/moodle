@@ -135,4 +135,18 @@ class mbslicenseinfo {
         return $files;
     }
     
+    /**
+     * Extend Course Admin Node
+     * 
+     * @param settings_navigation $navigation
+     * @param context $context
+     */
+    public static function extend_course_admin_node(\settings_navigation $navigation, \context $context) {
+        if($context->contextlevel == CONTEXT_COURSE && has_capability('block/mbslicenseinfo:editlicenses', $context)) {
+            $courseid = $context->instanceid;
+            $coursenode = $navigation->get('courseadmin');
+            $licenselink = new \moodle_url('/blocks/mbslicenseinfo/editlicenses.php', array('courseid' => $courseid));
+            $editlicense = $coursenode->add(get_string('editlicenses', 'block_mbslicenseinfo'), $licenselink);
+        }
+    } 
 }

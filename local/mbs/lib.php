@@ -110,6 +110,11 @@ function local_mbs_extends_settings_navigation(settings_navigation $navigation, 
     if ($context) {
         block_mbstpl\course::extend_coursenav($navigation, $context);
     }
+    
+    // Extend for block_mbslicenseinfo editlicense form
+    if ($context) {
+        block_mbslicenseinfo\local\mbslicenseinfo::extend_course_admin_node($navigation, $context);
+    }
 }
 
 /**

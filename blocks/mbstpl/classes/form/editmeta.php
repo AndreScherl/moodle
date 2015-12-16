@@ -40,19 +40,18 @@ class editmeta extends licenseandassetform {
         $template = isset($cdata['template']) ? $cdata['template'] : null;
         $course = isset($cdata['course']) ? $cdata['course'] : null;
 
+        $form->addElement('header', 'coursemetadata', get_string('coursemetadata', 'block_mbstpl'));
+
         $form->addElement('hidden', 'course', $this->_customdata['courseid']);
         $form->setType('course', PARAM_INT);
 
         // Add template details if exists.
         if (isset($template) && isset($course)) {
-            $form->addElement('header', 'coursemetadata', get_string('coursemetadata', 'block_mbstpl'));
             $form->addElement('static', 'crsname', get_string('course'), $course->fullname);
             $form->addElement('static', 'creationdate', get_string('creationdate', 'block_mbstpl'), userdate($course->timecreated));
             $form->addElement('static', 'lastupdate', get_string('lastupdate', 'block_mbstpl'), userdate($template->timemodified));
             $creator = mbst\course::get_creators($template->id);
             $form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
-            $form->setExpanded('coursemetadata');
-            $form->closeHeaderBefore('coursemetadata');
         }
 
         // Add custom questions.
@@ -66,6 +65,9 @@ class editmeta extends licenseandassetform {
             }
         }
         $this->define_tags();
+
+        $form->setExpanded('coursemetadata');
+        $form->closeHeaderBefore('coursemetadata');
 
         if (empty($cdata['justtags'])) {
             $includechecklist = empty($cdata['freeze']);
@@ -94,41 +96,6 @@ class editmeta extends licenseandassetform {
 //        mbst\questman\qtype_checklist::definition_after_data($this->_form);
 //    }
 
-    function add_usercreated_license($licenses) {
-        global $DB;
-        
-        list($inshortname, $inparams) = $DB->get_in_or_equal($licenses);
-        $inparams[] = \block_mbstpl\dataobj\license::$licensetype['usercreated'];
-        
-        $sql = "SELECT DISTINCT shortname, fullname FROM {block_mbstpl_license} WHERE shortname $inshortname AND type = ?";
-        
-        if (!$usercreatedshortnames = $DB->get_records_sql($sql, $inparams)) {
-            return false;
-        }
-        
-        $form = $this->_form;
-        
-        foreach ($licenses as $idx => $license) {
-            if (isset($usercreatedshortnames[$license])) {
-                $group = $form->getElement("asset[$idx]");
-                $groupelements = $group->getElements();
-                
-                $license = $usercreatedshortnames[$license];
-                $choices = array($license->shortname => $license->fullname);
-                
-                $groupelements[$this->licenseindex]->load($choices);
-            }
-        }
-        
-         //print_r($data);
-
-     /*   $form = $this->_form;
-        $test = $form->getElement('asset[0]');
-        $license = $test->getElements();
-        $choices = array('Neue Lizenz' => 'Neue LInzenz');
-        $license[4]->load($choices);*/
-    }
-
     function set_data($default_values) {
         if (!empty($this->_customdata['freeze'])) {
             parent::set_data($default_values);
@@ -136,11 +103,6 @@ class editmeta extends licenseandassetform {
         }
         if (is_object($default_values)) {
             $default_values = (array) $default_values;
-        }
-
-        // When there are usercreated asset licenses, add them to select box.
-        if (!empty($default_values['asset_license'])) {
-            $this->add_usercreated_license($default_values['asset_license']);
         }
 
         $data = array();

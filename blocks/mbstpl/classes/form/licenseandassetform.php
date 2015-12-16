@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -32,8 +33,8 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
-require_once($CFG->dirroot.'/local/mbs/classes/form/MoodleQuickForm_license.php');
-require_once($CFG->dirroot.'/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_license.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
 
 abstract class licenseandassetform extends \moodleform {
 
@@ -85,7 +86,6 @@ abstract class licenseandassetform extends \moodleform {
                 $asset = new asset(array('metaid' => $meta->id), false);
             }
             if ($hasdata) {
-
                 // Create new (user-) license, if necessary.
                 $submittedlicense = self::get_submitted_license_shortname($data, $idx);
 
@@ -102,8 +102,7 @@ abstract class licenseandassetform extends \moodleform {
         }
     }
 
-    public static function update_meta_license_from_submitted_data(meta $meta,
-                                                                   $data) {
+    public static function update_meta_license_from_submitted_data(meta $meta, $data) {
         $submittedlicense = $data->license;
         if ($meta->license != $submittedlicense) {
             $meta->license = $submittedlicense;
@@ -133,13 +132,13 @@ abstract class licenseandassetform extends \moodleform {
         ));
         $asset[2] = $form->createElement('text', 'asset_owner', get_string('owner', 'block_mbstpl'), array('size' => '20', 'placeholder' => get_string('owner', 'block_mbstpl')));
         $asset[3] = $form->createElement('text', 'asset_source', get_string('source', 'block_mbstpl'), array('size' => '20', 'placeholder' => get_string('source', 'block_mbstpl')));
-        
+
         // When changing the order of the asset elements, it is necessary to change the licenseindex too.
         $asset[4] = $form->createElement('license', 'asset_license', get_string('license', 'block_mbstpl'), array('class' => 'mbstpl-asset-license'), true);
         // This index is used to update the license dropdown, when a usercreated license was saved
         // Example: this is set to 4, because the license field has this index in $asset array.
         $this->licenseindex = 4;
-        
+
         if (empty($cdata['freeze'])) {
 
             /* @var $newlicense \MoodleQuickForm_newlicense */
@@ -150,7 +149,7 @@ abstract class licenseandassetform extends \moodleform {
             $form->setTypes(array(
                 'newlicense_shortname' => PARAM_TEXT,
                 'newlicense_fullname' => PARAM_TEXT,
-                'newlicense_source' => PARAM_TEXT
+                'newlicense_source' => PARAM_URL
             ));
         }
 
@@ -240,7 +239,7 @@ abstract class licenseandassetform extends \moodleform {
                     if ($existinglicense) {
                         return array("asset[$idx]" => get_string('newlicense_exists', 'local_mbs', $shortname));
                     }
-                    
+
                     if (empty($data['newlicense_fullname'][$idx])) {
                         return array("asset[$idx]" => get_string('newlicense_fullnamerequired', 'local_mbs', $shortname));
                     }
@@ -250,5 +249,5 @@ abstract class licenseandassetform extends \moodleform {
             return array();
         }
     }
+
 }
-    

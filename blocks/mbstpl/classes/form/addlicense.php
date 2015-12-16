@@ -33,7 +33,7 @@ class addlicense extends \moodleform {
     function definition() {
 
         global $CFG;
-        require_once($CFG->dirroot.'/blocks/mbstpl/classes/MoodleQuickForm_newlicense.php');
+        require_once($CFG->dirroot.'/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
 
         $form = $this->_form;
 
@@ -43,11 +43,11 @@ class addlicense extends \moodleform {
         $form->setTypes(array(
             'newlicense_shortname' => PARAM_TEXT,
             'newlicense_fullname' => PARAM_TEXT,
-            'newlicense_source' => PARAM_TEXT
+            'newlicense_source' => PARAM_URL
         ));
 
         $form->addRule('newlicense_shortname', get_string('newlicense_required', 'local_mbs'), 'required');
-
+        
         $this->add_action_buttons(false, get_string('newlicense_add', 'local_mbs'));
     }
 

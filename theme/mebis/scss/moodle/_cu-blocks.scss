@@ -401,9 +401,7 @@ aside.row {
 
 #page-blocks-mbstpl-templatesearch,
 #page-blocks-mbstpl-editmeta,
-#page-blocks-mbstpl-sendtemplate,
-#page-blocks-mbstpl-ratetemplate,
-#page-blocks-mbstpl-abouttemplate {
+#page-blocks-mbstpl-sendtemplate {
     form {
         fieldset {
             //qtype_checkboxgroup
@@ -426,6 +424,20 @@ aside.row {
                 div.text_to_html {
                     position: absolute;
                 }
+            }
+        }
+    }
+}
+#page-blocks-mbstpl-ratetemplate,
+#page-blocks-mbstpl-abouttemplate {
+    .mform.frozen fieldset .felement.fstatic {
+
+        span {
+            display: inline-block;
+            padding-right: 8px;
+            
+            input {
+                margin-right: 4px;
             }
         }
     }

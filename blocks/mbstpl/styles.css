@@ -9,7 +9,7 @@
 }
 
 .statusbox.statusbox  {
-    width: 100px;
+    width: 120px;
     text-align: center;
     border-style: solid;
     padding: 3px;
@@ -151,10 +151,6 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 	border-radius: 0px;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-
-.templaterating {
-    width: 85px;
 }
 
 .templaterating .star {

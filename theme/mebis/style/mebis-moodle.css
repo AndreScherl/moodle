@@ -15933,32 +15933,34 @@ aside.row .block-region .block {
 
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fgroup span {
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span {
   display: inline-block;
   padding-right: 8px;
 }
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
-#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
   padding-top: 8px;
 }
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox label,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox label,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox label,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fcheckbox label,
-#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fcheckbox label {
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox label {
   margin-bottom: 12.5px;
 }
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox div.text_to_html,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox div.text_to_html,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html,
-#page-blocks-mbstpl-ratetemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html,
-#page-blocks-mbstpl-abouttemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html {
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html {
   position: absolute;
+}
+
+#page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span,
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span {
+  display: inline-block;
+  padding-right: 8px;
+}
+#page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span input,
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span input {
+  margin-right: 4px;
 }
 
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {

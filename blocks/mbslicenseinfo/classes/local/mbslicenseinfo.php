@@ -67,19 +67,11 @@ class mbslicenseinfo {
      * @return bool - success of operation
      */
     public static function update_course_files($data) {
-        global $DB;
+        global $DB, $USER;
         $files = self::resort_formdata($data);
         $success = true;
         
-        foreach($files as $file) {
-            // update files table (no insert because the file must exist)
-            $filedata = new \stdClass();
-            $filedata->id = $file->id;
-            $filedata->filename = $file->filename;
-            $filedata->author = $file->author;
-            $filedata->license = $file->license->shortname;
-            $success *= $DB->update_record('files', $filedata);
-            
+        foreach($files as $file) {       
             // insert/update block_mbslicenseinfo_fmeta table
             $filemeta = new \stdClass();
             $filemeta->title = $file->title;
@@ -92,16 +84,33 @@ class mbslicenseinfo {
                 $success *= $DB->insert_record('block_mbslicenseinfo_fmeta', $filemeta);
             }
             
-            // insert/update block_mbslicenseinfo_ul table
-            if(!empty($file->license->userid)) {
-                $ul = $file->license;
-                if($ulid = $DB->get_field('block_mbslicenseinfo_ul', 'id', array('shortname' => $ul->shortname))) {
-                    $ul->id = $ulid;
-                    $success *= $DB->update_record('block_mbslicenseinfo_ul', $ul);
-                } else {
-                    $success *= $DB->insert_record('block_mbslicenseinfo_ul', $ul);
-                }
+            // user license stuff
+            $ul = $file->license;
+            // insert block_mbslicenseinfo_ul table
+            if($ul->shortname == '__createnewlicense__') {
+                $ul->userid = $USER->id;
+                $ul->shortname = null;
+                $newulid = $DB->insert_record('block_mbslicenseinfo_ul', $ul);
+                $ul->id = $newulid;
+                $ul->shortname = 'ul_'.$newulid;
+                $success *= $DB->update_record('block_mbslicenseinfo_ul', $ul);
             }
+            // update block_mbslicenseinfo_ul table
+            if($ulic = $DB->get_record('block_mbslicenseinfo_ul', array('shortname' => $ul->shortname))) {
+                $ul->fullname = empty($ul->fullname) ? $ulic->fullname : $ul->fullname;
+                $ul->source = empty($ul->source) ? $ulic->source : $ul->source;
+                $ul->id = $ulic->id;
+                $ul->userid = $ulic->userid;
+                $success *= $DB->update_record('block_mbslicenseinfo_ul', $ul);
+            }
+            
+            // update files table (no insert because the file must exist)
+            $filedata = new \stdClass();
+            $filedata->id = $file->id;
+            $filedata->filename = $file->filename;
+            $filedata->author = $file->author;
+            $filedata->license = $file->license->shortname;
+            $success *= $DB->update_record('files', $filedata);
         }
         
         return $success;
@@ -124,9 +133,9 @@ class mbslicenseinfo {
             $file->author = $data->author[$i];
             $license = new \stdClass();
             $license->id = (empty($data->licenseid[$i])) ? null : $data->licenseid[$i];
-            $license->userid = (empty($data->userid[$i])) ? null : $data->userid[$i];
-            $license->shortname = (empty($data->shortname[$i])) ? null: $data->shortname[$i];
-            $license->fullname = (empty($data->fullname[$i])) ? null: $data->fullname[$i];
+            $license->userid = (empty($data->licenseuserid[$i])) ? null : $data->licenseuserid[$i];
+            $license->shortname = (empty($data->licenseshortname[$i])) ? null: $data->licenseshortname[$i];
+            $license->fullname = (empty($data->licensefullname[$i])) ? null: $data->licensefullname[$i];
             $license->source = (empty($data->licensesource[$i])) ? null: $data->licensesource[$i];
             $file->license = $license;
             $files[] = $file;

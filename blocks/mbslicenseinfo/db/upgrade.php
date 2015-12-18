@@ -63,5 +63,24 @@ function xmldb_block_mbslicenseinfo_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2015120400, 'mbslicenseinfo');
     }
     
+    if ($oldversion < 2015121800) {
+        
+        // Change foreign key from foreign-unique to foreign (first drop then add)
+        // Define key userid (foreign) to be dropped form block_mbslicenseinfo_ul.
+        $table = new xmldb_table('block_mbslicenseinfo_ul');
+        $key = new xmldb_key('userid', XMLDB_KEY_FOREIGN_UNIQUE, array('userid'), 'user', array('id'));
+        // Launch drop key userid.
+        $dbman->drop_key($table, $key);
+        
+        // Define key userid (foreign) to be added to block_mbslicenseinfo_ul.
+        $table = new xmldb_table('block_mbslicenseinfo_ul');
+        $key = new xmldb_key('userid', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+        // Launch add key userid.
+        $dbman->add_key($table, $key);
+
+        // Mbslicenseinfo savepoint reached.
+        upgrade_block_savepoint(true, 2015121800, 'mbslicenseinfo');
+    }
+    
     return true;
 }

@@ -39,3 +39,4 @@ $string['mbslicenseinfo:addinstance'] = 'Add a mbslicenseinfo block';
 $string['mbslicenseinfo:myaddinstance'] = 'Add a mbslicenseinfo block to my moodle';
 $string['pluginname'] = 'mebis licenseinfo';
 $string['submitbutton'] = 'Submit';
+$string['validation_error_nofullname'] = 'Every new license must at least been given a full name';

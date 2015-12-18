@@ -39,3 +39,4 @@ $string['mbslicenseinfo:addinstance'] = 'Block mebis Quellenangaben hinzufügen'
 $string['mbslicenseinfo:myaddinstance'] = 'Block mebis Quellenangaben zum Schreibtisch hinzufügen';
 $string['pluginname'] = 'mebis Quellenangaben';
 $string['submitbutton'] = 'Speichern';
+$string['validation_error_nofullname'] = 'Für jede neue Lizenz muss wenigstens ein vollständiger Name angegeben werden.';

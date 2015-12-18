@@ -499,7 +499,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * Create a table of licenses
      *
      * global $DB;
-     * @param \block_mbstpl\dataobj\license[] $licenses
+     * @param object[] $licenses
      * @param string[] $usedshortnames
      */
     public function license_table($licenses, $usedshortnames = array()) {
@@ -546,36 +546,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
 
         return html_writer::table($table);
-    }
-
-    /**
-     * Render a list of assets used by a template
-     *
-     * @param \block_mbstpl\dataobj\asset[] $assets
-     * @param \block_mbstpl\dataobj\license[] $licenses
-     */
-    public function references_block_content($assets, $licenses) {
-
-        $items = array();
-        foreach ($assets as $asset) {
-
-            // Setting 'link' for translation string.
-            $a = clone($asset);
-            $a->link = html_writer::link($asset->url, $asset->source);
-            $item = get_string('usedref', 'block_mbstpl', $a);
-
-            /* @var $license \block_mbstpl\dataobj\license */
-            $license = $licenses[$asset->license];
-            if ($license) {
-                $item .= ', ' . ($license->source
-                    ? html_writer::link($license->source, $license->fullname)
-                    : $license->fullname);
-            }
-
-            $items[] = $item;
-        }
-
-        return html_writer::alist($items, null, 'ol');
     }
 
     /**

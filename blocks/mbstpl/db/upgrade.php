@@ -239,7 +239,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
 
     if ($oldversion < 2015100700) {
 
-        $tablename = \block_mbstpl\dataobj\license::get_tablename();
+        $tablename = 'block_mbstpl_license';
 
         $table = new xmldb_table($tablename);
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
@@ -412,6 +412,21 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015121400, 'mbstpl');
     }
+    
+    if ($oldversion < 2015121800) {
+
+        // Define table block_mbstpl_clicense to be dropped.
+        $table = new xmldb_table('block_mbstpl_license');
+
+        // Conditionally launch drop table for block_mbstpl_clicense.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015121800, 'mbstpl');
+    }
+
     
     return true;
 }

@@ -21,7 +21,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015121400;
+$plugin->version   = 2015121800;
 $plugin->requires  = 2014051201;
 $plugin->component = 'block_mbstpl';
 $plugin->maturity  = MATURITY_STABLE;

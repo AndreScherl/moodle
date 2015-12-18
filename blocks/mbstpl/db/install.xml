@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mbstpl/db" VERSION="20151214" COMMENT="XMLDB file for Moodle blocks/mbstpl"
+<XMLDB PATH="blocks/mbstpl/db" VERSION="20151218" COMMENT="XMLDB file for Moodle blocks/mbstpl"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -187,18 +187,6 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="metaid" TYPE="foreign" FIELDS="metaid" REFTABLE="block_mbstpl_meta" REFFIELDS="id"/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="block_mbstpl_license" COMMENT="Template licenses">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="shortname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="fullname" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="source" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="type" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="block_mbstpl_clicense" COMMENT="Course licenses.">

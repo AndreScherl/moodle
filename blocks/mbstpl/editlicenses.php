@@ -21,7 +21,6 @@
  */
 
 use block_mbstpl as mbst;
-use block_mbstpl\dataobj\license;
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 

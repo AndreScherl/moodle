@@ -227,16 +227,16 @@ class template extends base {
     }
 
     /**
-     * @return string the fullname of the this template's licence
+     * @return string the fullname of the this template's license
      */
-    public function get_licence() {
+    public function get_license() {
         $meta = $this->get_meta();
         if (!$meta) {
             return null;
         }
 
-        $licence = license::fetch(array('shortname' => $meta->license));
-        return $licence ? $licence->fullname : null;
+        $license = \local_mbs\local\licensemanager::get_license_by_shortname($meta->license);
+        return $license ? $license->fullname : null;
     }
 
     /**

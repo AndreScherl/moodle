@@ -25,7 +25,6 @@ namespace block_mbstpl\form;
 
 use block_mbstpl\dataobj\meta;
 use block_mbstpl\dataobj\asset;
-use block_mbstpl\dataobj\license;
 use block_mbstpl\user;
 
 defined('MOODLE_INTERNAL') || die();
@@ -40,31 +39,6 @@ abstract class licenseandassetform extends \moodleform {
 
     const ASSET_SPACES = 3;
     protected $licenseindex = 4;
-
-    /**
-     * Returns the submitted license shortname. If a new license was submitted,
-     * will create a new license and return that license's shortname.
-     *
-     * @param object $data
-     * @return string
-     */
-    protected static function get_submitted_license_shortname($data, $idx) {
-
-        if ($data->asset_license[$idx] == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
-
-            $license = new license(array(
-                'shortname' => $data->newlicense_shortname[$idx],
-                'fullname' => $data->newlicense_fullname[$idx],
-                'source' => $data->newlicense_source[$idx],
-                'type' => \block_mbstpl\dataobj\license::$licensetype['usercreated']
-            ));
-            $license->insert();
-
-            return $license->shortname;
-        }
-
-        return $data->asset_license[$idx];
-    }
 
     public static function update_assets_from_submitted_data(meta $meta, $data) {
         global $CFG;
@@ -87,7 +61,8 @@ abstract class licenseandassetform extends \moodleform {
             }
             if ($hasdata) {
                 // Create new (user-) license, if necessary.
-                $submittedlicense = self::get_submitted_license_shortname($data, $idx);
+                // AS: Auskommentiert, da die Methode zurückgebaut wird.
+                $submittedlicense = '';//self::get_submitted_license_shortname($data, $idx);
 
                 $asset->url = $url;
                 $asset->license = $submittedlicense;
@@ -224,7 +199,7 @@ abstract class licenseandassetform extends \moodleform {
     }
 
     function validation($data, $files) {
-
+        
         // If a new license is being created, ensure that one doesn't exists with the same shortname.
 
         if (!empty($data['asset_license'])) {
@@ -234,12 +209,7 @@ abstract class licenseandassetform extends \moodleform {
                 if ($licenseshortname == \MoodleQuickForm_license::NEWLICENSE_PARAM) {
 
                     $shortname = $data['newlicense_shortname'][$idx];
-                    $existinglicense = license::fetch(array('shortname' => $shortname));
-
-                    if ($existinglicense) {
-                        return array("asset[$idx]" => get_string('newlicense_exists', 'local_mbs', $shortname));
-                    }
-
+                    
                     if (empty($data['newlicense_fullname'][$idx])) {
                         return array("asset[$idx]" => get_string('newlicense_fullnamerequired', 'local_mbs', $shortname));
                     }

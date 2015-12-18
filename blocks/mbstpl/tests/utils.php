@@ -23,8 +23,7 @@
 use block_mbstpl\dataobj\template,
     block_mbstpl\dataobj\coursefromtpl,
     block_mbstpl\dataobj\meta,
-    block_mbstpl\dataobj\asset,
-    block_mbstpl\dataobj\license;
+    block_mbstpl\dataobj\asset;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -86,18 +85,5 @@ class block_mbstpl_test_utils {
         $asset->insert();
 
         return $asset;
-    }
-
-    public static function create_license($shortname, $fullname = null, $source = null) {
-
-        $license = new license(array(
-            'shortname' => $shortname,
-            'fullname' => $fullname ? $fullname : 'license fullname',
-            'source' => $source ? $source : 'license source'
-        ));
-
-        $license->insert();
-
-        return $license;
     }
 }

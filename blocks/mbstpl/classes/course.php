@@ -194,23 +194,7 @@ class course {
         if ($basetemplate) {
 
             $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
-            $assets = $meta->get_assets();
-
-            if (!empty($assets)) {
-
-                global $PAGE;
-
-                $licenses = dataobj\license::fetch_all_mapped_by_shortname($assets);
-
-                $renderer = $PAGE->get_renderer('block_mbstpl');
-
-                $bc = new \block_contents(array(
-                    'data-block' => 'mbstplusedreferences', 'class' => 'block block-usedreferences'));
-                $bc->title = get_string('sourcesblock:title', 'block_mbstpl');
-                $bc->content = $renderer->references_block_content($assets, $licenses);
-
-                $PAGE->blocks->add_fake_block($bc, 'course-template');
-            }
+            // removed code of assets blocks at the bottom of course contents
         }
     }
 

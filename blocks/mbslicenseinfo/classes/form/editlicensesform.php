@@ -139,9 +139,7 @@ class editlicensesform extends \moodleform {
             foreach ($data['licenseshortname'] as $key => $shortname) {
                 
                 if ($shortname == '__createnewlicense__') {
-                    error_log('shortname: '.$shortname);
                     if(empty($data['licensefullname'][$key])) {
-                        error_log('fullname emptzy: '.empty($data['licensefullname'][$key]));
                         return array("licensefullname[$key]" => get_string('validation_error_nofullname', 'block_mbslicenseinfo'));
                     }
                 }

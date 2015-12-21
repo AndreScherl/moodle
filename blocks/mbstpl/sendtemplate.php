@@ -26,7 +26,6 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
-use block_mbstpl\dataobj\asset;
 
 $courseid = required_param('course', PARAM_INT);
 $form1data = optional_param('form1data', null, PARAM_ALPHANUM);
@@ -111,9 +110,6 @@ if ($form->is_cancelled()) {
 
     // Save the license field.
     mbst\form\sendtemplate::update_meta_license_from_submitted_data($meta, $data);
-
-    // Save the assets fields.
-    mbst\form\sendtemplate::update_assets_from_submitted_data($meta, $data);
 
     // Save the tags.
     $meta->save_tags_string($data->tags);

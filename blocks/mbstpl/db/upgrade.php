@@ -225,7 +225,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
 
     if ($oldversion < 2015100500) {
 
-        $table = new xmldb_table(\block_mbstpl\dataobj\asset::get_tablename());
+        $table = new xmldb_table('block_mbstpl_asset');
         $field = new xmldb_field('source', XMLDB_TYPE_TEXT);
 
         // Conditionally launch add field comment.
@@ -260,7 +260,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
 
     if ($oldversion < 2015100701) {
 
-        $table = new xmldb_table(\block_mbstpl\dataobj\asset::get_tablename());
+        $table = new xmldb_table('block_mbstpl_asset');
         $field = new xmldb_field('source', XMLDB_TYPE_TEXT);
 
         // Conditionally launch add field comment.
@@ -415,10 +415,10 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
     
     if ($oldversion < 2015121800) {
 
-        // Define table block_mbstpl_clicense to be dropped.
+        // Define table block_mbstpl_license to be dropped.
         $table = new xmldb_table('block_mbstpl_license');
 
-        // Conditionally launch drop table for block_mbstpl_clicense.
+        // Conditionally launch drop table for block_mbstpl_license.
         if ($dbman->table_exists($table)) {
             $dbman->drop_table($table);
         }
@@ -427,6 +427,18 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015121800, 'mbstpl');
     }
 
+    if ($oldversion < 2015122100) {
+
+        // Define table block_mbstpl_asset to be dropped.
+        $table = new xmldb_table('block_mbstpl_asset');
+        // Conditionally launch drop table for block_mbstpl_asset.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2015122100, 'mbstpl');
+    }
     
     return true;
 }

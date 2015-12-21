@@ -25,7 +25,6 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 global $PAGE, $CFG, $DB, $OUTPUT;
 
 use \block_mbstpl AS mbst;
-use block_mbstpl\dataobj\asset;
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -58,14 +57,13 @@ $creator = $DB->get_record('user', array('id' => $backup->creatorid));
 $customdata = array(
     'courseid' => $courseid,
     'questions' => $questions,
-    'creator' => $creator,
-    'assetcount' => $meta->get_asset_count()
+    'creator' => $creator
 );
 
 // Set up the form.
 $form = new mbst\form\editmeta(null, $customdata);
 
-mbst\questman\manager::populate_meta_and_assets($form, $meta);
+mbst\questman\manager::populate_meta($form, $meta);
 
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
@@ -83,9 +81,6 @@ if ($data = $form->get_data()) {
 
     // Save the license field.
     $form::update_meta_license_from_submitted_data($meta, $data);
-
-    // Save the assets fields.
-    $form::update_assets_from_submitted_data($meta, $data);
 
     // Save the tags.
     $meta->save_tags_string($data->tags);

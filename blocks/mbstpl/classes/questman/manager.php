@@ -430,7 +430,6 @@ class manager {
             'courseid' => $courseid,
             'questions' => $questions,
             'template' => $template,
-            'assetcount' => $meta->get_asset_count(),
             'course' => $course,
             'creator' => $creator
         );
@@ -439,21 +438,16 @@ class manager {
         $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
         $tform->set_data($answers);
 
-        self::populate_meta_and_assets($tform, $meta, false);
+        self::populate_meta($tform, $meta, false);
 
         return $tform;
     }
 
-    public static function populate_meta_and_assets(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
+    public static function populate_meta(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
 
         $setdata = (object)array(
-            'asset_id' => array(),
-            'asset_url' => array(),
-            'asset_license' => array(),
-            'asset_owner' => array(),
-            'asset_source' => array(),
             'license' => $meta->license,
-            'tags' => $meta->get_tags_string(),
+            'tags' => $meta->get_tags_string()
         );
 
         if ($setanswers) {
@@ -465,18 +459,5 @@ class manager {
                 $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
             }
         }
-
-        // Load the assets fields.
-        $i = 0;
-        foreach ($meta->get_assets() as $asset) {
-            
-            $setdata->asset_id[$i] = $asset->id;
-            $setdata->asset_url[$i] = $asset->url;
-            $setdata->asset_license[$i] = $asset->license;
-            $setdata->asset_owner[$i] = $asset->owner;
-            $setdata->asset_source[$i] = $asset->source;
-            $i++;
-        }
-        $form->set_data($setdata);
     }
 }

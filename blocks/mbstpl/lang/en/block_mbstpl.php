@@ -26,12 +26,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['addassets'] = 'Add {no} more asset spaces';
 $string['addfrombank'] = 'Add a question from the question bank';
 $string['addqtodraft'] = 'Use question';
 $string['addquestion'] = 'Add a new question';
 $string['archive'] = 'Archive';
-$string['assets'] = '3rd-party asset used';
 $string['assigned'] = 'Assigned';
 $string['assigneddate'] = 'Assigned date';
 $string['assignee'] = 'Assignee';
@@ -224,7 +222,6 @@ $string['noactiontpls_body'] = 'The following template(s) have been found where 
 $string['noactiontpls_subj'] = 'Untouched templates';
 $string['noresults'] = 'No results found.';
 $string['nountouchedtemplates'] = 'No templates untouched during the set period.';
-$string['owner'] = 'Name of owner';
 $string['pluginname'] = 'Course templating';
 $string['pluginnamecategory'] = 'Course templating (more)';
 $string['qformactivate'] = 'Activate this draft';
@@ -258,8 +255,6 @@ $string['sentforreview'] = 'This course has been sent for review. You should sho
 $string['searchresult'] = 'Search Result';
 $string['startsreportsent'] = 'Statistics report sent successfully.';
 $string['statsreporttooearly'] = 'Too early for the next statistics report. Scheduled for {$a}.';
-$string['source'] = 'Name of Primary Source';
-$string['sourcesblock:title'] = 'Used References';
 $string['statusarchived'] = 'Archived';
 $string['statuscreated'] = 'Created';
 $string['statuspublished'] = 'Published';
@@ -279,9 +274,7 @@ $string['tplremindafter_desc'] = 'Anyone with the system context capability of c
 $string['tplremindersent'] = 'Template reminders sent.';
 $string['updated'] = 'Updated';
 $string['uploadfile'] = 'Upload file';
-$string['url'] = 'Site URL';
 $string['useq'] = 'Use question';
-$string['usedref'] = '{$a->link} by {$a->owner}';
 $string['viewfeedback'] = 'View feedback for this revision';
 $string['withanon'] = 'With anonymised user data';
 $string['withoutanon'] = 'Without user data';

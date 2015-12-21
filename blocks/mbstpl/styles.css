@@ -208,11 +208,6 @@ div[role="main"] .block-usedreferences ol {
     padding-left: 26px;
 }
 
-.mbstpl-asset-license {
-    margin: 9px auto;
-    display: inline-block;
-}
-
 .mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
 .mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
 .mbstrevhist-item {

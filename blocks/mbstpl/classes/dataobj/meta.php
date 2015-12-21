@@ -57,8 +57,6 @@ class meta extends base {
 
     /** @var tag[] $tags */
     protected $tags = null;
-    /** @var asset[] $assets */
-    protected $assets = null;
 
     /**
      * Set the table name here.
@@ -73,7 +71,7 @@ class meta extends base {
      * @return array
      */
     public static function get_dependants() {
-        return array('answer' => 'metaid', 'tag' => 'metaid', 'asset' => 'metaid');
+        return array('answer' => 'metaid', 'tag' => 'metaid');
     }
 
 
@@ -92,7 +90,7 @@ class meta extends base {
     }
 
     /**
-     * Copy data (including tags, assets, etc) from the given meta data into this one.
+     * Copy data (including tags etc) from the given meta data into this one.
      * Note: changes will be saved immediately (no need to call 'update').
      * Note: this will not delete existing tags, etc. on this meta, only add new ones.
      *
@@ -109,15 +107,6 @@ class meta extends base {
         }
         // Copy the license.
         $this->license = $from->license;
-        // Copy the assets.
-        $assets = asset::fetch_all(array('metaid' => $from->id));
-        foreach ($assets as $asset) {
-            $copied = clone($asset);
-            $copied->id = null;
-            $copied->metaid = $this->id;
-            $copied->insert();
-        }
-        $this->assets = null;
         // Copy the tags.
         $tags = tag::fetch_all(array('metaid' => $from->id));
         foreach ($tags as $tag) {
@@ -174,24 +163,5 @@ class meta extends base {
             $tag->insert();
             $this->tags[] = $tag;
         }
-    }
-
-    /**
-     * Get a list of assets objects associated with this meta data.
-     * @retrun asset[]
-     */
-    public function get_assets() {
-        if ($this->assets === null) {
-            $this->assets = asset::fetch_all(array('metaid' => $this->id));
-        }
-        return $this->assets;
-    }
-
-    /**
-     * Get the number of asset objects associated with this meta data.
-     * @return number
-     */
-    public function get_asset_count() {
-        return count($this->get_assets());
     }
 }

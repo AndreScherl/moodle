@@ -69,7 +69,7 @@ $customdata = array(
 
 $licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(
     'creator' => $creator,
-    'license' => $template->get_license()
+    'licence' => $template->get_license()
 ));
 $form = new mbst\form\dupcrs(null, $customdata);
 $form->set_data(array('licence' => $licence));

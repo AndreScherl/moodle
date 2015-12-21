@@ -366,7 +366,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             }
         }
         //Counted rating
-        if (!empty($quantity = \block_mbstpl\rating::get_ratingquantity($template))) {
+        $quantity = \block_mbstpl\rating::get_ratingquantity($template);
+        if (!empty($quantity)) {
             if ($label) {
                 if ($quantity > 1) {
                     $inner .= html_writer::div('('.$quantity.') Bewertungen', 'quantity');

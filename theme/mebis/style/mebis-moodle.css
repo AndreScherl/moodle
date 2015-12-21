@@ -15930,6 +15930,12 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-feedbackdetail .statusbox.statusarchived {
   background-color: #e6e6e6;
 }
+#page-blocks-mbstpl-viewfeedback .mbstrevhist ul,
+#page-blocks-mbstpl-assign .mbstrevhist ul,
+#page-blocks-mbstpl-viewhistory .mbstrevhist ul,
+#page-blocks-mbstpl-feedbackdetail .mbstrevhist ul {
+  padding-left: 30px;
+}
 
 #page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
 #page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,

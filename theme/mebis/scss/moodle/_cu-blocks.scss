@@ -383,6 +383,13 @@ aside.row {
     }
 }
 
+#page-blocks-mbstpl-sendtemplate {
+    .path-backup img {
+        height: 24px;
+        width: 24px;
+    }
+}
+
 //view feedback page of block mbstpl
 #page-blocks-mbstpl-viewfeedback,
 #page-blocks-mbstpl-assign,
@@ -440,7 +447,7 @@ aside.row {
         span {
             display: inline-block;
             padding-right: 8px;
-            
+
             input {
                 margin-right: 4px;
             }

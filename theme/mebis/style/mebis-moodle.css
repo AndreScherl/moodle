@@ -15893,6 +15893,11 @@ aside.row .block-region .block {
   list-style: none;
 }
 
+#page-blocks-mbstpl-sendtemplate .path-backup img {
+  height: 24px;
+  width: 24px;
+}
+
 #page-blocks-mbstpl-viewfeedback .statusbox,
 #page-blocks-mbstpl-assign .statusbox,
 #page-blocks-mbstpl-viewhistory .statusbox,

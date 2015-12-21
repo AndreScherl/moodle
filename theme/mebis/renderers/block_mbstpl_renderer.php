@@ -90,7 +90,8 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
                     $html .= html_writer::tag('span', $course->fullname, array('class' => 'coursename internal'));
                     $html .= html_writer::tag('p', $course->authorname, array('class' => 'coursetype'));
                     if (!is_null($course->rating)) {
-                        $html .= parent::rating($course->rating, false);
+                        $template = \block_mbstpl\dataobj\template::get_from_course($course->id);
+                        $html .= parent::rating($template, false);
                     } 
                 $html .= html_writer::end_tag('a');
                 //complaining

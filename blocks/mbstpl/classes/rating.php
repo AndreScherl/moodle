@@ -40,4 +40,11 @@ class rating {
         $template->rating = $average;
         $template->update_notouch();
     }
+    
+    public static function get_ratingquantity($template) {
+        global $DB;
+
+        return $DB->get_field_sql("SELECT COUNT(userid) FROM {block_mbstpl_starrating} WHERE templateid = ?",
+            array($template->id));
+    }    
 }

@@ -78,7 +78,7 @@ class editmeta extends licenseandassetform {
         if (!empty($cdata['withrating']) && !empty($template->rating)) {
             global $PAGE;
             $renderer = $PAGE->get_renderer('block_mbstpl');
-            $ratingelement = $form->addElement('static', 'rating', get_string('ratingavg', 'block_mbstpl'), $renderer->rating($template->rating, false));
+            $ratingelement = $form->addElement('static', 'rating', get_string('ratingavg', 'block_mbstpl'), $renderer->rating($template, true));
             $ratingelement->_type = 'html';
         }
 

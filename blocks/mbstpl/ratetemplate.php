@@ -71,7 +71,7 @@ if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($starrating->fetched) {
     $form->set_data(array(
-        'block_mbstpl_rating' => $starrating->rating,
+        'block_mbstpl_rating' => $starrating->rating
     ));
 }
 

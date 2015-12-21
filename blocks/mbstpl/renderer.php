@@ -341,7 +341,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $listitem .= html_writer::div($course->catname, 'crsdetails');
                 $listitem .= html_writer::div(get_string('author', 'block_mbstpl').': ' .$course->authorname, 'crsauthor');
                 if (!is_null($course->rating)) {
-                    $listitem .= $this->rating($course->rating, false);
+                    $template = mbst\dataobj\template::get_from_course($course->id);
+                    $listitem .= $this->rating($template, false);
                 }
                 $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
             }
@@ -351,10 +352,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $searchlisting;
     }
     
-    public function rating($avg, $label = true) {
-        $roundavg = round($avg * 2);
+    public function rating($template, $label = true) {        
+        $roundavg = round($template->rating * 2);
+        //Stars
         $inner = '';
-
         for ($i = 1; $i <= 5; $i++) {
             if ($roundavg >= $i * 2) {
                 $inner .= html_writer::div('', 'star fullstar');
@@ -364,12 +365,20 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $inner .= html_writer::div('', 'star emptystar');
             }
         }
-        $output = '';
-        if ($label) {
-            $output .= html_writer::div(get_string('ratingavg', 'block_mbstpl'));
+        //Counted rating
+        if (!empty($quantity = \block_mbstpl\rating::get_ratingquantity($template))) {
+            if ($label) {
+                if ($quantity > 1) {
+                    $inner .= html_writer::div('('.$quantity.') Bewertungen', 'quantity');
+                } else {
+                    $inner .= html_writer::div('('.$quantity.') Bewertung', 'quantity');
+                }
+            } else {
+                $inner .= html_writer::div('('.$quantity.')', 'quantity coursetype');
+            }
         }
-
-        $output .= html_writer::div($inner, 'templaterating');
+        
+        $output = html_writer::div($inner, 'templaterating');
         return $output;
     }
 

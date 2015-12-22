@@ -362,14 +362,6 @@ class theme_mebis_header_renderer extends renderer_base {
             $button .= html_writer::tag('div', $loggedinas, array('class' => 'loggedinas'));
         }
 
-        if ($this->page->blocks->region_has_content('course-template', $OUTPUT)) {
-            if (!empty($button)){
-                $button .= '<span class="space">|</span>';
-            }
-            $usedreferences = html_writer::link('#mbs-course-templates', get_string('nav-used-references', 'theme_mebis'));
-            $button .= html_writer::tag('div', $usedreferences, array('class' => 'loggedinas'));
-        }
-
         return $button;
     }
 

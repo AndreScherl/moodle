@@ -61,12 +61,6 @@ function local_mbs_extends_navigation(global_navigation $navigation) {
             $node->add_node($newchildren);
         }
     }
-
-    // Extend for block_mbstpl.
-    $context = local_mbs_get_block_mbstpl_context($PAGE->context);
-    if ($context) {
-        block_mbstpl\course::add_template_blocks($context);
-    }
 }
 
 function local_mbs_get_block_mbstpl_context($context) {

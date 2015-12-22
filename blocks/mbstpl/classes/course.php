@@ -35,8 +35,6 @@ class course {
     const TPLPREFIX = 'Musterkurs';
     const BACKUP_LOCALPATH = 'mbstpl';
 
-    private static $skiptemplateblockson = ['/enrol/index.php'];
-
     /**
      * Extends the navigation, depending on capability.
      * @param \navigation_node $coursenode
@@ -166,36 +164,6 @@ class course {
     public static function remove_course_license($shortname) {
         global $DB;
         return $DB->delete_records('block_mbstpl_clicense', array('shortname' => $shortname));
-    }
-
-    /**
-     * Used to add blocks to the template-course region
-     *
-     * @param \context_course $context
-     */
-    public static function add_template_blocks(\context_course $context) {
-        global $PAGE;
-        
-        $pagelayout = $PAGE->pagelayout;
-        $pagetype = $PAGE->pagetype;
-        if ($pagelayout != 'course' || $pagetype == 'enrol-index') {
-            return;
-        }
-
-        global $PAGE;
-        if (in_array($PAGE->url->get_path(), self::$skiptemplateblockson)) {
-            return;
-        }
-
-        $courseid = $context->instanceid;
-
-        $basetemplate = dataobj\template::get_from_course($courseid);
-
-        if ($basetemplate) {
-
-            $meta = dataobj\meta::fetch(array('templateid' => $basetemplate->id));
-            // removed code of assets blocks at the bottom of course contents
-        }
     }
 
     /**

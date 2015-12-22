@@ -41,7 +41,7 @@ class adhoc_deploy_primary extends \core\task\adhoc_task {
         try {
             backup::backup_primary($backup);
             $this->courseid = backup::restore_primary($backup);
-            \block_mbstpl\notifications::email_deployed($backup, $this->courseid);
+            \block_mbstpl\notifications::email_deployed($backup, $this->courseid);         
         } catch (\moodle_exception $e) {
             \block_mbstpl\notifications::notify_error('errordeploying', $e);
             if ($rethrowexception) {

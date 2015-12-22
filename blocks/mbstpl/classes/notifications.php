@@ -307,7 +307,8 @@ class notifications {
      * Get all managers (ie. Master Reviewers)
      */
     private static function get_managers() {
-        return get_users_by_capability(\context_system::instance(), 'block/mbstpl:coursetemplatemanager');
+        $catid = get_config('block_mbstpl', 'deploycat');
+        return get_users_by_capability(\context_coursecat::instance($catid), 'block/mbstpl:coursetemplatemanager');
     }
 
     private static function send_message($messagetype, $touser, $subject, $body, $attachment = null) {

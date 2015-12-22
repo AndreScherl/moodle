@@ -14,12 +14,14 @@
     border-style: solid;
     padding: 3px;
 }
-.statusbox.statuscreated       {background-color: #dad3eb}
-.statusbox.statusunderreview   {background-color: #c9e2be}
+.statusbox.statusassignedreviewer {background-color: #dad3eb}
+.statusbox.statuscreated {background-color: #dad3eb}
+.statusbox.statusunderreview {background-color: #c9e2be}
 .statusbox.statusunderrevision {background-color: #f3c89c}
-.statusbox.statuspublished     {background-color: #e5afff}
-.statusbox.statusarchived      {background-color: #cccccc}
+.statusbox.statuspublished {background-color: #e5afff}
+.statusbox.statusarchived {background-color: #cccccc}
 
+.statuslink.statusassignedreviewer {background-color: #dad3eb}
 .statuslink.statuscreated {background-color: #dad3eb}
 .statuslink.statusunderreview {background-color: #c9e2be}
 .statuslink.statusunderrevision {background-color: #f3c89c}
@@ -130,7 +132,7 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 }
 
 .mbstpl-search-form #fitem_id_keyword {
-	display: block;
+    display: block;
 }
 
 .mbstpl-search-form #fitem_id_keyword input {
@@ -138,19 +140,19 @@ table.mytemplates td.lastcol {width: 8%; text-align: center;}
 }
 
 .mbstpl-suggestion {
-	position: absolute;
-	min-height: 30px;
-	cursor: pointer;
-	padding: 6px 12px;
-	font-size: 18px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 0px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    position: absolute;
+    min-height: 30px;
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .templaterating .star {

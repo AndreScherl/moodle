@@ -223,7 +223,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
         foreach ($revhists as $hist) {
             $assignedname = $hist->firstname.' '.$hist->lastname;
-            $assignedname = html_writer::tag('strong', $assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
+            $assignedname = html_writer::tag('strong', get_string('to', 'block_mbstpl').' '.$assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
             $assigneddate = userdate($hist->timecreated);
 
             $item = html_writer::div("$assignedname, $assigneddate", 'mbstrevhist-name');

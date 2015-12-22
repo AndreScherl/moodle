@@ -42,6 +42,7 @@ class template extends base {
     const STATUS_UNDER_REVISION = 2;
     const STATUS_PUBLISHED = 3;
     const STATUS_ARCHIVED = 4;
+    const STATUS_ASSIGNED_REVIEWER = 5;
 
     const FILEAREA = 'template';
 
@@ -184,7 +185,7 @@ class template extends base {
      */
     private function add_to_revhist() {
         $assignedid = 0;
-        if ($this->status == self::STATUS_UNDER_REVIEW) {
+        if ($this->status == self::STATUS_UNDER_REVIEW || $this->status == self::STATUS_ASSIGNED_REVIEWER) {
             $assignedid = $this->reviewerid;
         } else if ($this->status == self::STATUS_CREATED || $this->status == self::STATUS_UNDER_REVISION) {
             $assignedid = $this->authorid;

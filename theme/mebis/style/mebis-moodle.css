@@ -15905,6 +15905,12 @@ aside.row .block-region .block {
   color: #fff;
   border: none;
 }
+#page-blocks-mbstpl-viewfeedback .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-assign .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-viewhistory .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusassignedreviewer {
+  background-color: #00c5fa;
+}
 #page-blocks-mbstpl-viewfeedback .statusbox.statuscreated,
 #page-blocks-mbstpl-assign .statusbox.statuscreated,
 #page-blocks-mbstpl-viewhistory .statusbox.statuscreated,
@@ -15965,12 +15971,14 @@ aside.row .block-region .block {
 }
 
 #page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span,
-#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span {
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span,
+#page-blocks-mbstpl-dupcrs .mform.frozen fieldset .felement.fstatic span {
   display: inline-block;
   padding-right: 8px;
 }
 #page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span input,
-#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span input {
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span input,
+#page-blocks-mbstpl-dupcrs .mform.frozen fieldset .felement.fstatic span input {
   margin-right: 4px;
 }
 

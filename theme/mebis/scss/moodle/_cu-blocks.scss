@@ -396,6 +396,7 @@ aside.row {
 #page-blocks-mbstpl-viewhistory,
 #page-blocks-mbstpl-feedbackdetail {
     .statusbox {
+        &.statusassignedreviewer {background-color: $brand-primary-light}
         &.statuscreated {background-color: $brand-primary-light}
         &.statusunderreview {background-color: $brand-primary}
         &.statusunderrevision {background-color: $brand-secondary}
@@ -441,7 +442,8 @@ aside.row {
     }
 }
 #page-blocks-mbstpl-ratetemplate,
-#page-blocks-mbstpl-abouttemplate {
+#page-blocks-mbstpl-abouttemplate, 
+#page-blocks-mbstpl-dupcrs {
     .mform.frozen fieldset .felement.fstatic {
 
         span {

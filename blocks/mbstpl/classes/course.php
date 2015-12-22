@@ -177,6 +177,7 @@ class course {
             dataobj\template::STATUS_UNDER_REVISION => 'statusunderrevision',
             dataobj\template::STATUS_PUBLISHED => 'statuspublished',
             dataobj\template::STATUS_ARCHIVED => 'statusarchived',
+            dataobj\template::STATUS_ASSIGNED_REVIEWER => 'statusassignedreviewer'
         );
         return $statuses[$status];
     }
@@ -292,7 +293,7 @@ class course {
             }
             $userid = $template->reviewerid;
         }
-        $template->status = dataobj\template::STATUS_UNDER_REVIEW;
+        $template->status = dataobj\template::STATUS_ASSIGNED_REVIEWER;
 
         if ($feedback !== null) {
             // Save the feedback as well.

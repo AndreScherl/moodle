@@ -82,5 +82,18 @@ function xmldb_block_mbslicenseinfo_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2015121800, 'mbslicenseinfo');
     }
     
+     if ($oldversion < 2015122300) {
+
+        // Changing type of field source on table block_mbslicenseinfo_fmeta to text.
+        $table = new xmldb_table('block_mbslicenseinfo_fmeta');
+        $field = new xmldb_field('source', XMLDB_TYPE_TEXT, null, null, null, null, null, 'title');
+
+        // Launch change of type for field source.
+        $dbman->change_field_type($table, $field);
+
+        // Mbslicenseinfo savepoint reached.
+        upgrade_block_savepoint(true, 2015122300, 'mbslicenseinfo');
+    }
+    
     return true;
 }

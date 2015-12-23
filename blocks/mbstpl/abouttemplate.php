@@ -53,7 +53,6 @@ $pagetitle = get_string('mbstpl:abouttemplate', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
 
 $tform = mbst\questman\manager::build_form($template, $course, array(
-    'justtags' => true,
     'withrating' => true,
     'freeze' => true
 ));

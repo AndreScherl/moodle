@@ -292,7 +292,7 @@ class manager {
      */
     public static function map_answers_to_fieldname($questions, $metaid) {
         global $DB;
-
+        
         $qids = array();
         $answers = array();
         foreach ($questions as $question) {
@@ -421,7 +421,7 @@ class manager {
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';
-        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
+        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);        
         $creator = $DB->get_record('user', array('id' => $backup->creatorid));
         foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
@@ -459,5 +459,7 @@ class manager {
                 $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
             }
         }
+        
+        $form->set_data($setdata);
     }
 }

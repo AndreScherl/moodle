@@ -53,7 +53,7 @@ abstract class licenseandassetform extends \moodleform {
     }
 
     public function set_data($default_values) {
-        global $PAGE;
+        global $PAGE;        
         parent::set_data($default_values);
 
         $args = array();

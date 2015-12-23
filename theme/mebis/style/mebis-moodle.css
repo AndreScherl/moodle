@@ -15897,6 +15897,15 @@ aside.row .block-region .block {
   height: 24px;
   width: 24px;
 }
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .fitem .felement {
+  margin-left: inherit;
+}
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .grouped_settings .include_setting {
+  padding-bottom: 20px;
+}
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .fitem_actionbuttons {
+  margin: 0;
+}
 
 #page-blocks-mbstpl-viewfeedback .statusbox,
 #page-blocks-mbstpl-assign .statusbox,

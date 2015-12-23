@@ -384,9 +384,24 @@ aside.row {
 }
 
 #page-blocks-mbstpl-sendtemplate {
-    .path-backup img {
-        height: 24px;
-        width: 24px;
+    .path-backup{ 
+        img {
+            height: 24px;
+            width: 24px;
+        }
+
+        .mform {
+            .fitem .felement {
+                margin-left: inherit;
+            }
+            .grouped_settings .include_setting {
+                padding-bottom: 20px;
+            }
+            .fitem_actionbuttons {
+                margin: 0;
+            }
+        }
+
     }
 }
 

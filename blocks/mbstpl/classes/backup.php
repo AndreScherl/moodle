@@ -665,8 +665,9 @@ class backup {
         $bm->add_region($region);
         $bm->add_block('html', $region, 0, false, 'course-view-*');
 
+        $blocktitle = get_string('newblocktitle', 'block_mbstpl');
         $blockconfig = array(
-            'title' => get_string('newblocktitle', 'block_mbstpl'),
+            'title' => $blocktitle,
             'text' => array(
                 'text' => $coursefromtpl->licence,
                 'format' => FORMAT_PLAIN,
@@ -674,10 +675,15 @@ class backup {
             )
         );
 
-        $blockrecord = $DB->get_record('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
-        $block = block_instance('html', $blockrecord, $page);
-        $block->instance_config_save((object) $blockconfig);
-
+        $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
+        foreach ($blockrecords as $blockrecord) {
+            $blockcontent = unserialize(base64_decode($blockrecord->configdata));
+            if (!is_object($blockcontent) || empty($blockcontent->title) || $blockcontent->title != $blocktitle) {
+                continue; // There might be other HTML blocks on the course, don't rewrite them.
+            }
+            $block = block_instance('html', $blockrecord, $page);
+            $block->instance_config_save((object)$blockconfig);
+        }
     }
 
     /**

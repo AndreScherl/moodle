@@ -288,8 +288,9 @@ class manager {
      * For questions with 'fieldname' value, get a list of answers to load in the form.
      * @param $questions
      * @param int $metaid
+     * @param  bool $isfrozen
      */
-    public static function map_answers_to_fieldname($questions, $metaid) {
+    public static function map_answers_to_fieldname($questions, $metaid, $isfrozen = false) {
         global $DB;
 
         $qids = array();
@@ -312,7 +313,7 @@ class manager {
             }
             $question = $questions[$qid];
             $typeclass = qtype_base::qtype_factory($question->datatype);
-            $answers[$question->fieldname] = $typeclass::process_answer($prec);
+            $answers[$question->fieldname] = $typeclass::process_answer($prec, $isfrozen);
         }
         return $answers;
     }
@@ -435,7 +436,7 @@ class manager {
         );
 
         $tform = new mbst\form\editmeta(null, $customdata);
-        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id, !empty($customdata['freeze']));
         $tform->set_data($answers);
 
         self::populate_meta_and_assets($tform, $meta, false);

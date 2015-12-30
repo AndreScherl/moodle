@@ -213,7 +213,7 @@ abstract class licenseandassetform extends \moodleform {
         foreach ($this->_customdata['questions'] as $question) {
             if ($question->datatype == 'checklist') {
                 $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($this->_form, $question);
+                $typeclass::add_template_element($this->_form, $question, false);
             }
         }
     }

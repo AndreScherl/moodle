@@ -36,8 +36,9 @@ class qtype_textarea extends qtype_base {
         return array('defaultdata');
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
-        $form->addElement('editor', $question->fieldname, format_string($question->title));
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
+        $eltype = $isfrozen ? 'textarea' : 'editor'; // Editor field doesn't behave nicely when frozen, so use textarea instead
+        $form->addElement($eltype, $question->fieldname, format_string($question->title));
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 
@@ -51,7 +52,10 @@ class qtype_textarea extends qtype_base {
         return parent::save_answer($metaid, $questionid, $answer['text'], $comment, $answer['format']);
     }
 
-    public static function process_answer($answer) {
+    public static function process_answer($answer, $isfrozen = false) {
+        if ($isfrozen) {
+            return format_text($answer->data, $answer->dataformat);
+        }
         return array('text' => $answer->data, 'format' => $answer->dataformat);
     }
 

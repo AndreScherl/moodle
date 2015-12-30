@@ -51,7 +51,7 @@ class sendtemplate extends licenseandassetform {
         foreach ($questions as $question) {
             if ($question->datatype != 'checklist') {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question);
+                $typeclass::add_template_element($form, $question, false);
             }
         }
 

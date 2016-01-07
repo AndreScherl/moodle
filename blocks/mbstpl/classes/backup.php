@@ -612,7 +612,7 @@ class backup {
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
-                'visible' => 0,
+                'visible' => 1,
             );
             $course = create_course($cdata);
             $restoretype = \backup::TARGET_NEW_COURSE;

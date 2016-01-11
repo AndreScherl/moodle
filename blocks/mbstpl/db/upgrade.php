@@ -440,5 +440,17 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015122100, 'mbstpl');
     }
     
+    if ($oldversion < 2016011100) {
+
+        $table = new xmldb_table('block_mbstpl_question');
+        // Conditionally install meta data questions
+        if ($dbman->table_exists($table)) {
+            \block_mbstpl\questman\manager::install_questions();
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016011100, 'mbstpl');
+    }
+    
     return true;
 }

@@ -462,4 +462,183 @@ class manager {
         
         $form->set_data($setdata);
     }
+    
+    /**
+     * Install mebis build-in meta questions
+     */
+    public static function install_questions() {
+        $question = new \stdClass();
+        
+        $question->datatype = 'checkboxgroup';
+        $question->name = 'Jahrgangsstufe';
+        $question->title = 'Jahrgangsstufe';        
+        $question->defaultdata = '';
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = '1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        12
+        13';
+        $question->param2 = NULL;
+        $question->help = '<p>Mehrfachauswahl möglich</p>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkboxgroup';
+        $question->name = 'Schulart';
+        $question->title = 'Schulart';        
+        $question->defaultdata = '';
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Grundschule
+        Mittelschule
+        Realschule
+        Wirtschaftsschule
+        Gymnasium
+        Förderschule
+        Berufsschule
+        Fachoberschule
+        Berufsoberschule
+        Fachschule
+        Fachakademie';
+        $question->param2 = NULL;
+        $question->help = '<p>Mehrfachauswahl möglich</p>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkboxgroup';
+        $question->name = 'Computereinsatz';
+        $question->title = 'Computereinsatz';        
+        $question->defaultdata = '';
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'zu Hause
+        im Unterricht';
+        $question->param2 = NULL;
+        $question->help = '<p>Mehrfachauswahl möglich</p>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'Fremdmaterial';
+        $question->title = 'Fremdmaterial';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Sofern Fremdmaterial verwendet wurde, ist das Urheberrecht beachtet.';
+        $question->param2 = NULL;
+        $question->help = '<ul><li>Fremdmaterialien sind z. B. Texte, Bilder, Fotos, Audio-/Videodateien; die nicht ausschließlich von Ihnen selbst erstellt wurden.</li>'
+                . '<li>Als Fremdmaterialien werden vornehmlich freie Werke verwendet (z. B. Creative Commons (CC) oder gemeinfreie Inhalte).</li>'
+                . '<li>Für jedes Fremdmaterial ist die entsprechende Herkunft angegeben und das Verwendungsrecht geklärt, d. h. Name des <u>Urhebers</u>, <u>Direktlink</u> zum originalen Fremdmaterial, <u>Titel</u> des Werkes bzw. Dateiname, Art der <u>Lizenz</u><br> (z. B. <a href="https://de.wikipedia.org/wiki/Reichstagsgeb%C3%A4ude#/media/File:Reichstag_building_Berlin_view_from_west_before_sunset.jpg">Das Reichstagsgebäude</a> von Jürgen Matern, <a href="https://creativecommons.org/licenses/by-sa/3.0/de/">CC BY-SA 3.0 DE</a>).</li>'
+                . '<li>Alle angegebenen CC-Lizenzen beinhalten einen Link zur Lizenz, z. B. <a href="https://creativecommons.org/licenses/by/3.0/de/">CC BY 3.0 DE</a>.</li>'
+                . '<li>Für Fremdmaterialien, die nicht unter einer freien Lizenz stehen, aber mit freundlicher Genehmigung des Urhebers verwendet werden dürfen, wurde eine Weiterverbreitungserlaubnis eingeholt und archiviert (z. B. © Cornelsen Verlag. Mit freundlicher Genehmigung zur Weiterverbreitung.).</li>'
+                . '</ul>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'Fremdmaterial bearbeitet';
+        $question->title = 'Fremdmaterial bearbeitet';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Sofern Fremdmaterialien zulässigerweise verändert wurden, ist kenntlich gemacht, worin die Bearbeitung besteht, jeweils gefolgt von der jeweiligen (CC-)Kennzeichnung.';
+        $question->param2 = NULL;
+        $question->help = '<ul><li>z. B. Übersetzung des Werks … aus dem Englischen, Ausschnitt des Bildes …, Textüberarbeitung</li></ul>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'Eigenmaterial';
+        $question->title = 'Eigenmaterial';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Sofern Eigenmaterial verwendet wurde, ist dieses kenntlich gemacht. Bei selbst erstellten Texten und Arbeitsaufträgen ist dies nicht erforderlich.';
+        $question->param2 = NULL;
+        $question->help = '<ul><li>Selbsterzeugte Bilder, Videos, Audios u. ä. sind mit Quellenangaben versehen.</li>'
+                . '<li>Texte, Aufgabenstellungen u. ä. sind, soweit nicht anders angegeben, Eigenmaterialien und müssen nicht explizit mit dem eigenen Namen versehen werden.</li>'
+                . '</ul>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'Stimmaufnahmen und Bildnisse';
+        $question->title = 'Stimmaufnahmen und Bildnisse';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Sofern Stimmaufnahmen und Bildnisse im Sinne des § 22 KunstUrhG verwendet werden, wurden schriftliche Einverständniserklärungen eingeholt und archiviert.';
+        $question->param2 = NULL;
+        $question->help = NULL;
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'personenbezogene oder -beziehbare Daten';
+        $question->title = 'personenbezogene oder -beziehbare Daten';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
+        $question->param2 = NULL;
+        $question->help = '<ul><li>Profilnamen werden automatisch anonymisiert, z. B. Autor eines Forenbeitrags.</li>'
+                . '<li>Namensnennungen in Texteingaben müssen selbstständig editiert werden, z. B. „Eva hat ein tolles Referat gehalten.“ -> „SchülerX hat ein tolles Referat gehalten.“</li>'
+                . '</ul>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'checkbox';
+        $question->name = 'Nutzungsbedingungen';
+        $question->title = 'Nutzungsbedingungen';        
+        $question->defaultdata = 0;
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
+        $question->param2 = NULL;
+        $question->help = '<p>Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungen/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.</p>';
+        $question->required = 1;        
+        $question->inuse = 0;        
+        self::add($question);
+        
+        $question->datatype = 'textarea';
+        $question->name = 'Kursbeschreibung';
+        $question->title = 'Kursbeschreibung';        
+        $question->defaultdata = '';
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = 30;
+        $question->param2 = 2048;
+        $question->help = NULL;
+        $question->required = 0;        
+        $question->inuse = 0;        
+        self::add($question);
+    }
+    
+    /**
+     * Adding a new question to table block_mbstpl_question
+     * @param object $question {
+     *            datatype => string the datatype of question, see function allowed_datatypes() [required]
+     *            name  => string the fullname of the question [required]
+     *            title => string the title of the question[required]
+     *            defaultdata => string
+     *            defaultdataformat => int default: 0 -> FORMAT_MOODLE [required]
+     *            param1 => string
+     *            param2 => string
+     *            help => string text for a help button
+     *            required => int is it required? [required]
+     *            inuse => int is it used? [required]
+     * }
+     */
+    public static function add($question) {
+        global $DB;      
+        return $DB->insert_record('block_mbstpl_question', $question);        
+    }
 }

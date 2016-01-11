@@ -40,6 +40,12 @@ function xmldb_local_mbs_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015120907, 'local', 'mbs');
     }
     
+    if ($oldversion < 2016011100) {        
+        \local_mbs\local\licensemanager::install_licenses();
+        
+        upgrade_plugin_savepoint(true, 2016011100, 'local', 'mbs');
+    }
+    
     return true;
 }
 

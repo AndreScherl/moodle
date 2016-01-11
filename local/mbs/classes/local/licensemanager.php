@@ -335,6 +335,54 @@ class licensemanager {
         $active_licenses[] = $license->shortname;
         self::add($license);
         
+        $license->shortname = 'cc2';
+        $license->fullname = 'CC BY 2.0';
+        $license->source = 'https://creativecommons.org/licenses/by/2.0/de/';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nd2';
+        $license->fullname = 'CC BY-ND 2.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nd/2.0/de';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc-nd2';
+        $license->fullname = 'CC BY-NC-ND 2.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc-nd/2.0/de';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc2';
+        $license->fullname = 'CC BY-NC 2.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc/2.0/de';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc-sa2';
+        $license->fullname = 'CC BY-NC-SA 2.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc-sa/2.0/de';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-sa2';
+        $license->fullname = 'CC-BY SA 2.0';
+        $license->source = 'http://creativecommons.org/licenses/by-sa/2.0/de';
+        $license->enabled = 1;
+        $license->version = '2016011100';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+        
         $license->shortname = 'lal';
         $license->fullname = 'Licence Art Libre';
         $license->source = 'http://artlibre.org/licence/lal/de/';

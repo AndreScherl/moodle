@@ -1,0 +1,9 @@
+{
+    "moodle-block_mbsnews-editnewsform": {
+        "requires": [
+            "base",
+            "node",
+            "io-base"
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+.flookupset ul {
+    margin-bottom:0;
+}
+
+.flookupset-delete {
+    cursor : pointer;
+}

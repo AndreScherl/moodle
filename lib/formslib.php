@@ -2155,14 +2155,15 @@ function qf_errorHandler(element, _qfMsg) {
       element.parentNode.insertBefore(errorSpan, element.parentNode.firstChild);
       document.getElementById(errorSpan.id).setAttribute(\'TabIndex\', \'0\');
       
-        //fhüb: core-hack: core hack - jump to eror message
+        //fhüb: core hack - jump to eror message, awag enclosing into try catch to work with other templates than mebis.
+        try {
         var element = document.getElementById(errorSpan.id);    
         var topbarheight = document.getElementById(\'topbar\').offsetHeight + document.getElementById(\'page-header\').offsetHeight;   
         var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;       
         if (element.offsetTop - scrollTop < topbarheight) {    
         window.scrollTo(element.offsetTop - topbarheight,0);
         }
-     
+        } catch (e) {}
     }
 
     while (errorSpan.firstChild) {
@@ -2240,13 +2241,15 @@ function validate_' . $this->_formName . '_' . $escapedElementName . '(element) 
     Y.Global.fire(M.core.globalEvents.FORM_ERROR, {formid: \''. $this->_attributes['id'] .'\',
                                                    elementid: \'id_error_'.$elementName.'\'});
     
-    //fhüb: core hack - jump to eror message
+    //fhüb: core hack - jump to eror message, awag enclosing into try catch to work with other templates than mebis.
+    try {
     var element = document.getElementById(\'id_error_'.$elementName.'\');    
     var topbarheight = document.getElementById(\'topbar\').offsetHeight + document.getElementById(\'page-header\').offsetHeight;   
     var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;       
     if (element.offsetTop - scrollTop < topbarheight) {    
        window.scrollTo(element.offsetTop - topbarheight,0);
     }
+    } catch (e) {}
   }
 ';
 

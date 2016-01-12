@@ -1,0 +1,144 @@
+YUI.add('moodle-block_mbsnews-editnewsform', function (Y, NAME) {
+
+M.block_mbsnews = M.block_mbsnews || {};
+M.block_mbsnews.editnewsform = function (args) {
+
+    var fcontextlevel;
+    var finstanceidslist;
+    var finstanceidssearch;
+    var finstanceids;
+    var froleid;
+    var frecipients;
+
+    function disableElements() {
+
+        var contextlevel = fcontextlevel.get('value');
+
+        // Contextlevel is not selected or syste context.
+        if (contextlevel == 0 || contextlevel == 10) {
+            finstanceidssearch.set('disabled', 'disabled');
+        } else {
+            finstanceidssearch.removeAttribute('disabled');
+        }
+    }
+
+    function resetForm() {
+
+        // Reset Lookup Search.
+        finstanceids.set('value', '');
+        finstanceidslist.set('innerHTML', '');
+
+        finstanceidssearch.set('value', '');
+
+        // Reset roleid.
+        froleid.set('value', 0);
+    }
+
+    function onContextLevelChanged() {
+        resetForm();
+        loadRoles();
+        disableElements();
+    }
+
+    function doSubmit(params, callback) {
+        Y.io(args.url, {
+            data: params,
+            on: {
+                success: function (id, resp) {
+
+                    var result;
+                    try {
+                        result = Y.JSON.parse(resp.responseText);
+                    } catch (e) {
+                        return;
+                    }
+                    if (result.error !== 0) {
+                        alert(result.error);
+                    } else {
+                        callback(result.results);
+                    }
+                }
+            }
+        });
+    }
+
+    function loadRoles() {
+
+        var params = {};
+        params.action = "getroleoptions";
+        params.contextlevel = fcontextlevel.get('value');
+
+        doSubmit(params, function (r) {
+            loadRolesResult(r);
+        });
+    }
+
+    function loadRolesResult(options) {
+
+        froleid.set('innerHTML', '');
+        for (var i = 0; i < options.length; i++) {
+            var role = options[i];
+            froleid.append(Y.Node.create('<option value="' + role.value + '">' + role.text + '</option>'));
+        }
+    }
+
+    function doSearch() {
+
+        var params = {};
+        params.action = "searchrecipients";
+        params.contextlevel = fcontextlevel.get('value');
+        params.roleid = froleid.get('value');
+        
+        // Collect instances.
+        
+        var instanceidsselected = new Array();
+        Y.all('input[name^="instanceidsselected"]').each(
+                function (item, index) {
+                    var id = item.get('name').split("[")[1];
+                    id = id.substr(0, id.length - 1); 
+                    instanceidsselected[index] = id;           
+                });
+               
+        params.instanceidsselected = instanceidsselected.join('_');
+        
+        doSubmit(params, function (r) {
+            doSearchResult(r);
+        });
+    }
+
+    function doSearchResult(result) {
+        frecipients.set('innerHTML', result);
+    }
+    
+    function initialize() {
+
+        fcontextlevel = Y.one('#id_contextlevel');
+        finstanceids = Y.one('#id_instanceids');
+        finstanceidslist = Y.one('#id_instanceids_list')
+        finstanceidssearch = Y.one('#id_instanceids_search');
+        froleid = Y.one('#id_roleid');
+        frecipients = Y.one('#id_recipients');
+
+        fcontextlevel.on('change', function (e) {
+            onContextLevelChanged();
+            doSearch();
+        });
+
+        finstanceids.on('change', function (e) {
+            doSearch();
+        });
+
+        froleid.on('change', function (e) {
+            doSearch();
+        });
+
+        disableElements();
+        doSearch();
+    }
+
+    initialize();
+
+};
+
+
+}, '@VERSION@', {"requires": ["base", "node", "io-base"]});

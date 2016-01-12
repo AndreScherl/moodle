@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbsnews-lookupset",
+    "builds": {
+        "moodle-block_mbsnews-lookupset": {
+            "jsfiles": [
+                "lookupset.js"
+            ]
+        }
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/mbsnews/db" VERSION="20160117" COMMENT="XMLDB file for Moodle blocks/mbsnews"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="block_mbsnews_job" COMMENT="News to be processed">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="roleid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="contextlevel" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="instanceids" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="sender" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="subject" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="fullmessage" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="duration" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="countrecipients" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="countprocessed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timestarted" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timefinished" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_timefinished" UNIQUE="false" FIELDS="timefinished"/>
+        <INDEX NAME="idx_tfin_tmod" UNIQUE="false" FIELDS="timefinished, timemodified"/>
+        <INDEX NAME="idx_timemodified" UNIQUE="false" FIELDS="timemodified"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_mbsnews_job_processed" COMMENT="Default comment for the table, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="jobid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="recipientid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_jobid_recid" UNIQUE="false" FIELDS="jobid, recipientid"/>
+        <INDEX NAME="idx_jobid" UNIQUE="false" FIELDS="jobid"/>
+        <INDEX NAME="idx_recid" UNIQUE="false" FIELDS="recipientid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -242,7 +242,6 @@ class licensemanager {
         $allshortnames = array();
 
         $tables = array(
-            'block_mbstpl_asset' => 'license',
             'block_mbstpl_meta' => 'license',
             'files' => 'license'
         );

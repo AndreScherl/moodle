@@ -59,7 +59,7 @@ $tableurl = new moodle_url($pageurl, $pageparams);
 $table->define_baseurl($tableurl);
 
 $table->no_sorting('action');
-$table->sortable(true, 'timecreated');
+$table->sortable(true, 'timecreated DESC');
 
 $table->pageable(true);
 $table->is_downloadable(false);
@@ -70,6 +70,10 @@ $table->set_control_variables(
             TABLE_VAR_PAGE => 'page'));
 
 echo $OUTPUT->header();
+
+$icon = $OUTPUT->pix_icon('t/add', get_string('addnotificationjob', 'block_mbsnews'));
+$url = new moodle_url('/blocks/mbsnews/editjob.php');
+echo html_writer::link($url, $icon.' '.get_string('addnotificationjob', 'block_mbsnews'));
 
 $table->setup();
 
@@ -97,9 +101,9 @@ foreach ($jobs as $job) {
     $countrecipients = $job->countrecipients;
 
     if ($countrecipients == 0) {
-        $progress = "100 %";
+        $progress = 100;
     } else {
-        $progress = min(100, round($job->countprocessed / $job->countrecipients * 100)) . " %";
+        $progress = min(100, round($job->countprocessed / $job->countrecipients * 100));
     }
 
     $actionlinks = '';
@@ -108,9 +112,11 @@ foreach ($jobs as $job) {
     $deleteurl = new moodle_url('/blocks/mbsnews/deletejob.php', array('id' => $job->id));
     $actionlinks .= html_writer::link($deleteurl, $deleteicon);
     
-    $editicon = $OUTPUT->pix_icon('t/edit', get_string('edit'));
-    $editurl = new moodle_url('/blocks/mbsnews/editnews.php', array('id' => $job->id));
-    $actionlinks .= ' '.html_writer::link($editurl, $editicon);
+    if ($progress < 100) {
+        $editicon = $OUTPUT->pix_icon('t/edit', get_string('edit'));
+        $editurl = new moodle_url('/blocks/mbsnews/editjob.php', array('id' => $job->id));
+        $actionlinks .= ' '.html_writer::link($editurl, $editicon);
+    }
     
     $row = array($timecreated, $contextlevelname, $rolename, $subject, $countrecipients, $progress, $actionlinks);
 

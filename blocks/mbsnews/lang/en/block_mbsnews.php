@@ -23,6 +23,7 @@
  */
 
 $string['action'] = '';
+$string['addnotificationjob'] = 'Add a notification job';
 $string['all'] = 'Alle';
 $string['contextcourse'] = 'Course';
 $string['contextcategory'] = 'Category';

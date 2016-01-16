@@ -1,5 +1,5 @@
 {
-    "moodle-block_mbsnews-editnewsform": {
+    "moodle-block_mbsnews-editjobform": {
         "requires": [
             "base",
             "node",

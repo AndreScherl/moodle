@@ -1,5 +1,5 @@
 M.block_mbsnews = M.block_mbsnews || {};
-M.block_mbsnews.editnewsform = function (args) {
+M.block_mbsnews.editjobform = function (args) {
 
     var fcontextlevel;
     var finstanceidslist;

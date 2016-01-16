@@ -53,7 +53,7 @@ class newshelper {
 
         if (!empty($instanceids[CONTEXT_COURSECAT])) {
 
-            $categories = $DB->get_records_list('course_catgories', 'id', $instanceids[CONTEXT_COURSE]);
+            $categories = $DB->get_records_list('course_categories', 'id', $instanceids[CONTEXT_COURSE]);
 
             $instanceids[CONTEXT_COURSECAT] = array();
             foreach ($categories as $category) {
@@ -142,7 +142,7 @@ class newshelper {
     }
 
     /**
-     * Save a notification job after editnews.php submit
+     * Save a notification job after editjob.php submit
      * 
      * @param type $submitteddata
      * @return array result array for saving the job.
@@ -374,12 +374,10 @@ class newshelper {
     public static function process_notification_jobs() {
         global $DB;
 
-        
-
         $config = get_config('block_mbsnews');
 
         // Get next jobs, that are not fully processed.
-        if (!$jobs = $DB->get_records('block_mbsnews_job', array('timefinished' => 0), 'timemodified DESC')) {
+        if (!$jobs = $DB->get_records('block_mbsnews_job', array('timefinished' => 0), 'timemodified ASC')) {
             mtrace('nothing to do...');
             return true;
         }

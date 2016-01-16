@@ -23,7 +23,7 @@
  */
 require_once('../../config.php');
 
-$pageurl = new moodle_url('/blocks/mbsnews/editnews.php', array());
+$pageurl = new moodle_url('/blocks/mbsnews/editjob.php', array());
 $PAGE->set_url($pageurl);
 
 require_login();
@@ -45,17 +45,17 @@ $PAGE->set_pagelayout('admin');
 
 //$news = file_prepare_standard_editor($news, 'message', array(), null, 'news', 'message', null);
 
-$editnewsform = new \block_mbsnews\local\editnews_form($pageurl, array('id' => $newsid));
+$editjobform = new \block_mbsnews\local\editjob_form($pageurl, array('id' => $newsid));
 if ($newsid > 0) {
-    $editnewsform->set_data($news);
+    $editjobform->set_data($news);
 }
 
-if ($editnewsform->is_cancelled()) {
+if ($editjobform->is_cancelled()) {
     $url = new moodle_url('/blocks/mbsnews/listjobs.php');
     redirect($url);
 }
 
-if ($data = $editnewsform->get_data()) {
+if ($data = $editjobform->get_data()) {
     
     $result = \block_mbsnews\local\newshelper::save_notification_job($data);
     
@@ -67,5 +67,5 @@ if ($data = $editnewsform->get_data()) {
    
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('sendnews', 'block_mbsnews'));
-$editnewsform->display();
+$editjobform->display();
 echo $OUTPUT->footer();

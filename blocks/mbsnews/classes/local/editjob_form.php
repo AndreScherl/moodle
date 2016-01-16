@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/lib/formslib.php');
 require_once($CFG->dirroot . '/blocks/mbsnews/form/MoodleQuickForm_lookupset.php');
 
-class editnews_form extends \moodleform {
+class editjob_form extends \moodleform {
 
     function definition() {
         global $PAGE, $USER;
@@ -98,7 +98,7 @@ class editnews_form extends \moodleform {
         $args = array();
         $args['url'] = $ajaxurl->out();
         
-        $PAGE->requires->yui_module('moodle-block_mbsnews-editnewsform', 'M.block_mbsnews.editnewsform', array($args));
+        $PAGE->requires->yui_module('moodle-block_mbsnews-editjobform', 'M.block_mbsnews.editjobform', array($args));
         //$PAGE->requires->strings_for_js(array('delete'), 'moodle');
     }
     

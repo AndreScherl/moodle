@@ -25,9 +25,9 @@ defined('MOODLE_INTERNAL') || die;
 
 class block_mbsnews_renderer extends plugin_renderer_base {
 
-    public function render_content($titledata) {
+    
+    public function render_content($mebisnews) {
         global $OUTPUT, $PAGE;
-
 
         return html_writer::tag('div', $o, array('id' => 'mbs-news'));
     }

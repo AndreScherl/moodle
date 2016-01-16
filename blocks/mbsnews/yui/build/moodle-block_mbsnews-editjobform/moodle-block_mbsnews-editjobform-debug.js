@@ -1,7 +1,7 @@
-YUI.add('moodle-block_mbsnews-editnewsform', function (Y, NAME) {
+YUI.add('moodle-block_mbsnews-editjobform', function (Y, NAME) {
 
 M.block_mbsnews = M.block_mbsnews || {};
-M.block_mbsnews.editnewsform = function (args) {
+M.block_mbsnews.editjobform = function (args) {
 
     var fcontextlevel;
     var finstanceidslist;

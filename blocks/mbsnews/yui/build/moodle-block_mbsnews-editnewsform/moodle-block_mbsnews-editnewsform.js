@@ -7,8 +7,10 @@ M.block_mbsnews.editnewsform = function (args) {
     var finstanceidslist;
     var finstanceidssearch;
     var finstanceids;
+    var froleselector;
     var froleid;
     var frecipients;
+    var frecipientscount;
 
     function disableElements() {
 
@@ -31,6 +33,7 @@ M.block_mbsnews.editnewsform = function (args) {
         finstanceidssearch.set('value', '');
 
         // Reset roleid.
+        froleselector.set('value', 0);
         froleid.set('value', 0);
     }
 
@@ -75,11 +78,12 @@ M.block_mbsnews.editnewsform = function (args) {
 
     function loadRolesResult(options) {
 
-        froleid.set('innerHTML', '');
+        froleselector.set('innerHTML', '');
         for (var i = 0; i < options.length; i++) {
             var role = options[i];
-            froleid.append(Y.Node.create('<option value="' + role.value + '">' + role.text + '</option>'));
+            froleselector.append(Y.Node.create('<option value="' + role.value + '">' + role.text + '</option>'));
         }
+        froleselector.set('value', froleid.get('value'));
     }
 
     function doSearch() {
@@ -107,7 +111,8 @@ M.block_mbsnews.editnewsform = function (args) {
     }
 
     function doSearchResult(result) {
-        frecipients.set('innerHTML', result);
+        frecipients.set('innerHTML', result.list);
+        frecipientscount.set('value', result.count);
     }
     
     function initialize() {
@@ -116,8 +121,10 @@ M.block_mbsnews.editnewsform = function (args) {
         finstanceids = Y.one('#id_instanceids');
         finstanceidslist = Y.one('#id_instanceids_list')
         finstanceidssearch = Y.one('#id_instanceids_search');
+        froleselector = Y.one('#id_roleselector');
         froleid = Y.one('#id_roleid');
         frecipients = Y.one('#id_recipients');
+        frecipientscount = Y.one('#id_countrecipients');
 
         fcontextlevel.on('change', function (e) {
             onContextLevelChanged();
@@ -128,11 +135,13 @@ M.block_mbsnews.editnewsform = function (args) {
             doSearch();
         });
 
-        froleid.on('change', function (e) {
+        froleselector.on('change', function (e) {
+            froleid.set('value', froleselector.get('value'));
             doSearch();
         });
 
         disableElements();
+        loadRoles();
         doSearch();
     }
 

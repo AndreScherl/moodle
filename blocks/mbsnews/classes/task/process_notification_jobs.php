@@ -15,18 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsnews
+ * socialwall course format, Tasks
  *
- * @package   block_mbsnews
- * @copyright Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package format_socialwall
+ * @copyright 2014 Andreas Wagner, Synergy Learning
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace block_mbsnews\task;
 
-$plugin->version   = 2016011605;       
-$plugin->requires  = 2014051201;       
-$plugin->component = 'block_mbsnews'; 
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '2.7+ (Build: 2015011601)';
+class process_notification_jobs extends \core\task\scheduled_task {
+
+    public function get_name() {
+        return get_string('processnotificationjobs', 'block_mbsnews');
+    }
+
+    public function execute() {
+        \block_mbsnews\local\newshelper::process_notification_jobs();
+    }
+}

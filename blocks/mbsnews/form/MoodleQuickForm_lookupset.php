@@ -112,6 +112,30 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $PAGE->requires->yui_module('moodle-block_mbsnews-lookupset', 'M.block_mbsnews.lookupset.init', array($args), null, true);
         $PAGE->requires->strings_for_js(array('delete'), 'moodle');
     }
+    
+    /**
+     * Sets the value of the form element
+     *
+     * @param     string    $value      Default value of the form element
+     * @since     1.0
+     * @access    public
+     * @return    void
+     */
+    function setValue($value)
+    {
+        if (is_array($value)) {
+            
+            $this->_choices = $value;
+            
+            if (empty($value)) {
+                $value = 0;
+            } else {
+                $value = 1;
+            }
+        }
+        $this->updateAttributes(array('value'=>$value));
+    } // end func setValue
+
 
     /**
      * Returns HTML for this form element.

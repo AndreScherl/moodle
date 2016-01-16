@@ -28,6 +28,14 @@ $PAGE->set_url($pageurl);
 
 require_login();
 
+$newsid = optional_param('id', 0, PARAM_INT);
+
+// Verify the job to be edited.
+if (!empty($newsid)) {
+    
+   $news = \block_mbsnews\local\newshelper::load_job_instance($newsid);
+}
+
 $context = context_system::instance();
 require_capability('block/mbsnews:sendnews', $context);
 
@@ -35,13 +43,28 @@ $PAGE->set_context($context);
 $PAGE->set_heading(get_string('sendnews', 'block_mbsnews'));
 $PAGE->set_pagelayout('admin');
 
-$editnewsform = new \block_mbsnews\local\editnews_form($pageurl);
+//$news = file_prepare_standard_editor($news, 'message', array(), null, 'news', 'message', null);
+
+$editnewsform = new \block_mbsnews\local\editnews_form($pageurl, array('id' => $newsid));
+if ($newsid > 0) {
+    $editnewsform->set_data($news);
+}
+
+if ($editnewsform->is_cancelled()) {
+    $url = new moodle_url('/blocks/mbsnews/listjobs.php');
+    redirect($url);
+}
 
 if ($data = $editnewsform->get_data()) {
     
-   
+    $result = \block_mbsnews\local\newshelper::save_notification_job($data);
+    
+    if ($result['error'] == 0) {
+        $url = new moodle_url('/blocks/mbsnews/listjobs.php');
+        redirect($url, $result['message']);
+    }  
 }
-
+   
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('sendnews', 'block_mbsnews'));
 $editnewsform->display();

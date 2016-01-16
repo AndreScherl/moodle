@@ -22,20 +22,33 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['action'] = '';
+$string['all'] = 'Alle';
 $string['contextcourse'] = 'Course';
 $string['contextcategory'] = 'Category';
 $string['contextlevel'] = 'Context';
 $string['contextsystem'] = 'System';
+$string['errornewsjobsaved'] = 'Error when saving notification job';
 $string['duration'] = 'Duration';
 $string['fullmessage'] = 'Messagetext';
 $string['instances'] = 'Instances';
 $string['includeauth'] = 'Include auth type';
 $string['includeauthdesc'] = 'The news system will send messages only to users with checked authenication type.';
+$string['maxmessages'] = 'Max count of messages';
+$string['maxmessagesdesc'] = 'The count of messages to process by each cron job';
 $string['mbsnews:sendnews'] = 'Send news';
+$string['messageprovider:mbsnewsnotification'] = 'News sent by mebis';
+$string['newsjobsaved'] = 'Notification job saved';
+$string['jobs'] = 'Notification Jobs';
 $string['recipients'] = 'Recipients';
 $string['pluginname'] = 'Mebis news block';
+$string['processnotificationjobs'] = 'Process notification jobs';
+$string['progress'] = 'Progress';
 $string['recipientsselected'] = '{$a} Recipients selected';
 $string['roleid'] = 'Role';
+$string['subject'] = 'Subject';
 $string['sendnews'] = 'Send news';
 $string['sendername'] = 'Sender';
+$string['timecreated'] = 'Time';
+$string['unknownrole'] = 'Unknown role';
 

@@ -15,33 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for block_mbsnews
+ * Versioninformation of mbsnews
  *
  * @package   block_mbsnews
  * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-function xmldb_block_mbsnews_upgrade($oldversion) {
-    global $DB;
-
-    $dbman = $DB->get_manager();
-
-    if ($oldversion < 2016011204) {
-
-        // Define field duration to be added to block_mbsnews_job.
-        $table = new xmldb_table('block_mbsnews_job');
-        $field = new xmldb_field('duration', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'fullmessage');
-
-        // Conditionally launch add field duration.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Mbsnews savepoint reached.
-        upgrade_block_savepoint(true, 2016011204, 'mbsnews');
-    }
-
-
-
-    return true;
-}
+$tasks = array(
+    array(
+        'classname' => 'block_mbsnews\task\process_notification_jobs',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
+);

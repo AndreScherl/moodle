@@ -3,7 +3,7 @@
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
 //
 // Moodle is distributed in the hope that it will be useful,
@@ -15,18 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsnews
+ * Mebis New Blcok message processor, stores messages to be shown using the mebis news block.
  *
- * @package   block_mbsnews
- * @copyright Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   message_mbsnewsblock
+ * @copyright 2016 Andreas Wagner, ISB
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v2 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011605;       
-$plugin->requires  = 2014051201;       
-$plugin->component = 'block_mbsnews'; 
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '2.7+ (Build: 2015011601)';
+$plugin->version   = 2016011600;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014051209;        // Requires this Moodle version
+$plugin->component = 'message_mbsnewsblock';  // Full name of the plugin (used for diagnostics)

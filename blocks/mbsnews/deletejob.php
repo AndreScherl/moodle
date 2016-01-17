@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsnews
+ * Delete a job
  *
  * @package   block_mbsnews
  * @copyright Andreas Wagner, ISB Bayern
@@ -23,49 +23,26 @@
  */
 require_once('../../config.php');
 
-$pageurl = new moodle_url('/blocks/mbsnews/editjob.php', array());
+$jobid = optional_param('id', 0, PARAM_INT);
+
+// Verify the job to be edited.
+if (!empty($jobid)) {
+    
+   $job = \block_mbsnews\local\newshelper::load_job_instance($jobid);
+}
+
+$pageurl = new moodle_url('/blocks/mbsnews/deletejob.php', array('id' => $jobid));
 $PAGE->set_url($pageurl);
 
 require_login();
 
-$newsid = optional_param('id', 0, PARAM_INT);
-
-// Verify the job to be edited.
-if (!empty($newsid)) {
-    
-   $news = \block_mbsnews\local\newshelper::load_job_instance($newsid);
-}
-
 $context = context_system::instance();
 require_capability('block/mbsnews:sendnews', $context);
 
-$PAGE->set_context($context);
-$PAGE->set_heading(get_string('sendnews', 'block_mbsnews'));
-$PAGE->set_pagelayout('admin');
+$redirecturl = new moodle_url('/block/mbsnews/listjobs.php');
 
-//$news = file_prepare_standard_editor($news, 'message', array(), null, 'news', 'message', null);
-
-$editjobform = new \block_mbsnews\local\editjob_form($pageurl, array('id' => $newsid));
-if ($newsid > 0) {
-    $editjobform->set_data($news);
+if ($DB->delete_records('block_mbsnews_job', array('id' => $job->id))) {
+    redirect($redirecturl, get_string('jobdeleted', 'block_mbsnews'));
+} else {
+    redirect($redirecturl, get_string('errorjobdeleted', 'block_mbsnews'));
 }
-
-if ($editjobform->is_cancelled()) {
-    $url = new moodle_url('/blocks/mbsnews/listjobs.php');
-    redirect($url);
-}
-
-if ($data = $editjobform->get_data()) {
-    
-    $result = \block_mbsnews\local\newshelper::save_notification_job($data);
-    
-    if ($result['error'] == 0) {
-        $url = new moodle_url('/blocks/mbsnews/listjobs.php');
-        redirect($url, $result['message']);
-    }  
-}
-   
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('sendnews', 'block_mbsnews'));
-$editjobform->display();
-echo $OUTPUT->footer();

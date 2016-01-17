@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'block/mbsmbsnews:addinstance' => array(
+    'block/mbsnews:addinstance' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
@@ -33,7 +33,7 @@ $capabilities = array(
         ),
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
-    'block/mbsmbsnews:myaddinstance' => array(
+    'block/mbsnews:myaddinstance' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,

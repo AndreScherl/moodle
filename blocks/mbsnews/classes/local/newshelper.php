@@ -29,6 +29,69 @@ class newshelper {
         CONTEXT_COURSECAT => 'contextcategory',
         CONTEXT_COURSE => 'contextcourse');
 
+    /**
+     * Mark the message as read.
+     * 
+     * @param object $message
+     * @return array with results.
+     */
+    public static function mark_message_read($message) {
+        global $USER;
+
+        $oldmessageid = $message->id;
+        
+        if ($message->useridto != $USER->id) {
+            return array('error' => get_string('errormarkasreadonlyown', 'block_mbsnews'));
+        }
+
+        // Try to mark as read.
+        if ($mid = message_mark_message_read($message, time())) {
+            return array('error' => 0, 'results' => array('id' => $oldmessageid));
+        }
+
+        return array('error' => get_string('errorcannotsetread', 'block_mbsnews'));
+    }
+
+    /**
+     * Get news the should be displayed for this user.
+     * 
+     * @param type $user
+     */
+    public static function get_news($user) {
+        global $DB;
+
+        $sql = "SELECT m.* FROM {message} m 
+                JOIN {message_working} mw ON m.id = mw.unreadmessageid  
+                JOIN {message_processors} p ON p.id = mw.processorid AND p.name = :pname
+                WHERE m.useridto = :userid ORDER BY m.timecreated DESC";
+
+        $params = array('pname' => 'mbsnewsblock', 'userid' => $user->id);
+
+        if (!$messages = $DB->get_records_sql($sql, $params)) {
+            return false;
+        }
+
+        $result = new \stdClass();
+        $result->messages = $messages;
+
+        // Getting authors of messages.
+        $authorids = array();
+
+        foreach ($messages as $message) {
+            $authorids[$message->useridfrom] = $message->useridfrom;
+        }
+
+        $result->authors = $DB->get_records_list('user', 'id', $authorids);
+
+        return $result;
+    }
+
+    /**
+     * Add an array with the name of selected instances (i. e. the name of category
+     * or course) to the job object.
+
+     * @param object $jobs
+     */
     private static function add_instanceinfo(&$jobs) {
         global $DB;
 
@@ -70,14 +133,16 @@ class newshelper {
     }
 
     /**
-     * Get all existing notification jobs.
+     * Get all existing notification jobs fro displaying in a flexible table
      * 
-     * @param type $params
-     * @param type $table
-     * @param type $perpage
+     * @param array $pageparams used as SQL params
+     * @param flexible_table $table
+     * @param int $perpage 
+     * 
+     * @return array list of job objects
      */
     public static function get_jobs($pageparams, $table, $perpage) {
-        global $DB, $USER;
+        global $DB;
 
         $select = " SELECT * ";
         $from = " FROM {block_mbsnews_job} ";
@@ -102,6 +167,12 @@ class newshelper {
         return $jobs;
     }
 
+    /**
+     * Load a job object from database and set the attribute instanceids properly.
+     * 
+     * @param int $id
+     * @return object
+     */
     public static function load_job_instance($id) {
         global $DB;
 
@@ -144,13 +215,11 @@ class newshelper {
     /**
      * Save a notification job after editjob.php submit
      * 
-     * @param type $submitteddata
-     * @return array result array for saving the job.
+     * @param object $data the submitted data form the editjob form.
+     * @return array result saving the job.
      */
     public static function save_notification_job($data) {
         global $DB, $USER;
-
-        print_r($data);
 
         $job = new \stdClass();
         $job->roleid = (empty($data->roleid)) ? 0 : $data->roleid;
@@ -195,7 +264,8 @@ class newshelper {
     }
 
     /**
-     * Get SQL Objekt for retrieving recipients from the database.
+     * Get the parts of a sql-query for retrieving recipients from the database.
+     * Used by cron job and when the count of recipients is calculated.
      * 
      * @param array $searchparams
      * @return \stdClass
@@ -275,6 +345,8 @@ class newshelper {
     public static function search_recipients($searchparams) {
         global $DB;
 
+        $config = get_config('block_mbsnews');
+
         $sql = self::get_recipients_sql($searchparams);
 
         // Count records.
@@ -282,7 +354,7 @@ class newshelper {
             return array('error' => 0, 'results' => array('list' => get_string('recipientsselected', 'block_mbsnews', $count), 'count' => $count));
         }
 
-        if ($count > 5) {
+        if ($count > $config->recipientdisplaylimit) {
             return array('error' => 0, 'results' => array('list' => get_string('recipientsselected', 'block_mbsnews', $count), 'count' => $count));
         }
 
@@ -308,9 +380,9 @@ class newshelper {
      * 3. When there a no more recipients left, mark the job as processed.
      * 
      * @param type $job
-     * @param type $maxmessagescount  max count of messages to proceed.
+     * @param type $maxmessagescount max count of messages to proceed.
      */
-    private static function process_job($job, $recipientslimit) {
+    private static function process_job($job, $maxmessagescount) {
         global $DB;
 
         $sql = self::get_recipients_sql((array) $job);
@@ -319,17 +391,17 @@ class newshelper {
 
         // Get all the users, which are not yet notificated.
         $sql->join .= " LEFT JOIN {message} m ON (m.useridto = u.id) AND (m.contexturlname = :jobid1) ";
-        $sql->params['jobid1'] = 'Mebis News: '.$job->id;
+        $sql->params['jobid1'] = 'Mebis News: ' . $job->id;
 
         // Get all the users, which are not yet notificated.
         $sql->join .= " LEFT JOIN {message_read} mr ON (mr.useridto = u.id) AND (mr.contexturlname = :jobid2) ";
-        $sql->params['jobid2'] = 'Mebis News: '.$job->id;
+        $sql->params['jobid2'] = 'Mebis News: ' . $job->id;
 
         $sql->where .= " AND ((m.id IS NULL) AND (mr.id IS NULL))";
 
         $query = $sql->select . $sql->join . $sql->where;
 
-        if (!$recipients = $DB->get_records_sql($query, $sql->params, 0, $recipientslimit)) {
+        if (!$recipients = $DB->get_records_sql($query, $sql->params, 0, $maxmessagescount)) {
             // all done.
             $job->timefinished = time();
             $DB->update_record('block_mbsnews_job', $job);
@@ -338,7 +410,7 @@ class newshelper {
 
         // Create messages.
         $userfrom = \core_user::get_user($job->sender);
-        
+
         $eventdata = new \stdClass();
         $eventdata->component = 'block_mbsnews';
         $eventdata->name = 'mbsnewsnotification';
@@ -349,28 +421,36 @@ class newshelper {
         $eventdata->fullmessageformat = FORMAT_HTML;
         $eventdata->fullmessagehtml = $job->fullmessage;
         $eventdata->smallmessage = '';
-        $eventdata->contexturlname = 'Mebis News: '.$job->id;
+        $eventdata->contexturlname = 'Mebis News: ' . $job->id;
 
         $count = 0;
         foreach ($recipients as $userto) {
-            
+
             $eventdata->userto = \core_user::get_user($userto->id);
             if (message_send($eventdata)) {
                 $count++;
             }
         }
-        
+
         mtrace("{$count} messages sent.");
-        
+
         if ($job->timestarted == 0) {
             $job->timestarted = time();
         }
-        
+
         $job->countprocessed = $job->countprocessed + $count;
         $DB->update_record('block_mbsnews_job', $job);
         return $count;
     }
 
+    /**
+     * Processes all the jobs, i. e. create messages for appropriate recipients
+     * in the messages table.
+     * 
+     * This function is called by a scheduled task.
+     * 
+     * @return boolean
+     */
     public static function process_notification_jobs() {
         global $DB;
 

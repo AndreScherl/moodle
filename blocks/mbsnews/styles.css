@@ -5,3 +5,29 @@
 .flookupset-delete {
     cursor : pointer;
 }
+
+.mbsnews-header-delete {
+    float:right;
+    margin : 0 0 10px 10px;
+}
+
+.mbsnews-header, .mbsnews-body {
+    padding:10px;
+}
+
+.mbsnews-header {
+    border-bottom: 1px solid lightgray;
+}
+
+.mbsnews-header-userpic, .mbsnews-header-subject {
+    font-weight: bold;
+}
+
+.mbsnews-body {
+    background: white;
+}
+
+.mbsnews-message {
+    margin: 10px 0;
+    border: 1px solid lightgray;
+}

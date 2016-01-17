@@ -31,7 +31,7 @@ class block_mbsnews extends block_base {
     }
 
     public function get_content() {
-        global $PAGE;
+        global $PAGE, $USER;
 
         if ($this->content !== null) {
             return $this->content;
@@ -42,8 +42,9 @@ class block_mbsnews extends block_base {
         $this->content->footer = '';
 
         $renderer = $PAGE->get_renderer('block_mbsnews');
+        
         $this->content->text .= $renderer->render_content();
-
+        
         return $this->content;
     }
 
@@ -58,7 +59,7 @@ class block_mbsnews extends block_base {
     public function applicable_formats() {
         // self test of block base class will fail if sum of the format array is zero
         // workaround: set format true for unimportant context
-        return array('all' => false, 'site-index' => true);
+        return array('all' => false, 'my' => true);
     }
 
 }

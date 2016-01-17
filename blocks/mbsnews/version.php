@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsnews
+ * Version information of block mbsnews
  *
  * @package   block_mbsnews
  * @copyright Andreas Wagner, ISB Bayern
@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011606;       
+$plugin->version   = 2016011701;       
 $plugin->requires  = 2014051201;       
 $plugin->component = 'block_mbsnews'; 
 $plugin->depencies = array('local_mbs' => ANY_VERSION);

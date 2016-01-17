@@ -59,7 +59,7 @@ $tableurl = new moodle_url($pageurl, $pageparams);
 $table->define_baseurl($tableurl);
 
 $table->no_sorting('action');
-$table->sortable(true, 'timecreated DESC');
+$table->sortable(true, 'timecreated', SORT_DESC);
 
 $table->pageable(true);
 $table->is_downloadable(false);

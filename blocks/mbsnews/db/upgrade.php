@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for block_mbsnews
+ * Upgrade Script for block_mbsnews
  *
  * @package   block_mbsnews
  * @copyright Andreas Wagner, ISB Bayern

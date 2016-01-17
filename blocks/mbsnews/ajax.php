@@ -31,6 +31,9 @@ switch ($action) {
 
     case 'search' :
         
+        $context = context_system::instance();
+        require_capability('block/mbsnews:sendnews', $context);
+        
         $searchtext = optional_param('searchtext', '', PARAM_TEXT);
         $contextlevel = optional_param('contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
 
@@ -68,6 +71,9 @@ switch ($action) {
     
     case 'getroleoptions': 
         
+        $context = context_system::instance();
+        require_capability('block/mbsnews:sendnews', $context);
+        
         $contextlevel = optional_param('contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
         
         $sql = "SELECT r.*
@@ -88,12 +94,27 @@ switch ($action) {
     
     case 'searchrecipients':
         
+        $context = context_system::instance();
+        require_capability('block/mbsnews:sendnews', $context);
+        
         $params = array();
         $params['contextlevel'] = optional_param('contextlevel', 0, PARAM_INT);
         $params['roleid'] = optional_param('roleid', 0, PARAM_INT);
         $params['instanceidsselected'] = optional_param('instanceidsselected', '', PARAM_TEXT);
         
         $result = \block_mbsnews\local\newshelper::search_recipients($params); 
+        
+        echo json_encode($result);
+        die;
+        break;
+    
+    case 'markasread' : 
+        
+        $messageid = required_param('messageid', PARAM_INT);
+        
+        $message = $DB->get_record('message', array('id' => $messageid), '*', MUST_EXIST);
+        
+        $result = \block_mbsnews\local\newshelper::mark_message_read($message);
         
         echo json_encode($result);
         die;

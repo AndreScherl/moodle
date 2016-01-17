@@ -82,13 +82,13 @@ class editjob_form extends \moodleform {
         $mform->addRule('fullmessage', null, 'required', null, 'server');
         
 
-        // Duration.
+        // @TODO: Implement duration of display: mark messages as read or only don't display them?
         $choices = array();
         for ($i = 0; $i <= 100; $i++) {
             $choices[$i] = $i;
         }
-        $mform->addElement('select', 'duration', get_string('duration', 'block_mbsnews'), $choices);
-
+        $mform->addElement('select', 'duration', get_string('duration', 'block_mbsnews'), $choices, array('disabled' => 'disabled'));
+        
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
         
@@ -99,10 +99,13 @@ class editjob_form extends \moodleform {
         $args['url'] = $ajaxurl->out();
         
         $PAGE->requires->yui_module('moodle-block_mbsnews-editjobform', 'M.block_mbsnews.editjobform', array($args));
-        //$PAGE->requires->strings_for_js(array('delete'), 'moodle');
     }
     
-    
+    /**
+     * Setup the editor text properly.
+     * 
+     * @param object $default_values
+     */
     public function set_data($default_values) {
     
         if (!isset($default_values->fullmessage['text'])) {

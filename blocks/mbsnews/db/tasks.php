@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsnews
+ * Define the task of the block
  *
  * @package   block_mbsnews
  * @copyright Andreas Wagner, ISB Bayern

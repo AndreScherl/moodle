@@ -45,6 +45,11 @@ class block_mbsnews_renderer extends plugin_renderer_base {
             $icon = $this->output->pix_icon('t/add', get_string('addnotificationjob', 'block_mbsnews'));
             $url = new moodle_url('/blocks/mbsnews/editjob.php');
             $o .= html_writer::link($url, $icon . ' ' . get_string('addnotificationjob', 'block_mbsnews'));
+            
+            $icon = $this->output->pix_icon('a/view_list_active', get_string('viewnotificationlist', 'block_mbsnews'));
+            $url = new moodle_url('/blocks/mbsnews/listjobs.php');
+            $o .= ' '.html_writer::link($url, $icon . ' ' . get_string('viewnotificationlist', 'block_mbsnews'));
+            
         }
 
         if ($news) {

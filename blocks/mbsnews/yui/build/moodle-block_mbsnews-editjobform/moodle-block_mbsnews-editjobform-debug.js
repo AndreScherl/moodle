@@ -102,7 +102,7 @@ M.block_mbsnews.editjobform = function (args) {
                     instanceidsselected[index] = id;
                 });
 
-        params.instanceidsselected = instanceidsselected.join('_');
+        params.instanceids = instanceidsselected.join(',');
 
         doSubmit(params, function (r) {
             doSearchResult(r);

@@ -66,8 +66,7 @@ class editjob_form extends \moodleform {
         $mform->setType('roleid', PARAM_INT);
 
         // Number of Recipients.
-        $mform->addElement('static', 'recipients', get_string('recipients', 'block_mbsnews'),
-                \html_writer::tag('span', '', array('id' => 'id_recipients')));
+        $mform->addElement('static', 'recipients', get_string('recipients', 'block_mbsnews'), \html_writer::tag('span', '', array('id' => 'id_recipients')));
 
         $mform->addElement('hidden', 'countrecipients', 0, array('id' => 'id_countrecipients'));
         $mform->setType('countrecipients', PARAM_INT);
@@ -75,11 +74,11 @@ class editjob_form extends \moodleform {
         // Subject.
         $mform->addElement('text', 'subject', get_string('subject', 'block_mbsnews'));
         $mform->setType('subject', PARAM_TEXT);
-         $mform->addRule('subject', null, 'required', null, 'client');
+        $mform->addRule('subject', null, 'required', null, 'client');
 
         // Editor.
         $mform->addElement('editor', 'fullmessage', get_string('fullmessage', 'block_mbsnews'));
-        $mform->setType('fullmessage', PARAM_TEXT);
+        $mform->setType('fullmessage', PARAM_CLEANHTML);
         $mform->addRule('fullmessage', null, 'required', null, 'server');
 
         // TODO: Implement duration of display: mark messages as read or only don't display them?

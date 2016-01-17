@@ -60,4 +60,5 @@ $string['sendnews'] = 'Send news';
 $string['sendername'] = 'Sender';
 $string['timecreated'] = 'Time';
 $string['unknownrole'] = 'Unknown role';
+$string['viewnotificationlist'] = "View notification jobs";
 

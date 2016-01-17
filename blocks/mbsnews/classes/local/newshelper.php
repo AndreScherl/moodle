@@ -211,7 +211,7 @@ class newshelper {
         $news->instanceids = $result;
         return $news;
     }
-
+    
     /**
      * Save a notification job after editjob.php submit
      * 
@@ -261,6 +261,23 @@ class newshelper {
         }
 
         return array('error' => 0, 'message' => get_string('newsjobsaved', 'block_mbsnews'));
+    }
+    
+    /**
+     * Delete a job and clear the recipients log.
+     * 
+     * @param obejct $job
+     */
+    public static function delete_job($job) {
+        global $DB;
+
+        $success = $DB->delete_records('block_mbsnews_job', array('id' => $job->id));
+        
+        if ($success) {
+            // Delete recipients log.
+            $success = $DB->delete_records('block_mbsnews_job_processed', array('jobid' => $job->id));
+        }
+        return $success;
     }
 
     /**
@@ -317,17 +334,9 @@ class newshelper {
         }
 
         // Check instanceids.
-        if (!empty($searchparams['instanceidsselected'])) {
+        if (!empty($searchparams['instanceids'])) {
 
-            $instancesids = explode('_', $searchparams['instanceidsselected']);
-
-            $instancecond = array();
-
-            foreach ($instancesids as $instanceid) {
-                $instancecond[] = " ctx.instanceid = '{$instanceid}' ";
-            }
-
-            $cond[] = implode(' OR ', $instancecond);
+            $cond[] = " ctx.instanceid IN ({$searchparams['instanceids']}) ";
         }
 
         $sql->where = "WHERE (" . implode(') AND (', $cond) . ")";
@@ -372,6 +381,15 @@ class newshelper {
         return array('error' => 0, 'results' => array('list' => $list, 'count' => count($usernames)));
     }
 
+    private static function get_user($userid) {
+        static $userbuffer = array();
+
+        if (!isset($userbuffer[$userid])) {
+            $userbuffer[$userid] = \core_user::get_user($userid);
+        }
+        return $userbuffer[$userid];
+    }
+
     /**
      * Processes a job, which means:
      * 
@@ -385,19 +403,17 @@ class newshelper {
     private static function process_job($job, $maxmessagescount) {
         global $DB;
 
+        //$jobinstanceids
+        
         $sql = self::get_recipients_sql((array) $job);
 
-        $sql->select .= ", m.id as mid, mr.id as mreadid ";
+        $sql->select .= ", jp.recipientid ";
 
         // Get all the users, which are not yet notificated.
-        $sql->join .= " LEFT JOIN {message} m ON (m.useridto = u.id) AND (m.contexturlname = :jobid1) ";
-        $sql->params['jobid1'] = 'Mebis News: ' . $job->id;
+        $sql->join .= " LEFT JOIN {block_mbsnews_job_processed} jp ON (u.id = jp.recipientid) AND (jp.jobid = :jobid) ";
+        $sql->params['jobid'] = $job->id;
 
-        // Get all the users, which are not yet notificated.
-        $sql->join .= " LEFT JOIN {message_read} mr ON (mr.useridto = u.id) AND (mr.contexturlname = :jobid2) ";
-        $sql->params['jobid2'] = 'Mebis News: ' . $job->id;
-
-        $sql->where .= " AND ((m.id IS NULL) AND (mr.id IS NULL))";
+        $sql->where .= " AND (jp.recipientid IS NULL) ";
 
         $query = $sql->select . $sql->join . $sql->where;
 
@@ -405,11 +421,14 @@ class newshelper {
             // All done.
             $job->timefinished = time();
             $DB->update_record('block_mbsnews_job', $job);
+
+            // Delete recipients log.
+            $DB->delete_records('block_mbsnews_job_processed', array('jobid' => $job->id));
             return 0;
         }
 
         // Create messages.
-        $userfrom = \core_user::get_user($job->sender);
+        $userfrom = self::get_user($job->sender);
 
         $eventdata = new \stdClass();
         $eventdata->component = 'block_mbsnews';
@@ -426,9 +445,17 @@ class newshelper {
         $count = 0;
         foreach ($recipients as $userto) {
 
-            $eventdata->userto = \core_user::get_user($userto->id);
+            $eventdata->userto = self::get_user($userto->id);
+
             if (message_send($eventdata)) {
+
                 $count++;
+
+                // Log this user as notified.
+                $log = new \stdClass();
+                $log->jobid = $job->id;
+                $log->recipientid = $userto->id;
+                $DB->insert_record('block_mbsnews_job_processed', $log);
             }
         }
 

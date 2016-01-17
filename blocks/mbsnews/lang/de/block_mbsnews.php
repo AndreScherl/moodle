@@ -47,7 +47,7 @@ $string['messageprovider:mbsnewsnotification'] = 'Mitteilungen des Blocks mebis 
 $string['newsjobsaved'] = 'Mitteilungsauftrag gespeichert';
 $string['jobdeleted'] = 'Mitteilungsauftrag gelöscht';
 $string['jobs'] = 'Mitteilungsaufträge';
-$string['recipients'] = 'Enpfänger';
+$string['recipients'] = 'Empfänger';
 $string['pluginname'] = 'mebis Newsblock';
 $string['processnotificationjobs'] = 'Mitteilungsauftrag durchführen';
 $string['progress'] = 'Fortschritt';
@@ -60,4 +60,4 @@ $string['sendnews'] = 'Mitteilungsauftrag erteilen';
 $string['sendername'] = 'Absender';
 $string['timecreated'] = 'erstellt';
 $string['unknownrole'] = 'Unbekannte Rolle';
-
+$string['viewnotificationlist'] = "Alle Mitteilungsaufträge";

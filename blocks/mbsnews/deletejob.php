@@ -39,9 +39,9 @@ require_login();
 $context = context_system::instance();
 require_capability('block/mbsnews:sendnews', $context);
 
-$redirecturl = new moodle_url('/block/mbsnews/listjobs.php');
+$redirecturl = new moodle_url('/blocks/mbsnews/listjobs.php');
 
-if ($DB->delete_records('block_mbsnews_job', array('id' => $job->id))) {
+if (\block_mbsnews\local\newshelper::delete_job($job)) {
     redirect($redirecturl, get_string('jobdeleted', 'block_mbsnews'));
 } else {
     redirect($redirecturl, get_string('errorjobdeleted', 'block_mbsnews'));

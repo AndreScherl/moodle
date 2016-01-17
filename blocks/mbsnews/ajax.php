@@ -100,7 +100,7 @@ switch ($action) {
         $params = array();
         $params['contextlevel'] = optional_param('contextlevel', 0, PARAM_INT);
         $params['roleid'] = optional_param('roleid', 0, PARAM_INT);
-        $params['instanceidsselected'] = optional_param('instanceidsselected', '', PARAM_TEXT);
+        $params['instanceids'] = optional_param('instanceids', '', PARAM_TEXT);
 
         $result = \block_mbsnews\local\newshelper::search_recipients($params);
 

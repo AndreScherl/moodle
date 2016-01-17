@@ -25,22 +25,22 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
 
     $authplugins = core_component::get_plugin_list('auth');
-    
+
     $choices = array();
     foreach ($authplugins as $authtype => $plugin) {
         $choices[$authtype] = get_string('pluginname', 'auth_'.$authtype);
     }
-    
+
     $settings->add(new admin_setting_configmulticheckbox('block_mbsnews/includeauth',
                     new lang_string('includeauth', 'block_mbsnews'),
                     new lang_string('includeauthdesc', 'block_mbsnews'), array('shibboleth'), $choices));
-    
+
     $settings->add(new admin_setting_configtext('block_mbsnews/maxmessages',
              new lang_string('maxmessages', 'block_mbsnews'),
              new lang_string('maxmessagesdesc', 'block_mbsnews'), 1, PARAM_INT));
-     
+
     $settings->add(new admin_setting_configtext('block_mbsnews/recipientdisplaylimit',
              new lang_string('recipientdisplaylimit', 'block_mbsnews'),
              new lang_string('recipientdisplaylimitdesc', 'block_mbsnews'), 10, PARAM_INT));
-    
+
 }

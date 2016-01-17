@@ -90,19 +90,18 @@ M.block_mbsnews.editjobform = function (args) {
         params.action = "searchrecipients";
         params.contextlevel = fcontextlevel.get('value');
         params.roleid = froleid.get('value');
-        
+
         // Collect instances.
-        
         var instanceidsselected = new Array();
         Y.all('input[name^="instanceidsselected"]').each(
                 function (item, index) {
                     var id = item.get('name').split("[")[1];
-                    id = id.substr(0, id.length - 1); 
-                    instanceidsselected[index] = id;           
+                    id = id.substr(0, id.length - 1);
+                    instanceidsselected[index] = id;
                 });
-               
+
         params.instanceidsselected = instanceidsselected.join('_');
-        
+
         doSubmit(params, function (r) {
             doSearchResult(r);
         });
@@ -112,12 +111,12 @@ M.block_mbsnews.editjobform = function (args) {
         frecipients.set('innerHTML', result.list);
         frecipientscount.set('value', result.count);
     }
-    
+
     function initialize() {
 
         fcontextlevel = Y.one('#id_contextlevel');
         finstanceids = Y.one('#id_instanceids');
-        finstanceidslist = Y.one('#id_instanceids_list')
+        finstanceidslist = Y.one('#id_instanceids_list');
         finstanceidssearch = Y.one('#id_instanceids_search');
         froleselector = Y.one('#id_roleselector');
         froleid = Y.one('#id_roleid');
@@ -144,5 +143,4 @@ M.block_mbsnews.editjobform = function (args) {
     }
 
     initialize();
-
 };

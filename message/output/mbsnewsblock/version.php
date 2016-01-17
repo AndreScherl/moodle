@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Mebis New Blcok message processor, stores messages to be shown using the mebis news block.
+ * Mebis News Block message processor, stores messages to be shown using the mebis news block.
  *
  * @package   message_mbsnewsblock
  * @copyright 2016 Andreas Wagner, ISB
@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011600;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014051209;        // Requires this Moodle version
-$plugin->component = 'message_mbsnewsblock';  // Full name of the plugin (used for diagnostics)
+$plugin->version   = 2016011600;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2014051209;        // Requires this Moodle version.
+$plugin->component = 'message_mbsnewsblock';  // Full name of the plugin (used for diagnostics).
+$plugin->maturity = MATURITY_STABLE;

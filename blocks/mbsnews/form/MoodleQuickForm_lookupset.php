@@ -35,11 +35,11 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
     private $_ajaxurl;
     private $_ajaxparamnames;
 
-    function MoodleQuickForm_lookupset($elementName = null,
-                                       $elementLabel = null, $ajaxurl = '', $ajaxparamnames = array(), 
+    public function MoodleQuickForm_lookupset($elementname = null,
+                                       $elementlabel = null, $ajaxurl = '', $ajaxparamnames = array(),
                                        $choices = array(), $attributes = null) {
 
-        MoodleQuickForm_text::MoodleQuickForm_text($elementName, $elementLabel, $attributes);
+        MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
         $this->_type = 'lookupset';
         $this->_selectedkey = $this->getName() . 'selected';
         $this->_ajaxparamnames = $ajaxparamnames;
@@ -52,19 +52,20 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @param array $values
      * @return array
      */
-    function _findChoices(&$values) {
-        
+    protected function _findChoices(&$values) {
+
         if (empty($values)) {
             return null;
         }
-        
-        $elementName = $this->getName() . 'selected';
-        if (isset($values[$elementName])) {
-            return $values[$elementName];
-        } 
+
+        $elementname = $this->getName() . 'selected';
+
+        if (isset($values[$elementname])) {
+            return $values[$elementname];
+        }
     }
 
-    function onQuickFormEvent($event, $arg, &$caller) {
+    public function onQuickFormEvent($event, $arg, &$caller) {
 
         switch ($event) {
             case 'addElement':
@@ -80,8 +81,8 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
                 break;
 
             case 'updateValue':
-                // constant values override both default and submitted ones
-                // default values are overriden by submitted
+                // Constant values override both default and submitted ones.
+                // Eefault values are overriden by submitted.
                 $value = $this->_findChoices($caller->_constantValues);
                 if (null === $value) {
                     $value = $this->_findChoices($caller->_submitValues);
@@ -98,7 +99,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         return parent::onQuickFormEvent($event, $arg, $caller);
     }
 
-    function accept(&$renderer, $required = false, $error = null) {
+    public function accept(&$renderer, $required = false, $error = null) {
         parent::accept($renderer, $required, $error);
 
         global $PAGE;
@@ -112,7 +113,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $PAGE->requires->yui_module('moodle-block_mbsnews-lookupset', 'M.block_mbsnews.lookupset.init', array($args), null, true);
         $PAGE->requires->strings_for_js(array('delete'), 'moodle');
     }
-    
+
     /**
      * Sets the value of the form element
      *
@@ -121,28 +122,26 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @access    public
      * @return    void
      */
-    function setValue($value)
-    {
+    public function setValue($value) {
         if (is_array($value)) {
-            
+
             $this->_choices = $value;
-            
+
             if (empty($value)) {
                 $value = 0;
             } else {
                 $value = 1;
             }
         }
-        $this->updateAttributes(array('value'=>$value));
-    } // end func setValue
-
+        $this->updateAttributes(array('value' => $value));
+    }
 
     /**
      * Returns HTML for this form element.
      *
      * @return string
      */
-    function toHtml() {
+    public function toHtml() {
         global $OUTPUT;
 
         $html = $this->_getTabs();
@@ -167,8 +166,8 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
 
         return $html;
     }
-    
-    function exportValue(&$submitValues, $assoc = false) {
+
+    public function exportValue(&$submitValues, $assoc = false) {
         $value = (isset($submitValues[$this->_selectedkey])) ? $submitValues[$this->_selectedkey] : null;
         return $this->_prepareValue($value, $assoc);
     }

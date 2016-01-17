@@ -3,7 +3,7 @@
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
 // Moodle is distributed in the hope that it will be useful,
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Mebis New Blcok message processor, stores messages to be shown using the mebis news block.
+ * Mebis News Block message processor, stores messages to be shown using the mebis news block.
  *
  * @package   message_mbsnewsblock
  * @copyright 2016 Andreas Wagner, ISB
@@ -24,22 +24,13 @@
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //included from messagelib (how to fix?)
 require_once($CFG->dirroot . '/message/output/lib.php');
 
-/**
- * The popup message processor
- *
- * @package   message_popup
- * @copyright 2008 Luis Rodrigues and Martin Dougiamas
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class message_output_mbsnewsblock extends message_output {
 
     public function send_message($eventdata) {
         global $DB;
 
-        //hold onto the popup processor id because /admin/cron.php sends a lot of messages at once
         static $processorid = null;
 
-        //prevent users from getting popup notifications of messages to themselves (happens with forum notifications)
         if (empty($processorid)) {
             $processor = $DB->get_record('message_processors', array('name' => 'mbsnewsblock'));
             $processorid = $processor->id;
@@ -48,7 +39,7 @@ class message_output_mbsnewsblock extends message_output {
         $procmessage->unreadmessageid = $eventdata->savedmessageid;
         $procmessage->processorid = $processorid;
 
-        //save this message for later delivery
+        // Save this message for later delivery.
         $DB->insert_record('message_working', $procmessage);
 
         return true;
@@ -59,7 +50,7 @@ class message_output_mbsnewsblock extends message_output {
      *
      * @param array $preferences An array of user preferences
      */
-    function config_form($preferences) {
+    public function config_form($preferences) {
         return null;
     }
 

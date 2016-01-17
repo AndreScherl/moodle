@@ -42,9 +42,9 @@ class block_mbsnews extends block_base {
         $this->content->footer = '';
 
         $renderer = $PAGE->get_renderer('block_mbsnews');
-        
+
         $this->content->text .= $renderer->render_content();
-        
+
         return $this->content;
     }
 
@@ -52,13 +52,13 @@ class block_mbsnews extends block_base {
         return true;
     }
 
-    function has_config() {
+    public function has_config() {
         return true;
     }
 
     public function applicable_formats() {
-        // self test of block base class will fail if sum of the format array is zero
-        // workaround: set format true for unimportant context
+        // Self test of block base class will fail if sum of the format array is zero.
+        // Workaround: set format true for unimportant context.
         return array('all' => false, 'my' => true);
     }
 

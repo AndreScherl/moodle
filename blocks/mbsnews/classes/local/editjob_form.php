@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/blocks/mbsnews/form/MoodleQuickForm_lookupset.php
 
 class editjob_form extends \moodleform {
 
-    function definition() {
+    public function definition() {
         global $PAGE, $USER;
 
         $mform = $this->_form;
@@ -39,7 +39,6 @@ class editjob_form extends \moodleform {
         // This is necessary, if you use a client side validation.
         $mform->addElement('header', 'headersettings', get_string('general'));
 
-        //$userfrom = (!empty($USER->email)) ? $USER->email : \core_user::get_noreply_user();
         $mform->addElement('static', 'sendername', get_string('sendername', 'block_mbsnews'), fullname($USER));
 
         $mform->addElement('hidden', 'sender', $USER->id);
@@ -61,59 +60,60 @@ class editjob_form extends \moodleform {
         $choices = array(0 => get_string('select'));
         $mform->addElement('select', 'roleselector', get_string('roleid', 'block_mbsnews'), $choices);
         $mform->disabledIf('roleselector', 'contextlevel', 'eq', 0);
-        
+
         // Need a hidden element to submit the roleid, when roleselector is filled by AJAX.
         $mform->addElement('hidden', 'roleid', 0, array('id' => 'id_roleid'));
         $mform->setType('roleid', PARAM_INT);
 
         // Number of Recipients.
-        $mform->addElement('static', 'recipients', get_string('recipients', 'block_mbsnews'), \html_writer::tag('span', '', array('id' => 'id_recipients')));
+        $mform->addElement('static', 'recipients', get_string('recipients', 'block_mbsnews'),
+                \html_writer::tag('span', '', array('id' => 'id_recipients')));
+
         $mform->addElement('hidden', 'countrecipients', 0, array('id' => 'id_countrecipients'));
         $mform->setType('countrecipients', PARAM_INT);
-        
+
         // Subject.
         $mform->addElement('text', 'subject', get_string('subject', 'block_mbsnews'));
         $mform->setType('subject', PARAM_TEXT);
          $mform->addRule('subject', null, 'required', null, 'client');
-        
+
         // Editor.
         $mform->addElement('editor', 'fullmessage', get_string('fullmessage', 'block_mbsnews'));
         $mform->setType('fullmessage', PARAM_TEXT);
         $mform->addRule('fullmessage', null, 'required', null, 'server');
-        
 
-        // @TODO: Implement duration of display: mark messages as read or only don't display them?
+        // TODO: Implement duration of display: mark messages as read or only don't display them?
         $choices = array();
         for ($i = 0; $i <= 100; $i++) {
             $choices[$i] = $i;
         }
         $mform->addElement('select', 'duration', get_string('duration', 'block_mbsnews'), $choices, array('disabled' => 'disabled'));
-        
+
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
-        
+
         // Buttons.
         $this->add_action_buttons(true);
 
         $args = array();
         $args['url'] = $ajaxurl->out();
-        
+
         $PAGE->requires->yui_module('moodle-block_mbsnews-editjobform', 'M.block_mbsnews.editjobform', array($args));
     }
-    
+
     /**
      * Setup the editor text properly.
      * 
-     * @param object $default_values
+     * @param object $defaultvalues
      */
-    public function set_data($default_values) {
-    
-        if (!isset($default_values->fullmessage['text'])) {
-            
-            $default_values->fullmessage =  array('text' => $default_values->fullmessage);
+    public function set_data($defaultvalues) {
+
+        if (!isset($defaultvalues->fullmessage['text'])) {
+
+            $defaultvalues->fullmessage = array('text' => $defaultvalues->fullmessage);
         }
-        
-        parent::set_data($default_values);
+
+        parent::set_data($defaultvalues);
     }
 
 }

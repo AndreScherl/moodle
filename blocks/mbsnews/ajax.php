@@ -30,15 +30,15 @@ $action = required_param('action', PARAM_TEXT);
 switch ($action) {
 
     case 'search' :
-        
+
         $context = context_system::instance();
         require_capability('block/mbsnews:sendnews', $context);
-        
+
         $searchtext = optional_param('searchtext', '', PARAM_TEXT);
         $contextlevel = optional_param('contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
 
         if ($contextlevel == CONTEXT_COURSECAT) {
-            
+
             $like = $DB->sql_like('name', '?', false);
             $params = array('%' . $searchtext . '%', \local_mbs\local\schoolcategory::$schoolcatdepth);
 
@@ -50,9 +50,9 @@ switch ($action) {
                 $results[] = html_writer::tag('span', $category->name, array('id' => $category->id));
             }
         }
-        
+
         if ($contextlevel == CONTEXT_COURSE) {
-            
+
             $like = $DB->sql_like('fullname', '?', false);
             $params = array('%' . $searchtext . '%');
 
@@ -64,58 +64,58 @@ switch ($action) {
                 $results[] = html_writer::tag('span', $course->fullname, array('id' => $course->id));
             }
         }
-        
+
         echo json_encode(array('error' => 0, 'results' => $results));
         die;
         break;
-    
-    case 'getroleoptions': 
-        
+
+    case 'getroleoptions':
+
         $context = context_system::instance();
         require_capability('block/mbsnews:sendnews', $context);
-        
+
         $contextlevel = optional_param('contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
-        
+
         $sql = "SELECT r.*
-                FROM {role} r 
+                FROM {role} r
                 JOIN {role_context_levels} rcl ON r.id = rcl.roleid AND rcl.contextlevel = ?";
-        
+
         $roles = $DB->get_records_sql($sql, array($contextlevel));
-        
+
         $results = array();
         $results[] = array('value' => '0', 'text' => get_string('select'));
         foreach ($roles as $role) {
             $results[] = array('value' => $role->id, 'text' => role_get_name($role));
         }
-        
+
         echo json_encode(array('error' => 0, 'results' => $results));
         die;
         break;
-    
+
     case 'searchrecipients':
-        
+
         $context = context_system::instance();
         require_capability('block/mbsnews:sendnews', $context);
-        
+
         $params = array();
         $params['contextlevel'] = optional_param('contextlevel', 0, PARAM_INT);
         $params['roleid'] = optional_param('roleid', 0, PARAM_INT);
         $params['instanceidsselected'] = optional_param('instanceidsselected', '', PARAM_TEXT);
-        
-        $result = \block_mbsnews\local\newshelper::search_recipients($params); 
-        
+
+        $result = \block_mbsnews\local\newshelper::search_recipients($params);
+
         echo json_encode($result);
         die;
         break;
-    
-    case 'markasread' : 
-        
+
+    case 'markasread' :
+
         $messageid = required_param('messageid', PARAM_INT);
-        
+
         $message = $DB->get_record('message', array('id' => $messageid), '*', MUST_EXIST);
-        
+
         $result = \block_mbsnews\local\newshelper::mark_message_read($message);
-        
+
         echo json_encode($result);
         die;
         break;

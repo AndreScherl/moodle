@@ -26,7 +26,7 @@ M.block_mbsnews.lookupset = {
                     action: 'search',
                     searchtext: searchtext
                 };
-                
+
                 // Fetch additional params, when available.
                 for (var i = 0; i < opts.ajaxparamnames.length; i++) {
                     var name = opts.ajaxparamnames[i];
@@ -74,14 +74,14 @@ M.block_mbsnews.lookupset = {
 
             var html = content;
             html += "&nbsp;<span class='flookupset-delete'>";
-            html += "<img src='" + M.util.image_url('t/delete') + "' alt = '" + M.str.moodle.delete + "' title='" + M.str.moodle.delete + "'/>"
+            html += "<img src='" + M.util.image_url('t/delete') + "' alt = '" + M.str.moodle.delete + "' title='" + M.str.moodle.delete + "'/>";
             html += "</span>";
             html += "<input type='hidden' name='" + opts.nameselected + "[" + id + "]' value='" + content + "'/>";
 
             // Append a new list node.
             list.append(Y.Node.create('<li>' + html + '</li>'));
 
-            // Set the value of the hidden formelement to indicate filled list for require rule!    
+            // Set the value of the hidden formelement to indicate filled list for require rule!
             formelement.set('value', 'filled');
             formelement.simulate('change');
 
@@ -95,10 +95,10 @@ M.block_mbsnews.lookupset = {
             e.currentTarget.ancestor().remove(true);
 
             if (!list.hasChildNodes()) {
-                // Remove the value of the hidden formelement to indicate empty list for require rule!    
+                // Remove the value of the hidden formelement to indicate empty list for require rule!
                 formelement.set('value', '');
             }
-            
+
             formelement.simulate('change');
         }, 'span');
 

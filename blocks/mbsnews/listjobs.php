@@ -107,17 +107,17 @@ foreach ($jobs as $job) {
     }
 
     $actionlinks = '';
-    
+
     $deleteicon = $OUTPUT->pix_icon('t/delete', get_string('delete'));
     $deleteurl = new moodle_url('/blocks/mbsnews/deletejob.php', array('id' => $job->id));
     $actionlinks .= html_writer::link($deleteurl, $deleteicon);
-    
+
     if ($progress < 100) {
         $editicon = $OUTPUT->pix_icon('t/edit', get_string('edit'));
         $editurl = new moodle_url('/blocks/mbsnews/editjob.php', array('id' => $job->id));
         $actionlinks .= ' '.html_writer::link($editurl, $editicon);
     }
-    
+
     $row = array($timecreated, $contextlevelname, $rolename, $subject, $countrecipients, $progress, $actionlinks);
 
     $table->add_data($row);

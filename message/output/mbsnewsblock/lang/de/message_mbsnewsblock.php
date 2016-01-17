@@ -21,18 +21,5 @@
  * @copyright 2016 Andreas Wagner, ISB
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v2 or later
  */
-/**
- * Upgrade code for the popup message processor
- *
- * @param int $oldversion The version that we are upgrading from
- */
-function xmldb_mbsnewsblock_upgrade($oldversion) {
-    global $CFG, $DB;
 
-    $dbman = $DB->get_manager();
-
-    // Moodle v2.7.0 release upgrade line.
-    // Put any upgrade step following this.
-
-    return true;
-}
+$string['pluginname'] = 'mebis- News Block';

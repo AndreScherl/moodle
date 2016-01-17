@@ -3,7 +3,7 @@
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
 // Moodle is distributed in the hope that it will be useful,
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Mebis New Blcok message processor, stores messages to be shown using the mebis news block.
+ * Mebis News Block message processor, stores messages to be shown using the mebis news block.
  *
  * @package   message_mbsnewsblock
  * @copyright 2016 Andreas Wagner, ISB

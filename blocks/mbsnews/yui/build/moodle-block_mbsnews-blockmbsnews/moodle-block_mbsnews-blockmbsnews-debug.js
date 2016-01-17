@@ -30,14 +30,14 @@ M.block_mbsnews.blockmbsnews = function (args) {
         var params = {};
         params.action = "markasread";
         params.messageid = messageid;
-        
+
         doSubmit(params, function (r) {
             markAsReadResult(r);
         });
     }
 
     function markAsReadResult(result) {
-        
+
         Y.one('#mbsnewsmessage_' + result.id).hide();
 
     }
@@ -60,6 +60,5 @@ M.block_mbsnews.blockmbsnews = function (args) {
     initialize();
 
 };
-
 
 }, '@VERSION@', {"requires": ["base", "node", "io-base"]});

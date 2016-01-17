@@ -41,7 +41,7 @@ class block_mbsnews_renderer extends plugin_renderer_base {
         }
 
         if ($cancreatenews) {
-            
+
             $icon = $this->output->pix_icon('t/add', get_string('addnotificationjob', 'block_mbsnews'));
             $url = new moodle_url('/blocks/mbsnews/editjob.php');
             $o .= html_writer::link($url, $icon . ' ' . get_string('addnotificationjob', 'block_mbsnews'));
@@ -77,9 +77,9 @@ class block_mbsnews_renderer extends plugin_renderer_base {
 
                 $o .= html_writer::tag('div', $header . $body, array('class' => 'mbsnews-message', 'id' => 'mbsnewsmessage_'.$message->id));
             }
-            
+
             $ajaxurl = new \moodle_url('/blocks/mbsnews/ajax.php');
-            
+
             $args = array();
             $args['url'] = $ajaxurl->out();
             $this->page->requires->yui_module('moodle-block_mbsnews-blockmbsnews', 'M.block_mbsnews.blockmbsnews', array($args));

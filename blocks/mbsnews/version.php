@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011701;       
-$plugin->requires  = 2014051201;       
-$plugin->component = 'block_mbsnews'; 
+$plugin->version   = 2016011702;
+$plugin->requires  = 2014051201;
+$plugin->component = 'block_mbsnews';
 $plugin->depencies = array('local_mbs' => ANY_VERSION);
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->release = '2.7+ (Build: 2015011601)';

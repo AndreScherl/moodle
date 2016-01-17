@@ -39,7 +39,7 @@ class newshelper {
         global $USER;
 
         $oldmessageid = $message->id;
-        
+
         if ($message->useridto != $USER->id) {
             return array('error' => get_string('errormarkasreadonlyown', 'block_mbsnews'));
         }
@@ -60,8 +60,8 @@ class newshelper {
     public static function get_news($user) {
         global $DB;
 
-        $sql = "SELECT m.* FROM {message} m 
-                JOIN {message_working} mw ON m.id = mw.unreadmessageid  
+        $sql = "SELECT m.* FROM {message} m
+                JOIN {message_working} mw ON m.id = mw.unreadmessageid
                 JOIN {message_processors} p ON p.id = mw.processorid AND p.name = :pname
                 WHERE m.useridto = :userid ORDER BY m.timecreated DESC";
 
@@ -89,7 +89,7 @@ class newshelper {
     /**
      * Add an array with the name of selected instances (i. e. the name of category
      * or course) to the job object.
-
+     *
      * @param object $jobs
      */
     private static function add_instanceinfo(&$jobs) {
@@ -162,7 +162,7 @@ class newshelper {
             return array();
         }
 
-        // Add the instance information to the jobs. 
+        // Add the instance information to the jobs.
         self::add_instanceinfo($jobs);
         return $jobs;
     }
@@ -402,7 +402,7 @@ class newshelper {
         $query = $sql->select . $sql->join . $sql->where;
 
         if (!$recipients = $DB->get_records_sql($query, $sql->params, 0, $maxmessagescount)) {
-            // all done.
+            // All done.
             $job->timefinished = time();
             $DB->update_record('block_mbsnews_job', $job);
             return 0;

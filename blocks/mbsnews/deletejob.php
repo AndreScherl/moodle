@@ -27,8 +27,8 @@ $jobid = optional_param('id', 0, PARAM_INT);
 
 // Verify the job to be edited.
 if (!empty($jobid)) {
-    
-   $job = \block_mbsnews\local\newshelper::load_job_instance($jobid);
+
+    $job = \block_mbsnews\local\newshelper::load_job_instance($jobid);
 }
 
 $pageurl = new moodle_url('/blocks/mbsnews/deletejob.php', array('id' => $jobid));

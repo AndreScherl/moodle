@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
- *
- * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
+ * @package   block_mbsnews
+ * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016011800;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';
+require_once(__DIR__ . '/../../../config.php');
+
+require_capability('moodle/site:config', context_system::instance());
+
+$params = array();
+$params['contextlevel'] = optional_param('contextlevel', 40, PARAM_INT);
+$params['roleid'] = optional_param('roleid', 2, PARAM_INT);
+$params['instanceidsselected'] = optional_param('instanceidsselected', '', PARAM_TEXT);
+
+print_r(\block_mbsnews\local\newshelper::search_recipients($params));

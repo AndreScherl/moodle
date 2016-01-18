@@ -1,0 +1,14 @@
+{
+    "moodle-local_mbs-lookupset": {
+        "requires": [
+            "base",
+            "node",
+            "io-base",
+            "json",
+            "autocomplete",
+            "autocomplete-highlighters",
+            "autocomplete-filters", 
+            "node-event-simulate"
+        ]
+    }
+}

@@ -15,17 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
+ * Mebis News Block message processor, stores messages to be shown using the mebis news block.
  *
- * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   message_mbsnewsblock
+ * @copyright 2016 Andreas Wagner, ISB
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v2 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016011800;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
+$plugin->version   = 2016011600;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2014051209;        // Requires this Moodle version.
+$plugin->component = 'message_mbsnewsblock';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';

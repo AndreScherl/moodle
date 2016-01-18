@@ -15,17 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
+ * Mebis News Block message processor, stores messages to be shown using the mebis news block.
  *
- * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   message_mbsnewsblock
+ * @copyright 2016 Andreas Wagner, ISB
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v2 or later
  */
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Upgrade code for the popup message processor
+ *
+ * @param int $oldversion The version that we are upgrading from
+ */
+function xmldb_mbsnewsblock_upgrade($oldversion) {
+    global $CFG, $DB;
 
-$plugin->version = 2016011800;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';
+    $dbman = $DB->get_manager();
+
+    // Moodle v2.7.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    return true;
+}

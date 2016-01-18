@@ -26,7 +26,6 @@ namespace local_mbs\local;
 
 use context_system;
 use moodle_url;
-use html_writer;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -250,10 +249,7 @@ class core_changes {
      */    
     public static function get_users_by_id($ids) {
         global $DB;        
-        list($searchcriteria, $params) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED);
-        $searchcriteria = 'id ' . $searchcriteria;
-        $users = $DB->get_records_select('user', $searchcriteria, $params);
-        return $users;        
+        return $DB->get_records_list('user', 'id', $ids);       
     }
     
     /**
@@ -269,26 +265,21 @@ class core_changes {
         $output = array();
         $output['key'] = get_string('enrolledteachers', 'local_mbs');
         $output['value'] = array('-');
-        
-        $teacherroleid = self::get_roleid_by_shortname(self::$teacherroleshortname);         
-        $teacheridsincourse = get_role_users($teacherroleid, $course->get_context(), false, 'ra.userid', null, false);      
+
+        $teacherroleid = self::get_roleid_by_shortname(self::$teacherroleshortname);
+        $teacheridsincourse = get_role_users($teacherroleid, $course->get_context(), false, 'ra.userid', null, false);
         if (!empty($teacheridsincourse)) {
-            $teacherids = array();
-            foreach($teacheridsincourse as $key => $value) {
-                array_push($teacherids, $key); 
-            }
-            $teachers = self::get_users_by_id($teacherids);
+            $teachers = self::get_users_by_id(array_keys($teacheridsincourse));
         }
         if (!empty($teachers)) {
             $teachernames = array();
             foreach ($teachers as $teacher) {
-                $messageurl = new moodle_url('/message/index.php', array('id' => $teacher->id)); 
-                $link = html_writer::link($messageurl, fullname($teacher));
-                array_push($teachernames, $link);
+                $messageurl = new moodle_url('/message/index.php', array('id' => $teacher->id));
+                $teachernames[] = \html_writer::link($messageurl, fullname($teacher));
             }
             $output['value'] = $teachernames;
         }
-        
+
         return $output;
     }
     

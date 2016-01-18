@@ -26,7 +26,7 @@
     - .que.ddwtos 
     - .que.geogebra
     - .que.match
-    - .que.multichoice
+    - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
 */
 /* 
@@ -327,15 +327,17 @@ div.que.geogebra {
 #page-mod-wiki-view, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
     #main-content-wrapper div[role="main"] {
         div div ul {
-            padding-left: 10px;
+            padding-left: 30px;
             > li {
-                list-style: disc inside none;
+                list-style-position: outside;
+                list-style-image: none;
             }
         }
         div div ol {
-            padding-left: 10px;
+            padding-left: 30px;
             > li {
-                list-style: decimal inside none;
+                list-style-position: outside;
+                list-style-image: none;
             }
         }        
     }
@@ -363,6 +365,11 @@ div.que.geogebra {
     max-width: 1692px;
 }
 
+#page-mod-lesson-view {
+    input[type="submit"] {
+        white-space: normal;
+    }
+}
 
 @media only screen and (min-width: $screen-lg-min) { 
     #page-mod-assign-view .homepage-container {

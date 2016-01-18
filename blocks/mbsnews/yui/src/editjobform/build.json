@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbsnews-editjobform",
+    "builds": {
+        "moodle-block_mbsnews-editjobform": {
+            "jsfiles": [
+                "editjobform.js"
+            ]
+        }
+    }
+}

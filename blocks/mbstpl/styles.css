@@ -227,3 +227,13 @@ div[role="main"] .block-usedreferences ol {
 .path-blocks-mbstpl .path-backup .mform .fitem .felement {
     margin-left: 210px;
 }
+
+span.mbshelp {
+    float:right;
+    width:16px;
+    margin-right: -18px;
+}
+
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span.mbshelp {
+    padding:0px;
+}

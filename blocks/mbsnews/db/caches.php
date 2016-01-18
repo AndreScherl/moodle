@@ -15,17 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
- *
- * @package    local_mbs
- * @copyright  Andreas Wagner, ISB Bayern
+ * @package   block_mbsnews
+ * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016011800;
-$plugin->requires = 2014051201;
-$plugin->cron = 0;
-$plugin->component = 'local_mbs';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.7+ (Build: 2014072400)';
+$definitions = array(
+
+    'mebisnews' => array(
+        'mode' => cache_store::MODE_SESSION,
+    )
+);

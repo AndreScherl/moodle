@@ -16,8 +16,10 @@
 
 /**
  * Lookup search element builiding a dynamical list
+ * 
+ * Note that there is a javascript lookupset.js belonging to this class.
  *
- * @package   block_mbsnews
+ * @package   local_mbs
  * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,14 +37,24 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
     private $_ajaxurl;
     private $_ajaxparamnames;
 
+    /**
+     * Create a from element with lookup search.
+     * 
+     * @param string $elementname name of the element
+     * @param string $elementlabel label of the element
+     * @param string $ajaxurl the url to call when user is inputting at least 3 characters
+     * @param array $ajaxparamids the id of the formelements which values should be send as parameters of the url.
+     * @param array $choices an array with key => value pairs that should appear as default.
+     * @param array $attributes html attributes of the field
+     */
     public function MoodleQuickForm_lookupset($elementname = null,
-                                       $elementlabel = null, $ajaxurl = '', $ajaxparamnames = array(),
+                                       $elementlabel = null, $ajaxurl = '', $ajaxparamids = array(),
                                        $choices = array(), $attributes = null) {
 
         MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
         $this->_type = 'lookupset';
         $this->_selectedkey = $this->getName() . 'selected';
-        $this->_ajaxparamnames = $ajaxparamnames;
+        $this->_ajaxparamnames = $ajaxparamids;
     }
 
     /**
@@ -110,7 +122,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $args['name'] = $this->getName();
         $args['ajaxparamnames'] = $this->_ajaxparamnames;
         $args['nameselected'] = $args['name'] . 'selected';
-        $PAGE->requires->yui_module('moodle-block_mbsnews-lookupset', 'M.block_mbsnews.lookupset.init', array($args), null, true);
+        $PAGE->requires->yui_module('moodle-local_mbs-lookupset', 'M.local_mbs.lookupset.init', array($args), null, true);
         $PAGE->requires->strings_for_js(array('delete'), 'moodle');
     }
 

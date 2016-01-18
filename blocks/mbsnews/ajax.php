@@ -35,7 +35,7 @@ switch ($action) {
         require_capability('block/mbsnews:sendnews', $context);
 
         $searchtext = optional_param('searchtext', '', PARAM_TEXT);
-        $contextlevel = optional_param('contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
+        $contextlevel = optional_param('id_contextlevel', CONTEXT_COURSECAT, PARAM_TEXT);
 
         if ($contextlevel == CONTEXT_COURSECAT) {
 

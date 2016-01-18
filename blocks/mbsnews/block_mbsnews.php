@@ -59,7 +59,7 @@ class block_mbsnews extends block_base {
     public function applicable_formats() {
         // Self test of block base class will fail if sum of the format array is zero.
         // Workaround: set format true for unimportant context.
-        return array('all' => false, 'my' => true);
+        return array('my' => true);
     }
 
 }

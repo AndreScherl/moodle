@@ -27,7 +27,7 @@ namespace block_mbsnews\local;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/lib/formslib.php');
-require_once($CFG->dirroot . '/blocks/mbsnews/form/MoodleQuickForm_lookupset.php');
+require_once($CFG->dirroot . '/local/mbs/form/MoodleQuickForm_lookupset.php');
 
 class editjob_form extends \moodleform {
 
@@ -53,7 +53,7 @@ class editjob_form extends \moodleform {
         $mform->addElement('select', 'contextlevel', get_string('contextlevel', 'block_mbsnews'), $choices);
 
         $ajaxurl = new \moodle_url('/blocks/mbsnews/ajax.php');
-        $mform->addElement('lookupset', 'instanceids', get_string('instances', 'block_mbsnews'), $ajaxurl, array('contextlevel'));
+        $mform->addElement('lookupset', 'instanceids', get_string('instances', 'block_mbsnews'), $ajaxurl, array('id_contextlevel'));
         $mform->setType('instanceids', PARAM_INT);
 
         // Roles.

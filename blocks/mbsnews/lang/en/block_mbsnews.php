@@ -27,6 +27,7 @@ $string['addnotificationjob'] = 'Add a notification job';
 $string['all'] = 'All';
 $string['mbsnews:addinstance'] = 'Add an instance of mebis News';
 $string['mbsnews:myaddinstance'] = 'Add an instance of mebis News to my startpage';
+$string['cachedef_mebisnews'] = 'Hold the current messages of a user for my startpage';
 $string['contextcourse'] = 'Course';
 $string['contextcategory'] = 'Category';
 $string['contextlevel'] = 'Context';

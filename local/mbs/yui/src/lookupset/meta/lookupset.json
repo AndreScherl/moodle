@@ -1,5 +1,5 @@
 {
-    "moodle-block_mbsnews-lookupset": {
+    "moodle-local_mbs-lookupset": {
         "requires": [
             "base",
             "node",

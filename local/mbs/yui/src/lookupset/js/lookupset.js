@@ -1,5 +1,5 @@
-M.block_mbsnews = M.block_mbsnews || {};
-M.block_mbsnews.lookupset = {
+M.local_mbs = M.local_mbs || {};
+M.local_mbs.lookupset = {
     init: function (opts) {
 
         var resultel;
@@ -28,7 +28,7 @@ M.block_mbsnews.lookupset = {
                 // Fetch additional params, when available.
                 for (var i = 0; i < opts.ajaxparamnames.length; i++) {
                     var name = opts.ajaxparamnames[i];
-                    var el = Y.one('#id_' + name);
+                    var el = Y.one('#' + name);
                     if (el) {
                         params[name] = el.get('value');
                     }

@@ -27,6 +27,7 @@ $string['addnotificationjob'] = 'Einen Mitteilungsauftrag erteilen';
 $string['all'] = 'Alle';
 $string['mbsnews:addinstance'] = 'Block mebis News erzeugen';
 $string['mbsnews:myaddinstance'] = 'Block mebis News auf der persönlichen Startseite erzeugen';
+$string['cachedef_mebisnews'] = 'Die aktuell anzuzeigenden mebis News für den Nutzer.';
 $string['contextcourse'] = 'Kurs';
 $string['contextcategory'] = 'Kategorie';
 $string['contextlevel'] = 'Kontext';

@@ -36,11 +36,12 @@ $capabilities = array(
     'block/mbsnews:myaddinstance' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
-        'contextlevel' => CONTEXT_BLOCK,
+        'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
         ),
-        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
+
     'block/mbsnews:sendnews' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',

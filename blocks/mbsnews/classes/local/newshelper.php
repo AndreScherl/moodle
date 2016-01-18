@@ -46,6 +46,10 @@ class newshelper {
 
         // Try to mark as read.
         if ($mid = message_mark_message_read($message, time())) {
+            
+            $cache = \cache::make('block_mbsnews', 'mebisnews');
+            $cache->delete($message->useridto);
+            
             return array('error' => 0, 'results' => array('id' => $oldmessageid));
         }
 
@@ -59,6 +63,11 @@ class newshelper {
      */
     public static function get_news($user) {
         global $DB;
+        
+        $cache = \cache::make('block_mbsnews', 'mebisnews');
+        if ($result = $cache->get($user->id)) {
+            return $result;
+        }
 
         $sql = "SELECT m.* FROM {message} m
                 JOIN {message_working} mw ON m.id = mw.unreadmessageid
@@ -83,6 +92,8 @@ class newshelper {
 
         $result->authors = $DB->get_records_list('user', 'id', $authorids);
 
+        $cache->set($user->id, $result);
+        
         return $result;
     }
 
@@ -456,6 +467,10 @@ class newshelper {
                 $log->jobid = $job->id;
                 $log->recipientid = $userto->id;
                 $DB->insert_record('block_mbsnews_job_processed', $log);
+                
+                // Delete users cache.
+                $cache = \cache::make('block_mbsnews', 'mebisnews');
+                $cache->delete($userto->id);
             }
         }
 

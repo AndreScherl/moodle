@@ -27,7 +27,7 @@ namespace block_mbsnews\local;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/lib/formslib.php');
-require_once($CFG->dirroot . '/local/mbs/form/MoodleQuickForm_lookupset.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.php');
 
 class editjob_form extends \moodleform {
 

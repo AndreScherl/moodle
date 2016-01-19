@@ -53,7 +53,7 @@ class qtype_textarea extends qtype_base {
         return parent::save_answer($metaid, $questionid, $answer['text'], $comment, $answer['format']);
     }
 
-    public static function process_answer($answer) {
+    public static function process_answer($question, $answer) {
         return array('text' => $answer->data, 'format' => $answer->dataformat);
     }
 
@@ -63,6 +63,4 @@ class qtype_textarea extends qtype_base {
     public static function get_query_filters($question, $answer) {
         return qtype_text::get_query_filters($question, $answer);
     }
-
-
 }

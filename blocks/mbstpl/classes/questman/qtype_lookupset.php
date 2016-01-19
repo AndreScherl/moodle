@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -31,19 +30,25 @@ require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.
 class qtype_lookupset extends qtype_base {
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
+
         $form->addElement('text', 'param1', get_string('ajaxurl', 'block_mbstpl'));
         $form->setType('param1', PARAM_URL);
         $form->addRule('param1', get_string('required'), 'required', null, 'client');
 
+        $form->addElement('text', 'param2', get_string('datasource', 'block_mbstpl'));
+        $form->setType('param2', PARAM_TEXT);
+        $form->addRule('param2', get_string('required'), 'required', null, 'client');
+        $form->addHelpButton('param2', 'datasource', 'block_mbstpl');
+
         $form->addElement('hidden', 'defaultdata', '0');
         $form->setType('defaultdata', PARAM_INT);
-    }   
-    
+    }
+
     public static function add_template_element(\MoodleQuickForm $form,
                                                 $question) {
 
         $ajaxurl = new \moodle_url($question->param1);
-        $question->title = self::add_help_button($question);   
+        $question->title = self::add_help_button($question);
         $form->addElement('lookupset', $question->fieldname, $question->title, $ajaxurl, array());
         $form->setType($question->fieldname, PARAM_INT);
     }
@@ -84,43 +89,44 @@ class qtype_lookupset extends qtype_base {
 
     public static function add_to_searchform(\MoodleQuickForm $form, $question,
                                              $elname) {
+
         $ajaxurl = new \moodle_url($question->param1);
-        $question->title = self::add_help_button($question);   
+        $question->title = self::add_help_button($question);
         $form->addElement('lookupset', $elname, $question->title, $ajaxurl, array());
         $form->setType($elname, PARAM_INT);
     }
 
     /**
-     * TODO
      * Set the query filter for this matedata filter. Note that using like will
      * slow down performance when more options are selected.
      * 
-     * @param type $question
-     * @param type $answer
-     * @return array
+     * @param object $question instance of a question type class.
+     * @param string|array $answer data submitted by the search form for this question-type
+     * @return array parameter for building the search query.
      */
     public static function get_query_filters($question, $answer) {
         global $DB;
 
         $toreturn = array('wheres' => array(), 'params' => array());
+
         if (empty($answer)) {
             return $toreturn;
         }
 
-        $checkids = array_keys($answer);
-        //IN() verwenden!
         $like = array();
         $qparam = 'q' . $question->id;
 
+        $checkids = array_keys($answer);
+        // For each checked option we do a search in the data string.
         foreach ($checkids as $optionid) {
-            $like[] = $DB->sql_like($qparam . '.data', ':option' . $optionid);
-            $toreturn['params']['option' . $optionid] = '%#' . $optionid . '#%';
+            $like[] = " {$optionid} IN ({$qparam}.data) ";
         }
 
-        $likes = "(" . implode(" OR ", $like) . ")";
+        $extralike = "(" . implode(" OR ", $like) . ")";
+        $toreturn['joins'][] = self::get_join("AND $extralike", $qparam);
 
+        // Note that this param is needed by self::get_join call.
         $toreturn['params'][$qparam] = $question->id;
-        $toreturn['joins'][] = self::get_join("AND $likes", $qparam);
 
         return $toreturn;
     }
@@ -134,21 +140,54 @@ class qtype_lookupset extends qtype_base {
      * @param string $data, the data for the field
      * @return array|string the array of field indices, which should be checked or original data.
      */
-    public static function prepare_data($data) {
+    public static function process_answer($question, $answer) {
         global $DB;
-        
-        if (empty($data[0])) {
-            return $data;
-        }
 
-        $values = trim($data, ','); 
-
-        if (empty($values)) {
+        if (empty($answer->data)) {
             return array();
-        } else {
-            $subjects = $DB->get_records_list('block_mbstpl_subjects', 'subject', $values);
-            return  array_combine(explode(',', $values), $subjects);
         }
+
+        $valuearray = explode(',', $answer->data);
+
+        // If no data source is given, use the values for display.
+        if (empty($question->param2)) {
+
+            $defaultvalues = array();
+
+            foreach ($valuearray as $value) {
+                $defaultvalues[$value] = $value;
+            }
+
+            return $defaultvalues;
+        }
+
+        // Get the values using a datasource.
+        list($table, $keyfield, $valuefield) = explode(',', $question->param2);
+
+        try {
+
+            $table = trim($table);
+            $keyfield = trim($keyfield);
+            $valuefield = trim($valuefield);
+
+            $sourcedata = $DB->get_records_list($table, $keyfield, $valuearray);
+        } catch (Exception $ex) {
+
+            print_error('Question ' . $question->name . 'has no valid datasource');
+        }
+
+        // This requires a new Questiontype, when a lookupset is retrieving data from another databasetable!
+        if (empty($sourcedata)) {
+            return array();
+        }
+
+        $defaultvalues = array();
+
+        foreach ($sourcedata as $subject) {
+            $defaultvalues[$subject->$keyfield] = $subject->$valuefield;
+        }
+
+        return $defaultvalues;
     }
 
     /**
@@ -158,5 +197,5 @@ class qtype_lookupset extends qtype_base {
     public static function get_editors() {
         return array('help');
     }
-}
 
+}

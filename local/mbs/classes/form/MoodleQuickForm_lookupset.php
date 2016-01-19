@@ -48,8 +48,11 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @param array $attributes html attributes of the field
      */
     public function MoodleQuickForm_lookupset($elementname = null,
-                                       $elementlabel = null, $ajaxurl = '', $ajaxparamids = array(),
-                                       $choices = array(), $attributes = null) {
+                                              $elementlabel = null,
+                                              $ajaxurl = '',
+                                              $ajaxparamids = array(),
+                                              $choices = array(),
+                                              $attributes = null) {
 
         MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
         $this->_type = 'lookupset';
@@ -135,6 +138,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @return    void
      */
     public function setValue($value) {
+        
         if (is_array($value)) {
 
             $this->_choices = $value;
@@ -155,6 +159,10 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      */
     public function toHtml() {
         global $OUTPUT;
+
+        if ($this->_flagFrozen) {
+            return $this->getFrozenHtml();
+        }
 
         $html = $this->_getTabs();
 
@@ -183,7 +191,34 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $value = (isset($submitValues[$this->_selectedkey])) ? $submitValues[$this->_selectedkey] : null;
         return $this->_prepareValue($value, $assoc);
     }
+    
+    /**
+     * Returns the html to be used when the element is frozen
+     *
+     * @since     Moodle 2.4
+     * @return    string Frozen html
+     */
+    function getFrozenHtml() {
 
+        $html = $this->_getTabs();
+
+        if (empty($this->_choices)) {
+            $html .= '<input' . $this->_getAttrString($this->_attributes) . ' disabled="disabled" />';
+            return $html;
+        }
+        
+        $li = '';
+        foreach ($this->_choices as $key => $value) {
+
+            $li .= html_writer::tag('li', $value, array('value' => $value));
+        }
+
+        $html .= html_writer::tag('ul', $li, array('id' => 'id_' . $this->getName() . '_list'));
+
+        return $html;
+    }
+
+//end func getFrozenHtml
 }
 
 MoodleQuickForm::registerElementType('lookupset', __FILE__, 'MoodleQuickForm_lookupset');

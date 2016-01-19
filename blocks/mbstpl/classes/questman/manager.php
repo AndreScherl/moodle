@@ -54,10 +54,10 @@ class manager {
         $sm = get_string_manager();
         $types = self::allowed_datatypes();
         foreach ($types as $type) {
-            if ($sm->string_exists('pluginname', 'profilefield_'.$type)) {
-                $datatypes[$type] = get_string('pluginname', 'profilefield_'.$type);
+            if ($sm->string_exists('pluginname', 'profilefield_' . $type)) {
+                $datatypes[$type] = get_string('pluginname', 'profilefield_' . $type);
             } else {
-                $datatypes[$type] = get_string('field_'.$type, 'block_mbstpl');
+                $datatypes[$type] = get_string('field_' . $type, 'block_mbstpl');
             }
         }
         asort($datatypes);
@@ -231,10 +231,10 @@ class manager {
             return;
         }
         $draft = self::get_qform_draft();
-        $formobj = (object)array(
-            'questions' => $draft,
-            'name' => $formname,
-            'timecreated' => time(),
+        $formobj = (object) array(
+                    'questions' => $draft,
+                    'name' => $formname,
+                    'timecreated' => time(),
         );
         $DB->insert_record('block_mbstpl_qform', $formobj);
 
@@ -293,7 +293,7 @@ class manager {
      */
     public static function map_answers_to_fieldname($questions, $metaid) {
         global $DB;
-        
+
         $qids = array();
         $answers = array();
         foreach ($questions as $question) {
@@ -305,8 +305,7 @@ class manager {
 
         list($qidin, $params) = $DB->get_in_or_equal($qids, SQL_PARAMS_NAMED);
         $params['meta'] = $metaid;
-        $preprocesseds = $DB->get_records_select('block_mbstpl_answer', "metaid = :meta AND questionid $qidin", $params,
-            '', 'id,data,dataformat,questionid');
+        $preprocesseds = $DB->get_records_select('block_mbstpl_answer', "metaid = :meta AND questionid $qidin", $params, '', 'id,data,dataformat,questionid');
         foreach ($preprocesseds as $prec) {
             $qid = $prec->questionid;
             if (!isset($questions[$qid])) {
@@ -314,7 +313,7 @@ class manager {
             }
             $question = $questions[$qid];
             $typeclass = qtype_base::qtype_factory($question->datatype);
-            $answers[$question->fieldname] = $typeclass::process_answer($prec);
+            $answers[$question->fieldname] = $typeclass::process_answer($question, $prec);
         }
         return $answers;
     }
@@ -401,7 +400,7 @@ class manager {
         $enableds = array();
         $disableds = array();
         foreach ($allqs as $id => $question) {
-            $qobj = (object)array('id' => $id, 'name' => $question, 'enabled' => false);
+            $qobj = (object) array('id' => $id, 'name' => $question, 'enabled' => false);
             if (isset($searchqskeys[$id])) {
                 $qobj->enabled = true;
                 $enableds[$searchqskeys[$id]] = $qobj;
@@ -413,7 +412,8 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form(mbst\dataobj\template $template, $course, $customdata = array()) {
+    public static function build_form(mbst\dataobj\template $template, $course,
+                                      $customdata = array()) {
 
         global $DB;
 
@@ -422,7 +422,7 @@ class manager {
         $backup = new mbst\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
         $qform = mbst\questman\manager::get_qform($backup->qformid);
         $qidlist = $qform ? $qform->questions : '';
-        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);        
+        $questions = mbst\questman\manager::get_questsions_in_order($qidlist);
         $creator = $DB->get_record('user', array('id' => $backup->creatorid));
         foreach (array_keys($questions) as $questionid) {
             $questions[$questionid]->fieldname = 'custq' . $questions[$questionid]->id;
@@ -436,43 +436,91 @@ class manager {
         );
 
         $tform = new mbst\form\editmeta(null, $customdata);
+        
+        
         $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
+        
+        
         $tform->set_data($answers);
 
         self::populate_meta($tform, $meta, false);
-
+        
         return $tform;
     }
 
-    public static function populate_meta(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
+    /**
+     * Map the array keys to question types and call prepare_data functions
+     * of the question type classes to prepare the data for calling set_data()
+     * of the form.
+     * 
+     * @param array $default_values
+     * @return array the prepared values for using in moodle forms.
+     */
+    private static function process_answers($answers, &$defaultformdata) {
+        global $DB;
 
-        $setdata = (object)array(
-            'license' => $meta->license,
-            'tags' => $meta->get_tags_string()
+        $sql = "SELECT CONCAT('custq', id), q.* FROM {block_mbstpl_question} q";
+
+        if (!$questions = $DB->get_records_sql($sql, array())) {
+            return false;
+        }
+
+        $allowedtypes = self::allowed_datatypes();
+
+        foreach ($answers as $key => $answer) {
+
+            if (!isset($questions[$key])) {
+                continue;
+            }
+
+            if (!in_array($questions[$key]->datatype, $allowedtypes)) {
+                continue;
+            }
+
+            $typeclass = qtype_base::qtype_factory($questions[$key]->datatype);
+ 
+            $defaultformdata->$key = $typeclass::process_answer($questions[$key], $answer);
+        }
+        return true;
+    }
+    
+    
+    public static function populate_meta(mbst\form\editmeta $form,
+                                         mbst\dataobj\meta $meta,
+                                         $setanswers = true) {
+
+        $setdata = (object) array(
+                    'license' => $meta->license,
+                    'tags' => $meta->get_tags_string()
         );
 
         if ($setanswers) {
             // Load the answers to the dynamic questions.
             /* @var $answers mbst\dataobj\answer[] */
             $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
+            
+            // Index ansers by field name.
+            $answerdata = array();
+            
             foreach ($answers as $answer) {
-                $setdata->{'custq'.$answer->questionid} = array('text' => $answer->data, 'format' => $answer->dataformat);
-                $setdata->{'custq'.$answer->questionid.'_comment'} = $answer->comment;
+                $answerdata['custq' . $answer->questionid] = $answer;
             }
+            
+            self::process_answers($answerdata, $setdata);
         }
         
         $form->set_data($setdata);
     }
-    
+
     /**
      * Install mebis build-in meta questions
      */
     public static function install_questions() {
         $question = new \stdClass();
-        
+
         $question->datatype = 'checkboxgroup';
         $question->name = 'Jahrgangsstufe';
-        $question->title = 'Jahrgangsstufe';        
+        $question->title = 'Jahrgangsstufe';
         $question->defaultdata = '';
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = '1
@@ -490,13 +538,13 @@ class manager {
         13';
         $question->param2 = NULL;
         $question->help = '<p>Mehrfachauswahl möglich</p>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkboxgroup';
         $question->name = 'Schulart';
-        $question->title = 'Schulart';        
+        $question->title = 'Schulart';
         $question->defaultdata = '';
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Grundschule
@@ -512,26 +560,26 @@ class manager {
         Fachakademie';
         $question->param2 = NULL;
         $question->help = '<p>Mehrfachauswahl möglich</p>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkboxgroup';
         $question->name = 'Computereinsatz';
-        $question->title = 'Computereinsatz';        
+        $question->title = 'Computereinsatz';
         $question->defaultdata = '';
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'zu Hause
         im Unterricht';
         $question->param2 = NULL;
         $question->help = '<p>Mehrfachauswahl möglich</p>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'Fremdmaterial';
-        $question->title = 'Fremdmaterial';        
+        $question->title = 'Fremdmaterial';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Sofern Fremdmaterial verwendet wurde, ist das Urheberrecht beachtet.';
@@ -542,25 +590,25 @@ class manager {
                 . '<li>Alle angegebenen CC-Lizenzen beinhalten einen Link zur Lizenz, z. B. <a href="https://creativecommons.org/licenses/by/3.0/de/">CC BY 3.0 DE</a>.</li>'
                 . '<li>Für Fremdmaterialien, die nicht unter einer freien Lizenz stehen, aber mit freundlicher Genehmigung des Urhebers verwendet werden dürfen, wurde eine Weiterverbreitungserlaubnis eingeholt und archiviert (z. B. © Cornelsen Verlag. Mit freundlicher Genehmigung zur Weiterverbreitung.).</li>'
                 . '</ul>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'Fremdmaterial bearbeitet';
-        $question->title = 'Fremdmaterial bearbeitet';        
+        $question->title = 'Fremdmaterial bearbeitet';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Sofern Fremdmaterialien zulässigerweise verändert wurden, ist kenntlich gemacht, worin die Bearbeitung besteht, jeweils gefolgt von der jeweiligen (CC-)Kennzeichnung.';
         $question->param2 = NULL;
         $question->help = '<ul><li>z. B. Übersetzung des Werks … aus dem Englischen, Ausschnitt des Bildes …, Textüberarbeitung</li></ul>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'Eigenmaterial';
-        $question->title = 'Eigenmaterial';        
+        $question->title = 'Eigenmaterial';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Sofern Eigenmaterial verwendet wurde, ist dieses kenntlich gemacht. Bei selbst erstellten Texten und Arbeitsaufträgen ist dies nicht erforderlich.';
@@ -568,25 +616,25 @@ class manager {
         $question->help = '<ul><li>Selbsterzeugte Bilder, Videos, Audios u. ä. sind mit Quellenangaben versehen.</li>'
                 . '<li>Texte, Aufgabenstellungen u. ä. sind, soweit nicht anders angegeben, Eigenmaterialien und müssen nicht explizit mit dem eigenen Namen versehen werden.</li>'
                 . '</ul>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'Stimmaufnahmen und Bildnisse';
-        $question->title = 'Stimmaufnahmen und Bildnisse';        
+        $question->title = 'Stimmaufnahmen und Bildnisse';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Sofern Stimmaufnahmen und Bildnisse im Sinne des § 22 KunstUrhG verwendet werden, wurden schriftliche Einverständniserklärungen eingeholt und archiviert.';
         $question->param2 = NULL;
         $question->help = NULL;
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'personenbezogene oder -beziehbare Daten';
-        $question->title = 'personenbezogene oder -beziehbare Daten';        
+        $question->title = 'personenbezogene oder -beziehbare Daten';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
@@ -594,35 +642,35 @@ class manager {
         $question->help = '<ul><li>Profilnamen werden automatisch anonymisiert, z. B. Autor eines Forenbeitrags.</li>'
                 . '<li>Namensnennungen in Texteingaben müssen selbstständig editiert werden, z. B. „Eva hat ein tolles Referat gehalten.“ -> „SchülerX hat ein tolles Referat gehalten.“</li>'
                 . '</ul>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'checkbox';
         $question->name = 'Nutzungsbedingungen';
-        $question->title = 'Nutzungsbedingungen';        
+        $question->title = 'Nutzungsbedingungen';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
         $question->param2 = NULL;
         $question->help = '<p>Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungen/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.</p>';
-        $question->required = 1;        
-        $question->inuse = 0;        
+        $question->required = 1;
+        $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'textarea';
         $question->name = 'Kursbeschreibung';
-        $question->title = 'Kursbeschreibung';        
+        $question->title = 'Kursbeschreibung';
         $question->defaultdata = '';
         $question->defaultdataformat = 0; //FORMAT_MOODLE
         $question->param1 = 30;
         $question->param2 = 2048;
         $question->help = NULL;
-        $question->required = 0;        
-        $question->inuse = 0;        
+        $question->required = 0;
+        $question->inuse = 0;
         self::add($question);
     }
-    
+
     /**
      * Adding a new question to table block_mbstpl_question
      * @param object $question {
@@ -639,46 +687,46 @@ class manager {
      * }
      */
     public static function add($question) {
-        global $DB;      
-        return $DB->insert_record('block_mbstpl_question', $question);        
+        global $DB;
+        return $DB->insert_record('block_mbstpl_question', $question);
     }
-    
-     /**
+
+    /**
      * Install mebis build-in subjects
      */
     public static function install_subjects() {
-        global $DB;      
-        $subjects = array("Agrarwirtschaft",  "Allgemeine Betriebswirtschaftslehre",  "Angewandte Informatik",  "Arbeitssicherheit",  
-            "Astrophysik",  "Augenoptik",  "Aussenwirtschaft",  "Bautechnik",  "Bekleidungstechnik",  "Betriebswirtschaftliche Steuerung und Kontrolle",  
-            "Betriebswirtschaftslehre mit Rechnungswesen",  "Biologie",  "Biophysik",  "Blumenkunst",  "Buchführung",  "Bürokommunikation",  
-            "Chemie",  "Chemietechnik",  "Chinesisch",  "Darstellung",  "Datenverarbeitung",  "Datenverarbeitungstechnik",  "Deutsch",  
-            "Deutsch als Zweitsprache",  "Drucktechnik",  "Elektrotechnik",  "Englisch",  "Ergotherapie",  "Ernährung und Hauswirtschaft",  
-            "Ernährung und Versorgung",  "Ethik",  "Euro-Management-Assistenten",  "Evangelische Religionslehre",  "Fahrzeugtechnik und Elektromobilität",  
-            "Familienpflege",  "Farbtechnik und Raumgestaltung",  "Fleischtechnik",  "Förderschwerpunkt emotionale und soziale Entwicklung",  
-            "Förderschwerpunkt geistige Entwicklung",  "Förderschwerpunkt Hören",  "Förderschwerpunkt körperliche und motorische Entwicklung",  
-            "Förderschwerpunkt Lernen",  "Förderschwerpunkt Sehen",  "Förderschwerpunkt Sprache",  "Französisch",  "Fremdsprachenberufe",  
-            "Gastgewerbliche Berufe",  "Geisteswissenschaften",  "Geographie",  "Geologie",  "Geschichte",  "Gestaltung",  "Gestaltungslehre",  
-            "Gesundheit",  "Gesundheit und Soziales",  "Gesundheitswesen",  "Glashüttentechnik",  "Griechisch",  "Hauswirtschaft",  
-            "Heilerziehungspflege",  "Heilpädagogik",  "Heimat- und Sachunterricht",  "Holztechnik",  "Hotel- und Gaststättengewerbe ",  
-            "Informatik",  "Informatiktechnik",  "Informationsverarbeitung",  "Islamischer Unterricht",  "Italienisch",  "Katholische Religionslehre",  
-            "Kaufmännische Assistenten",  "Keramik und Design",  "Körperpflege",  "Kunst",  "Kunsterziehung",  "Kunststofftechnik",  "Landeskunde",  
-            "Latein",  "Lebensmittelverarbeitungstechnik",  "Maschinenbautechnik",  "Mathematik",  "Mechatronik",  "Medien",  "Medizinische Fachangestellte",  
-            "Meisterschule",  "Mensch und Umwelt",  "Metallbautechnik",  "Metalltechnik",  "Musik",  "Musisch-ästhetische Bildung",  "Natur und Technik",  
-            "Naturwissenschaften",  "Neugriechisch",  "Pädagogik",  "Physik",  "Physiotherapie",  "Politik",  "Psychologie",  "Raum- und Objektdesign",  
-            "Rechnungswesen",  "Rechtslehre",  "Rechtswesen",  "Russisch",  "Sanitär-, Heizungs- und Klimatechnik",  "Sozialkunde",  "Sozialpädagogik",  
-            "Sozialpraktische Grundbildung",  "Sozialwissenschaftliche Arbeitsfelder",  "Spanisch",  "Sport",  "Steintechnik",  "Technik",  
-            "Technische Assistenten",  "Technisches Zeichnen",  "Technologie",  "Textiltechnik",  "Textiltechnik und Bekleidung",  
-            "Textverarbeitung",  "Tschechisch",  "Türkisch",  "Übungsunternehmen",  "Umweltschutztechnik und regenerative Energien",  
-            "Volkswirtschaft",  "Volkswirtschaftslehre",  "Werken und Gestalten",  "Wirtschaft",  "Wirtschaft und Beruf",  
-            "Wirtschaft und Kommunikation",  "Wirtschaft und Recht",  "Wirtschaft und Verwaltung",  "Wirtschaftsgeographie",  
-            "Wirtschaftsinformatik",  "Wirtschaftslehre",  "Wirtschaftsmathematik");
-        
-        foreach($subjects as $subject) {
+        global $DB;
+        $subjects = array("Agrarwirtschaft", "Allgemeine Betriebswirtschaftslehre", "Angewandte Informatik", "Arbeitssicherheit",
+            "Astrophysik", "Augenoptik", "Aussenwirtschaft", "Bautechnik", "Bekleidungstechnik", "Betriebswirtschaftliche Steuerung und Kontrolle",
+            "Betriebswirtschaftslehre mit Rechnungswesen", "Biologie", "Biophysik", "Blumenkunst", "Buchführung", "Bürokommunikation",
+            "Chemie", "Chemietechnik", "Chinesisch", "Darstellung", "Datenverarbeitung", "Datenverarbeitungstechnik", "Deutsch",
+            "Deutsch als Zweitsprache", "Drucktechnik", "Elektrotechnik", "Englisch", "Ergotherapie", "Ernährung und Hauswirtschaft",
+            "Ernährung und Versorgung", "Ethik", "Euro-Management-Assistenten", "Evangelische Religionslehre", "Fahrzeugtechnik und Elektromobilität",
+            "Familienpflege", "Farbtechnik und Raumgestaltung", "Fleischtechnik", "Förderschwerpunkt emotionale und soziale Entwicklung",
+            "Förderschwerpunkt geistige Entwicklung", "Förderschwerpunkt Hören", "Förderschwerpunkt körperliche und motorische Entwicklung",
+            "Förderschwerpunkt Lernen", "Förderschwerpunkt Sehen", "Förderschwerpunkt Sprache", "Französisch", "Fremdsprachenberufe",
+            "Gastgewerbliche Berufe", "Geisteswissenschaften", "Geographie", "Geologie", "Geschichte", "Gestaltung", "Gestaltungslehre",
+            "Gesundheit", "Gesundheit und Soziales", "Gesundheitswesen", "Glashüttentechnik", "Griechisch", "Hauswirtschaft",
+            "Heilerziehungspflege", "Heilpädagogik", "Heimat- und Sachunterricht", "Holztechnik", "Hotel- und Gaststättengewerbe ",
+            "Informatik", "Informatiktechnik", "Informationsverarbeitung", "Islamischer Unterricht", "Italienisch", "Katholische Religionslehre",
+            "Kaufmännische Assistenten", "Keramik und Design", "Körperpflege", "Kunst", "Kunsterziehung", "Kunststofftechnik", "Landeskunde",
+            "Latein", "Lebensmittelverarbeitungstechnik", "Maschinenbautechnik", "Mathematik", "Mechatronik", "Medien", "Medizinische Fachangestellte",
+            "Meisterschule", "Mensch und Umwelt", "Metallbautechnik", "Metalltechnik", "Musik", "Musisch-ästhetische Bildung", "Natur und Technik",
+            "Naturwissenschaften", "Neugriechisch", "Pädagogik", "Physik", "Physiotherapie", "Politik", "Psychologie", "Raum- und Objektdesign",
+            "Rechnungswesen", "Rechtslehre", "Rechtswesen", "Russisch", "Sanitär-, Heizungs- und Klimatechnik", "Sozialkunde", "Sozialpädagogik",
+            "Sozialpraktische Grundbildung", "Sozialwissenschaftliche Arbeitsfelder", "Spanisch", "Sport", "Steintechnik", "Technik",
+            "Technische Assistenten", "Technisches Zeichnen", "Technologie", "Textiltechnik", "Textiltechnik und Bekleidung",
+            "Textverarbeitung", "Tschechisch", "Türkisch", "Übungsunternehmen", "Umweltschutztechnik und regenerative Energien",
+            "Volkswirtschaft", "Volkswirtschaftslehre", "Werken und Gestalten", "Wirtschaft", "Wirtschaft und Beruf",
+            "Wirtschaft und Kommunikation", "Wirtschaft und Recht", "Wirtschaft und Verwaltung", "Wirtschaftsgeographie",
+            "Wirtschaftsinformatik", "Wirtschaftslehre", "Wirtschaftsmathematik");
+
+        foreach ($subjects as $subject) {
             $record = new \stdClass();
             $record->subject = $subject;
             $records[] = $record;
         }
-        $DB->insert_records('block_mbstpl_subjects', $records, false, true); 
+        $DB->insert_records('block_mbstpl_subjects', $records, false, true);
     }
-    
+
 }

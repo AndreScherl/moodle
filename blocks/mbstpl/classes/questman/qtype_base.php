@@ -134,10 +134,10 @@ class qtype_base {
      * @param object $answer
      */
 
-    public static function process_answer($answer) {
+    public static function process_answer($question, $answer) {
         return $answer->data;
     }
-
+    
     /**
      * Add the appropriate element to search this field.
      * @param \MoodleQuickForm $form
@@ -185,5 +185,4 @@ class qtype_base {
     protected static function definition_after_data_internal(\MoodleQuickForm $form) {
         // Does nothing in the base class.
     }
-
 }

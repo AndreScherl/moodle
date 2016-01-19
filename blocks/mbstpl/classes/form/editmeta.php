@@ -88,45 +88,4 @@ class editmeta extends licenseandassetform {
             $form->freeze();
         }
     }
-    
-    /*
-     * fhüb: in use?
-     */
-//    function definition_after_data() {
-//        mbst\questman\qtype_checklist::definition_after_data($this->_form);
-//    }
-
-    function set_data($default_values) {
-        if (!empty($this->_customdata['freeze'])) {
-            parent::set_data($default_values);
-            return;
-        }
-        if (is_object($default_values)) {
-            $default_values = (array) $default_values;
-        }
-
-        $data = array();
-        foreach ($default_values as $key => $value) {
-
-            if (!is_array($value) || !isset($value['text'])) {
-                $data[$key] = $value;
-                continue;
-            }
-
-            $type = $this->_form->getElementType($key);
-
-            if ($type == 'editor') {
-                $data[$key] = $value;
-            } else {
-                $data[$key] = $value['text'];
-            }
-
-            // Set multiple selects for checkboxgroup.
-            if ($type == 'group') {
-                $data[$key] = mbst\questman\qtype_checkboxgroup::prepare_data($data[$key]);
-            }
-        }
-        parent::set_data($data);
-    }
-
 }

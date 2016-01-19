@@ -89,8 +89,7 @@ class qtype_checkboxgroup extends qtype_menu {
     }
 
     /**
-     * TODO
-     * Set the query filter for this matedata filter. Note that using like will
+     * Set the query filter for this metadata filter. Note that using like will
      * slow down performance when more options are selected.
      * 
      * @param type $question
@@ -98,53 +97,44 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array
      */
     public static function get_query_filters($question, $answer) {
-        global $DB;
 
         $toreturn = array('wheres' => array(), 'params' => array());
+
         if (empty($answer)) {
             return $toreturn;
         }
 
         $checkids = array_keys($answer);
-        //IN() verwenden!
+
         $like = array();
         $qparam = 'q' . $question->id;
 
+        // For each checked option we do a search in the data string.
         foreach ($checkids as $optionid) {
-            $like[] = $DB->sql_like($qparam . '.data', ':option' . $optionid);
-            $toreturn['params']['option' . $optionid] = '%#' . $optionid . '#%';
+            $like[] = " {$optionid} IN ({$qparam}.data) ";
         }
 
-        $likes = "(" . implode(" OR ", $like) . ")";
+        $extralike = "(" . implode(" OR ", $like) . ")";
 
+        $toreturn['joins'][] = self::get_join("AND $extralike", $qparam);
         $toreturn['params'][$qparam] = $question->id;
-        $toreturn['joins'][] = self::get_join("AND $likes", $qparam);
 
         return $toreturn;
     }
 
     /**
-     * Prepare the data, which is given as numbers separated by #.
-     * Note that data is not changed, when it don't start with '#'.
-     * 
-     * This method must be called before $form->set_data();
-     * 
-     * @param string $data, the data for the field
-     * @return array|string the array of field indices, which should be checked or original data.
+     * Gets answer according to type (by default the data, for some fields an array)
+     * @param object $answer
      */
-    public static function prepare_data($data) {
+    public static function process_answer($question, $answer) {
 
-        if (empty($data[0])) {
-            return $data;
-        }
+        if (empty($answer->data)) {
 
-        $value = trim($data, ',');
-
-        if (empty($value)) {
-            return array();
+            return $answer->data;
+            
         } else {
-            return array_fill_keys(explode(',', $value), 1);
+
+            return array_fill_keys(explode(',', $answer->data), 1);
         }
     }
-
 }

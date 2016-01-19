@@ -25,6 +25,7 @@
 $string['addfrombank'] = 'Fügen Sie eine Frage aus der Fragensammlung ein';
 $string['addqtodraft'] = 'Frage verwenden';
 $string['addquestion'] = 'Neue Frage hinzufügen';
+$string['ajaxurl'] = 'Ajax-URL für die Daten';
 $string['archive'] = 'Archiv';
 $string['assigned'] = 'Zugewiesen';
 $string['assigneddate'] = 'Datum';
@@ -154,6 +155,7 @@ $string['feedbackfiles'] = 'Anhang';
 $string['feedbackfor'] = 'Feedback für {$a}';
 $string['field_checklist'] = 'Checklist';
 $string['field_checkboxgroup'] = 'Checkboxgroup';
+$string['field_lookupset'] = 'Lookupset';
 $string['forrevision'] = 'Überarbeitung nötig';
 $string['history'] = 'Verlauf';
 $string['incluserdata'] = 'Nutzerdaten veröffentlichen';

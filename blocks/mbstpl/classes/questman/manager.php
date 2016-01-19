@@ -40,6 +40,7 @@ class manager {
             'text',
             'textarea',
             'checklist',
+            'lookupset'
         );
     }
 
@@ -641,4 +642,43 @@ class manager {
         global $DB;      
         return $DB->insert_record('block_mbstpl_question', $question);        
     }
+    
+     /**
+     * Install mebis build-in subjects
+     */
+    public static function install_subjects() {
+        global $DB;      
+        $subjects = array("Agrarwirtschaft",  "Allgemeine Betriebswirtschaftslehre",  "Angewandte Informatik",  "Arbeitssicherheit",  
+            "Astrophysik",  "Augenoptik",  "Aussenwirtschaft",  "Bautechnik",  "Bekleidungstechnik",  "Betriebswirtschaftliche Steuerung und Kontrolle",  
+            "Betriebswirtschaftslehre mit Rechnungswesen",  "Biologie",  "Biophysik",  "Blumenkunst",  "Buchführung",  "Bürokommunikation",  
+            "Chemie",  "Chemietechnik",  "Chinesisch",  "Darstellung",  "Datenverarbeitung",  "Datenverarbeitungstechnik",  "Deutsch",  
+            "Deutsch als Zweitsprache",  "Drucktechnik",  "Elektrotechnik",  "Englisch",  "Ergotherapie",  "Ernährung und Hauswirtschaft",  
+            "Ernährung und Versorgung",  "Ethik",  "Euro-Management-Assistenten",  "Evangelische Religionslehre",  "Fahrzeugtechnik und Elektromobilität",  
+            "Familienpflege",  "Farbtechnik und Raumgestaltung",  "Fleischtechnik",  "Förderschwerpunkt emotionale und soziale Entwicklung",  
+            "Förderschwerpunkt geistige Entwicklung",  "Förderschwerpunkt Hören",  "Förderschwerpunkt körperliche und motorische Entwicklung",  
+            "Förderschwerpunkt Lernen",  "Förderschwerpunkt Sehen",  "Förderschwerpunkt Sprache",  "Französisch",  "Fremdsprachenberufe",  
+            "Gastgewerbliche Berufe",  "Geisteswissenschaften",  "Geographie",  "Geologie",  "Geschichte",  "Gestaltung",  "Gestaltungslehre",  
+            "Gesundheit",  "Gesundheit und Soziales",  "Gesundheitswesen",  "Glashüttentechnik",  "Griechisch",  "Hauswirtschaft",  
+            "Heilerziehungspflege",  "Heilpädagogik",  "Heimat- und Sachunterricht",  "Holztechnik",  "Hotel- und Gaststättengewerbe ",  
+            "Informatik",  "Informatiktechnik",  "Informationsverarbeitung",  "Islamischer Unterricht",  "Italienisch",  "Katholische Religionslehre",  
+            "Kaufmännische Assistenten",  "Keramik und Design",  "Körperpflege",  "Kunst",  "Kunsterziehung",  "Kunststofftechnik",  "Landeskunde",  
+            "Latein",  "Lebensmittelverarbeitungstechnik",  "Maschinenbautechnik",  "Mathematik",  "Mechatronik",  "Medien",  "Medizinische Fachangestellte",  
+            "Meisterschule",  "Mensch und Umwelt",  "Metallbautechnik",  "Metalltechnik",  "Musik",  "Musisch-ästhetische Bildung",  "Natur und Technik",  
+            "Naturwissenschaften",  "Neugriechisch",  "Pädagogik",  "Physik",  "Physiotherapie",  "Politik",  "Psychologie",  "Raum- und Objektdesign",  
+            "Rechnungswesen",  "Rechtslehre",  "Rechtswesen",  "Russisch",  "Sanitär-, Heizungs- und Klimatechnik",  "Sozialkunde",  "Sozialpädagogik",  
+            "Sozialpraktische Grundbildung",  "Sozialwissenschaftliche Arbeitsfelder",  "Spanisch",  "Sport",  "Steintechnik",  "Technik",  
+            "Technische Assistenten",  "Technisches Zeichnen",  "Technologie",  "Textiltechnik",  "Textiltechnik und Bekleidung",  
+            "Textverarbeitung",  "Tschechisch",  "Türkisch",  "Übungsunternehmen",  "Umweltschutztechnik und regenerative Energien",  
+            "Volkswirtschaft",  "Volkswirtschaftslehre",  "Werken und Gestalten",  "Wirtschaft",  "Wirtschaft und Beruf",  
+            "Wirtschaft und Kommunikation",  "Wirtschaft und Recht",  "Wirtschaft und Verwaltung",  "Wirtschaftsgeographie",  
+            "Wirtschaftsinformatik",  "Wirtschaftslehre",  "Wirtschaftsmathematik");
+        
+        foreach($subjects as $subject) {
+            $record = new \stdClass();
+            $record->subject = $subject;
+            $records[] = $record;
+        }
+        $DB->insert_records('block_mbstpl_subjects', $records, false, true); 
+    }
+    
 }

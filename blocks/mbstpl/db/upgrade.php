@@ -452,5 +452,31 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2016011100, 'mbstpl');
     }
     
+    if ($oldversion < 2016011800) {
+
+         // Define table block_mbstpl_subjects to be created.
+        $table = new xmldb_table('block_mbstpl_subjects');
+        
+        //  Adding fields to table block_mbstpl_subjects.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('subject', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'id');
+
+         // Adding key to table block_mbstpl_subjects.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for block_mbstpl_subjects.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        
+        // Conditionally install subject data
+        if ($dbman->table_exists($table)) {
+            \block_mbstpl\questman\manager::install_subjects();
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016011800, 'mbstpl');
+    }
+    
     return true;
 }

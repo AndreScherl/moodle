@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package block_mbstpl
- * @copyright 2015 Andreas Wagner, ISB
+ * @package   block_mbstpl
+ * @copyright 2016 Franziska Hübler, ISB
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -24,24 +25,27 @@ namespace block_mbstpl\questman;
 
 defined('MOODLE_INTERNAL') || die();
 
-class qtype_checkboxgroup extends qtype_menu {
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.php');
 
+class qtype_lookupset extends qtype_base {
+
+    public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
+        $form->addElement('text', 'param1', get_string('ajaxurl', 'block_mbstpl'));
+        $form->setType('param1', PARAM_URL);
+        $form->addRule('param1', get_string('required'), 'required', null, 'client');
+
+        $form->addElement('hidden', 'defaultdata', '0');
+        $form->setType('defaultdata', PARAM_INT);
+    }   
+    
     public static function add_template_element(\MoodleQuickForm $form,
                                                 $question) {
 
-        if (isset($question->param1)) {
-            $rawoptions = explode("\n", $question->param1);
-        } else {
-            $rawoptions = array();
-        }
-
-        $boxes = array();
-        foreach ($rawoptions as $key => $option) {
-            $boxes[] = & $form->createElement('checkbox', $key, null, format_string($option));
-        }
-
-        $question->title = self::add_help_button($question);
-        $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
+        $ajaxurl = new \moodle_url($question->param1);
+        $question->title = self::add_help_button($question);   
+        $form->addElement('lookupset', $question->fieldname, $question->title, $ajaxurl, array());
+        $form->setType($question->fieldname, PARAM_INT);
     }
 
     /**
@@ -80,12 +84,10 @@ class qtype_checkboxgroup extends qtype_menu {
 
     public static function add_to_searchform(\MoodleQuickForm $form, $question,
                                              $elname) {
-        $values = explode("\n", $question->param1);
-        $boxes = array();
-        for ($i = 0; $i < count($values); $i++) {
-            $boxes[] = & $form->createElement('checkbox', $i, null, $values[$i]);
-        }
-        $form->addGroup($boxes, $elname, $question->title, "&nbsp;");
+        $ajaxurl = new \moodle_url($question->param1);
+        $question->title = self::add_help_button($question);   
+        $form->addElement('lookupset', $elname, $question->title, $ajaxurl, array());
+        $form->setType($elname, PARAM_INT);
     }
 
     /**
@@ -133,18 +135,28 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array|string the array of field indices, which should be checked or original data.
      */
     public static function prepare_data($data) {
-
+        global $DB;
+        
         if (empty($data[0])) {
             return $data;
         }
 
-        $value = trim($data, ',');
+        $values = trim($data, ','); 
 
-        if (empty($value)) {
+        if (empty($values)) {
             return array();
         } else {
-            return array_fill_keys(explode(',', $value), 1);
+            $subjects = $DB->get_records_list('block_mbstpl_subjects', 'subject', $values);
+            return  array_combine(explode(',', $values), $subjects);
         }
     }
 
+    /**
+     * If the type has text editor fields, let them be known.
+     * @return array
+     */
+    public static function get_editors() {
+        return array('help');
+    }
 }
+

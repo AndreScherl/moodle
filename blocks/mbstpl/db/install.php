@@ -6,7 +6,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,subject
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -22,9 +22,9 @@
 
 function xmldb_block_mbstpl_install() {
 
-    global $DB;
-
-    // Copy all enabled licenes to the block's license table
-    $select = "SELECT shortname, fullname, source FROM {license} WHERE enabled = 1";
-    $DB->execute("INSERT INTO {block_mbstpl_license} (shortname, fullname, source) $select");
+    //Install mebis build-in meta questions
+    \block_mbstpl\questman\manager::install_questions();
+    
+    //Install data for table block_mbstpl_subjects
+    \block_mbstpl\questman\manager::install_subjects();
 }

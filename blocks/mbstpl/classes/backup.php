@@ -24,6 +24,8 @@ namespace block_mbstpl;
 
 defined('MOODLE_INTERNAL') || die();
 
+use backup_anonymizer_helper;
+
 /**
  * Class course
  * For course backup and restore operations.
@@ -127,6 +129,9 @@ class backup {
         $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta->copy_from($bkpmeta);
 
+        // Unenrol anonymous users.
+        self::unenrol_anonymous($courseid);
+
         // Enrol creator as author.
         user::enrol_author($template->courseid, $backup->creatorid);
 
@@ -177,6 +182,9 @@ class backup {
         ));
 
         $coursefromtpl->insert();
+
+        // Unenrol anonymous users.
+        self::unenrol_anonymous($cid);
 
         return $coursefromtpl;
     }
@@ -238,8 +246,9 @@ class backup {
             return true; // The parent element is not a user, so carry on as usual.
         }
 
-        $userid = $parent->get_attribute('id');
-        return !has_capability('block/mbstpl:notanonymised', self::$coursecontext, $userid->get_value());
+        $useridattr = $parent->get_attribute('id');
+        $userid = $useridattr->get_value();
+        return !has_capability('block/mbstpl:notanonymised', self::$coursecontext, $userid);
     }
 
     /**
@@ -726,6 +735,26 @@ class backup {
         $restore_url = new \moodle_url('/backup/restore.php', array(
             'contextid' => $context->id, 'filename' => $filename));
         redirect($restore_url);
+    }
+
+    /**
+     * Unenrol anonymous users from course.
+     * @param $courseid
+     */
+    private static function unenrol_anonymous($courseid)
+    {
+        global $CFG;
+        require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
+
+        $coursecontext = \context_course::instance($courseid);
+        $users = get_enrolled_users($coursecontext, null, null, 'u.id,u.username,u.firstname,u.lastname,u.email');
+        $anonids = array();
+        foreach ($users as $user) {
+            if (backup_anonymizer_helper::is_anonymous_user($user)) {
+                $anonids[$user->id] = $user->id;
+            }
+        }
+        course::unenrol_users($courseid, $anonids);
     }
 
     /**

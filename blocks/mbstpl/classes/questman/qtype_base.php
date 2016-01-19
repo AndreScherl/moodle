@@ -82,10 +82,10 @@ class qtype_base {
         
         if (!empty($question->help)) {
             
-            $icon = $OUTPUT->pix_icon('a/help', get_string('help'), 'moodle', array('class' => 'iconhelp'));
+            $icon = $OUTPUT->pix_icon('help', get_string('help'), 'moodle', array('class' => 'mbsiconhelp'));
             $helpurl = new \moodle_url('/blocks/mbstpl/help.php', array('qid' => $question->id));
             $helplink = \html_writer::link($helpurl, $icon, array('target' => '_blank', 'aria-haspopup' => 'true', 'title' => $question->title));
-            $question->title .= \html_writer::tag('span', $helplink, array('class' => 'helptooltip'));
+            $question->title .= \html_writer::tag('span', $helplink, array('class' => 'mbshelp helptooltip'));
         }
         
         return $question->title;

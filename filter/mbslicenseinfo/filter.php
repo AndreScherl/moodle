@@ -33,6 +33,9 @@ class filter_mbslicenseinfo extends moodle_text_filter {
         // span tag mediaplugin solution (for video and audio after mediaplugin filter)
         $text = preg_replace_callback('/<span[^>].*class=\"mediaplugin[^(<\/span>)](.*[\r\n])*.*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*((audio>|video>|object>){1}[\r\n]*.*span>)/i', 'self::enhance_media_tag', $text);
         
+        // audio and video tag solution
+        $text = preg_replace_callback('/(<audio|<video)[^>].*[^(<\/audio>|<\/video>)].*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*(audio>|video>)/i', 'self::enhance_media_tag', $text);
+        
         return $text;
     }
     

@@ -470,6 +470,27 @@ aside.row {
             }
         }
     }
+    
+    fieldset .felement.flookupset {
+        padding-top: 8px;
+    }
+}
+
+#page-blocks-mbstpl-templatesearch,
+#page-blocks-mbstpl-editmeta,
+#page-blocks-mbstpl-sendtemplate,
+#page-blocks-mbstpl-abouttemplate,
+#page-blocks-mbstpl-dupcrs,
+#page-blocks-mbstpl-ratetemplate {
+    fieldset .felement.flookupset {
+        ul {
+            list-style: none;
+            li {
+                display: inline;
+                padding-right: 8px;
+            }
+        }
+    }
 }
 
 //search page of block mbstpl

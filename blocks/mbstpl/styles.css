@@ -228,6 +228,11 @@ div[role="main"] .block-usedreferences ol {
     margin-left: 210px;
 }
 
+#page-blocks-mbstpl-sendtemplate #fitem_id_license .iconhelp {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 span.mbshelp {
     float:right;
     width:16px;

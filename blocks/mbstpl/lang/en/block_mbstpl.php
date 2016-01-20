@@ -176,6 +176,10 @@ $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
 $string['legalinfo'] = 'Legal Information';
 $string['license'] = 'Published under license';
+$string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Attribution</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/sa/3.0/de/" target="_blank">SA - ShareAlike</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/nc/3.0/de/" target="_blank">NC - NonCommercial</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/nd/3.0/de/" target="_blank">ND - NoDerivs</a></li></ul>';
 $string['licenses_header'] = 'Available licenses';
 $string['licenses_edit'] = 'Manage licenses';
 $string['license_fullname'] = 'Full name';

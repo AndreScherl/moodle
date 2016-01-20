@@ -252,6 +252,8 @@ $string['tags'] = 'Schlagworte';
 $string['tasknote'] = 'Auftragsnotiz';
 $string['teacherrole'] = 'Lehrer-Rolle';
 $string['teacherrole_desc'] = 'Rolle für den im Kurs einzuschreibenden Lehrer.';
+$string['termsofuse'] = 'Nutzungsbedingungen';
+$string['termsofuse_descr'] = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
 $string['templatefeedback'] = 'Rückmeldeformular zum Austauschkurs';
 $string['templatehistoryreport'] = 'Verlauf für den Austauschkurs "{$a->fullname}" ({$a->shortname})';
 $string['templatesearch'] = 'Tauschkurse suchen';

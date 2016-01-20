@@ -275,6 +275,8 @@ $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a d
 $string['templatefeedback'] = 'Template feedback';
 $string['templatehistoryreport'] = 'Template History for "{$a->fullname}" ({$a->shortname})';
 $string['templatesearch'] = 'Template Search';
+$string['termsofuse'] = 'terms of use';
+$string['termsofuse_descr'] = 'Using this feature you agree to acccept the <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">terms of use</a>.';
 $string['timeassigned'] = 'Time assigned';
 $string['to'] = 'To:';
 $string['tplremindafter'] = 'Send template reminder after';

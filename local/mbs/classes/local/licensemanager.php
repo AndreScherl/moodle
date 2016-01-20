@@ -327,7 +327,7 @@ class licensemanager {
         self::add($license);
 
         $license->shortname = 'cc-sa';
-        $license->fullname = 'CC-BY SA 3.0';
+        $license->fullname = 'CC BY-SA 3.0';
         $license->source = 'http://creativecommons.org/licenses/by-sa/3.0/de';
         $license->enabled = 1;
         $license->version = '2015120900';
@@ -375,7 +375,7 @@ class licensemanager {
         self::add($license);
 
         $license->shortname = 'cc-sa2';
-        $license->fullname = 'CC-BY SA 2.0';
+        $license->fullname = 'CC BY-SA 2.0';
         $license->source = 'http://creativecommons.org/licenses/by-sa/2.0/de';
         $license->enabled = 1;
         $license->version = '2016011100';

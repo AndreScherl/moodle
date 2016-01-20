@@ -69,6 +69,10 @@ $string['createdby'] = 'Created By';
 $string['createdon'] = 'Created On';
 $string['creationdate'] = 'Creation date';
 $string['currentrating'] = 'Current rating';
+$string['datasource'] = 'Data source for interpreting values';
+$string['datasource_help'] = 'If the stored values are represented by ids, you may user another attribute stored records.
+    Therefore you hav to set up the databasetabe, the indexing field and the field, that is user for display.
+    Example: block_mbstpl_subjects,id,subject . The id will be substited by (the name) of the subject for display.';
 $string['description'] = 'Description';
 $string['delayedrestore'] = 'Delayed Course Duplication';
 $string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
@@ -292,8 +296,3 @@ $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
 $string['yourrating'] = 'Your Rating';
-
-$string['datasource'] = 'Data source for interpreting values';
-$string['datasource_help'] = 'If the stored values are represented by ids, you may user another attribute stored records.
-    Therefore you hav to set up the databasetabe, the indexing field and the field, that is user for display.
-    Example: block_mbs_subject,id,subject . The id will be substited by (the name) of the subject for display.';

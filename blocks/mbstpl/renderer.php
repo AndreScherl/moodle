@@ -260,6 +260,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             '',
         );
         $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
+        
+        // asch: we don't want to remove the template type logic in gerenal, but just group some template types
+        $groupedtypes = array_merge($templates['assigned'], $templates['review'], $templates['revision']);
+        $templates['review'] = $groupedtypes;
+        unset($templates['assigned']);
+        unset($templates['revision']);
+        
         foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;

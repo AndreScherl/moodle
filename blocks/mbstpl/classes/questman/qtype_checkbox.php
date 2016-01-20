@@ -39,7 +39,7 @@ class qtype_checkbox extends qtype_base {
     public static function add_template_element(\MoodleQuickForm $form, $question) {
         
         $question->title = self::add_help_button($question);
-        $form->addElement('checkbox', $question->fieldname, $question->title, format_text($question->param1));
+        $form->addElement('checkbox', $question->fieldname, $question->title, $question->param1);
         if ($question->defaultdata) {
             $form->setDefault($question->fieldname, true);
         }     

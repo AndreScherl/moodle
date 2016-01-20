@@ -15974,16 +15974,6 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
   padding-top: 8px;
 }
-#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox label,
-#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox label,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox label {
-  margin-bottom: 12.5px;
-}
-#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fcheckbox div.text_to_html,
-#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fcheckbox div.text_to_html,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fcheckbox div.text_to_html {
-  position: absolute;
-}
 
 #page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span,
 #page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span,
@@ -15995,6 +15985,11 @@ aside.row .block-region .block {
 #page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span input,
 #page-blocks-mbstpl-dupcrs .mform.frozen fieldset .felement.fstatic span input {
   margin-right: 4px;
+}
+#page-blocks-mbstpl-ratetemplate fieldset .felement.flookupset,
+#page-blocks-mbstpl-abouttemplate fieldset .felement.flookupset,
+#page-blocks-mbstpl-dupcrs fieldset .felement.flookupset {
+  padding-top: 8px;
 }
 
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {

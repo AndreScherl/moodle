@@ -237,7 +237,7 @@ class template extends base {
         }
 
         $license = \local_mbs\local\licensemanager::get_license_by_shortname($meta->license);
-        return $license ? $license->fullname : null;
+        return $license ? $license : null;
     }
 
     /**

@@ -66,6 +66,12 @@ $string['createdby'] = 'Erstellt durch';
 $string['createdon'] = 'Erstellt am';
 $string['creationdate'] = 'Erstellungsdatum';
 $string['currentrating'] = 'Aktuelle Bewertung';
+$string['datasource'] = 'Datenquelle für zugrundeliegende Werte';
+$string['datasource_help'] = 'Wenn die gespeicherten Werte durch IDS repräsentiert werden, kann es sein, dass für die Anzeige 
+    andere Werte verwendet werden sollen. Dafür muss man hier die Datenbanktabelle, die Spalte der IDs und die Spalte für die 
+    anzuzeigenden Werte angeben. 
+    Beispiel: block_mbstpl_subjects,id,subject
+    Für die Anzeige wird die ID (=id) durch den Namen des Fachs (=subject) ersetzt.';
 $string['description'] = 'Beschreibung';
 $string['delayedrestore'] = 'Austauschkurs Erzeugung verzögern';
 $string['delayedrestore_desc'] = 'Kopieren der Kurse über CRON planen anstatt sofort ausführen.';
@@ -75,8 +81,8 @@ $string['destination'] = 'Ziel';
 $string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
 $string['duplcourseforuse1'] = 'Abschnitte und Aktivitäten zur Duplizierung auswählen';
 $string['duplcourseforuse2'] = 'Kurs aus dieser Vorlage erstellen';
-$string['duplcourselicensedefault'] = 'Dieser Kurs ist von {$a->creator} erstellt worden und steht unter der Lizenz {$a->licence}';
-$string['duplcourselicense'] = 'Lizenzinformation des Kurses';
+$string['duplcourselicensedefault'] = 'Dieser Kurs ist von {$a->creator} erstellt worden und steht unter der Lizenz {$a->licence}.';
+$string['duplcourselicense'] = 'Lizenzinformation für die Eigeninhalte des Kurses';
 $string['editmeta'] = 'Kursinformationen editieren';
 $string['emailassignedreviewer_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'Sie wurden ausgewählt, diesen Kurs zu überprüfen: {$a->fullname}. Sie können den Kurs nun unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailassignedreviewer_subj'] = 'Sie wurden als Reviewer zugeteilt.';
@@ -166,7 +172,7 @@ $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Kacheln';
 $string['layoutlist'] = 'Liste';
 $string['legalinfo'] = 'Rechtliche Information';
-$string['license'] = 'Veröffentlicht unter der Lizenz';
+$string['license'] = 'Veröffentlichung der Eigeninhalte unter der Lizenz';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Namensnennung</a></li>'
         . '<li><a href="https://creativecommons.org/licenses/sa/3.0/de/" target="_blank">SA - Weitergabe unter gleichen Bedingungen</a></li>'
         . '<li><a href="https://creativecommons.org/licenses/nc/3.0/de/" target="_blank">NC - Nicht kommerziell</a></li>'
@@ -250,6 +256,8 @@ $string['tags'] = 'Schlagworte';
 $string['tasknote'] = 'Auftragsnotiz';
 $string['teacherrole'] = 'Lehrer-Rolle';
 $string['teacherrole_desc'] = 'Rolle für den im Kurs einzuschreibenden Lehrer.';
+$string['termsofuse'] = 'Nutzungsbedingungen';
+$string['termsofuse_descr'] = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
 $string['templatefeedback'] = 'Rückmeldeformular zum Austauschkurs';
 $string['templatehistoryreport'] = 'Verlauf für den Austauschkurs "{$a->fullname}" ({$a->shortname})';
 $string['templatesearch'] = 'Tauschkurse suchen';

@@ -444,15 +444,6 @@ aside.row {
                     padding-top: 8px;
                 }
             }
-            //qtype_checkbox
-            .fitem.fitem_fcheckbox {
-                label {
-                    margin-bottom: 12.5px;
-                }
-                div.text_to_html {
-                    position: absolute;
-                }
-            }
         }
     }
 }
@@ -469,6 +460,10 @@ aside.row {
                 margin-right: 4px;
             }
         }
+    }
+    
+    fieldset .felement.flookupset {
+        padding-top: 8px;
     }
 }
 

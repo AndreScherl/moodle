@@ -651,10 +651,10 @@ class manager {
         $question->title = 'Nutzungsbedingungen';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
-        $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
+        $question->param1 = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
         $question->param2 = NULL;
-        $question->help = '<p>Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungen/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.</p>';
-        $question->required = 1;
+        $question->help = NULL;
+        $question->required = 1;        
         $question->inuse = 0;
         self::add($question);
 

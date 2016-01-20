@@ -16002,24 +16002,6 @@ aside.row .block-region .block {
   padding-top: 8px;
 }
 
-#page-blocks-mbstpl-templatesearch fieldset .felement.flookupset ul,
-#page-blocks-mbstpl-editmeta fieldset .felement.flookupset ul,
-#page-blocks-mbstpl-sendtemplate fieldset .felement.flookupset ul,
-#page-blocks-mbstpl-abouttemplate fieldset .felement.flookupset ul,
-#page-blocks-mbstpl-dupcrs fieldset .felement.flookupset ul,
-#page-blocks-mbstpl-ratetemplate fieldset .felement.flookupset ul {
-  list-style: none;
-}
-#page-blocks-mbstpl-templatesearch fieldset .felement.flookupset ul li,
-#page-blocks-mbstpl-editmeta fieldset .felement.flookupset ul li,
-#page-blocks-mbstpl-sendtemplate fieldset .felement.flookupset ul li,
-#page-blocks-mbstpl-abouttemplate fieldset .felement.flookupset ul li,
-#page-blocks-mbstpl-dupcrs fieldset .felement.flookupset ul li,
-#page-blocks-mbstpl-ratetemplate fieldset .felement.flookupset ul li {
-  display: inline;
-  padding-right: 8px;
-}
-
 #page-blocks-mbstpl-templatesearch #main-content-wrapper {
   background: transparent;
   padding-left: 0;

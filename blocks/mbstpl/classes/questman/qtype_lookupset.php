@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -44,8 +45,7 @@ class qtype_lookupset extends qtype_base {
         $form->setType('defaultdata', PARAM_INT);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form,
-                                                $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
 
         $ajaxurl = new \moodle_url($question->param1);
         $question->title = self::add_help_button($question);
@@ -61,9 +61,7 @@ class qtype_lookupset extends qtype_base {
      * @param $dataformat
      * @return bool;
      */
-    public static function save_answer($metaid, $questionid, $answer,
-                                       $comment = null,
-                                       $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
 
         if (is_null($answer)) {
             $answer = array();
@@ -87,8 +85,7 @@ class qtype_lookupset extends qtype_base {
         return true;
     }
 
-    public static function add_to_searchform(\MoodleQuickForm $form, $question,
-                                             $elname) {
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
 
         $ajaxurl = new \moodle_url($question->param1);
         $question->title = self::add_help_button($question);
@@ -132,8 +129,7 @@ class qtype_lookupset extends qtype_base {
     }
 
     /**
-     * Prepare the data, which is given as numbers separated by #.
-     * Note that data is not changed, when it don't start with '#'.
+     * Prepare the data, which is given as numbers separated by ','.
      * 
      * This method must be called before $form->set_data();
      * 

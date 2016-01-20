@@ -237,3 +237,18 @@ span.mbshelp {
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span.mbshelp {
     padding:0px;
 }
+
+fieldset .felement.flookupset ul {
+    list-style: none;
+}
+fieldset .felement.flookupset ul li {
+    display: inline-block;
+    padding: 0 8px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #00a8d5;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+}
+

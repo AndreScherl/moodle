@@ -213,6 +213,7 @@ $string['mustselectuser'] = 'You must select a user';
 $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';
 $string['myreview'] = 'My courses under review';
+$string['myreview_help'] = 'bold = assigned to me'."\n".'orange = assigend to author'."\n".'blue = assigend to reviewer';
 $string['myrevision'] = 'My courses under revision';
 $string['na'] = 'N/A';
 $string['newblocktitle'] = 'Course Template Information';

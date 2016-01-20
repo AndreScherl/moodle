@@ -272,7 +272,15 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 continue;
             }
             $html .= html_writer::start_tag('p');
-            $html .= html_writer::div(get_string('my'.$type, 'block_mbstpl'));
+            $typeheader = '';
+            if ($type == 'review') {
+                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+                $helpicon = new help_icon('myreview', 'block_mbstpl');
+                $typeheader .= ' '.$this->render($helpicon);
+            } else {
+                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+            }
+            $html .= html_writer::div($typeheader);
             $html .= html_writer::start_tag('ul');
             
             foreach ($typetemplates as $template) {

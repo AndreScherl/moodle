@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_checkbox extends qtype_base {
 
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
-        
         $form->addElement('editor', 'param1', get_string('description', 'block_mbstpl'));
         $form->addRule('param1', get_string('required'), 'required', null, 'client');
         
@@ -36,8 +35,7 @@ class qtype_checkbox extends qtype_base {
         $form->setType('defaultdata', PARAM_BOOL);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
-        
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
         $question->title = self::add_help_button($question);
         $form->addElement('checkbox', $question->fieldname, $question->title, $question->param1);
         if ($question->defaultdata) {

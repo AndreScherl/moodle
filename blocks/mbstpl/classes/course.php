@@ -495,8 +495,12 @@ class course {
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    private static function unenrol_users($cid, $userids) {
+    public static function unenrol_users($cid, $userids) {
         global $DB;
+
+        if (empty($userids)) {
+            return;
+        }
 
         $plugins = enrol_get_plugins(true);
         $instances = enrol_get_instances($cid, true);
@@ -512,8 +516,8 @@ class course {
         $sql = "SELECT DISTINCT ue.*
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
-                JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
-                WHERE ue.userid $useridin";
+                WHERE ue.userid $useridin
+                ";
         $enrolments = $DB->get_records_sql($sql, $params);
         foreach ($enrolments as $ue) {
             if (!isset($instances[$ue->enrolid])) {

@@ -13,15 +13,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * MBS tutor auto-enrolment plugin version specification.
+ *
+ * @package    enrol_mbstplaenrl
+ * @copyright  2016 Yair Spielmann, Synergy Learning for ALP
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011900;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+$plugin->version   = 2016011700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014050800;        // Requires this Moodle version
+$plugin->component = 'enrol_mbstplaenrl';      // Full name of the plugin (used for diagnostics)
+$plugin->dependencies = array(
+    'block_mbstpl' => 2015080500,
+    'enrol_self'   => 2014051200,
+);

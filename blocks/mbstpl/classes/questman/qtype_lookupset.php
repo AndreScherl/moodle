@@ -45,7 +45,7 @@ class qtype_lookupset extends qtype_base {
         $form->setType('defaultdata', PARAM_INT);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
 
         $ajaxurl = new \moodle_url($question->param1);
         $question->title = self::add_help_button($question);
@@ -136,7 +136,7 @@ class qtype_lookupset extends qtype_base {
      * @param string $data, the data for the field
      * @return array|string the array of field indices, which should be checked or original data.
      */
-    public static function process_answer($question, $answer) {
+    public static function process_answer($question, $answer, $isfrozen = false) {
         global $DB;
 
         if (empty($answer->data)) {

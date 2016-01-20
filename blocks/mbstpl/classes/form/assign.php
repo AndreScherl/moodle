@@ -58,7 +58,7 @@ class assign extends \moodleform {
         if (isset($this->_customdata['questions'])) {
             foreach ($this->_customdata['questions'] as $question) {
                 $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question);
+                $typeclass::add_template_element($form, $question, false);
             }
         }
 

@@ -41,8 +41,7 @@ class qtype_text extends qtype_base {
         $form->setType('param2', PARAM_INT);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question) {
-        
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
         $size = $question->param1;
         $maxlength = $question->param2;
 

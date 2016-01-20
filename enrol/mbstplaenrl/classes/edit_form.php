@@ -13,15 +13,34 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Adds new instance of enrol_mbstplaenrl to specified course
+ * or edits current instance.
+ *
+ * @package    enrol_mbstplaenrl
+ * @copyright  2016 Yair Spielmann, Synergy Learning for ALP
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace enrol_mbstplaenrl;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016011900;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+global $CFG;
+
+require_once($CFG->libdir.'/formslib.php');
+
+class edit_form extends \moodleform {
+
+    public function definition() {
+
+        $mform = $this->_form;
+
+        list($instance) = $this->_customdata;
+
+        $mform->addElement('header', 'header', get_string('pluginname_desc', 'enrol_mbstplaenrl'));
+
+        $this->add_action_buttons(true, ($instance->id ? null : get_string('instance_save', 'enrol_mbstplaenrl')));
+    }
+}

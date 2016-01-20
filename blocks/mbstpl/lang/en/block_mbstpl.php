@@ -248,7 +248,6 @@ $string['selecteduser'] = 'Selected user';
 $string['selectsectionsandactivities'] = 'Select which sections and activities and user data you want to include in the duplicated course.';
 $string['selectuser'] = 'Select user';
 $string['sendcoursetemplate'] = 'Send course template';
-$string['sendcoursetemplateheading'] = 'You may publish your course under the following license terms: CC / non-profit / disclosure with attribution / changed). In the CC license, it is necessary that your name is mentioned. You hereby consent to the publication of your name.';
 $string['sendforreviewing'] = 'Send for reviewing';
 $string['sendtpldate'] = 'Date of sending course template';
 $string['sendfeedbacktoauthor'] = 'Send and assign back to author';

@@ -226,7 +226,6 @@ $string['selecteduser'] = 'Ausgewählter Nutzer';
 $string['selectsectionsandactivities'] = 'Wählen Sie aus, welche Kursabschnitte, Aktivitäten und Nutzerdaten Sie in die Kurskopie mit einbeziehen möchten.';
 $string['selectuser'] = 'Nutzer auswählen';
 $string['sendcoursetemplate'] = 'Kurs veröffentlichen';
-$string['sendcoursetemplateheading'] = 'Hiermit veröffentlichen Sie Ihren Kurs unter folgenden Lizenzbedingungen: cc / nicht-kommerziell / Weitergabe mit Namensnennung / Veränderbar). Bei der cc-Lizenz ist es notwendig, dass Ihr Name genannt wird. Hiermit stimmen Sie der Veröffentlichung Ihres Namens zu.';
 $string['sendforreviewing'] = 'Absenden';
 $string['sendtpldate'] = 'Absendedatum';
 $string['sendfeedbacktoauthor'] = 'Nachricht an Autor';

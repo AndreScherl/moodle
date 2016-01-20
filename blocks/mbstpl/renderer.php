@@ -260,12 +260,27 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             '',
         );
         $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
+        
+        // asch: we don't want to remove the template type logic in gerenal, but just group some template types
+        $groupedtypes = array_merge($templates['assigned'], $templates['review'], $templates['revision']);
+        $templates['review'] = $groupedtypes;
+        unset($templates['assigned']);
+        unset($templates['revision']);
+        
         foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;
             }
             $html .= html_writer::start_tag('p');
-            $html .= html_writer::div(get_string('my'.$type, 'block_mbstpl'));
+            $typeheader = '';
+            if ($type == 'review') {
+                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+                $helpicon = new help_icon('myreview', 'block_mbstpl');
+                $typeheader .= ' '.$this->render($helpicon);
+            } else {
+                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+            }
+            $html .= html_writer::div($typeheader);
             $html .= html_writer::start_tag('ul');
             
             foreach ($typetemplates as $template) {

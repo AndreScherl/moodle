@@ -202,14 +202,6 @@ ul.mbsfilelist, ul.mbsfilelist li {
     font-weight: bold;
 }
 
-.block-usedreferences {
-    margin-top: 25px;
-}
-
-div[role="main"] .block-usedreferences ol {
-    padding-left: 26px;
-}
-
 .mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
 .mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
 .mbstrevhist-item {
@@ -250,5 +242,9 @@ fieldset .felement.flookupset ul li {
     border-radius: 10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
+}
+
+fieldset .felement.fcheckbox label {
+    display: inline;
 }
 

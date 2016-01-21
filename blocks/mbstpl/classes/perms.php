@@ -219,7 +219,7 @@ class perms {
      */
     public static function can_searchtemplates() {
         // don't forget the admin
-        if (has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance())) {
+        if (has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance())) {
             return true;
         }
         // anyone else

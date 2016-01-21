@@ -571,7 +571,8 @@ class manager {
         $question->param1 = 'zu Hause
         im Unterricht';
         $question->param2 = NULL;
-        $question->help = '<p>Mehrfachauswahl möglich</p>';
+        $question->help = '<ul><li>Geben Sie an, ob Sie für die Nutzung Ihres Kurses den Computereinsatz im Unterricht oder zu Hause angedacht haben.</li>'
+                . '<li>Eine Mehrfachauswahl ist möglich.</li></ul>';
         $question->required = 1;
         $question->inuse = 0;
         self::add($question);

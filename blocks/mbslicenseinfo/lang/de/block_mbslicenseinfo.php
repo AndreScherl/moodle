@@ -36,6 +36,7 @@ $string['editlicensesformlicenseurl'] = 'URL der Lizenz';
 $string['editlicensesheader'] = 'Verwendete (Fremd)inhalte des Kurses';
 $string['errorcannotedit'] = 'Sie können für diesen Kurs keine Kurslizenzen bearbeiten.';
 $string['mbslicenseinfo:addinstance'] = 'Block mebis Quellenangaben hinzufügen';
+$string['mbslicenseinfo:editlicenses'] = 'Quellenangaben der Kursdateien bearbeiten';
 $string['mbslicenseinfo:myaddinstance'] = 'Block mebis Quellenangaben zum Schreibtisch hinzufügen';
 $string['pluginname'] = 'mebis Quellenangaben';
 $string['submitbutton'] = 'Speichern';

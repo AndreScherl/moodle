@@ -247,10 +247,13 @@ class licensemanager {
         );
 
         foreach ($tables as $table => $column) {
-            $shortnames = $DB->get_records_sql_menu("SELECT id,$column FROM {{$table}}");
+            $shortnameobjects = $DB->get_records_sql("SELECT DISTINCT $column FROM {{$table}} WHERE $column <> ''");
+            $shortnames = array();
+            foreach ($shortnameobjects as $sno) {
+                $shortnames[] = $sno->$column;
+            }
             $allshortnames = array_merge($allshortnames, array_values($shortnames));
         }
-
         return array_unique($allshortnames);
     }
 

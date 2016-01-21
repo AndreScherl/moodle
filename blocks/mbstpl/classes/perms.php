@@ -217,7 +217,12 @@ class perms {
      * Does the user have the capability to search for templates.
      * @return bool
      */
-    public static function can_searchtemplates() {        
+    public static function can_searchtemplates() {
+        // don't forget the admin
+        if (has_capability('block/mbstpl:viewcoursetemplatebackups', \context_system::instance())) {
+            return true;
+        }
+        // anyone else
         return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate'); 
     }    
     

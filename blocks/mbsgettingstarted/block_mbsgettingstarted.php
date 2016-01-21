@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 class block_mbsgettingstarted extends block_base {
 
     function init() {
-        $this->title = get_string('pluginname', 'block_mbsgettingstarted');
+        $this->title = get_string('displayname', 'block_mbsgettingstarted');
     }
 
     function get_required_javascript() {

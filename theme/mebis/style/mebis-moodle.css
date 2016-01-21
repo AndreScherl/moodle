@@ -15694,6 +15694,26 @@ aside.row .block-region .block {
   font-size: 1.25em !important;
 }
 
+#block_mbsnews .mbsnews .mbsnews-config {
+  margin: 0 -20px 20px -20px;
+  background-color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-config span {
+  padding: 10px;
+}
+#block_mbsnews .mbsnews .mbsnews-config a {
+  padding: 10px;
+}
+#block_mbsnews .mbsnews .mbsnews-message {
+  background-color: #fff;
+  color: #000;
+  margin: 0 -20px 20px -20px;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body {
+  background-color: #ff6600;
+  color: #fff;
+}
+
 .block_mbsgettingstarted {
   margin-bottom: 50px;
 }

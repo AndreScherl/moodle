@@ -33,21 +33,21 @@ $action = required_param('action', PARAM_TEXT);
 switch ($action) {
 
     case 'search' :
-        require_capability('block/mbstpl:createcoursefromtemplate', $context);
+        if (block_mbstpl\perms::can_searchtemplates()) {
+            $searchtext = optional_param('searchtext', '', PARAM_TEXT);
+            $like = $DB->sql_like('subject', '?', false);
+            $params = array('%' . $searchtext . '%');
 
-        $searchtext = optional_param('searchtext', '', PARAM_TEXT);
-        $like = $DB->sql_like('subject', '?', false);
-        $params = array('%' . $searchtext . '%');
+            $sql = "SELECT * FROM {block_mbstpl_subjects} WHERE " . $like;
+            $subjects = $DB->get_records_sql($sql, $params);
 
-        $sql = "SELECT * FROM {block_mbstpl_subjects} WHERE " . $like;
-        $subjects = $DB->get_records_sql($sql, $params);
+            $results = array();
+            foreach ($subjects as $subject) {
+                $results[] = html_writer::tag('span', $subject->subject, array('id' => $subject->id));
+            }
 
-        $results = array();
-        foreach ($subjects as $subject) {
-            $results[] = html_writer::tag('span', $subject->subject, array('id' => $subject->id));
+            echo json_encode(array('error' => 0, 'results' => $results));
         }
-        
-        echo json_encode(array('error' => 0, 'results' => $results));
         die;
         break;        
 }

@@ -92,7 +92,7 @@ $capabilities = array(
 
     'block/mbstpl:createcoursefromtemplate' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_COURSECAT,
         'clonepermissionsfrom' => 'moodle/course:create'
     ),
 

@@ -285,8 +285,8 @@ class perms {
      * @param \context_course $coursecontext
      * @return bool
      */
-    public static function can_complain($coursecontext) {
-        return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
+    public static function can_complain() {
+        return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate');
     }
     
     /**

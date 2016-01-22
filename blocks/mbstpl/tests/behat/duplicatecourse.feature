@@ -53,7 +53,7 @@ Feature: Duplicate a course
     # Admin publishes the Course 1 template.
     And I log in as "admin"
     And I follow "Course 1"
-    And I should see "C1_musterkurs_1"
+    And I should see "C1_Austauschkurs_1"
     And I add a new discussion to "Test forum" forum with:
       | Subject | Discussion topic subject      |
       | Message | Discussion topic message body |
@@ -70,13 +70,13 @@ Feature: Duplicate a course
     And I click on "#backup-all-userdata" "css_element"
     And I press "Duplicate Course from Template"
     When I wait to be redirected
-    Then I should see "C1_musterkurs_1_dpl_1"
+    Then I should see "C1_Austauschkurs_1_dpl_1"
     And I follow "Test forum"
     And I should see "Discussion topic subject" in the ".topic a" "css_element"
     # Admin user is not anonymised.
     And I should see "Admin User" in the ".author a" "css_element"
 
-    When I follow "C1_musterkurs_1_dpl_1"
+    When I follow "C1_Austauschkurs_1_dpl_1"
     And I follow "Second forum"
     Then I should see "Second topic subject" in the ".topic a" "css_element"
     # Teacher 1 is anonymised.
@@ -92,6 +92,6 @@ Feature: Duplicate a course
     And I click on "#backup-all-included" "css_element"
     And I press "Duplicate Course from Template"
     When I wait to be redirected
-    Then I should see "C1_musterkurs_1_dpl_1"
+    Then I should see "C1_Austauschkurs_1_dpl_1"
     And I follow "Test forum"
     And I should see "(There are no discussion topics yet in this forum)"

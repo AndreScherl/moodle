@@ -587,7 +587,7 @@ class manager {
         $question->help = '<ul><li>Fremdmaterialien sind z. B. Texte, Bilder, Fotos, Audio-/Videodateien; die nicht ausschließlich von Ihnen selbst erstellt wurden.</li>'
                 . '<li>Als Fremdmaterialien werden vornehmlich freie Werke verwendet (z. B. Creative Commons (CC) oder gemeinfreie Inhalte).</li>'
                 . '<li>Für jedes Fremdmaterial ist die entsprechende Herkunft angegeben und das Verwendungsrecht geklärt, d. h. Name des <u>Urhebers</u>, <u>Direktlink</u> zum originalen Fremdmaterial, <u>Titel</u> des Werkes bzw. Dateiname, Art der <u>Lizenz</u><br> (z. B. <a href="https://de.wikipedia.org/wiki/Reichstagsgeb%C3%A4ude#/media/File:Reichstag_building_Berlin_view_from_west_before_sunset.jpg">Das Reichstagsgebäude</a> von Jürgen Matern, <a href="https://creativecommons.org/licenses/by-sa/3.0/de/">CC BY-SA 3.0 DE</a>).</li>'
-                . '<li>Alle angegebenen CC-Lizenzen beinhalten einen Link zur Lizenz, z. B. <a href="https://creativecommons.org/licenses/by/3.0/de/">CC BY 3.0 DE</a>.</li>'
+                . '<li>Alle angegebenen CC-Lizenzen beinhalten einen Link zur Lizenz, z. B. <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/de/">CC BY 3.0 DE</a>.</li>'
                 . '<li>Für Fremdmaterialien, die nicht unter einer freien Lizenz stehen, aber mit freundlicher Genehmigung des Urhebers verwendet werden dürfen, wurde eine Weiterverbreitungserlaubnis eingeholt und archiviert (z. B. © Cornelsen Verlag. Mit freundlicher Genehmigung zur Weiterverbreitung.).</li>'
                 . '</ul>';
         $question->required = 1;
@@ -651,7 +651,7 @@ class manager {
         $question->title = 'Nutzungsbedingungen';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
-        $question->param1 = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
+        $question->param1 = 'Ich habe die <a target="_blank" href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
         $question->param2 = NULL;
         $question->help = NULL;
         $question->required = 1;        

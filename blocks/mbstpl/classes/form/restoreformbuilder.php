@@ -139,7 +139,7 @@ class restoreformbuilder {
         foreach ($settingstasks as $st) {
             list($setting, $task) = $st;
             // If the setting cant be changed or isn't visible then add it as a fixed setting.
-            if (!$setting->get_ui()->is_changeable() || $setting->get_visibility() != backup_setting::VISIBLE) {
+            if ($setting->get_visibility() != backup_setting::VISIBLE) {
                 $this->add_fixed_setting($setting, $task);
                 continue;
             }

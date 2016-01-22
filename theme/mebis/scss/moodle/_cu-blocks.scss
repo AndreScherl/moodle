@@ -117,6 +117,32 @@ aside.row {
 
 }
 
+//Block mbsnews
+#block_mbsnews {
+    .mbsnews {
+        .mbsnews-config {
+            margin: 0 -20px 20px -20px;
+            background-color: $white;
+            span {
+                padding: 10px;
+            }
+            a {
+                padding: 10px;            
+            }
+        }
+        .mbsnews-message {
+            background-color: $white;
+            color: $black;
+            margin: 0 -20px 20px -20px;
+
+            .mbsnews-body {
+                background-color: $brand-secondary;
+                color: $white;
+            }
+        }
+    }  
+}
+
 // Block mbsgettingstarted
 .block_mbsgettingstarted {
     margin-bottom: 50px;
@@ -444,15 +470,6 @@ aside.row {
                     padding-top: 8px;
                 }
             }
-            //qtype_checkbox
-            .fitem.fitem_fcheckbox {
-                label {
-                    margin-bottom: 12.5px;
-                }
-                div.text_to_html {
-                    position: absolute;
-                }
-            }
         }
     }
 }
@@ -469,6 +486,10 @@ aside.row {
                 margin-right: 4px;
             }
         }
+    }
+
+    fieldset .felement.flookupset {
+        padding-top: 8px;
     }
 }
 

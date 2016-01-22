@@ -226,6 +226,7 @@ class reporttex {
         // Get most recent table.
         if (!$reportdate = $DB->get_record_sql($sql, array(1), IGNORE_MULTIPLE)) {
             mtrace('...nothing to do ');
+            return true;
         }
 
         // Replace text in current table.

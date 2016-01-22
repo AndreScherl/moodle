@@ -176,8 +176,15 @@ class template extends base {
         parent::insert();
         $this->add_to_revhist();
 
+        // Add a corresponding meta.
         $meta = new meta(array('templateid' => $this->id));
         $meta->insert();
+
+        // Trigger template event.
+        $context = context_course::instance($this->courseid);
+        $event = \block_mbstpl\event\template_created::create(
+            array('context' => $context, 'objectid' => $this->id));
+        $event->trigger();
     }
 
     /**
@@ -237,7 +244,7 @@ class template extends base {
         }
 
         $license = \local_mbs\local\licensemanager::get_license_by_shortname($meta->license);
-        return $license ? $license->fullname : null;
+        return $license ? $license : null;
     }
 
     /**

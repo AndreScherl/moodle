@@ -15,26 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Capabilities for self enrolment plugin.
  *
- * @package    report_mbs
- * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @package    enrol_mbstplaenrl
+ * @copyright  2010 Janek Lasocki-Biczysko, Synergy Learning for ALP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_mbs\task;
+defined('MOODLE_INTERNAL') || die();
 
-class replace_tex_content extends \core\task\scheduled_task {
+$capabilities = array(
 
-    public function get_name() {
-        // Shown in admin screens.
-        return get_string('replacetexcontent', 'report_mbs');
-    }
+    'enrol/mbstplaenrl:config' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        )
+    ),
 
-    public function execute() {
-        
-        \report_mbs\local\reporttex::replace_tex();
-    }
 
-}
-
+    /* Voluntarily unenrol self from course - watch out for data loss. */
+    'enrol/mbstplaenrl:unenrolself' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'user' => CAP_ALLOW,
+        )
+    ),
+);

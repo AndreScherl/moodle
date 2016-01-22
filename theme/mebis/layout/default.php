@@ -35,6 +35,14 @@ $ismydashboard = ($PAGE->pagetype == 'my-index');
 $theuser = clone($USER); 
     profile_load_data($theuser);
 
+//Block mbsnews
+if ($knownregiontop) {    
+    $attributes['data-block'] = 'mbsnews';
+    $attributes['class'] = 'block_mbsnews';
+    $attributes['id'] = 'block_mbsnews';
+    $OUTPUT->add_fake_block('mbsnews', 'top', $attributes);
+}
+    
 // Add mbsgettingstarted to my dashboard?
 if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
          

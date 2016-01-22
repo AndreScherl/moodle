@@ -29,6 +29,7 @@ $string['contacturl'] = 'URL Contact Form';
 $string['contacturl_expl'] = 'Full URL to Contact Form ALP support.';
 $string['closealert'] = 'Ok';
 $string['closealertexpl'] = 'The Getting Started content will now be permanently removed. Under "Edit profile > More profile settings > Starthilfe" you can undo this.';
+$string['displayname'] = 'Getting Started';
 $string['eventlinkused'] = 'A link of block mbsgettingstarted was used';
 $string['helpnoteremovepermanent'] = 'remove forever';
 $string['helpnoteclose'] = 'close';

@@ -36,6 +36,7 @@ $string['editlicensesformlicenseurl'] = 'License URL';
 $string['editlicensesheader'] = 'Used contents of the course';
 $string['errorcannotedit'] = 'You cannot edit licenses for this course.';
 $string['mbslicenseinfo:addinstance'] = 'Add a mbslicenseinfo block';
+$string['mbslicenseinfo:editlicenses'] = 'Edit license information of course files';
 $string['mbslicenseinfo:myaddinstance'] = 'Add a mbslicenseinfo block to my moodle';
 $string['pluginname'] = 'mebis licenseinfo';
 $string['submitbutton'] = 'Submit';

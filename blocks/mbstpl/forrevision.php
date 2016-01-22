@@ -48,7 +48,10 @@ if (!mbst\perms::can_sendrevision($template, $coursecontext)) {
 }
 
 $form = new mbst\form\forrevision(null, array('courseid' => $courseid));
-if ($data = $form->get_data()) {
+if ($form->is_cancelled()) {
+    $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
+    redirect($redirecturl);
+} else if ($data = $form->get_data()) {
     // Initiate duplication task.
     $task = new \block_mbstpl\task\adhoc_deploy_revision();
     $task->set_custom_data((object)array('templateid' => $template->id, 'requesterid' => $USER->id, 'reasons' => $data->reasons));

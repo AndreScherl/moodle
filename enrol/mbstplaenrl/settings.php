@@ -15,26 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Mbs tutor auto-enrolment plugin settings.
  *
- * @package    report_mbs
- * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @package    enrol_mbstplaenrl
+ * @copyright  2016 Yair Spielmann, Synergy Learning for ALP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
-namespace report_mbs\task;
-
-class replace_tex_content extends \core\task\scheduled_task {
-
-    public function get_name() {
-        // Shown in admin screens.
-        return get_string('replacetexcontent', 'report_mbs');
+global $DB;
+if ($ADMIN->fulltree) {
+    // Load assignable roles.
+    $roleobjs = $DB->get_records('role_context_levels', array('contextlevel' => CONTEXT_COURSE), null, 'roleid');
+    $rolenames = role_fix_names($roleobjs);
+    $options = array();
+    foreach ($rolenames as $rolename) {
+        $options[$rolename->id] = $rolename->localname;
     }
-
-    public function execute() {
-        
-        \report_mbs\local\reporttex::replace_tex();
-    }
-
+    $defrole = $DB->get_field('role', 'id', array('shortname' => 'teacher'));
+    $settings->add(new admin_setting_configselect('enrol_mbstplaenrl/defaultrole', get_string('defaultrole', 'enrol_mbstplaenrl'),
+        '', $defrole, $options));
 }
-

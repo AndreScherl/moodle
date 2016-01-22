@@ -47,8 +47,11 @@ abstract class licenseandassetform extends \moodleform {
     }
 
     protected function define_license() {
+        global $OUTPUT;
+        $labelstring = get_string('license', 'block_mbstpl');
+        $labelstring .= $OUTPUT->help_icon('license', 'block_mbstpl');
         $form = $this->_form;
-        $form->addElement('license', 'license', get_string('license', 'block_mbstpl'), null, false);
+        $form->addElement('license', 'license', $labelstring, null, false);
         $form->addRule('license', null, 'required');
     }
 
@@ -97,7 +100,7 @@ abstract class licenseandassetform extends \moodleform {
         foreach ($this->_customdata['questions'] as $question) {
             if ($question->datatype == $quedatatype) {
                 $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($this->_form, $question);
+                $typeclass::add_template_element($this->_form, $question, false);
                 $typeclass::add_rule($this->_form, $question);
             }
         }

@@ -28,7 +28,8 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'user' => CAP_ALLOW
+            'user' => CAP_ALLOW,
+            'student' => CAP_PREVENT
         ),
 
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
@@ -40,8 +41,8 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'user' => CAP_ALLOW,
+            'student' => CAP_PREVENT
         ),
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
@@ -51,8 +52,7 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
+            'editingteacher' => CAP_ALLOW
         ),
 
         'clonepermissionsfrom' => 'moodle/course:create'
@@ -60,40 +60,54 @@ $capabilities = array(
 
     'block/mbstpl:viewcoursetemplatebackups' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'clonepermissionsfrom' => 'moodle/course:create'
+        'contextlevel' => CONTEXT_COURSECAT,
+        'archetypes' => array(
+            'teachsharemasterreviewer' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:coursetemplatemanager' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'clonepermissionsfrom' => 'moodle/course:create'
+        'archetypes' => array(
+            'teachsharemasterreviewer' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:coursetemplatereview' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'clonepermissionsfrom' => 'moodle/course:create'
+        'archetypes' => array(
+            'teachsharecoursereviewer' => CAP_ALLOW,
+            'teachsharemasterreviewer' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:assignauthor' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            // Should be allocated to the 'local course reviewer' role.
+            'teachsharecoursereviewer' => CAP_ALLOW,
+            'teachsharemasterreviewer' => CAP_ALLOW
         )
     ),
 
     'block/mbstpl:coursetemplateeditmeta' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'clonepermissionsfrom' => 'moodle/course:create'
+        'archetypes' => array(
+            'teachsharecourseauthor' => CAP_ALLOW,
+            'teachsharecoursereviewer' => CAP_ALLOW,
+            'teachsharemasterreviewer' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:createcoursefromtemplate' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'clonepermissionsfrom' => 'moodle/course:create'
+        'contextlevel' => CONTEXT_COURSECAT,        
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:ratetemplate' => array(
@@ -101,7 +115,8 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
+            'teachsharecourseauthor' => CAP_PREVENT,
+            'teachsharecoursereviewer' => CAP_PREVENT
         ),
     ),
 
@@ -110,7 +125,8 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
+            'teachsharecourseauthor' => CAP_PREVENT,
+            'teachsharecoursereviewer' => CAP_PREVENT
         ),
     ),
 
@@ -119,17 +135,15 @@ $capabilities = array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'moodle/course:create'
+            'teachsharemasterreviewer' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:notanonymised' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW
         )
     ),
 

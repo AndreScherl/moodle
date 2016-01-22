@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -37,7 +38,6 @@ require_once($CFG->libdir . '/formslib.php');
  * @package block_mbstpl
  * Create template to course duplication task request.
  */
-
 class dupcrs extends \moodleform {
 
     function display() {
@@ -47,8 +47,7 @@ class dupcrs extends \moodleform {
         // Get list of module types on course.
         $modinfo = get_fast_modinfo($COURSE);
         $modnames = $modinfo->get_used_module_names(true);
-        $PAGE->requires->yui_module('moodle-backup-backupselectall', 'M.core_backup.backupselectall',
-            array($modnames));
+        $PAGE->requires->yui_module('moodle-backup-backupselectall', 'M.core_backup.backupselectall', array($modnames));
 
         $PAGE->requires->strings_for_js(array('select', 'all', 'none'), 'moodle');
         $PAGE->requires->strings_for_js(array('showtypes', 'hidetypes'), 'backup');
@@ -64,8 +63,7 @@ class dupcrs extends \moodleform {
         $form->addElement('hidden', 'course', $course->id);
         $form->setType('course', PARAM_INT);
 
-        $readyforstep2 = optional_param('restoreto', false, PARAM_ALPHA)
-            && (optional_param("tocat", false, PARAM_INT) || optional_param("tocrs", false, PARAM_INT));
+        $readyforstep2 = optional_param('restoreto', false, PARAM_ALPHA) && (optional_param("tocat", false, PARAM_INT) || optional_param("tocrs", false, PARAM_INT));
 
         if ($this->_customdata['step'] == 2 && $readyforstep2) {
             $this->definition_step2();
@@ -104,9 +102,15 @@ class dupcrs extends \moodleform {
         }
         $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
 
-        $form->addElement('textarea', 'licence', get_string('duplcourselicense', 'block_mbstpl'), array('cols' => 70, 'rows' => 3))->freeze();
-        $form->addRule('licence', get_string('required'), 'required', null, 'client');
-
+        //licenseinfo
+        $licence = $this->_customdata['template']->get_license();
+        $licencelink = \html_writer::link($licence->source, $licence->fullname);
+        $licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+            'creator' => $this->_customdata['creator'],
+            'licence' => $licencelink
+        ));
+        $form->addElement('static', 'licence', get_string('duplcourselicense', 'block_mbstpl'), $licencestring);
+        
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
 
@@ -140,10 +144,14 @@ class dupcrs extends \moodleform {
 
         $form->addElement('static', 'message', '', get_string('selectsectionsandactivities', 'block_mbstpl'));
 
-        $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE,
-            backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
+        $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
         $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks(), $template);
         $builder->prepare_section_elements();
+        
+        //terms of use
+        $form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
+        $form->addElement('checkbox', 'termsofuse', get_string('termsofuse', 'block_mbstpl'), get_string('termsofuse_descr', 'block_mbstpl'));
+        $form->addRule('termsofuse', get_string('required'), 'required', null, 'client');
 
         $this->add_action_buttons(true, get_string('duplcourseforuse2', 'block_mbstpl'));
     }
@@ -187,4 +195,5 @@ class dupcrs extends \moodleform {
 
         return $settings;
     }
+
 }

@@ -55,12 +55,13 @@ class editmeta extends licenseandassetform {
         }
 
         // Add custom questions.
+        $isfrozen = !empty($cdata['freeze']);
         $questions = $cdata['questions'];
         $excludequestions = array('checklist', 'checkbox');
         foreach ($questions as $question) {
             if (!in_array($question->datatype,$excludequestions)) {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question);
+                $typeclass::add_template_element($form, $question, $isfrozen);
                 $typeclass::add_rule($form, $question);
             }
         }
@@ -84,7 +85,7 @@ class editmeta extends licenseandassetform {
 
         $this->add_action_buttons(true, get_string('save', 'block_mbstpl'));
 
-        if (!empty($cdata['freeze'])) {
+        if ($isfrozen) {
             $form->freeze();
         }
     }

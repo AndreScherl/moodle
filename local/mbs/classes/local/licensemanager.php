@@ -247,10 +247,13 @@ class licensemanager {
         );
 
         foreach ($tables as $table => $column) {
-            $shortnames = $DB->get_records_sql_menu("SELECT id,$column FROM {{$table}}");
+            $shortnameobjects = $DB->get_records_sql("SELECT DISTINCT $column FROM {{$table}} WHERE $column <> ''");
+            $shortnames = array();
+            foreach ($shortnameobjects as $sno) {
+                $shortnames[] = $sno->$column;
+            }
             $allshortnames = array_merge($allshortnames, array_values($shortnames));
         }
-
         return array_unique($allshortnames);
     }
 
@@ -327,7 +330,7 @@ class licensemanager {
         self::add($license);
 
         $license->shortname = 'cc-sa';
-        $license->fullname = 'CC-BY SA 3.0';
+        $license->fullname = 'CC BY-SA 3.0';
         $license->source = 'http://creativecommons.org/licenses/by-sa/3.0/de';
         $license->enabled = 1;
         $license->version = '2015120900';
@@ -375,7 +378,7 @@ class licensemanager {
         self::add($license);
 
         $license->shortname = 'cc-sa2';
-        $license->fullname = 'CC-BY SA 2.0';
+        $license->fullname = 'CC BY-SA 2.0';
         $license->source = 'http://creativecommons.org/licenses/by-sa/2.0/de';
         $license->enabled = 1;
         $license->version = '2016011100';

@@ -33,8 +33,6 @@ class qtype_checklist extends qtype_base {
     const ANSWER_NO = 2;
     const ANSWER_NA = 3;
 
-//    protected static $checkremove = array();
-
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
 
         $form->addElement('editor', 'param1', get_string('description', 'block_mbstpl'));
@@ -46,8 +44,11 @@ class qtype_checklist extends qtype_base {
         $form->setType('defaultdata', PARAM_RAW);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form,
-                                                $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
+        $label = \html_writer::label(format_string($question->title), 'id_'.$question->fieldname, true,
+                                     array('class' => 'mbstpl-questionlabel'));
+        $label = \html_writer::div($label);
+        $form->addElement('html', $label);
 
         $question->title = self::add_help_button($question);
         
@@ -59,21 +60,6 @@ class qtype_checklist extends qtype_base {
         );
         $form->addGroup($radiogroup, $question->fieldname, format_string($question->title), null, false);
     }
-
-    /*
-     * fhüb: in use?
-     */
-//    protected static function definition_after_data_internal(\MoodleQuickForm $form) {
-//        foreach (self::$checkremove as $fieldname) {
-//            if (!$form->elementExists($fieldname)) {
-//                continue;
-//            }
-//            if (trim($form->getElementValue($fieldname)) == '') {
-//                $form->removeElement($fieldname);
-//            }
-//        }
-//        self::$checkremove = array();
-//    }
 
     /**
      * If the type has text editor fields, let them be known.

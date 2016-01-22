@@ -71,10 +71,10 @@ class qtype_base {
      * Add an element of the relevant type to the template form.
      * @param \MoodleQuickForm $form
      * @param object $question
+     * @param $isfrozen
      */
-    public static function add_template_element(\MoodleQuickForm $form,
-                                                $question) {
-        
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen) {
+        //nothing to do in base class
     }
 
     public static function add_help_button($question) {
@@ -133,8 +133,7 @@ class qtype_base {
      * Gets answer according to type (by default the data, for some fields an array)
      * @param object $answer
      */
-
-    public static function process_answer($question, $answer) {
+    public static function process_answer($question, $answer, $isfrozen = false) {
         return $answer->data;
     }
     

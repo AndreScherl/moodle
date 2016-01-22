@@ -131,6 +131,5 @@ $form->set_data($data);
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);
-echo html_writer::tag('h3', get_string('sendcoursetemplateheading', 'block_mbstpl'));
 $form->display();
 echo $OUTPUT->footer();

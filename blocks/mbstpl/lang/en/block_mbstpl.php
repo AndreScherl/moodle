@@ -69,6 +69,10 @@ $string['createdby'] = 'Created By';
 $string['createdon'] = 'Created On';
 $string['creationdate'] = 'Creation date';
 $string['currentrating'] = 'Current rating';
+$string['datasource'] = 'Data source for interpreting values';
+$string['datasource_help'] = 'If the stored values are represented by ids, you may user another attribute stored records.
+    Therefore you hav to set up the databasetabe, the indexing field and the field, that is user for display.
+    Example: block_mbstpl_subjects,id,subject . The id will be substited by (the name) of the subject for display.';
 $string['description'] = 'Description';
 $string['delayedrestore'] = 'Delayed Course Duplication';
 $string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
@@ -176,6 +180,10 @@ $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
 $string['legalinfo'] = 'Legal Information';
 $string['license'] = 'Published under license';
+$string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Attribution</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">SA - ShareAlike</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nc/3.0/de/" target="_blank">NC - NonCommercial</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nd/3.0/de/" target="_blank">ND - NoDerivs</a></li></ul>';
 $string['licenses_header'] = 'Available licenses';
 $string['licenses_edit'] = 'Manage licenses';
 $string['license_fullname'] = 'Full name';
@@ -213,6 +221,7 @@ $string['mustselectuser'] = 'You must select a user';
 $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';
 $string['myreview'] = 'My courses under review';
+$string['myreview_help'] = 'bold = assigned to me'."\n".'orange = assigend to author'."\n".'blue = assigend to reviewer';
 $string['myrevision'] = 'My courses under revision';
 $string['na'] = 'N/A';
 $string['newblocktitle'] = 'Course Template Information';
@@ -248,7 +257,6 @@ $string['selecteduser'] = 'Selected user';
 $string['selectsectionsandactivities'] = 'Select which sections and activities and user data you want to include in the duplicated course.';
 $string['selectuser'] = 'Select user';
 $string['sendcoursetemplate'] = 'Send course template';
-$string['sendcoursetemplateheading'] = 'You may publish your course under the following license terms: CC / non-profit / disclosure with attribution / changed). In the CC license, it is necessary that your name is mentioned. You hereby consent to the publication of your name.';
 $string['sendforreviewing'] = 'Send for reviewing';
 $string['sendtpldate'] = 'Date of sending course template';
 $string['sendfeedbacktoauthor'] = 'Send and assign back to author';
@@ -271,10 +279,12 @@ $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a d
 $string['templatefeedback'] = 'Template feedback';
 $string['templatehistoryreport'] = 'Template History for "{$a->fullname}" ({$a->shortname})';
 $string['templatesearch'] = 'Template Search';
+$string['termsofuse'] = 'terms of use';
+$string['termsofuse_descr'] = 'Using this feature you agree to acccept the <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">terms of use</a>.';
 $string['timeassigned'] = 'Time assigned';
 $string['to'] = 'To:';
 $string['tplremindafter'] = 'Send template reminder after';
-$string['tplremindafter_desc'] = 'Anyone with the system context capability of cousretemplatemanager will receive notification when a template has not been updated for the specified time.';
+$string['tplremindafter_desc'] = 'Anyone with the teachSHARE course context capability of cousretemplatemanager will receive notification when a template has not been updated for the specified time.';
 $string['tplremindersent'] = 'Template reminders sent.';
 $string['updated'] = 'Updated';
 $string['uploadfile'] = 'Upload file';
@@ -293,8 +303,3 @@ $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
 $string['yourrating'] = 'Your Rating';
-
-$string['datasource'] = 'Data source for interpreting values';
-$string['datasource_help'] = 'If the stored values are represented by ids, you may user another attribute stored records.
-    Therefore you hav to set up the databasetabe, the indexing field and the field, that is user for display.
-    Example: block_mbs_subject,id,subject . The id will be substited by (the name) of the subject for display.';

@@ -15,17 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Mbs enrolment plugin.
+ * Mbs tutor auto-enrolment plugin.
  *
- * @package    enrol_mbs
- * @copyright  2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
+ * @package    enrol_mbstplaenrl
+ * @copyright  2016 Yair Spielmann, Synergy Learning for ALP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use \block_mbstpl as mbst;
 
 /**
  * MBS Template enrolment plugin
  */
-class enrol_mbs_plugin extends enrol_plugin {
+class enrol_mbstplaenrl_plugin extends enrol_plugin {
 
     /**
      * Get the record for a course instance of this plugin
@@ -35,12 +37,10 @@ class enrol_mbs_plugin extends enrol_plugin {
      */
     public static function get_instance($id, $courseid = null) {
         global $DB;
-        $params = array('enrol' => 'mbs', 'id' => $id);
-        if(!empty($courseid)) {
-            $params['courseid'] = $courseid;
-        }
-        return $DB->get_record('enrol', $params, '*', MUST_EXIST);
+        return $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'mbstplaenrl', 'id' => $id), '*', MUST_EXIST);
     }
+
+
 
     /**
      * Returns link to page which may be used to add new instance of enrolment plugin in course.
@@ -60,7 +60,7 @@ class enrol_mbs_plugin extends enrol_plugin {
         }
 
         // Multiple instances supported - different roles with different password.
-        return new moodle_url('/enrol/mbs/edit.php', array('courseid' => $courseid));
+        return new moodle_url('/enrol/mbstplaenrl/edit.php', array('courseid' => $courseid));
     }
 
     /**
@@ -71,15 +71,15 @@ class enrol_mbs_plugin extends enrol_plugin {
     public function get_action_icons(stdClass $instance) {
         global $OUTPUT;
 
-        if ($instance->enrol !== 'mbs') {
+        if ($instance->enrol !== 'mbstplaenrl') {
             throw new coding_exception('invalid enrol instance!');
         }
         $context = context_course::instance($instance->courseid);
 
         $icons = array();
 
-        if (has_capability('enrol/mbs:config', $context)) {
-            $editlink = new moodle_url("/enrol/mbs/edit.php", array('courseid'=>$instance->courseid, 'id'=>$instance->id));
+        if (has_capability('enrol/mbstplaenrl:config', $context)) {
+            $editlink = new moodle_url("/enrol/mbstplaenrl/edit.php", array('courseid'=>$instance->courseid, 'id'=>$instance->id));
             $icons[] = $OUTPUT->action_icon($editlink, new pix_icon('t/edit', get_string('edit'), 'core',
                 array('class' => 'iconsmall')));
         }
@@ -98,6 +98,7 @@ class enrol_mbs_plugin extends enrol_plugin {
         $fields['customint2']      = $this->get_config('cron_hour');
         $fields['customint3']      = $this->get_config('cron_minute');
         $fields['customtext1']     = $this->get_config('cron_days');
+        $fields['roleid']          = $this->get_config('defaultrole');
 
         return $fields;
     }
@@ -118,4 +119,65 @@ class enrol_mbs_plugin extends enrol_plugin {
         return implode(',', array_keys($data->cron_days));
     }
 
+
+    public function allow_unenrol(stdClass $instance) {
+        return true;
+    }
+
+    /**
+     * Creates course enrol form, checks if form submitted
+     * and enrols user if necessary. It can also redirect.
+     *
+     * @param stdClass $instance
+     * @return string html text, usually a form in a text box
+     */
+    public function enrol_page_hook(stdClass $instance) {
+        global $DB, $USER;
+
+        // Check instance.
+        if ($instance->status != ENROL_INSTANCE_ENABLED) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+        if ($instance->enrolstartdate != 0 and $instance->enrolstartdate > time()) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+
+        if ($instance->enrolenddate != 0 and $instance->enrolenddate < time()) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+
+        // Cannot enrol guest.
+        if (isguestuser()) {
+            return get_string('noguestaccess', 'enrol');
+        }
+
+        // Only enrol template searching tutors.
+        if (!mbst\perms::can_searchtemplates()) {
+            return get_string('noguestaccess', 'enrol');
+        }
+
+        if ($DB->record_exists('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+
+        // Template must be published and course visible.
+        if(!$template = mbst\dataobj\template::fetch(array('courseid' => $instance->courseid))) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+        if ($template->status != $template::STATUS_PUBLISHED) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+        if(!$visible = $DB->get_field('course', 'visible', array('id' => $instance->courseid))) {
+            return get_string('canntenrol', 'enrol_self');
+        }
+
+        $timestart = time();
+        if ($instance->enrolperiod) {
+            $timeend = $timestart + $instance->enrolperiod;
+        } else {
+            $timeend = 0;
+        }
+
+        $this->enrol_user($instance, $USER->id, $instance->roleid, $timestart, $timeend);
+    }
 }

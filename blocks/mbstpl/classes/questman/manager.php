@@ -290,8 +290,9 @@ class manager {
      * For questions with 'fieldname' value, get a list of answers to load in the form.
      * @param $questions
      * @param int $metaid
+     * @param  bool $isfrozen
      */
-    public static function map_answers_to_fieldname($questions, $metaid) {
+    public static function map_answers_to_fieldname($questions, $metaid, $isfrozen = false) {
         global $DB;
 
         $qids = array();
@@ -313,7 +314,7 @@ class manager {
             }
             $question = $questions[$qid];
             $typeclass = qtype_base::qtype_factory($question->datatype);
-            $answers[$question->fieldname] = $typeclass::process_answer($question, $prec);
+            $answers[$question->fieldname] = $typeclass::process_answer($question, $prec, $isfrozen);
         }
         return $answers;
     }
@@ -436,11 +437,9 @@ class manager {
         );
 
         $tform = new mbst\form\editmeta(null, $customdata);
-        
-        
-        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id);
-        
-        
+
+        $answers = mbst\questman\manager::map_answers_to_fieldname($questions, $meta->id, !empty($customdata['freeze']));
+
         $tform->set_data($answers);
 
         self::populate_meta($tform, $meta, false);
@@ -572,7 +571,8 @@ class manager {
         $question->param1 = 'zu Hause
         im Unterricht';
         $question->param2 = NULL;
-        $question->help = '<p>Mehrfachauswahl möglich</p>';
+        $question->help = '<ul><li>Geben Sie an, ob Sie für die Nutzung Ihres Kurses den Computereinsatz im Unterricht oder zu Hause angedacht haben.</li>'
+                . '<li>Eine Mehrfachauswahl ist möglich.</li></ul>';
         $question->required = 1;
         $question->inuse = 0;
         self::add($question);
@@ -651,10 +651,10 @@ class manager {
         $question->title = 'Nutzungsbedingungen';
         $question->defaultdata = 0;
         $question->defaultdataformat = 0; //FORMAT_MOODLE
-        $question->param1 = 'Darüber hinausgehende personenbezogene oder -beziehbare Daten (z. B. Schülernamen in Forenbeiträgen) werden nicht genannt oder sind unkenntlich gemacht.';
+        $question->param1 = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
         $question->param2 = NULL;
-        $question->help = '<p>Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungen/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.</p>';
-        $question->required = 1;
+        $question->help = NULL;
+        $question->required = 1;        
         $question->inuse = 0;
         self::add($question);
 

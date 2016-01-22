@@ -161,19 +161,25 @@ function local_mbs_cli_add($blockname, $role) {
 
             $pagetype = 'my-index';
             $usercontext = context_user::instance($user->id);
-
-            $blockinstance = block_instance($blockname);
-            $blockinstance->blockname = $blockname;
-            $blockinstance->parentcontextid = $usercontext->id;
-            $blockinstance->showinsubcontexts = 0;
-            $blockinstance->pagetypepattern = $pagetype;
-            $blockinstance->subpagepattern = $page->id;
-            $blockinstance->defaultregion = 'side-pre';
-            $blockinstance->defaultweight = 10;
-            $blockinstance->id = $DB->insert_record('block_instances', $blockinstance);
-            $blockcontext = context_block::instance($blockinstance->id);  // Just creates the context record
-            echo "Added block {$blockname} to my-index-page of user {$user->id}. \n";
-            $numberofactions++;
+            if ($DB->record_exists('block_instances', array('blockname' => $blockname,
+                                                            'parentcontextid' => $usercontext->id,
+                                                            'pagetypepattern' => $pagetype,
+                                                            'subpagepattern' => $page->id))) {
+                echo "Block {$blockname} already exists on my-index-page of user {$user->id}. \n";
+            } else {
+                $blockinstance = block_instance($blockname);
+                $blockinstance->blockname = $blockname;
+                $blockinstance->parentcontextid = $usercontext->id;
+                $blockinstance->showinsubcontexts = 0;
+                $blockinstance->pagetypepattern = $pagetype;
+                $blockinstance->subpagepattern = $page->id;
+                $blockinstance->defaultregion = 'side-pre';
+                $blockinstance->defaultweight = 10;
+                $blockinstance->id = $DB->insert_record('block_instances', $blockinstance);
+                $blockcontext = context_block::instance($blockinstance->id);  // Just creates the context record
+                echo "Added block {$blockname} to my-index-page of user {$user->id}. \n";
+                $numberofactions++;
+            }
         }
     }
     else {

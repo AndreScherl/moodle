@@ -17,12 +17,12 @@
 /**
  * Evebt observer
  *
- * @package    enrol_mbs
- * @copyright  2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
+ * @package    enrol_mbstplaenrl
+ * @copyright  2016 Yair Spielmann, Synergy Learning for ALP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace enrol_mbs;
+namespace enrol_mbstplaenrl;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -44,21 +44,12 @@ class observer {
             return;
         }
 
-        if (!enrol_is_enabled('mbs')) {
+        if (!enrol_is_enabled('mbstplaenrl')) {
             return;
         }
 
-        $plugin = enrol_get_plugin('mbs');
-        if (!$plugin->get_config('auto_reset')) {
-            return;
-        }
-
+        $plugin = enrol_get_plugin('mbstplaenrl');
         $course = get_course($template->courseid);
-        $instanceid = $plugin->add_instance($course, $plugin->get_instance_defaults());
-
-        $instance = \enrol_mbs_plugin::get_instance($instanceid);
-
-        task\reset_course_userdata_task::schedule_single_reset_task($instance);
+        $plugin->add_instance($course, $plugin->get_instance_defaults());
     }
-
 }

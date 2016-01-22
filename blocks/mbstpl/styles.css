@@ -202,14 +202,6 @@ ul.mbsfilelist, ul.mbsfilelist li {
     font-weight: bold;
 }
 
-.block-usedreferences {
-    margin-top: 25px;
-}
-
-div[role="main"] .block-usedreferences ol {
-    padding-left: 26px;
-}
-
 .mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
 .mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
 .mbstrevhist-item {
@@ -228,6 +220,11 @@ div[role="main"] .block-usedreferences ol {
     margin-left: 210px;
 }
 
+#page-blocks-mbstpl-sendtemplate #fitem_id_license .iconhelp {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 span.mbshelp {
     float:right;
     width:16px;
@@ -237,3 +234,22 @@ span.mbshelp {
 #page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span.mbshelp {
     padding:0px;
 }
+
+fieldset .felement.flookupset ul {
+    list-style: none;
+}
+fieldset .felement.flookupset ul li {
+    display: inline-block;
+    padding: 0 8px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #00a8d5;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+}
+
+fieldset .felement.fcheckbox label {
+    display: inline;
+}
+

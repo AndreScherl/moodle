@@ -30,6 +30,7 @@ $string['contacturl_expl'] = 'Vollständige URL zu der Persönlicher-Kontakt-Sei
 $string['closealert'] = 'Ok';
 $string['closealertexpl'] = 'Die Starthilfe wird nun dauerhaft entfernt. Unter "Profil bearbeiten > Weitere Profileinstellungen > '
         . 'Starthilfe" können Sie diesen Vorgang rückgängig machen.';
+$string['displayname'] = 'Starthilfe';
 $string['eventlinkused'] = 'Ein Link des Starthilfeblocks wurde verwendet';
 $string['helpnoteremovepermanent'] = 'dauerhaft entfernen';
 $string['helpnoteclose'] = 'schließen';

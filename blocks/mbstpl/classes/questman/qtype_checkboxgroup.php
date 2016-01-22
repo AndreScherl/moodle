@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,8 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class qtype_checkboxgroup extends qtype_menu {
 
-    public static function add_template_element(\MoodleQuickForm $form,
-                                                $question) {
+    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
 
         if (isset($question->param1)) {
             $rawoptions = explode("\n", $question->param1);
@@ -52,9 +52,7 @@ class qtype_checkboxgroup extends qtype_menu {
      * @param $dataformat
      * @return bool;
      */
-    public static function save_answer($metaid, $questionid, $answer,
-                                       $comment = null,
-                                       $dataformat = FORMAT_MOODLE) {
+    public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
 
         if (is_null($answer)) {
             $answer = array();
@@ -78,8 +76,7 @@ class qtype_checkboxgroup extends qtype_menu {
         return true;
     }
 
-    public static function add_to_searchform(\MoodleQuickForm $form, $question,
-                                             $elname) {
+    public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
         $values = explode("\n", $question->param1);
         $boxes = array();
         for ($i = 0; $i < count($values); $i++) {
@@ -126,15 +123,15 @@ class qtype_checkboxgroup extends qtype_menu {
      * Gets answer according to type (by default the data, for some fields an array)
      * @param object $answer
      */
-    public static function process_answer($question, $answer) {
+    public static function process_answer($question, $answer, $isfrozen = false) {
 
         if (empty($answer->data)) {
 
             return $answer->data;
-            
         } else {
 
             return array_fill_keys(explode(',', $answer->data), 1);
         }
     }
+
 }

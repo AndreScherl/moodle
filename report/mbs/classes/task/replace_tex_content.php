@@ -32,9 +32,8 @@ class replace_tex_content extends \core\task\scheduled_task {
     }
 
     public function execute() {
-        global $CFG;
-
         
+        \report_mbs\local\reporttex::replace_tex();
     }
 
 }

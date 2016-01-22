@@ -44,7 +44,7 @@ $string['region-admin-navi'] = 'Website-Administration';
 $string['sidebar-apps'] = 'My Apps';
 $string['sidebar-search'] = 'Search';
 
-$string['url-complaints'] = 'File a complaint for this course';
+$string['url-complaints'] = 'Report a complaint for this course';
 
 $string['url-support'] = 'Link to support';
 $string['url-support-descr'] = 'Link to support';

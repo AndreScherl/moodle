@@ -32,12 +32,12 @@ $coursecontext = context_course::instance($courseid);
 $course = get_course($courseid);
 $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
 
-$thisurl = new moodle_url('/blocks/mbstpl/complaintreport.php', array('course' => $courseid));
+$thisurl = new moodle_url('/blocks/mbstpl/complaintreport.php', array('courseid' => $courseid));
 $PAGE->set_url($thisurl);
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_context($coursecontext);
 
-if (!mbst\perms::can_complain($coursecontext)) {
+if (!mbst\perms::can_complain()) {
     throw new moodle_exception('errorcannotcomplain', 'block_mbstpl');
 }
 

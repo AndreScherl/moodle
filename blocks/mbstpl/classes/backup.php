@@ -65,7 +65,7 @@ class backup {
     public static function generate_course_shortname($origshortname, $versionid, $istemplate = true) {
         global $DB;
 
-        $mid = $istemplate ? '_musterkurs_' : '_dpl_';
+        $mid = $istemplate ? '_Austauschkurs_' : '_dpl_';
         $shortname = $origshortname . $mid . $versionid;
         if (!$DB->record_exists('course', array('shortname' => $shortname))) {
             return $shortname;

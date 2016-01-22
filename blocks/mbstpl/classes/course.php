@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class course {
 
-    const TPLPREFIX = 'Musterkurs';
+    const TPLPREFIX = 'Austauschkurs';
     const BACKUP_LOCALPATH = 'mbstpl';
 
     /**

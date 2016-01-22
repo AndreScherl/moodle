@@ -121,7 +121,7 @@ der Austauschkurs {$a->fullname} wurde für Sie kopiert. Er kann unter folgender
 $string['emaildupldeployed_subj'] = 'Austauschkurs kopiert';
 $string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'der Autor des Kurses {$a->fullname}, {$a->reviewer}, hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailfeedbackauth_subj'] = 'Kurs-Feedback';
-$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut bearbeiten: {$a->url} .';
+$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n".'Link zum Kurs: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Kurs überprüft';
 $string['emailreadyforreview_body'] = 'Sehr geehrter Master Reviewer,'."\n".'Der Kurs {$a->fullname} steht unter folgender Adresse für die Review bereit: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Kurs bereit für Review';

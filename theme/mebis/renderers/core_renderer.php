@@ -149,7 +149,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
             //$skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
         }
 
-        $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted', 'mbstplusedreferences', 'mbsnews');
+        $full = array('mbsmycourses', 'mbsmyschools', 'mbsgettingstarted', 'mbsnews');
 
         $transparent = array('mbsmycourses', 'mbsmyschools');
 

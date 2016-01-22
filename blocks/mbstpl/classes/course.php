@@ -88,7 +88,7 @@ class course {
                 $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
             }
             
-            if (perms::can_coursefromtpl($template, $coursecontext)) {
+            if (perms::can_coursefromtpl($template)) {
                 $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
                 $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
             }

@@ -121,8 +121,7 @@ $string['emailfeedbackauth_subj'] = 'Template feedback';
 $string['emailfeedbackrev_body'] = 'Dear template author,
 The template you have created for course {$a->fullname} has been reviewed by {$a->reviewer}. The following feedback has been given:
 {$a->feedback}
-
-You can adjust the cousre now it now at at: {$a->url} .';
+URL to course: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Template reviewed';
 $string['emailreadyforreview_body'] = 'Dear course manager,
 The template course {$a->fullname} is ready for review at: {$a->url} .';

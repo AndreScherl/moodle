@@ -42,7 +42,10 @@ class perms {
         if (has_capability('block/mbstpl:coursetemplatemanager', $coursecontext)) {
             return true;
         }
-
+        if ($template->status == $template::STATUS_PUBLISHED) {
+            return false;
+        }
+        
         return $template->authorid == $USER->id || $template->reviewerid == $USER->id;
     }
 
@@ -104,6 +107,9 @@ class perms {
      * @return bool
      */
     public static function can_editmeta(dataobj\template $template, \context_course $coursecontext) {
+        if ($template->status == $template::STATUS_PUBLISHED) {
+            return false;
+        }
         global $USER;
         $assigned = (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id);
         return (has_capability('block/mbstpl:coursetemplateeditmeta', $coursecontext) && $assigned);
@@ -169,12 +175,11 @@ class perms {
      * @param \context_course $coursecontext
      * @return bool
      */
-    public static function can_coursefromtpl(dataobj\template $template, \context_course $coursecontext) {
+    public static function can_coursefromtpl(dataobj\template $template) {
         if ($template->status != $template::STATUS_PUBLISHED) {
             return false;
         }
-
-        return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
+        return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate');
     }
 
     /**

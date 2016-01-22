@@ -112,9 +112,14 @@ switch ($action) {
 
         $messageid = required_param('messageid', PARAM_INT);
 
-        $message = $DB->get_record('message', array('id' => $messageid), '*', MUST_EXIST);
-
-        $result = \block_mbsnews\local\newshelper::mark_message_read($message);
+        if (!$message = $DB->get_record('block_mbsnews_message', array('id' => $messageid))) {
+        
+            $result = array('error' => 0, 'results' => array('id' => $messageid));
+            
+        } else {
+            
+            $result = \block_mbsnews\local\newshelper::mark_message_read($message);
+        }
 
         echo json_encode($result);
         die;

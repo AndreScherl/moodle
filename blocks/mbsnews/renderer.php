@@ -63,9 +63,9 @@ class block_mbsnews_renderer extends plugin_renderer_base {
                 $header = html_writer::tag('div', html_writer::link('#', $deleteicon, array('class' => 'mbsnews-header-delete', 'id' => 'mbsnewsdelete_'.$message->id)));
 
                 $userpic = '';
-                if (isset($news->authors[$message->useridfrom])) {
-                    $userpic .= $this->output->user_picture($news->authors[$message->useridfrom], array('size' => 30));
-                    $userpic .= fullname($news->authors[$message->useridfrom]);
+                if (isset($news->authors[$message->sender])) {
+                    $userpic .= $this->output->user_picture($news->authors[$message->sender], array('size' => 30));
+                    $userpic .= fullname($news->authors[$message->sender]);
                 }
 
                 $header .= html_writer::tag('span', $userpic, array('class' => 'mbsnews-header-userpic'));

@@ -36,20 +36,20 @@ class newshelper {
      * @return array with results.
      */
     public static function mark_message_read($message) {
-        global $USER;
+        global $USER, $DB;
 
         $oldmessageid = $message->id;
 
-        if ($message->useridto != $USER->id) {
+        if ($message->usertoid != $USER->id) {
             return array('error' => get_string('errormarkasreadonlyown', 'block_mbsnews'));
         }
 
         // Try to mark as read.
-        if ($mid = message_mark_message_read($message, time())) {
-            
+        if ($mid = $DB->delete_records('block_mbsnews_message', array('id' => $message->id))) {
+
             $cache = \cache::make('block_mbsnews', 'mebisnews');
-            $cache->delete($message->useridto);
-            
+            $cache->delete($message->usertoid);
+
             return array('error' => 0, 'results' => array('id' => $oldmessageid));
         }
 
@@ -63,23 +63,24 @@ class newshelper {
      */
     public static function get_news($user) {
         global $DB;
-        
+
         $cache = \cache::make('block_mbsnews', 'mebisnews');
+        
         if ($result = $cache->get($user->id)) {
             return $result;
         }
 
-        $sql = "SELECT m.* FROM {message} m
-                JOIN {message_working} mw ON m.id = mw.unreadmessageid
-                JOIN {message_processors} p ON p.id = mw.processorid AND p.name = :pname
-                WHERE m.useridto = :userid ORDER BY m.timecreated DESC";
+        $sql = "SELECT m.id, m.timefirstviewed, j.sender, j.subject, j.fullmessage, j.timecreated 
+                FROM {block_mbsnews_job} j
+                JOIN {block_mbsnews_message} m ON m.jobid = j.id
+                WHERE m.usertoid = :userid ORDER BY j.timecreated DESC";
 
-        $params = array('pname' => 'mbsnewsblock', 'userid' => $user->id);
+        $params = array('userid' => $user->id);
 
         if (!$messages = $DB->get_records_sql($sql, $params)) {
             return false;
         }
-
+        
         $result = new \stdClass();
         $result->messages = $messages;
 
@@ -87,13 +88,19 @@ class newshelper {
         $authorids = array();
 
         foreach ($messages as $message) {
-            $authorids[$message->useridfrom] = $message->useridfrom;
+            $authorids[$message->sender] = $message->sender;
+            
+            // If  the message is displayed the first time set the date.
+            if (empty($message->timefirstviewed)) {
+                $now = time();
+                $DB->set_field('block_mbsnews_message', 'timefirstviewed', $now, array('id' => $message->id));
+            }
         }
 
         $result->authors = $DB->get_records_list('user', 'id', $authorids);
 
         $cache->set($user->id, $result);
-        
+
         return $result;
     }
 
@@ -222,7 +229,7 @@ class newshelper {
         $news->instanceids = $result;
         return $news;
     }
-    
+
     /**
      * Save a notification job after editjob.php submit
      * 
@@ -245,6 +252,7 @@ class newshelper {
         $job->sender = $USER->id;
         $job->subject = $data->subject;
         $job->fullmessage = $data->fullmessage['text'];
+        $job->duration = $data->duration;
 
         if ($data->id == 0) {
 
@@ -254,6 +262,7 @@ class newshelper {
             $job->timefinished = 0;
             $job->timecreated = time();
             $job->timemodified = $job->timecreated;
+            
 
             $DB->insert_record('block_mbsnews_job', $job);
         } else {
@@ -273,7 +282,7 @@ class newshelper {
 
         return array('error' => 0, 'message' => get_string('newsjobsaved', 'block_mbsnews'));
     }
-    
+
     /**
      * Delete a job and clear the recipients log.
      * 
@@ -283,10 +292,10 @@ class newshelper {
         global $DB;
 
         $success = $DB->delete_records('block_mbsnews_job', array('id' => $job->id));
-        
+
         if ($success) {
             // Delete recipients log.
-            $success = $DB->delete_records('block_mbsnews_job_processed', array('jobid' => $job->id));
+            $success = $DB->delete_records('block_mbsnews_message', array('jobid' => $job->id));
         }
         return $success;
     }
@@ -414,17 +423,15 @@ class newshelper {
     private static function process_job($job, $maxmessagescount) {
         global $DB;
 
-        //$jobinstanceids
-        
         $sql = self::get_recipients_sql((array) $job);
 
-        $sql->select .= ", jp.recipientid ";
+        $sql->select .= ", m.usertoid ";
 
         // Get all the users, which are not yet notificated.
-        $sql->join .= " LEFT JOIN {block_mbsnews_job_processed} jp ON (u.id = jp.recipientid) AND (jp.jobid = :jobid) ";
+        $sql->join .= " LEFT JOIN {block_mbsnews_message} m ON (u.id = m.usertoid) AND (m.jobid = :jobid) ";
         $sql->params['jobid'] = $job->id;
 
-        $sql->where .= " AND (jp.recipientid IS NULL) ";
+        $sql->where .= " AND (m.usertoid IS NULL) ";
 
         $query = $sql->select . $sql->join . $sql->where;
 
@@ -433,45 +440,25 @@ class newshelper {
             $job->timefinished = time();
             $DB->update_record('block_mbsnews_job', $job);
 
-            // Delete recipients log.
-            $DB->delete_records('block_mbsnews_job_processed', array('jobid' => $job->id));
             return 0;
         }
-
-        // Create messages.
-        $userfrom = self::get_user($job->sender);
-
-        $eventdata = new \stdClass();
-        $eventdata->component = 'block_mbsnews';
-        $eventdata->name = 'mbsnewsnotification';
-        $eventdata->userfrom = $userfrom;
-        $eventdata->notification = 1;
-        $eventdata->subject = $job->subject;
-        $eventdata->fullmessage = $job->fullmessage;
-        $eventdata->fullmessageformat = FORMAT_HTML;
-        $eventdata->fullmessagehtml = $job->fullmessage;
-        $eventdata->smallmessage = '';
-        $eventdata->contexturlname = 'Mebis News: ' . $job->id;
 
         $count = 0;
         foreach ($recipients as $userto) {
 
-            $eventdata->userto = self::get_user($userto->id);
-
-            if (message_send($eventdata)) {
-
-                $count++;
-
-                // Log this user as notified.
-                $log = new \stdClass();
-                $log->jobid = $job->id;
-                $log->recipientid = $userto->id;
-                $DB->insert_record('block_mbsnews_job_processed', $log);
-                
-                // Delete users cache.
-                $cache = \cache::make('block_mbsnews', 'mebisnews');
-                $cache->delete($userto->id);
-            }
+            // Log this user as notified.
+            $log = new \stdClass();
+            $log->jobid = $job->id;
+            $log->usertoid = $userto->id;
+            $log->timecreated = time();
+            $log->timefirstviewed = 0;
+            
+            $DB->insert_record('block_mbsnews_message', $log);
+            $count++;
+            
+            // Delete users cache.
+            $cache = \cache::make('block_mbsnews', 'mebisnews');
+            $cache->delete($userto->id);
         }
 
         mtrace("{$count} messages sent.");
@@ -500,7 +487,7 @@ class newshelper {
 
         // Get next jobs, that are not fully processed.
         if (!$jobs = $DB->get_records('block_mbsnews_job', array('timefinished' => 0), 'timemodified ASC')) {
-            mtrace('nothing to do...');
+            mtrace('no message to process...');
             return true;
         }
 
@@ -518,6 +505,46 @@ class newshelper {
         }
 
         mtrace('...all left messages sent.');
+        return true;
+    }
+    
+    /**
+     * Delete all the messages, that are belonging to a expired notification job, when
+     * duration has a value greater than 0 (number of days to display the message).
+     * 
+     * @return boolean
+     */
+    public static function delete_expired_messages() {
+        global $DB;
+        
+        $sql = "SELECT j.id, count(*) as countmessages
+                FROM {block_mbsnews_job} j
+                JOIN {block_mbsnews_message} m ON j.id = m.jobid
+                WHERE (j.duration > 0) AND (j.duration * 24 * 3600 + j.timecreated < :now) 
+                GROUP BY j.id
+                HAVING (countmessages > 0)";
+        
+        if (!$expiredjobs = $DB->get_records_sql($sql, array('now' => time()))) {
+            mtrace ('... no expired messages.');
+            return true;
+        } 
+        
+        $count = 0;
+        foreach ($expiredjobs as $job) {
+            
+            $DB->delete_records('block_mbsnews_message', array('jobid' => $job->id));
+            
+            // Stop processing the message, if there is any processing left, by setting timefinished <> 0.
+            $now = time();
+            $DB->set_field('block_mbsnews_job', 'timefinished', $now, array('timefinished' => 0, 'id' => $job->id));
+            
+            $count++;
+        }
+        
+        $cache = \cache::make('block_mbsnews', 'mebisnews');
+        $cache->purge();
+        
+        mtrace ('messages of '.$count.' expired jobs deleted.');
         return true;
     }
 

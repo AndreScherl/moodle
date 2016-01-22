@@ -86,7 +86,8 @@ class editjob_form extends \moodleform {
         for ($i = 0; $i <= 100; $i++) {
             $choices[$i] = $i;
         }
-        $mform->addElement('select', 'duration', get_string('duration', 'block_mbsnews'), $choices, array('disabled' => 'disabled'));
+        $mform->addElement('select', 'duration', get_string('duration', 'block_mbsnews'), $choices);
+        $mform->addHelpButton('duration', 'duration', 'block_mbsnews');
 
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);

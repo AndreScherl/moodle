@@ -226,14 +226,14 @@ class reporttex {
         // Get most recent table.
         if (!$reportdate = $DB->get_record_sql($sql, array(1), IGNORE_MULTIPLE)) {
             mtrace('...nothing to do ');
-        }
-
-        // Replace text in current table.
-        $columnnames = self::get_text_column_names($reportdate->tablename);
-        $total = 0;
-        foreach ($columnnames as $columnname) {
-            $count = self::update_column_with_tex($reportdate->tablename, $columnname);
-            $total += $count;
+        } else {
+            // Replace text in current table.
+            $columnnames = self::get_text_column_names($reportdate->tablename);
+            $total = 0;
+            foreach ($columnnames as $columnname) {
+                $count = self::update_column_with_tex($reportdate->tablename, $columnname);
+                $total += $count;
+            }
         }
 
         mtrace("replaced total: ".$total);

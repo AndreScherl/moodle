@@ -174,9 +174,9 @@ $string['layoutlist'] = 'Liste';
 $string['legalinfo'] = 'Rechtliche Information';
 $string['license'] = 'Veröffentlichung der Eigeninhalte unter der Lizenz';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Namensnennung</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/sa/3.0/de/" target="_blank">SA - Weitergabe unter gleichen Bedingungen</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/nc/3.0/de/" target="_blank">NC - Nicht kommerziell</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/nd/3.0/de/" target="_blank">ND - Keine Bearbeitung</a></li></ul>';
+        . '<li><a href="https://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">SA - Weitergabe unter gleichen Bedingungen</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nc/3.0/de/" target="_blank">NC - Nicht kommerziell</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nd/3.0/de/" target="_blank">ND - Keine Bearbeitung</a></li></ul>';
 $string['licenses_header'] = 'Verfügbare Lizenzen';
 $string['licenses_edit'] = 'Lizenzen verwalten';
 $string['license_fullname'] = 'Name';

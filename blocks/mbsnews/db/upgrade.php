@@ -26,5 +26,41 @@ function xmldb_block_mbsnews_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
+    if ($oldversion < 2016012200) {
+
+        // Define table block_mbsnews_job to be dropped.
+        $table = new xmldb_table('block_mbsnews_job_processed');
+
+        // Conditionally launch drop table for block_mbsnews_job.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Define table block_mbsnews_message to be created.
+        $table = new xmldb_table('block_mbsnews_message');
+
+        // Adding fields to table block_mbsnews_message.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('jobid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('usertoid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timefirstviewed', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table block_mbsnews_message.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table block_mbsnews_message.
+        $table->add_index('idx_jobid', XMLDB_INDEX_NOTUNIQUE, array('jobid'));
+        $table->add_index('idx_usrid', XMLDB_INDEX_NOTUNIQUE, array('usertoid'));
+        $table->add_index('idx_jobid_usr', XMLDB_INDEX_NOTUNIQUE, array('jobid', 'usertoid'));
+
+        // Conditionally launch create table for block_mbsnews_message.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        
+        // Mbsnews savepoint reached.
+        upgrade_block_savepoint(true, 2016012200, 'mbsnews');
+    }
     return true;
 }

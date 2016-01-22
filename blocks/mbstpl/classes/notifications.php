@@ -35,15 +35,10 @@ class notifications {
      * The user which emails are sent from.
      */
     public static function get_fromuser() {
-        global $CFG;
-
-        $user = get_admin();
-        if (!empty($CFG->supportemail) && validate_email($CFG->supportemail)) {
-            $user->email = $CFG->supportemail;
-        }
-        $site = get_site();
-        $user->firstname = $site->fullname;
-        $user->lastname = '';
+        $user = \core_user::get_user(\core_user::NOREPLY_USER);
+        $user->firstname = 'mebis teachSHARE';
+        $user->lastname = 'Systemnachricht';
+        
         return $user;
     }
 

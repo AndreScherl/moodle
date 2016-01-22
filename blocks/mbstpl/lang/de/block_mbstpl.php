@@ -174,9 +174,9 @@ $string['layoutlist'] = 'Liste';
 $string['legalinfo'] = 'Rechtliche Information';
 $string['license'] = 'Veröffentlichung der Eigeninhalte unter der Lizenz';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Namensnennung</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/sa/3.0/de/" target="_blank">SA - Weitergabe unter gleichen Bedingungen</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/nc/3.0/de/" target="_blank">NC - Nicht kommerziell</a></li>'
-        . '<li><a href="https://creativecommons.org/licenses/nd/3.0/de/" target="_blank">ND - Keine Bearbeitung</a></li></ul>';
+        . '<li><a href="https://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">SA - Weitergabe unter gleichen Bedingungen</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nc/3.0/de/" target="_blank">NC - Nicht kommerziell</a></li>'
+        . '<li><a href="https://creativecommons.org/licenses/by-nd/3.0/de/" target="_blank">ND - Keine Bearbeitung</a></li></ul>';
 $string['licenses_header'] = 'Verfügbare Lizenzen';
 $string['licenses_edit'] = 'Lizenzen verwalten';
 $string['license_fullname'] = 'Name';
@@ -203,7 +203,9 @@ $string['mustselectuser'] = 'Sie müssen einen Nutzer auswählen';
 $string['myassigned'] = 'Kurse in Bearbeitung';
 $string['mypublished'] = 'Meine veröffentlichten Kurse';
 $string['myreview'] = 'Kurse im Reviewingprozess';
-$string['myreview_help'] = 'fett = mir zugewiesen (ich muss etwas tun)<br />orange = dem Autor zugewiesen<br />blau = dem Reviewer zugewiesen';
+$string['myreview_help'] = '<B>fett</B>: Der Kurs ist mir zugewiesen, damit ich ihn überarbeite oder überprüfe. Je nachdem, ob ich Autor oder Reviewer bin.<br />'
+        . '<span style="background-color:#ff6600;color:#fff;"> orange </span>: Der Kurs ist dem Autor zugewiesen, also der Person, die ihn in teachSHARE hochgeladen hat.<br />'
+        . '<span style="background-color:#00a8d5;color:#fff;"> blau </span>: Der Kurs ist dem Reviewer zugewiesen, damit dieser ihn überprüft. D.h. der Autor kann im Moment keine Änderungen vornehmen.';
 $string['myrevision'] = 'Meine Kurse in Bearbeitung';
 $string['na'] = 'irrelevant';
 $string['newblocktitle'] = 'teachSHARE';

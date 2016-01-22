@@ -50,9 +50,11 @@ $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
 
 $searchform = new mbst\form\searchform(null, array('questions' => $questions));
 $courses = array();
+$searchflag = false;
 if ($data = $searchform->get_data()) {
     $search = new mbst\search($questions, $data);
     $courses = $search->get_search_result($startrecord, $pagesize);
+    $searchflag = true;
 }
 
 $PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',
@@ -64,6 +66,6 @@ echo $OUTPUT->header();
 $renderer = mbst\course::get_renderer();
 echo html_writer::tag('h3', $pagetitle);
 
-echo $renderer->templatesearch($searchform, $courses, $layout);
+echo $renderer->templatesearch($searchform, $courses, $layout, $searchflag);
 
 echo $OUTPUT->footer();

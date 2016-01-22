@@ -29,16 +29,17 @@ require_once($CFG->dirroot . '/blocks/mbstpl/renderer.php');
 class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
 
     
-    public function templatesearch($searchform, $courses, $layout) {
+    public function templatesearch($searchform, $courses, $layout, $searchflag) {
         
         // Add the search form.
         $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
 
-        // Render result listing.      
-        $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
-        $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
-
-        $html .= $this->mbstpl_resultlist($courses, $layout);
+        // Render result listing.   
+        if ($searchflag) {
+            $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
+            $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
+            $html .= $this->mbstpl_resultlist($courses, $layout, $searchflag);
+        }
         return $html;
     }   
     
@@ -49,13 +50,13 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
      * @param string $layout not in use
      * @return string html to be displayed
      */
-    public function mbstpl_resultlist($courses, $layout) {
+    public function mbstpl_resultlist($courses, $layout, $searchflag) {
         if (count($courses) > 0) {
-            $searchlisting = $this->mbstpl_grid($courses);
-        } else {
-            $searchlisting = \html_writer::tag('span', get_string('noresults', 'block_mbstpl'));
+            return $this->mbstpl_grid($courses);
+        } else if ($searchflag) {
+            return \html_writer::tag('h3', get_string('noresults', 'block_mbstpl'));
         }
-        return $searchlisting;
+        return '';
     }
 
     /**

@@ -301,12 +301,11 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $html;
     }
 
-    public function templatesearch($searchform, $courses, $layout) {
+    public function templatesearch($searchform, $courses, $layout, $searchflag) {
         
         // Add the search form.
         $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
 
-        $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
 
         // Add layout and pagination controllers.
         $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
@@ -314,17 +313,21 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         // TODO: Add pagination controls.
 
-        $listcontrollers .= \html_writer::link($link, \html_writer::img(
+        if ($searchflag) {
+            $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
+            $listcontrollers .= \html_writer::link($link, \html_writer::img(
             $this->output->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l' => 'grid')));
-        $listcontrollers .= \html_writer::link($link, \html_writer::img(
+            $listcontrollers .= \html_writer::link($link, \html_writer::img(
             $this->output->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l' => 'list')));
-        $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
+            $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
+        
+            $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
 
-        $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
-
-        // Render result listing.
-        $searchlisting = $this->mbstpl_resultlist($courses, $layout);
-        $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
+            // Render result listing.
+            $searchlisting = $this->mbstpl_resultlist($courses, $layout, $searchflag);
+            $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
+        }
+        
         return $html;
     }
 
@@ -335,7 +338,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * @param string $layout
      * @return string html to be displayed
      */
-    public function mbstpl_resultlist($courses, $layout) {
+    public function mbstpl_resultlist($courses, $layout, $searchflag) {
         $searchlisting = '';
         $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
         
@@ -362,7 +365,11 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
             }
         } else {
-            $searchlisting .= \html_writer::tag('em', get_string('noresults', 'block_mbstpl'));
+            if ($searchflag) {
+                $searchlisting .= \html_writer::tag('em', get_string('noresults', 'block_mbstpl'));
+            } else {
+                $searchlisting .= '';
+            }
         }
         return $searchlisting;
     }

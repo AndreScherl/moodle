@@ -231,7 +231,7 @@ $string['nextstatsreport_desc'] = 'Date to run the next statistics report';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
 {$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';
-$string['noresults'] = 'No results found.';
+$string['noresults'] = 'No results found. Please change searchparams.';
 $string['nountouchedtemplates'] = 'No templates untouched during the set period.';
 $string['pluginname'] = 'Course templating';
 $string['pluginnamecategory'] = 'Course templating (more)';

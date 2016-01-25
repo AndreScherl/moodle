@@ -51,6 +51,10 @@ if (!mbst\perms::can_coursefromtpl($template, $coursecontext)) {
 // Load allowed courses and categories.
 $cats = coursecat::make_categories_list('moodle/course:create');
 $coursesearch = new restore_course_search(array(), $course->id);
+
+// +++ awag: Restrict course search to permitted courses.
+$coursesearch->require_capability('moodle/course:manageactivities');
+// --- awag: Restrict course search to permitted courses.
 $courses = $coursesearch->get_results();
 if (empty($cats) && empty($courses)) {
     throw new moodle_exception('errornowheretorestore', 'block_mbstpl');

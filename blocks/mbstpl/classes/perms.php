@@ -223,40 +223,9 @@ class perms {
      * @return bool
      */
     public static function can_searchtemplates() {
-        // don't forget the admin
-        if (has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance())) {
-            return true;
-        }
         // anyone else
         return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate'); 
     }    
-    
-    /** 
-     * Get courses where this user has a given capability on course context.
-     *
-     * @global \moodle_database $DB
-     * @global type $USER
-     * @param type $capability
-     * @return boolean
-     */
-    protected static function get_courses_by_cap($capability, $limit = 0) {
-        global $DB, $USER;
-        $sql = "SELECT DISTINCT c.id
-                FROM {course} c
-                JOIN {context} ctx ON c.id = ctx.instanceid
-                JOIN {role_assignments} ra ON ra.contextid = ctx.id
-                JOIN {role_capabilities} rc ON rc.roleid = ra.roleid
-                WHERE ra.userid = ? AND ctx.contextlevel = ?
-                AND permission > 0 AND capability = ?";
-
-        $params = array($USER->id, CONTEXT_COURSE, $capability);
-
-        if ($limit == 1) {
-            return $DB->get_record_sql($sql, $params);
-        }
-
-        return $DB->get_records_sql($sql, $params, 0, $limit);
-    }
     
     /** 
      * Get course categories where this user has a given capability on course category context.
@@ -264,9 +233,14 @@ class perms {
      * @global \moodle_database $DB
      * @global type $USER
      * @param type $capability
-     * @return boolean
+     * @return boolean, array
      */
     protected static function get_course_categories_by_cap($capability, $limit = 0) {
+        // don't forget the admin
+        if (has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance())) {
+            return true;
+        }
+        // anyone else
         global $DB, $USER;
         $sql = "SELECT DISTINCT c.id
                 FROM {course_categories} c

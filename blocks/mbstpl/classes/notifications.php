@@ -335,16 +335,11 @@ class notifications {
      */
     public static function send_complaint($errordata) {
         global $DB;
-        $user = (object)array(
-            'email' => $errordata->email,
-            'id' => $errordata->userid,
-            'maildisplay' => true
-        );
-        $admin = get_admin();
-        $support = (object)array(
-            'email' => get_config('block_mbstpl', 'complaintemail'),
-            'id' => $admin->id
-        );
+        $user = \core_user::get_user($errordata->userid);
+        $user->email = $errordata->email;
+        $user->maildisplay = true;
+        $support = \core_user::get_support_user();
+        $support->email = get_config('block_mbstpl', 'complaintemail');
         $from = $user;
         $to = $support;
         $coursename = $DB->get_field('course', 'fullname', array('id' => $errordata->courseid), MUST_EXIST);
@@ -366,16 +361,11 @@ class notifications {
      * @param $errordata
      */
     public static function notify_complaint_sent($userid, $email) {
-        $user = (object)array(
-            'email' => $email,
-            'id' => $userid
-        );
-        $admin = get_admin();
-        $support = (object)array(
-            'email' => get_config('block_mbstpl', 'complaintemail'),
-            'id' => $admin->id,
-            'maildisplay' => true
-        );
+        $user = \core_user::get_user($userid);
+        $user->email = $email;
+        $support = \core_user::get_support_user();
+        $support->email = get_config('block_mbstpl', 'complaintemail');
+        $support->maildisplay = true;
         $from = $support;
         $to = $user;
         $subject = get_string('emailcomplaintsend_subj', 'block_mbstpl');

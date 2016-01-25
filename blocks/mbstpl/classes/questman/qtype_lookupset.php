@@ -138,9 +138,9 @@ class qtype_lookupset extends qtype_base {
      */
     public static function process_answer($question, $answer, $isfrozen = false) {
         global $DB;
-
+        
         if (empty($answer->data)) {
-            return array();
+            return $answer->data;
         }
 
         $valuearray = explode(',', $answer->data);
@@ -161,14 +161,11 @@ class qtype_lookupset extends qtype_base {
         list($table, $keyfield, $valuefield) = explode(',', $question->param2);
 
         try {
-
             $table = trim($table);
             $keyfield = trim($keyfield);
             $valuefield = trim($valuefield);
-
             $sourcedata = $DB->get_records_list($table, $keyfield, $valuearray);
         } catch (Exception $ex) {
-
             print_error('Question ' . $question->name . 'has no valid datasource');
         }
 

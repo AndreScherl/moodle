@@ -353,7 +353,6 @@ class notifications {
         );
         $subject = get_string('emailcomplaint_subj', 'block_mbstpl');
         $body = get_string('emailcomplaint_body', 'block_mbstpl', $a);
-        //email_to_user($to, $from, $subject, $body);
         self::send_message('complaint', $to, $subject, $body, $attachment = null, $from);
     }
     
@@ -371,7 +370,6 @@ class notifications {
         $to = $user;
         $subject = get_string('emailcomplaintsend_subj', 'block_mbstpl');
         $body = get_string('emailcomplaintsend_body', 'block_mbstpl');
-        //email_to_user($to, $from, $subject, $body);
         self::send_message('complaint', $to, $subject, $body, $attachment = null, $from);
     }
 }

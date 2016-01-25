@@ -208,6 +208,7 @@ $string['mbstpl:viewrating'] = 'View course rating';
 $string['message'] = 'Message';
 $string['messageprovider:assignedauthor'] = 'Course Template: Assigned Author';
 $string['messageprovider:assignedreviewer'] = 'Course Template: Assigned Reviewer';
+$string['messageprovider:complaint'] = 'Course Template: Complaint Report';
 $string['messageprovider:deployed'] = 'Course Template: Template Created';
 $string['messageprovider:duplicated'] = 'Course Template: Course Duplicated from Template';
 $string['messageprovider:error'] = 'Course Template: Error';

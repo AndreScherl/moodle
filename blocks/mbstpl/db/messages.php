@@ -32,5 +32,6 @@ $messageproviders = array(
     'published' => [],
     'feedback' => [],
     'stats' => [],
-    'reminder' => []
+    'reminder' => [],
+    'complaint' => []
 );

@@ -306,11 +306,11 @@ class notifications {
         return get_users_by_capability(\context_coursecat::instance($catid), 'block/mbstpl:coursetemplatemanager');
     }
 
-    private static function send_message($messagetype, $touser, $subject, $body, $attachment = null) {
+    private static function send_message($messagetype, $touser, $subject, $body, $attachment = null, $fromuser = null) {
         $message = new \stdClass();
         $message->component         = 'block_mbstpl';
         $message->name              = $messagetype;
-        $message->userfrom          = self::get_fromuser();
+        $message->userfrom          = isset($fromuser) ? $fromuser : self::get_fromuser();
         $message->userto            = $touser;
         $message->subject           = $subject;
         $message->fullmessage       = $body;
@@ -353,7 +353,8 @@ class notifications {
         );
         $subject = get_string('emailcomplaint_subj', 'block_mbstpl');
         $body = get_string('emailcomplaint_body', 'block_mbstpl', $a);
-        email_to_user($to, $from, $subject, $body);
+        //email_to_user($to, $from, $subject, $body);
+        self::send_message('complaint', $to, $subject, $body, $attachment = null, $from);
     }
     
     /**
@@ -370,6 +371,7 @@ class notifications {
         $to = $user;
         $subject = get_string('emailcomplaintsend_subj', 'block_mbstpl');
         $body = get_string('emailcomplaintsend_body', 'block_mbstpl');
-        email_to_user($to, $from, $subject, $body);
+        //email_to_user($to, $from, $subject, $body);
+        self::send_message('complaint', $to, $subject, $body, $attachment = null, $from);
     }
 }

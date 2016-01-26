@@ -259,7 +259,6 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('assignee', 'block_mbstpl'),
             '',
         );
-        $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
         
         // asch: we don't want to remove the template type logic in gerenal, but just group some template types
         $groupedtypes = array_merge($templates['assigned'], $templates['review'], $templates['revision']);
@@ -285,7 +284,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             
             foreach ($typetemplates as $template) {
                 $courseitemstatus = \block_mbstpl\course::get_statusshortname($template->status);
-                $viewurl->param('course', $template->courseid);
+                if ($type == 'review') {
+                    $viewurl = new \moodle_url('/blocks/mbstpl/viewfeedback.php');
+                    $viewurl->param('course', $template->courseid);
+                } else {
+                    $viewurl = new \moodle_url('/course/view.php');
+                    $viewurl->param('id', $template->courseid);
+                }
                 $courseitemclasses = 'statuslink';
                 if (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id) {
                     $courseitemclasses .= ' viewfeedback';

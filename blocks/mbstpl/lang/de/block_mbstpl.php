@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $string['addfrombank'] = 'Fügen Sie eine Frage aus der Fragensammlung ein';
 $string['addqtodraft'] = 'Frage verwenden';
 $string['addquestion'] = 'Neue Frage hinzufügen';
@@ -192,6 +194,7 @@ $string['mbstpl:coursetemplateeditmeta'] = 'Kursinformationen editieren';
 $string['mbstpl:coursetemplatereview'] = 'Kurs überprüfen';
 $string['mbstpl:coursetemplatemanager'] = 'Master Reviewer';
 $string['mbstpl:createcoursefromtemplate'] = 'Austauschkurs kopieren';
+$string['mbstpl:notanonymised'] = 'Im Austauschkurs nicht anonymisiert';
 $string['mbstpl:myaddinstance'] = 'teachSHARE Block zu meiner Startseite hinzufügen';
 $string['mbstpl:ratetemplate'] = 'Bewertung';
 $string['mbstpl:sendcoursetemplate'] = 'Kurs veröffentlichen';
@@ -234,6 +237,7 @@ $string['qbank'] = 'Fragensammlung';
 $string['qformdiscard'] = 'Frageformular verwerfen';
 $string['qformunsaved'] = 'Neues Frageformular (nicht gespeicherter Entwurf)';
 $string['questionhelp'] = 'Hilfetext für Fragen';
+$string['questionhelppopupheading'] = 'Hilfe: {$a}';
 $string['questionname'] = 'Fragebezeichnung';
 $string['questionrequired'] = 'Pflichtfeld';
 $string['questiontitle'] = 'Fragetitel';
@@ -296,3 +300,4 @@ ihr Antrag für eine Kurskopie ist eingegangen. Sie erhalten eine Nachricht, sob
 $string['viewhistory'] = 'Chronik anschauen';
 $string['viewrating'] = 'Bewertung anschauen';
 $string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert. Sie werden zum kopierten Kurs weitergeleitet.';
+$string['yourrating'] = 'Meine Bewertung';

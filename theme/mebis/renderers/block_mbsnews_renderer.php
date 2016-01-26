@@ -66,7 +66,7 @@ class theme_mebis_block_mbsnews_renderer extends block_mbsnews_renderer {
 
                 //mebis theme: don't display name of admin
                 $userpic = '';
-                if (isset($news->authors[$message->useridfrom])) {
+                if (isset($news->authors[$message->sender])) {
                     $userpic .= get_string('sender', 'block_mbsnews');
                 }
 

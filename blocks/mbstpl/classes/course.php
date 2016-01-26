@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@
 namespace block_mbstpl;
 
 use core\task\adhoc_task;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -58,10 +60,11 @@ class course {
 
             $isauthor = $template->authorid == $USER->id;
 
-            if (perms::can_assignauthor($template, $coursecontext)) {
-                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
-                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
-            }
+            // 26.01.2016 fhüb: course uploader is course author - currently no possibility to add another author
+//            if (perms::can_assignauthor($template, $coursecontext)) {
+//                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
+//                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
+//            }
 
             if (!$isauthor && (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext))) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
@@ -81,13 +84,13 @@ class course {
             if (perms::can_viewabout($coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/abouttemplate.php', array('course' => $cid));
                 $tplnode->add(get_string('mbstpl:abouttemplate', 'block_mbstpl'), $url);
-            }            
+            }
 
             if (perms::can_leaverating($coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
                 $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
             }
-            
+
             if (perms::can_coursefromtpl($template)) {
                 $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
                 $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
@@ -108,7 +111,7 @@ class course {
             $coursenode->add_node($tplnode);
         }
     }
-    
+
     /**
      * Get all the licenses to fill the course license dropdown.
      * 
@@ -124,10 +127,10 @@ class course {
         // get licenses by conditions
         if ($records = $DB->get_records_sql($sql)) {
             $recordsoutput = $records;
-        }         
+        }
         return $recordsoutput;
     }
-    
+
     /**
      * Add course license
      * 
@@ -141,7 +144,7 @@ class course {
         $data->shortname = $shortname;
         return $DB->insert_record('block_mbstpl_clicense', $data);
     }
-    
+
     /**
      * Get single course license by shortname
      * 
@@ -153,7 +156,7 @@ class course {
         global $DB;
         return $DB->get_record('block_mbstpl_clicense', array('shortname' => $shortname));
     }
-    
+
     /**
      * Remove course license
      * 
@@ -211,19 +214,19 @@ class course {
      * @return bool success
      */
     public static function publish(dataobj\template $template) {
-        global $DB;
-
         if (!perms::can_publish($template)) {
             return false;
         }
 
         // Set course visible.
         $cid = $template->courseid;
-        $DB->update_record('course', (object)array('id' => $cid, 'visible' => 1));
+        course_change_visibility($cid, true);
 
-        // Unenrol reviewer and author.
-        $userids = array($template->reviewerid, $template->authorid);
-        self::unenrol_users($cid, $userids);
+        // Unenrol everybody
+        $userenrolments = self::get_all_enrolled_users($cid);
+        if (!empty($userenrolments)) {
+            self::unenrol($cid, $userenrolments);
+        }
 
         // Notify user.
         notifications::notify_published($template);
@@ -251,12 +254,12 @@ class course {
     }
 
     /**
-     * Assign reviewer to a course. Assumes can_assignreview() has already been called.
+     * Assign author to a course. Assumes can_assignauthor() has already been called.
      * @param dataobj\template $template
      * @param int $userid
      */
     public static function assign_author(dataobj\template $template, $userid, $feedback = null, $feedbackformat = null) {
-        // Mark reviewer in the template record.
+        // Mark author in the template record.
         if ($userid) {
             $template->authorid = $userid;
         } else if (!$template->authorid) {
@@ -347,7 +350,7 @@ class course {
 
         return $files;
     }
-    
+
     /**
      * Get template's current/last assignee out of revision history.
      * @param int $templateid
@@ -467,7 +470,6 @@ class course {
         return $complainturl;
     }
 
-
     /**
      * Archive the course.
      * @param dataobj\template $template
@@ -478,9 +480,16 @@ class course {
             return false;
         }
 
-        // Unenrol reviewer and author.
-        $userids = array($template->reviewerid, $template->authorid);
-        self::unenrol_users($template->courseid, $userids);
+        $cid = $template->courseid;
+
+        // Unenrol everybody
+        $userenrolments = self::get_all_enrolled_users($cid);
+        if (!empty($userenrolments)) {
+            self::unenrol($cid, $userenrolments);
+        }
+
+        // Make course invisible
+        course_change_visibility($template->courseid, false);
 
         // Update status.
         $template->status = $template::STATUS_ARCHIVED;
@@ -502,14 +511,6 @@ class course {
             return;
         }
 
-        $plugins = enrol_get_plugins(true);
-        $instances = enrol_get_instances($cid, true);
-        foreach ($instances as $key => $instance) {
-            if (!isset($plugins[$instance->enrol])) {
-                unset($instances[$key]);
-                continue;
-            }
-        }
         list($useridin, $params) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'uid');
         $params['courseid'] = $cid;
         $params['courselevel'] = CONTEXT_COURSE;
@@ -519,16 +520,53 @@ class course {
                 WHERE ue.userid $useridin
                 ";
         $enrolments = $DB->get_records_sql($sql, $params);
+
+        self::unenrol($cid, $enrolments);
+    }
+
+    /**
+     * Function to get all enrolled users of a course.
+     * @param int $courseid
+     */
+    public static function get_all_enrolled_users($courseid) {
+        global $DB;
+        $enrolments = $DB->get_records('enrol', array('courseid' => $courseid));
+        if (!empty($enrolments)) {
+            list($searchcriteria, $params) = $DB->get_in_or_equal(array_keys($enrolments), SQL_PARAMS_NAMED);
+            $searchcriteria = 'enrolid ' . $searchcriteria;
+            $userenrolments = $DB->get_records_select('user_enrolments', $searchcriteria, $params);
+
+            return $userenrolments;
+        }
+        return array();
+    }
+
+    /**
+     * Function to unenrol all users for given enrolements of a course.
+     * @param int $courseid
+     * @param array $enrolments
+     */
+    public static function unenrol($courseid, $enrolments) {
+        $plugins = enrol_get_plugins(true);
+        $instances = enrol_get_instances($courseid, true);
+        foreach ($instances as $key => $instance) {
+            if (!isset($plugins[$instance->enrol])) {
+                unset($instances[$key]);
+                continue;
+            }
+        }
+
         foreach ($enrolments as $ue) {
             if (!isset($instances[$ue->enrolid])) {
                 continue;
             }
             $instance = $instances[$ue->enrolid];
             $plugin = $plugins[$instance->enrol];
-            if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
+            if (!$plugin->allow_unenrol($instance) and ! $plugin->allow_unenrol_user($instance, $ue)) {
                 continue;
             }
             $plugin->unenrol_user($instance, $ue->userid);
         }
     }
+
 }

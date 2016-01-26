@@ -15983,9 +15983,9 @@ aside.row .block-region .block {
   padding-left: 30px;
 }
 
-#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup span,
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span {
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset span,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset span,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset span {
   display: inline-block;
   padding-right: 8px;
 }

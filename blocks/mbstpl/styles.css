@@ -222,13 +222,29 @@ ul.mbsfilelist, ul.mbsfilelist li {
 }
 
 span.mbshelp {
-    float:right;
-    width:16px;
+    float: right;
+    width: 16px;
     margin-right: -18px;
+    padding: 0px;
 }
 
-#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup span.mbshelp {
-    padding:0px;
+#page-blocks-mbstpl-sendtemplate .moodle-dialogue-base ul {
+    padding: 0 20px;
+}
+#page-blocks-mbstpl-templatesearch .moodle-dialogue-base ul {
+    padding: 0 20px;
+}
+#page-blocks-mbstpl-editmeta .moodle-dialogue-base ul {
+    padding: 0 20px;
+}
+#page-blocks-mbstpl-ratetemplate .moodle-dialogue-base ul {
+    padding: 0 20px;
+}
+#page-blocks-mbstpl-abouttemplate .moodle-dialogue-base ul {
+    padding: 0 20px;
+} 
+#page-blocks-mbstpl-dupcrs .moodle-dialogue-base ul {
+    padding: 0 20px;
 }
 
 fieldset .felement.flookupset ul {

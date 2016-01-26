@@ -61,45 +61,31 @@ $capabilities = array(
     'block/mbstpl:viewcoursetemplatebackups' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSECAT,
-        'archetypes' => array(
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:coursetemplatemanager' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:coursetemplatereview' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'teachsharecoursereviewer' => CAP_ALLOW,
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:assignauthor' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-            'teachsharecoursereviewer' => CAP_ALLOW,
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:coursetemplateeditmeta' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'teachsharecourseauthor' => CAP_ALLOW,
-            'teachsharecoursereviewer' => CAP_ALLOW,
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:createcoursefromtemplate' => array(
@@ -114,29 +100,23 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'teachsharecourseauthor' => CAP_PREVENT,
-            'teachsharecoursereviewer' => CAP_PREVENT
-        ),
+            'editingteacher' => CAP_ALLOW
+        )
     ),
 
     'block/mbstpl:viewrating' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'editingteacher' => CAP_ALLOW,
-            'teachsharecourseauthor' => CAP_PREVENT,
-            'teachsharecoursereviewer' => CAP_PREVENT
-        ),
+            'editingteacher' => CAP_ALLOW
+        )
     ),
 
 
     'block/mbstpl:viewhistory' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-            'teachsharemasterreviewer' => CAP_ALLOW
-        )
+        'archetypes' => array()
     ),
 
     'block/mbstpl:notanonymised' => array(

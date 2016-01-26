@@ -111,7 +111,7 @@ class perms {
             return false;
         }
         global $USER;
-        $assigned = (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id);
+        $assigned = (course::get_lastassignee($template->id)->id == $USER->id);
         return (has_capability('block/mbstpl:coursetemplateeditmeta', $coursecontext) && $assigned);
     }
 
@@ -158,7 +158,6 @@ class perms {
         if ($template->status != $template::STATUS_UNDER_REVISION) {
             return false; // Can only return to the reviewer if it is currently being revised by the author.
         }
-
         if ($template->authorid == $USER->id) {
             return true; // Assigned author can return the course to the reviewer.
         }

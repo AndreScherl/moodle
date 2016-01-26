@@ -3623,12 +3623,18 @@ class restore_create_categories_and_questions extends restore_structure_step {
             $data->penalty = 1;
         }
 
-        $userid = $this->get_mappingid('user', $data->createdby);
-        $data->createdby = $userid ? $userid : $this->task->get_userid();
-
-        $userid = $this->get_mappingid('user', $data->modifiedby);
-        $data->modifiedby = $userid ? $userid : $this->task->get_userid();
-
+        // +++ awag: If we are restoring from the same site, we keep userids. If the users are deleted, 
+        // the information of creator is lost (Same behaviour as when a user is deleted).
+        if (!$this->task->is_samesite()) {
+        
+            $userid = $this->get_mappingid('user', $data->createdby);
+            $data->createdby = $userid ? $userid : $this->task->get_userid();
+        
+            $userid = $this->get_mappingid('user', $data->modifiedby);
+            $data->modifiedby = $userid ? $userid : $this->task->get_userid();
+        }
+        // ---awag.
+        
         // With newitemid = 0, let's create the question
         if (!$questionmapping->newitemid) {
             $newitemid = $DB->insert_record('question', $data);

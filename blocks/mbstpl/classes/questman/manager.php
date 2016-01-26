@@ -708,7 +708,7 @@ class manager {
             "Gastgewerbliche Berufe", "Geisteswissenschaften", "Geographie", "Geologie", "Geschichte", "Gestaltung", "Gestaltungslehre",
             "Gesundheit", "Gesundheit und Soziales", "Gesundheitswesen", "Glashüttentechnik", "Griechisch", "Hauswirtschaft",
             "Heilerziehungspflege", "Heilpädagogik", "Heimat- und Sachunterricht", "Holztechnik", "Hotel- und Gaststättengewerbe ",
-            "Informatik", "Informatiktechnik", "Informationsverarbeitung", "Islamischer Unterricht", "Italienisch", "Katholische Religionslehre",
+            "Informatik", "Informatiktechnik", "Informationstechnologie", "Informationsverarbeitung", "Islamischer Unterricht", "Italienisch", "Katholische Religionslehre",
             "Kaufmännische Assistenten", "Keramik und Design", "Körperpflege", "Kunst", "Kunsterziehung", "Kunststofftechnik", "Landeskunde",
             "Latein", "Lebensmittelverarbeitungstechnik", "Maschinenbautechnik", "Mathematik", "Mechatronik", "Medien", "Medizinische Fachangestellte",
             "Meisterschule", "Mensch und Umwelt", "Metallbautechnik", "Metalltechnik", "Musik", "Musisch-ästhetische Bildung", "Natur und Technik",
@@ -724,9 +724,10 @@ class manager {
         foreach ($subjects as $subject) {
             $record = new \stdClass();
             $record->subject = $subject;
-            $records[] = $record;
+            if (!$DB->record_exists('block_mbstpl_subjects', array('subject' => $subject))) {
+                $DB->insert_record('block_mbstpl_subjects', $record);
+            }
         }
-        $DB->insert_records('block_mbstpl_subjects', $records, false, true);
     }
 
 }

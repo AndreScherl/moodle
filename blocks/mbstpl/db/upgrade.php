@@ -478,5 +478,16 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2016011800, 'mbstpl');
     }
     
+    if ($oldversion < 2016012600) {
+        
+        // Conditionally install subject data
+        if ($dbman->table_exists($table)) {
+            \block_mbstpl\questman\manager::install_subjects();
+        }
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016012600, 'mbstpl');
+    }
+    
     return true;
 }

@@ -576,6 +576,20 @@ class manager {
         $question->required = 1;
         $question->inuse = 0;
         self::add($question);
+        
+        $question->datatype = 'lookupset';
+        $question->name = 'Fach';
+        $question->title = 'Fach';
+        $question->defaultdata = '';
+        $question->defaultdataformat = 0; //FORMAT_MOODLE
+        $question->param1 = '/blocks/mbstpl/lookupset_ajax.php';
+        $question->param2 = 'block_mbstpl_subjects,id,subject';
+        $question->help = '<ul><li>Nach Eingabe von mindestens drei Buchstaben werden Ihnen die verfügbaren Fächer vorgeschlagen.</li>'
+                . '<li>Eine Mehrfachauswahl ist möglich.</li>'
+                . '<li>Sollten Sie die gewünschte Fachbezeichnung nicht zur Verfügung haben weichen Sie bitte auf das Feld für Schlagworte aus.</li></ul>';
+        $question->required = 0;
+        $question->inuse = 0;
+        self::add($question);
 
         $question->datatype = 'checkbox';
         $question->name = 'Fremdmaterial';
@@ -688,7 +702,11 @@ class manager {
      */
     public static function add($question) {
         global $DB;
-        return $DB->insert_record('block_mbstpl_question', $question);
+        if ($existingquestion = $DB->get_record('block_mbstpl_question', array('datatype' => $question->datatype, 'name' => $question->name))) {
+            return $existingquestion->id;
+        } else {
+            return $DB->insert_record('block_mbstpl_question', $question);
+        }
     }
 
     /**

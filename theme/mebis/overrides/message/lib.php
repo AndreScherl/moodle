@@ -320,6 +320,7 @@ function theme_mebis_message_print_message_history($user1, $user2 ,$search = '',
 
     $username2 = html_writer::tag('div', fullname($user2), array('class' => 'heading'));
 
+    $useractionlinks = '';
     if ($showactionlinks && isset($user2->iscontact) && isset($user2->isblocked)) {
 
         $script = null;
@@ -330,7 +331,7 @@ function theme_mebis_message_print_message_history($user1, $user2 ,$search = '',
         $strblock   = message_get_contact_block_link($user2->iscontact, $user2->isblocked, $user2, $script, $text, $icon);
 
 
-        $useractionlinks = html_writer::tag('div', $strcontact);
+        $useractionlinks .= html_writer::tag('div', $strcontact);
         $useractionlinks .= html_writer::tag('div', $strblock);
     }
 

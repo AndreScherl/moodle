@@ -15706,12 +15706,41 @@ aside.row .block-region .block {
 }
 #block_mbsnews .mbsnews .mbsnews-message {
   background-color: #fff;
-  color: #000;
+  color: #333333;
   margin: 0 -20px 20px -20px;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:hover, #block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:active {
+  color: #ff6600;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:visited {
+  color: #333333;
 }
 #block_mbsnews .mbsnews .mbsnews-message .mbsnews-body {
   background-color: #ff6600;
   color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a {
+  color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:hover, #block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:active {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:visited {
+  color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:before {
+  font-family: 'mebis-icons';
+  content: "\e62a";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  font-size: 0.625em;
+  margin-right: 3px;
+  display: inline-block;
 }
 
 .block_mbsgettingstarted {

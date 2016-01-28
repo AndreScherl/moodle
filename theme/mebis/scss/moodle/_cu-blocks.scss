@@ -130,17 +130,51 @@ aside.row {
                 padding: 10px;            
             }
         }
+
         .mbsnews-message {
             background-color: $white;
-            color: $black;
+            color: $brand-gray-dark;
             margin: 0 -20px 20px -20px;
+
+            .mbsnews-header {
+                a {
+                    color: $brand-gray-dark;
+                    &:hover, &:active {
+                        color: $brand-secondary;
+                    }
+                    &:visited {
+                        color: $brand-gray-dark;
+                    }
+                }
+            }
 
             .mbsnews-body {
                 background-color: $brand-secondary;
                 color: $white;
+
+                a {
+                    color: $white;
+                    &:hover, &:active {
+                        color: $brand-gray-dark;
+                    }
+                    &:visited {
+                        color: $white;
+                    }
+                    &:before {
+                        font-family: 'mebis-icons';
+                        content: "\e62a";
+                        speak: none;
+                        font-style: normal;
+                        font-weight: normal;
+                        line-height: 1;
+                        font-size: 0.625em;
+                        margin-right: 3px;
+                        display: inline-block;
+                    }
+                }
             }
-        }
-    }  
+        }  
+    }
 }
 
 // Block mbsgettingstarted

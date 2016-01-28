@@ -68,6 +68,14 @@ class block_mbslicenseinfo extends block_base {
                      'mod-quiz' => false);
     }
 
-    function has_config() {return true;}
+    /**
+     * Allow the block to have a configuration page
+     * Means: a blocks/.../settings.php file exists
+     *
+     * @return boolean
+     */
+    public function has_config() {
+        return true;
+    }
     
 }

@@ -34,23 +34,18 @@ class mbslicenseinfo {
      * @param int $courseid
      * @return int number of course files
      */
-    public function get_number_of_course_files($courseid) {
+    public static function get_number_of_course_files($courseid) {
         global $DB;
-        
-        if (empty($courseid)) {
-            throw new \coding_exception('Course id needed to proceed.');
-        }
-        
-        $coursecontext = \context_course::instance($courseid);
-        
+
         $sql = "SELECT COUNT(f.id) 
                   FROM {files} AS f
                   JOIN {context} AS c
                     ON f.contextid = c.id
                  WHERE f.filename <> '.' AND ";
-        $likecondition = $DB->sql_like('c.path', ':contextpath');
         
-        return $DB->count_records_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'));
+        $likestatement = self::build_like_statement($courseid);
+        
+        return $DB->count_records_sql($sql . $likestatement->sql, $likestatement->params);
     }
     
     /** get a list of all course files including all extra infos (title, url, ...)
@@ -61,29 +56,47 @@ class mbslicenseinfo {
      */
     public static function get_course_files($courseid, $page = 0, $limitnum = 0) {
         global $DB;
-        
-        if (empty($courseid)) {
-            throw new \coding_exception('Course id needed to proceed.');
-        }
-
+  
         $files = array();
-        
-        $coursecontext = \context_course::instance($courseid);
         
         $sql = "SELECT f.id 
                   FROM {files} AS f
                   JOIN {context} AS c
                     ON f.contextid = c.id
                  WHERE f.filename <> '.' AND ";
-        $likecondition = $DB->sql_like('c.path', ':contextpath');
         
-        $fileids = $DB->get_records_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'), $page*$limitnum, $limitnum);
+        $likestatement = self::build_like_statement($courseid);
+        $fileids = $DB->get_records_sql($sql . $likestatement->sql, $likestatement->params, $page*$limitnum, $limitnum);
         
         foreach ($fileids as $fileid) {
             $files[] = new mbsfile($fileid->id);
         }
         
         return $files;
+    }
+    
+    private static function build_like_statement($courseid) {
+        global $DB;
+        
+        if (empty($courseid)) {
+            throw new \coding_exception('Course id needed to proceed.');
+        }
+        
+        $coursecontext = \context_course::instance($courseid);
+        
+        $likecondition = $DB->sql_like('c.path', ':contextpath');
+        $likeparams = array('contextpath' =>  $coursecontext->path.'%');
+        
+        $extensions = explode(',', get_config('block_mbslicenseinfo', 'extensionblacklist'));
+        for($i=0;  $i<count($extensions); $i++) {
+            $likecondition .= ' AND '.$DB->sql_like('f.filename', ':ext'.$i, $casesensitive = false, $accentsensitive = true, $notlike = true);
+            $likeparams['ext'.$i] = '%'.$extensions[$i];
+        }
+        
+        $likestatement = new \stdClass();
+        $likestatement->sql = $likecondition;
+        $likestatement->params = $likeparams;
+        return $likestatement;
     }
     
     /*

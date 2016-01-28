@@ -25,7 +25,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 $course = required_param('course', PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
-$perpage = optional_param('perpage', 10, PARAM_INT);
+$perpage = optional_param('perpage', get_config('block_mbslicenseinfo', 'filesperpage'), PARAM_INT);
 $coursecontext = context_course::instance($course);
 $redirecturl = new moodle_url('/course/view.php', array('id' => $course));
 
@@ -49,7 +49,7 @@ $pagenode->make_active();
 $pagetitle = get_string('editlicensesdescr', 'block_mbslicenseinfo');
 $PAGE->set_title($pagetitle);
 
-$form = new \block_mbslicenseinfo\form\editlicensesform(null, array('course' => $course, 'page' => $page, 'limitnum' => $perpage));
+$form = new \block_mbslicenseinfo\form\editlicensesform(null, array('course' => $course, 'page' => $page, 'perpage' => $perpage));
 if ($form->is_cancelled()) {
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
@@ -58,6 +58,9 @@ if ($form->is_cancelled()) {
 }
 
 $totalcount = \block_mbslicenseinfo\local\mbslicenseinfo::get_number_of_course_files($course);
+if (get_config('block_mbslicenseinfo', 'filesperpage') != $perpage) {
+    $thisurl->param('perpage', $perpage);
+}
 
 echo $OUTPUT->header();
 

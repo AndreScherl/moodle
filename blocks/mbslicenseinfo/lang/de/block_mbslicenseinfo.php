@@ -35,6 +35,11 @@ $string['editlicensesformlicensename'] = 'Name der Lizenz';
 $string['editlicensesformlicenseurl'] = 'URL der Lizenz';
 $string['editlicensesheader'] = 'Verwendete (Fremd)inhalte des Kurses';
 $string['errorcannotedit'] = 'Sie können für diesen Kurs keine Kurslizenzen bearbeiten.';
+$string['extensionblacklist'] = 'Ausgeschlossene Dateiendungen';
+$string['extensionblacklist_expl'] = 'Dateien mit diesen Änderungen werden im Formular nicht angezeigt. '
+        . 'Die Lizenzinformationen für diese Dateitypen können also nicht bearbeitet werden.';
+$string['filesperpage'] = 'Angezeigte Dateien pro Seite';
+$string['filesperpage_expl'] = 'Anzahl der Dateien, die auf einer Seite des Bearbeitungsformulars dargestellt werden.';
 $string['mbslicenseinfo:addinstance'] = 'Block mebis Quellenangaben hinzufügen';
 $string['mbslicenseinfo:editlicenses'] = 'Quellenangaben der Kursdateien bearbeiten';
 $string['mbslicenseinfo:myaddinstance'] = 'Block mebis Quellenangaben zum Schreibtisch hinzufügen';

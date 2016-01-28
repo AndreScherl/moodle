@@ -16,38 +16,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mbsgettingstarted block caps.
+ * mbslicenseinfo block caps.
  *
- * @package    mbsgettingstarted
- * @copyright  2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @package    mbslicenseinfo
+ * @author     Andre Scherl <andre.scherl@isb.bayern.de>
+ * @copyright  2015 ISB Bayern
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
  
  defined('MOODLE_INTERNAL') || die;
 
 //admin_setting_configtext($name, $visiblename, $description, $defaultsetting, $paramtype=PARAM_RAW, $size=null)
-$settings->add(new admin_setting_configtext('block_mbsgettingstarted/videourl',
-            get_string('videourl', 'block_mbsgettingstarted'),
-            get_string('videourl_expl', 'block_mbsgettingstarted'),
-			'',
+$settings->add(new admin_setting_configtext('block_mbslicenseinfo/extensionblacklist',
+            get_string('extensionblacklist', 'block_mbslicenseinfo'),
+            get_string('extensionblacklist_expl', 'block_mbslicenseinfo'),
+			'doc,docx,dot,dotx,xls,xlsx,xlt,xltx,ppt,pptx,odt,ott,ods,ots,odp,pdf',
 			PARAM_RAW));	
 
-$settings->add(new admin_setting_configtext('block_mbsgettingstarted/tutorialurl',
-            get_string('tutorialurl', 'block_mbsgettingstarted'),
-            get_string('tutorialurl_expl', 'block_mbsgettingstarted'),
-			'',
-			PARAM_RAW));
-
-$settings->add(new admin_setting_configtext('block_mbsgettingstarted/trainingurl',
-            get_string('trainingurl', 'block_mbsgettingstarted'),
-            get_string('trainingurl_expl', 'block_mbsgettingstarted'),
-			'',
-			PARAM_RAW));
-
-$settings->add(new admin_setting_configtext('block_mbsgettingstarted/contacturl',
-            get_string('contacturl', 'block_mbsgettingstarted'),
-            get_string('contacturl_expl', 'block_mbsgettingstarted'),
-			'',
-			PARAM_RAW));
+$settings->add(new admin_setting_configtext('block_mbslicenseinfo/filesperpage',
+            get_string('filesperpage', 'block_mbslicenseinfo'),
+            get_string('filesperpage_expl', 'block_mbslicenseinfo'),
+			10,
+			PARAM_INT));
 
 			

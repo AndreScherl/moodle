@@ -28,7 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_checkboxgroup extends qtype_menu {
 
     public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
-
         if (isset($question->param1)) {
             $rawoptions = explode("\n", $question->param1);
         } else {
@@ -53,8 +52,7 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return bool;
      */
     public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
-
-        if (is_null($answer)) {
+        if (!isset($answer)) {
             $answer = array();
         }
 
@@ -94,11 +92,10 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array
      */
     public static function get_query_filters($question, $answer) {
+        $toreturn = array('joins' => array(), 'params' => array());
 
-        $toreturn = array('wheres' => array(), 'params' => array());
-
-        if (empty($answer)) {
-            return $toreturn;
+        if (!isset($answer)) {
+            return array();
         }
 
         $checkids = array_keys($answer);
@@ -124,14 +121,19 @@ class qtype_checkboxgroup extends qtype_menu {
      * @param object $answer
      */
     public static function process_answer($question, $answer, $isfrozen = false) {
-
-        if (empty($answer->data)) {
-
-            return $answer->data;
+        if (!isset($answer->data)) {
+            return '';
         } else {
-
             return array_fill_keys(explode(',', $answer->data), 1);
         }
+    }
+    
+    /**
+     * If the type has text editor fields, let them be known.
+     * @return array
+     */
+    public static function get_editors() {
+        return array('help');
     }
 
 }

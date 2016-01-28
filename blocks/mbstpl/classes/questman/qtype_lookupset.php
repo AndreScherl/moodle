@@ -104,7 +104,7 @@ class qtype_lookupset extends qtype_base {
     public static function get_query_filters($question, $answer) {
         global $DB;
 
-        $toreturn = array('wheres' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array());
 
         if (empty($answer)) {
             return $toreturn;

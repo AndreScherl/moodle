@@ -26,14 +26,40 @@
 namespace block_mbslicenseinfo\local;
 
 class mbslicenseinfo {
+    
+    /**
+     * get number of course files to process some paging
+     * 
+     * @global $DB
+     * @param int $courseid
+     * @return int number of course files
+     */
+    public function get_number_of_course_files($courseid) {
+        global $DB;
         
+        if (empty($courseid)) {
+            throw new \coding_exception('Course id needed to proceed.');
+        }
+        
+        $coursecontext = \context_course::instance($courseid);
+        
+        $sql = "SELECT COUNT(f.id) 
+                  FROM {files} AS f
+                  JOIN {context} AS c
+                    ON f.contextid = c.id
+                 WHERE f.filename <> '.' AND ";
+        $likecondition = $DB->sql_like('c.path', ':contextpath');
+        
+        return $DB->count_records_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'));
+    }
+    
     /** get a list of all course files including all extra infos (title, url, ...)
      * 
      * @global type $DB
      * @param int $courseid
      * @return array
      */
-    public static function get_course_files($courseid) {
+    public static function get_course_files($courseid, $page = 0, $limitnum = 0) {
         global $DB;
         
         if (empty($courseid)) {
@@ -51,10 +77,10 @@ class mbslicenseinfo {
                  WHERE f.filename <> '.' AND ";
         $likecondition = $DB->sql_like('c.path', ':contextpath');
         
-        $fileids = $DB->get_fieldset_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'));
+        $fileids = $DB->get_records_sql($sql . $likecondition, array('contextpath' =>  $coursecontext->path.'%'), $page*$limitnum, $limitnum);
         
         foreach ($fileids as $fileid) {
-            $files[] = new mbsfile($fileid);
+            $files[] = new mbsfile($fileid->id);
         }
         
         return $files;
@@ -152,9 +178,9 @@ class mbslicenseinfo {
      */
     public static function extend_course_admin_node(\settings_navigation $navigation, \context $context) {
         if($context->contextlevel == CONTEXT_COURSE && has_capability('block/mbslicenseinfo:editlicenses', $context)) {
-            $courseid = $context->instanceid;
+            $course = $context->instanceid;
             $coursenode = $navigation->get('courseadmin');
-            $licenselink = new \moodle_url('/blocks/mbslicenseinfo/editlicenses.php', array('courseid' => $courseid));
+            $licenselink = new \moodle_url('/blocks/mbslicenseinfo/editlicenses.php', array('course' => $course));
             $editlicense = $coursenode->add(get_string('editlicenses', 'block_mbslicenseinfo'), $licenselink);
         }
     } 

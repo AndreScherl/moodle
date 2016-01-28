@@ -41,15 +41,16 @@ class editlicensesform extends \moodleform {
     protected function definition() {
         $mform = $this->_form;
 
-        $courseid = $this->_customdata['courseid'];
-        $course = get_course($courseid);
+        $course = $this->_customdata['course'];
+        $page = $this->_customdata['page'];
+        $limitnum = $this->_customdata['perpage'];
 
-        $mform->addElement('hidden', 'courseid', $courseid);
-        $mform->setType('courseid', PARAM_INT);
+        $mform->addElement('hidden', 'course', $course);
+        $mform->setType('course', PARAM_INT);
         
         $this->init_js();
 
-        $files = \block_mbslicenseinfo\local\mbslicenseinfo::get_course_files($courseid);              
+        $files = \block_mbslicenseinfo\local\mbslicenseinfo::get_course_files($course, $page, $limitnum);              
        
         foreach ($files as $fid => $file) {
             //Files.

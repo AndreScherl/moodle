@@ -73,7 +73,7 @@ class qtype_base {
      * @param object $question
      * @param $isfrozen
      */
-    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         //nothing to do in base class
     }
 

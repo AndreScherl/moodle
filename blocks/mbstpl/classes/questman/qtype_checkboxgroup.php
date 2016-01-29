@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class qtype_checkboxgroup extends qtype_menu {
 
-    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         if (isset($question->param1)) {
             $rawoptions = explode("\n", $question->param1);
         } else {

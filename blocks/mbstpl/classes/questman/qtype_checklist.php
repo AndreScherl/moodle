@@ -44,7 +44,7 @@ class qtype_checklist extends qtype_base {
         $form->setType('defaultdata', PARAM_RAW);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
         $label = \html_writer::label(format_string($question->title), 'id_'.$question->fieldname, true,
                                      array('class' => 'mbstpl-questionlabel'));
         $label = \html_writer::div($label);

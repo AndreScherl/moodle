@@ -45,7 +45,7 @@ class qtype_lookupset extends qtype_base {
         $form->setType('defaultdata', PARAM_INT);
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
+    public static function add_template_element(\MoodleQuickForm $form, $question) {
 
         $ajaxurl = new \moodle_url($question->param1);
         $question->title = self::add_help_button($question);

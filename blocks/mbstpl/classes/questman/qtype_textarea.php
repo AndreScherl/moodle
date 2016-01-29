@@ -25,45 +25,41 @@ namespace block_mbstpl\questman;
 defined('MOODLE_INTERNAL') || die();
 
 class qtype_textarea extends qtype_base {
+    
     public static function extend_form(\MoodleQuickForm $form, $islocked = false) {
-
-        // Default data.
-        $form->addElement('editor', 'defaultdata', get_string('profiledefaultdata', 'admin'));
-        $form->setType('defaultdata', PARAM_RAW); // We have to trust person with capability to edit this default description.
+        // Editor field doesn't behave nicely when frozen, so use textarea instead
+        $form->addElement('textarea', 'defaultdata', get_string('profiledefaultdata', 'admin'));
+        $form->setType('defaultdata', PARAM_TEXT);
     }
 
     public static function get_editors() {
-        return array('help', 'defaultdata');
+        return array('help');
     }
 
-    public static function add_template_element(\MoodleQuickForm $form, $question, $isfrozen = false) {
-        
+    public static function add_template_element(\MoodleQuickForm $form, $question) {        
         $question->title = self::add_help_button($question);
-        $eltype = $isfrozen ? 'textarea' : 'editor'; // Editor field doesn't behave nicely when frozen, so use textarea instead
-        $form->addElement($eltype, $question->fieldname, format_string($question->title));
+        $form->addElement('textarea', $question->fieldname, format_string($question->title));
         $form->setType($question->fieldname, PARAM_TEXT);
     }
 
     public static function save_answer($metaid, $questionid, $answer, $comment = null, $dataformat = FORMAT_MOODLE) {
-        if (!is_array($answer) || !isset($answer['text'])) {
-            $answer = array('text' => '', 'format' => FORMAT_MOODLE);
+        if (!isset($answer)) {
+            $answer = '';
         }
-        if (!isset($answer['format'])) {
-            $answer['format'] = FORMAT_MOODLE;
+        if (!isset($dataformat)) {
+            $dataformat = FORMAT_MOODLE;
         }
-        return parent::save_answer($metaid, $questionid, $answer['text'], $comment, $answer['format']);
+        return parent::save_answer($metaid, $questionid, $answer, $comment, $dataformat);
     }
 
     public static function process_answer($question, $answer, $isfrozen = false) {
-        if ($isfrozen) {
-            return format_text($answer->data, $answer->dataformat);
-        }
-        return array('text' => $answer->data, 'format' => $answer->dataformat);
+        return $answer->data;
     }
 
     public static function add_to_searchform(\MoodleQuickForm $form, $question, $elname) {
         qtype_text::add_to_searchform($form, $question, $elname);
     }
+    
     public static function get_query_filters($question, $answer) {
         return qtype_text::get_query_filters($question, $answer);
     }

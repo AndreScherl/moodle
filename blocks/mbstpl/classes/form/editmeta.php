@@ -61,7 +61,7 @@ class editmeta extends licenseandassetform {
         foreach ($questions as $question) {
             if (!in_array($question->datatype,$excludequestions)) {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
-                $typeclass::add_template_element($form, $question, $isfrozen);
+                $typeclass::add_template_element($form, $question);
                 $typeclass::add_rule($form, $question);
             }
         }

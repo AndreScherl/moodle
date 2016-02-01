@@ -348,8 +348,8 @@ class notifications {
             'coursename' => $coursename,
             'details' => $errordata->details,
             'error' => $errordata->errortype,
-            'from' => $from,
-            'url' => $courseurl
+            'from' => $from->email,
+            'url' => (string) $courseurl
         );
         $subject = get_string('emailcomplaint_subj', 'block_mbstpl');
         $body = get_string('emailcomplaint_body', 'block_mbstpl', $a);

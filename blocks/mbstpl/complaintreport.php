@@ -54,10 +54,11 @@ $PAGE->set_title($pagetitle);
 $form = new mbst\form\complaintform(null, array('courseid' => $courseid, 'useremail' => $USER->email));
 if ($form->is_cancelled()) {
     redirect($redirecturl);
-} else if ($data = $form->get_data()) {
+} else if ($data = $form->get_data()) {    
+    $errortype = get_string('complaintform'.$data->error, 'block_mbstpl');    
     $errormessage = (object)array(
         'courseid' => $courseid,
-        'errortype' => $data->error,
+        'errortype' => $errortype,
         'details' => $data->details,
         'email' => $data->email,
         'userid' => $USER->id

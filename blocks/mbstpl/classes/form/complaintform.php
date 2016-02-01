@@ -52,9 +52,9 @@ class complaintform extends \moodleform {
         $coursename->updateAttributes(array('disabled' => 'disabled'));
         
         $radiobarray = array();
-        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_1', 'block_mbstpl'), 'error1');
-        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_2', 'block_mbstpl'), 'error2');
-        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_3', 'block_mbstpl'), 'error3');
+        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_1', 'block_mbstpl'), 'errortype_1');
+        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_2', 'block_mbstpl'), 'errortype_2');
+        $radiobarray[] =& $mform->createElement('radio', 'error', '', get_string('complaintformerrortype_3', 'block_mbstpl'), 'errortype_3');
         $mform->addGroup($radiobarray, 'errorar', get_string('complaintformerrortype', 'block_mbstpl'), array('<br />'), false);
         $mform->addRule('errorar', get_string('required'), 'required', null, 'client');
      

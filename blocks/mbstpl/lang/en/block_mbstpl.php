@@ -94,8 +94,17 @@ $string['emailassignedauthor_subj'] = 'You have been assigned as a template auth
 $string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
 {$a->url}';
 $string['emailcoursepublished_subj'] = 'Template course published';
-$string['emailcomplaint_body'] = 'There is a complaint for the template course {$a->coursename}. It can be viewed at:
-{$a->url}';        
+$string['emailcomplaint_body'] = 'Dear Support,
+    
+    there is a complaint for the template course {$a->coursename}. 
+    From: {$a->from}
+    Error: {$a->error}
+    Details: {$a->details}
+    Course-URL: {$a->url}
+    Revision-URL: {$a->revision}
+
+Best regards
+Your ISB programers';     
 $string['emailcomplaint_subj'] = 'Complaint';
 $string['emailcomplaintsend_body'] = 'Dear teachSHARE user,
     

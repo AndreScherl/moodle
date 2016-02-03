@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -35,7 +36,6 @@ class reset_course_userdata {
      * @param int $courseid
      */
     public static function reset_course_from_template($courseid) {
-
         global $DB, $CFG;
 
         $template = \block_mbstpl\dataobj\template::get_from_course($courseid);
@@ -62,16 +62,19 @@ class reset_course_userdata {
             'reset_comments' => true
         );
 
-        // Set student as default in unenrol user list, if role with student archetype exist.
-        if ($studentrole = get_archetype_roles('student')) {
-            $data['unenrol_users'] = array_keys($studentrole);
+        // Get roles for the unenrol user list
+        $roles = explode(',', get_config('enrol_mbs', 'unenrol_role'));
+        $roles = array_map('trim', $roles);
+        $roleids = $DB->get_records_list('role', 'shortname', $roles, '', 'id');
+        if (!empty($roleids)) {
+            $data['unenrol_users'] = array_keys($roleids);
         }
 
-        if ($allmods = $DB->get_records('modules') ) {
+        if ($allmods = $DB->get_records('modules')) {
             foreach ($allmods as $mod) {
                 $modname = $mod->name;
-                $modfile = $CFG->dirroot."/mod/$modname/lib.php";
-                $mod_reset_course_form_defaults = $modname.'_reset_course_form_defaults';
+                $modfile = $CFG->dirroot . "/mod/$modname/lib.php";
+                $mod_reset_course_form_defaults = $modname . '_reset_course_form_defaults';
                 if (file_exists($modfile)) {
                     @include_once($modfile);
                     if (function_exists($mod_reset_course_form_defaults)) {
@@ -91,4 +94,5 @@ class reset_course_userdata {
             \block_mbstpl\user::enrol_reviewer($courseid, $template->reviewerid, false);
         }
     }
+
 }

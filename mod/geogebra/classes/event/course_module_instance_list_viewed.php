@@ -13,34 +13,40 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_game instance list viewed event.
+ * The mod_geogebra instance list viewed event.
  *
- * @package    mod_game
- * @copyright  2014 Vasilis Daloukas
+ * @package    mod_geogebra
+ * @copyright  2015-onwards Pau Ferrer <crazyserver@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_game\event;
+
+namespace mod_geogebra\event;
+
 defined('MOODLE_INTERNAL') || die();
 
-/*
- * The mod_game instance list viewed event class.
+/**
+ * The mod_geogebra instance list viewed event class.
  *
- * @package    mod_game
+ * @package    mod_geogebra
  * @since      Moodle 2.7
- * @copyright  2014 Vasilis Daloukas
+ * @copyright  2015-onwards Pau Ferrer <crazyserver@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+    /**
+     * Create the event from course record.
+     *
+     * @param \stdClass $course
+     * @return course_module_instance_list_viewed
+     */
     public static function create_from_course(\stdClass $course) {
         $params = array(
             'context' => \context_course::instance($course->id)
         );
-        $event = self::create( $params);
+        $event = \mod_geogebra\event\course_module_instance_list_viewed::create($params);
         $event->add_record_snapshot('course', $course);
         return $event;
     }

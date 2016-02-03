@@ -51,12 +51,12 @@ function hotpot_supports($feature) {
     // they are not all defined in Moodle 2.0, so we
     // check each one is defined before trying to use it
     $constants = array(
-        'FEATURE_ADVANCED_GRADING' => true, // default=false
+        'FEATURE_ADVANCED_GRADING' => false,
         'FEATURE_BACKUP_MOODLE2'   => true, // default=false
         'FEATURE_COMMENT'          => true,
-        'FEATURE_COMPLETION_HAS_RULES' => false, // requires "hotpot_get_completion_state()"
+        'FEATURE_COMPLETION_HAS_RULES' => true,
         'FEATURE_COMPLETION_TRACKS_VIEWS' => true,
-        'FEATURE_CONTROLS_GRADE_VISIBILITY' => true,
+        'FEATURE_CONTROLS_GRADE_VISIBILITY' => false,
         'FEATURE_GRADE_HAS_GRADE'  => true, // default=false
         'FEATURE_GRADE_OUTCOMES'   => true,
         'FEATURE_GROUPINGS'        => true, // default=false
@@ -1468,8 +1468,8 @@ function hotpot_pluginfile_externalfile($context, $component, $filearea, $filepa
             $maindirname   = dirname($mainreference);
             $encodepath    = false;
             break;
-        case 'user':
         case 'coursefiles':
+        case 'user':
             $params        = file_storage::unpack_reference($mainreference, true);
             $maindirname   = $params['filepath'];
             $encodepath    = true;
@@ -1545,14 +1545,7 @@ function hotpot_pluginfile_externalfile($context, $component, $filearea, $filepa
             default: return false; // shouldn't happen !!
         }
         $params = $listing['list'][0][$param];
-        switch ($type) {
-            case 'user':
-                $params = json_decode(base64_decode($params), true);
-                break;
-            case 'coursefiles':
-                $params = file_storage::unpack_reference($params, true);
-                break;
-        }
+        $params = json_decode(base64_decode($params), true);
     }
 
     foreach ($paths as $path => $source) {
@@ -1564,14 +1557,7 @@ function hotpot_pluginfile_externalfile($context, $component, $filearea, $filepa
         if ($encodepath) {
             $params['filepath'] = '/'.$path.($path=='' ? '' : '/');
             $params['filename'] = '.'; // "." signifies a directory
-            switch ($type) {
-                case 'user':
-                    $path = base64_encode(json_encode($params));
-                    break;
-                case 'coursefiles':
-                    $path = file_storage::pack_reference($params);
-                    break;
-            }
+            $path = base64_encode(json_encode($params));
         }
 
         $listing = $repository->get_listing($path);
@@ -1584,14 +1570,7 @@ function hotpot_pluginfile_externalfile($context, $component, $filearea, $filepa
             }
 
             if ($encodepath) {
-                switch ($type) {
-                    case 'user':
-                        $file[$param] = json_decode(base64_decode($file[$param]), true);
-                        break;
-                    case 'coursefiles':
-                        $file[$param] = file_storage::unpack_reference($file[$param]);
-                        break;
-                }
+                $file[$param] = json_decode(base64_decode($file[$param]), true);
                 $file[$param] = trim($file[$param]['filepath'], '/').'/'.$file[$param]['filename'];
             }
 
@@ -1637,14 +1616,7 @@ function hotpot_pluginfile_dirpath_exists($dirpath, $repository, $type, $encodep
         if ($encodepath) {
             $params['filepath'] = '/'.$dirpath.($dirpath=='' ? '' : '/');
             $params['filename'] = '.'; // "." signifies a directory
-            switch ($type) {
-                case 'user':
-                    $dirpath = base64_encode(json_encode($params));
-                    break;
-                case 'coursefiles':
-                    $dirpath = file_storage::pack_reference($params);
-                    break;
-            }
+            $dirpath = base64_encode(json_encode($params));
         }
 
         $exists = false;
@@ -2222,20 +2194,77 @@ function hotpot_add_to_log($courseid, $module, $action, $url='', $info='', $cmid
 }
 
 /**
- * Obtains the automatic completion state for this hotpot based on the condition
- * in hotpot settings.
+ * Obtains the automatic completion state for this hotpot
+ * based on the conditions in hotpot settings.
  *
- * @param object  $course record from "course" table
- * @param object  $cm     record from "course_modules" table
- * @param integer $userid id from "user" table
- * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
- * @return bool True if completed, false if not, $type if conditions not set
+ * @param  object  $course record from "course" table
+ * @param  object  $cm     record from "course_modules" table
+ * @param  integer $userid id from "user" table
+ * @param  bool    $type   of comparison (or/and; used as return value if there are no conditions)
+ * @return mixed   TRUE if completed, FALSE if not, or $type if no conditions are set
  */
 function hotpot_get_completion_state($course, $cm, $userid, $type) {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/mod/hotpot/locallib.php');
-    $params = array('hotpotid'   => $cm->instance,
-                    'userid'     => $userid,
-                    'status'     => hotpot::STATUS_COMPLETED);
-    return $DB->record_exists('hotpot_attempts', $params);
+
+    // set default return $state
+    $state = $type;
+
+    // get the hotpot record
+    if ($hotpot = $DB->get_record('hotpot', array('id' => $cm->instance))) {
+
+        // get grade, if necessary
+        $grade = false;
+        if ($hotpot->completionmingrade || $hotpot->completionpass) {
+            require_once($CFG->dirroot.'/lib/gradelib.php');
+            $params = array('courseid'     => $course->id,
+                            'itemtype'     => 'mod',
+                            'itemmodule'   => 'hotpot',
+                            'iteminstance' => $cm->instance);
+            if ($grade_item = grade_item::fetch($params)) {
+                $grades = grade_grade::fetch_users_grades($grade_item, array($userid), false);
+                if (isset($grades[$userid])) {
+                    $grade = $grades[$userid];
+                }
+                unset($grades);
+            }
+            unset($grade_item);
+        }
+
+        // the HotPot completion conditions
+        $conditions = array('completionmingrade',
+                            'completionpass',
+                            'completioncompleted');
+
+        foreach ($conditions as $condition) {
+            if (empty($hotpot->$condition)) {
+                continue;
+            }
+            switch ($condition) {
+                case 'completionmingrade':
+                    $state = ($grade && $grade->finalgrade >= $hotpot->completionmingrade);
+                    break;
+                case 'completionpass':
+                    $state = ($grade && $grade->is_passed());
+                    break;
+                case 'completioncompleted':
+                    $params = array('hotpotid' => $cm->instance,
+                                    'userid'   => $userid,
+                                    'status'   => hotpot::STATUS_COMPLETED);
+                    $state = $DB->record_exists('hotpot_attempts', $params);
+                    break;
+
+            }
+            // finish early if possible
+            if ($type==COMPLETION_AND && $state==false) {
+                return false;
+            }
+            if ($type==COMPLETION_OR && $state) {
+                return true;
+            }
+        }
+    }
+
+    return $state;
 }
+

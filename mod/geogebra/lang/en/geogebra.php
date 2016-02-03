@@ -36,8 +36,8 @@ $string['modulenameplural'] = 'GeoGebra';
 $string['noattempts'] = '-';
 $string['name'] = 'Name';
 $string['choosescripttype'] = 'Choose the script type';
-$string['javacodebase'] = 'GeoGebra codebase';
 $string['manualgrade'] = 'Is manual grade?';
+$string['contentheader'] = 'Content';
 $string['width'] = 'Width';
 $string['height'] = 'Height';
 $string['showsubmit'] = 'Show submit button';
@@ -75,13 +75,13 @@ $string['duration'] = 'Duration';
 $string['errorattempt'] = 'Error: attempt could not be saved.';
 
 $string['viewtab'] = 'View';
+$string['results'] = 'Results';
 $string['resultstab'] = 'Results';
 $string['reviewtab'] = 'Review';
 
 $string['availabledate'] = 'Available from';
 $string['duedate'] = 'Due date';
 
-$string['javacodebase_help'] = 'GeoGebra jar files URL';
 $string['filename'] = 'Filename';
 $string['enableRightClick'] = 'Enable right click';
 $string['enableLabelDrags'] = 'Enable dragging of labels';
@@ -90,9 +90,11 @@ $string['showMenuBar'] = 'Show menubar';
 $string['showToolBar'] = 'Show toolbar';
 $string['showToolBarHelp'] = 'Show toolbar help';
 $string['showAlgebraInput'] = 'Show inputbar';
+$string['useBrowserForJS'] = 'Use JavaScript from:';
+$string['useBrowserForJS_html'] = 'HTML (true)';
+$string['useBrowserForJS_geogebra'] = 'GeoGebra file (false)';
 $string['functionalityoptionsgrp'] = 'Functionality';
 $string['interfaceoptionsgrp'] = 'User interface';
-$string['warningnojava'] = 'This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don\'t have Java installed, please go to www.java.com';
 $string['filenotfound'] = 'Specified file doesn\'t exist';
 $string['httpnotallowed'] = 'At the moment is not allowed to use external files';
 
@@ -100,12 +102,13 @@ $string['submitandfinish'] = 'Submit and finish';
 $string['savewithoutsubmitting'] = 'Save without submitting';
 $string['redirecttocourse'] = 'The activity has been saved. Going back to the course home page';
 $string['unfinished'] = 'Unfinished';
-$string['language']='Language';
+$string['language'] = 'Language';
 $string['resumeattempt'] = 'Resuming unfinished attempt';
 $string['coursewithoutstudents'] = 'Course without students';
 $string['deleteallattempts'] = 'Delete all attempts';
 $string['view'] = 'View';
 $string['gradeit'] = 'Grade';
+$string['timing'] = 'Timing';
 $string['ungraded'] = 'Ungraded';
 $string['save'] = 'Save';
 $string['autograde'] = 'Selfgrade activity';
@@ -118,7 +121,7 @@ $string['discardchanges'] = 'Discard changes and return';
 /* Revision Moodle 2 */
 $string['modulename_help'] = '<p><a href="http://www.geogebra.org" target="_blank">GeoGebra</a> is a free and multi-platform dynamic mathematics software for all levels of education that joins geometry, algebra, tables, graphing, statistics and calculus in one easy-to-use package.</p>
 <p>Therefore, the <a href="http://www.gencat.cat/ensenyament/" target="_blank">Departament of Education of Catalonia</a> in collaboration with the <a href="http://acgeogebra.cat/" target="_blank">Catalan Association of GeoGebra</a> (ACG) and the GeoGeobra development team have implemented this module that allows the incorporation of GeoGebra activities in Moodle. Its main features are:
-<ul>  
+<ul>
     <li>Allows embedding easily GeoGebra activities in some Moodle course.</li>
     <li>Facilitates students tracing because it stores the score, date, duration and construction of each of the attempts made ​​by the users.</li>
     <li>Students can save the state of the activities to continue them later.</li>
@@ -131,12 +134,10 @@ $string['geogebra:submit'] = 'Submit GeoGebra';
 $string['geogebra:grade'] = 'Grade GeoGebra';
 
 $string['geogebra:addinstance'] = 'Add GeoGebra';
-$string['header_geogebra']='GeoGebra Settings';
-$string['header_score']='Avaluation Settings';
 $string['filetype'] = 'Type';
 $string['filetype_help'] = 'This setting determines how the GeoGebra activity is included in the course. There are up to 2 options:
 
-* Uploaded GeoGebra - Enables a valid ".ggb" package to be chosen by the file picker. 
+* Uploaded GeoGebra - Enables a valid ".ggb" package to be chosen by the file picker.
 * External URL - Enables a URL to be specified. Note: The URL must start with http(s) or www and contain a valid ".ggb" file.';
 $string['filetypeexternal'] = 'External URL';
 $string['filetypelocal'] = 'Uploaded file';
@@ -150,15 +151,21 @@ $string['urledit'] = 'GeoGebra file';
 $string['urledit_help'] = 'The ".ggb" file where you will find the GeoGebra activity.';
 
 $string['datestudent'] = 'Last modified (submission)';
-$string['dateteacher']= 'Last modified (grade)';
+$string['dateteacher'] = 'Last modified (grade)';
 $string['status'] = 'Estat';
 $string['viewattempt'] = 'View';
 $string['previewtab'] = 'Preview';
-
+$string['preview_geogebra'] = 'Preview Geogebra activity';
 
 $string['notopenyet'] = 'Sorry, this activity is not available until {$a}';
 $string['expired'] = 'Sorry, this activity closed on {$a} and is no longer available';
-$string['msg_noattempts']= 'You have done this activity the maximum number of times';
+$string['msg_noattempts'] = 'You have done this activity the maximum number of times';
 $string['lastmodifiedsubmission'] = 'Last modified (submission)';
 $string['lastmodifiedgrade'] = 'Last modified (grade)';
 $string['viewattempttab'] = 'View attempt';
+$string['extractedfromggb'] = 'extracted files from ggb';
+
+/* Revision Moodle 2.6 */
+$string['event_course_module_viewed'] = 'Course module viewed';
+$string['event_instances_list_viewed'] = 'Instances list viewed';
+$string['msg_nosessions'] = 'This Geogebra activity hasn\'t yet any session';

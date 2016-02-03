@@ -1,7 +1,28 @@
 Release notes for GeoGebra Module for Moodle (http://moodle.org/plugins/pluginversions.php?plugin=mod_geogebra)
 
-More information on each of the fixes can be found in the project 
+More information on each of the fixes can be found in the project
 development home at https://github.com/projectestac/moodle-mod_geogebra
+
+Changes in 0.2.7.1 (2015/10/15)
+---------------------------------------------------------------------------------------
+ - Solve two missing string identifiers
+ - Solve reset errors
+ - Remove fixed protocol in JavaScript file. Thanks to @XSmeets
+ - Delete some warnings in JS
+ - Restore executing JS embedded in Geogebra files
+
+Changes in 0.2.7 (2015/06/15)
+---------------------------------------------------------------------------------------
+ - Adapted plugin to admit new HTML5 embed
+ - Requirements of Moodle 2.7 or greater
+ - Some navigation changes and added new events API classes
+ - Code cleaning
+
+Changes in 0.2.6 (2014/11/07)
+---------------------------------------------------------------------------------------
+- Adapted module to Moodle 2.6
+- Fixed get_string() error (thanks to papillon326)
+
 
 Changes in 0.2.5 RC (2014/01/14)
 ---------------------------------------------------------------------------------------
@@ -27,7 +48,7 @@ Changes in 1.1.0 (2012/08/22)
 
 Changes in 1.0.1 (2012/08/16)
 ---------------------------------------------------------------------------------------
-- Added new option to evaluate manually the attempts 
+- Added new option to evaluate manually the attempts
 - Fixed some bugs
 
 

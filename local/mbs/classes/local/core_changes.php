@@ -210,7 +210,10 @@ class core_changes {
      * @param course_enrolment_manager $manager
      * @param array $users informations for users appearing in the table
      */
-    public static function add_assignableroles($manager, &$users) {
+    public static function add_assignableroles($manager, &$users) {        
+        if (empty($users)) {
+            return;
+        }
 
         $allowteacherrole = self::get_allowteacher_userids(array_keys($users));
 

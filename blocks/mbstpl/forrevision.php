@@ -56,7 +56,8 @@ if ($form->is_cancelled()) {
     $task = new \block_mbstpl\task\adhoc_deploy_revision();
     $task->set_custom_data((object)array('templateid' => $template->id, 'requesterid' => $USER->id, 'reasons' => $data->reasons));
     \core\task\manager::queue_adhoc_task($task);
-    redirect($courseurl);
+    mbst\course::archive($template);
+    redirect($courseurl, get_string('forrevision', 'block_mbstpl'));
 }
 $renderer = mbst\course::get_renderer();
 

@@ -110,6 +110,14 @@ class backup {
         $versionid++;
         $backup->lastversion = $versionid;
         $courseid = self::launch_primary_restore($backup);
+        
+        // Delete all enrolments except manual
+        course::delete_enrol_instances($courseid);
+        // Unenrol everybody who was enroled manual, e. g. anonymous users
+        $userenrolments = course::get_all_enrolled_users($courseid);
+        if (!empty($userenrolments)) {
+            course::unenrol($courseid, $userenrolments);
+        }
 
         $backup->update();
 
@@ -128,9 +136,6 @@ class backup {
         $bkpmeta = new dataobj\meta(array('backupid' => $backup->id), true, MUST_EXIST);
         $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta->copy_from($bkpmeta);
-
-        // Unenrol anonymous users.
-        self::unenrol_anonymous($courseid);
 
         // Enrol creator as author.
         user::enrol_author($template->courseid, $backup->creatorid);
@@ -183,8 +188,11 @@ class backup {
 
         $coursefromtpl->insert();
 
-        // Unenrol anonymous users.
-        self::unenrol_anonymous($cid);
+        // Unenrol everybody        
+        $userenrolments = course::get_all_enrolled_users($cid);
+        if (!empty($userenrolments)) {
+            course::unenrol($cid, $userenrolments);
+        }
 
         return $coursefromtpl;
     }
@@ -217,7 +225,7 @@ class backup {
         $newtpl = clone($template);
         $newtpl->id = null;
         $newtpl->courseid = $cid;
-        $newtpl->status = dataobj\template::STATUS_UNDER_REVISION;
+        $newtpl->status = dataobj\template::STATUS_UNDER_REVIEW;
         $newtpl->feedback = $message;
         $newtpl->feedbackformat = FORMAT_PLAIN;
         $newtpl->rating = null;
@@ -228,6 +236,16 @@ class backup {
         $origmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta->copy_from($origmeta);
+        
+        // Unenrol everybody        
+        $userenrolments = course::get_all_enrolled_users($cid);
+        if (!empty($userenrolments)) {
+            course::unenrol($cid, $userenrolments);
+        }
+        
+        //Enrol reviewer
+        user::enrol_reviewer($cid, $newtpl->reviewerid, true);
+        
         return $cid;
     }
 
@@ -615,13 +633,17 @@ class backup {
         // Load info.
         $info = \backup_general_helper::get_backup_information($tmpname);
 
+        $visible = 1;
+        if ($targetcat == get_config('block_mbstpl', 'deploycat')) {
+            $visible = 0;
+        }
         if ($targetcat) {
             // Create course.
             $cdata = (object)array(
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
-                'visible' => 1,
+                'visible' => $visible
             );
             $course = create_course($cdata);
             $restoretype = \backup::TARGET_NEW_COURSE;
@@ -666,33 +688,49 @@ class backup {
 
         $page = new \moodle_page();
         $page->set_context(\context_course::instance($coursefromtpl->courseid));
+        
+        $blocktitle = get_string('newblocktitle', 'block_mbstpl');
+        $licence = $template->get_license();
+        $licencelink = \html_writer::link($licence->source, $licence->fullname);
+        $licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+            'creator' => course::get_creators($template->id),
+            'licence' => $licencelink
+        ));
+        $blockconfig = array(
+            'title' => $blocktitle,
+            'text' => array(
+                'text' => $licencestring,
+                'format' => FORMAT_HTML,
+                'itemid' => file_get_submitted_draft_itemid('config_text')
+            )
+        );
+        
+        // There might be a teachSHARE-html block -> use it (don't add a second one)
+        $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
+        foreach ($blockrecords as $blockrecord) {
+            $blockcontent = unserialize(base64_decode($blockrecord->configdata));
+            if (!empty($blockcontent)) {
+                if ($blockcontent->title == $blocktitle) {
+                    $block = block_instance('html', $blockrecord, $page);
+                    $block->instance_config_save((object)$blockconfig);
+                    return;
+                }
+            }
+            
+        }
 
+        // There is no teachSHARE-html block -> create one
         // Use the 1st available region of the theme's course layout.
         $region = $PAGE->theme->layouts['course']['regions'][0];
 
         $bm = new \block_manager($page);
         $bm->add_region($region);
-        $bm->add_block('html', $region, 0, false, 'course-view-*');
-
-        $blocktitle = get_string('newblocktitle', 'block_mbstpl');
-        $blockconfig = array(
-            'title' => $blocktitle,
-            'text' => array(
-                'text' => $coursefromtpl->licence,
-                'format' => FORMAT_PLAIN,
-                'itemid' => file_get_submitted_draft_itemid('config_text')
-            )
-        );
-
-        $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
-        foreach ($blockrecords as $blockrecord) {
-            $blockcontent = unserialize(base64_decode($blockrecord->configdata));
-            if (!is_object($blockcontent) || empty($blockcontent->title) || $blockcontent->title != $blocktitle) {
-                continue; // There might be other HTML blocks on the course, don't rewrite them.
-            }
-            $block = block_instance('html', $blockrecord, $page);
-            $block->instance_config_save((object)$blockconfig);
-        }
+        $bm->add_block('html', $region, 0, false, 'course-view-*');          
+        
+        $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id), 'id');
+        $blockrecord = array_pop($blockrecords);
+        $block = block_instance('html', $blockrecord, $page);
+        $block->instance_config_save((object)$blockconfig);
     }
 
     /**
@@ -735,26 +773,6 @@ class backup {
         $restore_url = new \moodle_url('/backup/restore.php', array(
             'contextid' => $context->id, 'filename' => $filename));
         redirect($restore_url);
-    }
-
-    /**
-     * Unenrol anonymous users from course.
-     * @param $courseid
-     */
-    private static function unenrol_anonymous($courseid)
-    {
-        global $CFG;
-        require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
-
-        $coursecontext = \context_course::instance($courseid);
-        $users = get_enrolled_users($coursecontext, null, null, 'u.id,u.username,u.firstname,u.lastname,u.email');
-        $anonids = array();
-        foreach ($users as $user) {
-            if (backup_anonymizer_helper::is_anonymous_user($user)) {
-                $anonids[$user->id] = $user->id;
-            }
-        }
-        course::unenrol_users($courseid, $anonids);
     }
 
     /**

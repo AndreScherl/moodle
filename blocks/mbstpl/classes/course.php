@@ -60,11 +60,10 @@ class course {
 
             $isauthor = $template->authorid == $USER->id;
 
-            // 26.01.2016 fhüb: course uploader is course author - currently no possibility to add another author
-//            if (perms::can_assignauthor($template, $coursecontext)) {
-//                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
-//                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
-//            }
+            if (perms::can_assignauthor($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
+                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
+            }
 
             if (!$isauthor && (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext))) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
@@ -354,7 +353,7 @@ class course {
     /**
      * Get template's current/last assignee out of revision history.
      * @param int $templateid
-     * @return array
+     * @return array object
      */
     public static function get_lastassignee($templateid) {
         global $DB;
@@ -482,10 +481,12 @@ class course {
 
         $cid = $template->courseid;
 
-        // Unenrol everybody
-        $userenrolments = self::get_all_enrolled_users($cid);
+        // Delete all enrolements
+        self::delete_enrol_instances($cid);
+        // Unenrol everybody who was enroled manual
+        $userenrolments = course::get_all_enrolled_users($cid);
         if (!empty($userenrolments)) {
-            self::unenrol($cid, $userenrolments);
+            course::unenrol($cid, $userenrolments);
         }
 
         // Make course invisible
@@ -527,6 +528,7 @@ class course {
     /**
      * Function to get all enrolled users of a course.
      * @param int $courseid
+     * @return array $enrolments
      */
     public static function get_all_enrolled_users($courseid) {
         global $DB;
@@ -545,6 +547,7 @@ class course {
      * Function to unenrol all users for given enrolements of a course.
      * @param int $courseid
      * @param array $enrolments
+     * @return void
      */
     public static function unenrol($courseid, $enrolments) {
         $plugins = enrol_get_plugins(true);
@@ -566,6 +569,24 @@ class course {
                 continue;
             }
             $plugin->unenrol_user($instance, $ue->userid);
+        }
+    }
+
+    /**
+     * Delete all course enrol plugin instances except 'manual', unenrol all users.
+     * @param int $courseid
+     * @param array $exclude_enrolments
+     * @return void
+     */
+    public static function delete_enrol_instances($courseid, $exclude_enrolments = array()) {
+        $exclude_enrolments[] = 'manual';
+        $plugins = enrol_get_plugins(true);
+        $instances = enrol_get_instances($courseid, false);
+        foreach ($instances as $instance) {            
+            if (!in_array($instance->enrol, $exclude_enrolments)) {
+                $plugin = $plugins[$instance->enrol];
+                $plugin->delete_instance($instance);
+            }
         }
     }
 

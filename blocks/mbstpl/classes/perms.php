@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -30,6 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package block_mbstpl
  */
 class perms {
+
     /**
      * Tells us whether the current user can view the feedback page.
      * @param dataobj\template
@@ -45,7 +47,7 @@ class perms {
         if ($template->status == $template::STATUS_PUBLISHED) {
             return false;
         }
-        
+
         return $template->authorid == $USER->id || $template->reviewerid == $USER->id;
     }
 
@@ -81,6 +83,10 @@ class perms {
             return false;
         }
 
+        if ($template->status == $template::STATUS_ARCHIVED) {
+            return false;
+        }
+
         if ($template->reviewerid == $USER->id) {
             return true;
         }
@@ -107,25 +113,54 @@ class perms {
      * @return bool
      */
     public static function can_editmeta(dataobj\template $template, \context_course $coursecontext) {
-        if ($template->status == $template::STATUS_PUBLISHED) {
+        // don't forget the admin
+        if (has_capability('block/mbstpl:coursetemplateeditmeta', \context_system::instance())) {
+            return true;
+        }
+        if ($template->status != $template::STATUS_UNDER_REVIEW && $template->status != $template::STATUS_UNDER_REVISION) {
             return false;
         }
         global $USER;
-        $assigned = (course::get_lastassignee($template->id)->id == $USER->id);
-        return (has_capability('block/mbstpl:coursetemplateeditmeta', $coursecontext) && $assigned);
+        $assignee = course::get_lastassignee($template->id);
+        if (!empty($assignee)) {
+            $assigned = ($assignee->id == $USER->id);
+            return (has_capability('block/mbstpl:coursetemplateeditmeta', $coursecontext) && $assigned);
+        }
+        return false;
     }
 
     /**
-     * Tells us whether the course can be assigned an author
+     * Tells us whether an author can be assigned
      * @param dataobj\template $template
      * @param \context_course $coursecontext
      * @return bool
      */
     public static function can_assignauthor(dataobj\template $template, \context_course $coursecontext) {
-        if ($template->status != $template::STATUS_UNDER_REVIEW) {
-            return false; // Not currently with the reviewer, so cannot be passed on to the author.
+        if ($template->status != $template::STATUS_UNDER_REVIEW && $template->status != $template::STATUS_UNDER_REVISION) {
+            return false;
         }
+
+        // check if there is already an author
+        if (self::check_authorenrolled($coursecontext)) {
+            return false;
+        }
+
         return has_capability('block/mbstpl:assignauthor', $coursecontext);
+    }
+
+    /**
+     * Tells us whether an author is already enrolled
+     * @param \context_course $coursecontext
+     * @return bool
+     */
+    public static function check_authorenrolled(\context_course $coursecontext) {
+        if (!$roleid = get_config('block_mbstpl', 'authorrole')) {
+            throw new \moodle_exception('errorauthorrolenotset', 'block_mbstpl');
+        }
+        if (get_role_users($roleid, $coursecontext)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -223,10 +258,10 @@ class perms {
      */
     public static function can_searchtemplates() {
         // anyone else
-        return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate'); 
-    }    
-    
-    /** 
+        return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate');
+    }
+
+    /**
      * Get course categories where this user has a given capability on course category context.
      *
      * @global \moodle_database $DB
@@ -257,7 +292,7 @@ class perms {
 
         return $DB->get_records_sql($sql, $params, 0, $limit);
     }
-    
+
     /**
      * Tells us whether the current user can send a complaint.
      * @param \context_course $coursecontext
@@ -266,7 +301,7 @@ class perms {
     public static function can_complain() {
         return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate');
     }
-    
+
     /**
      * Tells us whether the current user can view the information about the template.
      * @param \context_course $coursecontext

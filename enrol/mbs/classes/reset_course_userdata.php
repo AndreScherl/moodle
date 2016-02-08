@@ -42,7 +42,10 @@ class reset_course_userdata {
         if (!$template) {
             throw new \moodle_exception('errorunabletoresetnontemplate', 'enrol_mbs');
         }
-
+        if ($template->status != $template::STATUS_PUBLISHED) {
+            return;
+        }
+        
         $course = get_course($courseid);
 
         $data = array(
@@ -89,10 +92,5 @@ class reset_course_userdata {
         $data = (object) $data;
 
         reset_course_userdata($data);
-
-        if ($template->reviewerid) {
-            \block_mbstpl\user::enrol_reviewer($courseid, $template->reviewerid, false);
-        }
     }
-
 }

@@ -130,11 +130,11 @@ function local_mbs_user_loggedin(\core\event\user_loggedin $event) {
  * 
  * @param \core\event\course_created $events
  */
-function local_mbs_course_created(\core\event\course_created $events) {
-    global $DB, $USER, $COURSE;
+function local_mbs_course_created(\core\event\course_created $event) {
+    global $DB;
     // assign course owner role to course creator, to manage the right of course deletion
     if ($role = $DB->get_record('role', array('shortname' => 'kursbesitzer'))) {
-        role_assign($role->id, $USER->id, context_course::instance($COURSE->id)->id);
+        role_assign($role->id, $event->get_data()['userid'], $event->get_context()->id);
     }
 }
 

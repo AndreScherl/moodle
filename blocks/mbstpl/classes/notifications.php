@@ -81,14 +81,6 @@ class notifications {
             $course->url = (string)new \moodle_url('/course/view.php', array('id' => $course->id));
         }
 
-        // Email to managers.
-        $managers = self::get_managers();
-        $subject = get_string('emailreadyforreview_subj', 'block_mbstpl');
-        $body = get_string('emailreadyforreview_body', 'block_mbstpl', $course);
-        foreach ($managers as $manager) {
-            self::send_message('duplicated', $manager, $subject, $body);
-        }
-
         // Email to course author.
         $requester = $DB->get_record('user', array('id' => $requesterid), '*', MUST_EXIST);
         $subject = get_string('emaildupldeployed_subj', 'block_mbstpl');

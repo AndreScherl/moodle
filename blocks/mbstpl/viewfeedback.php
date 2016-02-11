@@ -100,7 +100,7 @@ if ($showassignauthor) {
 }
 
 $showfeedbackform = ($cansendfeedback 
-    and ($template->status == $template::STATUS_UNDER_REVIEW || $template->status == $template::STATUS_UNDER_REVISION)
+    and ($template->status != $template::STATUS_PUBLISHED && $template->status != $template::STATUS_ARCHIVED)
     and mbst\perms::check_authorenrolled($coursecontext));
 if ($showfeedbackform) {
     $feedbackform->display();

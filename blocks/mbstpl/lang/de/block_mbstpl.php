@@ -99,7 +99,8 @@ $string['emailcomplaint_body'] = 'Liebes Support-Team,
     Von: {$a->from}
     Fehlertyp: {$a->error}
     Details: {$a->details}
-    Link zu dem entsprechenden teachSHARE-Kurs {$a->url}
+    Link zum entsprechenden teachSHARE-Kurs: {$a->url}
+    Link zum Überarbeiten nötig Formular: {$a->revision}
 
 Vielen Dank und viele Grüße
 Eure ISB-Programmierer';

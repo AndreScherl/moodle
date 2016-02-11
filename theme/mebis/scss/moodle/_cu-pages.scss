@@ -181,7 +181,8 @@
 // - #page-admin-purgecaches 
 // - page-popup
 #page-content, #page-admin-purgecaches, 
-#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup,
+#page-mod-page-view.pagelayout-popup {
     background: $white;   
 
     div[role="main"] {

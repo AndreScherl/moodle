@@ -93,7 +93,16 @@ if (!empty($buttons)) {
 
 echo $renderer->coursebox($course, $template);
 
-if ($cansendfeedback) {
+$showassignauthor = mbst\perms::can_assignauthor($template, $coursecontext);
+if ($showassignauthor) {
+    $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $courseid, 'type' => 'author'));
+    echo \html_writer::link($url, get_string('assignauthor', 'block_mbstpl'), array('class' => 'btn btn-primary'));
+}
+
+$showfeedbackform = ($cansendfeedback 
+    and ($template->status != $template::STATUS_PUBLISHED && $template->status != $template::STATUS_ARCHIVED)
+    and mbst\perms::check_authorenrolled($coursecontext));
+if ($showfeedbackform) {
     $feedbackform->display();
 }
 

@@ -46,12 +46,14 @@ class block_mbstpl extends block_base {
         $this->content = new stdClass();
         $this->content->text = '';
 
-        if (mbst\perms::can_searchtemplates()) {
-            $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php');
-            $searchbutton = html_writer::tag('button', get_string('templatesearch', 'block_mbstpl'));
-            $searchlink = html_writer::link($searchurl, $searchbutton);
-            $this->content->text .= $searchlink;
+        if (!mbst\perms::can_searchtemplates()) {
+            return $this->content;
         }
+        
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php');
+        $searchbutton = html_writer::tag('button', get_string('templatesearch', 'block_mbstpl'));
+        $searchlink = html_writer::link($searchurl, $searchbutton);
+        $this->content->text .= $searchlink;
 
         $templates = mbst\user::get_templates();
         if (empty($templates)) {

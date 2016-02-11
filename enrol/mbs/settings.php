@@ -39,4 +39,6 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtime('enrol_mbs/cron_hour', 'cron_minute',
         get_string('cron_time', 'enrol_mbs'), get_string('cron_time_desc', 'enrol_mbs'), array('h' => 0, 'm' => 0)));
 
+    $settings->add(new admin_setting_configtext('enrol_mbs/unenrol_role', 
+        get_string('unenrol_role', 'enrol_mbs'), get_string('unenrol_role_desc', 'enrol_mbs'), 'teachsharestudent', PARAM_TEXT));
 }

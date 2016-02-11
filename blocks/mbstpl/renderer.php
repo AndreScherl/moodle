@@ -292,8 +292,11 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                     $viewurl->param('id', $template->courseid);
                 }
                 $courseitemclasses = 'statuslink';
-                if (\block_mbstpl\course::get_lastassignee($template->id)->id == $USER->id) {
-                    $courseitemclasses .= ' viewfeedback';
+                $lastassignee = \block_mbstpl\course::get_lastassignee($template->id);
+                if (!empty($lastassignee)) {
+                    if ($lastassignee->id == $USER->id) {
+                        $courseitemclasses .= ' viewfeedback';
+                    }
                 }
                 $courseitemlink = html_writer::link($viewurl, $template->coursename, array('class' => $courseitemclasses . ' ' . $courseitemstatus));
                 $courseitem = html_writer::tag('li', $courseitemlink);

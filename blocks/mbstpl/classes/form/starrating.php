@@ -31,12 +31,13 @@ require_once($CFG->libdir . '/formslib.php');
 class starrating extends \moodleform {
 
     public function definition() {
-
         global $PAGE;
 
         $mform = $this->_form;
+        
+        $mform->addElement('header', 'ratingheader', get_string('rating_header', 'block_mbstpl'));
+        
         $radioname = 'block_mbstpl_rating';
-
         $radioarray = array();
         $ids = array();
         for ($i = 1; $i <= 5; $i++) {
@@ -47,9 +48,11 @@ class starrating extends \moodleform {
         }
 
         $mform->addGroup($radioarray, 'radioar', get_string('yourrating', 'block_mbstpl'), '', false);
-        $mform->addGroupRule('radioar', get_string('required'), 'required');
 
         $this->add_action_buttons(true, get_string('submitbutton', 'block_mbstpl')); 
+        
+        $mform->setExpanded('ratingheader');
+        $mform->closeHeaderBefore('ratingheader');
 
         $freeze = !empty($this->_customdata['freeze']);
         if ($freeze) {

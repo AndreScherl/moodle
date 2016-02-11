@@ -16989,24 +16989,29 @@ input[type="checkbox"] + label {
 }
 
 #page-content, #page-admin-purgecaches,
-#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup,
+#page-mod-page-view.pagelayout-popup {
   background: #fff;
 }
 #page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul {
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ul {
   padding-left: 30px;
 }
 #page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li {
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ul > li {
   list-style-position: outside;
   list-style-image: none;
 }
 #page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol {
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ol {
   padding-left: 30px;
 }
 #page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li {
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ol > li {
   list-style-position: outside;
   list-style-image: none;
 }

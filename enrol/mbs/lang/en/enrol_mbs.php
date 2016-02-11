@@ -37,3 +37,6 @@ $string['mbs:config'] = 'Configure Template User Data Reset';
 $string['instance_save'] = 'Save';
 $string['pluginname'] = 'Course Template User Data Reset';
 $string['pluginname_desc'] = 'A self-enorlment plugin for testing of templates that will reset the course periodically.';
+$string['unenrol_role'] = 'Role for unenrol user list';
+$string['unenrol_role_desc'] = 'If Auto Reset is enabled, users with this role will be unenroled.'."\n".
+        'Please use shortnames! Example: teachsharestudent,teachsharecourseauthor';

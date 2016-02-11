@@ -94,8 +94,17 @@ $string['emailassignedauthor_subj'] = 'You have been assigned as a template auth
 $string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
 {$a->url}';
 $string['emailcoursepublished_subj'] = 'Template course published';
-$string['emailcomplaint_body'] = 'There is a complaint for the template course {$a->coursename}. It can be viewed at:
-{$a->url}';        
+$string['emailcomplaint_body'] = 'Dear Support,
+    
+    there is a complaint for the template course {$a->coursename}. 
+    From: {$a->from}
+    Error: {$a->error}
+    Details: {$a->details}
+    Course-URL: {$a->url}
+    Revision-URL: {$a->revision}
+
+Best regards
+Your ISB programers';     
 $string['emailcomplaint_subj'] = 'Complaint';
 $string['emailcomplaintsend_body'] = 'Dear teachSHARE user,
     
@@ -226,7 +235,7 @@ $string['myreview_help'] = '<B>bold</B>: The course is assigned to me. I have to
         . '<span style="background-color:#00a8d5;color:#fff;"> blue </span>: The course is assigned to reviewer.';
 $string['myrevision'] = 'My courses under revision';
 $string['na'] = 'N/A';
-$string['newblocktitle'] = 'Course Template Information';
+$string['newblocktitle'] = 'teachSHARE';
 $string['newlicense'] = 'Add new license';
 $string['nextstatsreport'] = 'Next statistics report';
 $string['nextstatsreport_desc'] = 'Date to run the next statistics report';

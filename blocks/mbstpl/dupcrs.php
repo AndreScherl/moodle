@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,7 +20,6 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
@@ -71,7 +71,14 @@ $customdata = array(
     'template' => $template
 );
 
+$licence = $template->get_license();
+$licencelink = \html_writer::link($licence->source, $licence->fullname);
+$licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+    'creator' => $creator,
+    'licence' => (string) $licencelink
+));
 $form = new mbst\form\dupcrs(null, $customdata);
+$form->set_data(array('licence' => $licence));
 
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {
@@ -79,11 +86,10 @@ if ($form->is_cancelled()) {
 } else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_INT)) {
 
     // Initiate deployment task.
-
-    $taskdata = (object)array(
-        'tplid' => $template->id,
-        'settings' => $form->get_task_settings(),
-        'requesterid' => $USER->id,
+    $taskdata = (object) array(
+                'tplid' => $template->id,
+                'settings' => $form->get_task_settings(),
+                'requesterid' => $USER->id,
     );
     $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
     $deployment->set_custom_data($taskdata);

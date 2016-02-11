@@ -61,16 +61,17 @@ $tform = mbst\questman\manager::build_form($template, $course, array(
 
 // Rate form.
 $starrating = new mbst\dataobj\starrating(array('userid' => $USER->id, 'templateid' => $template->id));
-$form = new mbst\form\starrating($thisurl, array('freeze' => $starrating->fetched && $starrating->rating));
-if ($form->is_cancelled()) {
+$freezerating = $starrating->fetched && $starrating->rating;
+$ratingform = new mbst\form\starrating($thisurl, array('freeze' => $freezerating));
+if ($ratingform->is_cancelled()) {
     redirect($redirecturl);
-} else if ($data = $form->get_data()) {
+} else if ($data = $ratingform->get_data()) {
     $starrating->rating = $data->block_mbstpl_rating;
     mbst\rating::save_userrating($template, $starrating);
 
     redirect($redirecturl);
 } else if ($starrating->fetched) {
-    $form->set_data(array(
+    $ratingform->set_data(array(
         'block_mbstpl_rating' => $starrating->rating
     ));
 }
@@ -79,10 +80,12 @@ echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle.' '.$course->fullname);
 
-echo html_writer::div($tform->render(), 'template_rating');
-
-echo html_writer::tag('h3', get_string('rating_header', 'block_mbstpl'));
-
-echo html_writer::div($form->render(), 'template_rating');
+if ($freezerating) {
+    echo html_writer::div($tform->render(), 'template_rating');
+    echo html_writer::div($ratingform->render(), 'template_rating');
+} else {
+    echo html_writer::div($ratingform->render(), 'template_rating');
+    echo html_writer::div($tform->render(), 'template_rating');
+}
 
 echo $OUTPUT->footer();

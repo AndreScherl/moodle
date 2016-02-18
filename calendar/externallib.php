@@ -173,11 +173,8 @@ class core_calendar_external extends external_api {
 
         // Let us findout courses that we can return events from.
         if (!$hassystemcap) {
-<<<<<<< HEAD
-=======
             $courses = enrol_get_my_courses('id');
             $courses = array_keys($courses);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
             foreach ($params['events']['courseids'] as $id) {
                try {
                     $context = context_course::instance($id);
@@ -190,10 +187,6 @@ class core_calendar_external extends external_api {
                         'warningcode' => 'nopermissions',
                         'message' => 'No access rights in course context '.$e->getMessage().$e->getTraceAsString()
                     );
-<<<<<<< HEAD
-                    continue;
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
                 }
             }
         } else {

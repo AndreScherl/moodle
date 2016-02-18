@@ -230,8 +230,6 @@ class core_grade_grade_testcase extends grade_base_testcase {
         test_grade_grade_flatten_dependencies_array::test_flatten_dependencies_array($a, $b);
         $this->assertSame($expecteda, $a);
     }
-<<<<<<< HEAD
-=======
 
     public function test_grade_grade_min_max() {
         global $CFG;
@@ -431,5 +429,4 @@ class core_grade_grade_testcase extends grade_base_testcase {
 
         $CFG->grade_minmaxtouse = $initialminmaxtouse;
     }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 }

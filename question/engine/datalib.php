@@ -909,10 +909,7 @@ ORDER BY
     public function update_question_attempt(question_attempt $qa) {
         $record = new stdClass();
         $record->id = $qa->get_database_id();
-<<<<<<< HEAD
-=======
         $record->slot = $qa->get_slot();
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $record->variant = $qa->get_variant();
         $record->maxmark = $qa->get_max_mark();
         $record->minfraction = $qa->get_min_fraction();

@@ -49,15 +49,12 @@ if ($courseid != -1) {
 } else {
     $return = new moodle_url($return);
 }
-<<<<<<< HEAD
-=======
 
 if (!confirm_sesskey()) {
     // Do not call require_sesskey() since this page may be accessed without session (for example by bots).
     redirect($return);
 }
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 $url = new moodle_url('/calendar/set.php', array('return'=>base64_encode($return->out_as_local_url(false)), 'course' => $courseid, 'var'=>$var, 'sesskey'=>sesskey()));
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());

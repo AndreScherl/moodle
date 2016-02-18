@@ -321,10 +321,7 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
     // Now display all the calendar
     $daytime = strtotime('-1 day', $display->tstart);
     for($day = 1; $day <= $display->maxdays; ++$day, ++$dayweek) {
-<<<<<<< HEAD
-=======
         $cellattributes = array();
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $daytime = strtotime('+1 day', $daytime);
         if($dayweek > $display->maxwday) {
             // We need to change week (table row)
@@ -1917,54 +1914,6 @@ function calendar_add_event_allowed($event) {
 }
 
 /**
- * Convert region timezone to php supported timezone
- *
- * @param string $tz value from ical file
- * @return string $tz php supported timezone
- */
-function calendar_normalize_tz($tz) {
-    switch ($tz) {
-        case('CST'):
-        case('Central Time'):
-        case('Central Standard Time'):
-            $tz = 'America/Chicago';
-            break;
-        case('CET'):
-        case('Central European Time'):
-            $tz = 'Europe/Berlin';
-            break;
-        case('EST'):
-        case('Eastern Time'):
-        case('Eastern Standard Time'):
-            $tz = 'America/New_York';
-            break;
-        case('PST'):
-        case('Pacific Time'):
-        case('Pacific Standard Time'):
-            $tz = 'America/Los_Angeles';
-            break;
-        case('China Time'):
-        case('China Standard Time'):
-            $tz = 'Asia/Beijing';
-            break;
-        case('IST'):
-        case('India Time'):
-        case('India Standard Time'):
-            $tz = 'Asia/New_Delhi';
-            break;
-        case('JST');
-        case('Japan Time'):
-        case('Japan Standard Time'):
-            $tz = 'Asia/Tokyo';
-            break;
-        case('Romance Standard Time'):
-            $tz = 'Europe/Brussels';
-            break;
-    }
-    return $tz;
-}
-
-/**
  * Manage calendar events
  *
  * This class provides the required functionality in order to manage calendar events.
@@ -2997,22 +2946,14 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
 
     $tz = isset($event->properties['DTSTART'][0]->parameters['TZID']) ? $event->properties['DTSTART'][0]->parameters['TZID'] :
             $timezone;
-<<<<<<< HEAD
-    $tz = calendar_normalize_tz($tz);
-=======
     $tz = core_date::normalise_timezone($tz);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     $eventrecord->timestart = strtotime($event->properties['DTSTART'][0]->value . ' ' . $tz);
     if (empty($event->properties['DTEND'])) {
         $eventrecord->timeduration = 0; // no duration if no end time specified
     } else {
         $endtz = isset($event->properties['DTEND'][0]->parameters['TZID']) ? $event->properties['DTEND'][0]->parameters['TZID'] :
                 $timezone;
-<<<<<<< HEAD
-        $endtz = calendar_normalize_tz($endtz);
-=======
         $endtz = core_date::normalise_timezone($endtz);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $eventrecord->timeduration = strtotime($event->properties['DTEND'][0]->value . ' ' . $endtz) - $eventrecord->timestart;
     }
 
@@ -3024,11 +2965,7 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
             // This event should be an all day event.
             $eventrecord->timeduration = 0;
         }
-<<<<<<< HEAD
-        date_default_timezone_set($defaulttz);
-=======
         core_date::set_default_server_timezone();
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     }
 
     $eventrecord->uuid = $event->properties['UID'][0]->value;

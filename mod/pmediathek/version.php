@@ -24,14 +24,14 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2014071000;
-$module->requires  = 2014051200; // Moodle 2.7.
-$module->cron      = 0;
-$module->component = 'mod_pmediathek';
-$module->maturity  = MATURITY_STABLE;
-$module->release   = '2.7+ (Build: 2013092300)';
+$plugin->version   = 2014071000;
+$plugin->requires  = 2014051200; // Moodle 2.7.
+$plugin->cron      = 0;
+$plugin->component = 'mod_pmediathek';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '2.7+ (Build: 2013092300)';
  
-$module->dependencies = array(
+$plugin->dependencies = array(
     'repository_pmediathek' => ANY_VERSION,
 );
 

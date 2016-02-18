@@ -632,16 +632,12 @@ class grade_category extends grade_object {
 
             if (!is_null($oldfinalgrade)) {
                 $grade->timemodified = time();
-<<<<<<< HEAD
-                $grade->update('aggregation');
-=======
                 $success = $grade->update('aggregation');
 
                 // If successful trigger a user_graded event.
                 if ($success) {
                     \core\event\user_graded::create_from_grade($grade)->trigger();
                 }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
             }
             $dropped = $grade_values;
             $this->set_usedinaggregation($userid, $usedweights, $novalue, $dropped, $extracredit);
@@ -721,29 +717,18 @@ class grade_category extends grade_object {
 
             if (!is_null($oldfinalgrade)) {
                 $grade->timemodified = time();
-<<<<<<< HEAD
-                $grade->update('aggregation');
-=======
                 $success = $grade->update('aggregation');
 
                 // If successful trigger a user_graded event.
                 if ($success) {
                     \core\event\user_graded::create_from_grade($grade)->trigger();
                 }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
             }
             $this->set_usedinaggregation($userid, $usedweights, $novalue, $dropped, $extracredit);
             return;
         }
 
         // do the maths
-<<<<<<< HEAD
-        $result = $this->aggregate_values_and_adjust_bounds($grade_values, $items);
-        $agg_grade = $result['grade'];
-
-        // recalculate the grade back to requested range
-        $finalgrade = grade_grade::standardise_score($agg_grade, 0, 1, $result['grademin'], $result['grademax']);
-=======
         $result = $this->aggregate_values_and_adjust_bounds($grade_values,
                                                             $items,
                                                             $usedweights,
@@ -760,18 +745,10 @@ class grade_category extends grade_object {
             // However, when we bind the grade we allow for negative values.
             $result['grademin'] = 0;
         }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 
         // Recalculate the grade back to requested range.
         $finalgrade = grade_grade::standardise_score($agg_grade, 0, 1, $result['grademin'], $result['grademax']);
         $grade->finalgrade = $this->grade_item->bounded_grade($finalgrade);
-
-<<<<<<< HEAD
-        // update in db if changed
-        if (grade_floats_different($grade->finalgrade, $oldfinalgrade)) {
-            $grade->timemodified = time();
-            $grade->update('aggregation');
-=======
         $oldrawgrademin = $grade->rawgrademin;
         $oldrawgrademax = $grade->rawgrademax;
         $grade->rawgrademin = $result['grademin'];
@@ -788,7 +765,6 @@ class grade_category extends grade_object {
             if ($success) {
                 \core\event\user_graded::create_from_grade($grade)->trigger();
             }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         }
 
         $this->set_usedinaggregation($userid, $usedweights, $novalue, $dropped, $extracredit);
@@ -797,8 +773,6 @@ class grade_category extends grade_object {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Set the flags on the grade_grade items to indicate how individual grades are used
      * in the aggregation.
      *
@@ -898,7 +872,6 @@ class grade_category extends grade_object {
     }
 
     /**
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
      * Internal function that calculates the aggregated grade and new min/max for this grade category
      *
      * Must be public as it is used by grade_grade::get_hiding_affected()
@@ -906,8 +879,6 @@ class grade_category extends grade_object {
      * @param array $grade_values An array of values to be aggregated
      * @param array $items The array of grade_items
      * @since Moodle 2.6.5, 2.7.2
-<<<<<<< HEAD
-=======
      * @param array & $weights If provided, will be filled with the normalized weights
      *                         for each grade_item as used in the aggregation.
      *                         Some rules for the weights are:
@@ -922,17 +893,12 @@ class grade_category extends grade_object {
      *                'grademin' => the new calculated min grade for the category
      *                'grademax' => the new calculated max grade for the category
      */
-<<<<<<< HEAD
-    public function aggregate_values_and_adjust_bounds($grade_values, $items) {
-        $category_item = $this->get_grade_item();
-=======
     public function aggregate_values_and_adjust_bounds($grade_values,
                                                        $items,
                                                        & $weights = null,
                                                        $grademinoverrides = array(),
                                                        $grademaxoverrides = array()) {
         $category_item = $this->load_grade_item();
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $grademin = $category_item->grademin;
         $grademax = $category_item->grademax;
 
@@ -1405,24 +1371,6 @@ class grade_category extends grade_object {
         }
 
         return array('grade' => $agg_grade, 'grademin' => $grademin, 'grademax' => $grademax);
-<<<<<<< HEAD
-    }
-
-    /**
-     * Internal function that calculates the aggregated grade for this grade category
-     *
-     * Must be public as it is used by grade_grade::get_hiding_affected()
-     *
-     * Will be deprecated in Moodle 2.8
-     * @param array $grade_values An array of values to be aggregated
-     * @param array $items The array of grade_items
-     * @return float The aggregate grade for this grade category
-     */
-    public function aggregate_values($grade_values, $items) {
-        $result = $this->aggregate_values_and_adjust_bounds($grade_values, $items);
-        return $result['grade'];
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     }
 
     /**
@@ -1638,18 +1586,10 @@ class grade_category extends grade_object {
 
         $totalnonoverriddengrademax = $totalgrademax - $totaloverriddengrademax;
 
-<<<<<<< HEAD
-        // update in db if changed
-        if (grade_floats_different($grade->finalgrade, $oldfinalgrade)) {
-            $grade->timemodified = time();
-            $grade->update('aggregation');
-        }
-=======
         // This setting indicates if we should use algorithm prior to MDL-49257 fix for calculating extra credit weights.
         // Even though old algorith has bugs in it, we need to preserve existing grades.
         $gradebookcalculationfreeze = (int)get_config('core', 'gradebook_calculations_freeze_' . $this->courseid);
         $oldextracreditcalculation = $gradebookcalculationfreeze && ($gradebookcalculationfreeze <= 20150619);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 
         reset($children);
         foreach ($children as $sortorder => $child) {

@@ -170,10 +170,6 @@ class core_calendar_renderer extends plugin_renderer_base {
         if (calendar_user_can_add_event($calendar->course)) {
             $output .= $this->add_event_button($calendar->course->id, 0, 0, 0, $calendar->time);
         }
-<<<<<<< HEAD
-        $output .= $this->course_filter_selector($returnurl, get_string('dayviewfor', 'calendar'));
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $output .= html_writer::end_tag('div');
         // Controls
         $output .= html_writer::tag('div', calendar_top_controls('day', array('id' => $calendar->courseid, 'time' => $calendar->time)), array('class'=>'controls'));
@@ -378,10 +374,6 @@ class core_calendar_renderer extends plugin_renderer_base {
         if (calendar_user_can_add_event($calendar->course)) {
             $output .= $this->add_event_button($calendar->course->id, 0, 0, 0, $calendar->time);
         }
-<<<<<<< HEAD
-        $output .= $this->course_filter_selector($returnurl, get_string('detailedmonthviewfor', 'calendar'));
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $output .= html_writer::end_tag('div', array('class'=>'header'));
         // Controls
         $output .= html_writer::tag('div', calendar_top_controls('month', array('id' => $calendar->courseid, 'time' => $calendar->time)), array('class' => 'controls'));
@@ -532,10 +524,6 @@ class core_calendar_renderer extends plugin_renderer_base {
         if (calendar_user_can_add_event($calendar->course)) {
             $output .= $this->add_event_button($calendar->course->id);
         }
-<<<<<<< HEAD
-        $output .= $this->course_filter_selector($returnurl, get_string('upcomingeventsfor', 'calendar'));
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $output .= html_writer::end_tag('div');
 
         if ($events) {

@@ -28,3 +28,4 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2011111100;
+$plugin->component = 'filter_geogebra';

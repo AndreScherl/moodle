@@ -751,11 +751,8 @@ class grade_grade extends grade_object {
         $altered = array();  // altered grades
         $alteredgrademax = array();  // Altered grade max values.
         $alteredgrademin = array();  // Altered grade min values.
-<<<<<<< HEAD
-=======
         $alteredaggregationstatus = array();  // Altered aggregation status.
         $alteredaggregationweight = array();  // Altered aggregation weight.
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $dependencydepth = array();
 
         $hiddenfound = false;
@@ -787,17 +784,12 @@ class grade_grade extends grade_object {
             return array('unknown' => array(),
                          'altered' => array(),
                          'alteredgrademax' => array(),
-<<<<<<< HEAD
-                         'alteredgrademin' => array());
-        }
-=======
                          'alteredgrademin' => array(),
                          'alteredaggregationstatus' => array(),
                          'alteredaggregationweight' => array());
         }
         // This line ensures that $dependencydepth has the same number of items as $todo.
         $dependencydepth = array_intersect_key($dependencydepth, array_flip($todo));
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         // We need to resort the todo list by the dependency depth. This guarantees we process the leaves, then the branches.
         array_multisort($dependencydepth, $todo);
 
@@ -925,31 +917,20 @@ class grade_grade extends grade_object {
                                 $found = true;
                                 continue;
                             }
-
-<<<<<<< HEAD
-                            $adjustedgrade = $grade_category->aggregate_values_and_adjust_bounds($values, $grade_items);
-=======
                             $usedweights = array();
                             $adjustedgrade = $grade_category->aggregate_values_and_adjust_bounds($values, $grade_items, $usedweights);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
-
                             // recalculate the rawgrade back to requested range
                             $finalgrade = grade_grade::standardise_score($adjustedgrade['grade'],
                                                                          0,
                                                                          1,
                                                                          $adjustedgrade['grademin'],
                                                                          $adjustedgrade['grademax']);
-<<<<<<< HEAD
-=======
-
                             foreach ($usedweights as $itemid => $weight) {
                                 if (!isset($alteredaggregationstatus[$itemid])) {
                                     $alteredaggregationstatus[$itemid] = 'used';
                                 }
                                 $alteredaggregationweight[$itemid] = $weight;
                             }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
-
                             $finalgrade = $grade_items[$do]->bounded_grade($finalgrade);
                             $alteredgrademin[$do] = $adjustedgrade['grademin'];
                             $alteredgrademax[$do] = $adjustedgrade['grademax'];
@@ -974,13 +955,9 @@ class grade_grade extends grade_object {
         return array('unknown' => $unknown,
                      'altered' => $altered,
                      'alteredgrademax' => $alteredgrademax,
-<<<<<<< HEAD
-                     'alteredgrademin' => $alteredgrademin);
-=======
                      'alteredgrademin' => $alteredgrademin,
                      'alteredaggregationstatus' => $alteredaggregationstatus,
                      'alteredaggregationweight' => $alteredaggregationweight);
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     }
 
     /**

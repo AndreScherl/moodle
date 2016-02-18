@@ -158,8 +158,6 @@ fontselect,fontsizeselect,wrap,code,search,replace,wrap,nonbreaking,charmap,tabl
     // Moodle v2.7.0 release upgrade line.
     // Put any upgrade step following this.
 
-<<<<<<< HEAD
-=======
     if ($oldversion < 2014062900) {
         // We only want to delete DragMath from the customtoolbar setting if the directory no longer exists. If
         // the directory is present then it means it has been restored, so do not remove any settings.
@@ -189,6 +187,5 @@ fontselect,fontsizeselect,wrap,code,search,replace,wrap,nonbreaking,charmap,tabl
     // Moodle v3.0.0 release upgrade line.
     // Put any upgrade step following this.
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     return true;
 }

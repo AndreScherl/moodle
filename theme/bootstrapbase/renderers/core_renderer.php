@@ -56,10 +56,7 @@ class theme_bootstrapbase_core_renderer extends core_renderer {
         if (empty($items)) {
             return '';
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $breadcrumbs = array();
         foreach ($items as $item) {
             $item->hideicon = true;

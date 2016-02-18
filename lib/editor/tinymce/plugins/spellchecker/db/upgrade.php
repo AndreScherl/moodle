@@ -50,8 +50,6 @@ function xmldb_tinymce_spellchecker_upgrade($oldversion) {
     // Moodle v2.7.0 release upgrade line.
     // Put any upgrade step following this.
 
-<<<<<<< HEAD
-=======
     // Moodle v2.8.0 release upgrade line.
     // Put any upgrade step following this.
 
@@ -61,6 +59,5 @@ function xmldb_tinymce_spellchecker_upgrade($oldversion) {
     // Moodle v3.0.0 release upgrade line.
     // Put any upgrade step following this.
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     return true;
 }

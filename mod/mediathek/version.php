@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2014071000;       // The current module version (Date: YYYYMMDDXX)
-$module->requires  = 2014051200; // Moodle 2.7.
-$module->component = 'mod_mediathek';        // Full name of the plugin (used for diagnostics)
-$module->cron      = 0;
+$plugin->version   = 2014071000;       // The current module version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014051200; // Moodle 2.7.
+$plugin->component = 'mod_mediathek';        // Full name of the plugin (used for diagnostics)
+$plugin->cron      = 0;

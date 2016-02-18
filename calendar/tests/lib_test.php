@@ -78,18 +78,8 @@ class core_calendar_lib_testcase extends advanced_testcase {
         global $CFG;
         require_once($CFG->dirroot . '/lib/cronlib.php');
 
-<<<<<<< HEAD
-        // Moodle ICal URL (moodle.org events).
-        $presetwhat = 'all';
-        $presettime = 'recentupcoming';
-        $userid = 1;
-        $authtoken = 'a8bcfee2fb868a05357f650bd65dc0699b026524';
-        $subscriptionurl = 'https://moodle.org/calendar/export_execute.php'
-                . '?preset_what='.$presetwhat.'&preset_time='.$presettime.'&userid='.$userid.'&authtoken='.$authtoken;
-=======
         // ICal URL from external test repo.
         $subscriptionurl = $this->getExternalTestFileUrl('/ical.ics');
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 
         $subscription = new stdClass();
         $subscription->eventtype = 'site';

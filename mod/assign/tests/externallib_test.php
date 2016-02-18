@@ -77,6 +77,18 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
 
         // Create a student and give them 2 grades (for 2 attempts).
         $student = self::getDataGenerator()->create_user();
+
+        $submission = new stdClass();
+        $submission->assignment = $assign->id;
+        $submission->userid = $student->id;
+        $submission->status = ASSIGN_SUBMISSION_STATUS_NEW;
+        $submission->latest = 0;
+        $submission->attemptnumber = 0;
+        $submission->groupid = 0;
+        $submission->timecreated = time();
+        $submission->timemodified = time();
+        $DB->insert_record('assign_submission', $submission);
+
         $grade = new stdClass();
         $grade->assignment = $assign->id;
         $grade->userid = $student->id;
@@ -86,6 +98,17 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $grade->grade = 50;
         $grade->attemptnumber = 0;
         $DB->insert_record('assign_grades', $grade);
+
+        $submission = new stdClass();
+        $submission->assignment = $assign->id;
+        $submission->userid = $student->id;
+        $submission->status = ASSIGN_SUBMISSION_STATUS_NEW;
+        $submission->latest = 1;
+        $submission->attemptnumber = 1;
+        $submission->groupid = 0;
+        $submission->timecreated = time();
+        $submission->timemodified = time();
+        $DB->insert_record('assign_submission', $submission);
 
         $grade = new stdClass();
         $grade->assignment = $assign->id;
@@ -149,6 +172,7 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $assign1 = self::getDataGenerator()->create_module('assign', array(
             'course' => $course1->id,
             'name' => 'lightwork assignment',
+            'intro' => 'the assignment intro text here',
             'markingworkflow' => 1,
             'markingallocation' => 1
         ));
@@ -173,6 +197,13 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
             'userid' => $USER->id
         ));
 
+        // Add a file as assignment attachment.
+        $filerecord = array('component' => 'mod_assign', 'filearea' => ASSIGN_INTROATTACHMENT_FILEAREA,
+                'contextid' => $context->id, 'itemid' => 0,
+                'filename' => 'introattachment.txt', 'filepath' => '/');
+        $fs = get_file_storage();
+        $fs->create_file_from_string($filerecord, 'Test intro attachment file');
+
         $result = mod_assign_external::get_assignments();
 
         // We need to execute the return values cleaning process to simulate the web service server.
@@ -187,8 +218,16 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $this->assertEquals($assign1->id, $assignment['id']);
         $this->assertEquals($course1->id, $assignment['course']);
         $this->assertEquals('lightwork assignment', $assignment['name']);
+        $this->assertEquals('the assignment intro text here', $assignment['intro']);
         $this->assertEquals(1, $assignment['markingworkflow']);
         $this->assertEquals(1, $assignment['markingallocation']);
+
+        $this->assertCount(1, $assignment['introattachments']);
+        $this->assertEquals('introattachment.txt', $assignment['introattachments'][0]['filename']);
+
+        // Now, hide the descritption until the submission from date.
+        $DB->set_field('assign', 'alwaysshowdescription', 0, array('id' => $assign1->id));
+        $DB->set_field('assign', 'allowsubmissionsfromdate', time() + DAYSECS, array('id' => $assign1->id));
 
         $result = mod_assign_external::get_assignments(array($course1->id));
 
@@ -203,6 +242,8 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $this->assertEquals($assign1->id, $assignment['id']);
         $this->assertEquals($course1->id, $assignment['course']);
         $this->assertEquals('lightwork assignment', $assignment['name']);
+        $this->assertArrayNotHasKey('intro', $assignment);
+        $this->assertArrayNotHasKey('introattachments', $assignment);
         $this->assertEquals(1, $assignment['markingworkflow']);
         $this->assertEquals(1, $assignment['markingallocation']);
 
@@ -244,6 +285,7 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $submission->timemodified = $submission->timecreated;
         $submission->status = 'draft';
         $submission->attemptnumber = 0;
+        $submission->latest = 0;
         $sid = $DB->insert_record('assign_submission', $submission);
 
         // Second attempt.
@@ -254,6 +296,7 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $submission->timemodified = $submission->timecreated;
         $submission->status = 'submitted';
         $submission->attemptnumber = 1;
+        $submission->latest = 1;
         $sid = $DB->insert_record('assign_submission', $submission);
         $submission->id = $sid;
 
@@ -273,7 +316,7 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         // Create a teacher and give them capabilities.
         $context = context_course::instance($course1->id);
         $roleid = $this->assignUserCapability('moodle/course:viewparticipants', $context->id, 3);
-        $context = context_module::instance($assign1->id);
+        $context = context_module::instance($assign1->cmid);
         $this->assignUserCapability('mod/assign:grade', $context->id, $roleid);
 
         // Create the teacher's enrolment record.
@@ -812,7 +855,7 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $this->setUser($teacher);
         $students = array($student1->id, $student2->id);
         $result = mod_assign_external::revert_submissions_to_draft($instance->id, array($student1->id));
-        $result = external_api::clean_returnvalue(mod_assign_external::submit_for_grading_returns(), $result);
+        $result = external_api::clean_returnvalue(mod_assign_external::revert_submissions_to_draft_returns(), $result);
 
         // Check for 0 warnings.
         $this->assertEquals(0, count($result));
@@ -1441,6 +1484,75 @@ class mod_assign_external_testcase extends externallib_advanced_testcase {
         $this->assertEquals(0, $updateduserflag->extensionduedate);
         $this->assertEquals('readyforreview', $updateduserflag->workflowstate);
         $this->assertEquals($USER->id, $updateduserflag->allocatedmarker);
+    }
+
+    /**
+     * Test view_grading_table
+     */
+    public function test_view_grading_table() {
+        global $DB;
+
+        $this->resetAfterTest(true);
+
+        $this->setAdminUser();
+        // Setup test data.
+        $course = $this->getDataGenerator()->create_course();
+        $assign = $this->getDataGenerator()->create_module('assign', array('course' => $course->id));
+        $context = context_module::instance($assign->cmid);
+        $cm = get_coursemodule_from_instance('assign', $assign->id);
+
+        // Test invalid instance id.
+        try {
+            mod_assign_external::view_grading_table(0);
+            $this->fail('Exception expected due to invalid mod_assign instance id.');
+        } catch (moodle_exception $e) {
+            $this->assertEquals('invalidrecord', $e->errorcode);
+        }
+
+        // Test not-enrolled user.
+        $user = self::getDataGenerator()->create_user();
+        $this->setUser($user);
+        try {
+            mod_assign_external::view_grading_table($assign->id);
+            $this->fail('Exception expected due to not enrolled user.');
+        } catch (moodle_exception $e) {
+            $this->assertEquals('requireloginerror', $e->errorcode);
+        }
+
+        // Test user with full capabilities.
+        $teacherrole = $DB->get_record('role', array('shortname' => 'teacher'));
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
+
+        // Trigger and capture the event.
+        $sink = $this->redirectEvents();
+
+        $result = mod_assign_external::view_grading_table($assign->id);
+        $result = external_api::clean_returnvalue(mod_assign_external::view_grading_table_returns(), $result);
+
+        $events = $sink->get_events();
+        $this->assertCount(1, $events);
+        $event = array_shift($events);
+
+        // Checking that the event contains the expected values.
+        $this->assertInstanceOf('\mod_assign\event\grading_table_viewed', $event);
+        $this->assertEquals($context, $event->get_context());
+        $moodleurl = new \moodle_url('/mod/assign/view.php', array('id' => $cm->id));
+        $this->assertEquals($moodleurl, $event->get_url());
+        $this->assertEventContextNotUsed($event);
+        $this->assertNotEmpty($event->get_name());
+
+        // Test user with no capabilities.
+        // We need a explicit prohibit since this capability is only defined in authenticated user and guest roles.
+        assign_capability('mod/assign:view', CAP_PROHIBIT, $teacherrole->id, $context->id);
+        accesslib_clear_all_caches_for_unit_testing();
+
+        try {
+            mod_assign_external::view_grading_table($assign->id);
+            $this->fail('Exception expected due to missing capability.');
+        } catch (moodle_exception $e) {
+            $this->assertEquals('nopermissions', $e->errorcode);
+        }
+
     }
 
 }

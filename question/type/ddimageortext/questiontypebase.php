@@ -37,6 +37,11 @@ require_once($CFG->dirroot . '/question/type/gapselect/questiontypebase.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_ddtoimage_base extends question_type {
+    /**
+     * Returns the choice group key.
+     *
+     * @return string
+     */
     protected function choice_group_key() {
         return 'draggroup';
     }
@@ -63,6 +68,12 @@ class qtype_ddtoimage_base extends question_type {
         $choiceindexmap = array();
 
         // Store the choices in arrays by group.
+        // This code is weird. The first choice in each group gets key 1 in the
+        // $question->choices[$choice->choice_group()] array, and the others get
+        // key $choice->no. Therefore you need to think carefully whether you
+        // are using the key, or $choice->no. This is presumably a mistake, but
+        // one that is now essentially un-fixable, since many questions of this
+        // type have been attempted, and theys keys get stored in the attempt data.
         foreach ($questiondata->options->drags as $dragdata) {
 
             $choice = $this->make_choice($dragdata);
@@ -139,8 +150,8 @@ class qtype_ddtoimage_base extends question_type {
      * Convert files into text output in the given format.
      * This method is copied from qformat_default as a quick fix, as the method there is
      * protected.
-     * @param array
-     * @param string encoding method
+     * @param array $files
+     * @param int $indent Number of spaces to indent
      * @return string $string
      */
     public function write_files($files, $indent) {

@@ -29,28 +29,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**#@+
- * @deprecated since Moodle 2.0. No longer used.
- */
-define('BLOCK_MOVE_LEFT',   0x01);
-define('BLOCK_MOVE_RIGHT',  0x02);
-define('BLOCK_MOVE_UP',     0x04);
-define('BLOCK_MOVE_DOWN',   0x08);
-define('BLOCK_CONFIGURE',   0x10);
-/**#@-*/
-
-/**#@+
  * Default names for the block regions in the standard theme.
  */
 define('BLOCK_POS_LEFT',  'side-pre');
 define('BLOCK_POS_RIGHT', 'side-post');
-/**#@-*/
-
-/**#@+
- * @deprecated since Moodle 2.0. No longer used.
- */
-define('BLOCKS_PINNED_TRUE',0);
-define('BLOCKS_PINNED_FALSE',1);
-define('BLOCKS_PINNED_BOTH',2);
 /**#@-*/
 
 define('BUI_CONTEXTS_FRONTPAGE_ONLY', 0);
@@ -486,19 +468,6 @@ class block_manager {
     }
 
     /**
-     * When the block_manager class was created, the {@link add_fake_block()}
-     * was called add_pretend_block, which is inconsisted with
-     * {@link show_only_fake_blocks()}. To fix this inconsistency, this method
-     * was renamed to add_fake_block. Please update your code.
-     * @param block_contents $bc the content of the block-like thing.
-     * @param string $region a block region that exists on this page.
-     */
-    public function add_pretend_block($bc, $region) {
-        debugging(DEBUG_DEVELOPER, 'add_pretend_block has been renamed to add_fake_block. Please rename the method call in your code.');
-        $this->add_fake_block($bc, $region);
-    }
-
-    /**
      * Checks to see whether all of the blocks within the given region are docked
      *
      * @see region_uses_dock
@@ -609,7 +578,7 @@ class block_manager {
         }
 
         $context = $this->page->context;
-        $contexttest = 'bi.parentcontextid = :contextid2';
+        $contexttest = 'bi.parentcontextid IN (:contextid2, :contextid3)';
         $parentcontextparams = array();
         $parentcontextids = $context->get_parent_context_ids();
         if ($parentcontextids) {
@@ -625,12 +594,14 @@ class block_manager {
         $ccselect = ', ' . context_helper::get_preload_record_columns_sql('ctx');
         $ccjoin = "LEFT JOIN {context} ctx ON (ctx.instanceid = bi.id AND ctx.contextlevel = :contextlevel)";
 
+        $systemcontext = context_system::instance();
         $params = array(
             'contextlevel' => CONTEXT_BLOCK,
             'subpage1' => $this->page->subpage,
             'subpage2' => $this->page->subpage,
             'contextid1' => $context->id,
             'contextid2' => $context->id,
+            'contextid3' => $systemcontext->id,
             'pagetype' => $this->page->pagetype,
         );
         if ($this->page->subpage === '') {
@@ -1121,24 +1092,39 @@ class block_manager {
             $controls[] = new action_menu_link_secondary($url, $icon, $str, $attributes);
         }
 
-        // Assign roles icon.
-        if ($this->page->pagetype != 'my-index' && has_capability('moodle/role:assign', $block->context)) {
-            //TODO: please note it is sloppy to pass urls through page parameters!!
-            //      it is shortened because some web servers (e.g. IIS by default) give
-            //      a 'security' error if you try to pass a full URL as a GET parameter in another URL.
-            $return = $this->page->url->out(false);
-            $return = str_replace($CFG->wwwroot . '/', '', $return);
+        // Display either "Assign roles" or "Permissions" or "Change permissions" icon (whichever first is available).
+        if ($this->page->pagetype != 'my-index') {
+            $rolesurl = null;
 
-            $rolesurl = new moodle_url('/admin/roles/assign.php', array('contextid'=>$block->context->id,
-                                                                         'returnurl'=>$return));
-            // Delete icon.
-            $str = new lang_string('assignrolesinblock', 'block', $blocktitle);
-            $controls[] = new action_menu_link_secondary(
-                $rolesurl,
-                new pix_icon('t/assignroles', $str, 'moodle', array('class' => 'iconsmall', 'title' => '')),
-                $str,
-                array('class' => 'editing_roles')
-            );
+            if (get_assignable_roles($block->context, ROLENAME_SHORT)) {
+                $rolesurl = new moodle_url('/admin/roles/assign.php', array('contextid' => $block->context->id));
+                $str = new lang_string('assignrolesinblock', 'block', $blocktitle);
+                $icon = 'i/assignroles';
+            } else if (has_capability('moodle/role:review', $block->context) or get_overridable_roles($block->context)) {
+                $rolesurl = new moodle_url('/admin/roles/permissions.php', array('contextid' => $block->context->id));
+                $str = get_string('permissions', 'role');
+                $icon = 'i/permissions';
+            } else if (has_any_capability(array('moodle/role:assign', 'moodle/role:safeoverride', 'moodle/role:override', 'moodle/role:assign'), $block->context)) {
+                $rolesurl = new moodle_url('/admin/roles/check.php', array('contextid' => $block->context->id));
+                $str = get_string('checkpermissions', 'role');
+                $icon = 'i/checkpermissions';
+            }
+
+            if ($rolesurl) {
+                //TODO: please note it is sloppy to pass urls through page parameters!!
+                //      it is shortened because some web servers (e.g. IIS by default) give
+                //      a 'security' error if you try to pass a full URL as a GET parameter in another URL.
+                $return = $this->page->url->out(false);
+                $return = str_replace($CFG->wwwroot . '/', '', $return);
+                $rolesurl->param('returnurl', $return);
+
+                $controls[] = new action_menu_link_secondary(
+                    $rolesurl,
+                    new pix_icon($icon, $str, 'moodle', array('class' => 'iconsmall', 'title' => '')),
+                    $str,
+                    array('class' => 'editing_roles')
+                );
+            }
         }
 
         if ($this->user_can_delete_block($block)) {
@@ -1984,28 +1970,6 @@ function block_add_block_ui($page, $output) {
     return $bc;
 }
 
-// Functions that have been deprecated by block_manager =======================
-
-/**
- * @deprecated since Moodle 2.0 - use $page->blocks->get_addable_blocks();
- *
- * This function returns an array with the IDs of any blocks that you can add to your page.
- * Parameters are passed by reference for speed; they are not modified at all.
- *
- * @param $page the page object.
- * @param $blockmanager Not used.
- * @return array of block type ids.
- */
-function blocks_get_missing(&$page, &$blockmanager) {
-    debugging('blocks_get_missing is deprecated. Please use $page->blocks->get_addable_blocks() instead.', DEBUG_DEVELOPER);
-    $blocks = $page->blocks->get_addable_blocks();
-    $ids = array();
-    foreach ($blocks as $block) {
-        $ids[] = $block->id;
-    }
-    return $ids;
-}
-
 /**
  * Actually delete from the database any blocks that are currently on this page,
  * but which should not be there according to blocks_name_allowed_in_format.
@@ -2092,6 +2056,31 @@ function blocks_delete_instance($instance, $nolongerused = false, $skipblockstab
 }
 
 /**
+ * Delete multiple blocks at once.
+ *
+ * @param array $instanceids A list of block instance ID.
+ */
+function blocks_delete_instances($instanceids) {
+    global $DB;
+
+    $instances = $DB->get_recordset_list('block_instances', 'id', $instanceids);
+    foreach ($instances as $instance) {
+        blocks_delete_instance($instance, false, true);
+    }
+    $instances->close();
+
+    $DB->delete_records_list('block_positions', 'blockinstanceid', $instanceids);
+    $DB->delete_records_list('block_instances', 'id', $instanceids);
+
+    $preferences = array();
+    foreach ($instanceids as $instanceid) {
+        $preferences[] = 'block' . $instanceid . 'hidden';
+        $preferences[] = 'docked_block_instance_' . $instanceid;
+    }
+    $DB->delete_records_list('user_preferences', 'name', $preferences);
+}
+
+/**
  * Delete all the blocks that belong to a particular context.
  *
  * @param int $contextid the context id.
@@ -2135,23 +2124,6 @@ function blocks_set_visibility($instance, $page, $newvisibility) {
     $bp->region = $instance->defaultregion;
     $bp->weight = $instance->defaultweight;
     $DB->insert_record('block_positions', $bp);
-}
-
-/**
- * @deprecated since 2.0
- * Delete all the blocks from a particular page.
- *
- * @param string $pagetype the page type.
- * @param integer $pageid the page id.
- * @return bool success or failure.
- */
-function blocks_delete_all_on_page($pagetype, $pageid) {
-    global $DB;
-
-    debugging('Call to deprecated function blocks_delete_all_on_page. ' .
-            'This function cannot work any more. Doing nothing. ' .
-            'Please update your code to use a block_manager method $PAGE->blocks->....', DEBUG_DEVELOPER);
-    return false;
 }
 
 /**
@@ -2283,11 +2255,13 @@ function blocks_add_default_system_blocks() {
     $page->blocks->add_blocks(array(BLOCK_POS_LEFT => array('navigation', 'settings')), '*', null, true);
     $page->blocks->add_blocks(array(BLOCK_POS_LEFT => array('admin_bookmarks')), 'admin-*', null, null, 2);
 
-    if ($defaultmypage = $DB->get_record('my_pages', array('userid'=>null, 'name'=>'__default', 'private'=>1))) {
+    if ($defaultmypage = $DB->get_record('my_pages', array('userid' => null, 'name' => '__default', 'private' => 1))) {
         $subpagepattern = $defaultmypage->id;
     } else {
         $subpagepattern = null;
     }
 
-    $page->blocks->add_blocks(array(BLOCK_POS_RIGHT => array('private_files', 'online_users'), 'content' => array('course_overview')), 'my-index', $subpagepattern, false);
+    $newblocks = array('private_files', 'online_users', 'badges', 'calendar_month', 'calendar_upcoming');
+    $newcontent = array('course_overview');
+    $page->blocks->add_blocks(array(BLOCK_POS_RIGHT => $newblocks, 'content' => $newcontent), 'my-index', $subpagepattern);
 }

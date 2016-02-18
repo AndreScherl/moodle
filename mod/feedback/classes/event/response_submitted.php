@@ -73,7 +73,7 @@ class response_submitted extends \core\event\base {
      */
     public function get_description() {
         return "The user with id '$this->userid' created feedback for the user with id '$this->relateduserid' " .
-            "for the feedback activity with the course module id '$this->contextinstanceid'.";
+            "for the feedback activity with course module id '$this->contextinstanceid'.";
     }
 
     /**
@@ -147,6 +147,18 @@ class response_submitted extends \core\event\base {
         if (!isset($this->other['instanceid'])) {
             throw new \coding_exception('The \'instanceid\' value must be set in other.');
         }
+    }
+
+    public static function get_objectid_mapping() {
+        return array('db' => 'feedback_completed', 'restore' => 'feedback_completed');
+    }
+
+    public static function get_other_mapping() {
+        $othermapped = array();
+        $othermapped['cmid'] = array('db' => 'course_modules', 'restore' => 'course_module');
+        $othermapped['instanceid'] = array('db' => 'feedback', 'restore' => 'feedback');
+
+        return $othermapped;
     }
 }
 

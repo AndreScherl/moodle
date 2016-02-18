@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/question/type/questionbase.php');
 require_once($CFG->dirroot . '/question/type/gapselect/questionbase.php');
 
 
@@ -118,8 +119,8 @@ class qtype_ddtoimage_question_base extends qtype_gapselect_question_base {
             }
 
             $fieldname = $this->field($placeno);
-            $choiceno = $this->choiceorder[$group][$response[$fieldname]];
-            $choice = $this->choices[$group][$choiceno];
+            $choicekey = $this->choiceorder[$group][$response[$fieldname]];
+            $choice = $this->choices[$group][$choicekey];
 
             $correct = $this->get_right_choice_for($placeno) == $response[$fieldname];
             if ($correct) {
@@ -127,7 +128,7 @@ class qtype_ddtoimage_question_base extends qtype_gapselect_question_base {
             } else {
                 $grade = 0;
             }
-            $parts[$placeno] = new question_classified_response($choiceno, $choice->summarise(), $grade);
+            $parts[$placeno] = new question_classified_response($choice->no, $choice->summarise(), $grade);
         }
         return $parts;
     }
@@ -166,4 +167,3 @@ class qtype_ddtoimage_question_base extends qtype_gapselect_question_base {
         return $summary;
     }
 }
-

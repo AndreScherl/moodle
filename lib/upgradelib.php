@@ -371,6 +371,13 @@ function upgrade_stale_php_files_present() {
     global $CFG;
 
     $someexamplesofremovedfiles = array(
+        // Removed in 3.0.
+        '/mod/lti/grade.php',
+        '/tag/coursetagslib.php',
+        // Removed in 2.9.
+        '/lib/timezone.txt',
+        // Removed in 2.8.
+        '/course/delete_category_form.php',
         // Removed in 2.7.
         '/admin/tool/qeupgradehelper/version.php',
         // Removed in 2.6.
@@ -444,15 +451,16 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
         require($fullplug.'/version.php');  // defines $plugin with version etc
         unset($module);
 
-        // if plugin tells us it's full name we may check the location
-        if (isset($plugin->component)) {
-            if ($plugin->component !== $component) {
-                throw new plugin_misplaced_exception($plugin->component, null, $fullplug);
-            }
+        if (empty($plugin->version)) {
+            throw new plugin_defective_exception($component, 'Missing $plugin->version number in version.php.');
         }
 
-        if (empty($plugin->version)) {
-            throw new plugin_defective_exception($component, 'Missing version value in version.php');
+        if (empty($plugin->component)) {
+            throw new plugin_defective_exception($component, 'Missing $plugin->component declaration in version.php.');
+        }
+
+        if ($plugin->component !== $component) {
+            throw new plugin_misplaced_exception($plugin->component, null, $fullplug);
         }
 
         $plugin->name     = $plug;
@@ -481,6 +489,7 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
                     events_update_definition($component);
                     \core\task\manager::reset_scheduled_tasks_for_component($component);
                     message_update_providers($component);
+                    \core\message\inbound\manager::update_handlers_for_component($component);
                     if ($type === 'message') {
                         message_update_processors($plug);
                     }
@@ -518,6 +527,7 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             if ($type === 'message') {
                 message_update_processors($plug);
             }
@@ -550,6 +560,7 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             if ($type === 'message') {
                 // Ugly hack!
                 message_update_processors($plug);
@@ -591,27 +602,33 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
             throw new plugin_defective_exception($component, 'Missing version.php');
         }
 
-        // TODO: Support for $module will end with Moodle 2.10 by MDL-43896. Was deprecated for Moodle 2.7 by MDL-43040.
+        $module = new stdClass();
         $plugin = new stdClass();
         $plugin->version = null;
-        $module = $plugin;
         require($fullmod .'/version.php');  // Defines $plugin with version etc.
-        $plugin = clone($module);
+
+        // Check if the legacy $module syntax is still used.
+        if (!is_object($module) or (count((array)$module) > 0)) {
+            throw new plugin_defective_exception($component, 'Unsupported $module syntax detected in version.php');
+        }
+
+        // Prepare the record for the {modules} table.
+        $module = clone($plugin);
         unset($module->version);
         unset($module->component);
         unset($module->dependencies);
         unset($module->release);
 
-        // if plugin tells us it's full name we may check the location
-        if (isset($plugin->component)) {
-            if ($plugin->component !== $component) {
-                throw new plugin_misplaced_exception($plugin->component, null, $fullmod);
-            }
+        if (empty($plugin->version)) {
+            throw new plugin_defective_exception($component, 'Missing $plugin->version number in version.php.');
         }
 
-        if (empty($plugin->version)) {
-            // Version must be always set now!
-            throw new plugin_defective_exception($component, 'Missing version value in version.php');
+        if (empty($plugin->component)) {
+            throw new plugin_defective_exception($component, 'Missing $plugin->component declaration in version.php.');
+        }
+
+        if ($plugin->component !== $component) {
+            throw new plugin_misplaced_exception($plugin->component, null, $fullmod);
         }
 
         if (!empty($plugin->requires)) {
@@ -650,6 +667,7 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
                     events_update_definition($component);
                     \core\task\manager::reset_scheduled_tasks_for_component($component);
                     message_update_providers($component);
+                    \core\message\inbound\manager::update_handlers_for_component($component);
                     upgrade_plugin_mnet_functions($component);
                     $endcallback($component, true, $verbose);
                 }
@@ -683,6 +701,7 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             upgrade_plugin_mnet_functions($component);
 
             $endcallback($component, true, $verbose);
@@ -718,6 +737,7 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             upgrade_plugin_mnet_functions($component);
 
             $endcallback($component, false, $verbose);
@@ -780,15 +800,16 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
         unset($block->dependencies);
         unset($block->release);
 
-        // if plugin tells us it's full name we may check the location
-        if (isset($plugin->component)) {
-            if ($plugin->component !== $component) {
-                throw new plugin_misplaced_exception($plugin->component, null, $fullblock);
-            }
+        if (empty($plugin->version)) {
+            throw new plugin_defective_exception($component, 'Missing block version number in version.php.');
         }
 
-        if (empty($plugin->version)) {
-            throw new plugin_defective_exception($component, 'Missing block version.');
+        if (empty($plugin->component)) {
+            throw new plugin_defective_exception($component, 'Missing $plugin->component declaration in version.php.');
+        }
+
+        if ($plugin->component !== $component) {
+            throw new plugin_misplaced_exception($plugin->component, null, $fullblock);
         }
 
         if (!empty($plugin->requires)) {
@@ -837,6 +858,7 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
                     events_update_definition($component);
                     \core\task\manager::reset_scheduled_tasks_for_component($component);
                     message_update_providers($component);
+                    \core\message\inbound\manager::update_handlers_for_component($component);
                     upgrade_plugin_mnet_functions($component);
                     $endcallback($component, true, $verbose);
                 }
@@ -876,6 +898,7 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             upgrade_plugin_mnet_functions($component);
 
             $endcallback($component, true, $verbose);
@@ -910,6 +933,7 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
             events_update_definition($component);
             \core\task\manager::reset_scheduled_tasks_for_component($component);
             message_update_providers($component);
+            \core\message\inbound\manager::update_handlers_for_component($component);
             upgrade_plugin_mnet_functions($component);
 
             $endcallback($component, false, $verbose);
@@ -1511,6 +1535,7 @@ function install_core($version, $verbose) {
         events_update_definition('moodle');
         \core\task\manager::reset_scheduled_tasks_for_component('moodle');
         message_update_providers('moodle');
+        \core\message\inbound\manager::update_handlers_for_component('moodle');
 
         // Write default settings unconditionally
         admin_apply_default_settings(NULL, true);
@@ -1521,6 +1546,9 @@ function install_core($version, $verbose) {
         // during installation didn't use APIs.
         cache_helper::purge_all();
     } catch (exception $ex) {
+        upgrade_handle_exception($ex);
+    } catch (Throwable $ex) {
+        // Engine errors in PHP7 throw exceptions of type Throwable (this "catch" will be ignored in PHP5).
         upgrade_handle_exception($ex);
     }
 }
@@ -1574,6 +1602,7 @@ function upgrade_core($version, $verbose) {
         events_update_definition('moodle');
         \core\task\manager::reset_scheduled_tasks_for_component('moodle');
         message_update_providers('moodle');
+        \core\message\inbound\manager::update_handlers_for_component('moodle');
         // Update core definitions.
         cache_helper::update_definitions(true);
 
@@ -1590,6 +1619,9 @@ function upgrade_core($version, $verbose) {
 
         print_upgrade_part_end('moodle', false, $verbose);
     } catch (Exception $ex) {
+        upgrade_handle_exception($ex);
+    } catch (Throwable $ex) {
+        // Engine errors in PHP7 throw exceptions of type Throwable (this "catch" will be ignored in PHP5).
         upgrade_handle_exception($ex);
     }
 }
@@ -1624,6 +1656,9 @@ function upgrade_noncore($verbose) {
         purge_all_caches();
 
     } catch (Exception $ex) {
+        upgrade_handle_exception($ex);
+    } catch (Throwable $ex) {
+        // Engine errors in PHP7 throw exceptions of type Throwable (this "catch" will be ignored in PHP5).
         upgrade_handle_exception($ex);
     }
 }
@@ -2226,7 +2261,7 @@ function check_database_storage_engine(environment_results $result) {
 function check_slasharguments(environment_results $result){
     global $CFG;
 
-    if (empty($CFG->slasharguments)) {
+    if (!during_initial_install() && empty($CFG->slasharguments)) {
         $result->setInfo('slasharguments');
         $result->setStatus(false);
         return $result;
@@ -2249,7 +2284,7 @@ function check_database_tables_row_format(environment_results $result) {
 
         foreach ($DB->get_tables(false) as $table) {
             $columns = $DB->get_columns($table, false);
-            $size = $generator->guess_antolope_row_size($columns);
+            $size = $generator->guess_antelope_row_size($columns);
             $format = $DB->get_row_format($table);
 
             if ($size <= $generator::ANTELOPE_MAX_ROW_SIZE) {
@@ -2265,4 +2300,147 @@ function check_database_tables_row_format(environment_results $result) {
     }
 
     return null;
+}
+
+/**
+ * Upgrade the minmaxgrade setting.
+ *
+ * This step should only be run for sites running 2.8 or later. Sites using 2.7 will be fine
+ * using the new default system setting $CFG->grade_minmaxtouse.
+ *
+ * @return void
+ */
+function upgrade_minmaxgrade() {
+    global $CFG, $DB;
+
+    // 2 is a copy of GRADE_MIN_MAX_FROM_GRADE_GRADE.
+    $settingvalue = 2;
+
+    // Set the course setting when:
+    // - The system setting does not exist yet.
+    // - The system seeting is not set to what we'd set the course setting.
+    $setcoursesetting = !isset($CFG->grade_minmaxtouse) || $CFG->grade_minmaxtouse != $settingvalue;
+
+    // Identify the courses that have inconsistencies grade_item vs grade_grade.
+    $sql = "SELECT DISTINCT(gi.courseid)
+              FROM {grade_grades} gg
+              JOIN {grade_items} gi
+                ON gg.itemid = gi.id
+             WHERE gi.itemtype NOT IN (?, ?)
+               AND (gg.rawgrademax != gi.grademax OR gg.rawgrademin != gi.grademin)";
+
+    $rs = $DB->get_recordset_sql($sql, array('course', 'category'));
+    foreach ($rs as $record) {
+        // Flag the course to show a notice in the gradebook.
+        set_config('show_min_max_grades_changed_' . $record->courseid, 1);
+
+        // Set the appropriate course setting so that grades displayed are not changed.
+        $configname = 'minmaxtouse';
+        if ($setcoursesetting &&
+                !$DB->record_exists('grade_settings', array('courseid' => $record->courseid, 'name' => $configname))) {
+            // Do not set the setting when the course already defines it.
+            $data = new stdClass();
+            $data->courseid = $record->courseid;
+            $data->name     = $configname;
+            $data->value    = $settingvalue;
+            $DB->insert_record('grade_settings', $data);
+        }
+
+        // Mark the grades to be regraded.
+        $DB->set_field('grade_items', 'needsupdate', 1, array('courseid' => $record->courseid));
+    }
+    $rs->close();
+}
+
+
+/**
+ * Assert the upgrade key is provided, if it is defined.
+ *
+ * The upgrade key can be defined in the main config.php as $CFG->upgradekey. If
+ * it is defined there, then its value must be provided every time the site is
+ * being upgraded, regardless the administrator is logged in or not.
+ *
+ * This is supposed to be used at certain places in /admin/index.php only.
+ *
+ * @param string|null $upgradekeyhash the SHA-1 of the value provided by the user
+ */
+function check_upgrade_key($upgradekeyhash) {
+    global $CFG, $PAGE;
+
+    if (isset($CFG->config_php_settings['upgradekey'])) {
+        if ($upgradekeyhash === null or $upgradekeyhash !== sha1($CFG->config_php_settings['upgradekey'])) {
+            if (!$PAGE->headerprinted) {
+                $output = $PAGE->get_renderer('core', 'admin');
+                echo $output->upgradekey_form_page(new moodle_url('/admin/index.php', array('cache' => 0)));
+                die();
+            } else {
+                // This should not happen.
+                die('Upgrade locked');
+            }
+        }
+    }
+}
+
+/**
+ * Helper procedure/macro for installing remote plugins at admin/index.php
+ *
+ * Does not return, always redirects or exits.
+ *
+ * @param array $installable list of \core\update\remote_info
+ * @param bool $confirmed false: display the validation screen, true: proceed installation
+ * @param string $heading validation screen heading
+ * @param moodle_url|string|null $continue URL to proceed with installation at the validation screen
+ * @param moodle_url|string|null $return URL to go back on cancelling at the validation screen
+ */
+function upgrade_install_plugins(array $installable, $confirmed, $heading='', $continue=null, $return=null) {
+    global $CFG, $PAGE;
+
+    if (empty($return)) {
+        $return = $PAGE->url;
+    }
+
+    if (!empty($CFG->disableupdateautodeploy)) {
+        redirect($return);
+    }
+
+    if (empty($installable)) {
+        redirect($return);
+    }
+
+    $pluginman = core_plugin_manager::instance();
+
+    if ($confirmed) {
+        // Installation confirmed at the validation results page.
+        if (!$pluginman->install_plugins($installable, true, true)) {
+            throw new moodle_exception('install_plugins_failed', 'core_plugin', $return);
+        }
+
+        // Always redirect to admin/index.php to perform the database upgrade.
+        // Do not throw away the existing $PAGE->url parameters such as
+        // confirmupgrade or confirmrelease if $PAGE->url is a superset of the
+        // URL we must go to.
+        $mustgoto = new moodle_url('/admin/index.php', array('cache' => 0, 'confirmplugincheck' => 0));
+        if ($mustgoto->compare($PAGE->url, URL_MATCH_PARAMS)) {
+            redirect($PAGE->url);
+        } else {
+            redirect($mustgoto);
+        }
+
+    } else {
+        $output = $PAGE->get_renderer('core', 'admin');
+        echo $output->header();
+        if ($heading) {
+            echo $output->heading($heading, 3);
+        }
+        echo html_writer::start_tag('pre', array('class' => 'plugin-install-console'));
+        $validated = $pluginman->install_plugins($installable, false, false);
+        echo html_writer::end_tag('pre');
+        if ($validated) {
+            echo $output->plugins_management_confirm_buttons($continue, $return);
+        } else {
+            echo $output->plugins_management_confirm_buttons(null, $return);
+        }
+        echo $output->footer();
+        die();
+    }
 }

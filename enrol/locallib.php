@@ -172,7 +172,11 @@ class course_enrolment_manager {
                            FROM {user} u
                            JOIN {user_enrolments} ue ON (ue.userid = u.id  AND ue.enrolid $instancessql)
                            JOIN {enrol} e ON (e.id = ue.enrolid)
-                      LEFT JOIN {groups_members} gm ON u.id = gm.userid
+                      LEFT JOIN {groups_members} gm ON u.id = gm.userid AND gm.groupid IN (
+                               SELECT g.id
+                                 FROM {groups} g
+                                WHERE g.courseid = e.courseid
+                              )
                           WHERE $filtersql";
             $this->totalusers = (int)$DB->count_records_sql($sqltotal, $params);
         }
@@ -193,11 +197,6 @@ class course_enrolment_manager {
         if ($this->totalotherusers === null) {
             list($ctxcondition, $params) = $DB->get_in_or_equal($this->context->get_parent_context_ids(true), SQL_PARAMS_NAMED, 'ctx');
             $params['courseid'] = $this->course->id;
-            
-             //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
-            //--- awag      
-            
             $sql = "SELECT COUNT(DISTINCT u.id)
                       FROM {role_assignments} ra
                       JOIN {user} u ON u.id = ra.userid
@@ -209,7 +208,7 @@ class course_enrolment_manager {
                             WHERE e.courseid = :courseid
                          ) ue ON ue.userid=u.id
                      WHERE ctx.id $ctxcondition AND
-                           ue.id IS NULL {$wherecondition}";
+                           ue.id IS NULL";
             $this->totalotherusers = (int)$DB->count_records_sql($sql, $params);
         }
         return $this->totalotherusers;
@@ -242,22 +241,18 @@ class course_enrolment_manager {
             $extrafields = get_extra_user_fields($this->get_context());
             $extrafields[] = 'lastaccess';
             $ufields = user_picture::fields('u', $extrafields);
-            $sql = "SELECT DISTINCT $ufields, ul.timeaccess AS lastseen
+            $sql = "SELECT DISTINCT $ufields, COALESCE(ul.timeaccess, 0) AS lastcourseaccess
                       FROM {user} u
                       JOIN {user_enrolments} ue ON (ue.userid = u.id  AND ue.enrolid $instancessql)
                       JOIN {enrol} e ON (e.id = ue.enrolid)
                  LEFT JOIN {user_lastaccess} ul ON (ul.courseid = e.courseid AND ul.userid = u.id)
-                 LEFT JOIN {groups_members} gm ON u.id = gm.userid
-                     WHERE $filtersql";
-            if ($sort === 'firstname') {
-                $sql .= " ORDER BY u.firstname $direction, u.lastname $direction";
-            } else if ($sort === 'lastname') {
-                $sql .= " ORDER BY u.lastname $direction, u.firstname $direction";
-            } else if ($sort === 'email') {
-                $sql .= " ORDER BY u.email $direction, u.lastname $direction, u.firstname $direction";
-            } else if ($sort === 'lastseen') {
-                $sql .= " ORDER BY ul.timeaccess $direction, u.lastname $direction, u.firstname $direction";
-            }
+                 LEFT JOIN {groups_members} gm ON u.id = gm.userid AND gm.groupid IN (
+                               SELECT g.id
+                                 FROM {groups} g
+                                WHERE g.courseid = e.courseid
+                           )
+                     WHERE $filtersql
+                  ORDER BY $sort $direction";
             $this->users[$key] = $DB->get_records_sql($sql, $params, $page*$perpage, $perpage);
         }
         return $this->users[$key];
@@ -293,8 +288,13 @@ class course_enrolment_manager {
 
         // Group condition.
         if ($this->groupfilter) {
-            $sql .= " AND gm.groupid = :groupid";
-            $params['groupid'] = $this->groupfilter;
+            if ($this->groupfilter < 0) {
+                // Show users who are not in any group.
+                $sql .= " AND gm.groupid IS NULL";
+            } else {
+                $sql .= " AND gm.groupid = :groupid";
+                $params['groupid'] = $this->groupfilter;
+            }
         }
 
         // Status condition.
@@ -342,25 +342,22 @@ class course_enrolment_manager {
             list($ctxcondition, $params) = $DB->get_in_or_equal($this->context->get_parent_context_ids(true), SQL_PARAMS_NAMED, 'ctx');
             $params['courseid'] = $this->course->id;
             $params['cid'] = $this->course->id;
-            
-             //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
-            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
-            //--- awag      
-            
-            $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, u.*, ue.lastseen
+            $extrafields = get_extra_user_fields($this->get_context());
+            $ufields = user_picture::fields('u', $extrafields);
+            $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, $ufields,
+                        coalesce(u.lastaccess,0) AS lastaccess
                     FROM {role_assignments} ra
                     JOIN {user} u ON u.id = ra.userid
                     JOIN {context} ctx ON ra.contextid = ctx.id
                LEFT JOIN (
-                       SELECT ue.id, ue.userid, ul.timeaccess AS lastseen
+                       SELECT ue.id, ue.userid
                          FROM {user_enrolments} ue
-                    LEFT JOIN {enrol} e ON e.id=ue.enrolid
-                    LEFT JOIN {user_lastaccess} ul ON (ul.courseid = e.courseid AND ul.userid = ue.userid)
+                         JOIN {enrol} e ON e.id = ue.enrolid
                         WHERE e.courseid = :courseid
                        ) ue ON ue.userid=u.id
                    WHERE ctx.id $ctxcondition AND
-                         ue.id IS NULL {$wherecondition}
-                ORDER BY u.$sort $direction, ctx.depth DESC";
+                         ue.id IS NULL
+                ORDER BY $sort $direction, ctx.depth DESC";
             $this->otherusers[$key] = $DB->get_records_sql($sql, $params, $page*$perpage, $perpage);
         }
         return $this->otherusers[$key];
@@ -457,11 +454,6 @@ class course_enrolment_manager {
 
         $fields      = 'SELECT '.$ufields;
         $countfields = 'SELECT COUNT(1)';
-
-        //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
-        //--- awag            
-
         $sql = " FROM {user} u
             LEFT JOIN {user_enrolments} ue ON (ue.userid = u.id AND ue.enrolid = :enrolid)
                 WHERE $wherecondition
@@ -486,10 +478,6 @@ class course_enrolment_manager {
 
         list($ufields, $params, $wherecondition) = $this->get_basic_search_conditions($search, $searchanywhere);
 
-        //+++ awag DS24:Sichtbarkeitstrennung-Einschreibung
-        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
-        //--- awag     
-        
         $fields      = 'SELECT ' . $ufields;
         $countfields = 'SELECT COUNT(u.id)';
         $sql   = " FROM {user} u
@@ -699,11 +687,8 @@ class course_enrolment_manager {
      */
     public function unassign_role_from_user($userid, $roleid) {
         global $DB;
-        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
-        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
-        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
         // Admins may unassign any role, others only those they could assign.
-        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
+        if (!is_siteadmin() and !array_key_exists($roleid, $this->get_assignable_roles())) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }
@@ -737,10 +722,7 @@ class course_enrolment_manager {
      */
     public function assign_role_to_user($roleid, $userid) {
         require_capability('moodle/role:assign', $this->context);
-        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
-        $allowroleassign = \local_mbs\local\core_changes::role_assign_allowed($roleid, $userid);
-        // awag: Assign-Teacher-Hack: check whether given user may have the role assigned.
-        if (!array_key_exists($roleid, $this->get_assignable_roles()) and !$allowroleassign) {
+        if (!array_key_exists($roleid, $this->get_assignable_roles())) {
             if (defined('AJAX_SCRIPT')) {
                 throw new moodle_exception('invalidrole');
             }
@@ -1119,30 +1101,31 @@ class course_enrolment_manager {
      * @param array $extrafields The list of fields as returned from get_extra_user_fields used to determine which
      * additional fields may be displayed
      * @param int $now The time used for lastaccess calculation
-     * @return array The fields to be displayed including userid, courseid, picture, firstname, lastseen and any
+     * @return array The fields to be displayed including userid, courseid, picture, firstname, lastcourseaccess, lastaccess and any
      * additional fields from $extrafields
      */
     private function prepare_user_for_display($user, $extrafields, $now) {
         $details = array(
-            'userid'           => $user->id,
-            'courseid'         => $this->get_course()->id,
-            'picture'          => new user_picture($user),
-            'firstname'        => fullname($user, has_capability('moodle/site:viewfullnames', $this->get_context())),
-            'lastseen'         => get_string('never'),
-            'lastcourseaccess' => get_string('never'),
+            'userid'              => $user->id,
+            'courseid'            => $this->get_course()->id,
+            'picture'             => new user_picture($user),
+            'userfullnamedisplay' => fullname($user, has_capability('moodle/site:viewfullnames', $this->get_context())),
+            'lastaccess'          => get_string('never'),
+            'lastcourseaccess'    => get_string('never'),
         );
+
         foreach ($extrafields as $field) {
             $details[$field] = $user->{$field};
         }
 
         // Last time user has accessed the site.
-        if ($user->lastaccess) {
-            $details['lastseen'] = format_time($now - $user->lastaccess);
+        if (!empty($user->lastaccess)) {
+            $details['lastaccess'] = format_time($now - $user->lastaccess);
         }
 
         // Last time user has accessed the course.
-        if ($user->lastseen) {
-            $details['lastcourseaccess'] = format_time($now - $user->lastseen);
+        if (!empty($user->lastcourseaccess)) {
+            $details['lastcourseaccess'] = format_time($now - $user->lastcourseaccess);
         }
         return $details;
     }
@@ -1151,9 +1134,6 @@ class course_enrolment_manager {
         $plugins = $this->get_enrolment_plugins(true); // Skip disabled plugins.
         $buttons = array();
         foreach ($plugins as $plugin) {
-            if (get_class($plugin) === 'enrol_class_plugin') {
-                continue;
-            }
             $newbutton = $plugin->get_manual_enrol_button($this);
             if (is_array($newbutton)) {
                 $buttons += $newbutton;

@@ -452,7 +452,7 @@ function enrol_add_course_navigation(navigation_node $coursenode, $course) {
             }
         }
         // Check role permissions
-        if (has_any_capability(array('moodle/role:assign', 'moodle/role:safeoverride','moodle/role:override', 'moodle/role:assign'), $coursecontext)) {
+        if (has_any_capability(array('moodle/role:assign', 'moodle/role:safeoverride', 'moodle/role:override'), $coursecontext)) {
             $url = new moodle_url('/admin/roles/check.php', array('contextid'=>$coursecontext->id));
             $permissionsnode->add(get_string('checkpermissions', 'role'), $url, navigation_node::TYPE_SETTING, null, 'permissions', new pix_icon('i/checkpermissions', ''));
         }
@@ -1330,6 +1330,10 @@ abstract class enrol_plugin {
                         )
                     );
             $event->trigger();
+            // Check if course contacts cache needs to be cleared.
+            require_once($CFG->libdir . '/coursecatlib.php');
+            coursecat::user_enrolment_changed($courseid, $ue->userid,
+                    $ue->status, $ue->timestart, $ue->timeend);
         }
 
         if ($roleid) {
@@ -1370,7 +1374,7 @@ abstract class enrol_plugin {
      * @return void
      */
     public function update_user_enrol(stdClass $instance, $userid, $status = NULL, $timestart = NULL, $timeend = NULL) {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
 
         $name = $this->get_name();
 
@@ -1420,6 +1424,10 @@ abstract class enrol_plugin {
                     )
                 );
         $event->trigger();
+
+        require_once($CFG->libdir . '/coursecatlib.php');
+        coursecat::user_enrolment_changed($instance->courseid, $ue->userid,
+                $ue->status, $ue->timestart, $ue->timeend);
     }
 
     /**
@@ -1501,6 +1509,10 @@ abstract class enrol_plugin {
         // reset all enrol caches
         $context->mark_dirty();
 
+        // Check if courrse contacts cache needs to be cleared.
+        require_once($CFG->libdir . '/coursecatlib.php');
+        coursecat::user_enrolment_changed($courseid, $ue->userid, ENROL_USER_SUSPENDED);
+
         // reset current user enrolment caching
         if ($userid == $USER->id) {
             if (isset($USER->enrol['enrolled'][$courseid])) {
@@ -1538,12 +1550,31 @@ abstract class enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
-     *
-     * @param object $instance
-     * @return bool
+     * @deprecated since Moodle 2.8 MDL-35864 - please use can_delete_instance() instead.
      */
     public function instance_deleteable($instance) {
+        throw new coding_exception('Function enrol_plugin::instance_deleteable() is deprecated, use
+                enrol_plugin::can_delete_instance() instead');
+    }
+
+    /**
+     * Is it possible to delete enrol instance via standard UI?
+     *
+     * @param stdClass  $instance
+     * @return bool
+     */
+    public function can_delete_instance($instance) {
+        return false;
+    }
+
+    /**
+     * Is it possible to hide/show enrol instance via standard UI?
+     *
+     * @param stdClass $instance
+     * @return bool
+     */
+    public function can_hide_show_instance($instance) {
+        debugging("The enrolment plugin '".$this->get_name()."' should override the function can_hide_show_instance().", DEBUG_DEVELOPER);
         return true;
     }
 
@@ -1673,7 +1704,11 @@ abstract class enrol_plugin {
             $instance->$field = $value;
         }
 
-        return $DB->insert_record('enrol', $instance);
+        $instance->id = $DB->insert_record('enrol', $instance);
+
+        \core\event\enrol_instance_created::create_from_record($instance)->trigger();
+
+        return $instance->id;
     }
 
     /**
@@ -1704,8 +1739,10 @@ abstract class enrol_plugin {
         $instance->status = $newstatus;
         $DB->update_record('enrol', $instance);
 
-        // invalidate all enrol caches
         $context = context_course::instance($instance->courseid);
+        \core\event\enrol_instance_updated::create_from_record($instance)->trigger();
+
+        // Invalidate all enrol caches.
         $context->mark_dirty();
     }
 
@@ -1737,8 +1774,10 @@ abstract class enrol_plugin {
         // finally drop the enrol row
         $DB->delete_records('enrol', array('id'=>$instance->id));
 
-        // invalidate all enrol caches
         $context = context_course::instance($instance->courseid);
+        \core\event\enrol_instance_deleted::create_from_record($instance)->trigger();
+
+        // Invalidate all enrol caches.
         $context->mark_dirty();
     }
 

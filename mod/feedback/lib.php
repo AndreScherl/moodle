@@ -52,7 +52,6 @@ function feedback_get_extra_capabilities() {
 /**
  * @uses FEATURE_GROUPS
  * @uses FEATURE_GROUPINGS
- * @uses FEATURE_GROUPMEMBERSONLY
  * @uses FEATURE_MOD_INTRO
  * @uses FEATURE_COMPLETION_TRACKS_VIEWS
  * @uses FEATURE_GRADE_HAS_GRADE
@@ -64,7 +63,6 @@ function feedback_supports($feature) {
     switch($feature) {
         case FEATURE_GROUPS:                  return true;
         case FEATURE_GROUPINGS:               return true;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
         case FEATURE_MOD_INTRO:               return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
         case FEATURE_COMPLETION_HAS_RULES:    return true;
@@ -865,14 +863,14 @@ function feedback_check_is_switchrole() {
  *
  * @global object
  * @uses CONTEXT_MODULE
- * @param object $cm
+ * @param cm_info $cm Course-module object
  * @param int $group single groupid
  * @param string $sort
  * @param int $startpage
  * @param int $pagecount
  * @return object the userrecords
  */
-function feedback_get_incomplete_users($cm,
+function feedback_get_incomplete_users(cm_info $cm,
                                        $group = false,
                                        $sort = '',
                                        $startpage = false,
@@ -897,7 +895,8 @@ function feedback_get_incomplete_users($cm,
         return false;
     }
     // Filter users that are not in the correct group/grouping.
-    $allusers = groups_filter_users_by_course_module_visible($cm, $allusers);
+    $info = new \core_availability\info_module($cm);
+    $allusers = $info->filter_user_list($allusers);
 
     $allusers = array_keys($allusers);
 
@@ -2939,7 +2938,6 @@ function feedback_send_email($cm, $feedback, $course, $userid) {
 
         $strfeedbacks = get_string('modulenameplural', 'feedback');
         $strfeedback  = get_string('modulename', 'feedback');
-        $strcompleted  = get_string('completed', 'feedback');
 
         if ($feedback->anonymous == FEEDBACK_ANONYMOUS_NO) {
             $printusername = fullname($user);
@@ -2956,7 +2954,9 @@ function feedback_send_email($cm, $feedback, $course, $userid) {
                             'userid='.$userid.'&'.
                             'do_show=showentries';
 
-            $postsubject = $strcompleted.': '.$info->username.' -> '.$feedback->name;
+            $a = array('username' => $info->username, 'feedbackname' => $feedback->name);
+
+            $postsubject = get_string('feedbackcompleted', 'feedback', $a);
             $posttext = feedback_send_email_text($info, $course);
 
             if ($teacher->mailformat == 1) {
@@ -3017,7 +3017,6 @@ function feedback_send_email_anonym($cm, $feedback, $course) {
 
         $strfeedbacks = get_string('modulenameplural', 'feedback');
         $strfeedback  = get_string('modulename', 'feedback');
-        $strcompleted  = get_string('completed', 'feedback');
         $printusername = get_string('anonymous_user', 'feedback');
 
         foreach ($teachers as $teacher) {
@@ -3026,7 +3025,9 @@ function feedback_send_email_anonym($cm, $feedback, $course) {
             $info->feedback = format_string($feedback->name, true);
             $info->url = $CFG->wwwroot.'/mod/feedback/show_entries_anonym.php?id='.$cm->id;
 
-            $postsubject = $strcompleted.': '.$info->username.' -> '.$feedback->name;
+            $a = array('username' => $info->username, 'feedbackname' => $feedback->name);
+
+            $postsubject = get_string('feedbackcompleted', 'feedback', $a);
             $posttext = feedback_send_email_text($info, $course);
 
             if ($teacher->mailformat == 1) {

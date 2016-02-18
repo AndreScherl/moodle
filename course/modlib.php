@@ -66,7 +66,6 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
     }
     $newcm->groupmode        = $moduleinfo->groupmode;
     $newcm->groupingid       = $moduleinfo->groupingid;
-    $newcm->groupmembersonly = $moduleinfo->groupmembersonly;
     $completion = new completion_info($course);
     if ($completion->is_enabled()) {
         $newcm->completion                = $moduleinfo->completion;
@@ -192,8 +191,16 @@ function edit_module_post_actions($moduleinfo, $course) {
     // Sync idnumber with grade_item.
     if ($hasgrades && $grade_item = grade_item::fetch(array('itemtype'=>'mod', 'itemmodule'=>$moduleinfo->modulename,
                  'iteminstance'=>$moduleinfo->instance, 'itemnumber'=>0, 'courseid'=>$course->id))) {
+        $gradeupdate = false;
         if ($grade_item->idnumber != $moduleinfo->cmidnumber) {
             $grade_item->idnumber = $moduleinfo->cmidnumber;
+            $gradeupdate = true;
+        }
+        if (isset($moduleinfo->gradepass) && $grade_item->gradepass != $moduleinfo->gradepass) {
+            $grade_item->gradepass = $moduleinfo->gradepass;
+            $gradeupdate = true;
+        }
+        if ($gradeupdate) {
             $grade_item->update();
         }
     }
@@ -368,10 +375,6 @@ function set_moduleinfo_defaults($moduleinfo) {
         $moduleinfo->groupingid = 0;
     }
 
-    if (!isset($moduleinfo->groupmembersonly)) {
-        $moduleinfo->groupmembersonly = 0;
-    }
-
     if (!isset($moduleinfo->name)) { // Label.
         $moduleinfo->name = $moduleinfo->modulename;
     }
@@ -486,9 +489,6 @@ function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
     $cm->groupmode = $moduleinfo->groupmode;
     if (isset($moduleinfo->groupingid)) {
         $cm->groupingid = $moduleinfo->groupingid;
-    }
-    if (isset($moduleinfo->groupmembersonly)) {
-        $cm->groupmembersonly = $moduleinfo->groupmembersonly;
     }
 
     $completion = new completion_info($course);

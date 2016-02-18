@@ -203,7 +203,6 @@ $ACCESSLIB_PRIVATE = new stdClass();
 $ACCESSLIB_PRIVATE->dirtycontexts    = null;    // Dirty contexts cache, loaded from DB once per page
 $ACCESSLIB_PRIVATE->accessdatabyuser = array(); // Holds the cache of $accessdata structure for users (including $USER)
 $ACCESSLIB_PRIVATE->rolepermissions  = array(); // role permissions cache - helps a lot with mem usage
-$ACCESSLIB_PRIVATE->capabilities     = null;    // detailed information about the capabilities
 
 /**
  * Clears accesslib's private caches. ONLY BE USED BY UNIT TESTS
@@ -241,7 +240,6 @@ function accesslib_clear_all_caches($resetcontexts) {
     $ACCESSLIB_PRIVATE->dirtycontexts    = null;
     $ACCESSLIB_PRIVATE->accessdatabyuser = array();
     $ACCESSLIB_PRIVATE->rolepermissions  = array();
-    $ACCESSLIB_PRIVATE->capabilities     = null;
 
     if ($resetcontexts) {
         context_helper::reset_caches();
@@ -434,7 +432,7 @@ function has_capability($capability, context $context, $user = null, $doanything
     // context path/depth must be valid
     if (empty($context->path) or $context->depth == 0) {
         // this should not happen often, each upgrade tries to rebuild the context paths
-        debugging('Context id '.$context->id.' does not have valid path, please use build_context_path()');
+        debugging('Context id '.$context->id.' does not have valid path, please use context_helper::build_all_paths()');
         if (is_siteadmin($userid)) {
             return true;
         } else {
@@ -1675,7 +1673,7 @@ function get_roles_with_capability($capability, $permission = null, $context = n
  * @return int new/existing id of the assignment
  */
 function role_assign($roleid, $userid, $contextid, $component = '', $itemid = 0, $timemodified = '') {
-    global $USER, $DB;
+    global $USER, $DB, $CFG;
 
     // first of all detect if somebody is using old style parameters
     if ($contextid === 0 or is_numeric($component)) {
@@ -1756,6 +1754,9 @@ function role_assign($roleid, $userid, $contextid, $component = '', $itemid = 0,
         reload_all_capabilities();
     }
 
+    require_once($CFG->libdir . '/coursecatlib.php');
+    coursecat::role_assignment_changed($roleid, $context);
+
     $event = \core\event\role_assigned::create(array(
         'context' => $context,
         'objectid' => $ra->roleid,
@@ -1813,6 +1814,7 @@ function role_unassign($roleid, $userid, $contextid, $component = '', $itemid = 
  */
 function role_unassign_all(array $params, $subcontexts = false, $includemanual = false) {
     global $USER, $CFG, $DB;
+    require_once($CFG->libdir . '/coursecatlib.php');
 
     if (!$params) {
         throw new coding_exception('Missing parameters in role_unsassign_all() call');
@@ -1863,6 +1865,7 @@ function role_unassign_all(array $params, $subcontexts = false, $includemanual =
             ));
             $event->add_record_snapshot('role_assignments', $ra);
             $event->trigger();
+            coursecat::role_assignment_changed($ra->roleid, $context);
         }
     }
     unset($ras);
@@ -1894,6 +1897,7 @@ function role_unassign_all(array $params, $subcontexts = false, $includemanual =
                             'other'=>array('id'=>$ra->id, 'component'=>$ra->component, 'itemid'=>$ra->itemid)));
                     $event->add_record_snapshot('role_assignments', $ra);
                     $event->trigger();
+                    coursecat::role_assignment_changed($ra->roleid, $context);
                 }
             }
         }
@@ -2532,7 +2536,14 @@ function load_capability_def($component) {
  */
 function get_cached_capabilities($component = 'moodle') {
     global $DB;
-    return $DB->get_records('capabilities', array('component'=>$component));
+    $caps = get_all_capabilities();
+    $componentcaps = array();
+    foreach ($caps as $cap) {
+        if ($cap['component'] == $component) {
+            $componentcaps[] = (object) $cap;
+        }
+    }
+    return $componentcaps;
 }
 
 /**
@@ -2551,12 +2562,12 @@ function get_default_capabilities($archetype) {
     $alldefs = array();
     $defaults = array();
     $components = array();
-    $allcaps = $DB->get_records('capabilities');
+    $allcaps = get_all_capabilities();
 
     foreach ($allcaps as $cap) {
-        if (!in_array($cap->component, $components)) {
-            $components[] = $cap->component;
-            $alldefs = array_merge($alldefs, load_capability_def($cap->component));
+        if (!in_array($cap['component'], $components)) {
+            $components[] = $cap['component'];
+            $alldefs = array_merge($alldefs, load_capability_def($cap['component']));
         }
     }
     foreach($alldefs as $name=>$def) {
@@ -2703,6 +2714,10 @@ function update_capabilities($component = 'moodle') {
         }
     }
 
+    // It is possible somebody directly modified the DB (according to accesslib_test anyway).
+    // So ensure our updating is based on fresh data.
+    cache::make('core', 'capabilities')->delete('core_capabilities');
+
     $cachedcaps = get_cached_capabilities($component);
     if ($cachedcaps) {
         foreach ($cachedcaps as $cachedcap) {
@@ -2737,6 +2752,9 @@ function update_capabilities($component = 'moodle') {
             }
         }
     }
+
+    // Flush the cached again, as we have changed DB.
+    cache::make('core', 'capabilities')->delete('core_capabilities');
 
     // Are there new capabilities in the file definition?
     $newcaps = array();
@@ -2788,6 +2806,9 @@ function update_capabilities($component = 'moodle') {
     // reset static caches
     accesslib_clear_all_caches(false);
 
+    // Flush the cached again, as we have changed DB.
+    cache::make('core', 'capabilities')->delete('core_capabilities');
+
     return true;
 }
 
@@ -2825,6 +2846,9 @@ function capabilities_cleanup($component, $newcapdef = null) {
                 }
             } // End if.
         }
+    }
+    if ($removedcount) {
+        cache::make('core', 'capabilities')->delete('core_capabilities');
     }
     return $removedcount;
 }
@@ -2946,21 +2970,34 @@ function is_inside_frontpage(context $context) {
 function get_capability_info($capabilityname) {
     global $ACCESSLIB_PRIVATE, $DB; // one request per page only
 
-    //TODO: MUC - this could be cached in shared memory, it would eliminate 1 query per page
+    $caps = get_all_capabilities();
 
-    if (empty($ACCESSLIB_PRIVATE->capabilities)) {
-        $ACCESSLIB_PRIVATE->capabilities = array();
-        $caps = $DB->get_records('capabilities', array(), '', 'id, name, captype, riskbitmask');
-        foreach ($caps as $cap) {
-            $capname = $cap->name;
-            unset($cap->id);
-            unset($cap->name);
-            $cap->riskbitmask = (int)$cap->riskbitmask;
-            $ACCESSLIB_PRIVATE->capabilities[$capname] = $cap;
-        }
+    if (!isset($caps[$capabilityname])) {
+        return null;
     }
 
-    return isset($ACCESSLIB_PRIVATE->capabilities[$capabilityname]) ? $ACCESSLIB_PRIVATE->capabilities[$capabilityname] : null;
+    return (object) $caps[$capabilityname];
+}
+
+/**
+ * Returns all capabilitiy records, preferably from MUC and not database.
+ *
+ * @return array All capability records indexed by capability name
+ */
+function get_all_capabilities() {
+    global $DB;
+    $cache = cache::make('core', 'capabilities');
+    if (!$allcaps = $cache->get('core_capabilities')) {
+        $rs = $DB->get_recordset('capabilities');
+        $allcaps = array();
+        foreach ($rs as $capability) {
+            $capability->riskbitmask = (int) $capability->riskbitmask;
+            $allcaps[$capability->name] = (array) $capability;
+        }
+        $rs->close();
+        $cache->set('core_capabilities', $allcaps);
+    }
+    return $allcaps;
 }
 
 /**
@@ -3011,7 +3048,7 @@ function get_component_string($component, $contextlevel) {
 
     if ($component === 'moodle' or $component === 'core') {
         switch ($contextlevel) {
-            // TODO: this should probably use context level names instead
+            // TODO MDL-46123: this should probably use context level names instead
             case CONTEXT_SYSTEM:    return get_string('coresystem');
             case CONTEXT_USER:      return get_string('users');
             case CONTEXT_COURSECAT: return get_string('categories');
@@ -3030,7 +3067,7 @@ function get_component_string($component, $contextlevel) {
     }
 
     switch ($type) {
-        // TODO: this is really hacky, anyway it should be probably moved to lib/pluginlib.php
+        // TODO MDL-46123: this is really hacky and should be improved.
         case 'quiz':         return get_string($name.':componentname', $component);// insane hack!!!
         case 'repository':   return get_string('repository', 'repository').': '.get_string('pluginname', $component);
         case 'gradeimport':  return get_string('gradeimport', 'grades').': '.get_string('pluginname', $component);
@@ -4068,6 +4105,18 @@ function sort_by_roleassignment_authority($users, context $context, $roles = arr
 /**
  * Gets all the users assigned this role in this context or higher
  *
+ * Note that moodle is based on capabilities and it is usually better
+ * to check permissions than to check role ids as the capabilities
+ * system is more flexible. If you really need, you can to use this
+ * function but consider has_capability() as a possible substitute.
+ *
+ * The caller function is responsible for including all the
+ * $sort fields in $fields param.
+ *
+ * If $roleid is an array or is empty (all roles) you need to set $fields
+ * (and $sort by extension) params according to it, as the first field
+ * returned by the database should be unique (ra.id is the best candidate).
+ *
  * @param int $roleid (can also be an array of ints!)
  * @param context $context
  * @param bool $parent if true, get list of users assigned in higher context too
@@ -4094,6 +4143,23 @@ function get_role_users($roleid, context $context, $parent = false, $fields = ''
                   'u.country, u.picture, u.idnumber, u.department, u.institution, '.
                   'u.lang, u.timezone, u.lastaccess, u.mnethostid, r.name AS rolename, r.sortorder, '.
                   'r.shortname AS roleshortname, rn.name AS rolecoursealias';
+    }
+
+    // Prevent wrong function uses.
+    if ((empty($roleid) || is_array($roleid)) && strpos($fields, 'ra.id') !== 0) {
+        debugging('get_role_users() without specifying one single roleid needs to be called prefixing ' .
+            'role assignments id (ra.id) as unique field, you can use $fields param for it.');
+
+        if (!empty($roleid)) {
+            // Solving partially the issue when specifying multiple roles.
+            $users = array();
+            foreach ($roleid as $id) {
+                // Ignoring duplicated keys keeping the first user appearance.
+                $users = $users + get_role_users($id, $context, $parent, $fields, $sort, $all, $group,
+                    $limitfrom, $limitnum, $extrawheretest, $whereorsortparams);
+            }
+            return $users;
+        }
     }
 
     $parentcontexts = '';
@@ -5175,7 +5241,7 @@ abstract class context extends stdClass implements IteratorAggregate {
      * @return void (modifies $rec)
      */
      protected static function preload_from_record(stdClass $rec) {
-         if (empty($rec->ctxid) or empty($rec->ctxlevel) or empty($rec->ctxinstance) or empty($rec->ctxpath) or empty($rec->ctxdepth)) {
+         if (empty($rec->ctxid) or empty($rec->ctxlevel) or !isset($rec->ctxinstance) or empty($rec->ctxpath) or empty($rec->ctxdepth)) {
              // $rec does not have enough data, passed here repeatedly or context does not exist yet
              return;
          }

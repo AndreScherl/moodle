@@ -216,7 +216,7 @@ if (!empty($activities)) {
                 echo $OUTPUT->spacer(array('height'=>30, 'br'=>true)); // should be done with CSS instead
             }
             echo $OUTPUT->box_start();
-            if (!empty($activity->name)) {
+            if (strval($activity->name) !== '') {
                 echo html_writer::tag('h2', $activity->name);
             }
             $inbox = true;

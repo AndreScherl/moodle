@@ -108,7 +108,7 @@ class behat_course extends behat_base {
             $steps[] = new Given('I set the following fields to these values:', $table);
         }
 
-        $steps[] = new Given('I press "' . get_string('savechanges') . '"');
+        $steps[] = new Given('I press "' . get_string('savechangesanddisplay') . '"');
 
         return $steps;
     }
@@ -180,7 +180,7 @@ class behat_course extends behat_base {
             // Clicks the selected activity if it exists.
             $activityxpath = "//div[@id='chooseform']/descendant::label" .
                 "/descendant::span[contains(concat(' ', normalize-space(@class), ' '), ' typename ')]" .
-                "[contains(., $activityliteral)]" .
+                "[normalize-space(.)=$activityliteral]" .
                 "/parent::label/child::input";
             $activitynode = $this->find('xpath', $activityxpath);
             $activitynode->doubleClick();
@@ -190,7 +190,7 @@ class behat_course extends behat_base {
 
             // Selecting the option from the select box which contains the option.
             $selectxpath = $sectionxpath . "/descendant::div[contains(concat(' ', normalize-space(@class), ' '), ' section_add_menus ')]" .
-                "/descendant::select[contains(., $activityliteral)]";
+                "/descendant::select[option[normalize-space(.)=$activityliteral]]";
             $selectnode = $this->find('xpath', $selectxpath);
             $selectnode->selectOption($activity);
 
@@ -200,6 +200,56 @@ class behat_course extends behat_base {
             $gobutton->click();
         }
 
+    }
+
+
+    /**
+     * Opens a section edit menu if it is not already opened.
+     *
+     * @Given /^I open section "(?P<section_number>\d+)" edit menu$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param string $sectionnumber
+     */
+    public function i_open_section_edit_menu($sectionnumber) {
+        if (!$this->running_javascript()) {
+            throw new DriverException('Section edit menu not available when Javascript is disabled');
+        }
+
+        // If it is already opened we do nothing.
+        $xpath = $this->section_exists($sectionnumber);
+        $xpath .= "/descendant::div[contains(@class, 'section-actions')]/descendant::a[contains(@class, 'textmenu')]";
+
+        $exception = new ExpectationException('Section "' . $sectionnumber . '" was not found', $this->getSession());
+        $menu = $this->find('xpath', $xpath, $exception);
+        $menu->click();
+        $this->i_wait_until_section_is_available($sectionnumber);
+    }
+
+    /**
+     * Deletes course section.
+     *
+     * @Given /^I delete section "(?P<section_number>\d+)"$/
+     * @param int $sectionnumber The section number
+     * @return Given[]
+     */
+    public function i_delete_section($sectionnumber) {
+        // Ensures the section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        // We need to know the course format as the text strings depends on them.
+        $courseformat = $this->get_course_format();
+        if (get_string_manager()->string_exists('deletesection', $courseformat)) {
+            $strdelete = get_string('deletesection', $courseformat);
+        } else {
+            $strdelete = get_string('deletesection');
+        }
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
+        return new Given('I click on "' . $strdelete . '" "link" in the "' . $this->escape($xpath) . '" "xpath_element"');
     }
 
     /**
@@ -213,6 +263,11 @@ class behat_course extends behat_base {
 
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
 
         return new Given('I click on "' . get_string('markthistopic') . '" "link" in the "' . $this->escape($xpath) . '" "xpath_element"');
     }
@@ -228,6 +283,11 @@ class behat_course extends behat_base {
 
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
 
         return new Given('I click on "' . get_string('markedthistopic') . '" "link" in the "' . $this->escape($xpath) . '" "xpath_element"');
     }
@@ -271,7 +331,20 @@ class behat_course extends behat_base {
      * @param int $sectionnumber
      */
     public function i_edit_the_section($sectionnumber) {
-        return new Given('I click on "' . get_string('editsummary') . '" "link" in the "#section-' . $sectionnumber . '" "css_element"');
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
+        // We need to know the course format as the text strings depends on them.
+        $courseformat = $this->get_course_format();
+        if (get_string_manager()->string_exists('editsection', $courseformat)) {
+            $stredit = get_string('editsection', $courseformat);
+        } else {
+            $stredit = get_string('editsection');
+        }
+
+        return new Given('I click on "' . $stredit . '" "link" in the "#section-' . $sectionnumber . '" "css_element"');
     }
 
     /**
@@ -304,7 +377,7 @@ class behat_course extends behat_base {
         $xpath = $this->section_exists($sectionnumber);
 
         // The important checking, we can not check the img.
-        $xpath = $xpath . "/descendant::img[@alt='" . get_string('markedthistopic') . "'][contains(@src, 'marked')]";
+        $xpath = $xpath . "/descendant::img[contains(@src, 'marked')]";
         $exception = new ExpectationException('The "' . $sectionnumber . '" section is not highlighted', $this->getSession());
         $this->find('xpath', $xpath, $exception);
     }
@@ -409,9 +482,14 @@ class behat_course extends behat_base {
             throw new ExpectationException('The section is hidden', $this->getSession());
         }
 
-        // Hide section button should be visible.
+        // Edit menu should be visible.
         if ($this->is_course_editor()) {
-            $this->hide_section_icon_exists($sectionnumber);
+            $xpath = $sectionxpath .
+                     "/descendant::div[contains(@class, 'section-actions')]" .
+                     "/descendant::a[contains(@class, 'textmenu')]";
+            if (!$this->getSession()->getPage()->find('xpath', $xpath)) {
+                throw new ExpectationException('The section edit menu is not available', $this->getSession());
+            }
         }
     }
 
@@ -430,6 +508,11 @@ class behat_course extends behat_base {
 
         // Ensures the section exists.
         $sectionxpath = $this->section_exists($sectionnumber);
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
 
         // Follows the link
         $moveuplink = $this->get_node_in_container('link', get_string('moveup'), 'xpath_element', $sectionxpath);
@@ -451,6 +534,11 @@ class behat_course extends behat_base {
 
         // Ensures the section exists.
         $sectionxpath = $this->section_exists($sectionnumber);
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
 
         // Follows the link
         $movedownlink = $this->get_node_in_container('link', get_string('movedown'), 'xpath_element', $sectionxpath);
@@ -734,10 +822,6 @@ class behat_course extends behat_base {
             $steps[] = new Given('I open "' . $activity . '" actions menu');
         }
         $steps[] = new Given('I click on "' . get_string('duplicate') . '" "link" in the "' . $activity . '" activity');
-        if (!$this->running_javascript()) {
-            $steps[] = new Given('I press "' . get_string('continue') .'"');
-            $steps[] = new Given('I press "' . get_string('duplicatecontcourse') .'"');
-        }
         return $steps;
     }
 
@@ -756,35 +840,35 @@ class behat_course extends behat_base {
         $activity = $this->escape($activityname);
         $activityliteral = $this->getSession()->getSelectorsHandler()->xpathLiteral($activityname);
 
-        if ($this->running_javascript()) {
-            $steps[] = new Given('I duplicate "' . $activity . '" activity');
+        $steps[] = new Given('I duplicate "' . $activity . '" activity');
 
+        // Determine the future new activity xpath from the former one.
+        $duplicatedxpath = "//li[contains(concat(' ', normalize-space(@class), ' '), ' activity ')]" .
+            "[contains(., $activityliteral)]/following-sibling::li";
+        $duplicatedactionsmenuxpath = $duplicatedxpath . "/descendant::a[@role='menuitem']";
+
+        if ($this->running_javascript()) {
             // We wait until the AJAX request finishes and the section is visible again.
-            $hiddenlightboxxpath = "//li[contains(concat(' ', normalize-space(@class), ' '), ' activity ')][contains(., $activityliteral)]" .
+            $hiddenlightboxxpath = "//li[contains(concat(' ', normalize-space(@class), ' '), ' activity ')]" .
+                "[contains(., $activityliteral)]" .
                 "/ancestor::li[contains(concat(' ', normalize-space(@class), ' '), ' section ')]" .
                 "/descendant::div[contains(concat(' ', @class, ' '), ' lightbox ')][contains(@style, 'display: none')]";
+
             $steps[] = new Given('I wait until the page is ready');
             $steps[] = new Given('I wait until "' . $this->escape($hiddenlightboxxpath) .'" "xpath_element" exists');
 
             // Close the original activity actions menu.
             $steps[] = new Given('I close "' . $activity . '" actions menu');
 
-            // Determine the future new activity xpath from the former one.
-            $duplicatedxpath = "//li[contains(concat(' ', normalize-space(@class), ' '), ' activity ')][contains(., $activityliteral)]" .
-                "/following-sibling::li";
-            $duplicatedactionsmenuxpath = $duplicatedxpath . "/descendant::a[@role='menuitem']";
-
             // The next sibling of the former activity will be the duplicated one, so we click on it from it's xpath as, at
             // this point, it don't even exists in the DOM (the steps are executed when we return them).
             $steps[] = new Given('I click on "' . $this->escape($duplicatedactionsmenuxpath) . '" "xpath_element"');
-
-            // We force the xpath as otherwise mink tries to interact with the former one.
-            $steps[] = new Given('I click on "' . get_string('editsettings') . '" "link" in the "' . $this->escape($duplicatedxpath) . '" "xpath_element"');
-        } else {
-            $steps[] = new Given('I click on "' . get_string('duplicate') . '" "link" in the "' . $activity . '" activity');
-            $steps[] = new Given('I press "' . get_string('continue') .'"');
-            $steps[] = new Given('I press "' . get_string('duplicatecontedit') . '"');
         }
+
+        // We force the xpath as otherwise mink tries to interact with the former one.
+        $steps[] = new Given('I click on "' . get_string('editsettings') . '" "link" in the "' .
+            $this->escape($duplicatedxpath) . '" "xpath_element"');
+
         $steps[] = new Given('I set the following fields to these values:', $data);
         $steps[] = new Given('I press "' . get_string('savechangesandreturntocourse') . '"');
         return $steps;
@@ -880,10 +964,15 @@ class behat_course extends behat_base {
         // We need to know the course format as the text strings depends on them.
         $courseformat = $this->get_course_format();
 
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
         // Checking the show button alt text and show icon.
         $showtext = $this->getSession()->getSelectorsHandler()->xpathLiteral(get_string('showfromothers', $courseformat));
         $linkxpath = $xpath . "/descendant::a[@title=$showtext]";
-        $imgxpath = $linkxpath . "/descendant::img[@alt=$showtext][contains(@src, 'show')]";
+        $imgxpath = $linkxpath . "/descendant::img[contains(@src, 'show')]";
 
         $exception = new ElementNotFoundException($this->getSession(), 'Show section icon ');
         $this->find('xpath', $imgxpath, $exception);
@@ -907,10 +996,15 @@ class behat_course extends behat_base {
         // We need to know the course format as the text strings depends on them.
         $courseformat = $this->get_course_format();
 
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
         // Checking the hide button alt text and hide icon.
         $hidetext = $this->getSession()->getSelectorsHandler()->xpathLiteral(get_string('hidefromothers', $courseformat));
         $linkxpath = $xpath . "/descendant::a[@title=$hidetext]";
-        $imgxpath = $linkxpath . "/descendant::img[@alt=$hidetext][contains(@src, 'hide')]";
+        $imgxpath = $linkxpath . "/descendant::img[contains(@src, 'hide')]";
 
         $exception = new ElementNotFoundException($this->getSession(), 'Hide section icon ');
         $this->find('xpath', $imgxpath, $exception);
@@ -1447,7 +1541,7 @@ class behat_course extends behat_base {
                 break;
             case "Course categories":
                 $return[] = new Given('"#category-listing" "css_element" should exist');
-                $return[] = new Given('"#course-listing" "css_element" should not exist');
+                $return[] = new Given('"#course-listing" "css_element" should exist');
                 break;
             case "Courses categories and courses":
             default:

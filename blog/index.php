@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * file index.php
@@ -34,7 +48,11 @@ foreach ($url_params as $var => $val) {
 }
 $PAGE->set_url('/blog/index.php', $url_params);
 
+<<<<<<< HEAD
 //correct tagid if a text tag is provided as a param
+=======
+// Correct tagid if a text tag is provided as a param.
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 if (!empty($tag)) {
     if ($tagrec = $DB->get_record('tag', array('name' => $tag))) {
         $tagid = $tagrec->id;
@@ -43,31 +61,54 @@ if (!empty($tag)) {
     }
 }
 
-$sitecontext = context_system::instance();
-// Blogs are always in system context.
-$PAGE->set_context($sitecontext);
+<<<<<<< HEAD
+=======
+// Set the userid to the entry author if we have the entry ID.
+if ($entryid and !isset($userid)) {
+    $entry = new blog_entry($entryid);
+    $userid = $entry->userid;
+}
 
-// check basic permissions
+if (isset($userid) && empty($courseid)) {
+    $context = context_user::instance($userid);
+} else if (!empty($courseid) && $courseid != SITEID) {
+    $context = context_course::instance($courseid);
+} else {
+    $context = context_system::instance();
+}
+$PAGE->set_context($context);
+
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
+$sitecontext = context_system::instance();
+
+if (isset($userid) && $USER->id == $userid) {
+    $blognode = $PAGE->navigation->find('siteblog', null);
+    if ($blognode) {
+        $blognode->make_inactive();
+    }
+}
+
+// Check basic permissions.
 if ($CFG->bloglevel == BLOG_GLOBAL_LEVEL) {
-    // everybody can see anything - no login required unless site is locked down using forcelogin
+    // Everybody can see anything - no login required unless site is locked down using forcelogin.
     if ($CFG->forcelogin) {
         require_login();
     }
 
 } else if ($CFG->bloglevel == BLOG_SITE_LEVEL) {
-    // users must log in and can not be guests
+    // Users must log in and can not be guests.
     require_login();
     if (isguestuser()) {
-        // they must have entered the url manually...
+        // They must have entered the url manually.
         print_error('blogdisable', 'blog');
     }
 
 } else if ($CFG->bloglevel == BLOG_USER_LEVEL) {
-    // users can see own blogs only! with the exception of ppl with special cap
+    // Users can see own blogs only! with the exception of people with special cap.
     require_login();
 
 } else {
-    // weird!
+    // Weird!
     print_error('blogdisable', 'blog');
 }
 
@@ -75,6 +116,13 @@ if (empty($CFG->enableblogs)) {
     print_error('blogdisable', 'blog');
 }
 
+<<<<<<< HEAD
+if (empty($CFG->enableblogs)) {
+    print_error('blogdisable', 'blog');
+}
+
+=======
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 // Add courseid if modid or groupid is specified: This is used for navigation and title.
 if (!empty($modid) && empty($courseid)) {
     $courseid = $DB->get_field('course_modules', 'course', array('id' => $modid));
@@ -206,16 +254,36 @@ if ($CFG->enablerssfeeds) {
     }
     $rsstitle = $blogheaders['heading'];
 
-    //check we haven't started output by outputting an error message
+    // Check we haven't started output by outputting an error message.
     if ($PAGE->state == moodle_page::STATE_BEFORE_HEADER) {
         blog_rss_add_http_header($rsscontext, $rsstitle, $filtertype, $thingid, $tagid);
     }
-
-    //this works but there isn't a great place to put the link
-    //blog_rss_print_link($rsscontext, $filtertype, $thingid, $tagid);
 }
 
-echo $OUTPUT->header();
+$usernode = $PAGE->navigation->find('user'.$userid, null);
+if ($usernode && $courseid != SITEID) {
+    $courseblogsnode = $PAGE->navigation->find('courseblogs', null);
+    if ($courseblogsnode) {
+        $courseblogsnode->remove();
+    }
+    $blogurl = new moodle_url($PAGE->url);
+    $blognode = $usernode->add(get_string('blogscourse', 'blog'), $blogurl);
+    $blognode->make_active();
+}
+
+if ($courseid != SITEID) {
+    $PAGE->set_heading($course->fullname);
+    echo $OUTPUT->header();
+    if (!empty($user)) {
+        $headerinfo = array('heading' => fullname($user), 'user' => $user);
+        echo $OUTPUT->context_header($headerinfo, 2);
+    }
+} else if (isset($userid)) {
+    $PAGE->set_heading(fullname($user));
+    echo $OUTPUT->header();
+} else if ($courseid == SITEID) {
+    echo $OUTPUT->header();
+}
 
 echo $OUTPUT->heading($blogheaders['heading'], 2);
 

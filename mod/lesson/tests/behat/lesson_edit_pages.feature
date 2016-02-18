@@ -21,6 +21,7 @@ Feature: In a lesson activity, teacher can edit lesson's pages
     And I turn editing mode on
     And I add a "Lesson" to section "1" and I fill the form with:
       | Name | Test lesson name |
+      | Description | Test lesson description |
     And I follow "Test lesson name"
     And I follow "Add a content page"
     And I set the following fields to these values:

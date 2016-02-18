@@ -77,6 +77,17 @@ $capabilities = array(
         )
     ),
 
+    'moodle/site:deleteanymessage' => array(
+
+        'riskbitmask' => RISK_DATALOSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW
+        )
+    ),
+
     'moodle/site:sendmessage' => array(
 
         'riskbitmask' => RISK_SPAM,
@@ -85,6 +96,15 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
+            'user' => CAP_ALLOW
+        )
+    ),
+
+    'moodle/site:deleteownmessage' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
             'user' => CAP_ALLOW
         )
     ),
@@ -723,8 +743,7 @@ $capabilities = array(
         )
     ),
 
-    // view members of a cohort, this can be used in course context too,
-    // this also controls the ability to actually use cohort
+    // View visible and hidden cohorts defined in the current context.
     'moodle/cohort:view' => array(
 
         'captype' => 'read',
@@ -1069,6 +1088,17 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
+    ),
+
+    'moodle/course:tag' => array(
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ),
+        'clonepermissionsfrom' => 'moodle/course:update'
     ),
 
     'moodle/blog:view' => array(
@@ -1678,20 +1708,7 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'moodle/tag:create' => array(
-        'riskbitmask' => RISK_SPAM,
-
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'user' => CAP_ALLOW
         )
     ),
 
@@ -1701,8 +1718,7 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'user' => CAP_ALLOW
+            'manager' => CAP_ALLOW
         )
     ),
 
@@ -1712,7 +1728,6 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
             'user' => CAP_ALLOW
         )
     ),
@@ -1983,6 +1998,7 @@ $capabilities = array(
 
     // Set up/edit criteria of earning a badge.
     'moodle/badges:configurecriteria' => array(
+        'riskbitmask'  => RISK_XSS,
         'captype'      => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(

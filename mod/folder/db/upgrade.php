@@ -135,5 +135,14 @@ function xmldb_folder_upgrade($oldversion) {
     }
     // SYNERGY LEARNING - keep track of whether or not students can edit the files in the folder.
 
+    // Moodle v2.8.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Moodle v2.9.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Moodle v3.0.0 release upgrade line.
+    // Put any upgrade step following this.
+
     return true;
 }

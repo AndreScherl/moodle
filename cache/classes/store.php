@@ -79,6 +79,17 @@ interface cache_store_interface {
      * @return cache_store|false
      */
     public static function initialise_test_instance(cache_definition $definition);
+
+    /**
+     * Initialises a test instance for unit tests.
+     *
+     * This differs from initialise_test_instance in that it doesn't rely on interacting with the config table.
+     *
+     * @since 2.8
+     * @param cache_definition $definition
+     * @return cache_store|false
+     */
+    public static function initialise_unit_test_instance(cache_definition $definition);
 }
 
 /**
@@ -342,6 +353,20 @@ abstract class cache_store implements cache_store_interface {
     }
 
     /**
+     * Initialises a test instance for unit tests.
+     *
+     * This differs from initialise_test_instance in that it doesn't rely on interacting with the config table.
+     * By default however it calls initialise_test_instance to support backwards compatibility.
+     *
+     * @since 2.8
+     * @param cache_definition $definition
+     * @return cache_store|false
+     */
+    public static function initialise_unit_test_instance(cache_definition $definition) {
+        return static::initialise_test_instance($definition);
+    }
+
+    /**
      * Can be overridden to return any warnings this store instance should make to the admin.
      *
      * This should be used to notify things like configuration conflicts etc.
@@ -351,5 +376,17 @@ abstract class cache_store implements cache_store_interface {
      */
     public function get_warnings() {
         return array();
+    }
+
+    /**
+     * Returns true if this cache store instance is both suitable for testing, and ready for testing.
+     *
+     * Cache stores that support being used as the default store for unit and acceptance testing should
+     * override this function and return true if there requirements have been met.
+     *
+     * @return bool
+     */
+    public static function ready_to_be_used_for_testing() {
+        return false;
     }
 }

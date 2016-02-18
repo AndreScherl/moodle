@@ -179,7 +179,7 @@ function calendar_get_starting_weekday() {
  */
 function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyear = false, $placement = false,
     $courseid = false, $time = 0) {
-    global $CFG, $OUTPUT;
+    global $CFG, $OUTPUT, $PAGE;
 
     // Get the calendar type we are using.
     $calendartype = \core_calendar\type_factory::get_calendar_instance();
@@ -289,7 +289,8 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
 
     // Accessibility: added summary and <abbr> elements.
     $summary = get_string('calendarheading', 'calendar', userdate($display->tstart, get_string('strftimemonthyear')));
-    $content .= '<table class="minicalendar calendartable" summary="'.$summary.'">'; // Begin table.
+    // Begin table.
+    $content .= '<table class="minicalendar calendartable" summary="' . $summary . '">';
     if (($placement !== false) && ($courseid !== false)) {
         $content .= '<caption>'. calendar_top_controls($placement, array('id' => $courseid, 'time' => $time)) .'</caption>';
     }
@@ -320,6 +321,10 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
     // Now display all the calendar
     $daytime = strtotime('-1 day', $display->tstart);
     for($day = 1; $day <= $display->maxdays; ++$day, ++$dayweek) {
+<<<<<<< HEAD
+=======
+        $cellattributes = array();
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $daytime = strtotime('+1 day', $daytime);
         if($dayweek > $display->maxwday) {
             // We need to change week (table row)
@@ -336,8 +341,8 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
             $class = 'day';
         }
 
-        // Special visual fx if an event is defined
-        if(isset($eventsbyday[$day])) {
+        if (isset($eventsbyday[$day])) {
+            // There is at least one event on this day.
 
             $class .= ' hasevent';
             $hrefparams['view'] = 'day';
@@ -381,12 +386,12 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
                 $popupcontent .= html_writer::end_tag('div');
             }
 
-            //Accessibility: functionality moved to calendar_get_popup.
-            if($display->thismonth && $day == $d) {
-                $popupid = calendar_get_popup(true, $events[$eventid]->timestart, $popupcontent);
+            if ($display->thismonth && $day == $d) {
+                $popupdata = calendar_get_popup(true, $events[$eventid]->timestart, $popupcontent);
             } else {
-                $popupid = calendar_get_popup(false, $events[$eventid]->timestart, $popupcontent);
+                $popupdata = calendar_get_popup(false, $events[$eventid]->timestart, $popupcontent);
             }
+            $cellattributes = array_merge($cellattributes, $popupdata);
 
             // Class and cell content
             if(isset($typesbyday[$day]['startglobal'])) {
@@ -398,7 +403,7 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
             } else if(isset($typesbyday[$day]['startuser'])) {
                 $class .= ' calendar_event_user';
             }
-            $cell = html_writer::link($dayhref, $day, array('id' => $popupid));
+            $cell = html_writer::link($dayhref, $day);
         } else {
             $cell = $day;
         }
@@ -432,25 +437,23 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
             }
         }
 
-        // Special visual fx for today
-        //Accessibility: hidden text for today, and popup.
-        if($display->thismonth && $day == $d) {
+        if ($display->thismonth && $day == $d) {
+            // The current cell is for today - add appropriate classes and additional information for styling.
             $class .= ' today';
             $today = get_string('today', 'calendar').' '.userdate(time(), get_string('strftimedayshort'));
 
-            if(! isset($eventsbyday[$day])) {
+            if (!isset($eventsbyday[$day])) {
                 $class .= ' eventnone';
-                $popupid = calendar_get_popup(true, false);
-                $cell = html_writer::link('#', $day, array('id' => $popupid));
+                $popupdata = calendar_get_popup(true, false);
+                $cellattributes = array_merge($cellattributes, $popupdata);
+                $cell = html_writer::link('#', $day);
             }
-            $cell = get_accesshide($today.' ').$cell;
+            $cell = get_accesshide($today . ' ') . $cell;
         }
 
         // Just display it
-        if(!empty($class)) {
-            $class = ' class="'.$class.'"';
-        }
-        $content .= '<td'.$class.'>'.$cell."</td>\n";
+        $cellattributes['class'] = $class;
+        $content .= html_writer::tag('td', $cell, $cellattributes);
     }
 
     // Paddding (the last week may have blank days at the end)
@@ -461,6 +464,11 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
 
     $content .= '</table>'; // Tabular display of days ends
 
+    static $jsincluded = false;
+    if (!$jsincluded) {
+        $PAGE->requires->yui_module('moodle-calendar-info', 'Y.M.core_calendar.info.init');
+        $jsincluded = true;
+    }
     return $content;
 }
 
@@ -475,28 +483,26 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
  * @param string $popupcontent content for the popup window/layout.
  * @return string eventid for the calendar_tooltip popup window/layout.
  */
-function calendar_get_popup($is_today, $event_timestart, $popupcontent='') {
+function calendar_get_popup($today = false, $timestart, $popupcontent = '') {
     global $PAGE;
-    static $popupcount;
-    if ($popupcount === null) {
-        $popupcount = 1;
-    }
+
     $popupcaption = '';
-    if($is_today) {
-        $popupcaption = get_string('today', 'calendar').' ';
+    if ($today) {
+        $popupcaption = get_string('today', 'calendar') . ' ';
     }
-    if (false === $event_timestart) {
+
+    if (false === $timestart) {
         $popupcaption .= userdate(time(), get_string('strftimedayshort'));
         $popupcontent = get_string('eventnone', 'calendar');
 
     } else {
-        $popupcaption .= get_string('eventsfor', 'calendar', userdate($event_timestart, get_string('strftimedayshort')));
+        $popupcaption .= get_string('eventsfor', 'calendar', userdate($timestart, get_string('strftimedayshort')));
     }
-    $id = 'calendar_tooltip_'.$popupcount;
-    $PAGE->requires->yui_module('moodle-calendar-eventmanager', 'M.core_calendar.add_event', array(array('eventId'=>$id,'title'=>$popupcaption, 'content'=>$popupcontent)));
 
-    $popupcount++;
-    return $id;
+    return array(
+        'data-core_calendar-title' => $popupcaption,
+        'data-core_calendar-popupcontent' => $popupcontent,
+    );
 }
 
 /**
@@ -656,8 +662,14 @@ function calendar_add_event_metadata($event) {
         $event->courselink = calendar_get_courselink($event->courseid);
         $event->cssclass = 'calendar_event_course';
     } else if ($event->groupid) {                                    // Group event
-        $event->icon = '<img src="'.$OUTPUT->pix_url('i/groupevent') . '" alt="'.get_string('groupevent', 'calendar').'" class="icon" />';
-        $event->courselink = calendar_get_courselink($event->courseid);
+        if ($group = calendar_get_group_cached($event->groupid)) {
+            $groupname = format_string($group->name, true, context_course::instance($group->courseid));
+        } else {
+            $groupname = '';
+        }
+        $event->icon = html_writer::empty_tag('image', array('src' => $OUTPUT->pix_url('i/groupevent'),
+            'alt' => get_string('groupevent', 'calendar'), 'title' => $groupname, 'class' => 'icon'));
+        $event->courselink = calendar_get_courselink($event->courseid) . ', ' . $groupname;
         $event->cssclass = 'calendar_event_group';
     } else if($event->userid) {                                      // User event
         $event->icon = '<img src="'.$OUTPUT->pix_url('i/userevent') . '" alt="'.get_string('userevent', 'calendar').'" class="icon" />';
@@ -1410,6 +1422,20 @@ function calendar_get_course_cached(&$coursecache, $courseid) {
         $coursecache[$courseid] = get_course($courseid);
     }
     return $coursecache[$courseid];
+}
+
+/**
+ * Get group from groupid for calendar display
+ *
+ * @param int $groupid
+ * @return stdClass group object with fields 'id', 'name' and 'courseid'
+ */
+function calendar_get_group_cached($groupid) {
+    static $groupscache = array();
+    if (!isset($groupscache[$groupid])) {
+        $groupscache[$groupid] = groups_get_group($groupid, 'id,name,courseid');
+    }
+    return $groupscache[$groupid];
 }
 
 /**
@@ -2199,8 +2225,8 @@ class calendar_event {
      * Pass in a object containing the event properties and this function will
      * insert it into the database and deal with any associated files
      *
-     * @see add_event()
-     * @see update_event()
+     * @see self::create()
+     * @see self::update()
      *
      * @param stdClass $data object of event
      * @param bool $checkcapability if moodle should check calendar managing capability or not
@@ -2306,9 +2332,13 @@ class calendar_event {
                 $eventcopy = clone($this->properties);
                 unset($eventcopy->id);
 
+                $timestart = new DateTime('@' . $eventcopy->timestart);
+                $timestart->setTimezone(core_date::get_user_timezone_object());
+
                 for($i = 1; $i < $eventcopy->repeats; $i++) {
 
-                    $eventcopy->timestart = ($eventcopy->timestart+WEEKSECS) + dst_offset_on($eventcopy->timestart) - dst_offset_on($eventcopy->timestart+WEEKSECS);
+                    $timestart->add(new DateInterval('P7D'));
+                    $eventcopy->timestart = $timestart->getTimestamp();
 
                     // Get the event id for the log record.
                     $eventcopyid = $DB->insert_record('event', $eventcopy);
@@ -2412,7 +2442,7 @@ class calendar_event {
      * This function deletes an event, any associated events if $deleterepeated=true,
      * and cleans up any files associated with the events.
      *
-     * @see delete_event()
+     * @see self::delete()
      *
      * @param bool $deleterepeated  delete event repeatedly
      * @return bool succession of deleting event
@@ -2965,17 +2995,24 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
         return 0;
     }
 
-    $defaulttz = date_default_timezone_get();
     $tz = isset($event->properties['DTSTART'][0]->parameters['TZID']) ? $event->properties['DTSTART'][0]->parameters['TZID'] :
             $timezone;
+<<<<<<< HEAD
     $tz = calendar_normalize_tz($tz);
+=======
+    $tz = core_date::normalise_timezone($tz);
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     $eventrecord->timestart = strtotime($event->properties['DTSTART'][0]->value . ' ' . $tz);
     if (empty($event->properties['DTEND'])) {
         $eventrecord->timeduration = 0; // no duration if no end time specified
     } else {
         $endtz = isset($event->properties['DTEND'][0]->parameters['TZID']) ? $event->properties['DTEND'][0]->parameters['TZID'] :
                 $timezone;
+<<<<<<< HEAD
         $endtz = calendar_normalize_tz($endtz);
+=======
+        $endtz = core_date::normalise_timezone($endtz);
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
         $eventrecord->timeduration = strtotime($event->properties['DTEND'][0]->value . ' ' . $endtz) - $eventrecord->timestart;
     }
 
@@ -2987,7 +3024,11 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
             // This event should be an all day event.
             $eventrecord->timeduration = 0;
         }
+<<<<<<< HEAD
         date_default_timezone_set($defaulttz);
+=======
+        core_date::set_default_server_timezone();
+>>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     }
 
     $eventrecord->uuid = $event->properties['UID'][0]->value;
@@ -3015,7 +3056,7 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
             $rrule = new \core_calendar\rrule_manager($event->properties['RRULE'][0]->value);
             $rrule->parse_rrule();
             $rrule->create_events($createdevent);
-            date_default_timezone_set($defaulttz); // Change time zone back to what it was.
+            core_date::set_default_server_timezone(); // Change time zone back to what it was.
         }
         return $return;
     } else {

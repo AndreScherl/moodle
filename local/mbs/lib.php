@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
  * 
  * @param global_navigation $navigation
  */
-function local_mbs_extends_navigation(global_navigation $navigation) {
+function local_mbs_extend_navigation(global_navigation $navigation) {
     global $PAGE;
 
     // Remove the node "Home" from the navigation menu.
@@ -87,7 +87,7 @@ function local_mbs_get_block_mbstpl_context($context) {
  * 
  * @param settings_navigation $navigation
  */
-function local_mbs_extends_settings_navigation(settings_navigation $navigation, context $context) {
+function local_mbs_extend_settings_navigation(settings_navigation $navigation, context $context) {
 
     // ...remove website-administration for non admins.
     if (!has_capability('moodle/site:config', context_system::instance())) {

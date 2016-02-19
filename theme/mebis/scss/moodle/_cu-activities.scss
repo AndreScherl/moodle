@@ -113,9 +113,15 @@ div.que.geogebra {
             label {
                 padding-left: 2.8px;
                 margin: 0;
+                display: inline;
             }
         }    
     }
+}
+
+.path-mod-choiceanon .results .data.header{
+    white-space: normal;
+    padding-right: 10px;
 }
 
 #page-mod-feedback-complete #main-content-wrapper {

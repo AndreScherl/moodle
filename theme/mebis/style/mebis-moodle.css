@@ -15343,11 +15343,17 @@ category-box:
   max-width: 100%;
 }
 
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1, #page-question-type-geogebra div#applet_container1 {
+  height: inherit !important;
+}
 #page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
 
+div.que.geogebra div.formulation div[id$='ggbdiv'] {
+  height: inherit !important;
+}
 div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   min-height: 0;
   height: inherit !important;

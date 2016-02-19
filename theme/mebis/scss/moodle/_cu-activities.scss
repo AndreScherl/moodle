@@ -67,9 +67,10 @@
 #page-mod-assign-mod, #page-mod-assign-view, #page-question-type-geogebra {
 
     div#applet_container1 {
+        //need important because of element style
+        height: inherit !important;
         > div {
-            min-height: 0;
-            //need important because of element style
+            min-height: 0;            
             height: inherit !important;
         }
     }
@@ -78,9 +79,10 @@
 div.que.geogebra {
     div.formulation {
         div[id$='ggbdiv'] {
+            //need important because of element style
+            height: inherit !important;
             > div {
-                min-height: 0;
-                //need important because of element style
+                min-height: 0;                
                 height: inherit !important;
             }
         }

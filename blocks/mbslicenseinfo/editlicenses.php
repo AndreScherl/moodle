@@ -65,6 +65,8 @@ if (get_config('block_mbslicenseinfo', 'filesperpage') != $perpage) {
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', get_string('editlicensesheader', 'block_mbslicenseinfo'));
+$link = html_writer::link(get_string('editlicenses_notelink', 'block_mbslicenseinfo'), get_string('editlicenses_note', 'block_mbslicenseinfo'), array('class' => 'internal'));
+echo html_writer::tag('p', $link);
 echo $OUTPUT->paging_bar($totalcount, $page, $perpage, $thisurl);
 echo html_writer::div($form->render(), 'editlicenses');
 echo $OUTPUT->paging_bar($totalcount, $page, $perpage, $thisurl); 

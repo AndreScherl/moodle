@@ -13,27 +13,28 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
- * Brings license informations direct to media
- *
- * @package   filter_mbslicenseinfo
- * @copyright 2015 ISB Bayern
- * @author    Andre Scherl <andre.scherl@isb.bayern.de>
+ * @package   local_mbslicenseinfo
+ * @copyright 2015, ISB Bayern
+ * @author    Andreas Wagner
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015121000;
-$plugin->requires  = 2010112400; // 2.0
-$plugin->component = 'filter_mbslicenseinfo';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.1 (Build: 2015112300)';
-$plugin->dependencies = array(
-    'local_mbs'  => 2015120907,
-    'local_mbslicenseinfo' => 2015121000
-);
- 
-
-
+function xmldb_local_mbslicenseinfo_install() {
+    global $CFG, $DB;
+    
+    if (file_exists($CFG->dirroot.'/blocks/mbslicenseinfo/db/install.xml')) {
+        
+        if ($licenseinfos = $DB->get_records('block_mbslicenseinfo_fmeta')) {
+            $DB->insert_records('local_mbslicenseinfo_fmeta', $licenseinfos);
+        }
+        
+        if ($userlicenses = $DB->get_records('block_mbslicenseinfo_ul')) {
+            $DB->insert_records('local_mbslicenseinfo_ul', $userlicenses);
+        }
+        
+    }
+}

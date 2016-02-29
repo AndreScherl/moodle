@@ -13,27 +13,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
- * Brings license informations direct to media
+ * local mbslicenseinfo
  *
- * @package   filter_mbslicenseinfo
- * @copyright 2015 ISB Bayern
- * @author    Andre Scherl <andre.scherl@isb.bayern.de>
+ * @package   local_mbslicenseinfo
+ * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015121000;
-$plugin->requires  = 2010112400; // 2.0
-$plugin->component = 'filter_mbslicenseinfo';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.1 (Build: 2015112300)';
-$plugin->dependencies = array(
-    'local_mbs'  => 2015120907,
-    'local_mbslicenseinfo' => 2015121000
+$capabilities = array(
+    'local/mbslicenseinfo:editlicenses' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:create'
+    )
 );
- 
-
-

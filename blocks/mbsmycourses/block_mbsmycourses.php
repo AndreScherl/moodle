@@ -74,6 +74,9 @@ class block_mbsmycourses extends block_base {
 
         // ...check, whether to limit courses.
         $showallcourses = (isset($_REQUEST['showallcourses']));
+        
+        // ...check, whether to show news
+        $shownews = $this->load_page_params('show_news', 0, PARAM_BOOL);
 
         if ($viewtype == 'grid') {
             $courses = mbsmycourses::get_sorted_courses($sortorder, $selectedschool, $showallcourses);
@@ -83,14 +86,17 @@ class block_mbsmycourses extends block_base {
 
         $renderer = $this->page->get_renderer('block_mbsmycourses');
 
-        // Number of sites to display.
+        // Display options.
         $config = get_config('block_mbsmycourses');
         if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
-            $this->content->text .= $renderer->editing_bar_head($courses->total);
+            $this->content->text .= $renderer->editing_bar_head($shownews, $courses->total);
         }
 
         // For each course, build category cache.
-        $overviews = mbsmycourses::get_overviews($courses->sitecourses);
+        $overviews = array();
+        if ($shownews) {
+            $overviews = mbsmycourses::get_overviews($courses->sitecourses);
+        }
         $content = $renderer->render_courses_content($courses, $viewtype, $overviews);
 
         $usersschools = mbsmycourses::get_users_school_menu();

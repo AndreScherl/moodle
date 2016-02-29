@@ -16166,6 +16166,16 @@ aside.row .block-region .block {
     width: 29.251%;
   }
 }
+@media only screen and (min-width: 992px) {
+  .block_mbsmycourses div.singleselect {
+    margin: 0 10px 10px 0;
+    float: left;
+  }
+  .block_mbsmycourses form#mbsmycourses_shownewsform {
+    float: right;
+    margin-top: 10px;
+  }
+}
 @media only screen and (max-width: 992px) {
   aside.row {
     margin-right: 0;

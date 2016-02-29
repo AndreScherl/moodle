@@ -346,22 +346,29 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
 
     /**
      * Constructs header in editing mode
-     *
+     * 
+     * @param boolean $shownews display news information for courses
      * @param int $max maximum number of courses
      * @return string html of header bar.
      */
-    public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('notice');
-
+    public function editing_bar_head($shownews, $max = 0) {
+        $output = $this->output->box_start('', 'mbsmycourses_displayoptions');
+        
+        // Number of courses to display.
         $options = array('0' => get_string('alwaysshowall', 'block_mbsmycourses'));
         for ($i = 1; $i <= $max; $i++) {
             $options[$i] = $i;
         }
         $url = new moodle_url('/my/index.php');
         $select = new single_select($url, 'mynumber', $options, mbsmycourses::get_max_user_courses(), array());
-        $select->set_label(get_string('numtodisplay', 'block_mbsmycourses'), array("class" => "coursenumber-label"));
+        $select->set_label(get_string('numtodisplay', 'block_mbsmycourses'), array('class' => 'coursenumber-label'));
         $output .= $this->output->render($select);
 
+        // Show news
+        $checkbox = html_writer::checkbox('show_news', 1, $shownews, get_string('shownews', 'block_mbsmycourses'), array('id' => 'mbsmycourses_shownews'));
+        $unchecked = html_writer::tag('input', '', array('id' => 'mbsmycourses_shownewshidden', 'type' => 'hidden', 'value' => 0, 'name' => 'show_news'));
+        $output .= html_writer::tag('form', $unchecked.$checkbox, array('id' => 'mbsmycourses_shownewsform', 'action' => new moodle_url('/my/index.php')));
+        
         $output .= $this->output->box_end();
         return $output;
     }
@@ -519,7 +526,6 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         }
         $radiogroup .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', $params);
         $radiogroup .= html_writer::end_tag('label');
-
         // Grid view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_grid'));
         $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_grid", 'value' => 'grid');

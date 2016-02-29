@@ -28,6 +28,20 @@ M.block_mbsmycourses.searchform = function (data) {
             }
 
             );
+    
+        var shownewsform = Y.one('#mbsmycourses_shownewsform');
+        var shownews = Y.one('#mbsmycourses_shownews');
+        shownews.on('click',
+            function() {
+                var show = shownews.get('checked');
+                if (show) {
+                    Y.one('#mbsmycourses_shownewshidden').disabled = true;
+                } else {
+                    Y.one('#mbsmycourses_shownewshidden').disabled = false;
+                }            
+                shownewsform.submit();
+            }
+        );
 
     }
 

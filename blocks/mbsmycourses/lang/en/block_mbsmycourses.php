@@ -61,6 +61,7 @@ $string['shortnamesufixsingular'] = ' (and {$a} other)';
 $string['shortnamesufixprural'] = ' (and {$a} others)';
 $string['showchildren'] = 'Show children';
 $string['showchildrendesc'] = 'Should child courses be listed underneath the main course title?';
+$string['shownews'] = 'Show news';
 $string['showwelcomearea'] = 'Show welcome area';
 $string['showwelcomeareadesc'] = 'Show the welcome area above the course list?';
 $string['sortorder'] = 'Category order';

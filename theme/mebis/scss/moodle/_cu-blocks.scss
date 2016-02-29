@@ -240,7 +240,7 @@ aside.row {
         }
     }
 
-    // Form.
+    // Form course sorting.    
     .course-sorting {
 
         padding: 15px 0;
@@ -702,6 +702,21 @@ aside.row {
             }
         }
     }
+}
+
+@media only screen and (min-width: $screen-md-min) {
+    
+     //Block mbsmycourses
+    .block_mbsmycourses {
+        div.singleselect {
+            margin: 0 10px 10px 0;
+            float: left;
+        }
+        form#mbsmycourses_shownewsform {
+            float: right;
+            margin-top: 10px;
+        }
+    }   
 }
 
 @media only screen and (max-width: $screen-md-min) {

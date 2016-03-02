@@ -58,9 +58,24 @@ function xmldb_block_mbsnews_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-        
+
         // Mbsnews savepoint reached.
         upgrade_block_savepoint(true, 2016012200, 'mbsnews');
+    }
+
+    if ($oldversion < 2016030100) {
+
+        // Define field timeconfirmed to be added to block_mbsnews_message.
+        $table = new xmldb_table('block_mbsnews_message');
+        $field = new xmldb_field('timeconfirmed', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'timefirstviewed');
+
+        // Conditionally launch add field timeconfirmed.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbsnews savepoint reached.
+        upgrade_block_savepoint(true, 2016030100, 'mbsnews');
     }
     return true;
 }

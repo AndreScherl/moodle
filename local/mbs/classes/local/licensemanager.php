@@ -79,7 +79,7 @@ class licensemanager {
         
         $recordsoutput = array();
         // get licenses by conditions
-        if ($records = $DB->get_records('block_mbslicenseinfo_ul', $paramuserl)) {
+        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $paramuserl)) {
             $recordsoutput = $records;
         }        
         if ($records = $DB->get_records('license', $paramcorel)) {
@@ -123,7 +123,7 @@ class licensemanager {
         
         $recordsoutput = array();
         // get licenses by conditions
-        if ($records = $DB->get_records('block_mbslicenseinfo_ul', $param)) {
+        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $param)) {
             $recordsoutput = $records;
         }         
         return $recordsoutput;
@@ -139,8 +139,8 @@ class licensemanager {
         if ($record = $DB->get_record('license', array('shortname'=>$name))) {
             $record->table = 'license';
             return $record;
-        } else if ($record = $DB->get_record('block_mbslicenseinfo_ul', array('shortname'=>$name))) {
-            $record->table = 'block_mbslicenseinfo_ul';
+        } else if ($record = $DB->get_record('local_mbslicenseinfo_ul', array('shortname'=>$name))) {
+            $record->table = 'local_mbslicenseinfo_ul';
             return $record;
         } else {
             return null;

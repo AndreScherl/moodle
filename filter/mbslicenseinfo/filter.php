@@ -93,7 +93,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
             'filename' => $fileinfo->filename));
         
         // create mbsfile instance to grap file infos easily
-        $file = new \block_mbslicenseinfo\local\mbsfile($fileid);
+        $file = new \local_mbslicenseinfo\local\mbsfile($fileid);
                 
         // build the markup
         $licenselink = '';

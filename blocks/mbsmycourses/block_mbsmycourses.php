@@ -64,19 +64,19 @@ class block_mbsmycourses extends block_base {
         profile_load_custom_fields($USER);
 
         // ...filter by schoolid.
-        $selectedschool = $this->load_page_params('filter_school', 0, PARAM_INT);
+        $selectedschool = $this->load_page_params('filterschool', 0, PARAM_INT);
 
-        // ...order by sort_type.
-        $sortorder = $this->load_page_params('sort_type', 'manual', PARAM_ALPHA);
+        // ...order by sorttype.
+        $sortorder = $this->load_page_params('sorttype', 'manual', PARAM_ALPHA);
 
         // ...need group by school, if type is list.
-        $viewtype = $this->load_page_params('switch_view', 'grid', PARAM_ALPHA);
+        $viewtype = $this->load_page_params('switchview', 'grid', PARAM_ALPHA);
 
         // ...check, whether to limit courses.
         $showallcourses = (isset($_REQUEST['showallcourses']));
         
-        // ...check, whether to show news
-        $shownews = $this->load_page_params('show_news', 0, PARAM_BOOL);
+        // ...check, whether to show news.
+        $shownews = $this->load_page_params('shownews', 0, PARAM_BOOL);
 
         if ($viewtype == 'grid') {
             $courses = mbsmycourses::get_sorted_courses($sortorder, $selectedschool, $showallcourses);
@@ -85,11 +85,12 @@ class block_mbsmycourses extends block_base {
         }
 
         $renderer = $this->page->get_renderer('block_mbsmycourses');
+        
+        $config = get_config('block_mbsmycourses');
 
         // Display options.
-        $config = get_config('block_mbsmycourses');
-        if ($this->page->user_is_editing() && empty($config->forcedefaultmaxcourses)) {
-            $this->content->text .= $renderer->editing_bar_head($shownews, $courses->total);
+        if ($this->page->user_is_editing()) {
+            $this->content->text .= $renderer->editing_bar_head($shownews, $config->forcedefaultmaxcourses, $courses->total);
         }
 
         // For each course, build category cache.
@@ -97,7 +98,7 @@ class block_mbsmycourses extends block_base {
         if ($shownews) {
             $overviews = mbsmycourses::get_overviews($courses->sitecourses);
         }
-        $content = $renderer->render_courses_content($courses, $viewtype, $overviews);
+        $content = $renderer->render_courses_content($courses, $viewtype, $overviews, $config->forcedefaultmaxcourses);
 
         $usersschools = mbsmycourses::get_users_school_menu();
         $this->content->text .= $renderer->filter_form($content, $usersschools, $selectedschool, $sortorder, $viewtype);

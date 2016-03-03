@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,7 +21,6 @@
  * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 $string['displayname'] = 'Quellenangaben';
@@ -39,12 +37,14 @@ $string['editlicensesheader'] = 'Verwendete (Fremd)inhalte des Kurses';
 $string['editlicenses_note'] = 'Informationen zu Quellenangaben bearbeiten';
 $string['editlicenses_notelink'] = 'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/quellenangaben-bearbeiten/';
 $string['errorcannotedit'] = 'Sie können für diesen Kurs keine Kurslizenzen bearbeiten.';
-$string['extensionblacklist'] = 'Ausgeschlossene Dateiendungen';
-$string['extensionblacklist_expl'] = 'Dateien mit diesen Änderungen werden im Formular nicht angezeigt. '
-        . 'Die Lizenzinformationen für diese Dateitypen können also nicht bearbeitet werden.';
 $string['filesperpage'] = 'Angezeigte Dateien pro Seite';
 $string['filesperpage_expl'] = 'Anzahl der Dateien, die auf einer Seite des Bearbeitungsformulars dargestellt werden.';
+$string['licenseinfosaved'] = 'Lizenzinformationen wurden gespeichert';
 $string['mbslicenseinfo:editlicenses'] = 'Quellenangaben der Kursdateien bearbeiten';
+$string['nolicensestoedit'] = 'Es liegen keine zu bearbeitenden Quellen vor';
 $string['pluginname'] = 'mebis Quellenangaben';
+$string['relatedfiles'] = 'Quellen zu {$a}:';
+$string['showall'] = 'Alle anzeigen';
+$string['showonlyincomplete'] = 'Nur unvollständige anzeigen';
 $string['submitbutton'] = 'Speichern';
 $string['validation_error_nofullname'] = 'Für jede neue Lizenz muss wenigstens ein vollständiger Name angegeben werden.';

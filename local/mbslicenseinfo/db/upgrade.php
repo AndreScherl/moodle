@@ -45,7 +45,18 @@ function xmldb_local_mbslicenseinfo_upgrade($oldversion) {
         // Mbslicenseinfo savepoint reached.
         upgrade_plugin_savepoint(true, 2016022903, 'error', 'mbslicenseinfo');
     }
+    
+     if ($oldversion < 2016030101) {
 
+        $table = new xmldb_table('files');
+        $index = new xmldb_index('chash-ctx-mime', XMLDB_INDEX_NOTUNIQUE, array('contenthash', 'contextid', 'mimetype'));
+
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        upgrade_plugin_savepoint(true, 2016030101, 'error', 'mbslicenseinfo');
+    }
 
     return true;
 }

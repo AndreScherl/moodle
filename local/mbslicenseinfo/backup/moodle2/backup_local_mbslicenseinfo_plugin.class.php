@@ -36,27 +36,27 @@ class backup_local_mbslicenseinfo_plugin extends backup_local_plugin {
 
         $licenseinfos = new backup_nested_element($this->get_recommended_name());
         $plugin->add_child($licenseinfos);
-        
+
         $metainfos = new backup_nested_element('metainfos');
         $licenseinfos->add_child($metainfos);
 
         $meta = new backup_nested_element('fmeta', array('id'), array('title', 'source', 'files_id'));
         $metainfos->add_child($meta);
-        
+
         $courseid = $this->task->get_courseid();
         $coursecontext = \context_course::instance($courseid);
 
         $incourse = $DB->sql_like('c.path', ':contextpath');
         $params = array('contextpath' => array('sqlparam' => $coursecontext->path . '%'));
 
-        $sql = "SELECT f.id, li.title, li.source, li.files_id 
+        $sql = "SELECT f.id, li.title, li.source, li.files_id
                   FROM {files} AS f
                   JOIN {context} AS c ON f.contextid = c.id
                   JOIN {local_mbslicenseinfo_fmeta} li ON f.id = li.files_id
                  WHERE $incourse ";
 
         $meta->set_source_sql($sql, $params);
-        
+
         return $plugin;
     }
 

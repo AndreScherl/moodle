@@ -1,6 +1,14 @@
-.mform .fitem .felement input[type="text"],
-.mform .fitem .felement.fgroup input[type="text"],
-.mform .fitem .felement.fgroup select {
+#page-local-mbslicenseinfo-editlicenses .mform .fitem .felement input[type="text"],
+#page-local-mbslicenseinfo-editlicenses .mform .fitem .felement.fgroup input[type="text"],
+#page-local-mbslicenseinfo-editlicenses .mform .fitem .felement.fgroup select {
     max-width: none;
     width: 100% !important;
+}
+
+.mbseditlicensegroup1, .mbseditlicensegroup0 {
+    padding: 10px 10px 0 0;
+}
+
+.mbseditlicensegroup1 {
+    background: #efefef;
 }

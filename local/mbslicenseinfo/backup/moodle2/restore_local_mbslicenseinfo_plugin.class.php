@@ -42,7 +42,7 @@ class restore_local_mbslicenseinfo_plugin extends restore_local_plugin {
 
         $data = (object) $data;
 
-        // Store a negative value temporarily 
+        // Store a negative value temporarily
         // to avoid collision of existing files id.
         $data->files_id = -$data->files_id;
         $this->newids[] = $DB->insert_record('local_mbslicenseinfo_fmeta', $data);

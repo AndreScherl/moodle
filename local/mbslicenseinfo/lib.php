@@ -20,11 +20,14 @@
  * @copyright  2015 ISB Bayern
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
 
-    // Extend for local_mbslicenseinfo editlicense form
-    local_mbslicenseinfo\local\mbslicenseinfo::extend_course_admin_node($navigation, $context);
+    if ($context->contextlevel == CONTEXT_COURSE && has_capability('local/mbslicenseinfo:editlicenses', $context)) {
+        $course = $context->instanceid;
+        $coursenode = $navigation->get('courseadmin');
+        $licenselink = new \moodle_url('/local/mbslicenseinfo/editlicenses.php', array('course' => $course));
+        $coursenode->add(get_string('editlicenses', 'local_mbslicenseinfo'), $licenselink);
+    }
 }

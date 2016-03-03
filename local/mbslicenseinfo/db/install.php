@@ -25,16 +25,16 @@ defined('MOODLE_INTERNAL') || die();
 
 function xmldb_local_mbslicenseinfo_install() {
     global $CFG, $DB;
-    
+
     if (file_exists($CFG->dirroot.'/blocks/mbslicenseinfo/db/install.xml')) {
-        
+
         if ($licenseinfos = $DB->get_records('block_mbslicenseinfo_fmeta')) {
             $DB->insert_records('local_mbslicenseinfo_fmeta', $licenseinfos);
         }
-        
+
         if ($userlicenses = $DB->get_records('block_mbslicenseinfo_ul')) {
             $DB->insert_records('local_mbslicenseinfo_ul', $userlicenses);
         }
-        
+
     }
 }

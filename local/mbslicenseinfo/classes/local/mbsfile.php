@@ -28,87 +28,116 @@ namespace local_mbslicenseinfo\local;
 defined('MOODLE_INTERNAL') || die();
 
 class mbsfile {
-        
+
     public $id;
     public $filename;
     public $title;
     public $source;
     public $author;
     public $license;
-            
-    /*
+
+    /**
      * Constructs a file object with all appropriate data, if id is given.
      * 
-     * @param int $id id of the file in files table 
+     * @param int $id id of the file in files table
      */
-    function __construct($id = null) {
+
+    public function __construct($id = null, $filewmeta = null) {
+
+        if (isset($filewmeta->id)) {
+            $id = $filewmeta->id;
+        }
+
         if ($id) {
+
             $this->id = $id;
-            if($file = $this->get_file($id)) {
-                $this->filename = $file->filename;
-                $this->author = $file->author;
-                if ($license = $this->get_license($file->license)) {
+
+            // Data is already in the record, so do less Queries.
+            if (isset($filewmeta)) {
+                $this->filename = $filewmeta->filename;
+                $this->author = $filewmeta->author;
+                $this->title = $filewmeta->title;
+                $this->source = $filewmeta->source;
+                if ($license = $this->get_license($filewmeta->license)) {
                     $this->license = $license;
                 }
-            }
-            if($filemeta = $this->get_filemeta($id)) {
-                $this->title = $filemeta->title;
-                $this->source = $filemeta->source;
+
+            } else {
+                // Try to get more data.
+                if ($file = $this->get_file($id)) {
+                    $this->filename = $file->filename;
+                    $this->author = $file->author;
+                    if ($license = $this->get_license($file->license)) {
+                        $this->license = $license;
+                    }
+                }
+                if ($filemeta = $this->get_filemeta($id)) {
+                    $this->title = $filemeta->title;
+                    $this->source = $filemeta->source;
+                }
             }
         }
     }
-    
-    /*
+
+    /**
      * Get the license of the file
+     * 
+     * @TODO: Cache for one request, this will save several database requests
+     * Wenn same license is used.
      * 
      * @param string $shortname - shortname of license
      * @return object - license object
      */
+
     public function get_license($shortname) {
         global $DB;
+
         $license = new \stdClass();
         $license->id = null;
         $license->userid = null;
         $license->shortname = $shortname;
         $license->fullname = null;
         $license->source = null;
-            
-        // get the license from license manager
+
+        // Get the license from license manager.
         if ($lic = \local_mbs\local\licensemanager::get_license_by_shortname($shortname)) {
             $license->id = $lic->id;
-            if(!empty($lic->userid)) {
+            if (!empty($lic->userid)) {
                 $license->userid = $lic->userid;
             }
             $license->fullname = $lic->fullname;
             $license->source = $lic->source;
         }
-        
-        return  $license;
+
+        return $license;
     }
-    
+
     public function set_license() {
-        
+
     }
-    
-    /*
+
+    /**
      * Get files data out of files table
      * 
      * @param int $id - id of the file in files table
      * @return object - files object (row of database table)
      */
+
     protected function get_file($id) {
         global $DB;
         return $DB->get_record('files', array('id' => $id));
     }
-    
-    /*
+
+    /**
      * Get the meta data of the file out of local_mbslicenseinfo_fmeta table
      * 
      * @param int $id - id of the file in files table
      * @return object - metadata (row of database table)
      */
+
     protected function get_filemeta($id) {
         global $DB;
         return $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $id));
     }
+
 }

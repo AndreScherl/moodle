@@ -14593,6 +14593,7 @@ category-box:
 }
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box .category-course .category-course-title i {
   color: #fff;
@@ -14691,6 +14692,7 @@ category-box:
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
   color: #fff;
@@ -14837,6 +14839,9 @@ category-box:
 #page-course-index-category .content .courses .coursebox .info span a img {
   vertical-align: baseline;
 }
+#page-course-index-category .content .courses .coursebox .info span.coursename {
+  word-wrap: break-word;
+}
 #page-course-index-category .content .courses .coursebox .info span.coursename::before {
   content: "";
   font-family: "mebis-icons";
@@ -14938,6 +14943,7 @@ category-box:
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
+  word-wrap: break-word;
 }
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #00a8d5;

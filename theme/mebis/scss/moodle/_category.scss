@@ -29,6 +29,7 @@ category-box:
             }
             span.category-course-title-name {
                 margin-left: 5px;
+                word-wrap: break-word;
             }
             i {
                 color: $white;
@@ -160,6 +161,7 @@ category-box:
             padding: 0 !important;
             span.category-course-title-name {
                 margin-left: 5px;
+                word-wrap: break-word;
                 a {
                     color: $white;
                 }
@@ -336,13 +338,11 @@ category-box:
         background-color: $brand-primary;
 
         .info {
-
             line-height: 26px;
             background: none;
             border:none;
 
             span a {
-
                 vertical-align: top;
 
                 img {
@@ -350,11 +350,15 @@ category-box:
                 }
             }
 
-            span.coursename::before {
-                content: "";
-                font-family: "mebis-icons";
-                margin-right: 5px;
-                font-size:22px;
+            span.coursename {
+                word-wrap: break-word;
+
+                &::before {
+                    content: "";
+                    font-family: "mebis-icons";
+                    margin-right: 5px;
+                    font-size:22px;
+                }
             }
         }
 
@@ -392,7 +396,7 @@ category-box:
         &.span7 {
             width: 58.33333333%;
         }
-        
+
         &.span4 {
             width : 33%;
         }

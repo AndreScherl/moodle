@@ -17094,23 +17094,26 @@ input[type="checkbox"] + label {
     Created on : 21.05.2015, 13:10:44
     Author     : Franziska Hübler, ISB
 */
-.usermessages table#message_contacts,
-.usermessages table#message_participants {
+#page-message-index .usermessages table#message_contacts,
+#page-message-index .usermessages table#message_participants {
   width: 100%;
 }
-.usermessages table#message_contacts td.heading,
-.usermessages table#message_participants td.heading {
+#page-message-index .usermessages table#message_contacts td.heading,
+#page-message-index .usermessages table#message_participants td.heading {
   color: #333333;
   background: transparent;
 }
-.usermessages .mform .fitem_actionbuttons > div.felement {
+#page-message-index .usermessages .mform .fitem_actionbuttons > div.felement {
   padding-left: 15px;
 }
-.usermessages .messages-area > .messagerecent > .singlemessage {
+#page-message-index .usermessages .messages-area div.message > span.text {
+  word-wrap: break-word;
+}
+#page-message-index .usermessages .messages-area > .messagerecent > .singlemessage {
   padding: 10px 0;
   border-bottom: dotted 1px #333333;
 }
-.usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
+#page-message-index .usermessages .messages-area > .messagerecent span.otheruser, #page-message-index .usermessages .messages-area > .messagerecent span.messagedate {
   margin-right: 10px;
 }
 

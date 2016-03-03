@@ -6,33 +6,39 @@
     Author     : Franziska Hübler, ISB
 */
 
-.usermessages {
+#page-message-index {
+    .usermessages {
+        table#message_contacts,
+        table#message_participants {
+            width: 100%;
 
-    table#message_contacts,
-    table#message_participants {
-        width: 100%;
+            td {
+                &.heading {
+                    color: $brand-gray-dark;
+                    background: transparent;
+                }
+            }
+        }
 
-        td {
-            &.heading {
-                color: $brand-gray-dark;
-                background: transparent;
+        .mform .fitem_actionbuttons>div.felement {
+            padding-left: 15px;
+        }
+
+        .messages-area {        
+            div.message > span.text {
+                word-wrap: break-word;
+            }
+
+            >.messagerecent {
+                >.singlemessage {
+                    padding: 10px 0;
+                    border-bottom: dotted 1px $brand-gray-dark;
+                }
+
+                span.otheruser, span.messagedate {
+                    margin-right: 10px;
+                }
             }
         }
     }
-
-    .mform .fitem_actionbuttons>div.felement {
-        padding-left: 15px;
-    }
-
-    .messages-area>.messagerecent {
-        >.singlemessage {
-            padding: 10px 0;
-            border-bottom: dotted 1px $brand-gray-dark;
-        }
-
-        span.otheruser, span.messagedate {
-            margin-right: 10px;
-        }
-    }
-
 }

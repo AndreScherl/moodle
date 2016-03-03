@@ -91,7 +91,16 @@ $string['emailassignedreviewer_subj'] = 'Sie wurden als Reviewer zugeteilt.';
 $string['emailassignedauthor_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
 sie wurden im Kurs {$a->fullname} als Kursautor eingeschrieben. Sie können den Kurs unter folgender Adresse einsehen: {$a->url} .';
 $string['emailassignedauthor_subj'] = 'Sie wurden als Kursautor eingeschrieben.';
-$string['emailcoursepublished_body'] = 'Der Kurs {$a->coursename} ist vom Reviewer veröffentlicht worden. Er kann unter folgender Adresse abgerufen werden:'."\n".'{$a->url}';
+$string['emailcoursepublished_body'] = 'Sehr geehrte(r) Kursautor(in),'."\n"
+        . 'vielen Dank für die Einreichung Ihres Kurses {$a->coursename} bei teachSHARE. Ihr Kurs wurde stichprobenartig unter folgenden Aspekten geprüft:
+             • Fremdmaterial und Eigenmaterial (v. a. Videos, Musik und Bilder) ist mit vollständiger Quellenangabe versehen.
+             • Die Lizenz der veränderten Fremdinhalte erlaubt ggf. die Bearbeitung bzw. Veränderung dieser Materialien.
+             • Etwaige personenbezogene Daten (z. B. Forumsbeiträge) lassen keinen Rückschluss auf einzelne Schüler zu.
+            Bei der Durchsicht sind keine Unstimmigkeiten aufgefallen. Bitte beachten Sie, dass die Verantwortung für die Kursinhalte '
+        .'trotz dieses Prozesses immer beim einreichenden Autor bleibt. Der Kurs wurde veröffentlicht und kann unter folgender Adresse abgerufen werden:'
+        ."\n".'{$a->url}'."\n"
+        .'Sollten Sie dennoch Änderungen vornehmen wollen, lesen Sie folgendes Tutorial: '."\n"
+        .'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/austauschkurs-ueberarbeiten/';
 $string['emailcoursepublished_subj'] = 'Kurs veröffentlicht';
 $string['emailcomplaint_body'] = 'Liebes Support-Team,
     

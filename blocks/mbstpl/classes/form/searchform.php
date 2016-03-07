@@ -50,6 +50,9 @@ class searchform extends \moodleform {
             $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
             $elname = 'q_' . $question->id;
             $typeclass->add_to_searchform($form, $question, $elname);
+            if ($question->datatype == 'checkboxgroup') {
+                $this->add_checkbox_controller($question->id, null, null, 0);
+            }
         }
 
         $form->addElement('text', 'tag', get_string('tag', 'block_mbstpl'));

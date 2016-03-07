@@ -63,6 +63,9 @@ class editmeta extends licenseandassetform {
                 $typeclass = mbst\questman\qtype_base::qtype_factory($question->datatype);
                 $typeclass::add_template_element($form, $question);
                 $typeclass::add_rule($form, $question);
+                if ($question->datatype == 'checkboxgroup') {
+                    $this->add_checkbox_controller($question->id, null, null, 0);
+                }
             }
         }
         $this->define_tags();

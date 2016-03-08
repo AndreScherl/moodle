@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 class restore_local_mbslicenseinfo_plugin extends restore_local_plugin {
 
     // Keep new meta from restored meta license data.
-    private $newmeta = array();
+    private $newids = array();
 
     protected function define_course_plugin_structure() {
 
@@ -82,6 +82,10 @@ class restore_local_mbslicenseinfo_plugin extends restore_local_plugin {
         global $DB;
 
         if (!$filesbyoldid = $this->get_temp_files_data()) {
+            return;
+        }
+        
+        if (empty($this->newids)) {
             return;
         }
 

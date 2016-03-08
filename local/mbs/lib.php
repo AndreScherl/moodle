@@ -115,7 +115,7 @@ function local_mbs_user_loggedin(\core\event\user_loggedin $event) {
 
     // Assign-Teacher-Hack: set preference for user to indicated permission for role assignment.
     local_mbs\local\core_changes::set_allow_teacherrole_preference();
-    
+
     // Set up the isTeacher - flag, we do this here for all auth types.
     local_mbs::setup_teacher_flag();
 }
@@ -202,7 +202,7 @@ class local_mbs {
         if (!isloggedin() or isguestuser()) {
             return false;
         }
-        
+
         if (isset($USER->isTeacher)) {
             return $USER->isTeacher;
         }
@@ -219,7 +219,7 @@ class local_mbs {
                AND ra.userid = :userid";
 
         $USER->isTeacher = $DB->record_exists_sql($sql, $params);
-        
+
         return $USER->isTeacher;
     }
 

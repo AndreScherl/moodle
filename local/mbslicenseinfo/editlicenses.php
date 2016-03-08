@@ -57,13 +57,14 @@ $files = $mbslicenseinfo->get_coursefiles_data($course, $page * $perpage, $perpa
 
 $form = new \local_mbslicenseinfo\form\editlicensesform(null, array('course' => $course, 'filesdata' => $files->data));
 
-$message = '';
 if ($form->is_cancelled()) {
     $redirecturl = new moodle_url('/course/view.php', array('id' => $course));
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
     \local_mbslicenseinfo\local\mbslicenseinfo::update_course_files($data);
-    $message = get_string('licenseinfosaved', 'local_mbslicenseinfo');
+    $thisurl->param('message', 'licenseinfosaved');
+    // Redirect getting new added licenses and avoid resubmit.
+    redirect($thisurl);
 }
 
 echo $OUTPUT->header();
@@ -72,7 +73,9 @@ echo html_writer::tag('h2', get_string('editlicensesheader', 'local_mbslicensein
 $link = html_writer::link(get_string('editlicenses_notelink', 'local_mbslicenseinfo'), get_string('editlicenses_note', 'local_mbslicenseinfo'), array('class' => 'internal'));
 echo html_writer::tag('p', $link);
 
+$message = optional_param('message', '', PARAM_TEXT);
 if (!empty($message)) {
+   $message = get_string($message, 'local_mbslicenseinfo');
    echo $OUTPUT->notification($message, 'notifysuccess'); 
 }
 

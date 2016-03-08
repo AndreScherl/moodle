@@ -37,61 +37,31 @@ class mbsfile {
     public $license;
 
     /**
-     * Constructs a file object with all appropriate data, if id is given.
+     * Construct a file object with all appropriate data, if id is given.
      * 
-     * @param int $id id of the file in files table
+     * @param object $filewmeta file record with some meta data.
      */
+    
+    public function __construct($filewmeta) {
 
-    public function __construct($id = null, $filewmeta = null) {
-
-        if (isset($filewmeta->id)) {
-            $id = $filewmeta->id;
-        }
-
-        if ($id) {
-
-            $this->id = $id;
-
-            // Data is already in the record, so do less Queries.
-            if (isset($filewmeta)) {
-                $this->filename = $filewmeta->filename;
-                $this->author = $filewmeta->author;
-                $this->title = $filewmeta->title;
-                $this->source = $filewmeta->source;
-                if ($license = $this->get_license($filewmeta->license)) {
-                    $this->license = $license;
-                }
-
-            } else {
-                // Try to get more data.
-                if ($file = $this->get_file($id)) {
-                    $this->filename = $file->filename;
-                    $this->author = $file->author;
-                    if ($license = $this->get_license($file->license)) {
-                        $this->license = $license;
-                    }
-                }
-                if ($filemeta = $this->get_filemeta($id)) {
-                    $this->title = $filemeta->title;
-                    $this->source = $filemeta->source;
-                }
-            }
+        $this->id = $filewmeta->id;
+        $this->filename = $filewmeta->filename;
+        $this->author = $filewmeta->author;
+        $this->title = $filewmeta->title;
+        $this->source = $filewmeta->source;
+        if ($license = $this->get_license($filewmeta->license)) {
+            $this->license = $license;
         }
     }
 
     /**
      * Get the license of the file
      * 
-     * @TODO: Cache for one request, this will save several database requests
-     * Wenn same license is used.
-     * 
      * @param string $shortname - shortname of license
      * @return object - license object
      */
-
     public function get_license($shortname) {
-        global $DB;
-
+        
         $license = new \stdClass();
         $license->id = null;
         $license->userid = null;
@@ -111,33 +81,4 @@ class mbsfile {
 
         return $license;
     }
-
-    public function set_license() {
-
-    }
-
-    /**
-     * Get files data out of files table
-     * 
-     * @param int $id - id of the file in files table
-     * @return object - files object (row of database table)
-     */
-
-    protected function get_file($id) {
-        global $DB;
-        return $DB->get_record('files', array('id' => $id));
-    }
-
-    /**
-     * Get the meta data of the file out of local_mbslicenseinfo_fmeta table
-     * 
-     * @param int $id - id of the file in files table
-     * @return object - metadata (row of database table)
-     */
-
-    protected function get_filemeta($id) {
-        global $DB;
-        return $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $id));
-    }
-
 }

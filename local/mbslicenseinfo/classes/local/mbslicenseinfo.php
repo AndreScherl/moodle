@@ -48,10 +48,10 @@ class mbslicenseinfo {
 
         $select = "SELECT f.contenthash ";
         $countselect = "SELECT count(DISTINCT f.contenthash) as total ";
-        
+
         $from = "FROM {files} f
                  JOIN {context} c ON f.contextid = c.id ";
-        
+
         // Get where.
         $cond = array(" f.filename <> '.' ");
         $params = array();
@@ -70,18 +70,18 @@ class mbslicenseinfo {
             // When no mime type is checked, show nothing.
             $cond[] = ' 1 = 2 ';
         }
-        
+
         // Show only incomplete.
         if ($onlyincomplete == 1) {
             $from .= "LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
             $cond[] = " ((fm.title = '') OR (fm.title IS NULL) OR (fm.source = '') OR (fm.source IS NULL)) ";
         }
 
-        $where = "WHERE ".implode(" AND ", $cond);
-        
+        $where = "WHERE " . implode(" AND ", $cond);
+
         // Build SQL.
-        $sql = $select.$from.$where. "GROUP BY f.contenthash ORDER BY f.id desc";
-        $countsql = $countselect.$from.$where;
+        $sql = $select . $from . $where . "GROUP BY f.contenthash ORDER BY f.id desc";
+        $countsql = $countselect . $from . $where;
 
         $result = new \stdClass();
         $result->total = 0;
@@ -95,28 +95,28 @@ class mbslicenseinfo {
         if (!$orderedhashes = $DB->get_records_sql($sql, $params, $limitfrom, $limitsize)) {
             return $result;
         }
-     
+
         // For each content hash retrieve other coursefiles with same content hash.
         $contenthashes = array_keys($orderedhashes);
-        
+
         list($incontenthash, $inparams) = $DB->get_in_or_equal($contenthashes, SQL_PARAMS_NAMED);
         $params = $params + $inparams;
-        
+
         $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license
                    FROM {files} f
                    JOIN {context} c ON f.contextid = c.id 
                    LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
 
         $where .= " AND f.contenthash {$incontenthash}";
-        
+
         $orderby = " ORDER by f.id desc";
-        
-        $sql = $select.$where.$orderby;
+
+        $sql = $select . $where . $orderby;
 
         if (!$allcoursefiles = $DB->get_records_sql($sql, $params)) {
             return array();
         }
-  
+
         $filesordered = array();
         foreach ($allcoursefiles as $file) {
 
@@ -124,7 +124,7 @@ class mbslicenseinfo {
                 $filesordered[$file->contenthash] = array();
             }
 
-            $filesordered[$file->contenthash][$file->id] = new mbsfile($file->id, $file);
+            $filesordered[$file->contenthash][$file->id] = new mbsfile($file);
         }
 
         $result->data = $filesordered;
@@ -133,101 +133,14 @@ class mbslicenseinfo {
     }
 
     /**
-     * Get number of course files to process some paging
-     * 
-     * @param int $courseid
-     * @return int number of course files
-     */
-    public static function get_number_of_course_files($courseid) {
-        global $DB;
-
-        $sql = "SELECT COUNT(f.id)
-                  FROM {files} f
-                  JOIN {context} c
-                    ON f.contextid = c.id
-                 WHERE f.filename <> '.' AND ";
-
-        $likestatement = self::build_like_statement($courseid);
-
-        return $DB->count_records_sql($sql . $likestatement->sql, $likestatement->params);
-    }
-
-    /**
-     * Get a list of all course files including all extra infos (title, url, ...)
-     * 
-     * @param int $courseid
-     * @return array
-     */
-    public static function get_course_files($courseid, $page = 0, $limitnum = 0) {
-        global $DB;
-
-        $files = array();
-
-        $sql = "SELECT f.id
-                  FROM {files} f
-                  JOIN {context} c
-                    ON f.contextid = c.id
-                 WHERE f.filename <> '.' AND ";
-
-        $likestatement = self::build_like_statement($courseid);
-        $fileids = $DB->get_records_sql($sql . $likestatement->sql, $likestatement->params, $page * $limitnum, $limitnum);
-
-        foreach ($fileids as $fileid) {
-            $files[] = new mbsfile($fileid->id);
-        }
-
-        return $files;
-    }
-
-    /**
-     * Create a like statement for sql queries to retreive all the files of a course
-     * that needed license information.
-     * 
-     * @param int $courseid id of course
-     * @return \stdClass sql and params in one object
-     * @throws \coding_exception
-     */
-    private static function build_like_statement($courseid) {
-        global $DB;
-
-        if (empty($courseid)) {
-            throw new \coding_exception('Course id needed to proceed.');
-        }
-
-        $coursecontext = \context_course::instance($courseid);
-
-        $cond = array();
-        $params = array();
-
-        // Restrict to coursecontext.
-        $cond[] = $DB->sql_like('c.path', ':contextpath');
-        $params['contextpath'] = $coursecontext->path . '%';
-
-        // Restrict to mimetypes.
-        $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');
-        if (!empty($neededmimetypes)) {
-            $list = explode(',', $neededmimetypes);
-            $cond[] = " f.mimetype IN ('" . implode("', '", $list) . "')";
-        } else {
-            // When no mime type is checked, show nothing.
-            $cond[] = ' 1 = 2 ';
-        }
-
-        $likestatement = new \stdClass();
-        $likestatement->sql = implode(' AND ', $cond);
-        $likestatement->params = $params;
-        return $likestatement;
-    }
-
-    /**
      * Update the course files information
      * 
      * @param object $data - object containing form data (arrays for fiels with similar name)
      * @return bool - success of operation
      */
-
     public static function update_course_files($data) {
         global $DB, $USER;
+
         $files = self::resort_formdata($data);
         $success = true;
 
@@ -282,17 +195,19 @@ class mbslicenseinfo {
      * @param object $data - object containing form data (arrays for fiels with similar name)
      * @return array of mbsfiles objects
      */
-
     protected static function resort_formdata($data) {
+
         $files = array();
-        //for ($i = 0; $i < count($data->fileid); $i++) {
+
         foreach ($data->fileid as $i) {
-            $file = new mbsfile();
+
+            $file = new \stdClass();
             $file->id = $data->fileid[$i];
             $file->filename = $data->filename[$i];
             $file->title = $data->title[$i];
             $file->source = $data->filesource[$i];
             $file->author = $data->author[$i];
+            
             $license = new \stdClass();
             $license->id = (empty($data->licenseid[$i])) ? null : $data->licenseid[$i];
             $license->userid = (empty($data->licenseuserid[$i])) ? null : $data->licenseuserid[$i];

@@ -291,23 +291,23 @@ class schoolcategory {
      *                                 the school-navigationnode otherwise.
      */
     public static function get_schoolnavigationnode($node) {
-        
+
         if (!$activenode = $node->find_active_node()) {
             return false;
         }
-        
+
         $schoolcatid = \local_mbs\local\schoolcategory::get_schoolcategoryid($activenode->key);
 
         if ($schoolcatid == 0) {
             return $activenode;
         }
-        
+
         if ($schoolcatid != $activenode->key){
-            
+
             if ($schoolcatnode = $node->find($schoolcatid, \navigation_node::TYPE_CATEGORY)) {
                 return $schoolcatnode;
             }
-            
+
         }
         return $activenode;
     }

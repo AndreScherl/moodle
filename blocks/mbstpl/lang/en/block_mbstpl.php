@@ -91,8 +91,14 @@ $string['emailassignedreviewer_subj'] = 'You have been assigned to review';
 $string['emailassignedauthor_body'] = 'Dear course author,
 You have been asked to make some changes to template course {$a->fullname}. You can review it now at at: {$a->url} .';
 $string['emailassignedauthor_subj'] = 'You have been assigned as a template author';
-$string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
-{$a->url}';
+$string['emailcoursepublished_body'] = 'Dear course author,
+    many thanks for the submission of your course {$a->coursename} to teachSHARE. Your course was checked by random sampling.
+    By the examination no discrepancies have struck. Please, note that the responsibility for the course contents in spite of this
+    process always remains with the submitting author.
+    The course has been published and can be viewed at: '."\n"
+    .'{$a->url}'."\n"
+    .'Should you still want to carry out changes, read the following Tutorial: '."\n"
+    .'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/austauschkurs-ueberarbeiten/';
 $string['emailcoursepublished_subj'] = 'Template course published';
 $string['emailcomplaint_body'] = 'Dear Support,
     
@@ -284,6 +290,8 @@ $string['statusunderreview'] = 'Under review';
 $string['statusunderrevision'] = 'Under revision';
 $string['tag'] = 'Tag';
 $string['tags'] = 'Tags';
+$string['tagshelpbutton'] = 'Help: Tags';
+$string['tagshelpbutton_help'] = 'Give the tags which describe the contents or application of your course, e. g. SCHILF-course: schilf, fortbildung';
 $string['tasknote'] = 'Task note';
 $string['teacherrole'] = 'Teacher role';
 $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a duplicated course.';

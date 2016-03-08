@@ -13,15 +13,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Definition of Report Custom SQL scheduled tasks.
+ *
+ * @package report_customsql
+ * @category task
+ * @copyright 2015 The Open University
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016030700;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+$tasks = array(
+    array(
+        'classname' => 'report_customsql\task\run_reports',
+        'blocking' => 0,
+        'minute' => '10',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    )
+);

@@ -14593,6 +14593,7 @@ category-box:
 }
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box .category-course .category-course-title i {
   color: #fff;
@@ -14691,6 +14692,7 @@ category-box:
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
   color: #fff;
@@ -14837,6 +14839,9 @@ category-box:
 #page-course-index-category .content .courses .coursebox .info span a img {
   vertical-align: baseline;
 }
+#page-course-index-category .content .courses .coursebox .info span.coursename {
+  word-wrap: break-word;
+}
 #page-course-index-category .content .courses .coursebox .info span.coursename::before {
   content: "";
   font-family: "mebis-icons";
@@ -14938,6 +14943,7 @@ category-box:
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
+  word-wrap: break-word;
 }
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #00a8d5;
@@ -17094,23 +17100,26 @@ input[type="checkbox"] + label {
     Created on : 21.05.2015, 13:10:44
     Author     : Franziska Hübler, ISB
 */
-.usermessages table#message_contacts,
-.usermessages table#message_participants {
+#page-message-index .usermessages table#message_contacts,
+#page-message-index .usermessages table#message_participants {
   width: 100%;
 }
-.usermessages table#message_contacts td.heading,
-.usermessages table#message_participants td.heading {
+#page-message-index .usermessages table#message_contacts td.heading,
+#page-message-index .usermessages table#message_participants td.heading {
   color: #333333;
   background: transparent;
 }
-.usermessages .mform .fitem_actionbuttons > div.felement {
+#page-message-index .usermessages .mform .fitem_actionbuttons > div.felement {
   padding-left: 15px;
 }
-.usermessages .messages-area > .messagerecent > .singlemessage {
+#page-message-index .usermessages .messages-area div.message > span.text {
+  word-wrap: break-word;
+}
+#page-message-index .usermessages .messages-area > .messagerecent > .singlemessage {
   padding: 10px 0;
   border-bottom: dotted 1px #333333;
 }
-.usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
+#page-message-index .usermessages .messages-area > .messagerecent span.otheruser, #page-message-index .usermessages .messages-area > .messagerecent span.messagedate {
   margin-right: 10px;
 }
 

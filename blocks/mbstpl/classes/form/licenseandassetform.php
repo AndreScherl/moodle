@@ -56,7 +56,7 @@ abstract class licenseandassetform extends \moodleform {
     }
 
     public function set_data($default_values) {
-        global $PAGE;        
+        global $PAGE;
         parent::set_data($default_values);
 
         $args = array();
@@ -66,6 +66,7 @@ abstract class licenseandassetform extends \moodleform {
     protected function define_tags() {
         $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
         $this->_form->setType('tags', PARAM_TEXT);
+        $this->_form->addHelpButton('tags', 'tagshelpbutton', 'block_mbstpl');
     }
 
     protected function define_creator() {
@@ -105,4 +106,5 @@ abstract class licenseandassetform extends \moodleform {
             }
         }
     }
+
 }

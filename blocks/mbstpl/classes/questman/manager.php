@@ -537,7 +537,7 @@ class manager {
         13';
         $question->param2 = NULL;
         $question->help = '<p>Mehrfachauswahl möglich</p>';
-        $question->required = 1;
+        $question->required = 0;
         $question->inuse = 0;
         self::add($question);
 
@@ -573,7 +573,7 @@ class manager {
         $question->param2 = NULL;
         $question->help = '<ul><li>Geben Sie an, ob Sie für die Nutzung Ihres Kurses den Computereinsatz im Unterricht oder zu Hause angedacht haben.</li>'
                 . '<li>Eine Mehrfachauswahl ist möglich.</li></ul>';
-        $question->required = 1;
+        $question->required = 0;
         $question->inuse = 0;
         self::add($question);
         
@@ -703,7 +703,8 @@ class manager {
     public static function add($question) {
         global $DB;
         if ($existingquestion = $DB->get_record('block_mbstpl_question', array('datatype' => $question->datatype, 'name' => $question->name))) {
-            return $existingquestion->id;
+            $question->id = $existingquestion->id;
+            return $DB->update_record('block_mbstpl_question', $question);
         } else {
             return $DB->insert_record('block_mbstpl_question', $question);
         }

@@ -13,15 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
-defined('MOODLE_INTERNAL') || die();
+$settings = null;
 
-$plugin->version   = 2016030700;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+$ADMIN->add('reports', new admin_externalpage('report_customsql',
+        get_string('pluginname', 'report_customsql'),
+        new moodle_url('/report/customsql/index.php'),
+        'report/customsql:view'));

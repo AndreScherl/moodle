@@ -36,7 +36,7 @@ class qtype_checkboxgroup extends qtype_menu {
 
         $boxes = array();
         foreach ($rawoptions as $key => $option) {
-            $boxes[] = & $form->createElement('checkbox', $key, null, format_string($option));
+            $boxes[] = & $form->createElement('advcheckbox', $key, null, format_string($option), array('group' => $question->id));
         }
 
         $question->title = self::add_help_button($question);
@@ -57,7 +57,7 @@ class qtype_checkboxgroup extends qtype_menu {
         }
 
         // Implode all the checked options.
-        $answer = implode(',', array_keys($answer));
+        $answer = implode(',', array_keys($answer, true));
 
         $answerdata = array(
             'metaid' => $metaid,
@@ -78,7 +78,7 @@ class qtype_checkboxgroup extends qtype_menu {
         $values = explode("\n", $question->param1);
         $boxes = array();
         for ($i = 0; $i < count($values); $i++) {
-            $boxes[] = & $form->createElement('checkbox', $i, null, $values[$i]);
+            $boxes[] = & $form->createElement('advcheckbox', $i, null, $values[$i], array('group' => $question->id));
         }
         $form->addGroup($boxes, $elname, $question->title, "&nbsp;");
     }
@@ -98,7 +98,10 @@ class qtype_checkboxgroup extends qtype_menu {
             return array();
         }
 
-        $checkids = array_keys($answer);
+        $checkids = array_keys($answer, true);
+        if (empty($checkids)) {
+            return array();
+        }
 
         $like = array();
         $qparam = 'q' . $question->id;

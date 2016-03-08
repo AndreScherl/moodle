@@ -13,15 +13,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package block_mbstpl
- * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Database upgrades.
+ *
+ * @package report
+ * @subpackage customsql
+ * @copyright 2013 The Open University
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+function xmldb_report_customsql_install() {
+    global $CFG, $DB;
 
-$plugin->version   = 2016030700;
-$plugin->requires  = 2014051201;
-$plugin->component = 'block_mbstpl';
-$plugin->maturity  = MATURITY_STABLE;
+    // Create the default 'Miscellaneous' category.
+    $category = new stdClass();
+    $category->name = get_string('defaultcategory', 'report_customsql');
+    if (!$DB->record_exists('report_customsql_categories', array('name' => $category->name))) {
+        $DB->insert_record('report_customsql_categories', $category);
+    }
+
+    return true;
+}

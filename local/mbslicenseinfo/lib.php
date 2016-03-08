@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
 
-    if ($context->contextlevel == CONTEXT_COURSE && has_capability('local/mbslicenseinfo:editlicenses', $context)) {
+    if (has_capability('local/mbslicenseinfo:editlicenses', $context)) {
       
         $course = $context->instanceid;
       

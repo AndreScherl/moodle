@@ -23,14 +23,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
+    global $COURSE;
 
     if (has_capability('local/mbslicenseinfo:editlicenses', $context)) {
-      
-        $course = $context->instanceid;
-      
+
         if ($coursenode = $navigation->get('courseadmin')) {
-        
-            $licenselink = new \moodle_url('/local/mbslicenseinfo/editlicenses.php', array('course' => $course));
+
+            $licenselink = new \moodle_url('/local/mbslicenseinfo/editlicenses.php', array('course' => $COURSE->id));
             $coursenode->add(get_string('editlicenses', 'local_mbslicenseinfo'), $licenselink);
         }
     }

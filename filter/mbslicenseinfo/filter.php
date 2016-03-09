@@ -26,23 +26,25 @@
 defined('MOODLE_INTERNAL') || die();
 
 class filter_mbslicenseinfo extends moodle_text_filter {
+
     public function filter($text, array $options = array()) {  
-        // img tag solution
+        // Img tag solution.
         $text =  preg_replace_callback('/<img[^>].*(pluginfile.php.[^ ]*\").[^<]*>/i', 'self::enhance_media_tag', $text);
         
-        // span tag mediaplugin solution (for video and audio after mediaplugin filter)
+        // Span tag mediaplugin solution (for video and audio after mediaplugin filter).
         $text = preg_replace_callback('/<span[^>].*class=\"mediaplugin[^(<\/span>)](.*[\r\n])*.*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*((audio>|video>|object>){1}[\r\n]*.*span>)/i', 'self::enhance_media_tag', $text);
         
-        // audio and video tag solution
+        // Audio and video tag solution.
         $text = preg_replace_callback('/(<audio|<video)[^>].*[^(<\/audio>|<\/video>)].*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*(audio>|video>)/i', 'self::enhance_media_tag', $text);
         
         return $text;
     }
     
     /*
-     * callback for preg_replace_callback() function
+     * Callback for preg_replace_callback() function
      */
     private function enhance_media_tag($match) {
+        
         $fileinfo = self::extract_file_information($match);
         $licenseinfo = self::build_license_div($fileinfo);
         $enhancedmediatag = html_writer::div($match[0].$licenseinfo, 'mediaandlicense');
@@ -57,9 +59,13 @@ class filter_mbslicenseinfo extends moodle_text_filter {
      * @return object with processed path informations of the file
      */
     private function extract_file_information($matcharray) {
+
         $fileinfo = new \stdClass();
-        for($i=1; $i<count($matcharray); $i++) {
-            if(strpos($matcharray[$i], 'pluginfile.php') === 0) {
+
+        for($i = 1; $i < count($matcharray); $i++) {
+
+            if (strpos($matcharray[$i], 'pluginfile.php') === 0) {
+
                 $path = str_replace("\"", "", $matcharray[$i]);
                 $pathparts = preg_split('/\//', $path);
                 $fileinfo->contextid = $pathparts[1];
@@ -80,22 +86,34 @@ class filter_mbslicenseinfo extends moodle_text_filter {
      * @return string - license info div tag
      */
     private function build_license_div($fileinfo) {
+
         if (empty($fileinfo)) {
             return false;
         }
         
         global $DB;
-        // get the id of right file out of db files table
-        $fileid = $DB->get_field('files', 'id', array(
+
+        // Get the id of right file out of db files table.
+        $sql = "SELECT * FROM {files} f
+                LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id 
+                WHERE f.contextid = :contextid AND f.component = :component
+                AND f.filearea = :filearea AND f.filename = :filename";
+                     
+        $params = array(
             'contextid' => $fileinfo->contextid, 
             'component' => $fileinfo->component, 
             'filearea' => $fileinfo->filearea, 
-            'filename' => $fileinfo->filename));
+            'filename' => $fileinfo->filename
+        );
         
-        // create mbsfile instance to grap file infos easily
-        $file = new \local_mbslicenseinfo\local\mbsfile($fileid);
+        if (!$filewmeta = $DB->get_record_sql($sql, $params)) {
+            return '';
+        }
+        
+        // Create mbsfile instance to grap file infos easily.
+        $file = new \local_mbslicenseinfo\local\mbsfile($filewmeta);
                 
-        // build the markup
+        // Build the markup.
         $licenselink = '';
         if (!empty($file->license)) {
             $licenselink = html_writer::link($file->license->source, $file->license->fullname, array('target' => '_blank'));

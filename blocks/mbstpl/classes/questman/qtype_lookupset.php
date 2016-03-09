@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -46,7 +45,6 @@ class qtype_lookupset extends qtype_base {
     }
 
     public static function add_template_element(\MoodleQuickForm $form, $question) {
-
         $ajaxurl = new \moodle_url($question->param1);
         $question->title = self::add_help_button($question);
         $form->addElement('lookupset', $question->fieldname, $question->title, $ajaxurl, array());

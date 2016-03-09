@@ -582,7 +582,7 @@ class manager {
         $question->title = 'Fach';
         $question->defaultdata = '';
         $question->defaultdataformat = 0; //FORMAT_MOODLE
-        $question->param1 = '/blocks/mbstpl/lookupset_ajax.php';
+        $question->param1 = '/blocks/mbstpl/lookupset_ajax.php?action=searchsubject';
         $question->param2 = 'block_mbstpl_subjects,id,subject';
         $question->help = '<ul><li>Nach Eingabe von mindestens drei Buchstaben werden Ihnen die verfügbaren Fächer vorgeschlagen.</li>'
                 . '<li>Eine Mehrfachauswahl ist möglich.</li>'

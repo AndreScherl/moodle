@@ -57,9 +57,6 @@ if ($data = $searchform->get_data()) {
     $searchflag = true;
 }
 
-// fhüb - 09.03.2016 - no longer used
-//$PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',
-//        'M.block_mbstpl.templatesearch.init', array(), null, true);
 $pagetitle = get_string('templatesearch', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
 echo $OUTPUT->header();

@@ -4,7 +4,7 @@ M.local_mbs = M.local_mbs || {};
 M.local_mbs.lookupset = {
     init: function (opts) {
 
-        var resultel;
+        var resultel, moreresults;
         var formelement = Y.one('#id_' + opts.name);
         var searchbox = Y.one('#id_' + opts.name + '_search');
         var list = Y.one('#id_' + opts.name + '_list');
@@ -23,7 +23,6 @@ M.local_mbs.lookupset = {
                 }
 
                 var params = {
-                    action: 'search',
                     searchtext: searchtext
                 };
 
@@ -49,6 +48,11 @@ M.local_mbs.lookupset = {
                             if (result.error !== 0) {
                                 alert(result.error);
                             } else {
+                                if (result.results.length > opts.lookupcount) {
+                                    moreresults.show();
+                                } else {
+                                    moreresults.hide();
+                                }
                                 callback(result.results);
                             }
                         }
@@ -104,7 +108,12 @@ M.local_mbs.lookupset = {
 
         resultel = searchbox.next('.yui3-aclist');
         // Attach the autocomplete results box to the body tag (to avoid overflow:hidden clipping).
-        resultel.appendTo('body');
+        resultel.appendTo('body'); 
+        
+        // Conditionally add more results div
+        moreresults = Y.Node.create('<div class="moreresults">' + M.util.get_string('lookupsetmoreresults', 'local_mbs') + '</div>');
+        moreresults.hide();
+        resultel.one('.yui3-aclist-content').append(moreresults);
     }
 };
 

@@ -52,7 +52,7 @@ class editjob_form extends \moodleform {
 
         $mform->addElement('select', 'contextlevel', get_string('contextlevel', 'block_mbsnews'), $choices);
 
-        $ajaxurl = new \moodle_url('/blocks/mbsnews/ajax.php');
+        $ajaxurl = new \moodle_url('/blocks/mbsnews/ajax.php', array('action' => 'searchinstances'));
         $mform->addElement('lookupset', 'instanceids', get_string('instances', 'block_mbsnews'), $ajaxurl, array('id_contextlevel'));
         $mform->setType('instanceids', PARAM_INT);
 

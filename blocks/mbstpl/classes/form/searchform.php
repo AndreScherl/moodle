@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.php');
 
 /**
  * Class activatedraft
@@ -55,14 +56,14 @@ class searchform extends \moodleform {
             }
         }
 
-        $form->addElement('text', 'tag', get_string('tag', 'block_mbstpl'));
-        $form->setType('tag', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchtags'));
+        $form->addElement('lookupset', 'tag', get_string('tag', 'block_mbstpl'), $ajaxurl, array());
 
-        $form->addElement('text', 'author', get_string('author', 'block_mbstpl'));
-        $form->setType('author', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchauthor'));
+        $form->addElement('lookupset', 'author', get_string('author', 'block_mbstpl'), $ajaxurl, array());
 
-        $form->addElement('text', 'coursename', get_string('coursename', 'block_mbstpl'));
-        $form->setType('coursename', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchcoursename'));
+        $form->addElement('lookupset', 'coursename', get_string('coursename', 'block_mbstpl'), $ajaxurl, array());
 
         // Sorting.
         $asc = ': ' . get_string('asc');

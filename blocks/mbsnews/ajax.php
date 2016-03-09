@@ -29,7 +29,7 @@ $action = required_param('action', PARAM_TEXT);
 
 switch ($action) {
 
-    case 'search' :
+    case 'searchinstances' :
 
         $context = context_system::instance();
         require_capability('block/mbsnews:sendnews', $context);

@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,7 +21,6 @@
  * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 $string['displayname'] = 'Licenseinfo';
@@ -39,11 +37,16 @@ $string['editlicensesheader'] = 'Used contents of the course';
 $string['editlicenses_note'] = 'Reference for edit License information';
 $string['editlicenses_notelink'] = 'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/quellenangaben-bearbeiten/';
 $string['errorcannotedit'] = 'You cannot edit licenses for this course.';
-$string['extensionblacklist'] = 'File Extensions Blacklist';
-$string['extensionblacklist_expl'] = 'Files with these extenstions can not be edited via the form because the will not be displayed.';
 $string['filesperpage'] = 'Displayed Files per Page';
 $string['filesperpage_expl'] = 'Number of files listed on one page of the edit form.';
+$string['licenseinfosaved'] = 'License information saved';
 $string['mbslicenseinfo:editlicenses'] = 'Edit license information of course files';
+$string['mimewhitelist'] = 'Mimetypes, that need license';
+$string['mimewhitelistdesc'] = 'Files of checked mimetypes will appear in the edit license form!';
+$string['nolicensestoedit'] = 'There are no licenses to edit';
 $string['pluginname'] = 'mebis licenseinfo';
+$string['relatedfiles'] = 'Related Licences to {$a}:';
+$string['showall'] = 'Show all';
+$string['showonlyincomplete'] = 'Show only incomplete';
 $string['submitbutton'] = 'Submit';
 $string['validation_error_nofullname'] = 'Every new license must at least been given a full name';

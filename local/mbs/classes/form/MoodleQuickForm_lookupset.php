@@ -139,7 +139,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @return    void
      */
     public function setValue($value) {
-        
+
         if (is_array($value)) {
 
             $this->_choices = $value;
@@ -192,7 +192,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $value = (isset($submitValues[$this->_selectedkey])) ? $submitValues[$this->_selectedkey] : null;
         return $this->_prepareValue($value, $assoc);
     }
-    
+
     /**
      * Returns the html to be used when the element is frozen
      *
@@ -207,7 +207,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
             $html .= '<input' . $this->_getAttrString($this->_attributes) . ' disabled="disabled" />';
             return $html;
         }
-        
+
         $li = '';
         foreach ($this->_choices as $key => $value) {
 

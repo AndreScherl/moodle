@@ -30,12 +30,16 @@ if ($hassiteconfig) {
 
     $ADMIN->add('localplugins', $settings);
 
-    $settings->add(new admin_setting_configtext('local_mbslicenseinfo/extensionblacklist',
-            get_string('extensionblacklist', 'local_mbslicenseinfo'),
-            get_string('extensionblacklist_expl', 'local_mbslicenseinfo'), 'doc,docx,dot,dotx,xls,xlsx,xlt,xltx,ppt,pptx,odt,ott,ods,ots,odp,pdf', PARAM_RAW));
+    $choices = \local_mbslicenseinfo\local\mbslicenseinfo::get_grouped_mimetypes_menu();
+
+    $settings->add(new admin_setting_configmulticheckbox(
+            'local_mbslicenseinfo/mimewhitelist',
+            new lang_string('mimewhitelist', 'local_mbslicenseinfo'),
+            new lang_string('mimewhitelistdesc', 'local_mbslicenseinfo'),
+            '', $choices));
+
 
     $settings->add(new admin_setting_configtext('local_mbslicenseinfo/filesperpage',
             get_string('filesperpage', 'local_mbslicenseinfo'),
             get_string('filesperpage_expl', 'local_mbslicenseinfo'), 10, PARAM_INT));
 }
-			

@@ -15,18 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
- *
- * @package   local_mbslicenseinfo
- * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @package   block_mbs
+ * @copyright Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$definitions = array(
 
-$plugin->version   = 2016030101;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2014051203;        // Requires this Moodle version.
-$plugin->component = 'local_mbslicenseinfo'; // Full name of the plugin (used for diagnostics).
-$plugin->dependencies = array(
-    'local_mbs'  => 2015120907
+    'mbslicenseshortname' => array(
+        'mode' => cache_store::MODE_REQUEST,
+    )
 );

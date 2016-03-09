@@ -278,7 +278,7 @@ class datenschutz {
         global $DB;
 
         $eventdata = $event->get_data();
-        
+
         // Get deleted user.
         $deleteduser = $DB->get_record('user', array('id' => $eventdata['objectid']));
 

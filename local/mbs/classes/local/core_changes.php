@@ -30,10 +30,10 @@ use moodle_url;
 defined('MOODLE_INTERNAL') || die();
 
 class core_changes {
-    
+
     public static $teacherroleshortname = 'editingteacher';
 
-        /**
+    /**
      * Called from \course\index.php function definition() 
      */
     public static function check_view_courses() {
@@ -210,7 +210,7 @@ class core_changes {
      * @param course_enrolment_manager $manager
      * @param array $users informations for users appearing in the table
      */
-    public static function add_assignableroles($manager, &$users) {        
+    public static function add_assignableroles($manager, &$users) {
         if (empty($users)) {
             return;
         }
@@ -228,7 +228,7 @@ class core_changes {
             }
         }
     }
-    
+
     /**
      * Assign-Teacher-Hack:
      * 
@@ -241,7 +241,7 @@ class core_changes {
         global $DB;
         return $DB->get_field('role', 'id', array('shortname' => $shortname));
     }
-        
+
     /**
      * mbscoordinators-Hack:
      * 
@@ -249,12 +249,12 @@ class core_changes {
      * 
      * @param array $ids
      * @return array of objects
-     */    
+     */
     public static function get_users_by_id($ids) {
-        global $DB;        
-        return $DB->get_records_list('user', 'id', $ids);       
+        global $DB;
+        return $DB->get_records_list('user', 'id', $ids);
     }
-    
+
     /**
      * mbscoordinators-Hack:
      * 
@@ -285,5 +285,5 @@ class core_changes {
 
         return $output;
     }
-    
+
 }

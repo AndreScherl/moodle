@@ -33,6 +33,7 @@ $string['cron_time_desc'] = 'Wenn der teachSHARE Nutzerdaten Reset aktiviert ist
 $string['cron_time_hour'] = 'Stunde';
 $string['cron_time_minute'] = 'Minute';
 $string['errorunabletoresetnontemplate'] = "teachSHARE Nutzerdaten Reset nur für Austauschekurse möglich.";
+$string['fixbrokencoursesgrades'] = 'Reparatur/Löschen fehlerhafter Kursbewertungen';
 $string['mbs:config'] = 'Konfiguration teachSHARE Nutzerdaten Reset';
 $string['instance_save'] = 'Speichern';
 $string['pluginname'] = 'teachSHARE Nutzerdaten Reset';

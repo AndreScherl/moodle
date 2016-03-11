@@ -33,6 +33,7 @@ $string['cron_time_desc'] = 'If Auto Reset is enabled, Course User Data will be 
 $string['cron_time_hour'] = 'Hour';
 $string['cron_time_minute'] = 'Minute';
 $string['errorunabletoresetnontemplate'] = "Unable to reset user data for courses that were not created from a template";
+$string['fixbrokencoursesgrades'] = 'Fix/Delete broken course grades';
 $string['mbs:config'] = 'Configure Template User Data Reset';
 $string['instance_save'] = 'Save';
 $string['pluginname'] = 'Course Template User Data Reset';

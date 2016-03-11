@@ -54,17 +54,15 @@ class fix_broken_course_grades extends \core\task\scheduled_task {
                     }
                 }
             }
-            // clean up grade_categories table, grade category path should be unique
-            $gradecategories = $DB->get_records_menu('grade_categories', array('courseid' => $courseid), $sort='', $fields='id,path');
+            // clean up grade_categories table, grade category path should be unique and course categories have no parent
+            $gradecategories = $DB->get_records_menu('grade_categories', array('courseid' => $courseid, 'parent' => null), $sort='', $fields='id,path');
             if (count($gradecategories) > 1) {
                 $firstgradecat = reset($gradecategories);
                 $firstkey = key($gradecategories);
                 unset($gradecategories[$firstkey]);
                 foreach ($gradecategories as $gid => $gpath) {
-                    if ($firstgradecat == $gpath) {
-                        if ($DB->delete_records('grade_categories', array('id' => $gid))) {
-                            mtrace("Removed grade category $gid of course $courseid.");
-                        }
+                    if ($DB->delete_records('grade_categories', array('id' => $gid))) {
+                        mtrace("Removed grade category $gid of course $courseid.");
                     }
                 }
             }

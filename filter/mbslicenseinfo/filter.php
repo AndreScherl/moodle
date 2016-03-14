@@ -28,14 +28,20 @@ defined('MOODLE_INTERNAL') || die();
 class filter_mbslicenseinfo extends moodle_text_filter {
 
     public function filter($text, array $options = array()) {  
-        // Img tag solution.
-        $text =  preg_replace_callback('/<img[^>].*(pluginfile.php.[^ ]*\").[^<]*>/i', 'self::enhance_media_tag', $text);
+        
+        // Img tag solution, use ? to make it greedy.
+        //$text =  preg_replace_callback('/<img[^>].*(pluginfile.php.[^ ]*\").[^<]*>/i', 'self::enhance_media_tag', $text);
+        $text =  preg_replace_callback('/<img[^>]*?(pluginfile.php.*?\")[^<]*?>/si', 'self::enhance_media_tag', $text);
         
         // Span tag mediaplugin solution (for video and audio after mediaplugin filter).
-        $text = preg_replace_callback('/<span[^>].*class=\"mediaplugin[^(<\/span>)](.*[\r\n])*.*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*((audio>|video>|object>){1}[\r\n]*.*span>)/i', 'self::enhance_media_tag', $text);
-        
+        //$text = preg_replace_callback('/<span[^>].*class=\"mediaplugin[^(<\/span>)](.*[\r\n])*.*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*((audio>|video>|object>){1}[\r\n]*.*span>)/i', 'self::enhance_media_tag', $text);
+        $pattern = '/<span[^>].*?class=\"mediaplugin.*?(pluginfile.php.*?)\".*?((audio>|video>|object>).*?span>)/si';
+        $text = preg_replace_callback($pattern, 'self::enhance_media_tag', $text);        
+
         // Audio and video tag solution.
-        $text = preg_replace_callback('/(<audio|<video)[^>].*[^(<\/audio>|<\/video>)].*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*(audio>|video>)/i', 'self::enhance_media_tag', $text);
+        //$text = preg_replace_callback('/(<audio|<video)[^>].*[^(<\/audio>|<\/video>)].*(pluginfile.php.[^ ]*\")(.*[\r\n])*.*(audio>|video>)/i', 'self::enhance_media_tag', $text);
+        $pattern = '/<(video|audio).*?(pluginfile.php.*?\").*?(audio|video)>/si';
+        $text = preg_replace_callback($pattern, 'self::enhance_media_tag', $text);        
         
         return $text;
     }
@@ -71,10 +77,13 @@ class filter_mbslicenseinfo extends moodle_text_filter {
                 $fileinfo->contextid = $pathparts[1];
                 $fileinfo->component = $pathparts[2];
                 $fileinfo->filearea = $pathparts[3];
-                $fileinfo->filename = $pathparts[count($pathparts)-1];
+                
+                // We must decode urls to match the exact filename.
+                $fileinfo->filename = urldecode($pathparts[count($pathparts)-1]);
                 break;
             }
         }
+        
         return $fileinfo;
     }
     

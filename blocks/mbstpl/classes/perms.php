@@ -174,7 +174,7 @@ class perms {
             return false;
         }
 
-        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+        return (is_siteadmin() || has_capability('block/mbstpl:coursetemplatemanager', $coursecontext));
     }
 
     /**
@@ -309,6 +309,27 @@ class perms {
      */
     public static function can_viewabout($coursecontext) {
         return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
+    }
+    
+    /**
+     * Tells us whether the current user can delete the template.
+     * @param dataobj\template
+     * @return bool
+     */
+    public static function can_delete(dataobj\template $template) {
+        global $USER;
+        
+        if (is_siteadmin()) {
+            return true;
+        }
+
+        $tplinreview = !($template->status == $template::STATUS_PUBLISHED) && !($template->status == $template::STATUS_ARCHIVED);
+        if ($template->reviewerid == $USER->id && $tplinreview) {
+            return true;
+        }
+
+        $coursecontext = \context_course::instance($template->courseid);
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
     }
 
 }

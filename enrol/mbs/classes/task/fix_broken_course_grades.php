@@ -55,7 +55,10 @@ class fix_broken_course_grades extends \core\task\scheduled_task {
                 }
             }
             // clean up grade_categories table, grade category path should be unique and course categories have no parent
-            $gradecategories = $DB->get_records_menu('grade_categories', array('courseid' => $courseid, 'parent' => null), $sort='', $fields='id,path');
+            $gradecategories = $DB->get_records_menu('grade_categories', 
+                    array('courseid' => $courseid, 'parent' => null), 
+                    $sort='', 
+                    $fields='id,path');
             if (count($gradecategories) > 1) {
                 $firstgradecat = reset($gradecategories);
                 $firstkey = key($gradecategories);
@@ -63,6 +66,23 @@ class fix_broken_course_grades extends \core\task\scheduled_task {
                 foreach ($gradecategories as $gid => $gpath) {
                     if ($DB->delete_records('grade_categories', array('id' => $gid))) {
                         mtrace("Removed grade category $gid of course $courseid.");
+                    }
+                }
+            }
+            // clean up task_adhoc table, only one task for each enrol_mbs instance is needed
+            $sqllike = $DB->sql_like('customdata', ':cdata');
+            $adhoctasks = $DB->get_records_select_menu('task_adhoc',
+                    $sqllike,
+                    array('cdata' => '%\"courseid\":\"' . $courseid . '\"%'), 
+                    $sort='', 
+                    $fields='id,customdata');
+            if (count($adhoctasks) > 1) {
+                $lasttask = end($adhoctasks);
+                $lastkey = key($adhoctasks);
+                unset($adhoctasks[$lastkey]);
+                foreach ($adhoctasks as $adhocid => $adhoccustomdata) {
+                    if ($DB->delete_records('task_adhoc', array('id' => $adhocid))) {
+                        mtrace("Removed adhoc task $adhocid with custom data $adhoccustomdata.");
                     }
                 }
             }

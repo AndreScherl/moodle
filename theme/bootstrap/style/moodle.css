@@ -180,10 +180,10 @@ table {
   border-spacing: 0;
   border-collapse: collapse;
 }
-td,
+/*td,
 th {
   padding: 0;
-}
+}*/
 @media print {
   * {
     color: #000 !important;

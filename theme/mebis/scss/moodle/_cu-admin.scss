@@ -11,48 +11,40 @@ Put all the pagelayout specific styles here.
     Author     : Admin
 */
 
-.pagelayout-admin, .pagelayout-report {
-
-    //styling block configuration page 
-    #main-content-wrapper {
-        //need important because of the styling of mydashboard (#page-my-index #main-content-wrapper in _cu-pages.scss)
-        background: $white !important;
-        color: $black !important;
-    }      
-
+.pagelayout-report {
     .admin-navigation {
-
         margin-bottom: 20px;
 
         h3 {
             color: $white;
         }
-        
+
         select {
             max-width: 100%;
         }
     }
 }
 
-.pagelayout-maintenance {
-
-    .me-wrapper .container.homepage-container.admin-container {
-        background: $white;
-        margin-bottom: 40px;
-    }   
-}
-
-.admin-container {
-    
-    table {
-        background: $white;
+.admin-layout  { 
+    .pagelayout-maintenance {
+        //styling block configuration page 
+        .admin-container {
+            margin-bottom: 40px;
+            
+            .row {
+                background: $white;
+                
+                .label-important {
+                    background-color: #b94a48;
+                }
+            }  
+        }  
     }
 }
 
 @media only screen and (min-width: $screen-lg-min) {
 
     .admin-container {
-
         width: 100%;
         max-width: 1692px;
         padding-left: 100px;
@@ -61,12 +53,8 @@ Put all the pagelayout specific styles here.
             margin-bottom: 25px;
         }
 
-        table {
-
-            .mceToolbar {
-                width : auto !important;
-            }
+        table .mceToolbar {
+            width : auto !important;
         }
-
     }
 }

@@ -77,16 +77,6 @@ $PAGE->set_popup_notification_allowed($ismydashboard);
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 
-// TODO: discuss this line - deprecated?
-// $regions = theme_mebis_bootstrap_grid($hasapps, null);
-
-if ($hassidepre) {
-    theme_bootstrap_initialise_zoom($PAGE);
-}
-
-// Define additional css classes that should be set on the body element. 
-// text-center is needed to center the main content block
-$setzoom = theme_bootstrap_get_zoom();
 echo $OUTPUT->doctype()
 ?>
 
@@ -105,7 +95,7 @@ echo $OUTPUT->doctype()
         <script src="<?php echo new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
     </head>
 
-    <body <?php echo $OUTPUT->body_attributes($setzoom); ?>>
+    <body <?php echo $OUTPUT->body_attributes(); ?>>
 
         <?php echo $OUTPUT->standard_top_of_body_html() ?>
 

@@ -7,16 +7,8 @@ $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
-//$regions = theme_mebis_bootstrap_grid($hassidepre, $hassidepost);
-if ($knownregionpre || $knownregionpost) {
-    theme_bootstrap_initialise_zoom($PAGE);
-}
-
-// define additional css classes that should be set on the body element. text-center is needed to center the main
-// content block
-$bodycls = theme_bootstrap_get_zoom();
 $htmlattrib = $OUTPUT->htmlattributes() . ' class="admin-layout"';
-echo $OUTPUT->doctype()
+echo $OUTPUT->doctype();
 ?>
 <html <?php echo $htmlattrib; ?>>
     <head>
@@ -34,7 +26,7 @@ echo $OUTPUT->doctype()
         <?php $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
-    <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
+    <body <?php echo $OUTPUT->body_attributes(); ?>>
     <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
         <!-- HOMEPAGE-WRAPPER [start] -->

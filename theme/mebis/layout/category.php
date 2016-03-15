@@ -30,14 +30,6 @@ $OUTPUT->add_block_mbswizzard_if_needed('side-pre');
 // Check whether regions has content.
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 
-if ($hassidepre) {
-    theme_bootstrap_initialise_zoom($PAGE);
-}
-
-// Define additional css classes that should be set on the body element. 
-// text-center is needed to center the main content block
-$bodycls = theme_bootstrap_get_zoom();
-
 echo $OUTPUT->doctype()
 ?>
 
@@ -56,7 +48,7 @@ echo $OUTPUT->doctype()
         <script src="<?php echo new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
     </head>
 
-    <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
+    <body <?php echo $OUTPUT->body_attributes(); ?>>
 
         <?php echo $OUTPUT->standard_top_of_body_html() ?>
 

@@ -15569,27 +15569,24 @@ Put all the pagelayout specific styles here.
     Created on : 17.05.2015, 08:47:11
     Author     : Admin
 */
-.pagelayout-admin #main-content-wrapper, .pagelayout-report #main-content-wrapper {
-  background: #fff !important;
-  color: #000 !important;
-}
-.pagelayout-admin .admin-navigation, .pagelayout-report .admin-navigation {
+.pagelayout-report .admin-navigation {
   margin-bottom: 20px;
 }
-.pagelayout-admin .admin-navigation h3, .pagelayout-report .admin-navigation h3 {
+.pagelayout-report .admin-navigation h3 {
   color: #fff;
 }
-.pagelayout-admin .admin-navigation select, .pagelayout-report .admin-navigation select {
+.pagelayout-report .admin-navigation select {
   max-width: 100%;
 }
 
-.pagelayout-maintenance .me-wrapper .container.homepage-container.admin-container {
-  background: #fff;
+.admin-layout .pagelayout-maintenance .admin-container {
   margin-bottom: 40px;
 }
-
-.admin-container table {
+.admin-layout .pagelayout-maintenance .admin-container .row {
   background: #fff;
+}
+.admin-layout .pagelayout-maintenance .admin-container .row .label-important {
+  background-color: #b94a48;
 }
 
 @media only screen and (min-width: 1200px) {

@@ -29,9 +29,7 @@
 // Allow no popups.
 $PAGE->set_popup_notification_allowed(false);
 
-$setzoom = theme_bootstrap_get_zoom();
-
-echo $OUTPUT->doctype()
+echo $OUTPUT->doctype();
 ?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 <head>
@@ -49,7 +47,7 @@ echo $OUTPUT->doctype()
     <?php $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
 </head>
 
-<body <?php echo $OUTPUT->body_attributes($setzoom); ?>>
+<body <?php echo $OUTPUT->body_attributes(); ?>>
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 <header class="moodleheader">

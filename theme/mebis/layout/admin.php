@@ -27,10 +27,6 @@ $OUTPUT->add_block_mbswizzard_if_needed('admin-navi');
 // Check existing regions.
 $knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
 
-// Define additional css classes that should be set on the body element. 
-// text-center is needed to center the main content block
-$bodycls = theme_bootstrap_get_zoom();
-
 echo $OUTPUT->doctype()
 ?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
@@ -49,7 +45,7 @@ echo $OUTPUT->doctype()
         <?php $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
-    <body <?php echo $OUTPUT->body_attributes($bodycls); ?>>
+    <body <?php echo $OUTPUT->body_attributes(); ?>>
 
         <?php echo $OUTPUT->standard_top_of_body_html() ?>
 

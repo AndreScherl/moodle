@@ -25,7 +25,7 @@
  
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015121000;
+$plugin->version   = 2016031500;
 $plugin->requires  = 2010112400; // 2.0
 $plugin->component = 'filter_mbslicenseinfo';
 $plugin->maturity  = MATURITY_ALPHA;

@@ -42,6 +42,18 @@ class qtype_checkboxgroup extends qtype_menu {
         $question->title = self::add_help_button($question);
         $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
     }
+    
+    public static function validate_question($data) {
+        $errors = array();
+        // If the checkboxgroup is required make sure that at least one advcheckbox is checked. 
+        $checkids = array_keys($data, true);
+        if (empty($checkids)) {
+            // $data[1] muss auf die Frage verweisen, bei der die Fehleranzeige passieren soll
+            $errors[$data[1]] = 'Mindestens eine Option ist zu wählen.';
+        }
+        
+        return $errors;
+    }
 
     /**
      * Save the answer when template is sended.
@@ -120,7 +132,7 @@ class qtype_checkboxgroup extends qtype_menu {
     }
 
     /**
-     * Gets answer according to type (by default the data, for some fields an array)
+     * Gets answer according to type (by default the data, for some fields an array).
      * @param object $answer
      */
     public static function process_answer($question, $answer, $isfrozen = false) {

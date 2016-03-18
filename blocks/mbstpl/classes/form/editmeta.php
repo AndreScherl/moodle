@@ -92,4 +92,17 @@ class editmeta extends licenseandassetform {
             $form->freeze();
         }
     }
+    
+    
+    //to do: $data und $questions so verheiraten, dass der Methode validate_question nur die Daten der einen passenden Frage übergeben werden.
+    function validation($data, $files) {
+        $questions = $this->_customdata['questions'];
+        foreach($questions as $q) {
+            $typeclass = mbst\questman\qtype_base::qtype_factory($q->datatype);
+            if ($q->required) {
+                return $typeclass::validate_question($data);
+            }
+        }        
+    }
+
 }

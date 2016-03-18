@@ -51,11 +51,19 @@ class qtype_base {
     }
 
     /**
-     * Extend the validation.
+     * Extend the validation for Manage Template Metadata questions.
      * @param $data
      * @param $files
      */
     public function extend_validation($data, $files) {
+        return array();
+    }
+    
+    /**
+     * Extend the validation for Template questions.
+     * @param $data
+     */
+    public static function validate_question($data) {
         return array();
     }
 

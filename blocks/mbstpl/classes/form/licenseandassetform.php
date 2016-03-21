@@ -106,5 +106,14 @@ abstract class licenseandassetform extends \moodleform {
             }
         }
     }
-
+    
+    public function validation($data, $files) {
+        $errors = array();
+        $questions = $this->_customdata['questions'];
+        foreach($questions as $q) {
+            $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($q->datatype);
+            $errors = array_merge($errors, $typeclass::validate_question($data, $q));
+        }
+        return $errors;
+    }
 }

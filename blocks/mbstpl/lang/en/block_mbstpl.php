@@ -192,6 +192,7 @@ $string['lastupdate'] = 'Last update';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
+$string['leastoneoption'] = 'Please select at least one option.';
 $string['legalinfo'] = 'Legal Information';
 $string['license'] = 'Published under license';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Attribution</a></li>'

@@ -183,6 +183,7 @@ $string['lastupdate'] = 'Letzte Aktualisierung';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Kacheln';
 $string['layoutlist'] = 'Liste';
+$string['leastoneoption'] = 'Bitte wählen Sie mindestens eine Option aus.';
 $string['legalinfo'] = 'Rechtliche Information';
 $string['license'] = 'Veröffentlichung der Eigeninhalte unter der Lizenz';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Namensnennung</a></li>'

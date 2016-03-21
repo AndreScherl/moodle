@@ -43,13 +43,11 @@ class qtype_checkboxgroup extends qtype_menu {
         $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
     }
     
-    public static function validate_question($data) {
+    public static function validate_question($data, $question) {
         $errors = array();
         // If the checkboxgroup is required make sure that at least one advcheckbox is checked. 
-        $checkids = array_keys($data, true);
-        if (empty($checkids)) {
-            // $data[1] muss auf die Frage verweisen, bei der die Fehleranzeige passieren soll
-            $errors[$data[1]] = 'Mindestens eine Option ist zu wählen.';
+        if (!empty($question->required) && (array_sum($data[$question->fieldname]) == 0)) {
+            $errors[$question->fieldname] = get_string('leastoneoption', 'block_mbstpl');
         }
         
         return $errors;

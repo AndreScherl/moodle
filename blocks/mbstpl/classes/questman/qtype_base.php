@@ -61,9 +61,10 @@ class qtype_base {
     
     /**
      * Extend the validation for Template questions.
-     * @param $data
+     * @param $data form data to send
+     * @param $question question object of form
      */
-    public static function validate_question($data) {
+    public static function validate_question($data, $question) {
         return array();
     }
 

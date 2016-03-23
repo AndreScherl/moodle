@@ -1,0 +1,326 @@
+<?PHP //$Id$
+    //This page receives the required info and executes the restore
+    //with the parameters suplied. Whe finished, delete temporary
+    //data from backup_tables and temp directory
+
+    //Get objects from session
+    if ($SESSION) {
+        $info = $SESSION->info;
+        $course_header = $SESSION->course_header;
+        $restore = $SESSION->restore;
+    }
+
+    //Add info->original_wwwroot to $restore to be able to use it in all the restore process
+    //(mainly when decoding internal links)
+    $restore->original_wwwroot = $info->original_wwwroot;
+
+    //Check login
+    require_login();
+
+    //Check admin
+    if (!empty($id)) {
+        if (!isteacheredit($id)) {
+            error("You need to be a teacher or admin user to use this page.", "$CFG->wwwroot/login/index.php");
+        }
+    } else {
+        if (!isadmin()) {
+            error("You need to be an admin user to use this page.", "$CFG->wwwroot/login/index.php");
+        }
+    }
+
+    //Check site
+    if (!$site = get_site()) {
+        error("Site not found!");
+    }
+
+    //Checks for the required files/functions to restore every module
+    //and include them
+    if ($allmods = get_records("modules") ) {
+        foreach ($allmods as $mod) {
+            $modname = $mod->name;
+            $modfile = "$CFG->dirroot/mod/$modname/restorelib.php";
+            //If file exists and we have selected to restore that type of module
+            if ((file_exists($modfile)) and ($restore->mods[$modname]->restore)) {
+               include_once($modfile);
+            }
+        }
+    }
+
+    //Start the main table
+    echo "<table cellpadding=5>";
+    echo "<tr><td>";
+
+    //Start the main ul
+    echo "<ul>";
+
+    //Init status
+    $status = true;
+
+    //Localtion of the xml file
+    $xml_file  = $CFG->dataroot."/temp/backup/".$restore->backup_unique_code."/moodle.xml";
+
+    //If we've selected to restore into new course
+    //create it (course)
+    //Saving conversion id variables into backup_tables
+    if ($restore->restoreto == 2) {
+        echo "<li>".get_string("creatingnewcourse");
+        if (!$status = restore_create_new_course($restore,$course_header)) {
+            notify("Error while creating the new empty course.");
+        }
+        //Print course fullname and shortname and category
+        if ($status) {
+            echo "<ul>";
+            echo "<li>".$course_header->course_fullname." (".$course_header->course_shortname.")";
+            echo "<li>".get_string("category").": ".$course_header->category->name;
+            echo "</ul>";
+            //Put the destination course_id
+            $restore->course_id = $course_header->course_id;
+        }
+    } else {
+        $course = get_record("course","id",$restore->course_id);
+        if ($course) {
+            echo "<li>".get_string("usingexistingcourse"); 
+            echo "<ul>";
+            echo "<li>".get_string("from").": ".$course_header->course_fullname." (".$course_header->course_shortname.")";
+            echo "<li>".get_string("to").": ".$course->fullname." (".$course->shortname.")";
+            if (($restore->deleting)) {
+                echo "<li>".get_string("deletingexistingcoursedata");
+            } else {
+                echo "<li>".get_string("addingdatatoexisting");
+            }
+            echo "</ul>";
+            //If we have selected to restore deleting, we do it now.
+            if ($restore->deleting) {
+                echo "<li>".get_string("deletingolddata");
+                $status = remove_course_contents($restore->course_id,false) and 
+                          delete_dir_contents($CFG->dataroot."/".$restore->course_id,"backupdata");
+                if ($status) {
+                    //Now , this situation is equivalent to the "restore to new course" one (we
+                    //have a course record and nothing more), so define it as "to new course"
+                    $restore->restoreto = 2;
+                } else {
+                    notify("An error occurred while deleting some of the course contents.");
+                }
+            }
+        } else {
+            notify("Error opening existing course.");
+            $status = false;
+        }
+    }
+
+    //Now create the course_sections and their associated course_modules
+    if ($status) {
+        //Into new course
+        if ($restore->restoreto == 2) {
+            echo "<li>".get_string("creatingsections");
+            if (!$status = restore_create_sections($restore,$xml_file)) {
+                notify("Error creating sections in the existing course.");
+            }
+        //Into existing course
+        } else if ($restore->restoreto == 0 or $restore->restoreto == 1) {
+            echo "<li>".get_string("checkingsections");
+            if (!$status = restore_create_sections($restore,$xml_file)) {
+                notify("Error creating sections in the existing course.");
+            }
+        //Error
+        } else {
+            notify("Neither a new course or an existing one was specified.");
+            $status = false;
+        }
+    }
+
+
+    //Now create users as needed 
+    if ($status and ($restore->users == 0 or $restore->users == 1)) {
+        echo "<li>".get_string("creatingusers")."<br>";
+        if (!$status = restore_create_users($restore,$xml_file)) {
+            notify("Could not restore users.");
+        }
+        //Now print info about the work done
+        if ($status) {
+            $recs = get_records_sql("select old_id, new_id from {$CFG->prefix}backup_ids
+                                     where backup_code = '$restore->backup_unique_code' and
+                                     table_name = 'user'");
+            //We've records
+            if ($recs) {
+                $new_count = 0;
+                $exists_count = 0;
+                $student_count = 0;
+                $teacher_count = 0;
+                $counter = 0;
+                //Iterate, filling counters
+                foreach ($recs as $rec) {
+                    //Get full record, using backup_getids
+                    $record = backup_getid($restore->backup_unique_code,"user",$rec->old_id);
+                    if (strpos($record->info,"new") !== false) {
+                        $new_count++;
+                    } 
+                    if (strpos($record->info,"exists") !== false) {
+                        $exists_count++;
+                    }
+                    if (strpos($record->info,"student") !== false) {
+                        $student_count++;
+                    } else if (strpos($record->info,"teacher") !== false) {
+                        $teacher_count++;
+                    }
+                    //Do some output
+                    $counter++;
+                    if ($counter % 10 == 0) {
+                        echo ".";
+                        if ($counter % 200 == 0) {
+                            echo "<br>";
+                        }
+                        backup_flush(300);
+                    }
+                }
+                //Now print information gathered
+                echo " (".get_string("new").": ".$new_count.", ".get_string("existing").": ".$exists_count.")";
+                echo "<ul>";
+                echo "<li>".get_string("students").": ".$student_count;
+                echo "<li>".get_string("teachers").": ".$teacher_count;
+                echo "</ul>";
+            } else {
+                notify("No users were found!");
+            }
+        }
+    }
+
+    //Now create categories and questions as needed (STEP1)
+    if ($status and ($restore->mods['quiz']->restore)) {
+         echo "<li>".get_string("creatingcategoriesandquestions")."<br>";
+         if (!$status = restore_create_questions($restore,$xml_file)) {
+             notify("Could not restore categories and questions!");
+         }
+    }
+
+    //Now create user_files as needed
+    if ($status and ($restore->user_files)) {
+        echo "<li>".get_string("copyinguserfiles")."<br>";
+        if (!$status = restore_user_files($restore)) {
+            notify("Could not restore user files!");
+        }
+        //If all is ok (and we have a counter)
+        if ($status and ($status !== true)) {
+            //Inform about user dirs created from backup
+            echo "<ul>";
+            echo "<li>".get_string("userzones").": ".$status;
+            echo "</ul>";
+        }
+    }
+
+    //Now create course files as needed
+    if ($status and ($restore->course_files)) {
+        echo "<li>".get_string("copyingcoursefiles")."<br>";
+        if (!$status = restore_course_files($restore)) {
+            notify("Could not restore course files!");
+        }
+        //If all is ok (and we have a counter)
+        if ($status and ($status !== true)) {
+            //Inform about user dirs created from backup
+            echo "<ul>";
+            echo "<li>".get_string("filesfolders").": ".$status;
+            echo "</ul>";
+        }       
+    }
+
+    //Now create scales as needed
+    if ($status) {
+        echo "<li>".get_string("creatingscales");
+        if (!$status = restore_create_scales($restore,$xml_file)) {
+            notify("Could not restore custom scales!");
+        }
+    }
+
+    //Now create groups as needed
+    if ($status) {
+        echo "<li>".get_string("creatinggroups");
+        if (!$status = restore_create_groups($restore,$xml_file)) {
+            notify("Could not restore groups!");
+        }
+    }
+
+    //Now create events as needed
+    if ($status) {
+        echo "<li>".get_string("creatingevents");
+        if (!$status = restore_create_events($restore,$xml_file)) {
+            notify("Could not restore course events!");
+        }
+    }
+
+    //Now create course modules as needed
+    if ($status) {
+        echo "<li>".get_string("creatingcoursemodules");
+        if (!$status = restore_create_modules($restore,$xml_file)) {
+            notify("Could not restore modules!");
+        }
+    }
+
+    //Now create log entries as needed
+    if ($status and ($restore->logs)) {
+        echo "<li>".get_string("creatinglogentries");
+        if (!$status = restore_create_logs($restore,$xml_file)) {
+            notify("Could not restore logs!");
+        }
+    }    
+
+    //Now, if all is OK, adjust the instance field in course_modules !!
+    if ($status) {
+        echo "<li>".get_string("checkinginstances");
+        if (!$status = restore_check_instances($restore)) {
+            notify("Could not adjust instances in course_modules!");
+        }
+    }
+
+    //Now, if all is OK, adjust activity events
+    if ($status) {
+        echo "<li>".get_string("refreshingevents");
+        if (!$status = restore_refresh_events($restore)) {
+            notify("Could not refresh events for activities!");
+        }
+    }
+
+    //Now, if all is OK, adjust inter-activity links
+    if ($status) {
+        echo "<li>".get_string("decodinginternallinks");
+        if (!$status = restore_decode_content_links($restore)) {
+            notify("Could not refresh events for activities!");
+        }
+    }
+
+    //Now if all is OK, update:
+    //   - course modinfo field 
+    //   - categories table
+    if ($status) {
+        echo "<li>".get_string("checkingcourse");
+        //modinfo field
+        rebuild_course_cache($restore->course_id);
+        //categories table
+        $course = get_record("course","id",$restore->course_id); 
+        fix_course_sortorder($course->category);
+    }
+
+    //Cleanup temps (files and db)
+    if ($status) {
+        echo "<li>".get_string("cleaningtempdata");
+        if (!$status = clean_temp_data ($restore)) {
+            notify("Could not clean up temporary data from files and database");
+        }
+    }
+
+    //End the main ul
+    echo "</ul>";
+
+
+    //End the main table     
+    echo "</tr></td>";
+    echo "</table>";
+
+    if (!$status) {
+        error ("An error has occurred and the restore could not be completed!");
+    }
+
+    //Print final message
+    print_simple_box(get_string("restorefinished"),"CENTER");
+    print_continue("$CFG->wwwroot/course/view.php?id=".$restore->course_id);
+
+?>

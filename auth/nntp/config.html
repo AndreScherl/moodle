@@ -1,0 +1,42 @@
+<?PHP
+    if (!isset($config->auth_nntphost)) {
+        $config->auth_nntphost = "127.0.0.1";
+    }
+    if (!isset($config->auth_nntpport)) {
+        $config->auth_nntpport = "119";
+    }
+?>
+
+<tr valign="top" BGCOLOR="<?php echo $THEME->cellheading2 ?>">
+	<TD ALIGN=RIGHT><P>auth_nntphost:</TD>
+	<TD>
+        <INPUT name="auth_nntphost" TYPE="text" SIZE=30 VALUE="<?php echo $config->auth_nntphost?>">
+	<?php  if (isset($err["auth_nntphost"]))  formerr($err["auth_nntphost"]); ?>
+	</TD>
+    <TD>
+    <?php  print_string("auth_nntphost","auth") ?>
+    <?php  print_string("auth_multiplehosts","auth") ?>
+    </TD>
+</TR>
+
+<TR VALIGN=TOP BGCOLOR="<?php echo $THEME->cellheading2 ?>">
+	<TD ALIGN=RIGHT><P>auth_nntpport:</TD>
+	<TD>
+    <INPUT name=auth_nntpport TYPE=text SIZE=6 VALUE="<?php echo $config->auth_nntpport?>">
+    <?php  if (isset($err["auth_nntpport"])) formerr($err["auth_nntpport"]); ?>
+    </TD>
+    <TD>
+    <?php  print_string("auth_nntpport","auth") ?>
+    </TD>
+</TR>
+
+<TR VALIGN=TOP>
+	<TD ALIGN=RIGHT><P><?php  print_string("instructions", "auth") ?>:</TD>
+	<TD>
+    <TEXTAREA NAME=auth_instructions COLS=30 ROWS=10 WRAP=virtual><?php  p($config->auth_instructions) ?></TEXTAREA> 
+    </TD>
+    <TD>
+    <?php  print_string("authinstructions","auth") ?>
+    <?php  helpbutton("text", get_string("helptext")) ?>
+    </TD>
+</TR>

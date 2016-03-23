@@ -1,0 +1,82 @@
+<form method="post" action="module.php" name="form">
+
+<table cellpadding=9 cellspacing=0 >
+<tr valign=top>
+	<td align=right><p>forum_displaymode:</td>
+	<td>
+    <?php choose_from_menu ($FORUM_LAYOUT_MODES, "forum_displaymode", $CFG->forum_displaymode, "", "", ""); ?>
+    </td>
+    <td>
+    <?php print_string("configdisplaymode", "forum") ?>
+    </td>
+</tr>
+<tr valign=top>
+	<td align=right><p>forum_shortpost:</td>
+	<td>
+    <input name=forum_shortpost type=text size=5 value="<?php p($CFG->forum_shortpost) ?>">
+    </td>
+    <td>
+    <?php print_string("configshortpost", "forum") ?>
+    </td>
+</tr>
+<tr valign=top>
+	<td align=right><p>forum_longpost:</td>
+	<td>
+    <input name=forum_longpost type=text size=5 value="<?php p($CFG->forum_longpost) ?>">
+    </td>
+    <td>
+    <?php print_string("configlongpost", "forum") ?>
+    </td>
+</tr>
+<tr valign=top>
+	<td align=right><p>forum_manydiscussions:</td>
+	<td>
+    <input name=forum_manydiscussions type=text size=5 value="<?php p($CFG->forum_manydiscussions) ?>">
+    </td>
+    <td>
+    <?php print_string("configmanydiscussions", "forum") ?>
+    </td>
+</tr>
+<tr valign=top>
+	<td align=right><p>forum_maxbytes:</td>
+    <td><?php
+    $choices = get_max_upload_sizes($CFG->maxbytes);
+    choose_from_menu ($choices, "forum_maxbytes", $CFG->forum_maxbytes, "");
+    ?>
+    </td>
+    <td>
+    <?php print_string("configmaxbytes", "forum") ?>
+    </td>
+</tr>
+<tr valign=top>
+        <td align=right><p>forum_enablerssfeeds:</td>
+        <td>
+    <?php
+        if ($CFG->enablerssfeeds == 0) {
+            print_string("no");
+        } else {
+            unset($options);
+            $options[0] = get_string("no");
+            $options[1] = get_string("yes");
+ 
+            choose_from_menu ($options, "forum_enablerssfeeds", $CFG->forum_enablerssfeeds, "", "", "");
+        }
+    ?>
+    </td>
+    <td>
+    <?php 
+        print_string("configenablerssfeeds","forum");
+        if ($CFG->enablerssfeeds == 0) {
+            print_string("configenablerssfeedsdisabled");
+        }
+    ?>
+    </td>
+</tr>
+
+<tr>
+    <td colspan=3 align=center>
+	<input type="submit" value="<?php print_string("savechanges") ?>"></td>
+</tr>
+</table>
+
+</form>

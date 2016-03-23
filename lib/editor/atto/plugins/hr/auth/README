@@ -1,0 +1,84 @@
+This directory contains authentication modules.
+
+Each of these modules describes a different way to 
+check that a user has provided a correct 
+
+   - username, and 
+   - password.
+
+Even when external forms of authentication are being
+used, Moodle still maintains the internal "user" table 
+with all the associated information about that user such
+as name, email address and so on.
+
+The active method is set by the admin on the Configuration page.
+
+
+email - authentication by email  (DEFAULT METHOD)
+
+    - user fills out form with email address
+    - email sent to user with link 
+    - user clicks on link in email to confirm
+    - user account is created
+    - user can log in
+
+
+none  - no authentication at all .. very insecure!!
+    
+    - user logs in using ANY username and password
+    - if the username doesn't already exist then
+      a new account is created
+    - when user tries to access a course they 
+      are forced to set up their account details
+
+manual - internal authentication only
+
+    - user logs in using username and password
+    - no way for user to make their own account
+
+
+ldap  - Uses an external LDAP server
+
+    - user logs in using username and password
+    - these are checked against an LDAP server
+    - if correct, user is logged in
+    - optionally, info is copied from the LDAP
+      database to the Moodle user database
+
+    (see the ldap/README for more details on config etc...)
+
+
+imap  - Uses an external IMAP server
+
+    - user logs in using username and password
+    - these are checked against an IMAP server
+    - if correct, user is logged in
+    - if the username doesn't already exist then
+      a new account is created
+
+
+pop3  - Uses an external POP3 server
+
+    - user logs in using username and password
+    - these are checked against a POP3 server
+    - if correct, user is logged in
+    - if the username doesn't already exist then
+      a new account is created
+
+
+nntp  - Uses an external NNTP server
+
+    - user logs in using username and password
+    - these are checked against an NNTP server
+    - if correct, user is logged in
+    - if the username doesn't already exist then
+      a new account is created
+
+
+db  - Uses an external database to check username/password
+    
+    - user logs in using username and password
+    - these are checked against an external database
+    - if correct, user is logged in
+    - if the username doesn't already exist then
+      a new Moodle account is created

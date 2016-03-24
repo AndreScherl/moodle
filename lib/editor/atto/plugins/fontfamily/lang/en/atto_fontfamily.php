@@ -15,17 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Atto text editor integration version file.
+ * Strings for component 'atto_fontfamily', language 'en'.
  *
  * @package    atto_fontfamily
- * @copyright  2015 Pau Ferrer OCaña
+ * @copyright  2015 Pau Ferrer Ocaña
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'Font family';
+$string['settings'] = 'Font family settings';
+$string['fontselectlist'] = 'Available fonts list';
 
-$plugin->version   = 2015051500;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2014050800;        // Requires this Moodle version.
-$plugin->component = 'atto_fontfamily';   // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.8 (Build 2015042701)';

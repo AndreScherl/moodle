@@ -1,4 +1,5 @@
-<?php
+YUI.add('moodle-atto_hr-button', function (Y, NAME) {
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,18 +15,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Atto text editor integration version file.
- *
+/*
  * @package    atto_hr
  * @copyright  2014 Damyon Wiese  <damyon@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * @module moodle-atto_hr-button
+ */
 
-$plugin->version   = 2014061000;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2014050800;        // Requires this Moodle version.
-$plugin->component = 'atto_hr';  // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE;  // Maturity level.
-$plugin->release = 2014061000;
+/**
+ * Atto text editor hr plugin.
+ *
+ * @namespace M.atto_hr
+ * @class button
+ * @extends M.editor_atto.EditorPlugin
+ */
+
+Y.namespace('M.atto_hr').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
+    initializer: function() {
+        this.addBasicButton({
+            exec: 'insertHorizontalRule',
+            icon: 'icon',
+            iconComponent: 'atto_hr',
+
+            // Watch the following tags and add/remove highlighting as appropriate:
+            tags: 'hr'
+        });
+    }
+});
+
+
+}, '@VERSION@', {"requires": ["moodle-editor_atto-plugin"]});

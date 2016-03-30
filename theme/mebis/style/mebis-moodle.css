@@ -16645,8 +16645,19 @@ input[type="checkbox"] + label {
     }*/
 }
 
+.moodle-dialogue.moodle-has-zindex {
+  z-index: 1600 !important;
+}
+
 #newmessageoverlay {
   z-index: auto;
+}
+
+#page-lib-editor-atto-plugins-managefiles-manage {
+  background: #fff;
+}
+#page-lib-editor-atto-plugins-managefiles-manage .file-picker .fp-repo-items {
+  background-color: #fff;
 }
 
 @media only screen and (max-width: 992px) {

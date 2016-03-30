@@ -1310,18 +1310,26 @@ M.core_filepicker.init = function(Y, options) {
             var client_id = this.options.client_id;
             var fpid = "filepicker-"+ client_id;
             var labelid = 'fp-dialog-label_'+ client_id;
+            var width = 873;
+            var draggable = true;
             this.fpnode = Y.Node.createWithFilesSkin(M.core_filepicker.templates.generallayout).
                 set('id', 'filepicker-'+client_id).set('aria-labelledby', labelid);
+        
+            if (this.in_iframe()) {
+                width = Math.floor(window.innerWidth * 0.95);
+                draggable = false;
+            }
+
             this.mainui = new M.core.dialogue({
                 extraClasses : ['filepicker'],
-                draggable    : true,
+                draggable    : draggable,
                 bodyContent  : this.fpnode,
                 headerContent: '<span id="'+ labelid +'">'+ M.str.repository.filepicker +'</span>',
                 centered     : true,
                 modal        : true,
                 visible      : false,
-                width        : '873px',
-                responsiveWidth : 873,
+                width        : width+'px',
+                responsiveWidth : 768,
                 height       : '558px',
                 zIndex       : this.options.zIndex
             });
@@ -1958,6 +1966,10 @@ M.core_filepicker.init = function(Y, options) {
                 M.util.set_user_preference('filepicker_' + name, value);
                 this.options.userprefs[name] = value;
             }
+        },
+        in_iframe: function () {
+            // If we're not the top window then we're in an iFrame
+            return window.self !== window.top;
         }
     });
     var loading = Y.one('#filepicker-loading-'+options.client_id);

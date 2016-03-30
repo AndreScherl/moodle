@@ -16618,37 +16618,6 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 13:46:45
     Author     : Franziska Hübler, ISB
 */
-.moodle-dialogue-base {
-  /* fhüb: Do we really need this? 
-  .moodle-dialogue-wrap {
-        border-radius: 0;
-
-        .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $brand-gray-lighter;
-            text-shadow: none;
-        }
-
-        input[type="text"] {
-            max-width: 0;
-            min-width: 100%;
-            display: block;
-        }
-
-        .yui3-button.closebutton {
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        label.control-label {
-            color: $brand-gray-dark;
-        }
-    }*/
-}
-
-.moodle-dialogue.moodle-has-zindex {
-  z-index: 1600 !important;
-}
-
 #newmessageoverlay {
   z-index: auto;
 }

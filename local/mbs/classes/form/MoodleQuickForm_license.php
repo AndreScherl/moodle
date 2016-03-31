@@ -34,12 +34,20 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
 
     private $_withnew;
 
-    function MoodleQuickForm_license($elementName = null, $elementLabel = null,
+    public function __construct($elementName = null, $elementLabel = null,
                                      $attributes = null, $withnew = false) {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_type = 'license';
         $this->_persistantFreeze = true;
         $this->_withnew = $withnew;
+    }
+    
+    /*
+     * Old syntax of class constructor. Deprecated in PHP7.
+     */
+    public function MoodleQuickForm_license($elementName = null, $elementLabel = null,
+                                     $attributes = null, $withnew = false) {
+        self::__construct($elementName, $elementLabel, $attributes, $withnew);
     }
 
     function onQuickFormEvent($event, $arg, &$caller) {

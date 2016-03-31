@@ -47,17 +47,29 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
      * @param array $choices an array with key => value pairs that should appear as default.
      * @param array $attributes html attributes of the field
      */
+    public function __construct($elementname = null,
+                                  $elementlabel = null,
+                                  $ajaxurl = '',
+                                  $ajaxparamids = array(),
+                                  $choices = array(),
+                                  $attributes = null) {
+
+        MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
+        $this->_type = 'lookupset';
+        $this->_selectedkey = $this->getName() . 'selected';
+        $this->_ajaxparamnames = $ajaxparamids;
+    }
+    
+    /*
+     * Old syntax of class constructor. Deprecated in PHP7.
+     */
     public function MoodleQuickForm_lookupset($elementname = null,
                                               $elementlabel = null,
                                               $ajaxurl = '',
                                               $ajaxparamids = array(),
                                               $choices = array(),
                                               $attributes = null) {
-
-        MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
-        $this->_type = 'lookupset';
-        $this->_selectedkey = $this->getName() . 'selected';
-        $this->_ajaxparamnames = $ajaxparamids;
+        self::_construct($elementname, $elementlabel, $ajaxurl, $ajaxparamids, $choices, $attributes);
     }
 
     /**

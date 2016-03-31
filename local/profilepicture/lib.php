@@ -43,9 +43,16 @@ class MoodleQuickForm_profilepicture extends HTML_QuickForm_input {
      * @param array $attributes (optional) Either a typical HTML attribute string
      *              or an associative array
      */
-    function MoodleQuickForm_profilepicture($elementName=null, $elementLabel=null, $attributes=null) {
+    public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
         $this->_type = 'profilepicture';
         parent::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
+    }
+    
+    /*
+     * Old syntax of class constructor. Deprecated in PHP7.
+     */
+    public function MoodleQuickForm_profilepicture($elementName=null, $elementLabel=null, $attributes=null) {
+        self::_construct($elementName, $elementLabel, $attributes);
     }
 
     /**

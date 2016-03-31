@@ -30,7 +30,7 @@ class MoodleQuickForm_newlicense extends MoodleQuickForm_group {
 
     private $_licensename;
 
-    function MoodleQuickForm_newlicense($elementName = null, $licensename = null) {
+    public function __construct($elementName = null, $licensename = null) {
 
         $this->_licensename = $licensename;
 
@@ -41,6 +41,13 @@ class MoodleQuickForm_newlicense extends MoodleQuickForm_group {
         }, array('shortname', 'fullname', 'source'));
 
         parent::__construct($elementName, null, $elements, null, false);
+    }
+    
+    /*
+     * Old syntax of class constructor. Deprecated in PHP7.
+     */
+    public function MoodleQuickForm_newlicense($elementName = null, $licensename = null) {
+        self::_construct($elementName, $licensename);
     }
 
     function accept(&$renderer, $required = false, $error = null) {

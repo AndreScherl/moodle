@@ -121,7 +121,7 @@ $systemcontext = context_system::instance();
 
 // Is the user involved in the conversation?
 // Do they have the ability to read other user's conversations?
-if (!message_current_user_is_involved($user1, $user2) && !has_capability('moodle/site:readallmessages', $systemcontext)) {
+if ($currentuser === false && !has_capability('moodle/site:readallmessages', $systemcontext)) {
     print_error('accessdenied','admin');
 }
 
@@ -254,7 +254,7 @@ echo html_writer::end_tag('div');
 
 echo html_writer::start_tag('div', array('class' => 'col-md-8 usermessages-right'));
 
-echo html_writer::start_tag('div', array('class' => 'messages-area'));
+echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
 
 if (!empty($user2)) {
 

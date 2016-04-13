@@ -6,8 +6,12 @@
     Author     : Franziska Hübler, ISB
 */
 
-.usermessages {
+.box.message {
 
+    .usermessages-left .singleselect select {
+        max-width: 100%;
+    }
+    
     table#message_contacts,
     table#message_participants {
         width: 100%;
@@ -20,19 +24,78 @@
         }
     }
 
-    .mform .fitem_actionbuttons>div.felement {
-        padding-left: 15px;
-    }
-
-    .messages-area>.messagerecent {
-        >.singlemessage {
-            padding: 10px 0;
-            border-bottom: dotted 1px $brand-gray-dark;
+    .messagearea {
+        border: none;
+        
+        #personsearch {
+            input[type="text"] {
+                width: 100%;
+                margin-bottom: 0;
+            }
+        }
+        
+        .messagerecent {
+            .singlemessage {
+                border-color: $brand-primary;
+                
+                .otheruser {
+                    background-color: $white;
+                }
+                .themessage {
+                    border-color: $brand-secondary;
+                }
+            }
         }
 
-        span.otheruser, span.messagedate {
-            margin-right: 10px;
+        .messagehistory {
+            .messagehistorytype {
+                padding: 5px 0;
+
+                span.visible {
+                    color: $brand-gray-dark;
+                    background-color: $white;                    
+                }
+                span.visible, a.visible {
+                    float: none;
+                    margin: 0;
+                    padding: 0;
+                    display: inline-block;
+                    border: none;
+                }
+                a.visible {
+                    &:hover {
+                        border: none;
+                        color: $brand-secondary;
+                    }
+                }
+            }
+            .messagehistory {
+                margin: 0;
+                padding: 0;
+
+                .mdl-left .deleteicon .action-icon img.smallicon {
+                    vertical-align: middle;
+                }
+                .mdl-left.left .message .text {
+                    border-color: $brand-secondary;
+                }
+                .mdl-left.right .message .text {
+                    border-color: $brand-primary;
+                }
+            }
+        }
+
+        .messagesend .mform {
+            fieldset .fitem {
+                margin-top: 0;
+                margin-bottom: 15px !important;
+            }
+            .fitem_textarea {
+                margin: 0;
+            }
+            .fitem_actionbuttons>div.felement {
+                padding-left: 15px;
+            }
         }
     }
-
 }

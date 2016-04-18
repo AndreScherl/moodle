@@ -30,7 +30,7 @@ require_login();
 
 $action = required_param('action', PARAM_TEXT);
 
-use \block_mbstpl\dataobj\template;
+use \block_mbstpl\dataobj\template as template;
 
 switch ($action) {
 
@@ -113,8 +113,8 @@ switch ($action) {
             $sql = "SELECT c.id, c.fullname
                 FROM {course} c 
                 JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id 
-                WHERE tpl.status = :status AND " . $where . 
-                " GROUP BY c.fullname
+                WHERE tpl.status = :status AND (" . $where . ") 
+                GROUP BY c.fullname
                 ORDER BY c.fullname ASC";
             $coursenames = $DB->get_records_sql($sql, $params);
             

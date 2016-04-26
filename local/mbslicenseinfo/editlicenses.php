@@ -19,29 +19,13 @@
  * @copyright   2015 Franziska Hübler <franziska.huebler@isb.bayern.de>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 $course = required_param('course', PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', get_config('local_mbslicenseinfo', 'filesperpage'), PARAM_INT);
-$coursecontext = context_course::instance($course);
 
-$pageparams = array('course' => $course, 'perpage' => $perpage);
-$thisurl = new moodle_url('/local/mbslicenseinfo/editlicenses.php', $pageparams);
-
-$PAGE->set_url($thisurl);
-
-// Adding breadcrumb navigation.
-require_login($course, false);
-require_capability('local/mbslicenseinfo:editlicenses', $coursecontext, null, true, 'errorcannotedit', 'local_mbslicenseinfo');
-
-$pagetitle = get_string('editlicensesdescr', 'local_mbslicenseinfo');
-$PAGE->set_title($pagetitle);
-$PAGE->set_pagelayout('incourse');
-$PAGE->set_context($coursecontext);
-
-// Get and save show mode.
+// Get and save the show mode.
 $onlyincomplete = optional_param('onlyincomplete', -1, PARAM_INT);
 if ($onlyincomplete == -1) {
     $onlyincomplete = get_user_preferences('mbslicenseshowincomplete', 0);
@@ -52,19 +36,38 @@ if ($onlyincomplete == -1) {
     }
 }
 
+// Adding parameters to the action url, this will create hidden fields in edit form!
+$pageparams = array('course' => $course, 'page' => $page, 'perpage' => $perpage, 'onlyincomplete' => $onlyincomplete);
+$pageurl = new moodle_url('/local/mbslicenseinfo/editlicenses.php', $pageparams);
+
+$PAGE->set_url($pageurl);
+
+require_login($course, false);
+
+// Checking capability.
+$coursecontext = context_course::instance($course);
+require_capability('local/mbslicenseinfo:editlicenses', $coursecontext, null, true, 'errorcannotedit', 'local_mbslicenseinfo');
+
+$pagetitle = get_string('editlicensesdescr', 'local_mbslicenseinfo');
+$PAGE->set_title($pagetitle);
+$PAGE->set_pagelayout('incourse');
+$PAGE->set_context($coursecontext);
+
 $mbslicenseinfo = new \local_mbslicenseinfo\local\mbslicenseinfo();
 $files = $mbslicenseinfo->get_coursefiles_data($course, $page * $perpage, $perpage, $onlyincomplete);
 
-$form = new \local_mbslicenseinfo\form\editlicensesform(null, array('course' => $course, 'filesdata' => $files->data));
+$form = new \local_mbslicenseinfo\form\editlicensesform($pageurl, array('course' => $course, 'filesdata' => $files->data));
 
 if ($form->is_cancelled()) {
+
     $redirecturl = new moodle_url('/course/view.php', array('id' => $course));
     redirect($redirecturl);
 } else if ($data = $form->get_data()) {
+
     \local_mbslicenseinfo\local\mbslicenseinfo::update_course_files($data);
-    $thisurl->param('message', 'licenseinfosaved');
+    $pageurl->param('message', 'licenseinfosaved');
     // Redirect getting new added licenses and avoid resubmit.
-    redirect($thisurl);
+    redirect($pageurl);
 }
 
 echo $OUTPUT->header();
@@ -75,16 +78,16 @@ echo html_writer::tag('p', $link);
 
 $message = optional_param('message', '', PARAM_TEXT);
 if (!empty($message)) {
-   $message = get_string($message, 'local_mbslicenseinfo');
-   echo $OUTPUT->notification($message, 'notifysuccess'); 
+    $message = get_string($message, 'local_mbslicenseinfo');
+    echo $OUTPUT->notification($message, 'notifysuccess');
 }
 
 $url = new moodle_url('/local/mbslicenseinfo/editlicenses.php', array('course' => $course, 'onlyincomplete' => !$onlyincomplete));
 $text = (empty($onlyincomplete)) ? get_string('showonlyincomplete', 'local_mbslicenseinfo') : get_string('showall', 'local_mbslicenseinfo');
 echo $OUTPUT->single_button($url, $text);
 
-echo $OUTPUT->paging_bar($files->total, $page, $perpage, $thisurl);
+echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
 echo html_writer::div($form->render(), 'editlicenses');
-echo $OUTPUT->paging_bar($files->total, $page, $perpage, $thisurl);
+echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
 
 echo $OUTPUT->footer();

@@ -45,8 +45,8 @@ function xmldb_local_mbslicenseinfo_upgrade($oldversion) {
         // Mbslicenseinfo savepoint reached.
         upgrade_plugin_savepoint(true, 2016022903, 'error', 'mbslicenseinfo');
     }
-    
-     if ($oldversion < 2016030101) {
+
+    if ($oldversion < 2016030101) {
 
         $table = new xmldb_table('files');
         $index = new xmldb_index('chash-ctx-mime', XMLDB_INDEX_NOTUNIQUE, array('contenthash', 'contextid', 'mimetype'));
@@ -57,6 +57,20 @@ function xmldb_local_mbslicenseinfo_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2016030101, 'error', 'mbslicenseinfo');
     }
+
+    if ($oldversion < 2016042600) {
+
+        // Changing type of field source on table local_mbslicenseinfo_fmeta to text.
+        $table = new xmldb_table('local_mbslicenseinfo_fmeta');
+        $field = new xmldb_field('source', XMLDB_TYPE_TEXT, null, null, null, null, null, 'title');
+
+        // Launch change of type for field source.
+        $dbman->change_field_type($table, $field);
+
+        // Mbslicenseinfo savepoint reached.
+        upgrade_plugin_savepoint(true, 2016042600, 'error', 'mbslicenseinfo');
+    }
+
 
     return true;
 }

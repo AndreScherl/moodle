@@ -40,11 +40,6 @@ class editlicensesform extends \moodleform {
     protected function definition() {
 
         $mform = $this->_form;
-        $course = $this->_customdata['course'];
-
-        $mform->addElement('hidden', 'course', $course);
-        $mform->setType('course', PARAM_INT);
-
         $filesdata = $this->_customdata['filesdata'];
 
         foreach ($filesdata as $contenthash => $files) {

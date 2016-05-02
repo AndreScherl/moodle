@@ -16446,6 +16446,10 @@ button {
   display: none;
 }
 
+div.editor_atto_content ul, div.editor_atto_content ol {
+  padding: 0px 20px;
+}
+
 .hiddenelement {
   display: none;
 }

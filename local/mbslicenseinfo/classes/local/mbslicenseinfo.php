@@ -28,7 +28,11 @@ namespace local_mbslicenseinfo\local;
 defined('MOODLE_INTERNAL') || die();
 
 class mbslicenseinfo {
-
+    
+    public static $captype_viewall = 10;
+    public static $captype_editown = 20;
+    public static $captype_editall = 30;
+    
     /**
      * To group the files by content hash and order them, 
      * we must fetch the license data in two steps:
@@ -93,7 +97,7 @@ class mbslicenseinfo {
         // Build SQL.
         $sql = $select . $from . $where . "GROUP BY f.contenthash ORDER BY f.id desc";
 
-        /*$esql = str_replace('{', 'mdl_', $sql);
+       /* $esql = str_replace('{', 'mdl_', $sql);
         $esql = str_replace('}', '', $esql);
         foreach ($params as $key => $value) {
             $esql = str_replace(':' . $key, "'$value'", $esql);
@@ -274,15 +278,26 @@ class mbslicenseinfo {
     }
 
     /**
-     * Check whether this user has the capability to edit at least his own or all licenes.
-     * Note that we check own license capability first, because normally user with 
-     * cap "all" has cap for "own too.
+     * Check which capability the user has on licenses.
      * 
      * @param context $context the context, i. e. course context.
-     * @return boolean true, when user has the on af the capabilities
+     * @return boolean false, when user has none of the capabilities otherwise cap constant
      */
-    public static function can_edit_license($context) {
-        return ((has_capability('local/mbslicenseinfo:editownlicenses', $context)) OR (has_capability('local/mbslicenseinfo:editalllicenses', $context)));
+    public static function get_license_capability($context) {
+        
+        if (has_capability('local/mbslicenseinfo:editalllicenses', $context)) {
+            return self::$captype_editall;
+        }
+        
+        if (has_capability('local/mbslicenseinfo:editownlicenses', $context)) {
+            return self::$captype_editown;
+        }
+        
+        if (has_capability('local/mbslicenseinfo:viewalllicenses', $context)) {
+            return self::$captype_viewall;
+        }
+        
+        return false;
     }
 
     /**
@@ -309,14 +324,26 @@ class mbslicenseinfo {
      */
     public static function get_onlymine_pref($coursecontext) {
 
-        $caneditall = has_capability('local/mbslicenseinfo:editalllicenses', $coursecontext);
-
+        $captype = self::get_license_capability($coursecontext);
+       
         $useronlymine = get_user_preferences('mbslicensesonlymine', 1);
-        if (!$caneditall) {
-            $onlymine = 1;
-        } else {
-            $onlymine = optional_param('onlymine', $useronlymine, PARAM_INT);
+        
+        switch ($captype) {
+            
+            case self::$captype_editall :
+                $onlymine = optional_param('onlymine', $useronlymine, PARAM_INT);
+                break;
+            
+            case self::$captype_editown :
+                $onlymine = 1;
+                break;
+            
+            case self::$captype_viewall :
+                $onlymine = 0;
+                break;
+            
         }
+        
         if ($onlymine <> $useronlymine) {
             set_user_preference('mbslicensesonlymine', $onlymine);
         }

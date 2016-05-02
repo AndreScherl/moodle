@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/formslib.php');
 
+use \local_mbslicenseinfo\local\mbslicenseinfo as mbslicenseinfo;
+
 class editlicensesformfilter extends \moodleform {
 
     protected function definition() {
@@ -33,7 +35,7 @@ class editlicensesformfilter extends \moodleform {
         $mform = $this->_form;
         $onlymine = $this->_customdata['onlymine'];
         $onlyincomplete = $this->_customdata['onlyincomplete'];
-        $caneditall = $this->_customdata['caneditall'];
+        $captype = $this->_customdata['captype'];
 
         $group = array();
         $choices = array(
@@ -43,23 +45,37 @@ class editlicensesformfilter extends \moodleform {
         $group[] = $mform->createElement('select', 'onlyincomplete', '', $choices);
         $mform->setDefault('onlyincomplete', $onlyincomplete);
 
-        if ($caneditall) {
-            $choices = array(
-                1 => get_string('showownlicenses', 'local_mbslicenseinfo'),
-                0 => get_string('showalllicenses', 'local_mbslicenseinfo')
-            );
-            $group[] = $mform->createElement('select', 'onlymine', '', $choices);
-            $mform->setDefault('onlymine', $onlymine);
-        } else {
-            $mform->addElement('hidden', 'onlymine');
-            $mform->setType('onlymine', PARAM_INT);
-            $mform->setConstant('onlymine', 1);
+        switch ($captype) {
+
+            case mbslicenseinfo::$captype_editall :
+
+                $choices = array(
+                    1 => get_string('showownlicenses', 'local_mbslicenseinfo'),
+                    0 => get_string('showalllicenses', 'local_mbslicenseinfo')
+                );
+                $group[] = $mform->createElement('select', 'onlymine', '', $choices);
+                $mform->setDefault('onlymine', $onlymine);
+                break;
+
+            case mbslicenseinfo::$captype_editown :
+
+                $mform->addElement('hidden', 'onlymine');
+                $mform->setType('onlymine', PARAM_INT);
+                $mform->setConstant('onlymine', 1);
+                break;
+            
+            case mbslicenseinfo::$captype_viewall :
+                
+                $mform->addElement('hidden', 'onlymine');
+                $mform->setType('onlymine', PARAM_INT);
+                $mform->setConstant('onlymine', 0);
+                break;
         }
-        
+
         $group[] = $mform->createElement('submit', 'submitbutton', get_string('setfilter', 'local_mbslicenseinfo'));
 
         $mform->addGroup($group);
-                
+
         $url = get_string('editlicenses_notelink', 'local_mbslicenseinfo');
         $text = get_string('editlicenses_note', 'local_mbslicenseinfo');
         $link = \html_writer::link($url, $text, array('class' => 'internal', 'target' => '_blank'));

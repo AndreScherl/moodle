@@ -22,15 +22,18 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+use \local_mbslicenseinfo\local\mbslicenseinfo as mbslicenseinfo;
+
 function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
     global $COURSE;
 
-    if (\local_mbslicenseinfo\local\mbslicenseinfo::can_edit_license($context)) {
+    if ($captype = mbslicenseinfo::get_license_capability($context)) {
 
         if ($coursenode = $navigation->get('courseadmin')) {
 
+            $strkey = ($captype > mbslicenseinfo::$captype_viewall) ? 'editlicenses' : 'viewlicenses';
             $licenselink = new \moodle_url('/local/mbslicenseinfo/editlicenses.php', array('course' => $COURSE->id));
-            $coursenode->add(get_string('editlicenses', 'local_mbslicenseinfo'), $licenselink);
+            $coursenode->add(get_string($strkey, 'local_mbslicenseinfo'), $licenselink);
         }
-    }
+    } 
 }

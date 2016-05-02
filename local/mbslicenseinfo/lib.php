@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
     global $COURSE;
 
-    if (has_capability('local/mbslicenseinfo:editlicenses', $context)) {
+    if (\local_mbslicenseinfo\local\mbslicenseinfo::can_edit_license($context)) {
 
         if ($coursenode = $navigation->get('courseadmin')) {
 

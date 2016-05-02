@@ -24,17 +24,10 @@ namespace local_mbslicenseinfo\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_license.php');
 require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
 
-/**
- * Class editlicensesform
- * @package local_mbslicenseinfo
- * Main licenses form
- */
 class editlicensesform extends \moodleform {
 
     protected function definition() {

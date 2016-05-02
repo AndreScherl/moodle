@@ -49,6 +49,7 @@ class mbsfile {
         $this->author = $filewmeta->author;
         $this->title = $filewmeta->title;
         $this->source = $filewmeta->source;
+        $this->userid = $filewmeta->userid;
         if ($license = $this->get_license($filewmeta->license)) {
             $this->license = $license;
         }

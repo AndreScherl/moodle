@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014071100;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2016050200;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->release   = '2.4+ (Build 2014071100)';
 $plugin->requires  = 2012120300;        // Requires this Moodle version.
 $plugin->component = 'repository_mediathek'; // Full name of the plugin (used for diagnostics).

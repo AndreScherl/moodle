@@ -55,11 +55,11 @@ class mbslicenseinfo {
         $countselect = "SELECT count(DISTINCT f.contenthash) as total ";
 
         $from = "FROM {files} f
-                 JOIN {context} c ON f.contextid = c.id ";
+                 JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
 
         // Get where.
         $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
-        $params = array();
+        $params = array('contextlevel' => CONTEXT_COURSE);
 
         // Restrict to coursecontext.
         $coursecontext = \context_course::instance($courseid);

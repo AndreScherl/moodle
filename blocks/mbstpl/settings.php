@@ -70,6 +70,9 @@ if ($ADMIN->fulltree) {
                                                   get_string('tplremindafter', 'block_mbstpl'),
                                                   get_string('tplremindafter_desc', 'block_mbstpl'),
                                                   DAYSECS * 180, DAYSECS));
+    
+    $settings->add(new admin_setting_configtext('block_mbstpl/searchpagesize',
+                                                  get_string('searchpagesize', 'block_mbstpl'), null, 15, PARAM_INT));
 
 }
 

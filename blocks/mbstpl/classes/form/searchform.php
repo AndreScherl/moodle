@@ -21,6 +21,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+
 namespace block_mbstpl\form;
 
 defined('MOODLE_INTERNAL') || die();
@@ -40,6 +41,8 @@ require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.
 class searchform extends \moodleform {
 
     public function definition() {
+        global $PAGE;
+
         $form = $this->_form;
 
         $questions = $this->_customdata['questions'];

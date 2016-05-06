@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,95 +24,105 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/mbstpl/renderer.php');
 
-
 class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
 
-    
-    public function templatesearch($searchform, $courses, $layout, $searchflag) {
-        
-        // Add the search form.
-        $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
-
-        // Render result listing.   
-        if ($searchflag) {
-            $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
-            $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
-            $html .= $this->mbstpl_resultlist($courses, $layout, $searchflag);
-        }
-        return $html;
-    }   
-    
     /**
-     * render result listing of block mbstpl
+     * Render result listing of block mbstpl
      *
-     * @param array $courses list of courses
-     * @param string $layout not in use
+     * @param object $searchresult result containing search result informations
+     * @param string $layout grid or list
      * @return string html to be displayed
      */
-    public function mbstpl_resultlist($courses, $layout, $searchflag) {
-        if (count($courses) > 0) {
-            return $this->mbstpl_grid($courses);
-        } else if ($searchflag) {
-            return \html_writer::tag('h3', get_string('noresults', 'block_mbstpl'));
-        }
-        return '';
+    protected function templatesearch_resultlist($searchresult, $layout) {
+
+        // Render content of list.
+        $listitems = $this->templatesearch_listitems($searchresult, $layout);
+
+        $listattributes = array(
+            "class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3",
+            'id' => 'mbstpl-search-listing'
+        );
+
+        $list = html_writer::tag('ul', $listitems, $listattributes);
+        return \html_writer::div($list, 'col-md-12');
     }
 
     /**
-     * render resultlist of mbstpl block in grid layout
-     *
-     * @param array $courses list of courses
-     * @return string html to be displayed
+     * Render the lits items
+     * 
+     * @param object $searchresult result containing result informations
+     * @param string $layout grid or list
+     * @return type
      */
-    public function mbstpl_grid($courses) {
-        $output = html_writer::start_tag('div', array('class' => 'col-md-12'));
-        $output .= html_writer::start_tag("ul", array("class" => "block-grid-xs-1 block-grid-xc-2 block-grid-md-3", 
-            'id' => 'mbstpl-search-listing'));
+    protected function templatesearch_listitems($searchresult, $layout) {
 
-        foreach ($courses as $course) {
-            // ...start coursebox.          
-            $html = '';
-            // .coursebox-meta
-            $html .= html_writer::start_tag('li', array('id' => "course-{$course->id}", 'class' => 'coursebox'));
-            $html .= html_writer::start_div('coursebox-meta');
-                $html .= html_writer::start_div('row');
-                    $html .= html_writer::start_div('col-xs-12 box-type text-right');
-                        $html .= html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
-                    $html .= html_writer::end_div(); //'col-xs-12 box-type text-right'
-                $html .= html_writer::end_div(); //class 'row'
-            $html .= html_writer::end_div(); //end class 'coursebox-meta'
+        $output = '';
 
-            // .coursebox-inner
+        // Complaining
+        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
+
+        foreach ($searchresult->courses as $course) {
+
+            // Coursebox.          
+            $html = html_writer::start_tag('li', array('id' => "course-{$course->id}", 'class' => 'coursebox'));
+
+            // Render div.coursebox-meta
+            $cbmeta = html_writer::tag('i', '', array('class' => 'icon-me-lernplattform'));
+            $cbmeta = html_writer::div($cbmeta, 'col-xs-12 box-type text-right');
+            $cbmeta = html_writer::div($cbmeta, 'row');
+            $html .= html_writer::div($cbmeta, 'coursebox-meta');
+
+            // Render div.coursebox-inner
             $html .= html_writer::start_div('coursebox-inner');
             $html .= html_writer::start_div('course_title');
-                $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                $html .= html_writer::start_tag('a', array('class' => 'coursebox-link', 'href' => $courseurl));
-                    $html .= html_writer::tag('span', $course->fullname, array('class' => 'coursename internal'));
-                    $html .= html_writer::tag('p', $course->authorname, array('class' => 'coursetype'));
-                    if (!is_null($course->rating)) {
-                        $template = \block_mbstpl\dataobj\template::get_from_course($course->id);
-                        $html .= parent::rating($template, false);
-                    } 
-                $html .= html_writer::end_tag('a');
-                //complaining
-                $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
-                $externalurl = clone($complainturl);
-                $externalurl->param('courseid', $course->id);
-                $righticons = '';
-                $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
-                $complaintlink = \html_writer::link($externalurl, $text, 
-                        array('title' => get_string('url-complaints', 'theme_mebis')));
-                $righticons .= $complaintlink;
-                $html .= html_writer::div($righticons, 'righticons');                
+
+            $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+            $coursetext = html_writer::tag('span', $course->fullname, array('class' => 'coursename internal'));
+            $coursetext .= html_writer::tag('p', $course->authorname, array('class' => 'coursetype'));
+            if (!is_null($course->rating)) {
+                $template = \block_mbstpl\dataobj\template::get_from_course($course->id);
+                $coursetext .= parent::rating($template, false);
+            }
+
+            $html .= html_writer::tag('a', $coursetext, array('class' => 'coursebox-link', 'href' => $courseurl));
+
+            // Complainturl.
+            $complaintcourseurl = clone($complainturl);
+            $complaintcourseurl->param('courseid', $course->id);
+            $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
+
+            $complaintlink = \html_writer::link($complaintcourseurl, $text, array('title' => get_string('url-complaints', 'theme_mebis')));
+            $html .= html_writer::div($complaintlink, 'righticons');
+
             $html .= html_writer::end_tag('div'); //end class 'course_title'
             $html .= html_writer::end_tag('div'); //end class 'coursebox-inner'
             $html .= html_writer::end_tag('li');
-            // ...end coursebox.
+            
+            // Add coursebox.
             $output .= $html;
         }
-        $output .= html_writer::end_tag("ul");
-        $output .= html_writer::end_tag('div');
-
         return $output;
-    }    
+    }
+
+    /**
+     * Render the load more result element,
+     * @return string HTML of load result element
+     */
+    protected function templatesearch_moreresults() {
+        
+        $url = new moodle_url('#', array());
+        $text = get_string('loadmoreresults', 'block_mbssearch');
+
+        $o = html_writer::link($url, $text, array(
+            'id' => 'mbstpl-search-loadmoreresults',
+            'class' => 'btn load-more-results'));
+        
+        $o = html_writer::div($o, 'row col-lg-12 add-more-results');
+        
+        return $o;
+        
+        $text = get_string('loadmoreresults', 'block_mbstpl');
+        return \html_writer::div($text, 'row col-lg-12 add-more-results', array('id' => 'mbstpl-search-loadmoreresults'));
+    }
+
 }

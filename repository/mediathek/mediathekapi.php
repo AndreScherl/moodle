@@ -217,6 +217,7 @@ class repository_mediathek_api {
         global $USER;
         $fields = array(
             'userID' => $USER->id,
+            'institution' => $USER->institution,
             'searchMode' => $mode,
             'numberOfItemsPerPage' => $pagesize,
             'currentPageRequired' => $page,
@@ -254,7 +255,6 @@ class repository_mediathek_api {
         foreach ($extrafields as $field => $value) {
             $url .= '&'.urlencode($field).'='.urlencode($value);
         }
-
         if (defined('MEDIATHEK_LOG_QUERIES')) {
             global $CFG;
             $fp = fopen($CFG->dataroot.'/mediathek.log', 'a');
@@ -269,7 +269,6 @@ class repository_mediathek_api {
         curl_setopt($c, CURLOPT_USERPWD, $this->username.':'.$this->password);
 
         $this->add_proxy_settings($c, $url);
-
         if (($res = curl_exec($c)) == false) {
             throw new moodle_exception('errorconnecting', 'repository_mediathek', '', curl_error($c));
         }

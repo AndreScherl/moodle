@@ -1,6 +1,0 @@
-.mform .fitem .felement input[type="text"],
-.mform .fitem .felement.fgroup input[type="text"],
-.mform .fitem .felement.fgroup select {
-    max-width: none;
-    width: 100% !important;
-}

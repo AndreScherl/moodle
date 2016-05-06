@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'local/mbslicenseinfo:editlicenses' => array(
+    'local/mbslicenseinfo:editalllicenses' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -32,5 +32,23 @@ $capabilities = array(
             'teacher' => CAP_ALLOW
         ),
         'clonepermissionsfrom' => 'moodle/course:create'
-    )
+    ),
+    'local/mbslicenseinfo:editownlicenses' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:create'
+    ),
+    'local/mbslicenseinfo:viewalllicenses' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        )
+    ),
 );

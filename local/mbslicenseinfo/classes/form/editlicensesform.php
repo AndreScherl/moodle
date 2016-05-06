@@ -24,39 +24,28 @@ namespace local_mbslicenseinfo\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_license.php');
 require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_newlicense.php');
 
-/**
- * Class editlicensesform
- * @package local_mbslicenseinfo
- * Main licenses form
- */
 class editlicensesform extends \moodleform {
 
     protected function definition() {
 
         $mform = $this->_form;
-        $course = $this->_customdata['course'];
-
-        $mform->addElement('hidden', 'course', $course);
-        $mform->setType('course', PARAM_INT);
-
         $filesdata = $this->_customdata['filesdata'];
+        $locked = $this->_customdata['locked'];
 
         foreach ($filesdata as $contenthash => $files) {
 
             $file = reset($files);
             $mform->addElement('header', $contenthash, get_string('relatedfiles', 'local_mbslicenseinfo', $file->filename));
-           
+
             $i = 0;
             foreach ($files as $fid => $file) {
                 // Files.
-                
-                $mform->addElement('html', \html_writer::start_div('mbseditlicensegroup'.$i));
+
+                $mform->addElement('html', \html_writer::start_div('mbseditlicensegroup' . $i));
                 $mform->addElement('hidden', 'fileid[' . $fid . ']', $file->id);
                 $mform->addElement('text', 'filename[' . $fid . ']', get_string('editlicensesformfilename', 'local_mbslicenseinfo'), array('disabled' => 'disabled'));
                 $mform->setDefault('filename[' . $fid . ']', $file->filename);
@@ -104,24 +93,47 @@ class editlicensesform extends \moodleform {
                     'licensefullname[' . $fid . ']' => PARAM_TEXT,
                     'licensesource[' . $fid . ']' => PARAM_URL
                 ));
-                $mform->addElement('group', 'license', get_string('license'), $licensegr, null, false);
+                $licensegroup = $mform->createElement('group', 'license', get_string('license'), $licensegr, null, false);
+                $mform->addElement($licensegroup);
                 $licensename = $file->license->shortname;
                 if (!empty($licensename)) {
                     $licensegr[0]->setSelected($licensename);
                 }
                 $mform->addElement('html', \html_writer::end_div());
-                
+
                 $i++;
                 $i = $i % 2;
+
+                if ($locked) {
+
+                    $licensegr[0]->freeze();
+                    $licensegr[1]->updateAttributes(array('style' => 'display:none'));
+                    $licensegr[2]->updateAttributes(array('style' => 'display:none'));
+                    
+                    $mform->freeze(array(
+                        'fileid[' . $fid . ']',
+                        'filename[' . $fid . ']',
+                        'title[' . $fid . ']',
+                        'filesource[' . $fid . ']',
+                        'author[' . $fid . ']'
+                    ));
+                }
             }
         }
-        
+
         if (empty($filesdata)) {
+
             $mform->addElement('html', get_string('nolicensestoedit', 'local_mbslicenseinfo'));
             $mform->addElement('cancel');
         } else {
-            $this->add_action_buttons(true, get_string('submitbutton', 'local_mbslicenseinfo'));
+
+            if (!$locked) {
+                $this->add_action_buttons(true, get_string('submitbutton', 'local_mbslicenseinfo'));
+            } else {
+                $mform->addElement('cancel');
+            }
         }
+
         $this->init_js();
     }
 

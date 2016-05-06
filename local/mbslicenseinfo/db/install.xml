@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="locals/mbslicenseinfo/db" VERSION="20160229" COMMENT="XMLDB file for Moodle locals/mbslicenseinfo"
+<XMLDB PATH="locals/mbslicenseinfo/db" VERSION="20160426" COMMENT="XMLDB file for Moodle locals/mbslicenseinfo"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -8,7 +8,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Title of file, e.g. Mona Lisa"/>
-        <FIELD NAME="source" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Source/URL of file."/>
+        <FIELD NAME="source" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Source/URL of file."/>
         <FIELD NAME="files_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id of file in files table."/>
       </FIELDS>
       <KEYS>

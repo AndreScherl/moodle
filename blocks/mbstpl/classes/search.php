@@ -110,12 +110,12 @@ class search {
     /**
      * Provide a list of courses that matches the criteria submitted from the search page.
      *
-     * @param int $startrecord
-     * @param int $pagesize
+     * @param int $limitfrom
+     * @param int $limitnum
      *
      * @return array list of courses matching the search filters
      */
-    public function get_search_result($startrecord, $pagesize) {
+    public function get_search_result($limitfrom, $limitnum) {
         global $DB;
 
         $wheres = array();
@@ -183,7 +183,8 @@ class search {
             } else {
                 $orderby .= 'tpl.rating';
             }
-            $orderby .= ' ' . $this->sortby->ascdesc;
+            // Adding c.id as second order, otherwise order will be randomized, when contains a value of NULL.
+            $orderby .= ',c.id ' . $this->sortby->ascdesc;
         }
         $joins = implode("\n        ", $joins);
 
@@ -204,9 +205,23 @@ class search {
         $coresql
         $orderby
         ";
+        
+        /*$esql = str_replace('{', 'mdl_', $sql);
+        $esql = str_replace('}', '', $esql);
+        print_r($esql);
+        print_r($params);
+        print_r($limitfrom);
+        print_r($limitnum);*/
+        
+        $countsql = "SELECT count(c.id) $coresql ";
 
-        $results = $DB->get_records_sql($sql, $params);
-        return $results;
+        $result = new \stdClass();
+        $result->total = $DB->count_records_sql($countsql, $params);
+        $result->courses = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
+        $result->limitfrom = $limitfrom;
+        $result->limitnum = $limitnum;
+        
+        return $result;
     }
 
 }

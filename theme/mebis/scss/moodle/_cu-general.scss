@@ -80,6 +80,12 @@ button {
     display: none;
 }
 
+div.editor_atto_content {
+    ul, ol {
+        padding: 0px 20px;
+    }
+}
+
 .hiddenelement {
     display: none;
 }

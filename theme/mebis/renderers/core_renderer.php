@@ -516,6 +516,47 @@ define('DLB_SCHOOL_CAT_DEPTH', 3);
 
 class theme_mebis_core_course_management_renderer extends core_course_management_renderer {
 
+    
+    /**
+     * Override original renderer method to hide delete action, when user has not the
+     * capability moodle/category:manage in parent context. Note that original moodle
+     * method tests cap with the can_full_delete() method, which does not take
+     * into account the parent context.
+     * 
+     * @param coursecat $category
+     * @param array $actions
+     * @return string
+     */
+    public function category_listitem_actions(coursecat $category, array $actions = null) {
+        if ($actions === null) {
+            $actions = \core_course\management\helper::get_category_listitem_actions($category);
+        }
+        
+        // +++ Difference to original method.
+        if (!$category->can_delete() and isset($actions['delete'])) {
+            unset($actions['delete']);
+        }
+        // +++ End difference.
+        
+        $menu = new action_menu();
+        $menu->attributes['class'] .= ' category-item-actions item-actions';
+        $hasitems = false;
+        foreach ($actions as $key => $action) {
+            $hasitems = true;
+            $menu->add(new action_menu_link(
+                $action['url'],
+                $action['icon'],
+                $action['string'],
+                in_array($key, array('show', 'hide', 'moveup', 'movedown')),
+                array('data-action' => $key, 'class' => 'action-'.$key)
+            ));
+        }
+        if (!$hasitems) {
+            return '';
+        }
+        return $this->render($menu);
+    }
+    
     /** get (and cache) the category ids below an optional level (level == 3 for school-catgories), where
      *  the user has the capability moodle/category:manage or moodle/course:create
      *
@@ -576,7 +617,7 @@ class theme_mebis_core_course_management_renderer extends core_course_management
      *  category or this category is called directly.
      *
      * @param object $category, category object.
-     * @param array $parentids, list of possible parents.
+     * @param array $editablecatids, list of possible parents.
      * @return boolean, true if one of the parent id is in the parent list of the category.
      */
     protected function can_manage_category($category, $editablecatids) {

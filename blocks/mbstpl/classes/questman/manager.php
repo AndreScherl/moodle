@@ -753,7 +753,7 @@ class manager {
         $sql = "SELECT a.id, a.metaid, a.questionid, a.data, a.dataformat, a.datakeyword, a.comment 
                   FROM {block_mbstpl_answer} a
                   LEFT JOIN {block_mbstpl_question} q ON a.questionid = q.id
-                 WHERE (q.name IN ('Jahrgangsstufe', 'Schulart', 'Computereinsatz', 'Fach')) and (a.questionid NOT IN (5,6,7))";
+                 WHERE (q.name IN ('Jahrgangsstufe', 'Schulart', 'Computereinsatz', 'Fach'))";
         if (!$records = $DB->get_records_sql($sql, $params)) {
             return;
         }

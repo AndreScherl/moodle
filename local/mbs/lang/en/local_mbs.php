@@ -72,4 +72,6 @@ $string['newlicense_required'] = 'A short name is required';
 $string['newlicense_typecourse'] = 'Use as course license';
 
 // MoodleQuickForm lookupset.
-$string['lookupsetmoreresults'] = 'Please concretise your search, other results are avaible.';
+$string['lookupsetmoreresults'] = 'Please concretise your search, other results are avaiable.';
+$string['lookupsetnoresults'] = 'To your input no results were found, please try it with other search words (at least three letters).';
+$string['lookupsetlessletters'] = 'After input of at least three letters the available results are suggested to you.';

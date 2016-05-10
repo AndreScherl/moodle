@@ -108,10 +108,11 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
      * Render the load more result element,
      * @return string HTML of load result element
      */
-    protected function templatesearch_moreresults() {
-
+    protected function templatesearch_moreresults($formdata) {
+        
         // Store POST array in hidden field of form.
-        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($_POST))));
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($formdata))));
+        
         $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
         $o = $loadmoreform->render();
 

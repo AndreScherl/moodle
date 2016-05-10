@@ -102,7 +102,7 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array
      */
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('joins' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array(), 'wheres' => array());
 
         if (!isset($answer)) {
             return array();
@@ -121,7 +121,10 @@ class qtype_checkboxgroup extends qtype_menu {
             $where[] = "INSTR({$qparam}.data, '$optionid') > 0";
         }
 
-        $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        if (!empty($where)) {
+            $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        }
+        
         $toreturn['joins'][] = self::get_join('', $qparam);
         $toreturn['params'][$qparam] = $question->id;        
 

@@ -100,7 +100,7 @@ class qtype_lookupset extends qtype_base {
      * @return array parameter for building the search query.
      */
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('joins' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array(), 'wheres' => array());
 
         if (!isset($answer)) {
             return $toreturn;
@@ -115,7 +115,10 @@ class qtype_lookupset extends qtype_base {
             $where[] = "INSTR({$qparam}.data, '$optionid') > 0";
         }
 
-        $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        if (!empty($where)) {
+            $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        }
+        
         $toreturn['joins'][] = self::get_join('', $qparam);
         // Note that this param is needed by self::get_join call.
         $toreturn['params'][$qparam] = $question->id;        

@@ -339,7 +339,9 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             // Are there more results?
             if ($result->total > $result->limitfrom + $result->limitnum) {
 
-                $html .= $this->templatesearch_moreresults();
+                $formdata = ($result->formdata) ? $result->formdata : false;
+                
+                $html .= $this->templatesearch_moreresults($formdata);
 
                 $ajaxurl = new \moodle_url('/blocks/mbstpl/ajax.php');
                 $opts = array('ajaxurl' => $ajaxurl->out());
@@ -362,10 +364,11 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      * 
      * @return string HTML of load result element
      */
-    protected function templatesearch_moreresults() {
+    protected function templatesearch_moreresults($formdata) {
         
         // Store POST array in hidden field of form.
-        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($_POST))));
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($formdata))));
+        
         $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
         $o = $loadmoreform->render();
         

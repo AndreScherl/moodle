@@ -45,7 +45,7 @@ switch ($action) {
         
         // Get data from the from.
         $params = required_param('param', PARAM_RAW);
-        $data = (object) unserialize(base64_decode($params));
+        $data = unserialize(base64_decode($params));
         
         $limitfrom = optional_param('limitfrom', 0, PARAM_INT);
         $limitnum = optional_param('limitnum', 0, PARAM_INT);

@@ -354,12 +354,24 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Render the load more result element,
+     * Render the load more result element. The element saves all the current 
+     * form data, when it is created to retrieve further items.
+     * 
+     * Note that we intenntionally ignore changes inputed in the form without 
+     * a page reload. We believe this is the best approach regarding usability.
+     * 
      * @return string HTML of load result element
      */
     protected function templatesearch_moreresults() {
+        
+        // Store POST array in hidden field of form.
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($_POST))));
+        $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
+        $o = $loadmoreform->render();
+        
         $text = get_string('loadmoreresults', 'block_mbstpl');
-        return \html_writer::div($text, 'mbstpl-search-loadmoreresults', array('id' => 'mbstpl-search-loadmoreresults'));
+        $o .= \html_writer::div($text, 'mbstpl-search-loadmoreresults', array('id' => 'mbstpl-search-loadmoreresults'));
+        return $o;
     }
 
     /**
@@ -386,7 +398,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     protected function templatesearch_listitems($searchresult, $layout) {
 
         $listitems = '';
-
+        
         foreach ($searchresult->courses as $course) {
 
             $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));

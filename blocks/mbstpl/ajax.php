@@ -21,7 +21,7 @@
  * @copyright 2015 Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-//define('AJAX_SCRIPT', true);
+define('AJAX_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../../config.php');
 
@@ -39,24 +39,26 @@ switch ($action) {
 
     case 'loadmoreresults':
 
+        if (!confirm_sesskey()) {
+            print_error('forbidden');
+        }
+        
+        // Get data from the from.
+        $params = required_param('param', PARAM_RAW);
+        $data = (object) unserialize(base64_decode($params));
+        
         $limitfrom = optional_param('limitfrom', 0, PARAM_INT);
         $limitnum = optional_param('limitnum', 0, PARAM_INT);
-        
+
         // Load questions.
         $qidlist = \block_mbstpl\questman\manager::get_searchqs();
         $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
-
-        $searchform = new mbst\form\searchform(null, array('questions' => $questions), 'post', '', array('id' => 'mbstpl-search-form'));
         
-        $results = false;
-        if ($data = $searchform->get_data()) {
-           
-            $search = new mbst\search($questions, $data);
-            $results = $search->get_search_result($limitfrom, $limitnum);
-            
-            $renderer = mbst\course::get_renderer();
-            $results->html = $renderer->render_moreresults_ajax($results);
-        }
+        $search = new mbst\search($questions, $data);
+        $results = $search->get_search_result($limitfrom, $limitnum);
+
+        $renderer = mbst\course::get_renderer();
+        $results->html = $renderer->render_moreresults_ajax($results);
 
         $resp = array('error' => 0, 'results' => $results);
 

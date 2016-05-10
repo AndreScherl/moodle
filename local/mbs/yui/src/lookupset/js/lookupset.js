@@ -7,6 +7,10 @@ M.local_mbs.lookupset = {
         var searchbox = Y.one('#id_' + opts.name + '_search');
         var list = Y.one('#id_' + opts.name + '_list');
 
+        if (!searchbox) {
+            return;
+        }
+        
         searchbox.plug(Y.Plugin.AutoComplete, {
             resultFilters: null,
             resultHighligher: 'phraseMatch',

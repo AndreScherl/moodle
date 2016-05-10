@@ -418,7 +418,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     public function rating($template, $label = true) {
         $roundavg = round($template->rating * 2);
-        //Stars
+        // Stars.
         $inner = '';
         for ($i = 1; $i <= 5; $i++) {
             if ($roundavg >= $i * 2) {
@@ -429,7 +429,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $inner .= html_writer::div('', 'star emptystar');
             }
         }
-        //Counted rating
+        // Counted rating.
         $quantity = \block_mbstpl\rating::get_ratingquantity($template);
         if (!empty($quantity)) {
             if ($label) {

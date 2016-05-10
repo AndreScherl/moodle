@@ -68,7 +68,7 @@ class editmeta extends licenseandassetform {
                 }
             }
         }
-        $this->define_tags();
+        $this->define_tags($isfrozen);
 
         $form->setExpanded('coursemetadata');
         $form->closeHeaderBefore('coursemetadata');

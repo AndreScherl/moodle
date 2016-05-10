@@ -63,8 +63,12 @@ abstract class licenseandassetform extends \moodleform {
         $PAGE->requires->yui_module('moodle-local_mbs-newlicense', 'M.local_mbs.newlicense.init', $args, null, true);
     }
 
-    protected function define_tags() {
-        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
+    protected function define_tags($isfrozen = false) {
+        $attributes = array('size' => 30);
+        if (!$isfrozen) {
+            $attributes = array('placeholder' => get_string('tagsplaceholder', 'block_mbstpl'));
+        }        
+        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), $attributes);
         $this->_form->setType('tags', PARAM_TEXT);
         $this->_form->addHelpButton('tags', 'tagshelpbutton', 'block_mbstpl');
     }

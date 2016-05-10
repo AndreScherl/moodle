@@ -61,5 +61,58 @@ $functions = array(
         'type'          => 'read',
         'capabilities'  => 'mod/wiki:viewpage',
         'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+    'mod_wiki_get_subwiki_pages' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'get_subwiki_pages',
+        'description'   => 'Returns the list of pages for a specific subwiki.',
+        'type'          => 'read',
+        'capabilities'  => 'mod/wiki:viewpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
+    'mod_wiki_get_subwiki_files' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'get_subwiki_files',
+        'description'   => 'Returns the list of files for a specific subwiki.',
+        'type'          => 'read',
+        'capabilities'  => 'mod/wiki:viewpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
+    'mod_wiki_get_page_contents' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'get_page_contents',
+        'description'   => 'Returns the contents of a page.',
+        'type'          => 'read',
+        'capabilities'  => 'mod/wiki:viewpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
+    'mod_wiki_get_page_for_editing' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'get_page_for_editing',
+        'description'   => 'Locks and retrieves info of page-section to be edited.',
+        'type'          => 'write',
+        'capabilities'  => 'mod/wiki:editpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
+    'mod_wiki_new_page' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'new_page',
+        'description'   => 'Create a new page in a subwiki.',
+        'type'          => 'write',
+        'capabilities'  => 'mod/wiki:editpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
+    'mod_wiki_edit_page' => array(
+        'classname'     => 'mod_wiki_external',
+        'methodname'    => 'edit_page',
+        'description'   => 'Save the contents of a page.',
+        'type'          => 'write',
+        'capabilities'  => 'mod/wiki:editpage',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
     )
 );

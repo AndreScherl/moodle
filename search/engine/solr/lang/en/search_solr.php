@@ -23,14 +23,22 @@
  */
 
 $string['connectionerror'] = 'The specified Solr server is not available or the specified index does not exist';
+$string['connectionsettings'] = 'Connection settings';
 $string['errorcreatingschema'] = 'Error creating the Solr schema: {$a}';
 $string['errorvalidatingschema'] = 'Error validating Solr schema, field {$a->fieldname} does not exist. Please <a href="{$a->setupurl}">follow this link</a> to setup the fields required by Moodle.';
 $string['extensionerror'] = 'The Apache Solr PHP extension is not installed. Please check the documentation.';
+$string['fileindexing'] = 'Enable file indexing';
+$string['fileindexing_help'] = 'If your Solr install supports it, this feature allows Moodle to send files to be indexed.';
+$string['fileindexsettings'] = 'File indexing settings';
+$string['maxindexfilekb'] = 'Maximum file size to index (kB)';
+$string['maxindexfilekb_help'] = 'Files larger than this number of kilobytes will be skipped for search indexing. 0 to index files of any size.';
+$string['minimumsolr4'] = 'Solr 4.0 is the minimum version required for Moodle';
 $string['missingconfig'] = 'Your Apache Solr server is not yet configured in Moodle.';
 $string['multivaluedfield'] = 'Field "{$a}" returned an array instead of a scalar, the field is probably defined in Solr with "Multivalued" to true, this means that Solr autocreated the field for you when you indexed data because you forgot to run search/engine/solr/cli/setup_schema.php. Please delete the current index, create a new one and run setup_schema.php before indexing data in Solr.';
 $string['nodatafromserver'] = 'No data from server';
 $string['pluginname'] = 'Solr';
 $string['schemafieldautocreated'] = 'Field "{$a}" already exists in Solr schema. You probably forgot to run this script before indexing data and fields were autocreated by Solr. Please delete the current index, create a new one and run setup_schema.php again before indexing data in Solr.';
+$string['schemasetupfromsolr5'] = 'Your Solr server version is lower than 5.0, this script can only set your schema if your Solr version is 5.0 or higher. You need to manually set the fields in your schema according to \\search_solr\\document::get_default_fields_definition()';
 $string['searchinfo'] = 'Search queries';
 $string['searchinfo_help'] = 'Features you can use while performing search queries:
 
@@ -63,11 +71,9 @@ $string['solrsslcainfo'] = 'SSL CA certificates name';
 $string['solrsslcainfo_desc'] = 'File name holding one or more CA certificates to verify peer with';
 $string['solrsslcapath'] = 'SSL CA certificates path';
 $string['solrsslcapath_desc'] = 'Directory path holding multiple CA certificates to verify peer with';
-$string['solrsslcert'] = 'SSL key & certificate';
-$string['solrsslcert_desc'] = 'File name to a PEM-formatted private key + private certificate (concatenated in that order)';
-$string['solrsslcertonly'] = 'SSL certificate';
-$string['solrsslcertonly_desc'] = 'File name to a PEM-formatted private certificate only';
+$string['solrsslcert'] = 'SSL certificate';
+$string['solrsslcert_desc'] = 'File name to a PEM-formatted private certificate';
 $string['solrsslkey'] = 'SSL key';
 $string['solrsslkey_desc'] = 'File name to a PEM-formatted private key';
-$string['solrsslkeypassword'] = 'SSL Key password';
+$string['solrsslkeypassword'] = 'SSL key password';
 $string['solrsslkeypassword_desc'] = 'Password for PEM-formatted private key file';

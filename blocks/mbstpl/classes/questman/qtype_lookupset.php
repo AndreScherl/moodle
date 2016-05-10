@@ -66,7 +66,7 @@ class qtype_lookupset extends qtype_base {
         }
 
         // Implode all the checked options.
-        $answer = implode(',', array_keys($answer));
+        $answer = '#'.implode('#', array_keys($answer)).'#';
 
         $answerdata = array(
             'metaid' => $metaid,
@@ -100,28 +100,25 @@ class qtype_lookupset extends qtype_base {
      * @return array parameter for building the search query.
      */
     public static function get_query_filters($question, $answer) {
-        global $DB;
-
         $toreturn = array('joins' => array(), 'params' => array());
 
-        if (empty($answer)) {
+        if (!isset($answer)) {
             return $toreturn;
         }
 
-        $like = array();
+        $where = array();
         $qparam = 'q' . $question->id;
-
         $checkids = array_keys($answer);
         // For each checked option we do a search in the data string.
-        foreach ($checkids as $optionid) {
-            $like[] = " {$optionid} IN ({$qparam}.data) ";
+        foreach ($checkids as $optionid) {            
+            $optionid = '#'.$optionid.'#';
+            $where[] = "INSTR({$qparam}.data, '$optionid') > 0";
         }
 
-        $extralike = "(" . implode(" OR ", $like) . ")";
-        $toreturn['joins'][] = self::get_join("AND $extralike", $qparam);
-
+        $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        $toreturn['joins'][] = self::get_join('', $qparam);
         // Note that this param is needed by self::get_join call.
-        $toreturn['params'][$qparam] = $question->id;
+        $toreturn['params'][$qparam] = $question->id;        
 
         return $toreturn;
     }
@@ -137,11 +134,11 @@ class qtype_lookupset extends qtype_base {
     public static function process_answer($question, $answer, $isfrozen = false) {
         global $DB;
         
-        if (empty($answer->data)) {
+        if (!isset($answer->data)) {
             return $answer->data;
         }
 
-        $valuearray = explode(',', $answer->data);
+        $valuearray = explode('#', $answer->data);
 
         // If no data source is given, use the values for display.
         if (empty($question->param2)) {

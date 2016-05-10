@@ -73,3 +73,5 @@ $string['newlicense_typecourse'] = 'Kurslizenz verwenden';
 
 // MoodleQuickForm lookupset.
 $string['lookupsetmoreresults'] = 'Weitere Ergebnisse vorhanden, bitte konkretisieren Sie Ihre Suche.';
+$string['lookupsetnoresults'] = 'Zu Ihrer Eingabe wurden keine Ergebnisse gefunden, bitte probieren Sie es mit anderen Suchbegriffen (mindestens drei Buchstaben).';
+$string['lookupsetlessletters'] = 'Nach Eingabe von mindestens drei Buchstaben werden Ihnen die verfügbaren Ergebnisse vorgeschlagen.';

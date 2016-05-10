@@ -514,5 +514,14 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2016030800, 'mbstpl');
     }
     
+    if ($oldversion < 2016050400) {
+               
+        // Update question data.
+        \block_mbstpl\questman\manager::update_lookupsetquestions();
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016050400, 'mbstpl');
+    }
+    
     return true;
 }

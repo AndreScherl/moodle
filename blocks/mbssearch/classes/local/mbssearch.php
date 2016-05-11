@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,7 +26,7 @@
 namespace block_mbssearch\local;
 
 class mbssearch {
-        
+
     /** do a quick search (for lookup display) in courses
      * 
      * @global type $DB
@@ -34,29 +35,28 @@ class mbssearch {
      * @param int $onlymyschool
      * @return type
      */
-    public static function lookup_search_course($searchtext = '',
-                                                $limitnum = 10, $onlymyschool = 0) {
+    public static function lookup_search_course($searchtext = '', $limitnum = 10, $onlymyschool = 0) {
         global $DB;
 
         $params = array();
-        $searchcriteria = '';
+        $searchcriteria = '(visible = 1)';
 
         if ($searchtext) {
             $params['searchtext1'] = "%$searchtext%";
             $params['searchtext2'] = "%$searchtext%";
-            $searchcriteria = ' (' . $DB->sql_like('shortname', ':searchtext1', false, false);
+            $searchcriteria .= ' AND (' . $DB->sql_like('shortname', ':searchtext1', false, false);
             $searchcriteria .= ' OR ' . $DB->sql_like('fullname', ':searchtext2', false, false) . ') ';
         }
-        
-        // search only in my school
+
+        // search only in my school.
         if ($onlymyschool) {
             list($searchcriteria, $params) = self::searchonlyin_schoolcat($onlymyschool, $searchcriteria, $params);
         }
-        
-        if (!$courses = $DB->get_records_select('course', $searchcriteria, $params, 'fullname', 'id, fullname', 0, $limitnum)) {
+
+        if (!$courses = $DB->get_records_select('course', $searchcriteria, $params, '', 'id, fullname', 0, $limitnum)) {
             return array();
-        }            
-        
+        }
+
         return $courses;
     }
 
@@ -70,15 +70,15 @@ class mbssearch {
      */
     public static function lookup_search_school($searchtext, $limitnum = 10, $onlymyschool = 0) {
         global $DB;
-        
-        // search only in my school
+
+        // search only in my school.
         if ($onlymyschool) {
             return array();
-        }        
-        
+        }
+
         $params = array('depth' => \local_mbs\local\schoolcategory::$schoolcatdepth);
         $searchcriteria = 'depth = :depth';
-        
+
         if ($searchtext) {
             $params['searchtext'] = "%$searchtext%";
             $searchcriteria .= ' AND ' . $DB->sql_like('name', ':searchtext', false, false);
@@ -181,7 +181,7 @@ class mbssearch {
         return $groupedresults;
     }
 
-    /** build the sql statement for searching a school
+    /** build the sql statement for searching a course
      * 
      * @param string $searchtext
      * @param int $onlymyschool
@@ -199,11 +199,11 @@ class mbssearch {
             $searchcriteria = 'WHERE (visible = 1) AND (' . $DB->sql_like('shortname', ':searchtext1', false, false);
             $searchcriteria .= ' OR ' . $DB->sql_like('fullname', ':searchtext2', false, false) . ') ';
         }
-        
+
         if ($onlymyschool) {
             list($searchcriteria, $params1) = self::searchonlyin_schoolcat($onlymyschool, $searchcriteria, $params1);
         }
-        
+
         $sqlcourse = "SELECT id, 'course' as type, fullname as name
                       FROM {course} {$searchcriteria}";
 
@@ -212,7 +212,7 @@ class mbssearch {
         return array($sqlcourse, $sqlcoursecount, $params1);
     }
 
-    /** build the sql statement for searching a course
+    /** build the sql statement for searching a school
      * 
      * @param string $searchtext
      * @return array
@@ -221,7 +221,7 @@ class mbssearch {
         global $DB;
 
         // ...build sql for schools.
-        $params2 = array();       
+        $params2 = array();
         $params2['depth'] = \local_mbs\local\schoolcategory::$schoolcatdepth;
         $searchcriteria = 'depth = :depth AND visible = 1';
 
@@ -255,30 +255,27 @@ class mbssearch {
     public static function search($searchtext, $limitfrom, $limitnum, $filterby, $schoolcatid = 0) {
         global $DB;
 
-        //search only in one school
+        // search only in one school.
         if ($schoolcatid) {
             $filterby = 'course';
         }
-        
+
         // ...search in schools and courses.
         if ($filterby == 'nofilter') {
-
             list($sqlcourse, $sqlcoursecount, $params1) = self::build_course_sql($searchtext, $schoolcatid);
             $countcourses = $DB->count_records_sql($sqlcoursecount, $params1);
-            
+
             list($sqlschool, $sqlschoolcount, $params2) = self::build_school_sql($searchtext);
             $countschools = $DB->count_records_sql($sqlschoolcount, $params2);
 
             $sql = "({$sqlcourse}) UNION ({$sqlschool})";
             $params = array_merge($params1, $params2);
-
-            $total = $countcourses + $countschools;
             
+            $total = $countcourses + $countschools;
         } else {
-
             if ($filterby == 'course') {
                 list($sql, $sqlcount, $params) = self::build_course_sql($searchtext, $schoolcatid);
-                $total = $DB->count_records_sql($sqlcount, $params);                
+                $total = $DB->count_records_sql($sqlcount, $params);
             } else {
                 list($sql, $sqlcount, $params) = self::build_school_sql($searchtext);
                 $total = $DB->count_records_sql($sqlcount, $params);
@@ -322,7 +319,7 @@ class mbssearch {
 
         return $results;
     }
-    
+
     /** Constructs 'IN()' or '=' sql fragment for searching only in one school
      * 
      * @param int $schoolcatid
@@ -330,14 +327,13 @@ class mbssearch {
      * @param array $params
      * @return array A list containing the constructed sql fragment and an array of parameters.
      */
-    private static function searchonlyin_schoolcat ($schoolcatid, $searchcriteria, $params) {
+    private static function searchonlyin_schoolcat($schoolcatid, $searchcriteria, $params) {
         global $DB;
         if ($catids = \local_mbs\local\schoolcategory::get_category_childids($schoolcatid)) {
 
             list($incatids, $inparams) = $DB->get_in_or_equal($catids, SQL_PARAMS_NAMED);
-            $params = array_merge($params, $inparams);  
+            $params = array_merge($params, $inparams);
             $searchcriteria .= " AND (category {$incatids})";
-           
         }
         return array($searchcriteria, $params);
     }

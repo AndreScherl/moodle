@@ -15906,6 +15906,7 @@ aside.row .block-region .block {
 }
 .path-blocks-mbssearch #mbssearch_result {
   margin-top: 20px;
+  color: #fff;
 }
 
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :hover {

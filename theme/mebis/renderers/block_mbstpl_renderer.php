@@ -97,7 +97,7 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
             $html .= html_writer::end_tag('div'); //end class 'course_title'
             $html .= html_writer::end_tag('div'); //end class 'coursebox-inner'
             $html .= html_writer::end_tag('li');
-            
+
             // Add coursebox.
             $output .= $html;
         }
@@ -108,21 +108,24 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
      * Render the load more result element,
      * @return string HTML of load result element
      */
-    protected function templatesearch_moreresults() {
+    protected function templatesearch_moreresults($formdata) {
         
+        // Store POST array in hidden field of form.
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($formdata))));
+        
+        $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
+        $o = $loadmoreform->render();
+
         $url = new moodle_url('#', array());
         $text = get_string('loadmoreresults', 'block_mbssearch');
 
-        $o = html_writer::link($url, $text, array(
-            'id' => 'mbstpl-search-loadmoreresults',
-            'class' => 'btn load-more-results'));
-        
-        $o = html_writer::div($o, 'row col-lg-12 add-more-results');
-        
+        $link = html_writer::link($url, $text, array(
+                    'id' => 'mbstpl-search-loadmoreresults',
+                    'class' => 'btn load-more-results'));
+
+        $o .= html_writer::div($link, 'row col-md-12 add-more-results');
+
         return $o;
-        
-        $text = get_string('loadmoreresults', 'block_mbstpl');
-        return \html_writer::div($text, 'row col-lg-12 add-more-results', array('id' => 'mbstpl-search-loadmoreresults'));
     }
 
 }

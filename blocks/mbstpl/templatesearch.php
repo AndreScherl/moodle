@@ -56,6 +56,7 @@ $result = false;
 if ($data = $searchform->get_data()) {
     $search = new mbst\search($questions, $data);
     $result = $search->get_search_result($limitfrom, $limitnum);
+    $result->formdata = $data;
 }
 
 $pagetitle = get_string('templatesearch', 'block_mbstpl');

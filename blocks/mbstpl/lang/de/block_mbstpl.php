@@ -285,6 +285,7 @@ $string['tag'] = 'Schlagwort';
 $string['tags'] = 'Schlagworte';
 $string['tagshelpbutton'] = 'Hilfe: Schlagworte';
 $string['tagshelpbutton_help'] = 'Geben Sie Schlagworte an, die den Inhalt oder Einsatz Ihres Kurses beschreiben, z. B. für einen SCHILF-Kurs: schilf, fortbildung';
+$string['tagsplaceholder'] = 'schlagwort1, schlagwort2';
 $string['tasknote'] = 'Auftragsnotiz';
 $string['teacherrole'] = 'Lehrer-Rolle';
 $string['teacherrole_desc'] = 'Rolle, die einem Nutzer zugewiesen wird, wenn er einen Austauschkurs für die Nutzung kopiert.';

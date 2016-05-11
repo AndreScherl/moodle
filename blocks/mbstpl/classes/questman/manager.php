@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -413,8 +414,7 @@ class manager {
         return array_merge($enableds, $disableds);
     }
 
-    public static function build_form(mbst\dataobj\template $template, $course,
-                                      $customdata = array()) {
+    public static function build_form(mbst\dataobj\template $template, $course, $customdata = array()) {
 
         global $DB;
 
@@ -443,7 +443,7 @@ class manager {
         $tform->set_data($answers);
 
         self::populate_meta($tform, $meta, false);
-        
+
         return $tform;
     }
 
@@ -477,16 +477,13 @@ class manager {
             }
 
             $typeclass = qtype_base::qtype_factory($questions[$key]->datatype);
- 
+
             $defaultformdata->$key = $typeclass::process_answer($questions[$key], $answer);
         }
         return true;
     }
-    
-    
-    public static function populate_meta(mbst\form\editmeta $form,
-                                         mbst\dataobj\meta $meta,
-                                         $setanswers = true) {
+
+    public static function populate_meta(mbst\form\editmeta $form, mbst\dataobj\meta $meta, $setanswers = true) {
 
         $setdata = (object) array(
                     'license' => $meta->license,
@@ -497,17 +494,17 @@ class manager {
             // Load the answers to the dynamic questions.
             /* @var $answers mbst\dataobj\answer[] */
             $answers = mbst\dataobj\answer::fetch_all(array('metaid' => $meta->id));
-            
+
             // Index ansers by field name.
             $answerdata = array();
-            
+
             foreach ($answers as $answer) {
                 $answerdata['custq' . $answer->questionid] = $answer;
             }
-            
+
             self::process_answers($answerdata, $setdata);
         }
-        
+
         $form->set_data($setdata);
     }
 
@@ -576,7 +573,7 @@ class manager {
         $question->required = 0;
         $question->inuse = 0;
         self::add($question);
-        
+
         $question->datatype = 'lookupset';
         $question->name = 'Fach';
         $question->title = 'Fach';
@@ -668,7 +665,7 @@ class manager {
         $question->param1 = 'Ich habe die <a target="_blank" href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
         $question->param2 = NULL;
         $question->help = NULL;
-        $question->required = 1;        
+        $question->required = 1;
         $question->inuse = 0;
         self::add($question);
 
@@ -745,6 +742,28 @@ class manager {
             $record->subject = $subject;
             if (!$DB->record_exists('block_mbstpl_subjects', array('subject' => $subject))) {
                 $DB->insert_record('block_mbstpl_subjects', $record);
+            }
+        }
+    }
+
+    public static function update_lookupsetquestions() {
+        global $DB;
+
+        $params['comma'] = '%,%';
+        $sql = "SELECT a.id, a.metaid, a.questionid, a.data, a.dataformat, a.datakeyword, a.comment 
+                  FROM {block_mbstpl_answer} a
+                  LEFT JOIN {block_mbstpl_question} q ON a.questionid = q.id
+                 WHERE (q.name IN ('Jahrgangsstufe', 'Schulart', 'Computereinsatz', 'Fach'))";
+        if (!$records = $DB->get_records_sql($sql, $params)) {
+            return;
+        }
+
+        foreach ($records as $record) {
+            if (isset($record->data)) {
+                $data = explode(',', $record->data);
+                $record->data = '#' . implode('#', $data) . '#';
+                $record->datakeyword = $record->data;
+                $DB->update_record('block_mbstpl_answer', $record, true);
             }
         }
     }

@@ -67,7 +67,7 @@ class qtype_checkboxgroup extends qtype_menu {
         }
 
         // Implode all the checked options.
-        $answer = implode(',', array_keys($answer, true));
+        $answer = '#'.implode('#', array_keys($answer, true)).'#';
 
         $answerdata = array(
             'metaid' => $metaid,
@@ -102,7 +102,7 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array
      */
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('joins' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array(), 'wheres' => array());
 
         if (!isset($answer)) {
             return array();
@@ -113,18 +113,20 @@ class qtype_checkboxgroup extends qtype_menu {
             return array();
         }
 
-        $like = array();
+        $where = array();
         $qparam = 'q' . $question->id;
-
         // For each checked option we do a search in the data string.
         foreach ($checkids as $optionid) {
-            $like[] = " {$optionid} IN ({$qparam}.data) ";
+            $optionid = '#'.$optionid.'#';
+            $where[] = "INSTR({$qparam}.data, '$optionid') > 0";
         }
 
-        $extralike = "(" . implode(" OR ", $like) . ")";
-
-        $toreturn['joins'][] = self::get_join("AND $extralike", $qparam);
-        $toreturn['params'][$qparam] = $question->id;
+        if (!empty($where)) {
+            $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        }
+        
+        $toreturn['joins'][] = self::get_join('', $qparam);
+        $toreturn['params'][$qparam] = $question->id;        
 
         return $toreturn;
     }
@@ -137,7 +139,7 @@ class qtype_checkboxgroup extends qtype_menu {
         if (!isset($answer->data)) {
             return '';
         } else {
-            return array_fill_keys(explode(',', $answer->data), 1);
+            return array_fill_keys(explode('#', $answer->data), 1);
         }
     }
     

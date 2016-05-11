@@ -127,7 +127,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
         $args['nameselected'] = $args['name'] . 'selected';
         $PAGE->requires->yui_module('moodle-local_mbs-lookupset', 'M.local_mbs.lookupset.init', array($args), null, true);
         $PAGE->requires->strings_for_js(array('delete'), 'moodle');
-        $PAGE->requires->strings_for_js(array('lookupsetmoreresults'), 'local_mbs');
+        $PAGE->requires->strings_for_js(array('lookupsetmoreresults', 'lookupsetnoresults', 'lookupsetlessletters'), 'local_mbs');
     }
 
     /**

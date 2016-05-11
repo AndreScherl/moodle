@@ -15464,6 +15464,16 @@ aside.row .block-region .block {
   color: #fff;
 }
 
+.me-wrapper .add-more-results {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.me-wrapper .add-more-results .load-more-results {
+  margin-left: 0;
+}
+
 .mbscoordinators {
   clear: both;
   overflow: hidden;
@@ -15699,18 +15709,6 @@ aside.row .block-region .block {
   padding: 22px 20px 0  0;
 }
 
-.path-blocks-mbssearch .add-more-results,
-.block_mbsmycourses .add-more-results {
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-.path-blocks-mbssearch .add-more-results .load-more-results,
-.block_mbsmycourses .add-more-results .load-more-results {
-  margin-left: 0;
-}
-
 .block_mbstpl button {
   color: #000;
 }
@@ -15908,6 +15906,7 @@ aside.row .block-region .block {
 }
 .path-blocks-mbssearch #mbssearch_result {
   margin-top: 20px;
+  color: #fff;
 }
 
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :hover {

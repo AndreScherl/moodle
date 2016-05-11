@@ -295,6 +295,7 @@ $string['tag'] = 'Tag';
 $string['tags'] = 'Tags';
 $string['tagshelpbutton'] = 'Help: Tags';
 $string['tagshelpbutton_help'] = 'Give the tags which describe the contents or application of your course, e. g. SCHILF-course: schilf, fortbildung';
+$string['tagsplaceholder'] = 'tag1, tag2';
 $string['tasknote'] = 'Task note';
 $string['teacherrole'] = 'Teacher role';
 $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a duplicated course.';

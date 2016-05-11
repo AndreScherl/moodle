@@ -18,7 +18,7 @@ M.block_mbstpl.templatesearch.init = function (opts) {
         var spinner = M.util.add_spinner(Y, loadmorediv);
 
         var formobject = {
-            id: 'mbstpl-search-form',
+            id: 'mbstpl-loadmore-form',
             useDisabled: true
         };
 

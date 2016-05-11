@@ -184,7 +184,7 @@ class search {
                 $orderby .= 'tpl.rating';
             }
             // Adding c.id as second order, otherwise order will be randomized, when contains a value of NULL.
-            $orderby .= ',c.id ' . $this->sortby->ascdesc;
+            $orderby .= ' ' . $this->sortby->ascdesc. ', c.id DESC';
         }
         $joins = implode("\n        ", $joins);
 

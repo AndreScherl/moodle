@@ -9,10 +9,7 @@ Feature: Perform basic calendar functionality
       | username | firstname | lastname | email |
       | student1 | Student | 1 | student1@example.com |
       | student2 | Student | 2 | student2@example.com |
-<<<<<<< HEAD
-=======
       | student3 | Student | 3 | student3@example.com |
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     And the following "courses" exist:
       | fullname | shortname | format |
       | Course 1 | C1 | topics |

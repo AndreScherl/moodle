@@ -126,8 +126,6 @@ class question_engine_data_mapper_testcase extends qbehaviour_walkthrough_test_b
         $this->assertEquals( 5, $quba2->get_question_max_mark(1));
         $this->assertEquals( 2, $quba2->get_question_max_mark(2));
     }
-<<<<<<< HEAD
-=======
 
     public function test_load_used_variants() {
         $this->resetAfterTest();
@@ -156,5 +154,4 @@ class question_engine_data_mapper_testcase extends qbehaviour_walkthrough_test_b
                     array($questiondata1->id, $questiondata2->id, $questiondata3->id),
                     new qubaid_list(array($quba->get_id()))));
     }
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 }

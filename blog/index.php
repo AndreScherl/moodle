@@ -48,11 +48,7 @@ foreach ($url_params as $var => $val) {
 }
 $PAGE->set_url('/blog/index.php', $url_params);
 
-<<<<<<< HEAD
-//correct tagid if a text tag is provided as a param
-=======
 // Correct tagid if a text tag is provided as a param.
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 if (!empty($tag)) {
     if ($tagrec = $DB->get_record('tag', array('name' => $tag))) {
         $tagid = $tagrec->id;
@@ -61,8 +57,6 @@ if (!empty($tag)) {
     }
 }
 
-<<<<<<< HEAD
-=======
 // Set the userid to the entry author if we have the entry ID.
 if ($entryid and !isset($userid)) {
     $entry = new blog_entry($entryid);
@@ -78,7 +72,6 @@ if (isset($userid) && empty($courseid)) {
 }
 $PAGE->set_context($context);
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 $sitecontext = context_system::instance();
 
 if (isset($userid) && $USER->id == $userid) {
@@ -116,13 +109,6 @@ if (empty($CFG->enableblogs)) {
     print_error('blogdisable', 'blog');
 }
 
-<<<<<<< HEAD
-if (empty($CFG->enableblogs)) {
-    print_error('blogdisable', 'blog');
-}
-
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 // Add courseid if modid or groupid is specified: This is used for navigation and title.
 if (!empty($modid) && empty($courseid)) {
     $courseid = $DB->get_field('course_modules', 'course', array('id' => $modid));

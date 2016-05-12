@@ -9,12 +9,8 @@ Feature: Add or remove items from the TinyMCE editor toolbar
       | fullname | shortname | category |
       | Course 1 | C1 | 0 |
     And I log in as "admin"
-<<<<<<< HEAD
-    And I navigate to "Edit profile" node in "My profile settings"
-=======
     And I follow "Preferences" in the user menu
     And I follow "Editor preferences"
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     And I set the field "Text editor" to "TinyMCE HTML editor"
     And I press "Save changes"
     And I follow "Home"
@@ -22,11 +18,7 @@ Feature: Add or remove items from the TinyMCE editor toolbar
   Scenario: Remove icons
     When the following config values are set as admin:
       | customtoolbar | fontselect,fontsizeselect,formatselect,\|,undo,redo,\|,search,replace,\|,fullscreen | editor_tinymce |
-<<<<<<< HEAD
-    And I am on homepage
-=======
     And I am on site homepage
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Database" to section "1"
@@ -37,11 +29,7 @@ Feature: Add or remove items from the TinyMCE editor toolbar
   Scenario: Add icons
     When the following config values are set as admin:
       | customtoolbar | fontselect,fontsizeselect,formatselect,\|,undo,redo,\|,search,replace,\|,fullscreen,anchor | editor_tinymce |
-<<<<<<< HEAD
-    And I am on homepage
-=======
     And I am on site homepage
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Database" to section "1"
@@ -49,11 +37,7 @@ Feature: Add or remove items from the TinyMCE editor toolbar
     And "#id_introeditor_tbl .mce_anchor" "css_element" should exist
     And the following config values are set as admin:
       | customtoolbar | fontselect,fontsizeselect,formatselect,\|,undo,redo,\|,search,replace,\|,fullscreen | editor_tinymce |
-<<<<<<< HEAD
-    And I am on homepage
-=======
     And I am on site homepage
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
     And I follow "Course 1"
     And I add a "Database" to section "1"
     And "#id_introeditor_tbl .mce_anchor" "css_element" should not exist

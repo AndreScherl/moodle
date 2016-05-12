@@ -55,16 +55,8 @@ echo $OUTPUT->doctype() ?>
             <a class="brand" href="<?php echo $CFG->wwwroot;?>"><?php echo
                 format_string($SITE->shortname, true, array('context' => context_course::instance(SITEID)));
                 ?></a>
-<<<<<<< HEAD
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-=======
             <?php echo $OUTPUT->navbar_button(); ?>
             <?php echo $OUTPUT->user_menu(); ?>
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
             <div class="nav-collapse collapse">
                 <?php echo $OUTPUT->custom_menu(); ?>
                 <ul class="nav pull-right">

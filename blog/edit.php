@@ -33,13 +33,6 @@ $id       = optional_param('entryid', 0, PARAM_INT);
 $confirm  = optional_param('confirm', 0, PARAM_BOOL);
 $modid = optional_param('modid', 0, PARAM_INT); // To associate the entry with a module instance.
 $courseid = optional_param('courseid', 0, PARAM_INT); // To associate the entry with a course.
-<<<<<<< HEAD
-
-if ($action == 'edit') {
-    $id = required_param('entryid', PARAM_INT);
-}
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 
 if ($action == 'edit') {
     $id = required_param('entryid', PARAM_INT);
@@ -56,30 +49,8 @@ if (!empty($id) && $action == 'add') {
     $id = null;
 }
 
-<<<<<<< HEAD
-// Blogs are always in system context.
-$sitecontext = context_system::instance();
-$PAGE->set_context($sitecontext);
-
-require_login($courseid);
-
-if (empty($CFG->enableblogs)) {
-    print_error('blogdisable', 'blog');
-}
-
-if (isguestuser()) {
-    print_error('noguestentry', 'blog');
-}
-
-$returnurl = new moodle_url('/blog/index.php');
-
-if (!empty($courseid) && empty($modid)) {
-    $returnurl->param('courseid', $courseid);
-}
-=======
 $entry = new stdClass();
 $entry->id = null;
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 
 if ($id) {
     if (!$entry = new blog_entry($id)) {
@@ -90,10 +61,6 @@ if ($id) {
     $userid = $USER->id;
 }
 
-<<<<<<< HEAD
-$blogheaders = blog_get_headers();
-
-=======
 $sitecontext = context_system::instance();
 $usercontext = context_user::instance($userid);
 $PAGE->set_context($usercontext);
@@ -125,7 +92,6 @@ if (!empty($modid)) {
 
 $blogheaders = blog_get_headers();
 
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
 if (!has_capability('moodle/blog:create', $sitecontext) && !has_capability('moodle/blog:manageentries', $sitecontext)) {
     print_error('cannoteditentryorblog');
 }

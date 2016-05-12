@@ -8660,10 +8660,6 @@ function message_popup_window() {
                      FROM {message} m
                      JOIN {message_working} mw ON m.id=mw.unreadmessageid
                      JOIN {message_processors} p ON mw.processorid=p.id
-<<<<<<< HEAD
-                     JOIN {user} u ON m.useridfrom=u.id
-=======
->>>>>>> 5d35d7b8843f5f4571dd0b10ad1490cd524e67da
                      LEFT JOIN {message_contacts} c ON c.contactid = m.useridfrom
                                                    AND c.userid = m.useridto
                     WHERE m.useridto = :userid

@@ -21,18 +21,19 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Bootstrap 3';
+$string['pluginname'] = 'bootstrap';
 $string['region-side-post'] = 'Right';
 $string['region-side-pre'] = 'Left';
 $string['fullscreen'] = 'Full screen';
 $string['closefullscreen'] = 'Close full screen';
+$string['togglenav'] = 'Toggle navigation';
 
 $string['choosereadme'] = '
 <div class="clearfix"><div class="theme_screenshot"><h2>Bootstrap Base</h2>
 <img class=img-polaroid src="bootstrap/pix/screenshot.jpg" />
 <h3>Theme Credits</h3>
 <p>
-<h3>Moodle Bootstrap 3 theme</h3>
+<h3>Moodle bootstrap theme</h3>
 <p>
 This theme is based on the Bootstrap CSS framework, version 3.0
 </p>
@@ -43,7 +44,7 @@ This theme is based on the Bootstrap CSS framework, version 3.0
 This is a GPL theme that is available on GitHub:
 </p>
 <p>
-<a href=https://github.com/bmbrands/theme_bootstrap">https://github.com/bmbrands/theme_bootstrap</a>
+<a href="https://github.com/bmbrands/theme_bootstrap">https://github.com/bmbrands/theme_bootstrap</a>
 </p>
 <p>
 Feel free to modify / improve / share

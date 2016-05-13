@@ -129,10 +129,11 @@
         .right {
             display: inherit;
         }
-    }
-    ul.weeks {
-        h3.sectionname {
-            white-space: normal;
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
         }
     }
 }
@@ -145,6 +146,7 @@
 
 .section {
     padding: 0;
+    margin: 0;
     .activity {
         .commands {
             white-space: nowrap;
@@ -328,11 +330,6 @@
 li.section.hidden span.commands a.editing_hide,li.section.hidden span.commands a.editing_show {
     cursor: default;
 }
-ul.weeks {
-    h3.sectionname {
-        white-space: nowrap;
-    }
-}
 
 .single-section {
     h3.sectionname {
@@ -497,8 +494,9 @@ span.editinstructions {
         .summary,
         .courseimage,
         .coursefile,
-        .teachers {
-            margin:3px 5px;
+        .teachers,
+        .visitlink {
+            margin: 3px 5px;
             padding:0;
         }
         .courseimage {
@@ -681,6 +679,11 @@ span.editinstructions {
 #course-category-listings {
     background-color: @table-bg;
     margin-bottom: 200px;
+
+    ul.ml ul.ml {
+        margin: 0;
+        padding: 0;
+    }
 
     /** Two column layout */
     &.columns-2 {

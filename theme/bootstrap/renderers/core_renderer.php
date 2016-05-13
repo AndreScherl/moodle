@@ -1,5 +1,5 @@
 <?php
-// This file is part of The Bootstrap 3 Moodle theme
+// This file is part of The Bootstrap Moodle theme
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 class theme_bootstrap_core_renderer extends core_renderer {
 
     public function notification($message, $classes = 'notifyproblem') {
-        $message = clean_text($message);
+        /* $message = clean_text($message); */
 
         if ($classes == 'notifyproblem') {
             return html_writer::div($message, 'alert alert-danger');
@@ -58,7 +58,7 @@ class theme_bootstrap_core_renderer extends core_renderer {
 
     public function navbar() {
         $items = $this->page->navbar->get_items();
-        if (empty($items)) { // MDL-46107
+        if (empty($items)) { // MDL-46107.
             return '';
         }
         $breadcrumbs = '';
@@ -74,7 +74,7 @@ class theme_bootstrap_core_renderer extends core_renderer {
         // are configured in the global theme settings page.
         global $CFG;
 
-        if (empty($custommenuitems) && !empty($CFG->custommenuitems)) { // MDL-45507
+        if (empty($custommenuitems) && !empty($CFG->custommenuitems)) { // MDL-45507.
             $custommenuitems = $CFG->custommenuitems;
         }
         $custommenu = new custom_menu($custommenuitems, current_language());
@@ -82,12 +82,11 @@ class theme_bootstrap_core_renderer extends core_renderer {
     }
 
     protected function render_custom_menu(custom_menu $menu) {
-        global $CFG, $USER;
 
-        // TODO: eliminate this duplicated logic, it belongs in core, not
-        // here. See MDL-39565.
+        // Add the lang_menu to the left of the menu.
+        $this->add_lang_menu($menu);
 
-        $content = '<ul class="nav navbar-nav">';
+        $content = '<ul class="nav navbar-nav pull-right">';
         foreach ($menu->get_children() as $item) {
             $content .= $this->render_custom_menu_item($item, 1);
         }
@@ -95,66 +94,103 @@ class theme_bootstrap_core_renderer extends core_renderer {
         return $content.'</ul>';
     }
 
-    public function user_menu() {
-        global $CFG;
+    public function user_menu($user = null, $withlinks = null) {
         $usermenu = new custom_menu('', current_language());
-        return $this->render_user_menu($usermenu);
+        return $this->render_user_menu($usermenu, $user);
     }
 
-    protected function render_user_menu(custom_menu $menu) {
-        global $CFG, $USER, $DB;
+    protected function render_user_menu(custom_menu $menu, $user) {
+        global $USER;
 
-        $addusermenu = true;
-        $addlangmenu = true;
-
-        $langs = get_string_manager()->get_list_of_translations();
-        if (count($langs) < 2
-        or empty($CFG->langmenu)
-        or ($this->page->course != SITEID and !empty($this->page->course->lang))) {
-            $addlangmenu = false;
+        if (empty($user)) {
+            $user = $USER;
         }
 
-        if ($addlangmenu) {
-            $language = $menu->add(get_string('language'), new moodle_url('#'), get_string('language'), 10000);
-            foreach ($langs as $langtype => $langname) {
-                $language->add($langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
-            }
+        $menuclass = 'navbar-nav guest';
+
+        if (isloggedin() && !isguestuser()) {
+            $menuclass = 'loggedin';
+            $userpicture = new user_picture($user);
+            $userpicture->link = false;
+            $userpicture->size = 30;
+            $picture = html_writer::tag('span', $this->render($userpicture), array('class' => 'picspan'));
+            $name = fullname($user);
+            $name = html_writer::tag('span', $name, array('class' => 'username hidden-sm'));
+            $usermenu = $menu->add($name . $picture, new moodle_url('#'), fullname($user), 10001);
+
+            $usermenu->add(
+                $this->glyphicon('dashboard')  . get_string('myhome'),
+                new moodle_url('/my'),
+                get_string('myhome')
+            );
+
+            $usermenu->add(
+                '#######',
+                new moodle_url('/'),
+                '#######'
+            );
+
+            $usermenu->add(
+                $this->glyphicon('user') . get_string('profile'),
+                new moodle_url('/user/profile.php', array('id' => $user->id)),
+
+                get_string('profile')
+            );
+
+            $usermenu->add(
+                $this->glyphicon('list-alt') . get_string('grades'),
+                new moodle_url('/grade/report/overview/index.php'),
+                get_string('grades')
+            );
+
+            $usermenu->add(
+                $this->glyphicon('inbox') . get_string('messages', 'message'),
+                new moodle_url('/message/index.php'),
+
+                get_string('messages', 'message')
+            );
+
+            $usermenu->add(
+                $this->glyphicon('cog') . get_string('preferences'),
+                new moodle_url('/user/preferences.php'),
+
+                get_string('preferences')
+            );
+
+            $usermenu->add(
+                '#######',
+                new moodle_url('/'),
+                '#######'
+            );
+
+            $usermenu->add(
+                $this->glyphicon('sign-out') . get_string('logout'),
+                new moodle_url('/login/logout.php', array('sesskey' => sesskey(), 'alt' => 'logout')),
+                get_string('logout')
+            );
+        } else {
+            $menu->add(
+                $this->glyphicon('sign-in')  . get_string('login'),
+                new moodle_url('/login/index.php', array('alt' => get_string('login'))),
+                get_string('login')
+            );
         }
 
-        if ($addusermenu) {
-            if (isloggedin()) {
-                $usermenu = $menu->add(fullname($USER), new moodle_url('#'), fullname($USER), 10001);
-                $usermenu->add(
-                    '<span class="glyphicon glyphicon-off"></span>' . get_string('logout'),
-                    new moodle_url('/login/logout.php', array('sesskey' => sesskey(), 'alt' => 'logout')),
-                    get_string('logout')
-                );
-
-                $usermenu->add(
-                    '<span class="glyphicon glyphicon-user"></span>' . get_string('viewprofile'),
-                    new moodle_url('/user/profile.php', array('id' => $USER->id)),
-                    get_string('viewprofile')
-                );
-
-                $usermenu->add(
-                    '<span class="glyphicon glyphicon-cog"></span>' . get_string('editmyprofile'),
-                    new moodle_url('/user/edit.php', array('id' => $USER->id)),
-                    get_string('editmyprofile')
-                );
-            } else {
-                $usermenu = $menu->add(get_string('login'), new moodle_url('/login/index.php'), get_string('login'), 10001);
-            }
-        }
-
-        $content = '<ul class="nav navbar-nav navbar-right">';
+        $content = html_writer::start_tag('ul', array('class' => 'nav pull-left usermenu ' . $menuclass, 'role' => 'menubar'));
         foreach ($menu->get_children() as $item) {
-            $content .= $this->render_custom_menu_item($item, 1);
+            $content .= $this->render_custom_menu_item($item, 1, 'pull-right');
         }
+        $content .= html_writer::end_tag('ul');
 
-        return $content.'</ul>';
+        return $content;
     }
 
-    protected function render_custom_menu_item(custom_menu_item $menunode, $level = 0 ) {
+    private function glyphicon($icon) {
+        $icon = html_writer::tag('i', '', array('class' => 'glyphicon glyphicon-' . $icon));
+        return html_writer::tag('span', $icon, array('class' => 'iconwrapper'));
+    }
+
+    protected function render_custom_menu_item(custom_menu_item $menunode, $level = 0, $direction = '' ) {
         static $submenucount = 0;
 
         if ($menunode->has_children()) {
@@ -185,7 +221,7 @@ class theme_bootstrap_core_renderer extends core_renderer {
                 $content .= '<b class="caret"></b>';
             }
             $content .= '</a>';
-            $content .= '<ul class="dropdown-menu">';
+            $content .= '<ul class="dropdown-menu '.$direction.'">';
             foreach ($menunode->get_children() as $menunode) {
                 $content .= $this->render_custom_menu_item($menunode, 0);
             }
@@ -193,14 +229,72 @@ class theme_bootstrap_core_renderer extends core_renderer {
         } else {
             $content = '<li>';
             // The node doesn't have children so produce a final menuitem.
-            if ($menunode->get_url() !== null) {
-                $url = $menunode->get_url();
+            $class = $menunode->get_title();
+            if (preg_match("/^#+$/", $menunode->get_text())) {
+                $content = '<li class="divider" role="presentation">';
             } else {
-                $url = '#';
+                $content = '<li>';
+                // The node doesn't have children so produce a final menuitem.
+                if ($menunode->get_url() !== null) {
+                    $url = $menunode->get_url();
+                } else {
+                    $url = '#';
+                }
+                $content .= html_writer::link($url, $menunode->get_text(), array('class' => $class,
+                    'title' => $menunode->get_title()));
             }
-            $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title()));
         }
         return $content;
+    }
+
+    /**
+     * Adds a lang submenu in a custom_menu
+     *
+     * @return string The lang menu HTML or empty string
+     */
+    protected function add_lang_menu(custom_menu $menu, $force = false) {
+        // TODO: eliminate this duplicated logic, it belongs in core, not
+        // here. See MDL-39565.
+
+        $haslangmenu = $this->lang_menu() != '';
+
+        if ($force || ( !empty($this->page->layout_options['langmenu']) && $haslangmenu ) ) {
+            $langs = get_string_manager()->get_list_of_translations();
+            $strlang = get_string('language');
+            $currentlang = current_language();
+            if (isset($langs[$currentlang])) {
+                $currentlang = $langs[$currentlang];
+            } else {
+                $currentlang = $strlang;
+            }
+            $this->language = $menu->add($currentlang, new moodle_url('#'), $strlang, 10000);
+            foreach ($langs as $langtype => $langname) {
+                $this->language->add($langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
+            }
+        }
+    }
+
+    /**
+     * This code renders the navbar button to control the display of the custom menu
+     * on smaller screens.
+     *
+     * Do not display the button if the menu is empty.
+     *
+     * @return string HTML fragment
+     */
+    protected function navbar_button() {
+        global $CFG;
+
+        if (empty($CFG->custommenuitems)) {
+            return '';
+        }
+
+        $accessibility = html_writer::tag('span', get_string('togglenav', 'theme_bootstrap'),
+            array('class' => 'sr-only'));
+        $iconbar = html_writer::tag('span', '', array('class' => 'icon-bar'));
+        $button = html_writer::tag('button', $accessibility . "\n" . $iconbar . "\n" . $iconbar. "\n" . $iconbar,
+            array('class' => 'navbar-toggle', 'data-toggle' => 'collapse', 'data-target' => '#moodle-navbar', 'type' => 'button'));
+        return $button;
     }
 
     protected function render_tabtree(tabtree $tabtree) {
@@ -214,7 +308,7 @@ class theme_bootstrap_core_renderer extends core_renderer {
                 $secondrow = $this->tabtree($tab->subtree);
             }
         }
-        return html_writer::tag('ul', $firstrow, array('class' => 'nav nav-tabs nav-justified')) . $secondrow;
+        return html_writer::tag('ul', $firstrow, array('class' => 'nav nav-tabs')) . $secondrow;
     }
 
     protected function render_tabobject(tabobject $tab) {
@@ -238,13 +332,5 @@ class theme_bootstrap_core_renderer extends core_renderer {
             return html_writer::div($contents, 'alert alert-danger', $attributes);
         }
         return parent::box($contents, $classes, $id, $attributes);
-    }
-
-    public function content_zoom() {
-        $zoomin = html_writer::span(get_string('fullscreen', 'theme_bootstrap'), 'zoomin');
-        $zoomout = html_writer::span(get_string('closefullscreen', 'theme_bootstrap'), 'zoomout');
-        $content = html_writer::link('#',  $zoomin . $zoomout,
-            array('class' => 'btn btn-default pull-right moodlezoom'));
-        return $content;
     }
 }

@@ -131,17 +131,19 @@ $string['emailcomplaintsend_subj'] = 'Ihr Problembericht ist eingegangen.';
 $string['emaildupldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
 der Austauschkurs {$a->fullname} wurde für Sie kopiert. Er kann unter folgender Adresse abgerufen werden:'."\n".'{$a->url}';
 $string['emaildupldeployed_subj'] = 'Austauschkurs kopiert';
-$string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'der Autor des Kurses {$a->fullname}, {$a->reviewer}, hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
+$string['emailfeedbackauth_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'der Autor des Kurses {$a->fullname}, {$a->reviewer}, 
+    hat eine Berichtigung des Kurses vorgenommen. Folgende Rückmeldung wurde hinzugefügt:'."\n".'{$a->feedback}'."\n\n".
+    'Sie können den Kurs erneut unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailfeedbackauth_subj'] = 'Kurs-Feedback';
-$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n".'Link zum Kurs: {$a->url} .';
+$string['emailfeedbackrev_body'] = 'Sehr geehrter Kursautor,'."\n".'für den Austauschkurs {$a->fullname} wurde von {$a->reviewer} 
+    folgende Rückmeldung hinzugefügt:'."\n".'{$a->feedback}'."\n".'Link zum Kurs: {$a->url} .';
 $string['emailfeedbackrev_subj'] = 'Kurs überprüft';
 $string['emailreadyforreview_body'] = 'Sehr geehrter Master Reviewer,'."\n".'Der Kurs {$a->fullname} steht unter folgender Adresse für die Review bereit: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Kurs bereit für Review';
-$string['emailrevision_body'] = 'Eine Kopie der Vorlage {$a->fullname} wurde zur Überarbeitung erstellt. Als Begründung wird angegeben: '."\n".'{$a->reason} '."\n\n".' Der neue Kurs ist unter folgender Adresse verfügbar:'."\n".'{$a->url} .';
-$string['emailrevision_subj'] = 'Überarbeitung nötig';
 $string['emailstatsrep_body'] = 'Im Anhang finden Sie den Statistikbericht für Austauschkurse.';
 $string['emailstatsrep_subj'] = 'Statistikbericht für Austauschkurse.';
-$string['emailtempldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,'."\n".'vielen Dank für Ihre Einreichung. Sie erhalten eine Nachricht wenn Ihr Kurs veröffentlicht wurde.';
+$string['emailtempldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,'."\n".'vielen Dank für Ihre Einreichung.
+    Sie erhalten eine Nachricht wenn Ihr Kurs veröffentlicht wurde.';
 $string['emailtempldeployed_subj'] = 'Kurs eingereicht';
 $string['errorcannotassignauthor'] = 'Sie können keine Autoren für diesen Kurs zuweisen.';
 $string['errorcannotassignreviewer'] = 'Sie können keinen Reviewer für diesen Kurs zuweisen.';
@@ -297,7 +299,8 @@ $string['templatesearch'] = 'Tauschkurse suchen';
 $string['timeassigned'] = 'Zugewiesen seit';
 $string['to'] = 'An:';
 $string['tplremindafter'] = 'Erinnerung bezüglich Austauschkurs senden nach';
-$string['tplremindafter_desc'] = 'Jeder Nutzer, der das Recht Master Reviewer im teachSHARE Kursbereich-Kontext hat, wird benachrichtigt, wenn ein Kurs nicht in der vorgegebenen Zeit bearbeitet wird.';
+$string['tplremindafter_desc'] = 'Jeder Nutzer, der das Recht Master Reviewer im teachSHARE Kursbereich-Kontext hat, 
+    wird benachrichtigt, wenn ein Kurs nicht in der vorgegebenen Zeit bearbeitet wird.';
 $string['tplremindersent'] = 'Erinnerung abgeschickt.';
 $string['updated'] = 'Zeit';
 $string['uploadfile'] = 'Datei hochladen';

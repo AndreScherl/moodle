@@ -141,12 +141,6 @@ $string['emailfeedbackrev_subj'] = 'Template reviewed';
 $string['emailreadyforreview_body'] = 'Dear course manager,
 The template course {$a->fullname} is ready for review at: {$a->url} .';
 $string['emailreadyforreview_subj'] = 'Template course ready for review';
-$string['emailrevision_body'] = 'A copy of template {$a->fullname} has been created for revision. The reason provided is: 
-{$a->reason} 
-
- The new course is available at:
-{$a->url} .';
-$string['emailrevision_subj'] = 'Revision created';
 $string['emailstatsrep_body'] = 'Please find attached the template statistics report.';
 $string['emailstatsrep_subj'] = 'Template statistics report.';
 $string['emailtempldeployed_body'] = 'Thank you for your submission. The template course will be reviwed.';

@@ -19,6 +19,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
     .section .content {
         div div ul {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;
@@ -26,6 +27,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
         }
         div div ol {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;

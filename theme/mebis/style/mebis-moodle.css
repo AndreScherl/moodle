@@ -14843,6 +14843,7 @@ category-box:
 }
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {
   list-style: none;
+  margin-left: 0;
 }
 .wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode {
   color: #fff;
@@ -15293,6 +15294,7 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
   list-style-position: outside;
@@ -15300,6 +15302,7 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
   list-style-position: outside;
@@ -15403,6 +15406,9 @@ In this file we collect:
 .block .header {
   background-color: inherit;
   color: inherit;
+}
+.block ul, .block ol {
+  margin-left: 0;
 }
 
 .block-transparent {
@@ -15963,6 +15969,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 
 .course-content .section .content div div ul {
   padding-left: 30px;
+  margin-left: 0;
 }
 .course-content .section .content div div ul > li {
   list-style-position: outside;
@@ -15970,6 +15977,7 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 }
 .course-content .section .content div div ol {
   padding-left: 30px;
+  margin-left: 0;
 }
 .course-content .section .content div div ol > li {
   list-style-position: outside;
@@ -16267,6 +16275,7 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 }
 #page-course-view-grid #gridshadebox_content div div ul {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-course-view-grid #gridshadebox_content div div ul > li {
   list-style-position: outside;
@@ -16274,6 +16283,7 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 }
 #page-course-view-grid #gridshadebox_content div div ol {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-course-view-grid #gridshadebox_content div div ol > li {
   list-style-position: outside;
@@ -16669,7 +16679,7 @@ input[type="checkbox"] + label {
   margin-bottom: 25px;
 }
 
-.path-user.path-course.path-course-view #main-content-wrapper {
+#page-course-user #main-content-wrapper {
   padding: 10px;
   background: #fff;
 }
@@ -16777,6 +16787,7 @@ input[type="checkbox"] + label {
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul,
 #page-mod-page-view.pagelayout-popup div[role="main"] div div ul {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li,
@@ -16788,6 +16799,7 @@ input[type="checkbox"] + label {
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol,
 #page-mod-page-view.pagelayout-popup div[role="main"] div div ol {
   padding-left: 30px;
+  margin-left: 0;
 }
 #page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
 #page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li,
@@ -16852,6 +16864,10 @@ input[type="checkbox"] + label {
     Created on : 21.05.2015, 13:10:44
     Author     : Franziska Hübler, ISB
 */
+.box.message {
+  margin-left: 0;
+  margin-right: 0;
+}
 .box.message .usermessages-left .singleselect select {
   max-width: 100%;
 }
@@ -16866,6 +16882,7 @@ input[type="checkbox"] + label {
 }
 .box.message .messagearea {
   border: none;
+  width: 100%;
 }
 .box.message .messagearea #personsearch input[type="text"] {
   width: 100%;
@@ -16908,6 +16925,11 @@ input[type="checkbox"] + label {
 .box.message .messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
   border-color: #ff6600;
 }
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message {
+  left: 41.66666667%;
+  float: left;
+  width: 58.33333333%;
+}
 .box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
   border-color: #00a8d5;
 }
@@ -16929,17 +16951,31 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 14:26:10
     Author     : Franziska Hübler, ISB
 */
-#page-user-profile .userprofile {
-  margin: -20px;
+.userprofile .header-button-group {
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+.userprofile .profile_tree {
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-gap: 20px;
+  column-gap: 20px;
+}
+.userprofile .profile_tree section {
+  border: 1px solid #00a8d5;
+  padding: 0 15px;
+  margin-bottom: 20px;
 }
 
-.userprofile {
-  margin: -30px -10px -10px -10px;
+@media only screen and (max-width: 768px) {
+  .userprofile .profile_tree {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+  }
 }
-.userprofile h2 {
-  background-color: #00a8d5;
-}
-
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

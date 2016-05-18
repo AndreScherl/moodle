@@ -7,11 +7,13 @@
 */
 
 .box.message {
+    margin-left: 0;
+    margin-right: 0;
 
     .usermessages-left .singleselect select {
         max-width: 100%;
     }
-    
+
     table#message_contacts,
     table#message_participants {
         width: 100%;
@@ -26,18 +28,19 @@
 
     .messagearea {
         border: none;
-        
+        width: 100%;
+
         #personsearch {
             input[type="text"] {
                 width: 100%;
                 margin-bottom: 0;
             }
         }
-        
+
         .messagerecent {
             .singlemessage {
                 border-color: $brand-primary;
-                
+
                 .otheruser {
                     background-color: $white;
                 }
@@ -79,8 +82,14 @@
                 .mdl-left.left .message .text {
                     border-color: $brand-secondary;
                 }
-                .mdl-left.right .message .text {
-                    border-color: $brand-primary;
+                .mdl-left.right .message {
+                    left: 41.66666667%;
+                    float: left;
+                    width: 58.33333333%;
+                    
+                    .text {
+                        border-color: $brand-primary;
+                    }
                 }
             }
         }

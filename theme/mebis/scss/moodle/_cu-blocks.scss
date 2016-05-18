@@ -19,6 +19,10 @@ In this file we collect:
         background-color: inherit;
         color: inherit;
     }
+    
+    ul, ol {
+        margin-left: 0;
+    }
 }
 
 .block-transparent {

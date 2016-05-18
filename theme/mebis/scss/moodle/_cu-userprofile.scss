@@ -6,19 +6,29 @@
     Author     : Franziska Hübler, ISB
 */
 
-//view user profile on #page-user-profile
-#page-user-profile {
-
-    .userprofile { 
-        margin: -20px;
-    }
-}
-
-//view user profile in courses
 .userprofile {
-    margin: -30px -10px -10px -10px;
-    
-    h2 {
-        background-color: $brand-primary;
+    .header-button-group {
+        margin-top: -40px;
+        margin-bottom: 20px;   
+    }
+
+    .profile_tree {
+        @include column-count(2);
+        @include column-gap(20px);
+
+        section {
+            border: 1px solid $brand-primary;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
     }
 }
+
+@media only screen and (max-width: $screen-sm-min) {
+    .userprofile {
+        .profile_tree {
+            @include column-count(1);
+        }
+    }
+}
+

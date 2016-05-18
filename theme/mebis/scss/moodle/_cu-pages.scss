@@ -33,8 +33,8 @@
 }
 
 //##### Need this styles for courseformats with backgroundcolor transparent #####
-// user overview in courses
-.path-user.path-course.path-course-view #main-content-wrapper {
+// grades overview
+#page-course-user #main-content-wrapper {
     padding: 10px;
     background: $white;
 }
@@ -188,6 +188,7 @@
     div[role="main"] {
         div div ul {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;
@@ -195,6 +196,7 @@
         }
         div div ol {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;

@@ -328,6 +328,7 @@ div.que.geogebra {
     #main-content-wrapper div[role="main"] {
         div div ul {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;
@@ -335,6 +336,7 @@ div.que.geogebra {
         }
         div div ol {
             padding-left: 30px;
+            margin-left: 0;
             > li {
                 list-style-position: outside;
                 list-style-image: none;

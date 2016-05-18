@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -43,7 +44,7 @@ class theme_mebis_header_renderer extends renderer_base {
         foreach ($navItems as $navItem) {
             if (!empty($navItem) && $navItem !== '') {
                 list($name, $url) = explode(',', $navItem);
-                if (!empty($name) and !empty($url)) {
+                if (!empty($name) and ! empty($url)) {
                     $iconClass = '';
                     $liClass = '';
                     switch ($name) {
@@ -76,7 +77,7 @@ class theme_mebis_header_renderer extends renderer_base {
         }
         return $code;
     }
-    
+
     /**
      * Render the top navbar containing fontsize switch, user login etc.
      * This is a temporary solution and would be replaced, when cockpit-site
@@ -102,129 +103,128 @@ class theme_mebis_header_renderer extends renderer_base {
         $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
         $canseeidmlink = false;
         foreach ($idmlinkroles as $idmlinkrole) {
-            if((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
+            if ((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {
                 $canseeidmlink = true;
                 continue;
             }
         }
-        
+
         if (isloggedin()) {
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-left visible-lg'));
             $userBar .= html_writer::start_tag('li', array('class' => 'profile'));
                 $userBar .= html_writer::start_tag('a', array('href' => $url_preferences_personal));
                     $userBar .= html_writer::start_tag('div', array('class' => 'me-username visible-lg'));
                         $userBar .= html_writer::tag('div', fullname($USER), array('class' => 'me-username visible-lg'));
-                    $userBar .= html_writer::end_tag('div');             
-                    $userBar .= html_writer::tag('img', '',
-                        array('class' => 'user-avatar', 'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
+                    $userBar .= html_writer::end_tag('div');
+                    $userBar .= html_writer::tag('img', '', array('class' => 'user-avatar', 'src' => $CFG->wwwroot . '/theme/mebis/pix/avatar40px.jpg',
                         'alt' => 'Avatar', 'link' => false));
                 $userBar .= html_writer::end_tag('a');
             $userBar .= html_writer::end_tag('li');
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical divider-profile-right visible-lg'));
             $userBar .= html_writer::start_tag('li', array('class' => 'logout'));
-                $userBar .= html_writer::start_tag('a', array('href' => $url_logout));           
+                $userBar .= html_writer::start_tag('a', array('href' => $url_logout));
                     $userBar .= html_writer::tag('span', get_string('nav-logout', 'theme_mebis'));
                 $userBar .= html_writer::end_tag('a');
-            $userBar .= html_writer::end_tag('li'); 
+            $userBar .= html_writer::end_tag('li');
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
         } else {
             $userBar .= html_writer::start_tag('li', array('class' => 'logout'));
                 $userBar .= html_writer::start_tag('a', array('href' => $url_login));
-                    $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login')); 
+                    $userBar .= html_writer::tag('i', '', array('class' => 'icon-me-login'));
                     $userBar .= html_writer::tag('span', get_string('nav-login', 'theme_mebis'));
                 $userBar .= html_writer::end_tag('a');
-            $userBar .= html_writer::end_tag('li');    
+            $userBar .= html_writer::end_tag('li');
             $userBar .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
         }
-                
-        $output .= html_writer::start_tag('nav', array('class' => 'navbar navbar-fixed-top navbar-inverse top-bar',
-            'id' => 'topbar', 'role' => 'navigation'));
-            $output .= html_writer::start_div('container');
 
-            // mobile userbar and button get grouped for better mobile display
-            $output .= html_writer::start_div('container-navbar-non-collapsing');
-            $output .= html_writer::start_div('navbar-non-collapsing'); 
-                // This renders the button to open mobile sidebar
-                $output .= html_writer::start_div('navbar-header');
-                $output .= html_writer::start_tag('button', array(
-                    'type' => 'button', 'class' => 'navbar-toggle collapsed', 'data-toggle' => 'collapse',
-                    'data-target' => '#navbar-collapse-items'));
-                        $output .= html_writer::tag('span', get_string('nav-toggle', 'theme_mebis'), array('class' => 'sr-only'));
-                        $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
-                        $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
-                        $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));                      
-                $output .= html_writer::end_tag('button');
-                $output .= html_writer::end_div();
-                // fontsize icons
-                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav change-fontsize-wrapper visible-lg'));
-                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
-                    $output .= html_writer::start_tag('li');
-                        $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec'));
-                        $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-verkleinern'));
-                        $output .= html_writer::end_tag('a');
-                    $output .= html_writer::end_tag('li');
-                    $output .= html_writer::start_tag('li');
-                        $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize no-padding-right', 
-                            'data-change' => 'inc'));
-                        $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-vergroessern'));
-                        $output .= html_writer::end_tag('a');
-                    $output .= html_writer::end_tag('li');
-                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
-                $output .= html_writer::end_tag('ul');
-                //contrast mode
-                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav switch-theme visible-lg'));
-                    $output .= html_writer::start_tag('li');
-                    $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
-                        $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
-                            $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
-                            $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
-                        $output .= html_writer::end_tag('a');
-                    $output .= html_writer::end_tag('li');
-                    $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
-                $output .= html_writer::end_tag('ul');
-                // userbar
-                $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right pull-right'));                
-                    $output .= $userBar;
-                $output .= html_writer::end_tag('ul');     
-            $output .= html_writer::end_div();          
-            $output .= html_writer::end_div();
-            
-                $output .= html_writer::start_div('navbar-collapse collapse', array('id' => 'navbar-collapse-items'));
-                    // Links to other mebis applications.
-                    $output .= $this->main_sidebar();
-                    // Links to contrast, support and idm.
-                    $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu'));
-                        //contrast mode
-                        $output .= html_writer::start_tag('li', array('class' => 'hidden-lg'));
-                        $themeswitchurl = '/switch.php?returnto=' .urlencode($PAGE->url);                       
-                            $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
-                                $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
-                                $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
-                            $output .= html_writer::end_tag('a');
-                        $output .= html_writer::end_tag('li');                        
-                        // Support link.
-                        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
-                        $output .= html_writer::start_tag('li');
-                        $output .= html_writer::start_tag('a', array('href' => $url_support));
-                        $output .= html_writer::tag('i', '', array('class' => 'icon-me-support'));
-                        $output .= html_writer::tag('span', get_string('nav-support', 'theme_mebis'));
-                        $output .= html_writer::end_tag('a');
-                        $output .= html_writer::end_tag('li');
-                        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
-                        // IDM link.
-                        if ($canseeidmlink) {
-                            $output .= html_writer::start_tag('li');
-                            $output .= html_writer::start_tag('a', array('href' => $url_preferences));
-                            $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
-                            $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
-                            $output .= html_writer::end_tag('a');
-                            $output .= html_writer::end_tag('li');
-                            $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
-                        }                        
-                    $output .= html_writer::end_tag('ul');
-                $output .= html_writer::end_div();
-          
-            $output .= html_writer::end_div();
+        $output .= html_writer::start_tag('nav', array('class' => 'navbar navbar-fixed-top navbar-inverse top-bar',
+                    'id' => 'topbar', 'role' => 'navigation'));
+        $output .= html_writer::start_div('container');
+
+        // mobile userbar and button get grouped for better mobile display
+        $output .= html_writer::start_div('container-navbar-non-collapsing');
+        $output .= html_writer::start_div('navbar-non-collapsing');
+        // This renders the button to open mobile sidebar
+        $output .= html_writer::start_div('navbar-header');
+            $output .= html_writer::start_tag('button', array(
+                        'type' => 'button', 'class' => 'navbar-toggle collapsed', 'data-toggle' => 'collapse',
+                        'data-target' => '#navbar-collapse-items'));
+                $output .= html_writer::tag('span', get_string('nav-toggle', 'theme_mebis'), array('class' => 'sr-only'));
+                $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
+                $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
+                $output .= html_writer::tag('span', '', array('class' => 'icon-bar'));
+            $output .= html_writer::end_tag('button');
+        $output .= html_writer::end_div();
+        // fontsize icons
+        $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav change-fontsize-wrapper visible-lg'));
+            $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+            $output .= html_writer::start_tag('li');
+                $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize', 'data-change' => 'dec'));
+                    $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-verkleinern'));
+                $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+            $output .= html_writer::start_tag('li');
+                $output .= html_writer::start_tag('a', array('href' => '#', 'class' => 'change-fontsize no-padding-right',
+                    'data-change' => 'inc'));
+                    $output .= html_writer::tag('i', '', array('class' => 'icon-me-schrift-vergroessern'));
+                $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+            $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+        $output .= html_writer::end_tag('ul');
+        //contrast mode
+        $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav switch-theme visible-lg'));
+            $output .= html_writer::start_tag('li');
+                $themeswitchurl = '/switch.php?returnto=' . urlencode($PAGE->url);
+                $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
+                    $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
+                    $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
+                $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+            $output .= html_writer::tag('li', '', array('class' => 'divider-vertical'));
+        $output .= html_writer::end_tag('ul');
+        // userbar
+        $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right pull-right'));
+        $output .= $userBar;
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_div();
+        $output .= html_writer::end_div();
+
+        $output .= html_writer::start_div('navbar-collapse collapse', array('id' => 'navbar-collapse-items'));
+        // Links to other mebis applications.
+        $output .= $this->main_sidebar();
+        // Links to contrast, support and idm.
+        $output .= html_writer::start_tag('ul', array('class' => 'nav navbar-nav navbar-right js-navbar-collapse-submenu'));
+        //contrast mode
+        $output .= html_writer::start_tag('li', array('class' => 'hidden-lg'));
+        $themeswitchurl = '/switch.php?returnto=' . urlencode($PAGE->url);
+        $output .= html_writer::start_tag('a', array('href' => $CFG->wwwroot . "/theme/mebis" . $themeswitchurl, 'id' => 'me-invert'));
+        $output .= html_writer::tag('i', '', array('class' => 'icon-me-kontrast'));
+        $output .= html_writer::tag('span', get_string('nav-contrast', 'theme_mebis'));
+        $output .= html_writer::end_tag('a');
+        $output .= html_writer::end_tag('li');
+        // Support link.
+        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
+        $output .= html_writer::start_tag('li');
+        $output .= html_writer::start_tag('a', array('href' => $url_support));
+        $output .= html_writer::tag('i', '', array('class' => 'icon-me-support'));
+        $output .= html_writer::tag('span', get_string('nav-support', 'theme_mebis'));
+        $output .= html_writer::end_tag('a');
+        $output .= html_writer::end_tag('li');
+        $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
+        // IDM link.
+        if ($canseeidmlink) {
+            $output .= html_writer::start_tag('li');
+            $output .= html_writer::start_tag('a', array('href' => $url_preferences));
+            $output .= html_writer::tag('i', '', array('class' => 'icon-me-verwaltung'));
+            $output .= html_writer::tag('span', get_string('nav-management', 'theme_mebis'));
+            $output .= html_writer::end_tag('a');
+            $output .= html_writer::end_tag('li');
+            $output .= html_writer::tag('li', '', array('class' => 'divider-vertical visible-lg'));
+        }
+        $output .= html_writer::end_tag('ul');
+        $output .= html_writer::end_div();
+
+        $output .= html_writer::end_div();
         $output .= html_writer::end_tag('nav');
         return $output;
     }
@@ -270,14 +270,12 @@ class theme_mebis_header_renderer extends renderer_base {
         $output .= html_writer::end_tag('a');
         $output .= html_writer::end_div();
 
-        //$output .= html_writer::start_div('col-sm-6 col-xs-12');
         $output .= html_writer::start_div('me-component-nav');
 
         // Render the main_menubar;
         $output .= $this->main_menubar();
 
         $output .= html_writer::end_div();
-        //$output .= html_writer::end_div();
 
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
@@ -305,36 +303,35 @@ class theme_mebis_header_renderer extends renderer_base {
 
         $breadcrumbs = '';
         foreach ($items as $item) {
-            
+
             $item->hideicon = true;
             $attributes = ($item->isactive) ? array('class' => 'active') : array();
-            
+
             // Remove the link to course/index.php page to avoid confusing navigation.
             // Regarding performance the course/index.php page is redirected to /my site.
-            if (($item->action instanceof moodle_url) and ($item->action->out() == $CFG->wwwroot.'/course/index.php')) {
-               $item->action = '';
+            if (($item->action instanceof moodle_url) and ( $item->action->out() == $CFG->wwwroot . '/course/index.php')) {
+                $item->action = '';
             }
             $breadcrumbs .= html_writer::tag('li', $OUTPUT->render($item), $attributes);
-            
         }
         $breadcrumbsLine = html_writer::tag('ol', $breadcrumbs, array('class' => 'breadcrumb text-left'));
 
         return $breadcrumbsLine;
     }
-    
+
     /**
      * Renders the breadcrumb button and logged in as (role switch and admin switched user)
      * 
      * @global type $OUTPUT, $DB, $USER, $CFG
      * @return String Html string that goes where the 'Turn editing on' button normally goes.
      */
-    public function breadcrumb_button(){
+    public function breadcrumb_button() {
         global $OUTPUT, $DB, $USER, $CFG;
-        
+
         $course = $this->page->course;
         $context = context_course::instance($course->id);
         $loggedinas = '';
-        
+
         $button = $this->page->button;
 
         //Switched role?
@@ -344,8 +341,8 @@ class theme_mebis_header_renderer extends renderer_base {
                 $rolename = format_string($role->name);
             }
             $loggedinas = $rolename .
-                " (<a href=\"$CFG->wwwroot/course/view.php?id=$course->id&amp;switchrole=0&amp;sesskey=" . sesskey() . "\">" . get_string('switchrolereturn') . '</a>)';       
-        } 
+                    " (<a href=\"$CFG->wwwroot/course/view.php?id=$course->id&amp;switchrole=0&amp;sesskey=" . sesskey() . "\">" . get_string('switchrolereturn') . '</a>)';
+        }
         //Admin switched user?
         else if (\core\session\manager::is_loggedinas()) {
             $realuser = \core\session\manager::get_realuser();
@@ -354,9 +351,9 @@ class theme_mebis_header_renderer extends renderer_base {
             $loggedinas = "(<a href=\"$CFG->wwwroot/course/loginas.php?id=$course->id&amp;sesskey=" . sesskey() . "\"";
             $loggedinas .= "title =\"" . $loginastitle . "\">$fullname</a>) ";
         }
-        
+
         if (!empty($loggedinas) || $loggedinas !== '') {
-            if (!empty($button)){
+            if (!empty($button)) {
                 $button .= '<span class="space">|</span>';
             }
             $button .= html_writer::tag('div', $loggedinas, array('class' => 'loggedinas'));
@@ -421,23 +418,110 @@ class theme_mebis_header_renderer extends renderer_base {
 
     /** Render the userrelated content for settings dropdown
      * 
+     * @global object $USER; 
      * @return string
      */
     protected function render_menubar_user_menu() {
-        global $PAGE;
+        global $USER;
 
+        $menu = new custom_menu('', current_language());
+        $user = $USER;
         $content = '';
 
-        $node = $PAGE->settingsnav->get('usercurrentsettings');
+        // If during initial install, return the empty return string.
+        if (during_initial_install() || (!isloggedin())) {
+            return $content;
+        }
 
-        if ($node instanceof navigation_node) {
+        // Create a divider (well, a filler).
+        $divider = new action_menu_filler();
+        $divider->primary = false;
 
-            $menuitems = $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
-            if (!empty($menuitems)) {
-                $content .= $menuitems;
+        if (isloggedin() && !isguestuser()) {
+            // Get some navigation opts.
+            $opts = user_get_user_navigation_info($user, $this->page);
+            foreach ($opts->navitems as $key => $value) {
+                switch ($value->itemtype) {
+                    case 'divider':
+                        // If the nav item is a divider, add one and skip link processing.
+                        $menu->add($divider);
+                        break;
+
+                    case 'invalid':
+                        // Silently skip invalid entries (should we post a notification?).
+                        break;
+
+                    case 'link':
+                        // Process this as a link item.
+                        $menu->add($value->title, $value->url, $value->title);
+                        break;
+                }
             }
         }
 
+        foreach ($menu->get_children() as $item) {
+            $content .= $this->render_custom_menu_item($item);
+        }
+
+        return $content;
+    }
+
+    protected function render_custom_menu_item(custom_menu_item $item) {
+        static $submenucount = 0;
+        if ($item->has_children()) {
+            // If the child has menus render it as a sub menu.
+            $submenucount++;
+            if ($item->get_url() !== null) {
+                $url = $item->get_url();
+            } else {
+                $url = '#cm_submenu_' . $submenucount;
+            }
+            $content = '<li>';
+            $linkattributes = array(
+                'href' => $url,
+                'class' => 'internal',
+                'title' => $item->get_title()
+            );
+            $content .= html_writer::start_tag('a', $linkattributes);
+            $content .= $item->get_text();
+            $content .= '</a>';
+            $content .= '<ul class="dropdown-menu">';
+            foreach ($item->get_children() as $menunode) {
+                $content .= $this->render_custom_menu_item($menunode);
+            }
+            $content .= '</ul>';
+            $content .= '</li>';
+        } else {
+            // The node doesn't have children so produce a final menuitem.
+            if ($item->get_url() !== null) {
+                $url = $item->get_url();
+            } else {
+                $url = '#';
+            }
+            if ($item->get_title() === 'Logout' || $item->get_title() === 'Dashboard') {
+                return '';
+            }
+            if ($item->get_title() === 'Mitteilungen') {
+                $unreadMessages = '';
+                if (message_count_unread_messages() > 0) {
+                    $unreadMessages = ' (' . message_count_unread_messages() . ')';
+                }
+                $text = $item->get_title() . $unreadMessages;
+                error_log($text);
+                $content = '<li>';
+                $content .= html_writer::link($url, $text, array('title' => $item->get_title(), 'class' => 'internal'));
+                $content .= '</li>';
+            }
+            if ($item->get_title() !== null) {
+                $content = '<li>';
+                $content .= html_writer::link($url, $item->get_title(), array('title' => $item->get_title(), 'class' => 'internal'));
+                $content .= '</li>';
+            } else {
+                // This is a divider.
+                // Need to decide representation.
+                return '';
+            }
+        }
         return $content;
     }
 
@@ -447,8 +531,8 @@ class theme_mebis_header_renderer extends renderer_base {
      */
     protected function render_menubar_courseadmin_menu() {
         global $PAGE, $COURSE;
-        $content ='';
-        
+        $content = '';
+
         // Show only in real courses.
         if ($COURSE->id == SITEID) {
             return '';
@@ -493,24 +577,10 @@ class theme_mebis_header_renderer extends renderer_base {
      * - add block menu dropdown
      * - Config menu item
      *
-     * @global type $PAGE
-     * @global type $OUTPUT
-     * @global type $COURSE
      * @return String Html string of the menubar
      */
     public function main_menubar() {
         $content = '';
-
-        // Messages menu item.
-        $unreadMessages = '';
-        if (message_count_unread_messages() > 0) {
-            $unreadMessages = html_writer::tag('span', message_count_unread_messages(), array('class' => 'me-msg-count'));
-        }
-
-        $url = new moodle_url('/message/index.php');
-        $text = html_writer::tag('i', '', array('class' => 'fa fa-bullhorn')) . $unreadMessages;
-        $messageslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
-        $content .= html_writer::tag('li', $messageslink);
 
         // Files menu item.
         $url = new moodle_url('/user/files.php');
@@ -538,14 +608,14 @@ class theme_mebis_header_renderer extends renderer_base {
             $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
             $content .= html_writer::start_tag('li');
 
-            $content .= html_writer::start_div('cogmenu');            
-                $content .= html_writer::start_div('dropdown-inner');
-                    $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
-                        $content .= $usermenu . $adminmenu;
-                    $content .= html_writer::end_tag('ul');
-                $content .= html_writer::end_tag('div');
+            $content .= html_writer::start_div('cogmenu');
+            $content .= html_writer::start_div('dropdown-inner');
+            $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
+            $content .= $usermenu . $adminmenu;
+            $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('div');
-            
+            $content .= html_writer::end_tag('div');
+
             $content .= html_writer::end_tag('li');
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('li');
@@ -561,12 +631,12 @@ class theme_mebis_header_renderer extends renderer_base {
             if ($template && $url = \block_mbstpl\course::get_complaint_url()) {
                 $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
                 $complaintlink = html_writer::link($url, $text, array(
-                    'class' => 'me-component-nav-mobile-spacer',
-                    'title' => get_string('url-complaints', 'theme_mebis')));
+                            'class' => 'me-component-nav-mobile-spacer',
+                            'title' => get_string('url-complaints', 'theme_mebis')));
                 $content .= html_writer::tag('li', $complaintlink);
             }
         }
-         
+
         $contentlist = html_writer::tag('ul', $content, array('class' => 'nav'));
         return html_writer::div($contentlist, 'moodle-menu');
     }
@@ -589,11 +659,10 @@ class theme_mebis_header_renderer extends renderer_base {
                 $linkCls = '';
                 if (null !== $navchild->action) {
                     //this check is necessary, otherwise there's no __toString() method
-                    if($navchild->action instanceof moodle_url) {
+                    if ($navchild->action instanceof moodle_url) {
                         $link = htmlspecialchars_decode($navchild->action->__toString());
-                    }
-                    else if($navchild->action instanceof action_link){
-                       $link = htmlspecialchars_decode($navchild->action->url->__toString());
+                    } else if ($navchild->action instanceof action_link) {
+                        $link = htmlspecialchars_decode($navchild->action->url->__toString());
                     }
                 }
 

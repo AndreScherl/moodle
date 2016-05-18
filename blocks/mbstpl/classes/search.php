@@ -20,6 +20,7 @@
  * @copyright 2015 Bence Laky <b.laky@intrallect.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace block_mbstpl;
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,7 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 use \block_mbstpl\dataobj\template;
 
 class search {
-
     /* @var array questions  */
     private $questions;
 
@@ -54,9 +54,9 @@ class search {
         $this->questions = $questions;
         $this->answers = $this->formdata_to_answers($formdata);
         $this->sortby = $this->formdata_to_sort($formdata);
-        $this->tag = trim($formdata->tag);
-        $this->author = trim($formdata->author);
-        $this->coursename = trim($formdata->coursename);
+        $this->tag = (!empty($formdata->tag)) ? $formdata->tag : '';
+        $this->author = (!empty($formdata->author)) ? $formdata->author : '';
+        $this->coursename = (!empty($formdata->coursename)) ? $formdata->coursename : '';
     }
 
     /**
@@ -104,19 +104,18 @@ class search {
             return null;
         }
         $ascdesc = $expsorts[0] == 'asc' ? 'ASC' : 'DESC';
-        return (object)array('field' => $expsorts[1], 'ascdesc' => $ascdesc);
+        return (object) array('field' => $expsorts[1], 'ascdesc' => $ascdesc);
     }
-
 
     /**
      * Provide a list of courses that matches the criteria submitted from the search page.
      *
-     * @param int $startrecord
-     * @param int $pagesize
+     * @param int $limitfrom
+     * @param int $limitnum
      *
      * @return array list of courses matching the search filters
      */
-    public function get_search_result($startrecord, $pagesize) {
+    public function get_search_result($limitfrom, $limitnum) {
         global $DB;
 
         $wheres = array();
@@ -145,22 +144,26 @@ class search {
         $wheres[] = 'tpl.status = :stpublished';
 
         if (!empty($this->tag)) {
-            $wheres[] = "EXISTS (SELECT 1 FROM {block_mbstpl_tag} WHERE metaid = mta.id AND tag = :tag)";
-            $params['tag'] = $this->tag;
+            $searchvalues = array_values($this->tag);
+            list($searchcriteria, $parameter) = $DB->get_in_or_equal($searchvalues, SQL_PARAMS_NAMED, 'tag');
+            $wheres[] = "EXISTS (SELECT 1 FROM {block_mbstpl_tag} WHERE metaid = mta.id AND tag " . $searchcriteria . ")";
+            $params = array_merge($params, $parameter);
         }
 
-        $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
         if (!empty($this->author)) {
-            $wheres[] = "$authnamefield LIKE :author";
-            $params['author'] = '%' . $this->author . '%';
+            $searchids = array_keys($this->author);
+            list($searchcriteria, $parameter) = $DB->get_in_or_equal($searchids, SQL_PARAMS_NAMED, 'author');
+            $wheres[] = 'au.id ' . $searchcriteria;
+            $params = array_merge($params, $parameter);
         }
 
         if (!empty($this->coursename)) {
-            $wheres[] = "(c.shortname LIKE :cname1 OR c.fullname LIKE :cname2)";
-            $coursenamewc = '%' . $this->coursename . '%';
-            $params['cname1'] = $coursenamewc;
-            $params['cname2'] = $coursenamewc;
+            $searchvalues = array_values($this->coursename);
+            list($searchcriteria, $parameter) = $DB->get_in_or_equal($searchvalues, SQL_PARAMS_NAMED, 'cname');
+            $wheres[] = 'c.fullname ' . $searchcriteria;
+            $params = array_merge($params, $parameter);
         }
+        
         $filterwheres = implode("\n          AND ", $wheres);
 
         $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
@@ -180,7 +183,8 @@ class search {
             } else {
                 $orderby .= 'tpl.rating';
             }
-            $orderby .= ' ' . $this->sortby->ascdesc;
+            // Adding c.id as second order, otherwise order will be randomized, when contains a value of NULL.
+            $orderby .= ' ' . $this->sortby->ascdesc. ', c.id DESC';
         }
         $joins = implode("\n        ", $joins);
 
@@ -201,8 +205,23 @@ class search {
         $coresql
         $orderby
         ";
+        
+        /*$esql = str_replace('{', 'mdl_', $sql);
+        $esql = str_replace('}', '', $esql);
+        print_r($esql);
+        print_r($params);
+        print_r($limitfrom);
+        print_r($limitnum);*/
+        
+        $countsql = "SELECT count(c.id) $coresql ";
 
-        $results = $DB->get_records_sql($sql, $params);
-        return $results;
+        $result = new \stdClass();
+        $result->total = $DB->count_records_sql($countsql, $params);
+        $result->courses = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
+        $result->limitfrom = $limitfrom;
+        $result->limitnum = $limitnum;
+        
+        return $result;
     }
+
 }

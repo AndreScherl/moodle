@@ -56,16 +56,21 @@ abstract class licenseandassetform extends \moodleform {
     }
 
     public function set_data($default_values) {
-        global $PAGE;        
+        global $PAGE;
         parent::set_data($default_values);
 
         $args = array();
         $PAGE->requires->yui_module('moodle-local_mbs-newlicense', 'M.local_mbs.newlicense.init', $args, null, true);
     }
 
-    protected function define_tags() {
-        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), array('size' => 30));
+    protected function define_tags($isfrozen = false) {
+        $attributes = array('size' => 30);
+        if (!$isfrozen) {
+            $attributes = array('placeholder' => get_string('tagsplaceholder', 'block_mbstpl'));
+        }        
+        $this->_form->addElement('text', 'tags', get_string('tags', 'block_mbstpl'), $attributes);
         $this->_form->setType('tags', PARAM_TEXT);
+        $this->_form->addHelpButton('tags', 'tagshelpbutton', 'block_mbstpl');
     }
 
     protected function define_creator() {
@@ -104,5 +109,15 @@ abstract class licenseandassetform extends \moodleform {
                 $typeclass::add_rule($this->_form, $question);
             }
         }
+    }
+    
+    public function validation($data, $files) {
+        $errors = array();
+        $questions = $this->_customdata['questions'];
+        foreach($questions as $q) {
+            $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($q->datatype);
+            $errors = array_merge($errors, $typeclass::validate_question($data, $q));
+        }
+        return $errors;
     }
 }

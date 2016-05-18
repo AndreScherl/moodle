@@ -14376,6 +14376,7 @@ category-box:
 }
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box .category-course .category-course-title i {
   color: #fff;
@@ -14474,6 +14475,7 @@ category-box:
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
   color: #fff;
@@ -14620,6 +14622,9 @@ category-box:
 #page-course-index-category .content .courses .coursebox .info span a img {
   vertical-align: baseline;
 }
+#page-course-index-category .content .courses .coursebox .info span.coursename {
+  word-wrap: break-word;
+}
 #page-course-index-category .content .courses .coursebox .info span.coursename::before {
   content: "";
   font-family: "mebis-icons";
@@ -14721,6 +14726,7 @@ category-box:
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
+  word-wrap: break-word;
 }
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #00a8d5;
@@ -15127,11 +15133,17 @@ category-box:
   max-width: 100%;
 }
 
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1, #page-question-type-geogebra div#applet_container1 {
+  height: inherit !important;
+}
 #page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
 
+div.que.geogebra div.formulation div[id$='ggbdiv'] {
+  height: inherit !important;
+}
 div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   min-height: 0;
   height: inherit !important;
@@ -15152,6 +15164,12 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 #page-mod-choiceanon-view #main-content-wrapper form ul li label {
   padding-left: 2.8px;
   margin: 0;
+  display: inline;
+}
+
+.path-mod-choiceanon .results .data.header {
+  white-space: normal;
+  padding-right: 10px;
 }
 
 #page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
@@ -15292,19 +15310,19 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   background-color: #e6e6e6;
 }
 
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
   padding-left: 30px;
   margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
   list-style-position: outside;
   list-style-image: none;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
   padding-left: 30px;
   margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
   list-style-position: outside;
   list-style-image: none;
 }
@@ -15451,6 +15469,16 @@ aside.row .block-region .block {
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-post .blockannotation,
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main .blockannotation {
   color: #fff;
+}
+
+.me-wrapper .add-more-results {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.me-wrapper .add-more-results .load-more-results {
+  margin-left: 0;
 }
 
 .mbscoordinators {
@@ -15688,18 +15716,6 @@ aside.row .block-region .block {
   padding: 22px 20px 0  0;
 }
 
-.path-blocks-mbssearch .add-more-results,
-.block_mbsmycourses .add-more-results {
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-.path-blocks-mbssearch .add-more-results .load-more-results,
-.block_mbsmycourses .add-more-results .load-more-results {
-  margin-left: 0;
-}
-
 .block_mbstpl button {
   color: #000;
 }
@@ -15897,6 +15913,7 @@ aside.row .block-region .block {
 }
 .path-blocks-mbssearch #mbssearch_result {
   margin-top: 20px;
+  color: #fff;
 }
 
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :hover {
@@ -15938,6 +15955,16 @@ aside.row .block-region .block {
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   aside.row .block-region .block {
     width: 29.251%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .block_mbsmycourses div.singleselect {
+    margin: 0 10px 10px 0;
+    float: left;
+  }
+  .block_mbsmycourses form#mbsmycourses_shownewsform {
+    float: right;
+    margin-top: 10px;
   }
 }
 @media only screen and (max-width: 992px) {
@@ -16429,6 +16456,10 @@ button {
   display: none;
 }
 
+div.editor_atto_content ul, div.editor_atto_content ol {
+  padding: 0px 20px;
+}
+
 .hiddenelement {
   display: none;
 }
@@ -16601,35 +16632,15 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 13:46:45
     Author     : Franziska Hübler, ISB
 */
-.moodle-dialogue-base {
-  /* fhüb: Do we really need this? 
-  .moodle-dialogue-wrap {
-        border-radius: 0;
-
-        .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $brand-gray-lighter;
-            text-shadow: none;
-        }
-
-        input[type="text"] {
-            max-width: 0;
-            min-width: 100%;
-            display: block;
-        }
-
-        .yui3-button.closebutton {
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        label.control-label {
-            color: $brand-gray-dark;
-        }
-    }*/
-}
-
 #newmessageoverlay {
   z-index: auto;
+}
+
+#page-lib-editor-atto-plugins-managefiles-manage {
+  background: #fff;
+}
+#page-lib-editor-atto-plugins-managefiles-manage .file-picker .fp-repo-items {
+  background-color: #fff;
 }
 
 @media only screen and (max-width: 992px) {
@@ -16871,76 +16882,72 @@ input[type="checkbox"] + label {
 .box.message .usermessages-left .singleselect select {
   max-width: 100%;
 }
-.box.message table#message_contacts,
-.box.message table#message_participants {
-  width: 100%;
-}
-.box.message table#message_contacts td.heading,
-.box.message table#message_participants td.heading {
+.box.message td.heading {
   color: #333333;
   background: transparent;
 }
-.box.message .messagearea {
+
+.messagearea {
   border: none;
   width: 100%;
 }
-.box.message .messagearea #personsearch input[type="text"] {
+.messagearea #personsearch input[type="text"] {
   width: 100%;
   margin-bottom: 0;
 }
-.box.message .messagearea .messagerecent .singlemessage {
+.messagearea .messagerecent .singlemessage {
   border-color: #00a8d5;
 }
-.box.message .messagearea .messagerecent .singlemessage .otheruser {
+.messagearea .messagerecent .singlemessage .otheruser {
   background-color: #fff;
 }
-.box.message .messagearea .messagerecent .singlemessage .themessage {
+.messagearea .messagerecent .singlemessage .themessage {
   border-color: #ff6600;
 }
-.box.message .messagearea .messagehistory .messagehistorytype {
+.messagearea .messagehistory .messagehistorytype {
   padding: 5px 0;
 }
-.box.message .messagearea .messagehistory .messagehistorytype span.visible {
+.messagearea .messagehistory .messagehistorytype span.visible {
   color: #333333;
   background-color: #fff;
 }
-.box.message .messagearea .messagehistory .messagehistorytype span.visible, .box.message .messagearea .messagehistory .messagehistorytype a.visible {
+.messagearea .messagehistory .messagehistorytype span.visible, .messagearea .messagehistory .messagehistorytype a.visible {
   float: none;
   margin: 0;
   padding: 0;
   display: inline-block;
   border: none;
 }
-.box.message .messagearea .messagehistory .messagehistorytype a.visible:hover {
+.messagearea .messagehistory .messagehistorytype a.visible:hover {
   border: none;
   color: #ff6600;
 }
-.box.message .messagearea .messagehistory .messagehistory {
+.messagearea .messagehistory .messagehistory {
   margin: 0;
   padding: 0;
 }
-.box.message .messagearea .messagehistory .messagehistory .mdl-left .deleteicon .action-icon img.smallicon {
+.messagearea .messagehistory .messagehistory .mdl-left .deleteicon .action-icon img.smallicon {
   vertical-align: middle;
 }
-.box.message .messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
+.messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
   border-color: #ff6600;
 }
-.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message {
+.messagearea .messagehistory .messagehistory .mdl-left.right .message {
   left: 41.66666667%;
   float: left;
   width: 58.33333333%;
 }
-.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
+.messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
   border-color: #00a8d5;
 }
-.box.message .messagearea .messagesend .mform fieldset .fitem {
+.messagearea .messagesend .mform fieldset .fitem {
   margin-top: 0;
   margin-bottom: 15px !important;
 }
-.box.message .messagearea .messagesend .mform .fitem_textarea {
+.messagearea .messagesend .mform .fitem_textarea {
   margin: 0;
 }
-.box.message .messagearea .messagesend .mform .fitem_actionbuttons > div.felement {
+.messagearea .messagesend .mform .fitem_actionbuttons > div.felement {
   padding-left: 15px;
 }
 

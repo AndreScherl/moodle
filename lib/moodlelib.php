@@ -5550,6 +5550,12 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
         $mail->Sender = $supportuser->email;
     }
 
+    // Andre Scherl <andre.scherl@isb.bayern.de>: Users without email address configured in their profile should also be able to 
+    // send emails, if the recipent wants to receive them. Otherwise mail prividers may reject mails without sender address.
+    if (empty($from->email)) {
+        $from->email = $CFG->noreplyaddress;
+    }
+    
     if (!empty($CFG->emailonlyfromnoreplyaddress)) {
         $usetrueaddress = false;
         if (empty($replyto) && $from->maildisplay) {

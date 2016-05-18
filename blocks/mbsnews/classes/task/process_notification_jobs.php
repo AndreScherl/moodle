@@ -32,6 +32,8 @@ class process_notification_jobs extends \core\task\scheduled_task {
 
     public function execute() {
         
+        \block_mbsnews\local\newshelper::delete_confirmed_messages();
+        
         \block_mbsnews\local\newshelper::delete_expired_messages();
         
         \block_mbsnews\local\newshelper::process_notification_jobs();

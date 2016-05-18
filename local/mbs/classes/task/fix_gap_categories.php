@@ -26,12 +26,12 @@
 namespace local_mbs\task;
 
 class fix_gap_categories extends \core\task\scheduled_task {      
-    
+
     public function get_name() {
         // Shown in admin screens
         return get_string('fixgapcategories', 'local_mbs');
     }
-                                                                     
+
     public function execute() {       
         \local_mbs\performance\fix_course_sortorder::cron();
     }                                                                                                                               

@@ -346,22 +346,33 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
 
     /**
      * Constructs header in editing mode
-     *
+     * 
+     * @param boolean $shownews display news information for courses
+     * @param int $forcemaxcourses if set the user will not be able to change number of courses to display 
      * @param int $max maximum number of courses
      * @return string html of header bar.
      */
-    public function editing_bar_head($max = 0) {
-        $output = $this->output->box_start('notice');
-
-        $options = array('0' => get_string('alwaysshowall', 'block_mbsmycourses'));
-        for ($i = 1; $i <= $max; $i++) {
-            $options[$i] = $i;
+    public function editing_bar_head($shownews, $forcemaxcourses, $max = 0) {
+        $output = $this->output->box_start('', 'mbsmycourses_displayoptions');
+        
+        if (empty($forcemaxcourses)) {
+            // Number of courses to display.
+            $options = array('0' => get_string('alwaysshowall', 'block_mbsmycourses'));
+            for ($i = 1; $i <= $max; $i++) {
+                $options[$i] = $i;
+            }
+            $url = new moodle_url('/my/index.php');
+            $select = new single_select($url, 'mynumber', $options, mbsmycourses::get_max_user_courses(), array());
+            $select->set_label(get_string('numtodisplay', 'block_mbsmycourses'), array('class' => 'coursenumber-label'));
+            $output .= $this->output->render($select);
         }
-        $url = new moodle_url('/my/index.php');
-        $select = new single_select($url, 'mynumber', $options, mbsmycourses::get_max_user_courses(), array());
-        $select->set_label(get_string('numtodisplay', 'block_mbsmycourses'), array("class" => "coursenumber-label"));
-        $output .= $this->output->render($select);
 
+        // Show news.
+        $checkbox = html_writer::checkbox('shownews', 1, $shownews, get_string('shownews', 'block_mbsmycourses'), array('id' => 'mbsmycourses_shownews'));
+        // hidden field to get value for unchecked checkbox.
+        $unchecked = html_writer::tag('input', '', array('id' => 'mbsmycourses_shownewshidden', 'type' => 'hidden', 'value' => 0, 'name' => 'shownews'));
+        $output .= html_writer::tag('form', $unchecked.$checkbox, array('id' => 'mbsmycourses_shownewsform', 'action' => new moodle_url('/my/index.php')));
+        
         $output .= $this->output->box_end();
         return $output;
     }
@@ -467,7 +478,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param $content the courses content area
      * @param array $userschools all schools of an user as array schools (id, name)
      * @param $selectedschool filter by schoolid
-     * @param $sortorder sort_type
+     * @param $sortorder sorttype
      * @param $viewtype e.g. grid or list
      * @return string return the HTML as a string
      */
@@ -488,7 +499,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * 
      * @param array $userschools all schools of an user as array schools (id, name)
      * @param $selectedschool filter by schoolid
-     * @param $sortorder sort_type
+     * @param $sortorder sorttype
      * @param $viewtype e.g. grid or list
      * @return string return the HTML as a string
      */
@@ -500,12 +511,12 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $form .= html_writer::start_tag('div', array('class' => 'col-md-12 course-sorting'));
 
         // Render schoolmenu.
-        $select = html_writer::select($usersschools, 'filter_school', $selectedschool, array('' => get_string('selectschool', 'block_mbsmycourses')), array('id' => 'mbsmycourses_filterschool'));
+        $select = html_writer::select($usersschools, 'filterschool', $selectedschool, array('' => get_string('selectschool', 'block_mbsmycourses')), array('id' => 'mbsmycourses_filterschool'));
         $form .= html_writer::tag('div', $select, array('class' => 'col-md-7'));
 
         // Render sortmenu.
         $choices = mbsmycourses::get_coursesortorder_menu();
-        $select = html_writer::select($choices, 'sort_type', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
+        $select = html_writer::select($choices, 'sorttype', $sortorder, '', array('id' => 'mbsmycourses_sorttype'));
         $form .= html_writer::tag('div', $select, array('class' => 'col-md-3'));
 
         // Render radio switch.
@@ -513,29 +524,28 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
         $radiogroup .= html_writer::start_tag('div', array('class' => 'col-md-2 text-right text-mobile-left')); //classes for radiogroup
         // List view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_list'));
-        $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_list", 'value' => 'list');
+        $params = array('type' => 'radio', 'name' => 'switchview', "id" => "switch_list", 'value' => 'list');
         if ('list' == $viewtype) {
             $params['checked'] = 'checked';
         }
         $radiogroup .= html_writer::tag('input', '<i class="icon-me-listenansicht"></i>', $params);
         $radiogroup .= html_writer::end_tag('label');
-
         // Grid view.
         $radiogroup .= html_writer::start_tag('label', array('for' => 'switch_grid'));
-        $params = array('type' => 'radio', 'name' => 'switch_view', "id" => "switch_grid", 'value' => 'grid');
+        $params = array('type' => 'radio', 'name' => 'switchview', "id" => "switch_grid", 'value' => 'grid');
         if ('grid' == $viewtype) {
             $params['checked'] = 'checked';
         }
         $radiogroup .= html_writer::tag('input', '<i class="icon-me-kachelansicht"></i>', $params);
         $radiogroup .= html_writer::end_tag('label');
-        $radiogroup .= html_writer::end_tag('div'); //end classes for radiogroup
-        // End renderer radio switch
+        $radiogroup .= html_writer::end_tag('div'); //end classes for radiogroup.
+        // End renderer radio switch.
 
         $form .= html_writer::tag('div', $radiogroup, array('id' => 'mbsmycourses_viewtype'));
 
         $output = html_writer::tag('form', $form, array('id' => 'filter_form', 'action' => new moodle_url('/my/index.php'), 'class' => 'row form-horizontal'));
-        $output .= html_writer::end_tag('div'); //end class 'col-md-12 course-sorting'  
-        $output .= html_writer::end_tag('div'); //end class 'row my-courses-filter'      
+        $output .= html_writer::end_tag('div'); //end class 'col-md-12 course-sorting'.
+        $output .= html_writer::end_tag('div'); //end class 'row my-courses-filter'.     
         return $output;
     }
 
@@ -560,9 +570,10 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
      * @param record $courses data of courses depending on viewtype mode.
      * @param string $viewtype 'list' or 'grid'
      * @param string $overviews 'news' grouped by courses, if there are some. 
+     * @param int $forcemaxcourses if set the user will not be able to change number of courses to display 
      * @return string html for the courses list of grid list.
      */
-    public function render_courses_content($courses, $viewtype, $overviews) {
+    public function render_courses_content($courses, $viewtype, $overviews, $forcemaxcourses) {
         $content = '';
 
         if (empty($courses->sortedcourses)) {
@@ -574,7 +585,7 @@ class theme_mebis_block_mbsmycourses_renderer extends block_mbsmycourses_rendere
             $content .= $this->mbsmycourses_grid($courses, $overviews);
             $content .= $this->hidden_courses($courses->total - count($courses->sortedcourses));
 
-            if ($courses->total > count($courses->sortedcourses)) {
+            if (empty($forcemaxcourses) && $courses->total > count($courses->sortedcourses)) {
                 $content .= $this->load_more_button();
             }
         } else {

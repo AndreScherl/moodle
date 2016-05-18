@@ -84,6 +84,20 @@ aside.row {
     }
 }
 
+// more results button for mbscourses, mbssearch result page, mbstpl.
+.me-wrapper {
+    .add-more-results {
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+
+        .load-more-results {            
+            margin-left: 0;
+        }        
+    }
+}
+
 // Block mbscoordinators.
 .mbscoordinators {
     clear: both;
@@ -121,7 +135,7 @@ aside.row {
 
 }
 
-//Block mbsnews
+// Block mbsnews.
 #block_mbsnews {
     .mbsnews {
         .mbsnews-config {
@@ -181,7 +195,7 @@ aside.row {
     }
 }
 
-// Block mbsgettingstarted
+// Block mbsgettingstarted.
 .block_mbsgettingstarted {
     margin-bottom: 50px;
 
@@ -219,7 +233,7 @@ aside.row {
 
 }
 
-// Block mbswizzard
+// Block mbswizzard.
 .block_mbswizzard {
     > .content > .header {
         padding: 4px 1px;
@@ -244,7 +258,7 @@ aside.row {
         }
     }
 
-    // Form.
+    // Form course sorting.    
     .course-sorting {
 
         padding: 15px 0;
@@ -400,23 +414,7 @@ aside.row {
     padding: 22px 20px 0  0;
 }
 
-// more results button in mbscourses and mbssearch result page
-.path-blocks-mbssearch,
-.block_mbsmycourses {
-    .add-more-results {
-
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 0;
-        padding-right: 0;
-
-        .load-more-results {            
-            margin-left: 0;
-        }        
-    }
-}
-
-// teachSHARE block mbstpl
+// teachSHARE block mbstpl.
 .block_mbstpl {
     button {
         color: $black;
@@ -469,7 +467,7 @@ aside.row {
     }
 }
 
-//view feedback page of block mbstpl
+// view feedback page of block mbstpl.
 #page-blocks-mbstpl-viewfeedback,
 #page-blocks-mbstpl-assign,
 #page-blocks-mbstpl-viewhistory,
@@ -496,9 +494,9 @@ aside.row {
 #page-blocks-mbstpl-sendtemplate {
     form {
         fieldset {
-            //qtype_checkboxgroup
+            // qtype_checkboxgroup.
             .fitem.fitem_fgroup {
-                //label and checkbox
+                // label and checkbox.
                 fieldset span {
                     display: inline-block;
                     padding-right: 8px;
@@ -531,7 +529,7 @@ aside.row {
     }
 }
 
-//search page of block mbstpl
+// search page of block mbstpl.
 #page-blocks-mbstpl-templatesearch {
     #main-content-wrapper {
         background: transparent;
@@ -565,7 +563,7 @@ aside.row {
     }
 }
 
-//complaintreport form of block mbstpl
+// complaintreport form of block mbstpl.
 #page-blocks-mbstpl-complaintreport {
     form {
         fieldset {
@@ -605,7 +603,7 @@ aside.row {
     }
 }
 
-// search page of block mbssearch
+// search page of block mbssearch.
 .path-blocks-mbssearch {
     #main-content-wrapper {
         background-color: transparent;
@@ -635,9 +633,10 @@ aside.row {
 
     #mbssearch_result {
         margin-top: 20px;
+        color: $white;
     }
 }
-// quick results of block mbssearch
+// quick results of block mbssearch.
 .yui3-widget.yui3-aclist.yui3-widget-positioned {
     ul.yui3-aclist-list {
         :hover {
@@ -653,7 +652,7 @@ aside.row {
     }
 }
 
-// Block mbsschooltitle
+// Block mbsschooltitle.
 .block_mbsschooltitle {
 
     padding: 40px 0;
@@ -684,7 +683,7 @@ aside.row {
 
     // Block regions.
     aside.row {
-        //side-pre and side-post
+        // side-pre and side-post.
         .block-region {
             .block {
                 // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
@@ -698,7 +697,7 @@ aside.row {
 
     // Block regions.
     aside.row {
-        //side-pre and side-post
+        // side-pre and side-post.
         .block-region {
             .block {
                 // ((aside.row.width - 120(margin of blocks))/3) /aside.row.width 
@@ -708,6 +707,21 @@ aside.row {
     }
 }
 
+@media only screen and (min-width: $screen-md-min) {
+
+    // Block mbsmycourses.
+    .block_mbsmycourses {
+        div.singleselect {
+            margin: 0 10px 10px 0;
+            float: left;
+        }
+        form#mbsmycourses_shownewsform {
+            float: right;
+            margin-top: 10px;
+        }
+    }   
+}
+
 @media only screen and (max-width: $screen-md-min) {
 
     // Block regions.
@@ -715,7 +729,7 @@ aside.row {
         margin-right: 0;
         margin-left: 0;
 
-        //side-pre and side-post
+        // side-pre and side-post.
         .block-region {
             overflow: hidden;
 

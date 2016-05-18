@@ -60,6 +60,7 @@ $string['shortnamesufixprural'] = '(und {$a} weitere)';
 $string['shortnamesufixsingular'] = '(und {$a} weiterer)';
 $string['showchildren'] = 'Metakurse anzeigen';
 $string['showchildrendesc'] = 'Sollen Metakurse unter dem Hauptkurs angezeigt werden';
+$string['shownews'] = 'Neuigkeiten der Kurse anzeigen';
 $string['showwelcomearea'] = 'Begrüßung anzeigen';
 $string['showwelcomeareadesc'] = 'Soll Begrüßung über der Kursliste angezeigt werden?';
 $string['view_edit_profile'] = '(Ihr Profil anzeigen und bearbeiten)';

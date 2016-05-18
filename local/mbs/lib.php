@@ -104,11 +104,6 @@ function local_mbs_extend_settings_navigation(settings_navigation $navigation, c
     if ($context) {
         block_mbstpl\course::extend_coursenav($navigation, $context);
     }
-    
-    // Extend for block_mbslicenseinfo editlicense form
-    if ($context) {
-        block_mbslicenseinfo\local\mbslicenseinfo::extend_course_admin_node($navigation, $context);
-    }
 }
 
 /**
@@ -120,7 +115,7 @@ function local_mbs_user_loggedin(\core\event\user_loggedin $event) {
 
     // Assign-Teacher-Hack: set preference for user to indicated permission for role assignment.
     local_mbs\local\core_changes::set_allow_teacherrole_preference();
-    
+
     // Set up the isTeacher - flag, we do this here for all auth types.
     local_mbs::setup_teacher_flag();
 }
@@ -207,7 +202,7 @@ class local_mbs {
         if (!isloggedin() or isguestuser()) {
             return false;
         }
-        
+
         if (isset($USER->isTeacher)) {
             return $USER->isTeacher;
         }
@@ -224,7 +219,7 @@ class local_mbs {
                AND ra.userid = :userid";
 
         $USER->isTeacher = $DB->record_exists_sql($sql, $params);
-        
+
         return $USER->isTeacher;
     }
 

@@ -32,7 +32,7 @@ $string['mbs:viewteacherlist'] = 'Liste aller eingeschriebenen Lehrer auf der Ku
 $string['pluginname'] = 'Mebis - Anpassungen';
 $string['schoolnode'] = 'Meine Schulen';
 
-//Datenschutz
+// Datenschutz.
 $string['mbs:institutionview'] = 'User anderer Institutionen sehen';
 $string['invalidredirect'] = 'Diese Weiterleitung ist nicht gestattet.';
 
@@ -49,7 +49,7 @@ $string['nopermissiontoviewuser'] = 'Sie dürfen diesen User nicht sehen.'.
 '<h1>Sichtbarkeitsregelung von Usern</h1>'.
 '<p>Normale User sehen auf der Plattform nur User der gleichen Schule oder User mit denen sie gemeinsam an einem Kurs teilnehmen.</p>';   
 
-//Sidebar Navigation
+// Sidebar Navigation.
 $string['local_mbs_mebis_sites'] = 'Navigationslinks';
 $string['local_mbs_mebis_sites_expl'] = 'Diese Navigationselemente erscheinen in der sidebar-Navigation.'.
         'Die Element werden zeilenweise in der Form <b>Link,URL;</b> angegeben.';
@@ -60,7 +60,7 @@ $string['local_mbs_mebis_sites_default'] =
         'Lernplattform,https://lernplattform.mebis.bayern.de;'.        
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';
 
-//MoodleQuickForm Lizenzen
+// MoodleQuickForm Lizenzen.
 $string['newlicense'] = 'Neue Lizenz ...';
 $string['newlicense_add'] = 'Neue Lizenz hinzufügen';
 $string['newlicense_shortname'] = 'Kurzname für neue Lizenz';
@@ -70,3 +70,8 @@ $string['newlicense_source'] = 'Link für neue Lizenz';
 $string['newlicense_exists'] = 'Lizenz "{$a}" existiert bereits - bitte geben Sie einen anderen Kurznamen an';
 $string['newlicense_required'] = 'Ein Kurzname muss angegeben werden.';
 $string['newlicense_typecourse'] = 'Kurslizenz verwenden';
+
+// MoodleQuickForm lookupset.
+$string['lookupsetmoreresults'] = 'Weitere Ergebnisse vorhanden, bitte konkretisieren Sie Ihre Suche.';
+$string['lookupsetnoresults'] = 'Zu Ihrer Eingabe wurden keine Ergebnisse gefunden, bitte probieren Sie es mit anderen Suchbegriffen (mindestens drei Buchstaben).';
+$string['lookupsetlessletters'] = 'Nach Eingabe von mindestens drei Buchstaben werden Ihnen die verfügbaren Ergebnisse vorgeschlagen.';

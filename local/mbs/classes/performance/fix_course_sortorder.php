@@ -52,7 +52,7 @@ class fix_course_sortorder {
     public $starttime = array();
 
     private function __construct() {
-        
+
     }
 
     /** create instance as a singleton */
@@ -123,7 +123,7 @@ class fix_course_sortorder {
 
     public static function cron() {
         global $DB;
-        
+
         $cacheevents = array();
 
         // categories having courses with sortorder duplicates or having gaps in sortorder
@@ -183,7 +183,7 @@ class fix_course_sortorder {
             cache_helper::purge_by_event($event);
         }
     }
-    
+
     /** get all the categories, which may be childs of given parent (depth > parent->depth)
       then build a cattree starting with the $parentcatid as a root.
       we don't use coursecattree cache here, because it is invalid after category_updated!
@@ -315,14 +315,14 @@ class fix_course_sortorder {
         return true;
     }
 
-    
+
     public static function add_output($text) {
         global $SESSION;
 
         if (empty($SESSION->profilefixsortorder)) {
             $SESSION->profilefixsortorder = '';
         }
-        
+
         $SESSION->profilefixsortorder .= '<br/>' .$text;
     }
 }

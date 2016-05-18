@@ -51,7 +51,7 @@ if ($options['help'] || !$options['blockname']) {
     $help = "This script can
     * delete all instances of a specific block or
     * add a specific block to 'my-index'-page. If a role is given only for users with this role.
-        
+
     Options:
     --action=INTEGER        
         * 0 for delete, 
@@ -115,7 +115,7 @@ function local_mbs_cli_delete($blockname) {
     global $DB;
     $numberofactions = 0;
     echo "Delete block $blockname for all users. \n";
-    
+
     if ($blocks = $DB->get_records_select('block_instances', "blockname = '" . $blockname . "'")) {
         foreach ($blocks as $block) {
             blocks_delete_instance($block);
@@ -123,7 +123,7 @@ function local_mbs_cli_delete($blockname) {
             $numberofactions++;
         }
     }
-    
+
     return $numberofactions;
 }
 
@@ -133,7 +133,7 @@ function local_mbs_cli_delete($blockname) {
 function local_mbs_cli_add($blockname, $role) {
     global $DB;
     $numberofactions = 0;
-    
+
     if ($role) { // is a specific role given?
         echo "Add block $blockname for all users with the role $role. \n";
         //Get all users with the specific role 
@@ -151,7 +151,7 @@ function local_mbs_cli_add($blockname, $role) {
 
     if ($users) {
         foreach ($users as $user) {
-            
+
             //get my-page
             $page = my_get_page($user->id);
             if (empty($page->userid)) { 
@@ -185,6 +185,6 @@ function local_mbs_cli_add($blockname, $role) {
     else {
         cli_error('DB error: No users were found.');
     }
-    
+
     return $numberofactions;
 }

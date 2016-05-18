@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
  * @package block_mbstpl
  * @copyright 2015 Bence Laky <b.laky@intrallect.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,38 +26,39 @@ global $PAGE, $OUTPUT;
 use \block_mbstpl as mbst;
 
 // Page preparation.
-$thisurl = new moodle_url('/blocks/mbstpl/templatesearch.php');
+
 $layout = optional_param('layout', 'grid', PARAM_ALPHA);
-$PAGE->set_url($thisurl);
-$PAGE->set_pagelayout('course');
+$limitfrom = optional_param('limitfrom', 0, PARAM_INT);
+$limitnum = optional_param('limitnum', get_config('block_mbstpl', 'searchpagesize'), PARAM_INT);
+
+$pageparams = array('layout' => $layout, 'limitfrom' => $limitfrom, 'limitnum' => $limitnum);
+$pageurl = new moodle_url('/blocks/mbstpl/templatesearch.php', $pageparams);
+
+$PAGE->set_url($pageurl, $pageparams);
 
 require_login();
-if (!mbst\perms::can_searchtemplates()) {
-    throw new moodle_exception('errorcannotsearch', 'block_mbstpl');
-}
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
+$PAGE->set_pagelayout('course');
 
-$pagesize = 15;
-$pagenumber = optional_param('page', 1, PARAM_INT);
-$startrecord = ($pagenumber - 1) * $pagesize;
+if (!mbst\perms::can_searchtemplates()) {
+    throw new moodle_exception('errorcannotsearch', 'block_mbstpl');
+}
 
 // Load questions.
 $qidlist = \block_mbstpl\questman\manager::get_searchqs();
 $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
 
-$searchform = new mbst\form\searchform(null, array('questions' => $questions));
-$courses = array();
-$searchflag = false;
+$searchform = new mbst\form\searchform($pageurl, array('questions' => $questions), 'post', '', array('id' => 'mbstpl-search-form'));
+
+$result = false;
 if ($data = $searchform->get_data()) {
     $search = new mbst\search($questions, $data);
-    $courses = $search->get_search_result($startrecord, $pagesize);
-    $searchflag = true;
+    $result = $search->get_search_result($limitfrom, $limitnum);
+    $result->formdata = $data;
 }
 
-$PAGE->requires->yui_module('moodle-block_mbstpl-templatesearch',
-        'M.block_mbstpl.templatesearch.init', array(), null, true);
 $pagetitle = get_string('templatesearch', 'block_mbstpl');
 $PAGE->set_title($pagetitle);
 echo $OUTPUT->header();
@@ -66,6 +66,6 @@ echo $OUTPUT->header();
 $renderer = mbst\course::get_renderer();
 echo html_writer::tag('h3', $pagetitle);
 
-echo $renderer->templatesearch($searchform, $courses, $layout, $searchflag);
+echo $renderer->templatesearch($searchform, $result, $layout);
 
 echo $OUTPUT->footer();

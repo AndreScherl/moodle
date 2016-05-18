@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * verson file for local_mbs
+ * Verson file for local_mbs
  *
  * @package    local_mbs
  * @copyright  Andreas Wagner, ISB Bayern
@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016011800;
+$plugin->version = 2016030901;
 $plugin->requires = 2014051201;
 $plugin->cron = 0;
 $plugin->component = 'local_mbs';

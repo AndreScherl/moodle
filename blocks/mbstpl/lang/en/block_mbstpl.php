@@ -91,8 +91,14 @@ $string['emailassignedreviewer_subj'] = 'You have been assigned to review';
 $string['emailassignedauthor_body'] = 'Dear course author,
 You have been asked to make some changes to template course {$a->fullname}. You can review it now at at: {$a->url} .';
 $string['emailassignedauthor_subj'] = 'You have been assigned as a template author';
-$string['emailcoursepublished_body'] = 'The template course {$a->coursename} has been published by reviewer. It can be viewed at:
-{$a->url}';
+$string['emailcoursepublished_body'] = 'Dear course author,
+    many thanks for the submission of your course {$a->coursename} to teachSHARE. Your course was checked by random sampling.
+    By the examination no discrepancies have struck. Please, note that the responsibility for the course contents in spite of this
+    process always remains with the submitting author.
+    The course has been published and can be viewed at: '."\n"
+    .'{$a->url}'."\n"
+    .'Should you still want to carry out changes, read the following Tutorial: '."\n"
+    .'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/austauschkurs-ueberarbeiten/';
 $string['emailcoursepublished_subj'] = 'Template course published';
 $string['emailcomplaint_body'] = 'Dear Support,
     
@@ -186,6 +192,7 @@ $string['lastupdate'] = 'Last update';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
+$string['leastoneoption'] = 'Please select at least one option.';
 $string['legalinfo'] = 'Legal Information';
 $string['license'] = 'Published under license';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Attribution</a></li>'
@@ -198,6 +205,7 @@ $string['license_fullname'] = 'Full name';
 $string['license_shortname'] = 'Short name';
 $string['license_source'] = 'Source';
 $string['license_used'] = 'Used';
+$string['loadmoreresults'] = 'Load more results';
 $string['managesearch'] = 'Manage search questions';
 $string['manageqforms'] = 'Manage Template Metadata questions';
 $string['mbstpl:abouttemplate'] = 'About this template';
@@ -273,6 +281,7 @@ $string['sendtpldate'] = 'Date of sending course template';
 $string['sendfeedbacktoauthor'] = 'Send and assign back to author';
 $string['sendfeedbacktoreviewer'] = 'Send and assign back to reviewer';
 $string['sentforreview'] = 'This course has been sent for review. You should shortly receive email confirmation of this.';
+$string['searchpagesize'] = 'Pagesize for searchresult of templates';
 $string['searchresult'] = 'Search Result';
 $string['startsreportsent'] = 'Statistics report sent successfully.';
 $string['statsreporttooearly'] = 'Too early for the next statistics report. Scheduled for {$a}.';
@@ -284,6 +293,9 @@ $string['statusunderreview'] = 'Under review';
 $string['statusunderrevision'] = 'Under revision';
 $string['tag'] = 'Tag';
 $string['tags'] = 'Tags';
+$string['tagshelpbutton'] = 'Help: Tags';
+$string['tagshelpbutton_help'] = 'Give the tags which describe the contents or application of your course, e. g. SCHILF-course: schilf, fortbildung';
+$string['tagsplaceholder'] = 'tag1, tag2';
 $string['tasknote'] = 'Task note';
 $string['teacherrole'] = 'Teacher role';
 $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a duplicated course.';

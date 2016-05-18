@@ -443,7 +443,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
     if ($oldversion < 2016011100) {
 
         $table = new xmldb_table('block_mbstpl_question');
-        // Conditionally install meta data questions
+        // Conditionally install meta data questions.
         if ($dbman->table_exists($table)) {
             \block_mbstpl\questman\manager::install_questions();
         }
@@ -469,7 +469,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
             $dbman->create_table($table);
         }
         
-        // Conditionally install subject data
+        // Conditionally install subject data.
         if ($dbman->table_exists($table)) {
             \block_mbstpl\questman\manager::install_subjects();
         }
@@ -480,7 +480,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
     
     if ($oldversion < 2016012600) {
                
-        // Conditionally install subject data
+        // Conditionally install subject data.
         \block_mbstpl\questman\manager::install_subjects();
         
         // Mbstpl savepoint reached.
@@ -489,11 +489,38 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
     
     if ($oldversion < 2016012601) {
                
-        // Conditionally install subject data
+        // Conditionally install question data.
         \block_mbstpl\questman\manager::install_questions();
         
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016012601, 'mbstpl');
+    }
+    
+    if ($oldversion < 2016030700) {
+               
+        // Update question data.
+        \block_mbstpl\questman\manager::install_questions();
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016030700, 'mbstpl');
+    }
+    
+    if ($oldversion < 2016030800) {
+               
+        // Update question data.
+        \block_mbstpl\questman\manager::install_questions();
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016030800, 'mbstpl');
+    }
+    
+    if ($oldversion < 2016050400) {
+               
+        // Update question data.
+        \block_mbstpl\questman\manager::update_lookupsetquestions();
+        
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016050400, 'mbstpl');
     }
     
     return true;

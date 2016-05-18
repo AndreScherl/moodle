@@ -151,7 +151,6 @@ class backup {
      * @return string filename or throws error on failure
      */
     public static function backup_secondary(dataobj\template $template, $settings) {
-        $filename = self::get_filename($template->id);
         $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
         $user = get_admin();
         $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
@@ -203,9 +202,8 @@ class backup {
      * @return string filename or throws error on failure
      */
     public static function backup_revision(dataobj\template $template) {
-        $filename = self::get_filename($template->id);
         $user = get_admin();
-        $filename = self::launch_secondary_backup($template->courseid, $template->id, array(), $user->id);
+        $filename = self::launch_secondary_backup($template->courseid, $template->id, array(), $user->id, true);
         return $filename;
     }
 
@@ -234,7 +232,7 @@ class backup {
 
         // Copy over metadata.
         $origmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
-        $tplmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
+        $tplmeta = new dataobj\meta(array('templateid' => $newtpl->id), true, MUST_EXIST);
         $tplmeta->copy_from($origmeta);
         
         // Unenrol everybody        
@@ -503,9 +501,10 @@ class backup {
      * @param int $templateid
      * @param array $backupsettings what parts to backup
      * @param int $userid
+     * @param bool $includeall include all activities and user info.
      * @return mixed filename|false on error
      */
-    private static function launch_secondary_backup($courseid, $templateid, $backupsettings, $userid) {
+    private static function launch_secondary_backup($courseid, $templateid, $backupsettings, $userid, $includeall = false) {
         global $CFG;
 
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -536,6 +535,14 @@ class backup {
         try {
 
             foreach ($bc->get_plan()->get_settings() as $settingname => $setting) {
+
+                if ($includeall) {
+                    $ending = substr($settingname, -9);
+                    if ($ending == '_userinfo' || $ending == '_included') {
+                        $setting->set_value(1);
+                        continue;
+                    }
+                }
 
                 $hassetting = isset($settings[$settingname]);
 

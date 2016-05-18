@@ -32,9 +32,9 @@ $action = required_param('action', PARAM_ALPHA);
 switch ($action) {
 
     case 'checkshortname':
-        
+
         require_login();
-        
+
         $resp = (object)array(
             'response' => 'OK',
             'error' => '',
@@ -56,7 +56,7 @@ switch ($action) {
 
         echo json_encode($resp);
         break;
-        
+
     default:
         throw new moodle_exception('unknownaction', 'local_mbs');
 }

@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,9 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main login page.
+ * Alternative login page for manual authenticated users.
  *
  * @package    local_mbs
+ * @author     Andreas Wagner, ISB Bayern
  * @copyright  1999 onwards Martin Dougiamas  http://dougiamas.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -145,7 +145,7 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
 
     if ($user) {
 
-        if (($user->auth != "manual") and !empty($CFG->alternateloginurl)) {
+        if (($user->auth != "manual") and ! empty($CFG->alternateloginurl)) {
             $loginurl = $CFG->alternateloginurl;
 
             if (strpos($SESSION->wantsurl, $loginurl) === 0) {
@@ -192,7 +192,7 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
             // do not store last logged in user in cookie
             // auth plugins can temporarily override this from loginpage_hook()
             // do not save $CFG->nolastloggedin in database!
-        } else if (empty($CFG->rememberusername) or ($CFG->rememberusername == 2 and empty($frm->rememberusername))) {
+        } else if (empty($CFG->rememberusername) or ( $CFG->rememberusername == 2 and empty($frm->rememberusername))) {
             // no permanent cookies, delete old one if exists
             set_moodle_cookie('');
         } else {
@@ -203,7 +203,7 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
         if (user_not_fully_set_up($USER)) {
             $urltogo = $CFG->wwwroot . '/user/edit.php';
             // We don't delete $SESSION->wantsurl yet, so we get there later
-        } else if (isset($SESSION->wantsurl) and (strpos($SESSION->wantsurl, $CFG->wwwroot) === 0 or strpos($SESSION->wantsurl, str_replace('http://', 'https://', $CFG->wwwroot)) === 0)) {
+        } else if (isset($SESSION->wantsurl) and ( strpos($SESSION->wantsurl, $CFG->wwwroot) === 0 or strpos($SESSION->wantsurl, str_replace('http://', 'https://', $CFG->wwwroot)) === 0)) {
             $urltogo = $SESSION->wantsurl;    /// Because it's an address in this site
             unset($SESSION->wantsurl);
         } else {
@@ -263,19 +263,18 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
 }
 
 /// Detect problems with timedout sessions
-if ($session_has_timed_out and !data_submitted()) {
+if ($session_has_timed_out and ! data_submitted()) {
     $errormsg = get_string('sessionerroruser', 'error');
     $errorcode = 4;
 }
 
 /// First, let's remember where the user was trying to get to before they got here
 if (empty($SESSION->wantsurl)) {
-    $SESSION->wantsurl = (array_key_exists('HTTP_REFERER',$_SERVER) &&
-                          $_SERVER["HTTP_REFERER"] != $CFG->wwwroot &&
-                          $_SERVER["HTTP_REFERER"] != $CFG->wwwroot.'/' &&
-                          $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot.'/login/' &&
-                          $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot.'/login/index.php')
-        ? $_SERVER["HTTP_REFERER"] : NULL;
+    $SESSION->wantsurl = (array_key_exists('HTTP_REFERER', $_SERVER) &&
+            $_SERVER["HTTP_REFERER"] != $CFG->wwwroot &&
+            $_SERVER["HTTP_REFERER"] != $CFG->wwwroot . '/' &&
+            $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot . '/login/' &&
+            $_SERVER["HTTP_REFERER"] != $CFG->httpswwwroot . '/login/index.php') ? $_SERVER["HTTP_REFERER"] : NULL;
 }
 
 // make sure we really are on the https page when https login required
@@ -283,7 +282,7 @@ $PAGE->verify_https_required();
 
 /// Generate the login page with forms
 
-if (!isset($frm) or !is_object($frm)) {
+if (!isset($frm) or ! is_object($frm)) {
     $frm = new stdClass();
 }
 
@@ -303,7 +302,7 @@ if (!empty($frm->username)) {
     $focus = "username";
 }
 
-if (!empty($CFG->registerauth) or is_enabled_auth('none') or !empty($CFG->auth_instructions)) {
+if (!empty($CFG->registerauth) or is_enabled_auth('none') or ! empty($CFG->auth_instructions)) {
     $show_instructions = true;
 } else {
     $show_instructions = false;
@@ -320,7 +319,7 @@ $PAGE->set_heading("$site->fullname");
 
 echo $OUTPUT->header();
 
-if (isloggedin() and !isguestuser()) {
+if (isloggedin() and ! isguestuser()) {
     // prevent logging when already logged in, we do not want them to relogin by accident because sesskey would be changed
     echo $OUTPUT->box_start();
     $logout = new single_button(new moodle_url($CFG->httpswwwroot . '/login/logout.php', array('sesskey' => sesskey(), 'loginpage' => 1)), get_string('logout'), 'post');

@@ -29,10 +29,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     protected function qtype_name($type) {
         $gs = get_string_manager();
-        if ($gs->string_exists('pluginname', 'profilefield_'.$type)) {
-            return get_string('pluginname', 'profilefield_'.$type);
+        if ($gs->string_exists('pluginname', 'profilefield_' . $type)) {
+            return get_string('pluginname', 'profilefield_' . $type);
         } else {
-            return get_string('field_'.$type, 'block_mbstpl');
+            return get_string('field_' . $type, 'block_mbstpl');
         }
     }
 
@@ -144,7 +144,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
         $authorname = mbst\course::get_creators($template->id);
         $reviewer = $DB->get_record('user', array('id' => $template->reviewerid));
-        $reviewername = $reviewer ? fullname($reviewer). ' '. $reviewer->email : '';
+        $reviewername = $reviewer ? fullname($reviewer) . ' ' . $reviewer->email : '';
         $courseurl = new moodle_url('/course/view.php', array('id' => $template->courseid));
         $courselink = html_writer::link($courseurl, format_string($course->fullname));
 
@@ -213,17 +213,17 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $html;
     }
 
-
     /**
-     * Return list of tempalte history.
+     * Return list of template history.
+     * 
      * @param array $revhists
      */
     public function templatehistory($revhists, $files) {
         $html = '';
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
         foreach ($revhists as $hist) {
-            $assignedname = $hist->firstname.' '.$hist->lastname;
-            $assignedname = html_writer::tag('strong', get_string('to', 'block_mbstpl').' '.$assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
+            $assignedname = $hist->firstname . ' ' . $hist->lastname;
+            $assignedname = html_writer::tag('strong', get_string('to', 'block_mbstpl') . ' ' . $assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
             $assigneddate = userdate($hist->timecreated);
 
             $item = html_writer::div("$assignedname, $assigneddate", 'mbstrevhist-name');
@@ -246,6 +246,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Print all my tempates to the block.
+     * 
      * @param object $templates
      * @return string
      */
@@ -259,13 +260,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('assignee', 'block_mbstpl'),
             '',
         );
-        
+
         // asch: we don't want to remove the template type logic in gerenal, but just group some template types
         $groupedtypes = array_merge($templates['assigned'], $templates['review'], $templates['revision']);
         $templates['review'] = $groupedtypes;
         unset($templates['assigned']);
         unset($templates['revision']);
-        
+
         foreach ($templates as $type => $typetemplates) {
             if (empty($typetemplates)) {
                 continue;
@@ -273,15 +274,15 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             $html .= html_writer::start_tag('p');
             $typeheader = '';
             if ($type == 'review') {
-                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+                $typeheader .= get_string('my' . $type, 'block_mbstpl');
                 $helpicon = new help_icon('myreview', 'block_mbstpl');
-                $typeheader .= ' '.$this->render($helpicon);
+                $typeheader .= ' ' . $this->render($helpicon);
             } else {
-                $typeheader .= get_string('my'.$type, 'block_mbstpl');
+                $typeheader .= get_string('my' . $type, 'block_mbstpl');
             }
             $html .= html_writer::div($typeheader);
             $html .= html_writer::start_tag('ul');
-            
+
             foreach ($typetemplates as $template) {
                 $courseitemstatus = \block_mbstpl\course::get_statusshortname($template->status);
                 if ($type == 'review') {
@@ -304,87 +305,135 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             }
             $html .= html_writer::end_tag('ul');
             $html .= html_writer::end_tag('p');
-            
         }
-        return $html;
-    }
-
-    public function templatesearch($searchform, $courses, $layout, $searchflag) {
-        
-        // Add the search form.
-        $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
-
-
-        // Add layout and pagination controllers.
-        $listcontrollers = get_string('layout', 'block_mbstpl') . ': ';
-        $link = new moodle_url('#');
-
-        // TODO: Add pagination controls.
-
-        if ($searchflag) {
-            $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
-            $listcontrollers .= \html_writer::link($link, \html_writer::img(
-            $this->output->pix_url('e/table', 'core'), get_string('layoutgrid', 'block_mbstpl'), array('l' => 'grid')));
-            $listcontrollers .= \html_writer::link($link, \html_writer::img(
-            $this->output->pix_url('e/bullet_list', 'core'), get_string('layoutlist', 'block_mbstpl'), array('l' => 'list')));
-            $headingpanel .= \html_writer::div($listcontrollers, 'mbstpl-list-controller');
-        
-            $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
-
-            // Render result listing.
-            $searchlisting = $this->mbstpl_resultlist($courses, $layout, $searchflag);
-            $html .= \html_writer::div($searchlisting, 'mbstpl-search-listing clearfix');
-        }
-        
         return $html;
     }
 
     /**
-     * render result listing of block mbstpl
-     *
-     * @param array $courses list of courses
-     * @param string $layout
-     * @return string html to be displayed
+     * Render the page content for the search template page.
+     * 
+     * @param MoodleQuickform $searchform
+     * @param object $result result containing result informations
+     * @param string $layout grid or list
+     * @return string HTML of the search page.
      */
-    public function mbstpl_resultlist($courses, $layout, $searchflag) {
-        $searchlisting = '';
-        $complainturl = new moodle_url(get_config('block_mbstpl', 'complainturl'));
-        
-        if (count($courses) > 0) {
-            foreach ($courses as $course) {
-                $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                $listitem = \html_writer::link($courseurl, $course->fullname);
-                // TBD, see spec page 14.
-                $externalurl = mbst\course::get_complaint_url($course->id);
-                $righticons = '';
-                $complaintlink = \html_writer::link($externalurl,
-                    \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname));
-                $righticons .= $complaintlink;
-                $courselink = \html_writer::link($courseurl,
-                        \html_writer::img($this->output->pix_url('t/collapsed_empty', 'core'), $course->fullname));
-                $righticons .= $courselink;
-                $listitem .= html_writer::div($righticons, 'righticons');
-                $listitem .= html_writer::div($course->catname, 'crsdetails');
-                $listitem .= html_writer::div(get_string('author', 'block_mbstpl').': ' .$course->authorname, 'crsauthor');
-                if (!is_null($course->rating)) {
-                    $template = mbst\dataobj\template::get_from_course($course->id);
-                    $listitem .= $this->rating($template, false);
-                }
-                $searchlisting .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
+    public function templatesearch($searchform, $result, $layout) {
+
+        // Add the search form.
+        $html = \html_writer::div($searchform->render(), 'mbstpl-search-form');
+
+        if ($result) {
+
+            $headingpanel = \html_writer::tag('h3', get_string('searchresult', 'block_mbstpl'));
+            $html .= \html_writer::div($headingpanel, 'mbstpl-heading-panel');
+
+            // No courses found.
+            if (count($result->courses) == 0) {
+                $html .= \html_writer::tag('h3', get_string('noresults', 'block_mbstpl'));
+                return $html;
             }
-        } else {
-            if ($searchflag) {
-                $searchlisting .= \html_writer::tag('em', get_string('noresults', 'block_mbstpl'));
-            } else {
-                $searchlisting .= '';
+
+            // Render result listing.
+            $html .= $this->templatesearch_resultlist($result, $layout);
+
+            // Are there more results?
+            if ($result->total > $result->limitfrom + $result->limitnum) {
+
+                $formdata = ($result->formdata) ? $result->formdata : false;
+                
+                $html .= $this->templatesearch_moreresults($formdata);
+
+                $ajaxurl = new \moodle_url('/blocks/mbstpl/ajax.php');
+                $opts = array('ajaxurl' => $ajaxurl->out());
+                $opts['total'] = $result->total;
+                $opts['limitfrom'] = $result->limitfrom + $result->limitnum;
+                $opts['limitnum'] = $result->limitnum;
+                $this->page->requires->yui_module('moodle-block_mbstpl-templatesearch', 'M.block_mbstpl.templatesearch.init', array($opts));
             }
         }
-        return $searchlisting;
+
+        return $html;
     }
-    
-    public function rating($template, $label = true) {        
+
+    /**
+     * Render the load more result element. The element saves all the current 
+     * form data, when it is created to retrieve further items.
+     * 
+     * Note that we intenntionally ignore changes inputed in the form without 
+     * a page reload. We believe this is the best approach regarding usability.
+     * 
+     * @return string HTML of load result element
+     */
+    protected function templatesearch_moreresults($formdata) {
+        
+        // Store POST array in hidden field of form.
+        $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($formdata))));
+        
+        $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
+        $o = $loadmoreform->render();
+        
+        $text = get_string('loadmoreresults', 'block_mbstpl');
+        $o .= \html_writer::div($text, 'mbstpl-search-loadmoreresults', array('id' => 'mbstpl-search-loadmoreresults'));
+        return $o;
+    }
+
+    /**
+     * Render result listing of block mbstpl
+     *
+     * @param object $result result containing result informations
+     * @param string $layout grid or list
+     * @return string html to be displayed
+     */
+    protected function templatesearch_resultlist($searchresult, $layout) {
+
+        // Render content of list.
+        $listitems = $this->templatesearch_listitems($searchresult, $layout);
+        return \html_writer::div($listitems, 'mbstpl-search-listing clearfix', array('id' => 'mbstpl-search-listing'));
+    }
+
+    /**
+     * Render the lits items
+     * 
+     * @param object $result result containing result informations
+     * @param string $layout grid or list
+     * @return type
+     */
+    protected function templatesearch_listitems($searchresult, $layout) {
+
+        $listitems = '';
+        
+        foreach ($searchresult->courses as $course) {
+
+            $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+            $listitem = \html_writer::link($courseurl, $course->fullname);
+
+            // Complaintlink.
+            $externalurl = mbst\course::get_complaint_url($course->id);
+            $complaintimg = \html_writer::img(new moodle_url('/blocks/mbstpl/pix/complaint.png'), $course->fullname);
+            $complaintlink = \html_writer::link($externalurl, $complaintimg);
+
+            // Courselink.
+            $courseimg = \html_writer::img($this->output->pix_url('t/collapsed_empty', 'core'), $course->fullname);
+            $courselink = \html_writer::link($courseurl, $courseimg);
+
+            $listitem .= html_writer::div($complaintlink . $courselink, 'righticons');
+            $listitem .= html_writer::div($course->catname, 'crsdetails');
+            $listitem .= html_writer::div(get_string('author', 'block_mbstpl') . ': ' . $course->authorname, 'crsauthor');
+
+            if (!is_null($course->rating)) {
+                $template = mbst\dataobj\template::get_from_course($course->id);
+                $listitem .= $this->rating($template, false);
+            }
+
+            $listitems .= \html_writer::div($listitem, "mbstpl-list-item mbstpl-list-item-{$layout}");
+        }
+
+        return $listitems;
+    }
+
+    public function rating($template, $label = true) {
         $roundavg = round($template->rating * 2);
-        //Stars
+        // Stars.
         $inner = '';
         for ($i = 1; $i <= 5; $i++) {
             if ($roundavg >= $i * 2) {
@@ -395,20 +444,20 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $inner .= html_writer::div('', 'star emptystar');
             }
         }
-        //Counted rating
+        // Counted rating.
         $quantity = \block_mbstpl\rating::get_ratingquantity($template);
         if (!empty($quantity)) {
             if ($label) {
                 if ($quantity > 1) {
-                    $inner .= html_writer::div('('.$quantity.') Bewertungen', 'quantity');
+                    $inner .= html_writer::div('(' . $quantity . ') Bewertungen', 'quantity');
                 } else {
-                    $inner .= html_writer::div('('.$quantity.') Bewertung', 'quantity');
+                    $inner .= html_writer::div('(' . $quantity . ') Bewertung', 'quantity');
                 }
             } else {
-                $inner .= html_writer::div('('.$quantity.')', 'quantity coursetype');
+                $inner .= html_writer::div('(' . $quantity . ')', 'quantity coursetype');
             }
         }
-        
+
         $output = html_writer::div($inner, 'templaterating');
         return $output;
     }
@@ -453,8 +502,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     public function file_list($files) {
         $out = '';
         foreach ($files as $file) {
-            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-                                                   $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
             $filename = s($file->get_filename());
             $out .= html_writer::tag('li', html_writer::link($url, $filename));
         }
@@ -544,7 +592,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      */
     public function license_table($licenses, $usedshortnames = array()) {
         global $DB;
-        
+
         $table = new html_table();
         $table->head = array(
             get_string('license_shortname', 'block_mbstpl'),
@@ -553,7 +601,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             get_string('courselicense', 'block_mbstpl'),
             get_string('license_used', 'block_mbstpl')
         );
-    
+
         foreach ($licenses as $license) {
 
             if (in_array($license->shortname, $usedshortnames)) {
@@ -562,7 +610,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $url = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('deletelicenseid' => $license->id));
                 $usage = html_writer::link($url, get_string('delete'));
             }
-            
+
             $clcheckbox = '';
             if ($clid = mbst\course::get_course_license($license->shortname)) {
                 $clcheckboxurl = new \moodle_url('/blocks/mbstpl/editlicenses.php', array('unchecklid' => $license->id));
@@ -593,7 +641,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
      */
     public function render_backup_files_viewer() {
         global $CFG;
-        require_once($CFG->libdir.'/tablelib.php');
+        require_once($CFG->libdir . '/tablelib.php');
 
         $thisurl = $this->page->__get('url');
         $table = new flexible_table('mbstpl_backups');
@@ -636,4 +684,10 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
         $table->finish_output();
     }
+
+    public function render_moreresults_ajax($searchresult, $layout = 'grid') {
+
+        return $this->templatesearch_listitems($searchresult, $layout);
+    }
+
 }

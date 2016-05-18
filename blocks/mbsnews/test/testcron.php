@@ -24,5 +24,6 @@ require_once(__DIR__ . '/../../../config.php');
 
 require_capability('moodle/site:config', context_system::instance());
 
+\block_mbsnews\local\newshelper::delete_confirmed_messages();
 \block_mbsnews\local\newshelper::delete_expired_messages();
 \block_mbsnews\local\newshelper::process_notification_jobs();

@@ -36,11 +36,21 @@ class qtype_checkboxgroup extends qtype_menu {
 
         $boxes = array();
         foreach ($rawoptions as $key => $option) {
-            $boxes[] = & $form->createElement('checkbox', $key, null, format_string($option));
+            $boxes[] = & $form->createElement('advcheckbox', $key, null, format_string($option), array('group' => $question->id));
         }
 
         $question->title = self::add_help_button($question);
         $form->addGroup($boxes, $question->fieldname, $question->title, "&nbsp;");
+    }
+    
+    public static function validate_question($data, $question) {
+        $errors = array();
+        // If the checkboxgroup is required make sure that at least one advcheckbox is checked. 
+        if (!empty($question->required) && (array_sum($data[$question->fieldname]) == 0)) {
+            $errors[$question->fieldname] = get_string('leastoneoption', 'block_mbstpl');
+        }
+        
+        return $errors;
     }
 
     /**
@@ -57,7 +67,7 @@ class qtype_checkboxgroup extends qtype_menu {
         }
 
         // Implode all the checked options.
-        $answer = implode(',', array_keys($answer));
+        $answer = '#'.implode('#', array_keys($answer, true)).'#';
 
         $answerdata = array(
             'metaid' => $metaid,
@@ -78,7 +88,7 @@ class qtype_checkboxgroup extends qtype_menu {
         $values = explode("\n", $question->param1);
         $boxes = array();
         for ($i = 0; $i < count($values); $i++) {
-            $boxes[] = & $form->createElement('checkbox', $i, null, $values[$i]);
+            $boxes[] = & $form->createElement('advcheckbox', $i, null, $values[$i], array('group' => $question->id));
         }
         $form->addGroup($boxes, $elname, $question->title, "&nbsp;");
     }
@@ -92,39 +102,44 @@ class qtype_checkboxgroup extends qtype_menu {
      * @return array
      */
     public static function get_query_filters($question, $answer) {
-        $toreturn = array('joins' => array(), 'params' => array());
+        $toreturn = array('joins' => array(), 'params' => array(), 'wheres' => array());
 
         if (!isset($answer)) {
             return array();
         }
 
-        $checkids = array_keys($answer);
-
-        $like = array();
-        $qparam = 'q' . $question->id;
-
-        // For each checked option we do a search in the data string.
-        foreach ($checkids as $optionid) {
-            $like[] = " {$optionid} IN ({$qparam}.data) ";
+        $checkids = array_keys($answer, true);
+        if (empty($checkids)) {
+            return array();
         }
 
-        $extralike = "(" . implode(" OR ", $like) . ")";
+        $where = array();
+        $qparam = 'q' . $question->id;
+        // For each checked option we do a search in the data string.
+        foreach ($checkids as $optionid) {
+            $optionid = '#'.$optionid.'#';
+            $where[] = "INSTR({$qparam}.data, '$optionid') > 0";
+        }
 
-        $toreturn['joins'][] = self::get_join("AND $extralike", $qparam);
-        $toreturn['params'][$qparam] = $question->id;
+        if (!empty($where)) {
+            $toreturn['wheres'][] = "(" . implode(" OR ", $where) . ")";
+        }
+        
+        $toreturn['joins'][] = self::get_join('', $qparam);
+        $toreturn['params'][$qparam] = $question->id;        
 
         return $toreturn;
     }
 
     /**
-     * Gets answer according to type (by default the data, for some fields an array)
+     * Gets answer according to type (by default the data, for some fields an array).
      * @param object $answer
      */
     public static function process_answer($question, $answer, $isfrozen = false) {
         if (!isset($answer->data)) {
             return '';
         } else {
-            return array_fill_keys(explode(',', $answer->data), 1);
+            return array_fill_keys(explode('#', $answer->data), 1);
         }
     }
     

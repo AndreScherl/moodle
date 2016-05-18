@@ -1,0 +1,30 @@
+#page-local-mbslicenseinfo-editlicenses .editlicenses .mform .fitem .felement input[type="text"],
+#page-local-mbslicenseinfo-editlicenses .editlicenses .mform .fitem .felement.fgroup input[type="text"],
+#page-local-mbslicenseinfo-editlicenses .editlicenses .mform .fitem .felement.fgroup select {
+    max-width: none;
+    width: 100% !important;
+}
+
+.mbseditlicensegroup1, .mbseditlicensegroup0 {
+    padding: 10px 10px 0 0;
+}
+
+.mbseditlicensegroup1 {
+    background: #efefef;
+}
+
+#page-local-mbslicenseinfo-editlicenses #filterform .fitem .felement {
+    margin-left:0px;
+}
+
+#page-local-mbslicenseinfo-editlicenses #filterform .fitem div.fitemtitle {
+    width:0px;
+}
+
+#page-local-mbslicenseinfo-editlicenses #filterform .fgroup {
+  width:100%;
+}
+
+#page-local-mbslicenseinfo-editlicenses #filterform input[type="submit"] {
+    vertical-align: top;
+}

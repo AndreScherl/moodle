@@ -2,11 +2,15 @@ M.local_mbs = M.local_mbs || {};
 M.local_mbs.lookupset = {
     init: function (opts) {
 
-        var resultel;
+        var resultel, moreresults, noresults, lessletters;
         var formelement = Y.one('#id_' + opts.name);
         var searchbox = Y.one('#id_' + opts.name + '_search');
         var list = Y.one('#id_' + opts.name + '_list');
 
+        if (!searchbox) {
+            return;
+        }
+        
         searchbox.plug(Y.Plugin.AutoComplete, {
             resultFilters: null,
             resultHighligher: 'phraseMatch',
@@ -17,11 +21,13 @@ M.local_mbs.lookupset = {
                 searchtext = searchtext.substr(index + 1, searchtext.length);
 
                 if (searchtext.length < 3) {
+                    lessletters.show();
+                    moreresults.hide();
+                    noresults.hide();
                     return;
                 }
 
                 var params = {
-                    action: 'search',
                     searchtext: searchtext
                 };
 
@@ -47,6 +53,18 @@ M.local_mbs.lookupset = {
                             if (result.error !== 0) {
                                 alert(result.error);
                             } else {
+                                if (result.results.length > opts.lookupcount) {
+                                    moreresults.show();
+                                    noresults.hide();
+                                    lessletters.hide();
+                                } else if (result.results.length === 0) {
+                                    lessletters.hide();
+                                    noresults.show();
+                                } else {
+                                    moreresults.hide();
+                                    noresults.hide();
+                                    lessletters.hide();
+                                }
                                 callback(result.results);
                             }
                         }
@@ -54,7 +72,6 @@ M.local_mbs.lookupset = {
                 });
             },
             resultFormatter: function (search, results) {
-
                 return Y.Array.map(results, function (result) {
                     return result.raw;
                 });
@@ -103,5 +120,18 @@ M.local_mbs.lookupset = {
         resultel = searchbox.next('.yui3-aclist');
         // Attach the autocomplete results box to the body tag (to avoid overflow:hidden clipping).
         resultel.appendTo('body');
+        
+        // Conditionally show divs with more explanation.
+        moreresults = Y.Node.create('<div class="moreresults">' + M.util.get_string('lookupsetmoreresults', 'local_mbs') + '</div>');
+        moreresults.hide();
+        resultel.one('.yui3-aclist-content').append(moreresults);
+        
+        noresults = Y.Node.create('<div class="noresults">' + M.util.get_string('lookupsetnoresults', 'local_mbs') + '</div>');
+        noresults.hide();
+        searchbox.ancestor().append(noresults);
+        
+        lessletters = Y.Node.create('<div class="toolessletters">' + M.util.get_string('lookupsetlessletters', 'local_mbs') + '</div>');
+        lessletters.hide();
+        searchbox.ancestor().append(lessletters);
     }
 };

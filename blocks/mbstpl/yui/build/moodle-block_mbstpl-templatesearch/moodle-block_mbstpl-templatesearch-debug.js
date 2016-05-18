@@ -1,115 +1,88 @@
 YUI.add('moodle-block_mbstpl-templatesearch', function (Y, NAME) {
 
 M.block_mbstpl = M.block_mbstpl || {};
-M.block_mbstpl.templatesearch = {
+M.block_mbstpl.templatesearch = {};
 
-	/**
-	 * Initiate the module.
-	 */
-	init : function() {
-		var inputAction = function(e) {
-			var keyword = e.currentTarget.getDOMNode().value;
-			/*
-			 * The autocomplete only kicks in after 3 characters to avoid unnecessary
-			 * server load.
-			 */
-			if (keyword.length >= 3) {
-				M.block_mbstpl.templatesearch.requestSuggestions(keyword, e.currentTarget);
-			} else {
-				// Remove previous suggestions.
-				Y.all('.mbstpl-suggestion').remove();
-			}
-		};
+M.block_mbstpl.templatesearch.init = function (opts) {
 
-		// Set autocomplete triggers.
-		Y.all('input[type=text]').each(function(inputField) {
-			inputField.on('keyup', inputAction);
-			inputField.on('focus', inputAction);
-			inputField.on('blur', function() {
-				/*
-				 * The timeout is essential, otherwise the box is removed before the
-				 * click action gets triggered.
-				 * */
-				setTimeout(function() {
-					// Remove previous suggestions.
-					Y.all('.mbstpl-suggestion').remove();
-				}, 100);
-			});
-		});
+    var limitfrom;
+    var limitnum;
+    var loadmorediv;
 
-		// Set layout change listener.
-		Y.all('.mbstpl-list-controller img').on('click', function(e) {
-			e.preventDefault();
-			// Set desired layout for next search query
-			var field = Y.one('.mbstpl-search-form input[name="layout"]'),
-				layout = e.target.getAttribute('l');
-			field.set('value', layout);
+    function loadMoreResults() {
 
-			// Change CSS classes on list items to reflect the selected layout.
-			var listitems = Y.all('.mbstpl-list-item');
-			listitems.set('className');
-			listitems.addClass('mbstpl-list-item');
-			listitems.addClass('mbstpl-list-item-' + layout);
-		});
-	},
+        var data = {};
+        
+        data.action = 'loadmoreresults';
+        data.limitfrom = limitfrom;
+        data.limitnum = limitnum;
 
-	/**
-	 * Make a request to the back-end for suggestions.
-	 */
-	requestSuggestions : function(keyword, inputField) {
-		// Set up request params.
-		var request = {
-			method : "POST",
-			sync : false,
-			timeout : 5000,
-			data : { 'sesskey' : M.cfg.sesskey, 'keyword' : keyword, 'field' : inputField.getDOMNode().name },
-			on : {
-				success : function(id, data) {M.block_mbstpl.templatesearch.renderAutocomplete(id, data, inputField);},
-				failure : function(id, data) { Y.log(data);Y.log(e);}
+        var spinner = M.util.add_spinner(Y, loadmorediv);
 
-			}
-		};
+        var formobject = {
+            id: 'mbstpl-loadmore-form',
+            useDisabled: true
+        };
 
-		// Send request.
-		Y.io(M.cfg.wwwroot + '/blocks/mbstpl/autocomplete.php', request);
-	},
+        Y.io(opts.ajaxurl, {
+            method: 'POST',
+            form: formobject,
+            data: data,
+            on: {
+                start: function () {
 
-	/**
-	 * Put the suggestion into the input box.
-	 */
-	selectSuggestion: function(e, inputField) {
-		var value = e.currentTarget.getHTML();
-		inputField.set('value', value);
-		Y.all('.mbstpl-suggestion').remove();
-	},
+                    spinner.show();
+                },
+                success: function (id, resp) {
+                    var result;
+                    try {
+                        result = Y.JSON.parse(resp.responseText);
+                    } catch (e) {
+                        return;
+                    }
+                    spinner.hide();
+                    if (result.error !== 0) {
+                        alert(result.error);
+                    } else {
+                        onLoadMoreResults(result.results);
+                    }
+                },
+                failure: function () {
+                    spinner.hide();
+                }
+            }
+        });
 
-	/**
-	 * Render a "drop-down" menu for suggestions.
-	 */
-	renderAutocomplete: function(id, data, inputField) {
-		// Remove previous suggestions.
-		Y.all('.mbstpl-suggestion').remove();
+    }
 
-		var suggestions = JSON.parse(data.response),
-		w = inputField.getDOMNode().offsetWidth,
-		x = inputField.getX();
-		y = inputField.getY() + inputField.getDOMNode().offsetHeight;
+    function onLoadMoreResults(results) {
 
-		var sendOnclick = function(e) {
-			M.block_mbstpl.templatesearch.selectSuggestion(e, inputField);
-		};
+        if (results.limitfrom + results.limitnum >= results.total) {
+            loadmorediv.hide();
+        }
 
-		// Render boxes under each other.
-		for (var i = 0; i < suggestions.length; i++) {
-			var nodeContent = '<div class="mbstpl-suggestion" style=" top:' + y +
-			'px; left:' + x + 'px;width:' + w + 'px">' + suggestions[i] + '</div>',
-			suggestionNode = Y.Node.create(nodeContent);
-			suggestionNode.on('click', sendOnclick);
-			Y.one('body').append(suggestionNode),
-			y += suggestionNode.getDOMNode().offsetHeight;
-		}
-	}
+        Y.one('#mbstpl-search-listing').append(results.html);
+
+        limitfrom = limitfrom + limitnum;
+    }
+
+    function initialize() {
+
+        limitfrom = Number(opts.limitfrom);
+        limitnum = Number(opts.limitnum);
+
+        loadmorediv = Y.one('#mbstpl-search-loadmoreresults');
+        if (loadmorediv) {
+            loadmorediv.on('click', function (e) {
+                e.preventDefault();
+                loadMoreResults();
+            });
+        }
+
+
+    }
+
+    initialize();
 };
 
-
-}, '@VERSION@', {"requires": ["base", "node"]});
+}, '@VERSION@', {"requires": ["base", "node", "io-form"]});

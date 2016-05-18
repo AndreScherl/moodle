@@ -2,7 +2,8 @@
     "moodle-block_mbstpl-templatesearch": {
         "requires": [
             "base",
-            "node"
+            "node", 
+            "io-form"
         ]
     }
 }

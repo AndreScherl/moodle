@@ -31,7 +31,7 @@ $string['mbs:viewteacherlist'] = 'View list of teachers on category management p
 $string['pluginname'] = 'Mebis - Adjustments';
 $string['schoolnode'] = 'My schools';
 
-//Privacy
+// Privacy.
 $string['mbs:institutionview'] = 'See users from other institutions';
 $string['invalidredirect'] = 'This routing is not permitted.';
 
@@ -48,7 +48,7 @@ $string['nopermissiontoviewuser'] = 'You may not view this user.'.
 '<h1>Visibility control of users</h1>'.
 '<p>Regular users can see on the platform only users in the same school or users with whom they participate in a course.</p>';    
 
-//Sidebar Navigation
+// Sidebar Navigation.
 $string['local_mbs_mebis_sites'] = 'Navigation links';
 $string['local_mbs_mebis_sites_expl'] = 'These navigation elements are shown within the sidebar navigation.'.
         'Each element should be given its own line, following this rule: <b>Link,URL;</b>.';
@@ -60,7 +60,7 @@ $string['local_mbs_mebis_sites_default'] =
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';
 
 
-//MoodleQuickForm Lizenzen
+// MoodleQuickForm Lizenzen.
 $string['newlicense'] = 'New License ...';
 $string['newlicense_add'] = 'Add new license';
 $string['newlicense_shortname'] = 'New license short name';
@@ -70,3 +70,8 @@ $string['newlicense_source'] = 'New license source';
 $string['newlicense_exists'] = 'License "{$a}" already exists - please specify a different short name';
 $string['newlicense_required'] = 'A short name is required';
 $string['newlicense_typecourse'] = 'Use as course license';
+
+// MoodleQuickForm lookupset.
+$string['lookupsetmoreresults'] = 'Please concretise your search, other results are avaiable.';
+$string['lookupsetnoresults'] = 'To your input no results were found, please try it with other search words (at least three letters).';
+$string['lookupsetlessletters'] = 'After input of at least three letters the available results are suggested to you.';

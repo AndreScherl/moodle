@@ -49,8 +49,6 @@ if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
 
 $do = optional_param('do', '', PARAM_TEXT);
 if ($do == 'publish' && mbst\course::publish($template)) {
-    $template->status = $template::STATUS_PUBLISHED;
-    $template->update();
     redirect($courseurl);
 }
 if ($do == 'archive') {
@@ -86,6 +84,10 @@ if (mbst\perms::can_archive($template)) {
     $url = clone($thisurl);
     $url->param('do', 'archive');
     $buttons .= $OUTPUT->single_button($url, get_string('archive', 'block_mbstpl'));
+}
+if (mbst\perms::can_delete($template)) {
+    $deleteurl = new \moodle_url('/blocks/mbstpl/deletecourse.php', array('id' => $courseid));
+    $buttons .= $OUTPUT->single_button($deleteurl, get_string('delete'));
 }
 if (!empty($buttons)) {
     echo html_writer::div($buttons, 'templateactionbtns');

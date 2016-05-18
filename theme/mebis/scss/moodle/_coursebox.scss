@@ -69,6 +69,7 @@
             .coursename{
                 font-size: emCalc(20px);
                 color: $brand-gray-dark;
+                word-wrap: break-word;
 
                 &:before {
                     color: $brand-primary;

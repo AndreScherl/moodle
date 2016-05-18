@@ -14,97 +14,92 @@
         max-width: 100%;
     }
 
-    table#message_contacts,
-    table#message_participants {
-        width: 100%;
+    td {
+        &.heading {
+            color: $brand-gray-dark;
+            background: transparent;
+        }
+    }
+}
 
-        td {
-            &.heading {
-                color: $brand-gray-dark;
-                background: transparent;
+.messagearea {
+    border: none;
+    width: 100%;
+
+    #personsearch {
+        input[type="text"] {
+            width: 100%;
+            margin-bottom: 0;
+        }
+    }
+
+    .messagerecent {
+        .singlemessage {
+            border-color: $brand-primary;
+
+            .otheruser {
+                background-color: $white;
+            }
+            .themessage {
+                border-color: $brand-secondary;
             }
         }
     }
 
-    .messagearea {
-        border: none;
-        width: 100%;
+    .messagehistory {
+        .messagehistorytype {
+            padding: 5px 0;
 
-        #personsearch {
-            input[type="text"] {
-                width: 100%;
-                margin-bottom: 0;
+            span.visible {
+                color: $brand-gray-dark;
+                background-color: $white;                    
             }
-        }
-
-        .messagerecent {
-            .singlemessage {
-                border-color: $brand-primary;
-
-                .otheruser {
-                    background-color: $white;
-                }
-                .themessage {
-                    border-color: $brand-secondary;
-                }
-            }
-        }
-
-        .messagehistory {
-            .messagehistorytype {
-                padding: 5px 0;
-
-                span.visible {
-                    color: $brand-gray-dark;
-                    background-color: $white;                    
-                }
-                span.visible, a.visible {
-                    float: none;
-                    margin: 0;
-                    padding: 0;
-                    display: inline-block;
-                    border: none;
-                }
-                a.visible {
-                    &:hover {
-                        border: none;
-                        color: $brand-secondary;
-                    }
-                }
-            }
-            .messagehistory {
+            span.visible, a.visible {
+                float: none;
                 margin: 0;
                 padding: 0;
-
-                .mdl-left .deleteicon .action-icon img.smallicon {
-                    vertical-align: middle;
-                }
-                .mdl-left.left .message .text {
-                    border-color: $brand-secondary;
-                }
-                .mdl-left.right .message {
-                    left: 41.66666667%;
-                    float: left;
-                    width: 58.33333333%;
-                    
-                    .text {
-                        border-color: $brand-primary;
-                    }
+                display: inline-block;
+                border: none;
+            }
+            a.visible {
+                &:hover {
+                    border: none;
+                    color: $brand-secondary;
                 }
             }
         }
+        .messagehistory {
+            margin: 0;
+            padding: 0;
 
-        .messagesend .mform {
-            fieldset .fitem {
-                margin-top: 0;
-                margin-bottom: 15px !important;
+            .mdl-left .deleteicon .action-icon img.smallicon {
+                vertical-align: middle;
             }
-            .fitem_textarea {
-                margin: 0;
+            .mdl-left.left .message .text {
+                border-color: $brand-secondary;
             }
-            .fitem_actionbuttons>div.felement {
-                padding-left: 15px;
+            .mdl-left.right .message {
+                left: 41.66666667%;
+                float: left;
+                width: 58.33333333%;
+
+                .text {
+                    border-color: $brand-primary;
+                }
             }
+        }
+    }
+
+    .messagesend .mform {
+        fieldset .fitem {
+            margin-top: 0;
+            margin-bottom: 15px !important;
+        }
+        .fitem_textarea {
+            margin: 0;
+        }
+        .fitem_actionbuttons>div.felement {
+            padding-left: 15px;
         }
     }
 }

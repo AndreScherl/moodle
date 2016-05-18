@@ -36,7 +36,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-    
+
     'local/mbs:editschoolid' => array(
         'captype' => 'write',
         'riskbitmask' => RISK_CONFIG,
@@ -53,13 +53,13 @@ $capabilities = array(
             'user' => CAP_ALLOW,
         )
     ),
-    
+
     'local/mbs:viewteacherlist' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSECAT,
         'archetypes' => array()
     ),
-    
+
     'local/mbs:globalblockscleanup' => array (
         'captype' => 'write',
         'riskbitmask' => RISK_DATALOSS,
@@ -68,7 +68,7 @@ $capabilities = array(
             'user' => CAP_PROHIBIT
         )
     ),
-    
+
     'local/mbs:adddeleteblock' => array (
         'captype' => 'write',
         'riskbitmask' => RISK_DATALOSS,

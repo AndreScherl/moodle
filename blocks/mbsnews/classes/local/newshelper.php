@@ -44,16 +44,21 @@ class newshelper {
             return array('error' => get_string('errormarkasreadonlyown', 'block_mbsnews'));
         }
 
+        $message->timeconfirmed = time();
+
         // Try to mark as read.
-        if ($mid = $DB->delete_records('block_mbsnews_message', array('id' => $message->id))) {
+        try {
+            $DB->update_record('block_mbsnews_message', $message);
 
             $cache = \cache::make('block_mbsnews', 'mebisnews');
             $cache->delete($message->usertoid);
 
             return array('error' => 0, 'results' => array('id' => $oldmessageid));
-        }
 
-        return array('error' => get_string('errorcannotsetread', 'block_mbsnews'));
+        } catch (Exception $e) {
+
+            return array('error' => get_string('errorcannotsetread', 'block_mbsnews'));
+        }
     }
 
     /**
@@ -65,7 +70,7 @@ class newshelper {
         global $DB;
 
         $cache = \cache::make('block_mbsnews', 'mebisnews');
-        
+
         if ($result = $cache->get($user->id)) {
             return $result;
         }
@@ -73,14 +78,15 @@ class newshelper {
         $sql = "SELECT m.id, m.timefirstviewed, j.sender, j.subject, j.fullmessage, j.timecreated 
                 FROM {block_mbsnews_job} j
                 JOIN {block_mbsnews_message} m ON m.jobid = j.id
-                WHERE m.usertoid = :userid ORDER BY j.timecreated DESC";
+                WHERE m.usertoid = :userid AND m.timeconfirmed = :timeconfirmed
+                ORDER BY j.timecreated DESC";
 
-        $params = array('userid' => $user->id);
+        $params = array('userid' => $user->id, 'timeconfirmed' => 0);
 
         if (!$messages = $DB->get_records_sql($sql, $params)) {
             return false;
         }
-        
+
         $result = new \stdClass();
         $result->messages = $messages;
 
@@ -89,7 +95,7 @@ class newshelper {
 
         foreach ($messages as $message) {
             $authorids[$message->sender] = $message->sender;
-            
+
             // If  the message is displayed the first time set the date.
             if (empty($message->timefirstviewed)) {
                 $now = time();
@@ -262,7 +268,7 @@ class newshelper {
             $job->timefinished = 0;
             $job->timecreated = time();
             $job->timemodified = $job->timecreated;
-            
+
 
             $DB->insert_record('block_mbsnews_job', $job);
         } else {
@@ -452,10 +458,11 @@ class newshelper {
             $log->usertoid = $userto->id;
             $log->timecreated = time();
             $log->timefirstviewed = 0;
-            
+            $log->timeconfirmed = 0;
+
             $DB->insert_record('block_mbsnews_message', $log);
             $count++;
-            
+
             // Delete users cache.
             $cache = \cache::make('block_mbsnews', 'mebisnews');
             $cache->delete($userto->id);
@@ -507,7 +514,7 @@ class newshelper {
         mtrace('...all left messages sent.');
         return true;
     }
-    
+
     /**
      * Delete all the messages, that are belonging to a expired notification job, when
      * duration has a value greater than 0 (number of days to display the message).
@@ -516,35 +523,57 @@ class newshelper {
      */
     public static function delete_expired_messages() {
         global $DB;
-        
+
         $sql = "SELECT j.id, count(*) as countmessages
                 FROM {block_mbsnews_job} j
                 JOIN {block_mbsnews_message} m ON j.id = m.jobid
-                WHERE (j.duration > 0) AND (j.duration * 24 * 3600 + j.timecreated < :now) 
+                WHERE (j.duration > 0) AND (j.duration * 24 * 3600 + j.timecreated < :now)
+                AND (j.timefinished > 0)
                 GROUP BY j.id
                 HAVING (countmessages > 0)";
-        
+
         if (!$expiredjobs = $DB->get_records_sql($sql, array('now' => time()))) {
-            mtrace ('... no expired messages.');
+            mtrace('... no expired messages.');
             return true;
-        } 
-        
+        }
+
         $count = 0;
         foreach ($expiredjobs as $job) {
-            
+
             $DB->delete_records('block_mbsnews_message', array('jobid' => $job->id));
-            
+
             // Stop processing the message, if there is any processing left, by setting timefinished <> 0.
             $now = time();
             $DB->set_field('block_mbsnews_job', 'timefinished', $now, array('timefinished' => 0, 'id' => $job->id));
-            
+
             $count++;
         }
-        
+
         $cache = \cache::make('block_mbsnews', 'mebisnews');
         $cache->purge();
+
+        mtrace('messages of ' . $count . ' expired jobs deleted.');
+        return true;
+    }
+    
+    /**
+     * Delete all confirmed messages, that are belonging to a finished job.
+     */
+    public static function delete_confirmed_messages() {
+        global $DB;
         
-        mtrace ('messages of '.$count.' expired jobs deleted.');
+        $sql = "SELECT m.id
+                FROM {block_mbsnews_message} m
+                JOIN {block_mbsnews_job} j ON j.id = m.jobid
+                WHERE m.timeconfirmed > 0 AND j.timefinished > 0";
+        
+        if (!$midstodelete = $DB->get_records_sql($sql)) {
+            return true;
+        }
+
+        $DB->delete_records_list('block_mbsnews_message', 'id', array_keys($midstodelete));
+        mtrace('deleted: '.count($midstodelete). ' confirmed message(s)');
+        
         return true;
     }
 

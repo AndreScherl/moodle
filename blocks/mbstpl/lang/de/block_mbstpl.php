@@ -91,7 +91,16 @@ $string['emailassignedreviewer_subj'] = 'Sie wurden als Reviewer zugeteilt.';
 $string['emailassignedauthor_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
 sie wurden im Kurs {$a->fullname} als Kursautor eingeschrieben. Sie können den Kurs unter folgender Adresse einsehen: {$a->url} .';
 $string['emailassignedauthor_subj'] = 'Sie wurden als Kursautor eingeschrieben.';
-$string['emailcoursepublished_body'] = 'Der Kurs {$a->coursename} ist vom Reviewer veröffentlicht worden. Er kann unter folgender Adresse abgerufen werden:'."\n".'{$a->url}';
+$string['emailcoursepublished_body'] = 'Sehr geehrte(r) Kursautor(in),'."\n"
+        . 'vielen Dank für die Einreichung Ihres Kurses {$a->coursename} bei teachSHARE. Ihr Kurs wurde stichprobenartig unter folgenden Aspekten geprüft:
+             • Fremdmaterial und Eigenmaterial (v. a. Videos, Musik und Bilder) ist mit vollständiger Quellenangabe versehen.
+             • Die Lizenz der veränderten Fremdinhalte erlaubt ggf. die Bearbeitung bzw. Veränderung dieser Materialien.
+             • Etwaige personenbezogene Daten (z. B. Forumsbeiträge) lassen keinen Rückschluss auf einzelne Schüler zu.
+            Bei der Durchsicht sind keine Unstimmigkeiten aufgefallen. Bitte beachten Sie, dass die Verantwortung für die Kursinhalte '
+        .'trotz dieses Prozesses immer beim einreichenden Autor bleibt. Der Kurs wurde veröffentlicht und kann unter folgender Adresse abgerufen werden:'
+        ."\n".'{$a->url}'."\n"
+        .'Sollten Sie dennoch Änderungen vornehmen wollen, lesen Sie folgendes Tutorial: '."\n"
+        .'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/austauschkurs-ueberarbeiten/';
 $string['emailcoursepublished_subj'] = 'Kurs veröffentlicht';
 $string['emailcomplaint_body'] = 'Liebes Support-Team,
     
@@ -174,6 +183,7 @@ $string['lastupdate'] = 'Letzte Aktualisierung';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Kacheln';
 $string['layoutlist'] = 'Liste';
+$string['leastoneoption'] = 'Bitte wählen Sie mindestens eine Option aus.';
 $string['legalinfo'] = 'Rechtliche Information';
 $string['license'] = 'Veröffentlichung der Eigeninhalte unter der Lizenz';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Namensnennung</a></li>'
@@ -186,6 +196,7 @@ $string['license_fullname'] = 'Name';
 $string['license_shortname'] = 'Kurzname';
 $string['license_source'] = 'Link';
 $string['license_used'] = 'Verwendet';
+$string['loadmoreresults'] = 'Weitere Ergebnisse laden...';
 $string['managesearch'] = 'Suche verwalten';
 $string['manageqforms'] = 'Fragen für die Kursinformationen verwalten';
 $string['mbstpl:abouttemplate'] = 'Über diesen Kurs';
@@ -260,6 +271,7 @@ $string['sendtpldate'] = 'Absendedatum';
 $string['sendfeedbacktoauthor'] = 'Nachricht an Autor';
 $string['sendfeedbacktoreviewer'] = 'Nachricht an Reviewer';
 $string['sentforreview'] = 'Vielen Dank für die Einreichung Ihres Kurses bei teachSHARE.';
+$string['searchpagesize'] = 'Seitenaufteilung in der teachSHARE Suche';
 $string['searchresult'] = 'Suchergebnis';
 $string['startsreportsent'] = 'Statistikbericht erfolgreich verschickt.';
 $string['statsreporttooearly'] = 'Zu früh für nächsten Statistikbericht. Geplant für {$a}.';
@@ -271,6 +283,9 @@ $string['statusunderreview'] = 'Bearbeitung durch Reviewer';
 $string['statusunderrevision'] = 'Bearbeitung durch Autor';
 $string['tag'] = 'Schlagwort';
 $string['tags'] = 'Schlagworte';
+$string['tagshelpbutton'] = 'Hilfe: Schlagworte';
+$string['tagshelpbutton_help'] = 'Geben Sie Schlagworte an, die den Inhalt oder Einsatz Ihres Kurses beschreiben, z. B. für einen SCHILF-Kurs: schilf, fortbildung';
+$string['tagsplaceholder'] = 'schlagwort1, schlagwort2';
 $string['tasknote'] = 'Auftragsnotiz';
 $string['teacherrole'] = 'Lehrer-Rolle';
 $string['teacherrole_desc'] = 'Rolle, die einem Nutzer zugewiesen wird, wenn er einen Austauschkurs für die Nutzung kopiert.';

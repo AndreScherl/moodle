@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -29,7 +28,7 @@ namespace local_mbs\local;
 defined('MOODLE_INTERNAL') || die();
 
 class licensemanager {
-    
+
     /**
      * Adding a new license type to core table license
      * @param object $license {
@@ -40,9 +39,9 @@ class licensemanager {
      *            version  => int a version number used by moodle [required]
      * }
      */
-    static public function add($license) {
+    public static function add($license) {
         global $DB;
-        if ($record = $DB->get_record('license', array('shortname'=>$license->shortname))) {
+        if ($record = $DB->get_record('license', array('shortname' => $license->shortname))) {
             // record exists
             if ($record->version < $license->version) {
                 // update license record
@@ -58,89 +57,107 @@ class licensemanager {
 
     /**
      * Get license records
+     * 
      * @param mixed $param
      * @return array
      */
-    static public function get_licenses($param = null) {
-        global $DB;        
-        if (empty($param) || !is_array($param)) {
-            $paramuserl = array(); 
-            $paramcorel = array();
-        } else {   
-            $paramuserl = $param;
-            $paramcorel = $param;
+    public static function get_licenses($param = null) {
+        global $DB;
+
+        if (empty($param)) {
+            $param = array();
         }
+
+        // Licenses are used mulitple times in formelement,
+        // so we cache them for this user during scripttime.
+
+        $cachekey = implode('_', $param);
+        $cache = \cache::make('local_mbs', 'mbslicenseshortname');
+
+        if ($result = $cache->get($cachekey)) {
+            return $result;
+        }
+
+        $paramuserl = $param;
+        $paramcorel = $param;
+
         if (!empty($param['userid'])) {
             unset($paramcorel['userid']);
         }
         if (!empty($param['enabled'])) {
             unset($paramuserl['enabled']);
-        }        
-        
+        }
+
         $recordsoutput = array();
         // get licenses by conditions
-        if ($records = $DB->get_records('block_mbslicenseinfo_ul', $paramuserl)) {
+        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $paramuserl)) {
             $recordsoutput = $records;
-        }        
+        }
         if ($records = $DB->get_records('license', $paramcorel)) {
             foreach ($records as $record) {
                 array_push($recordsoutput, $record);
             }
-        } 
-        
+        }
+
+        $cache->set($cachekey, $recordsoutput);
+
         return $recordsoutput;
     }
-    
+
     /**
      * Get core license records
+     * 
      * @param mixed $param
      * @return array
      */
-    static public function get_core_licenses($param = null) {
+    public static function get_core_licenses($param = null) {
         global $DB;
         if (empty($param) || !is_array($param)) {
             $param = array();
         }
-        
+
         $recordsoutput = array();
         // get licenses by conditions
         if ($records = $DB->get_records('license', $param)) {
             $recordsoutput = $records;
-        }        
+        }
         return $recordsoutput;
     }
-    
+
     /**
      * Get core license records
+     * 
      * @param mixed $param
      * @return array
      */
-    static public function get_user_licenses($param = null) {
+    public static function get_user_licenses($param = null) {
         global $DB;
+
         if (empty($param) || !is_array($param)) {
             $param = array();
         }
-        
+
         $recordsoutput = array();
         // get licenses by conditions
-        if ($records = $DB->get_records('block_mbslicenseinfo_ul', $param)) {
+        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $param)) {
             $recordsoutput = $records;
-        }         
+        }
         return $recordsoutput;
     }
 
     /**
      * Get license record by shortname
-     * @param mixed $param the shortname of license, or an array
+     * 
+     * @param string $name short name of license
      * @return object
      */
-    static public function get_license_by_shortname($name) {
+    public static function get_license_by_shortname($name) {
         global $DB;
-        if ($record = $DB->get_record('license', array('shortname'=>$name))) {
+        if ($record = $DB->get_record('license', array('shortname' => $name))) {
             $record->table = 'license';
             return $record;
-        } else if ($record = $DB->get_record('block_mbslicenseinfo_ul', array('shortname'=>$name))) {
-            $record->table = 'block_mbslicenseinfo_ul';
+        } else if ($record = $DB->get_record('local_mbslicenseinfo_ul', array('shortname' => $name))) {
+            $record->table = 'local_mbslicenseinfo_ul';
             return $record;
         } else {
             return null;
@@ -149,6 +166,7 @@ class licensemanager {
 
     /**
      * Enable a license
+     * 
      * @param string $license the shortname of license
      * @return boolean
      */
@@ -164,10 +182,11 @@ class licensemanager {
 
     /**
      * Disable a license
+     * 
      * @param string $license the shortname of license
      * @return boolean
      */
-    static public function disable($license) {
+    public static function disable($license) {
         global $DB, $CFG;
         // Site default license cannot be disabled!
         if ($license == $CFG->sitedefaultlicense) {
@@ -184,16 +203,16 @@ class licensemanager {
     /**
      * Store active licenses in global $CFG
      */
-    static private function set_active_licenses() {
+    private static function set_active_licenses() {
         // set to global $CFG
-        $licenses = self::get_core_licenses(array('enabled'=>1));
+        $licenses = self::get_core_licenses(array('enabled' => 1));
         $result = array();
         foreach ($licenses as $l) {
             $result[] = $l->shortname;
         }
         set_config('licenses', implode(',', $result));
     }
-    
+
     /**
      * Get single core license
      * 
@@ -201,11 +220,12 @@ class licensemanager {
      * @param array $param - parameters for where clause
      * @return object - database record
      */
-    static public function get_core_license($param) {
+    public static function get_core_license($param) {
         global $DB;
+
         return $DB->get_record('license', $param);
     }
-    
+
     /**
      * Insert new core license
      * 
@@ -213,23 +233,24 @@ class licensemanager {
      * @param object $data - data object holding the values of the table row
      * @return bool|int - false or id of inserted record
      */
-    static public function new_core_license($data) {
+    public static function new_core_license($data) {
         global $DB;
+
         return $DB->insert_record('license', $data);
     }
-    
+
     /**
-     * remove core license
+     * Remove core license
      * 
      * @global $DB
      * @param int $id
      * @return bool true
      */
-    static public function remove_core_license($id) {
+    public static function remove_core_license($id) {
         global $DB;
         return $DB->delete_records('license', array('id' => $id));
     }
-    
+
     /**
      * Get all shortnames of all used licenses
      * 
@@ -260,7 +281,7 @@ class licensemanager {
     /**
      * Install new mebis build-in licenses
      */
-    static public function install_licenses() {
+    public static function install_licenses() {
         $active_licenses = array();
 
         $license = new \stdClass();
@@ -336,7 +357,7 @@ class licensemanager {
         $license->version = '2015120900';
         $active_licenses[] = $license->shortname;
         self::add($license);
-        
+
         $license->shortname = 'cc2';
         $license->fullname = 'CC BY 2.0';
         $license->source = 'https://creativecommons.org/licenses/by/2.0/de/';
@@ -384,7 +405,7 @@ class licensemanager {
         $license->version = '2016011100';
         $active_licenses[] = $license->shortname;
         self::add($license);
-        
+
         $license->shortname = 'lal';
         $license->fullname = 'Licence Art Libre';
         $license->source = 'http://artlibre.org/licence/lal/de/';
@@ -392,7 +413,7 @@ class licensemanager {
         $license->version = '2015120900';
         $active_licenses[] = $license->shortname;
         self::add($license);
-        
+
         $license->shortname = 'gemeinfrei';
         $license->fullname = 'gemeinfrei (gemäß §§ 5, 64-69, 70, 72 UrhG)';
         $license->source = '';

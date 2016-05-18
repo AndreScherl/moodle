@@ -30,9 +30,11 @@ require_login();
 
 $action = required_param('action', PARAM_TEXT);
 
+use \block_mbstpl\dataobj\template as template;
+
 switch ($action) {
 
-    case 'search' :
+    case 'searchsubject' :
         if (block_mbstpl\perms::can_searchtemplates()) {
             $searchtext = optional_param('searchtext', '', PARAM_TEXT);
             $like = $DB->sql_like('subject', '?', false);
@@ -49,7 +51,82 @@ switch ($action) {
             echo json_encode(array('error' => 0, 'results' => $results));
         }
         die;
-        break;        
+        break;  
+        
+    case 'searchtags':
+        if (block_mbstpl\perms::can_searchtemplates()) {
+            $searchtext = optional_param('searchtext', '', PARAM_TEXT);
+            $like = $DB->sql_like('tag', ':tag', false);
+            $params = array('tag' => '%' . $searchtext . '%', 'status' => template::STATUS_PUBLISHED);
+
+            $sql = "SELECT tag.id, tag.tag 
+                FROM {block_mbstpl_tag} tag
+                JOIN {block_mbstpl_meta} mta ON tag.metaid = mta.id
+                JOIN {block_mbstpl_template} tpl ON mta.templateid = tpl.id                
+                WHERE tpl.status = :status AND " . $like . "GROUP BY tag";
+            
+            $tags = $DB->get_records_sql($sql, $params);
+
+            $results = array();
+            foreach ($tags as $tag) {
+                $results[] = html_writer::tag('span', $tag->tag, array('id' => $tag->id));
+            }
+
+            echo json_encode(array('error' => 0, 'results' => $results));
+        }
+        die;
+        break;
+    
+    case 'searchauthor':
+        if (block_mbstpl\perms::can_searchtemplates()) {
+            $searchtext = optional_param('searchtext', '', PARAM_TEXT);
+            
+            $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
+            $like = $DB->sql_like($authnamefield, ':author', false);
+            $params = array('author' => '%' . $searchtext . '%', 'status' => template::STATUS_PUBLISHED);
+            $sql = "SELECT au.id, $authnamefield AS authorname 
+                FROM {block_mbstpl_template} tpl 
+                RIGHT JOIN {user} au ON tpl.authorid = au.id 
+                WHERE tpl.status = :status AND " . $like;       
+            $authors = $DB->get_records_sql($sql, $params);
+
+            $results = array();
+            foreach ($authors as $author) {
+                $results[] = html_writer::tag('span', $author->authorname, array('id' => $author->id));
+            }
+
+            echo json_encode(array('error' => 0, 'results' => $results));
+        }
+        die;
+        break;
+    
+    case 'searchcoursename':
+        if (block_mbstpl\perms::can_searchtemplates()) {
+            $searchtext = optional_param('searchtext', '', PARAM_TEXT);
+            
+            $likes[] = $DB->sql_like('c.shortname', ':cname1', false);
+            $likes[] = $DB->sql_like('c.fullname', ':cname2', false);
+            $where = implode(' OR ', $likes);
+
+            $cname = '%' . $searchtext . '%';
+            $params = array('cname1' => $cname, 'cname2' => $cname, 'status' => template::STATUS_PUBLISHED);
+            $sql = "SELECT c.id, c.fullname
+                FROM {course} c 
+                JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id 
+                WHERE tpl.status = :status AND (" . $where . ") 
+                GROUP BY c.fullname
+                ORDER BY c.fullname ASC";
+            $coursenames = $DB->get_records_sql($sql, $params);
+            
+            $results = array();
+            foreach ($coursenames as $coursename) {
+                $results[] = html_writer::tag('span', $coursename->fullname, array('id' => $coursename->id));
+            }
+
+            echo json_encode(array('error' => 0, 'results' => $results));
+        }
+        die;
+        break;
 }
 
 print_error('unkown action');

@@ -21,6 +21,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+
 namespace block_mbstpl\form;
 
 defined('MOODLE_INTERNAL') || die();
@@ -28,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
+require_once($CFG->dirroot . '/local/mbs/classes/form/MoodleQuickForm_lookupset.php');
 
 /**
  * Class activatedraft
@@ -39,6 +41,8 @@ require_once($CFG->libdir . '/formslib.php');
 class searchform extends \moodleform {
 
     public function definition() {
+        global $PAGE;
+
         $form = $this->_form;
 
         $questions = $this->_customdata['questions'];
@@ -50,16 +54,19 @@ class searchform extends \moodleform {
             $typeclass = \block_mbstpl\questman\qtype_base::qtype_factory($question->datatype);
             $elname = 'q_' . $question->id;
             $typeclass->add_to_searchform($form, $question, $elname);
+            if ($question->datatype == 'checkboxgroup') {
+                $this->add_checkbox_controller($question->id, null, null, 0);
+            }
         }
 
-        $form->addElement('text', 'tag', get_string('tag', 'block_mbstpl'));
-        $form->setType('tag', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchtags'));
+        $form->addElement('lookupset', 'tag', get_string('tag', 'block_mbstpl'), $ajaxurl, array());
 
-        $form->addElement('text', 'author', get_string('author', 'block_mbstpl'));
-        $form->setType('author', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchauthor'));
+        $form->addElement('lookupset', 'author', get_string('author', 'block_mbstpl'), $ajaxurl, array());
 
-        $form->addElement('text', 'coursename', get_string('coursename', 'block_mbstpl'));
-        $form->setType('coursename', PARAM_TEXT);
+        $ajaxurl = new \moodle_url('/blocks/mbstpl/lookupset_ajax.php', array('action' => 'searchcoursename'));
+        $form->addElement('lookupset', 'coursename', get_string('coursename', 'block_mbstpl'), $ajaxurl, array());
 
         // Sorting.
         $asc = ': ' . get_string('asc');

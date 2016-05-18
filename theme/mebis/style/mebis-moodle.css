@@ -16832,40 +16832,77 @@ input[type="checkbox"] + label {
   padding-right: 0;
 }
 
-.user-filemanager {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+/*#page-user-files .box.generalbox {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: $white;
+    color: $brand-gray-dark;
+
+    #fitem_id_files_filemanager {
+        margin-bottom: 20px;
+        min-height: 320px;
+
+        .filemanager-container {
+            min-height: 175px;
+        }
+    }
+       
+    .mform {
+
+        .fitem {
+            width: 100%;
+            margin: 0;
+
+            .fitemtitle {
+                float: none;
+                width: 100%;
+                text-align: left;
+            }
+
+            .felement {
+                float: none;
+                width: 100%;
+            }
+        }
+
+        .fitem_actionbuttons>div.felement {
+            margin: 0;
+            text-align: right;
+
+            input {
+                margin: 0;
+            }
+        }
+    }
+}*/
+#page-user-files #main-content-wrapper .box.generalbox {
+  margin-top: 40px;
   background: #fff;
   color: #333333;
 }
-.user-filemanager #fitem_id_files_filemanager {
-  margin-bottom: 20px;
-  min-height: 320px;
+#page-user-files #main-content-wrapper .box.generalbox fieldset {
+  min-width: 100%;
 }
-.user-filemanager #fitem_id_files_filemanager .filemanager-container {
-  min-height: 175px;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager {
+  margin-left: 0;
+  margin-right: 0;
 }
-.user-filemanager .mform .fitem {
-  width: 100%;
-  margin: 0;
-}
-.user-filemanager .mform .fitem .fitemtitle {
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .fitemtitle {
   float: none;
   width: 100%;
   text-align: left;
 }
-.user-filemanager .mform .fitem .felement {
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement {
   float: none;
   width: 100%;
 }
-.user-filemanager .mform .fitem_actionbuttons > div.felement {
-  margin: 0;
-  text-align: right;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement .filemanager {
+  font-size: 18px;
 }
-.user-filemanager .mform .fitem_actionbuttons > div.felement input {
-  margin: 0;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement .filemanager .fp-path-folder {
+  background-position: left;
 }
 
 /*

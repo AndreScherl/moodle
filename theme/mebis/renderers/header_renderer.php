@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/lib/outputrenderers.php");
+require_once($CFG->dirroot . "/user/lib.php");
 
 class theme_mebis_header_renderer extends renderer_base {
 
@@ -507,7 +508,6 @@ class theme_mebis_header_renderer extends renderer_base {
                     $unreadMessages = ' (' . message_count_unread_messages() . ')';
                 }
                 $text = $item->get_title() . $unreadMessages;
-                error_log($text);
                 $content = '<li>';
                 $content .= html_writer::link($url, $text, array('title' => $item->get_title(), 'class' => 'internal'));
                 $content .= '</li>';

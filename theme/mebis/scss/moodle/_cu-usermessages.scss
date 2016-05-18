@@ -14,92 +14,97 @@
         max-width: 100%;
     }
 
-    td {
-        &.heading {
-            color: $brand-gray-dark;
-            background: transparent;
-        }
-    }
-}
+    table#message_contacts,
+    table#message_participants {
+        width: 100%;
 
-.messagearea {
-    border: none;
-    width: 100%;
-
-    #personsearch {
-        input[type="text"] {
-            width: 100%;
-            margin-bottom: 0;
-        }
-    }
-
-    .messagerecent {
-        .singlemessage {
-            border-color: $brand-primary;
-
-            .otheruser {
-                background-color: $white;
-            }
-            .themessage {
-                border-color: $brand-secondary;
-            }
-        }
-    }
-
-    .messagehistory {
-        .messagehistorytype {
-            padding: 5px 0;
-
-            span.visible {
+        td {
+            &.heading {
                 color: $brand-gray-dark;
-                background-color: $white;                    
+                background: transparent;
             }
-            span.visible, a.visible {
-                float: none;
+        }
+    }
+
+    .messagearea {
+        border: none;
+        width: 100%;
+
+        #personsearch {
+            input[type="text"] {
+                width: 100%;
+                margin-bottom: 0;
+            }
+        }
+
+        .messagerecent {
+            .singlemessage {
+                border-color: $brand-primary;
+
+                .otheruser {
+                    background-color: $white;
+                }
+                .themessage {
+                    border-color: $brand-secondary;
+                }
+            }
+        }
+
+        .messagehistory {
+            .messagehistorytype {
+                padding: 5px 0;
+
+                span.visible {
+                    color: $brand-gray-dark;
+                    background-color: $white;                    
+                }
+                span.visible, a.visible {
+                    float: none;
+                    margin: 0;
+                    padding: 0;
+                    display: inline-block;
+                    border: none;
+                }
+                a.visible {
+                    &:hover {
+                        border: none;
+                        color: $brand-secondary;
+                    }
+                }
+            }
+            .messagehistory {
                 margin: 0;
                 padding: 0;
-                display: inline-block;
-                border: none;
-            }
-            a.visible {
-                &:hover {
-                    border: none;
-                    color: $brand-secondary;
+
+                .mdl-left .deleteicon .action-icon img.smallicon {
+                    vertical-align: middle;
+                }
+                .mdl-left.left .message .text {
+                    border-color: $brand-secondary;
+                }
+                .mdl-left.right .message {
+                    left: 41.66666667%;
+                    float: left;
+                    width: 58.33333333%;
+                    
+                    .text {
+                        border-color: $brand-primary;
+                    }
                 }
             }
         }
-        .messagehistory {
-            margin: 0;
-            padding: 0;
 
-            .mdl-left .deleteicon .action-icon img.smallicon {
-                vertical-align: middle;
+        .messagesend .mform {
+            fieldset .fitem {
+                margin-top: 0;
+                margin-bottom: 15px !important;
             }
-            .mdl-left.left .message .text {
-                border-color: $brand-secondary;
+            .fitem_textarea {
+                margin: 0;
             }
-            .mdl-left.right .message {
-                left: 41.66666667%;
-                float: left;
-                width: 58.33333333%;
-
-                .text {
-                    border-color: $brand-primary;
-                }
+            .fitem_actionbuttons>div.felement {
+                padding-left: 15px;
             }
-        }
-    }
-
-    .messagesend .mform {
-        fieldset .fitem {
-            margin-top: 0;
-            margin-bottom: 15px !important;
-        }
-        .fitem_textarea {
-            margin: 0;
-        }
-        .fitem_actionbuttons>div.felement {
-            padding-left: 15px;
         }
     }
 }

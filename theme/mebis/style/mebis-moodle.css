@@ -16882,72 +16882,76 @@ input[type="checkbox"] + label {
 .box.message .usermessages-left .singleselect select {
   max-width: 100%;
 }
-.box.message td.heading {
+.box.message table#message_contacts,
+.box.message table#message_participants {
+  width: 100%;
+}
+.box.message table#message_contacts td.heading,
+.box.message table#message_participants td.heading {
   color: #333333;
   background: transparent;
 }
-
-.messagearea {
+.box.message .messagearea {
   border: none;
   width: 100%;
 }
-.messagearea #personsearch input[type="text"] {
+.box.message .messagearea #personsearch input[type="text"] {
   width: 100%;
   margin-bottom: 0;
 }
-.messagearea .messagerecent .singlemessage {
+.box.message .messagearea .messagerecent .singlemessage {
   border-color: #00a8d5;
 }
-.messagearea .messagerecent .singlemessage .otheruser {
+.box.message .messagearea .messagerecent .singlemessage .otheruser {
   background-color: #fff;
 }
-.messagearea .messagerecent .singlemessage .themessage {
+.box.message .messagearea .messagerecent .singlemessage .themessage {
   border-color: #ff6600;
 }
-.messagearea .messagehistory .messagehistorytype {
+.box.message .messagearea .messagehistory .messagehistorytype {
   padding: 5px 0;
 }
-.messagearea .messagehistory .messagehistorytype span.visible {
+.box.message .messagearea .messagehistory .messagehistorytype span.visible {
   color: #333333;
   background-color: #fff;
 }
-.messagearea .messagehistory .messagehistorytype span.visible, .messagearea .messagehistory .messagehistorytype a.visible {
+.box.message .messagearea .messagehistory .messagehistorytype span.visible, .box.message .messagearea .messagehistory .messagehistorytype a.visible {
   float: none;
   margin: 0;
   padding: 0;
   display: inline-block;
   border: none;
 }
-.messagearea .messagehistory .messagehistorytype a.visible:hover {
+.box.message .messagearea .messagehistory .messagehistorytype a.visible:hover {
   border: none;
   color: #ff6600;
 }
-.messagearea .messagehistory .messagehistory {
+.box.message .messagearea .messagehistory .messagehistory {
   margin: 0;
   padding: 0;
 }
-.messagearea .messagehistory .messagehistory .mdl-left .deleteicon .action-icon img.smallicon {
+.box.message .messagearea .messagehistory .messagehistory .mdl-left .deleteicon .action-icon img.smallicon {
   vertical-align: middle;
 }
-.messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
   border-color: #ff6600;
 }
-.messagearea .messagehistory .messagehistory .mdl-left.right .message {
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message {
   left: 41.66666667%;
   float: left;
   width: 58.33333333%;
 }
-.messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
   border-color: #00a8d5;
 }
-.messagearea .messagesend .mform fieldset .fitem {
+.box.message .messagearea .messagesend .mform fieldset .fitem {
   margin-top: 0;
   margin-bottom: 15px !important;
 }
-.messagearea .messagesend .mform .fitem_textarea {
+.box.message .messagearea .messagesend .mform .fitem_textarea {
   margin: 0;
 }
-.messagearea .messagesend .mform .fitem_actionbuttons > div.felement {
+.box.message .messagearea .messagesend .mform .fitem_actionbuttons > div.felement {
   padding-left: 15px;
 }
 

@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use \local_mbslicenseinfo\local\mbslicenseinfo as mbslicenseinfo;
 
-function local_mbslicenseinfo_extends_settings_navigation(settings_navigation $navigation, context $context) {
+function local_mbslicenseinfo_extend_settings_navigation(settings_navigation $navigation, context $context) {
     global $COURSE;
 
     if ($captype = mbslicenseinfo::get_license_capability($context)) {

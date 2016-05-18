@@ -23,11 +23,11 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2015102800;
+$plugin->version   = 2016051800;
 $plugin->requires  = 2014051200;
 $plugin->release  = 2014051300;
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->component = 'theme_mebis';
 $plugin->dependencies = array(
-    'theme_bootstrap'  => 2014051300
+    'theme_bootstrap'  => 2016042200
 );

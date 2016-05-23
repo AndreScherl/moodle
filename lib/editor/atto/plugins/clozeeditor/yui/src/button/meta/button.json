@@ -1,0 +1,7 @@
+{
+    "moodle-atto_clozeeditor-button": {
+        "requires": [
+            "moodle-editor_atto-plugin"
+        ]
+    }
+}

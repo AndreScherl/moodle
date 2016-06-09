@@ -30,6 +30,9 @@ $OUTPUT->add_block_mbswizzard_if_needed('side-pre');
 // Check whether regions has content.
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 
+// Load the javascript modules
+$PAGE->requires->js_call_amd('theme_mebis/mbslearningplatform', 'init');
+
 echo $OUTPUT->doctype()
 ?>
 
@@ -45,7 +48,6 @@ echo $OUTPUT->doctype()
         <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
         <span data-mode="default"></span>
-        <script src="<?php echo new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js"); ?>"></script>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes(); ?>>
@@ -118,8 +120,6 @@ echo $OUTPUT->doctype()
         </div>
         <?php
         echo $OUTPUT->page_action_navigation();
-
-        $PAGE->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
         ?>
 
         <div class="container"> 

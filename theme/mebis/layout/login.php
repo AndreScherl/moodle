@@ -68,15 +68,12 @@ echo $OUTPUT->doctype();
             ?>
         </div>
     </div>
-
-    <?php
-        $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
-    ?>
-         <div class="container"> 
-            <footer id="page-footer">
-                <?php  echo $OUTPUT->standard_footer_html(); ?>
-            </footer>
-        </div>
+    
+    <div class="container"> 
+        <footer id="page-footer">
+            <?php  echo $OUTPUT->standard_footer_html(); ?>
+        </footer>
+    </div>
     
     <?php
         echo $OUTPUT->standard_end_of_body_html();

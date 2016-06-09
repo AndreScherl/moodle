@@ -30,46 +30,7 @@ function theme_mebis_process_css($css, $theme) {
 }
 
 function theme_mebis_page_init(moodle_page $page) {
-    $page->requires->jquery();
-    $page->requires->jquery_plugin('mebis-mebis', 'theme_mebis');
     // Andre Scherl: the following line differs from the moodle standard to include jquery modules. This is needed because
     // we have to put the script into a global mebis code sharing directory (mbsglobaldesign)
     $page->requires->js(new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/jquery.mebis.js"));
 }
-
-/*function theme_mebis_bootstrap_grid($hassidepre, $hassidepost)
-{
-    if ($hassidepre && $hassidepost) {
-        $regions = array('content' => 'col-sm-12 col-lg-12 col-md-12');
-        $regions['pre'] = 'col-sm-12 col-lg-12 col-md-12';
-        $regions['post'] = 'col-sm-12 col-lg-12 col-md-12';
-    } else if ($hassidepre && !$hassidepost) {
-        $regions = array('content' => 'col-sm-9 col-lg-10');
-        $regions['pre'] = 'col-sm-12 col-lg-12 col-md-12';
-        $regions['post'] = 'emtpy';
-    } else if (!$hassidepre && $hassidepost) {
-        $regions = array('content' => 'col-sm-9 col-lg-10');
-        $regions['pre'] = 'empty';
-        $regions['post'] = 'col-sm-12 col-lg-12 col-md-12';
-    } else if (!$hassidepre && !$hassidepost) {
-        $regions = array('content' => 'col-md-12');
-        $regions['pre'] = 'empty';
-        $regions['post'] = 'empty';
-    }
-
-    if ('rtl' === get_string('thisdirection', 'langconfig')) {
-        if ($hassidepre && $hassidepost) {
-            $regions['pre'] = 'col-sm-12 col-lg-12 col-md-12 ';
-            $regions['post'] = 'col-sm-12 col-lg-12 col-md-12 ';
-        } else if ($hassidepre && !$hassidepost) {
-            $regions = array('content' => 'col-sm-9 col-sm-push-3 col-lg-10 col-lg-push-2');
-            $regions['pre'] = 'col-sm-12 col-lg-12 col-md-12 ';
-            $regions['post'] = 'emtpy';
-        } else if (!$hassidepre && $hassidepost) {
-            $regions = array('content' => 'col-sm-9 col-lg-10');
-            $regions['pre'] = 'empty';
-            $regions['post'] = 'col-sm-12 col-lg-12 col-md-12 ';
-        }
-    }
-    return $regions;
-}*/

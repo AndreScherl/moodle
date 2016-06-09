@@ -1,14 +1,14 @@
-var MebisLearningPlatform = (function ($) {
+define(['jquery', 'theme_mebis/mbslearningplatform'], function($) {
     'use strict';
     
-    function preventLinkDefault() {
+    var preventLinkDefault = function() {
         var $preventLinks = $('[data-prevent="default"]');
-        $preventLinks.on('click', function (e) {
+        $preventLinks.on('click', function() {
             return false;
         });
-    }
+    };
 
-    function hiddennav() {
+    var hiddennav = function() {
         $('span.hiddennavbutton').click(function () {
             $(this).parent().children('ul.hiddennavleaf').toggle(200);
             $(this).parent().toggleClass('open');
@@ -20,17 +20,12 @@ var MebisLearningPlatform = (function ($) {
                 $('div.dropdown-inner').removeClass('open');
             }
         });
-    }
+    };
 
     return {
-        init: function () {
+        init: function() {
             preventLinkDefault();
-            hiddennav();            
+            hiddennav();
         }
-    }
-
-})(jQuery);
-
-$(document).ready(function () {
-    MebisLearningPlatform.init();
+    };
 });

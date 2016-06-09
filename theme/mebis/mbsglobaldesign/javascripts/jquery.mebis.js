@@ -1,6 +1,41 @@
-var Mebis = (function ($) {
-    'use strict';
+require.config({
+    // You have to change the following paths to meet your mebis application requirements
+    paths: {
+        'velocity': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/velocity.min',
+        'jquery.jcarousel': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jcarousel/jcarousel.min',
+        'bootstrap': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
+        'jquery.tooltipster': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/tooltipster/jquery.tooltipster.min',
+        'jquery.equalizer': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jquery.equalizer',
+        'jquery.shuffle': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jquery.shuffle',
+        'modernizr': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min',
+        'stackblur': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/stackblur'
+    },
+    shim: {
+        'velocity': {
+            deps: ['jquery']
+        },
+        'jquery.jcarousel': {
+            deps: ['jquery']
+        },
+        'bootstrap': {
+            deps: ['jquery']
+        },
+        'jquery.tooltipster': {
+            deps: ['jquery']
+        },
+        'jquery.equalizer': {
+            deps: ['jquery']
+        },
+        'jquery.shuffle': {
+            deps: ['jquery', 'modernizr']
+        }
+    }
+});
 
+// the mebis Lernplattform only needs a few plugins, so you have to add the ones you need here
+define('mebis', ['jquery', 'velocity'], function($, Velocity) {
+    'use strict';
+    
     var $win; // to be initialized after DOM ready.
     var $body;
     var didScroll = false;
@@ -8,21 +43,20 @@ var Mebis = (function ($) {
 //    var lastY = 0;
 //    var anchorHeadlinePositions = [];
 
-    function isMobile() {
+    var isMobile = function() {
         return ($win.width()) <= 768 ? true : false;
-    }
+    };
 
     /**
      * To-Top-Button
      */
-    function scrollToTop() {
+    var scrollToTop = function() {
         // scroll body to 0px on click
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
-
-            $('html')
-                    .velocity('stop')
-                    .velocity('scroll', {duration: 800, offset: 0});
+            
+            Velocity($('html'), 'stop');
+            Velocity($('html'), 'scroll', {duration: 800, offset: 0});
 
             //setAnchorClass();
 
@@ -35,30 +69,9 @@ var Mebis = (function ($) {
 
             return false;
         });
-    }
+    };
 
-// method in use? 
-    /**
-     * Init smooth scrolling-effect to hash
-     */
-    /*    function initSmoothscrolling() {
-     
-     // init smooth scrolling to window.hash
-     var $jumpmark = $(window.location.hash);
-     if ($jumpmark.length) {
-     setTimeout(function () {
-     if (window.location.hash) {
-     var offset = $jumpmark.data('offset') - $('#topbar').height() - $('header.me-page-header.full').height() - 150;
-     window.scrollTo(0, 0);
-     $('html, body').animate({
-     scrollTop: $(window.location.hash).offset().top - 85 - (offset || 0)
-     }, 800);
-     }
-     }, 1);
-     }
-     }
-     */
-    function initCarousel() {
+    var initCarousel = function() {
         var $carousel = $('[data-me-carousel]');
         var $controls = $('.carousel-control');
 
@@ -118,9 +131,9 @@ var Mebis = (function ($) {
         $controls.filter('.left').jcarouselControl({target: '-=' + offset});
         $controls.filter('.right').jcarouselControl({target: '+=' + offset});
 
-    }
+    };
 
-    function handleFontSizeSwitch() {
+    var handleFontSizeSwitch = function() {
         var $changeFontSize = $('.change-fontsize');
         var baseFontSize = $body.css('font-size');
         var range = [14, 22];
@@ -165,7 +178,7 @@ var Mebis = (function ($) {
 
         });
 
-    }
+    };
 
     /**
      * Toolstips
@@ -175,7 +188,7 @@ var Mebis = (function ($) {
      * Doc: http://iamceege.github.io/tooltipster/#getting-started
      */
 
-    function initTooltips() {
+    var initTooltips = function() {
         var $tooltips = $('.me-tooltip');
         if ($tooltips.length) {
             $tooltips.tooltipster({
@@ -186,7 +199,7 @@ var Mebis = (function ($) {
         }
     }
 
-    function initToggleAllCheckboxes() {
+    var initToggleAllCheckboxes = function() {
         var $forms = $(".me-idm-portal-search-result-table");
         var $checkboxes = [];
         var $triggerCheckboxes = [];
@@ -199,7 +212,7 @@ var Mebis = (function ($) {
         });
     }
 
-    function initMobileFunctions() {
+    var initMobileFunctions = function() {
         $('.toggle-nav').on('click', function (e) {
             e.preventDefault();
         });
@@ -210,34 +223,12 @@ var Mebis = (function ($) {
                 $(this).css('min-height', $(this).parent().css('min-height'));
             });
         }
-
-        /*if (isMobile()) {
-         var $topbar = $('#topbar');
-         lastY = $(window).scrollTop();
-         
-         $(window).on({
-         touchmove: function(e) {
-         var currentY = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
-         
-         if (Math.abs(currentY - lastY) < 20) { return; }
-         
-         if (currentY > lastY) {
-         $topbar.show();
-         } else {
-         $topbar.hide();
-         }
-         
-         lastY = currentY;
-         }
-         });
-         
-         }*/
     }
 
     /**
      * Functions called if deeplinks-status is active
      */
-    function initDeeplinkFunctions() {
+    var initDeeplinkFunctions = function() {
         var $loginBox = $('.me-login-box');
 
         // Disable close dropdown on click outside
@@ -251,7 +242,7 @@ var Mebis = (function ($) {
     /**
      * Blur Images with canvas (support down to IE9)
      */
-    function initImageBlurCanvas() {
+    var initImageBlurCanvas = function() {
         var $blur = $('.blur');
         $blur.each(function (i) {
             var width = $(this).width();
@@ -280,17 +271,17 @@ var Mebis = (function ($) {
                 drawBlur();
             }
         });
-    }
+    };
 
-    function initLoginToggle() {
+    var initLoginToggle = function() {
         var $btn = $('[data-login]');
         $btn.on('click', function (e) {
             e.preventDefault();
             $('.me-login-box').toggleClass('opened');
         });
-    }
+    };
 
-    function initBlockLinkResize() {
+    var initBlockLinkResize = function() {
         var $blocklink = $('.mib-suche .me-block-link, .me-news-item a');
 
         $blocklink.each(function () {
@@ -299,9 +290,9 @@ var Mebis = (function ($) {
                 "min-height": parentHeight
             });
         });
-    }
+    };
 
-    function initCollectionActions() {
+    var initCollectionActions = function() {
         var $collection = $('.me-collection');
         var $editCollection = $collection.find('.icon-me-text-bearbeiten');
 
@@ -339,9 +330,9 @@ var Mebis = (function ($) {
             }
         });
 
-    }
+    };
 
-    function initPopupFix() {
+    var initPopupFix = function() {
         var $toggle = $('[data-toggle="modal"]');
 
         $toggle.on('click', function (event) {
@@ -362,9 +353,9 @@ var Mebis = (function ($) {
 
         });
 
-    }
+    };
 
-    function switchModalContents() {
+    var switchModalContents = function() {
         $('[data-switch]').on('click', function (e) {
             e.preventDefault();
             var _switch = $(this).data('switch');
@@ -372,9 +363,9 @@ var Mebis = (function ($) {
             $(_switch[0]).hide();
             $(_switch[1]).show();
         });
-    }
+    };
 
-    function initStarRating() {
+    var initStarRating = function() {
         var $rating = $('.me-search-result-rate');
         $rating.each(function () {
 
@@ -406,9 +397,9 @@ var Mebis = (function ($) {
                 $(this).find('i.icon-me-stern_komplett').removeClass('icon-me-stern_komplett').addClass('icon-me-stern_leer');
             });
         });
-    }
+    };
 
-    function initAnchorLinks() {
+    var initAnchorLinks = function() {
         var $menu = $(".me-menu-anchor-links");
         var $anchorLinks = $menu.children("li");
 
@@ -422,62 +413,26 @@ var Mebis = (function ($) {
                 anchorOffset += $('header.me-page-header').height();
             }
             anchorTop -= anchorOffset;
-            $('body')
-                    .velocity('stop')
-                    .velocity('scroll', {duration: 800, offset: anchorTop});
+            Velocity($('body'), 'stop');
+            Velocity($('body'), 'scroll', {duration: 800, offset: anchorTop});
 
             window.location.hash = anchor; // for older browsers, leaves a # behind
             history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
         });
-    }
-    /*
-     function initAnchorScrolling() {
-     var $headlines = $("[data-anchor-link]");
-     
-     setTimeout(function(){
-     $headlines.each(function(){
-     anchorHeadlinePositions.push($(this).offset().top - 150);
-     });
-     }, 50);
-     }
-     
-     function setAnchorClass() {
-     var viewportPos = $(window).scrollTop();
-     var markIndex;
-     
-     $.each(anchorHeadlinePositions, function(index, element){
-     if (viewportPos > element) {
-     markIndex = index;
-     }
-     });
-     
-     $(".me-menu-anchor-links li").removeClass("active").eq(markIndex).addClass("active");
-     }
-     */
-    function handleSelectboxNavChange() {
+    };
+    
+    var handleSelectboxNavChange = function() {
         var $selectbox = $('[data-change]');
 
         $selectbox.on('click', function () {
             $(this).addClass('open');
         });
-    }
-
-    //hüb: we don't need this function any more -> delete?
-//    function initStickyHeader()
-//    {
-//        $win.on('scroll', function () {
-//            if ($(this).scrollTop() > 50) {
-//                $('body').addClass('sticky-header');
-//            } else {
-//                $('body').removeClass('sticky-header');
-//            }
-//        });
-//    }
+    };
 
     /**
      * Animate resizing header and back to top button on scroll
      */
-    function scrollExperience() {
+    var scrollExperience = function() {
         //hide to top button at the beginning
         if ($('.me-back-top').length) {
             $('.me-back-top').hide();
@@ -517,12 +472,12 @@ var Mebis = (function ($) {
                 }
             }
         }, 250);
-    }
+    };
 
     /**
      * Prevent the overlapping of the sidebar jump navigation with the to top button
      */
-    function preventOverlappingSidebar() {
+    var preventOverlappingSidebar = function() {
         var $anchorLinks = $('.me-page-action-menu .me-menu-anchor-links');
         //topActionMenu value must be the same as the value in theme\mebis\mbsglobaldesign\scss\layout.scss
         //.me-page-action-menu {  top: 250px; }
@@ -547,12 +502,11 @@ var Mebis = (function ($) {
 
             $win = $(window);
             $body = $('body');
-
+            
             scrollToTop();
             scrollExperience();
             handleFontSizeSwitch();
             initTooltips();
-//            initSmoothscrolling();
             initCarousel();
             initToggleAllCheckboxes();
             initMobileFunctions();
@@ -565,10 +519,7 @@ var Mebis = (function ($) {
             switchModalContents();
             initStarRating();
             initAnchorLinks();
-            //initAnchorScrolling();
-            //setAnchorClass();
             handleSelectboxNavChange();
-//            initStickyHeader();
             preventOverlappingSidebar();
         },
         resize: function () {
@@ -582,23 +533,17 @@ var Mebis = (function ($) {
             setTimeout(function () {
                 $.equalizer();
             }, 50);
-        },
-        scroll: function () {
-            //setAnchorClass();
         }
     }
 
-})(jQuery);
+});
 
-$(function () {
-    Mebis.init();
-
-    $(window).on('resize', function () {
-        Mebis.resize();
+requirejs(['jquery', 'mebis'], function($, mbs) {
+    mbs.init();
+    $(window).on('resize', function() {
+        mbs.resize();
     });
-
-    $(window).on('orientationchange', function () {
-        Mebis.orientationchange();
+    $(window).on('orientationchange', function() {
+        mbs.orientationchange();
     });
-
 });

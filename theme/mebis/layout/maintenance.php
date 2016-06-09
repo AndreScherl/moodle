@@ -8,6 +8,10 @@ $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
 $hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
 
 $htmlattrib = $OUTPUT->htmlattributes() . ' class="admin-layout"';
+
+// Load the javascript modules
+$PAGE->requires->js_call_amd('theme_mebis/mbslearningplatform', 'init');
+
 echo $OUTPUT->doctype();
 ?>
 <html <?php echo $htmlattrib; ?>>
@@ -23,7 +27,6 @@ echo $OUTPUT->doctype();
         <?php echo $OUTPUT->standard_head_html(); ?>
 
         <span data-mode="default"></span>
-        <?php $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min.js")); ?>
     </head>
 
     <body <?php echo $OUTPUT->body_attributes(); ?>>
@@ -79,10 +82,6 @@ echo $OUTPUT->doctype();
         <a href="#top" id="me-back-top">
             <i class="fa fa-chevron-up"></i>
         </a>
-
-        <?php
-            $PAGE->requires->js( new moodle_url("/theme/mebis/mbsglobaldesign/javascripts/vendor.min.js"));
-        ?>
         
         <div class="container"> 
             <footer id="page-footer">

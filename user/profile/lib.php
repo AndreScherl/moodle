@@ -70,9 +70,12 @@ class profile_field_base {
     }
 
     /**
-     * Old syntax of class constructor for backward compatibility.
+     * Old syntax of class constructor. Deprecated in PHP7.
+     *
+     * @deprecated since Moodle 3.1
      */
     public function profile_field_base($fieldid=0, $userid=0) {
+        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
         self::__construct($fieldid, $userid);
     }
 
@@ -460,10 +463,6 @@ function profile_definition_after_data($mform, $userid) {
             $formfield->edit_after_data($mform);
         }
     }
-        
-    //+++ awag DS10 (H003) Sichtbarkeitsregel-Schule nur nicht bearbeitbar
-    \local_mbs\local\datenschutz::hook_profile_definition_after_data($mform, $userid);
-    //---
 }
 
 /**

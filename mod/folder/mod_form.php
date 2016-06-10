@@ -64,11 +64,10 @@ class mod_folder_mod_form extends moodleform_mod {
         $mform->addHelpButton('showexpanded', 'showexpanded', 'mod_folder');
         $mform->setDefault('showexpanded', $config->showexpanded);
 
-        // SYNERGY LEARNING - allow students to edit files.
-        $mform->addElement('advcheckbox', 'studentedit', get_string('studentedit', 'folder'));
-        $mform->setDefault('studentedit', 0);
-        // SYNERGY LEARNING - allow students to edit files.
-
+        // Adding option to enable downloading archive of folder.
+        $mform->addElement('advcheckbox', 'showdownloadfolder', get_string('showdownloadfolder', 'folder'));
+        $mform->addHelpButton('showdownloadfolder', 'showdownloadfolder', 'mod_folder');
+        $mform->setDefault('showdownloadfolder', true);
         //-------------------------------------------------------
         $this->standard_coursemodule_elements();
 

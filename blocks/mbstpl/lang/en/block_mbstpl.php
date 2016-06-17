@@ -309,6 +309,7 @@ $string['to'] = 'To:';
 $string['tplremindafter'] = 'Send template reminder after';
 $string['tplremindafter_desc'] = 'Anyone with the teachSHARE course context capability of cousretemplatemanager will receive notification when a template has not been updated for the specified time.';
 $string['tplremindersent'] = 'Template reminders sent.';
+$string['unknownaction'] = 'unknown action';
 $string['updated'] = 'Updated';
 $string['uploadfile'] = 'Upload file';
 $string['useq'] = 'Use question';

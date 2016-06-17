@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * search class for block mbssearch
+ * ajax script for tplsearch class of block mbstpl
  *
- * @package   block_search
+ * @package   block_mbstpl
  * @copyright 2015 Andreas Wagner, ISB Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -54,7 +54,7 @@ switch ($action) {
         $qidlist = \block_mbstpl\questman\manager::get_searchqs();
         $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
         
-        $search = new mbst\search($questions, $data);
+        $search = new mbst\tplsearch($questions, $data);
         $results = $search->get_search_result($limitfrom, $limitnum);
 
         $renderer = mbst\course::get_renderer();
@@ -66,7 +66,7 @@ switch ($action) {
 
     default:
 
-        print_error('unknownaction', 'block_mbssearch');
+        print_error('unknownaction', 'block_mbstpl');
         die();
 }
 

@@ -54,7 +54,7 @@ $searchform = new mbst\form\searchform($pageurl, array('questions' => $questions
 
 $result = false;
 if ($data = $searchform->get_data()) {
-    $search = new mbst\search($questions, $data);
+    $search = new mbst\tplsearch($questions, $data);
     $result = $search->get_search_result($limitfrom, $limitnum);
     $result->formdata = $data;
 }

@@ -299,6 +299,7 @@ $string['to'] = 'An:';
 $string['tplremindafter'] = 'Erinnerung bezüglich Austauschkurs senden nach';
 $string['tplremindafter_desc'] = 'Jeder Nutzer, der das Recht Master Reviewer im teachSHARE Kursbereich-Kontext hat, wird benachrichtigt, wenn ein Kurs nicht in der vorgegebenen Zeit bearbeitet wird.';
 $string['tplremindersent'] = 'Erinnerung abgeschickt.';
+$string['unknownaction'] = 'unbekannte Aktion';
 $string['updated'] = 'Zeit';
 $string['uploadfile'] = 'Datei hochladen';
 $string['useq'] = 'Diese Frage nutzen';

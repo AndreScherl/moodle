@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use \block_mbstpl\dataobj\template;
 
-class search {
+class tplsearch {
     /* @var array questions  */
     private $questions;
 

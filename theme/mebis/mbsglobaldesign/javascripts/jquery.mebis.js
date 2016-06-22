@@ -12,29 +12,42 @@ require.config({
     },
     shim: {
         'velocity': {
-            deps: ['jquery']
+            deps: ['jquery'],
+            exports: 'jQuery.fn.velocity'
         },
         'jquery.jcarousel': {
-            deps: ['jquery']
+            deps: ['jquery'],
+            exports: 'jQuery.jcarousel'
         },
         'bootstrap': {
-            deps: ['jquery']
+            deps: ['jquery'],
+            // Little hack because bootstrap doesn't export anything. So just check one of its jQuery plugins.
+            exports: 'jQuery.fn.popover'
         },
         'jquery.tooltipster': {
-            deps: ['jquery']
+            deps: ['jquery'],
+            exports: 'jQuery.fn.tooltipster'
         },
         'jquery.equalizer': {
-            deps: ['jquery']
+            deps: ['jquery'],
+            exports: 'jQuery.equalizer'
         },
         'jquery.shuffle': {
-            deps: ['jquery', 'modernizr']
+            deps: ['jquery', 'modernizr'],
+            exports: 'jQuery.fn.shuffle'
+        },
+        'modernizr': {
+            exports: 'Modernizr'
         }
     }
 });
 
 // the mebis Lernplattform only needs a few plugins, so you have to add the ones you need here
-define('mebis', ['jquery', 'velocity'], function($, Velocity) {
+define('mebis', ['jquery', 'velocity', 'jquery.equalizer'], function($) {
     'use strict';
+    
+    // Use jQuery to access the global jQuery variable, e.g. to access the jquery plugins listed above.
+    // $ is the local jQuery variable within this module.
     
     var $win; // to be initialized after DOM ready.
     var $body;
@@ -55,8 +68,9 @@ define('mebis', ['jquery', 'velocity'], function($, Velocity) {
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
             
-            Velocity($('html'), 'stop');
-            Velocity($('html'), 'scroll', {duration: 800, offset: 0});
+            jQuery('html')
+                .velocity('stop')
+                .velocity('scroll', {duration: 800, offset: 0});
 
             //setAnchorClass();
 
@@ -413,8 +427,9 @@ define('mebis', ['jquery', 'velocity'], function($, Velocity) {
                 anchorOffset += $('header.me-page-header').height();
             }
             anchorTop -= anchorOffset;
-            Velocity($('body'), 'stop');
-            Velocity($('body'), 'scroll', {duration: 800, offset: anchorTop});
+            jQuery('body')
+                .velocity('stop')
+                .velocity('scroll', {duration: 800, offset: anchorTop});
 
             window.location.hash = anchor; // for older browsers, leaves a # behind
             history.pushState('', document.title, window.location.pathname + window.location.search + anchor);
@@ -524,14 +539,14 @@ define('mebis', ['jquery', 'velocity'], function($, Velocity) {
         },
         resize: function () {
             initBlockLinkResize();
-            $.equalizer();
+            jQuery.equalizer; // do we really need this plugin?
             preventOverlappingSidebar();
         },
         orientationchange: function () {
             initBlockLinkResize();
             initImageBlurCanvas();
             setTimeout(function () {
-                $.equalizer();
+                jQuery.equalizer; // do we really need this plugin?
             }, 50);
         }
     }

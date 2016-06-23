@@ -46,7 +46,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('mediathek/framesize',
         get_string('framesize', 'mediathek'), get_string('configframesize', 'mediathek'), 130, PARAM_INT));
     $settings->add(new admin_setting_configcheckbox('mediathek/requiremodintro',
-        get_string('requiremodintro', 'admin'), get_string('configrequiremodintro', 'admin'), 1));
+        get_string('requiremodintro', 'admin'), get_string('configrequiremodintro', 'mediathek'), 1));
     $settings->add(new admin_setting_configpasswordunmask('mediathek/secretphrase', get_string('password'),
         get_string('configsecretphrase', 'mediathek'), ''));
     $settings->add(new admin_setting_configcheckbox('mediathek/rolesinparams',

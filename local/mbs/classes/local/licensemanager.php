@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A namespace contains license specific functions
+ * A namespace contains license specific functions.
+ * This local licensemanager replaces core $CFG->libdir . '/licenselib.php' class license_manager.
  *
  * @since      Moodle 2.7
  * @package    local_mbs

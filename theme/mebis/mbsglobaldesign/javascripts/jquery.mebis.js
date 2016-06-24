@@ -5,7 +5,6 @@ require.config({
         'jquery.jcarousel': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jcarousel/jcarousel.min',
         'bootstrap': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
         'jquery.tooltipster': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/tooltipster/jquery.tooltipster.min',
-        'jquery.equalizer': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jquery.equalizer',
         'jquery.shuffle': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jquery.shuffle',
         'modernizr': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min',
         'stackblur': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/stackblur'
@@ -28,10 +27,6 @@ require.config({
             deps: ['jquery'],
             exports: 'jQuery.fn.tooltipster'
         },
-        'jquery.equalizer': {
-            deps: ['jquery'],
-            exports: 'jQuery.equalizer'
-        },
         'jquery.shuffle': {
             deps: ['jquery', 'modernizr'],
             exports: 'jQuery.fn.shuffle'
@@ -43,7 +38,7 @@ require.config({
 });
 
 // the mebis Lernplattform only needs a few plugins, so you have to add the ones you need here
-define('mebis', ['jquery', 'velocity', 'jquery.equalizer'], function($) {
+define('mebis', ['jquery', 'velocity'], function($) {
     'use strict';
     
     // Use jQuery to access the global jQuery variable, e.g. to access the jquery plugins listed above.
@@ -232,7 +227,6 @@ define('mebis', ['jquery', 'velocity', 'jquery.equalizer'], function($) {
         });
 
         if ($(window).width() > 992) {
-            //$.equalizer();
             $('[data-equalizer-inner] .me-block-inner').each(function () {
                 $(this).css('min-height', $(this).parent().css('min-height'));
             });
@@ -539,15 +533,11 @@ define('mebis', ['jquery', 'velocity', 'jquery.equalizer'], function($) {
         },
         resize: function () {
             initBlockLinkResize();
-            jQuery.equalizer; // do we really need this plugin?
             preventOverlappingSidebar();
         },
         orientationchange: function () {
             initBlockLinkResize();
             initImageBlurCanvas();
-            setTimeout(function () {
-                jQuery.equalizer; // do we really need this plugin?
-            }, 50);
         }
     }
 

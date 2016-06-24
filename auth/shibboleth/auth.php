@@ -126,6 +126,19 @@ class auth_plugin_shibboleth extends auth_plugin_base {
             } else {
                 $result[$key] = $this->get_first_string($_SERVER[$value]);
             }
+            
+            // +++ Andre Scherl, remove the role 'Kursersteller' from old school if the user changed the school
+            if ($key == 'institution') {
+                global $DB;
+                $olduser = $DB->get_record('user', array('username' => $username));
+                if (isset($olduser->institution) && $olduser->institution != $_SERVER['mebisSchoolID']) {
+                    $category = $DB->get_record('course_categories', array('idnumber' => $olduser->institution));
+                    $context = context_coursecat::instance($category->id);
+                    $roleid = $DB->get_field('role', 'id', array('shortname' => 'kursersteller'));
+                    role_unassign($roleid, $olduser->id, $context->id);
+                }
+            }
+            // ---
         }
 
          // Provide an API to modify the information to fit the Moodle internal
@@ -317,6 +330,25 @@ class auth_plugin_shibboleth extends auth_plugin_base {
         if (isset($config->organization_selection) && empty($config->organization_selection) && isset($config->alt_login) && $config->alt_login == 'on'){
             return false;
         }
+        
+        // ...awag: additional settings for DLB.
+        if (!isset($config->editmebisprofileurl)) {
+
+            $config->editmebisprofileurl = '';
+        }
+        set_config('editmebisprofileurl', $config->editmebisprofileurl, 'auth/shibboleth');
+
+        if (!isset($config->editusersurl)) {
+
+            $config->editusersurl = '';
+        }
+        set_config('editusersurl', $config->editusersurl, 'auth/shibboleth');
+
+        if (!isset($config->categorierole)) {
+
+            $config->categorierole = 0;
+        }
+        set_config('categorierole', $config->categorierole, 'auth/shibboleth');
 
         return true;
     }
@@ -332,8 +364,6 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
         return $clean_string;
     }
-}
-
 
     /**
      * Sets the standard SAML domain cookie that is also used to preselect
@@ -454,6 +484,155 @@ class auth_plugin_shibboleth extends auth_plugin_base {
 
         return $CookieArray;
     }
+    
+    // ++++ awag: From here on adapted for DLB to use with new LDAP-Portal, Andreas Wagner ++++
 
+    /**
+     * Returns the URL for changing the users' passwords, or empty if the default
+     * URL can be used.
+     *
+     * This method is used if can_change_password() returns true in the settings navigation
+     * but it is used in toolbar_settings menu of DLB theme without this check.
+     * 
+     * This method is called only when user is logged in, it may use global $USER.
+     *
+     * @return moodle_url url of the profile page or null if standard used
+     */
+    function change_password_url() {
+        if (!empty($this->config->changepasswordurl)) {
+            return $this->config->changepasswordurl;
+        }
+        return '';
+    }
 
+    /**
+     *  the Mebis Profile URL is the url to the idm of Mebis and is different from 
+     *  the moodle internal profile. Some parts (i. e. user name, firstname, lastname, email
+     *  are synchronized to the internal profile.
+     */
+    function edit_mebis_profile() {
+        if (!empty($this->config->editmebisprofileurl)) {
+            return $this->config->editmebisprofileurl;
+        }
+        return '';
+    }
 
+    /**
+     * Returns true if this authentication plugin can edit the users'
+     * profile.
+     *
+     * @return bool
+     */
+    function can_edit_profile() {
+        //override if needed
+        return true;
+    }
+
+    /**
+     * Returns the URL for editing the users' moodle-specific settings.
+     * For all users (except admins) we use edit.php, which is a modified version
+     * of originally moodles edit.php, which allows various settings but only settings
+     * regarding this moodle application.
+     *
+     * @return moodle_url url of the profile page or null if standard used
+     */
+    function edit_profile_url() {
+        // ... return null to use the >>>modified<<< edit.php page
+        return null;
+    }
+
+    /** returns the URL for editing other users profiles in the LDAP-Portal
+     * 
+     * @return String
+     */
+    function edit_users_url() {
+        return $this->config->editusersurl;
+    }
+
+    /** assign the configurated role in users home school (i. e. in the category, 
+     * with the idnummer of users schools)
+     * 
+     * @global type $DB
+     * @param type $user
+     * @return boolean) , when user is a nutzerverwl
+     */
+    private function assign_role_in_home_category(&$user) {
+        global $DB;
+
+        if (empty($this->config->categorierole)) {
+            return false;
+        }
+
+        if (empty($user->institution)) {
+            return false;
+        }
+
+        // ...get the category with the id of users institution
+        if (!$category = $DB->get_record('course_categories', array('idnumber' => $user->institution))) {
+            return false;
+        }
+
+        // ...check, if role is already assigned.
+        $context = context_coursecat::instance($category->id);
+        $roles = get_user_roles($context, $user->id);
+
+        // ...if not assign it.
+        if (empty($roles) or ( !in_array($this->config->categorierole, $roles))) {
+            role_assign($this->config->categorierole, $user->id, $context->id);
+        }
+
+        return true;
+    }
+
+    /** awag: override the authenticated hook to retrieve additional Shibboletz Header Vars
+     * 
+     * @global type $SESSION
+     * @param type $user
+     * @param type $username
+     * @param type $password
+     */
+    function user_authenticated_hook(&$user, $username, $password) {
+
+        if ($user->auth != 'shibboleth') {
+            return false;
+        }
+
+        // ...Default-Values for the $USER record.
+        $user->mebisKlassenListe = array();
+        $user->mebisRole = array();
+        $user->isTeacher = 0;
+
+        // ... get the mebisKlassenListe for this user, if available.
+        if (!empty($_SERVER["mebisKlassenListe"])) {
+
+            $user->mebisKlassenListe = explode(";", $_SERVER["mebisKlassenListe"]);
+        }
+
+        // ... now setup mebisRole in Sessiondata, we have no $USER record yet.
+        if (!empty($_SERVER["mebisRole"])) {
+
+            $user->mebisRole = explode(";", strtolower($_SERVER["mebisRole"]));
+            $user->isTeacher = in_array("lehrer", $user->mebisRole);
+
+            if (in_array('nutzerverwalter', $user->mebisRole)) {
+                // assign the $config->categorierole to user, don't care about return value.
+                $this->assign_role_in_home_category($user);
+            }
+        } else {
+
+            debugging('received no mebis-role in auth/shibboleth/auth.php für user: ' . $username);
+        }
+
+        // assign beta tester role in system context
+        if (!empty($_SERVER["mebisBetaAccess"])) {
+            global $DB;
+            if ($role = $DB->get_record('role', array('shortname' => 'betatester'))) {
+                $ctx = context_system::instance();
+                $userroles = get_user_roles($ctx, $user->id);
+                if ($_SERVER["mebisBetaAccess"] == "TRUE" && !array_key_exists($role->id, $userroles)) {
+                    role_assign($role->id, $user->id, $ctx->id);
+                }                
+            }
+        }
+    }
+}

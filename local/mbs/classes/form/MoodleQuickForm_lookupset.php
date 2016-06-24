@@ -54,7 +54,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
                                   $choices = array(),
                                   $attributes = null) {
 
-        MoodleQuickForm_text::MoodleQuickForm_text($elementname, $elementlabel, $attributes);
+        MoodleQuickForm_text::__construct($elementname, $elementlabel, $attributes);
         $this->_type = 'lookupset';
         $this->_selectedkey = $this->getName() . 'selected';
         $this->_ajaxparamnames = $ajaxparamids;
@@ -69,6 +69,7 @@ class MoodleQuickForm_lookupset extends MoodleQuickForm_text {
                                               $ajaxparamids = array(),
                                               $choices = array(),
                                               $attributes = null) {
+        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
         self::_construct($elementname, $elementlabel, $ajaxurl, $ajaxparamids, $choices, $attributes);
     }
 

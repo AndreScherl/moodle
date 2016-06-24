@@ -738,6 +738,7 @@ class datenschutz {
      *
      * @param stored_file $storedfile
      */
+    // awag: 13.07.2015 temporarily commented out, TODO: check whether this download protection is necessary any further.
     public static function hook_filelib_send_stored_file($storedfile) {
         global $FULLME, $OUTPUT, $COURSE;
 
@@ -1001,7 +1002,7 @@ class datenschutz {
 
     /**
      * @HOOK DS26: Hook in editcategory_form.php, Check if the user is allowed to edit the idnumber.
-     * Avoid that a schoolnumber, which is needed as idnumber for the maincategory  of schoolwould
+     * Avoid that a schoolnumber, which is needed as idnumber for the maincategory of school would
      * be used in some subcategories inputed by a "Schulkoordinator".
      *
      * @param int $categoryid

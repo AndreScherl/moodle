@@ -1755,6 +1755,11 @@ function message_search_users($courseids, $searchtext, $sort='', $exceptions='')
     list($except, $params_except) = $DB->get_in_or_equal($exceptions, SQL_PARAMS_NAMED, 'param', false);
     $except = ' AND u.id ' . $except;
     $params = array_merge($params_except, $params);
+    
+    //+++ awag DS09:Sichtbarkeitstrennung-Messages
+    $wherecondition = \local_mbs\local\datenschutz::hook_message_lib_message_search_users();
+    $except = $wherecondition." ".$except;
+    //--- awag
 
     if (in_array(SITEID, $courseids)) {
         // Search on site level.

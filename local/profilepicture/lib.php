@@ -45,7 +45,7 @@ class MoodleQuickForm_profilepicture extends HTML_QuickForm_input {
      */
     public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
         $this->_type = 'profilepicture';
-        parent::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, $attributes);
     }
     
     /*

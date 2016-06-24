@@ -197,6 +197,11 @@ class course_enrolment_manager {
         if ($this->totalotherusers === null) {
             list($ctxcondition, $params) = $DB->get_in_or_equal($this->context->get_parent_context_ids(true), SQL_PARAMS_NAMED, 'ctx');
             $params['courseid'] = $this->course->id;
+            
+            //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
+            //--- awag 
+            
             $sql = "SELECT COUNT(DISTINCT u.id)
                       FROM {role_assignments} ra
                       JOIN {user} u ON u.id = ra.userid
@@ -208,7 +213,7 @@ class course_enrolment_manager {
                             WHERE e.courseid = :courseid
                          ) ue ON ue.userid=u.id
                      WHERE ctx.id $ctxcondition AND
-                           ue.id IS NULL";
+                           ue.id IS NULL {$wherecondition}";
             $this->totalotherusers = (int)$DB->count_records_sql($sql, $params);
         }
         return $this->totalotherusers;
@@ -344,6 +349,11 @@ class course_enrolment_manager {
             $params['cid'] = $this->course->id;
             $extrafields = get_extra_user_fields($this->get_context());
             $ufields = user_picture::fields('u', $extrafields);
+            
+            //+++ awag DS22:Sichtbarkeitstrennung-Einschreibung
+            $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_other_users();
+            //--- awag  
+            
             $sql = "SELECT ra.id as raid, ra.contextid, ra.component, ctx.contextlevel, ra.roleid, $ufields,
                         coalesce(u.lastaccess,0) AS lastaccess
                     FROM {role_assignments} ra
@@ -356,7 +366,7 @@ class course_enrolment_manager {
                         WHERE e.courseid = :courseid
                        ) ue ON ue.userid=u.id
                    WHERE ctx.id $ctxcondition AND
-                         ue.id IS NULL
+                         ue.id IS NULL {$wherecondition}
                 ORDER BY $sort $direction, ctx.depth DESC";
             $this->otherusers[$key] = $DB->get_records_sql($sql, $params, $page*$perpage, $perpage);
         }
@@ -454,6 +464,11 @@ class course_enrolment_manager {
 
         $fields      = 'SELECT '.$ufields;
         $countfields = 'SELECT COUNT(1)';
+        
+        //+++ awag DS01:Sichtbarkeitstrennung-Einschreibung
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_get_potential_users($wherecondition);
+        //--- awag 
+        
         $sql = " FROM {user} u
             LEFT JOIN {user_enrolments} ue ON (ue.userid = u.id AND ue.enrolid = :enrolid)
                 WHERE $wherecondition
@@ -478,6 +493,10 @@ class course_enrolment_manager {
 
         list($ufields, $params, $wherecondition) = $this->get_basic_search_conditions($search, $searchanywhere);
 
+        //+++ awag DS24:Sichtbarkeitstrennung-Einschreibung
+        $wherecondition = \local_mbs\local\datenschutz::hook_enrol_locallib_search_other_users($wherecondition);
+        //--- awag 
+        
         $fields      = 'SELECT ' . $ufields;
         $countfields = 'SELECT COUNT(u.id)';
         $sql   = " FROM {user} u

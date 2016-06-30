@@ -11,6 +11,16 @@ Put all the pagelayout specific styles here.
     Author     : Admin
 */
 
+.pagelayout-admin, .pagelayout-report {
+
+    // styling block configuration page.
+    // styling course completion site for courseformats with transparent background.
+    #main-content-wrapper {
+        background: $white !important;
+        color: $brand-gray-dark;
+    }
+}
+
 .pagelayout-report {
     .admin-navigation {
         margin-bottom: 20px;

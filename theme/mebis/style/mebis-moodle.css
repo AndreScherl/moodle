@@ -15087,7 +15087,7 @@ category-box:
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
     - #page-mod-assign-mod
-    - #page-mod-assign-view
+    - #page-mod-assign-grading
     - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
@@ -15133,10 +15133,10 @@ category-box:
   max-width: 100%;
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-view div#applet_container1, #page-question-type-geogebra div#applet_container1 {
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1 {
   height: inherit !important;
 }
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
+#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
@@ -15310,19 +15310,19 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   background-color: #e6e6e6;
 }
 
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
   padding-left: 30px;
   margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
   list-style-position: outside;
   list-style-image: none;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
   padding-left: 30px;
   margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
   list-style-position: outside;
   list-style-image: none;
 }
@@ -15337,9 +15337,29 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   overflow: visible;
 }
 
-#page-mod-assign-view .homepage-container {
+#page-mod-assign-grading .homepage-container {
   width: 100%;
   max-width: 1692px;
+}
+
+.gradeparent {
+  margin-bottom: 1px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+}
+.gradeparent .gradereport-grader-table {
+  font-size: 14px;
+}
+.gradeparent .gradereport-grader-table img {
+  max-width: none;
+}
+.gradeparent .gradereport-grader-table .userfield.userinstitution {
+  display: none;
+}
+.gradeparent .gradereport-grader-table .userfield.useremail {
+  display: none;
 }
 
 #page-mod-lesson-view input[type="submit"] {
@@ -15347,7 +15367,7 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 }
 
 @media only screen and (min-width: 1200px) {
-  #page-mod-assign-view .homepage-container {
+  #page-mod-assign-grading .homepage-container {
     padding-left: 100px;
   }
 }
@@ -15373,6 +15393,11 @@ Put all the pagelayout specific styles here.
     Created on : 17.05.2015, 08:47:11
     Author     : Admin
 */
+.pagelayout-admin #main-content-wrapper, .pagelayout-report #main-content-wrapper {
+  background: #fff !important;
+  color: #333333;
+}
+
 .pagelayout-report .admin-navigation {
   margin-bottom: 20px;
 }
@@ -16766,11 +16791,11 @@ input[type="checkbox"] + label {
   padding-bottom: 20px;
 }
 
-#page-my-index #main-content-wrapper {
+.pagelayout-mydashboard #main-content-wrapper {
   background: transparent;
   color: #fff;
 }
-#page-my-index #main-content-wrapper h2 {
+.pagelayout-mydashboard #main-content-wrapper h2 {
   background: transparent;
   color: #fff;
 }
@@ -16973,6 +16998,11 @@ input[type="checkbox"] + label {
   border: 1px solid #00a8d5;
   padding: 0 15px;
   margin-bottom: 20px;
+}
+
+.path-user.path-course .userprofile {
+  background: #fff;
+  padding: 20px 20px 0;
 }
 
 @media only screen and (max-width: 768px) {

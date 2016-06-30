@@ -11,7 +11,7 @@
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
     - #page-mod-assign-mod
-    - #page-mod-assign-view
+    - #page-mod-assign-grading
     - #page-question-type-geogebra
     - #page-mod-book-view
     - #page-mod-choice-view
@@ -64,7 +64,7 @@
 }
 
 //styling Assignment GeoGebra submissions
-#page-mod-assign-mod, #page-mod-assign-view, #page-question-type-geogebra {
+#page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra {
 
     div#applet_container1 {
         //need important because of element style
@@ -238,7 +238,7 @@ div.que.geogebra {
 
 //++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
 
-//questiontype ddmatch
+// questiontype ddmatch.
 .que.ddmatch {
 
     li.placeholder, li.matchdrag {
@@ -257,13 +257,13 @@ div.que.geogebra {
     }
 }
 
-//questiontype match
+// questiontype match.
 .que.match .answer tr.r0 td.text,
 .que.match .answer tr.r1 td.text {
     padding-right: 5px;
 }
 
-//questiontype calculatedmulti
+// questiontype calculatedmulti.
 .que.calculatedmulti {
 
     .answer div.r0 input, 
@@ -272,7 +272,7 @@ div.que.geogebra {
     }
 }
 
-//questiontype multianswer
+// questiontype multianswer.
 .que.multianswer  {
 
     .answer div.r0 input, 
@@ -288,7 +288,7 @@ div.que.geogebra {
     }
 }
 
-//questiontype multichoice
+// questiontype multichoice.
 .que.multichoice {
     .ablock, .qtext {
         margin: 0;    
@@ -297,14 +297,14 @@ div.que.geogebra {
     .ablock .prompt {
         display: none;
     }
-    
+
     .answer div.r0 input, 
     .answer div.r1 input {
         margin: 0 0 0 5px;
     }
 }
 
-//questiontype drag and drop on text
+// questiontype drag and drop on text.
 .que.ddwtos {
     .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
         border-color: $brand-primary;
@@ -315,7 +315,7 @@ div.que.geogebra {
 //+++++++++++++++++++++++++++++++++++++++  END: question styles  +++++++++++++++++++++++++++++++++++++++++++++
 
 
-//Styles for searching in mebis-Prüfungsarchiv
+// Styles for searching in mebis-Prüfungsarchiv.
 #page-repository-pmediathek-search {
 
     #page #page-content {
@@ -331,8 +331,8 @@ div.que.geogebra {
     }
 }
 
-//Styles for lists in activity content 
-#page-mod-wiki-view, #page-mod-wiki-edit, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-view, #page-mod-book-view {
+// Styles for lists in activity content. 
+#page-mod-wiki-view, #page-mod-wiki-edit, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-grading, #page-mod-book-view {
     #main-content-wrapper div[role="main"] {
         div div ul {
             padding-left: 30px;
@@ -353,7 +353,7 @@ div.que.geogebra {
     }
 }
 
-//IMS-Content
+// IMS-Content.
 #page-mod-imscp-view {
 
     .yui-layout  {
@@ -370,10 +370,37 @@ div.que.geogebra {
     } 
 }
 
-#page-mod-assign-view .homepage-container {
+// +++++++++++++++++++++++++++++++++++++++ START Grades.
+#page-mod-assign-grading .homepage-container {
     width: 100%;
     max-width: 1692px;
 }
+
+.gradeparent {
+    // If class no-overflow was used, this change would be unnecessary. 
+    margin-bottom: 1px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+
+    .gradereport-grader-table {
+        font-size: $font-size-base-small;
+        
+        img {
+            max-width: none;
+        }
+        
+        // Generating more space for more important rows.
+        .userfield.userinstitution {
+            display: none;
+        }        
+        .userfield.useremail {
+            display: none;
+        }
+    }
+}
+// +++++++++++++++++++++++++++++++++++++++ END Grades.
 
 #page-mod-lesson-view {
     input[type="submit"] {
@@ -382,7 +409,7 @@ div.que.geogebra {
 }
 
 @media only screen and (min-width: $screen-lg-min) { 
-    #page-mod-assign-view .homepage-container {
+    #page-mod-assign-grading .homepage-container {
         padding-left: 100px;
     }
 }

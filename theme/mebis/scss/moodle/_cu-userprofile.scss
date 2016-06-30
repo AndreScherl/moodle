@@ -6,6 +6,7 @@
     Author     : Franziska Hübler, ISB
 */
 
+// view user profile on #page-user-profile.
 .userprofile {
     .header-button-group {
         margin-top: -40px;
@@ -22,6 +23,12 @@
             margin-bottom: 20px;
         }
     }
+}
+
+// view user profile in courses.
+.path-user.path-course .userprofile {    
+   background: $white;
+   padding: 20px 20px 0;
 }
 
 @media only screen and (max-width: $screen-sm-min) {

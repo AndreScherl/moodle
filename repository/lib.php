@@ -3118,6 +3118,13 @@ function initialise_filepicker($args) {
     $return->userprefs['recentlicense'] = get_user_preferences('filepicker_recentlicense', '');
     $return->userprefs['recentviewmode'] = get_user_preferences('filepicker_recentviewmode', '');
 
+    // SYNERGY LEARNING - if there is only one repository, make sure it is selected.
+    if (count($repositories) == 1) {
+        $onlyrepo = reset($repositories);
+        $return->userprefs['recentrepository'] = $onlyrepo->id;
+    }
+    // SYNERGY LEARNING - if there is only one repository, make sure it is selected.
+
     user_preference_allow_ajax_update('filepicker_recentrepository', PARAM_INT);
     user_preference_allow_ajax_update('filepicker_recentlicense', PARAM_SAFEDIR);
     user_preference_allow_ajax_update('filepicker_recentviewmode', PARAM_INT);

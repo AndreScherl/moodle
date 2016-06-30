@@ -57,6 +57,7 @@ $string['showdownloadfolder'] = 'Show download folder button';
 $string['showdownloadfolder_help'] = 'If set to \'yes\', a button will be displayed allowing the contents of the folder to be downloaded as a zip file.';
 $string['showexpanded'] = 'Show subfolders expanded';
 $string['showexpanded_help'] = 'If set to \'yes\', subfolders are shown expanded by default; otherwise they are shown collapsed.';
+$string['studentedit'] = 'Allow students to modify files';
 $string['maxsizetodownload'] = 'Maximum folder download size (MB)';
 $string['maxsizetodownload_help'] = 'The maximum size of folder that can be downloaded as a zip file. If set to zero, the folder size is unlimited.';
 

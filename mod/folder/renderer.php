@@ -79,8 +79,9 @@ class mod_folder_renderer extends plugin_renderer_base {
                     $downloadbutton,
                     'mdl-align folder-download-button');
             }
-
-            if (has_capability('mod/folder:managefiles', $context)) {
+            
+            // SYNERGY LEARNING - see if students are allowed to edit files.
+            if (has_capability('mod/folder:managefiles', $context) || folder_can_edit_as_student($folder, $context)) {
                 $editbutton = $this->output->single_button(
                     new moodle_url('/mod/folder/edit.php', array('id' => $cm->id)),
                     get_string('edit')

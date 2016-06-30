@@ -2193,7 +2193,17 @@ var skipClientValidation = false;
           errorSpan.className = "error";
           element.parentNode.insertBefore(errorSpan, element.parentNode.firstChild);
           document.getElementById(errorSpan.id).setAttribute(\'TabIndex\', \'0\');
-          document.getElementById(errorSpan.id).focus();
+          
+          //fhüb: core hack - jump to eror message, awag enclosing into try catch to work with other templates than mebis.
+          //document.getElementById(errorSpan.id).focus();       
+          try {
+            var element = document.getElementById(errorSpan.id);    
+            var topbarheight = document.getElementById(\'topbar\').offsetHeight + document.getElementById(\'page-header\').offsetHeight;   
+            var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;       
+            if (element.offsetTop - scrollTop < topbarheight) {    
+                window.scrollTo(element.offsetTop - topbarheight,0);
+            }
+          } catch (e) {}
         }
 
         while (errorSpan.firstChild) {

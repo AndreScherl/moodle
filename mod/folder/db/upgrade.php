@@ -49,6 +49,25 @@ function xmldb_folder_upgrade($oldversion) {
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
+    // Moodle v2.7.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // SYNERGY LEARNING - keep track of whether or not students can edit the files in the folder.
+    if ($oldversion < 2014051201) {
+        // Define field studentedit to be added to folder.
+        $table = new xmldb_table('folder');
+        $field = new xmldb_field('studentedit', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'showexpanded');
+
+        // Conditionally launch add field studentedit.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Folder savepoint reached.
+        upgrade_mod_savepoint(true, 2014051201, 'folder');
+    }
+    // SYNERGY LEARNING
+    
     // Moodle v2.8.0 release upgrade line.
     // Put any upgrade step following this.
 

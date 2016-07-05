@@ -24,13 +24,14 @@ defined('MOODLE_INTERNAL') || die();
 use \block_mbstpl AS mbst;
 use block_mbstpl\backup;
 
-
 /**
  * Test case for deploying an original backup to template.
  * @group block_mbstpl
  */
 class mbstpl_deploy_test extends advanced_testcase {
+
     public function test_deploytemplate() {
+        global $DB;
 
         // Set up.
         $this->resetAfterTest(true);
@@ -40,7 +41,9 @@ class mbstpl_deploy_test extends advanced_testcase {
 
         // Users and courses.
         $reviewer = $this->getDataGenerator()->create_user();
-        $author = $this->getDataGenerator()->create_user();
+        $author = $this->getDataGenerator()->create_user(array('firstname' => 'test', 'lastname' => 'author'));
+        set_config('authorrole', 5, 'block_mbstpl');
+
         $origcourse = $this->getDataGenerator()->create_course();
         $this->getDataGenerator()->create_module('assign', array('course' => $origcourse->id));
         $deploycat = $this->getDataGenerator()->create_category(array('name' => 'deployhere'));
@@ -69,12 +72,14 @@ class mbstpl_deploy_test extends advanced_testcase {
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
         $this->assertCount(1, $mods, 'Expecting 1 module in restored template');
-        $this->assertEquals(++$mailcount, $mailsink->count(), "An email should have been sent after the template course was created");
+        // Send email to manager and author (= 2 Mails).
+        $mailcount = $mailcount + 2;
+        $this->assertEquals($mailcount, $mailsink->count(), "An email should have been sent after the template course was created");
 
         // Roles and capabilities.
         $systemcontext = context_system::instance();
         $deploycatcontext = context_coursecat::instance($deploycat->id);
-        $reviewrolename = 'reviewrole'.random_string();
+        $reviewrolename = 'reviewrole' . random_string();
         $reviewroleid = create_role($reviewrolename, $reviewrolename, $reviewrolename);
         assign_capability('block/mbstpl:coursetemplatereview', CAP_ALLOW, $reviewroleid, $systemcontext->id);
         set_config('reviewerrole', $reviewroleid, 'block_mbstpl');
@@ -90,5 +95,21 @@ class mbstpl_deploy_test extends advanced_testcase {
         $this->setUser($reviewer);
         mbst\course::publish($template);
         $this->assertEquals(++$mailcount, $mailsink->count());
+
+        // Delete User and keep firstname and lastname.
+        delete_user($author);
+        $deleteduser = $DB->get_record('block_mbstpl_userdeleted', array('userid' => $author->id));
+        $this->assertNotEmpty($deleteduser);
+
+        // Check whether the display name is read correctly.
+        $qidlist = \block_mbstpl\questman\manager::get_searchqs();
+        $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
+
+        $search = new mbst\search($questions, array());
+        $result = $search->get_search_result(0, 0);
+
+        $item = reset($result->courses);
+        $this->assertNotEmpty($item->deleteduserid);
     }
+
 }

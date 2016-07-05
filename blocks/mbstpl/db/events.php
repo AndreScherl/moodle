@@ -27,4 +27,8 @@ $observers = array (
         'eventname' => '\core\event\course_deleted',
         'callback' => '\block_mbstpl\course::course_deleted',
     ),
+    array(
+        'eventname' => '\core\event\user_deleted',
+        'callback' => '\block_mbstpl\user::user_deleted',
+    ),
 );

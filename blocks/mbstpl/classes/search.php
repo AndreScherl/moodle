@@ -163,11 +163,14 @@ class search {
             $wheres[] = 'c.fullname ' . $searchcriteria;
             $params = array_merge($params, $parameter);
         }
-        
+
         $filterwheres = implode("\n          AND ", $wheres);
 
         $authnamefield = $DB->sql_fullname('au.firstname', 'au.lastname');
         $selectsql = "SELECT c.id, c.fullname, cat.name AS catname, tpl.rating, $authnamefield AS authorname";
+
+        $deletedusername = $DB->sql_fullname("COALESCE(ud.firstname, ' ')", "COALESCE(ud.lastname, ' ')");
+        $selectsql .= ", $deletedusername AS deletedusername, ud.userid as deleteduserid";
 
         $orderby = '';
         if (!empty($this->sortby)) {
@@ -194,6 +197,7 @@ class search {
         JOIN {block_mbstpl_template} tpl ON tpl.courseid = c.id
         JOIN {block_mbstpl_meta} mta ON mta.templateid = tpl.id
         LEFT JOIN {user} au ON au.id = tpl.authorid
+        LEFT JOIN {block_mbstpl_userdeleted} ud ON ud.userid = tpl.authorid
         $joins
         WHERE $filterwheres
         ";
@@ -205,14 +209,7 @@ class search {
         $coresql
         $orderby
         ";
-        
-        /*$esql = str_replace('{', 'mdl_', $sql);
-        $esql = str_replace('}', '', $esql);
-        print_r($esql);
-        print_r($params);
-        print_r($limitfrom);
-        print_r($limitnum);*/
-        
+
         $countsql = "SELECT count(c.id) $coresql ";
 
         $result = new \stdClass();
@@ -220,7 +217,7 @@ class search {
         $result->courses = $DB->get_records_sql($sql, $params, $limitfrom, $limitnum);
         $result->limitfrom = $limitfrom;
         $result->limitnum = $limitnum;
-        
+
         return $result;
     }
 

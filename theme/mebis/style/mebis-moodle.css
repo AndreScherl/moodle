@@ -16713,6 +16713,7 @@ input[type="checkbox"] + label {
     - #page-course-management
     - #page-content
     - #page-admin-purgecaches 
+    - #page-admin-tool-lp-plans
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -16853,6 +16854,10 @@ input[type="checkbox"] + label {
 #page-mod-page-view.pagelayout-popup div[role="main"] div div ol > li {
   list-style-position: outside;
   list-style-image: none;
+}
+
+#page-admin-tool-lp-plans div[role="main"] {
+  padding-bottom: 20px;
 }
 
 /*

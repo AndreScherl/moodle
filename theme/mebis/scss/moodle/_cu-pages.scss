@@ -10,6 +10,7 @@
     - #page-course-management
     - #page-content
     - #page-admin-purgecaches 
+    - #page-admin-tool-lp-plans
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -50,7 +51,7 @@
 }
 //##### END: Need this styles for courseformats with backgroundcolor transparent #####
 
-//calendar
+// calendar.
 #page-calendar-view { 
     #main-content-wrapper {
         overflow: hidden;
@@ -83,7 +84,7 @@
     text-align: right;
 }
 
-// enrol page after search
+// enrol page after search.
 #page-enrol-index {
 
     #main-content-wrapper {
@@ -135,7 +136,7 @@
     }
 }
 
-// My Dashboard my/index.php
+// My Dashboard my/index.php.
 .pagelayout-mydashboard {
 
     #main-content-wrapper {
@@ -150,7 +151,7 @@
     }
 }
 
-// Page course/management.php
+// Page course/management.php.
 #page-course-management {
 
     #course-category-listings {
@@ -176,7 +177,7 @@
     }
 }
 
-//Styles for background and lists in 
+// Styles for background and lists in: 
 // - print.php pages 
 // - #page-admin-purgecaches 
 // - page-popup
@@ -202,6 +203,13 @@
                 list-style-image: none;
             }
         }        
+    }
+}
+
+// Styles for Learning plans page.
+#page-admin-tool-lp-plans {
+    div[role="main"] {
+        padding-bottom: $space-small;
     }
 }
 

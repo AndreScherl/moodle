@@ -16167,9 +16167,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-topcoll .section .completionprogress {
   padding-right: 40px;
 }
-#page-course-view-topcoll .course-format-topcoll > .completionprogress {
-  color: #fff;
-}
 #page-course-view-topcoll .course-content ul li.section.main.current {
   border-left-color: #00a8d5;
   border-left-width: 18px;
@@ -16200,16 +16197,25 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-topcoll .toggle_open:before {
   content: "\e662";
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.on {
+#page-course-view-topcoll #toggle-all .side {
+  display: none;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span {
+  color: #00a8d5;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span:hover {
+  color: #ff6600;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.on {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.on:hover {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.on:hover {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.off {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.off {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.off:hover {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.off:hover {
   background-image: none;
 }
 #page-course-view-topcoll .ctopics li.section .content .toggle {
@@ -16217,9 +16223,18 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   padding: 10px 10px 10px 0;
   border-radius: 0;
 }
-#page-course-view-topcoll .ctopics li.section .content .toggle a {
+#page-course-view-topcoll .ctopics li.section .content .toggle span {
   text-align: left;
-  color: white;
+  color: #fff;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle span:hover {
+  color: #fff;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle span.inplaceeditingon {
+  color: #000;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle a {
+  color: #fff;
 }
 #page-course-view-topcoll .ctopics li.section .content .toggle a:hover {
   color: #fff;
@@ -16259,6 +16274,13 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 }
 #page-course-view-topcoll .ctopics li.section.main .content > ul {
   padding: 0 40px 40px 40px;
+}
+#page-course-view-topcoll .course-content ul li.section.main .left, #page-course-view-topcoll .course-content ul li.section.main .right {
+  display: none;
+}
+
+#page-course-view-topcoll.editing .course-content ul li.section.main .left, #page-course-view-topcoll.editing .course-content ul li.section.main .right {
+  display: inherit;
 }
 
 .format-onetopic.path-course #main-content-wrapper {

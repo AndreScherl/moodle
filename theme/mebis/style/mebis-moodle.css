@@ -16341,6 +16341,9 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   list-style-position: outside;
   list-style-image: none;
 }
+#page-course-view-grid #gridshadebox_content .section_action_menu ul {
+  padding-left: 0;
+}
 #page-course-view-grid #gridshadebox_content #gridshadebox_close {
   padding-top: 5px;
   padding-right: 5px;
@@ -16363,9 +16366,13 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-grid .course-content .gridicon_link {
   cursor: pointer;
 }
-#page-course-view-grid .course-content ul li.section.main {
+#page-course-view-grid .course-content ul.gtopics li.section.main {
   padding: 0;
   border-bottom: inherit;
+}
+#page-course-view-grid .course-content ul.gtopics li.section .side {
+  width: inherit;
+  padding-left: 5px;
 }
 #page-course-view-grid #main-content-wrapper {
   padding: 0 15px;

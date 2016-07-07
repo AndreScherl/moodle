@@ -37,7 +37,7 @@ require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/completionlib.php');
 require_once($CFG->dirroot . '/course/format/topcoll/togglelib.php');
 
-// Horrible backwards compatible parameter aliasing..
+// Horrible backwards compatible parameter aliasing....
 if ($ctopic = optional_param('ctopics', 0, PARAM_INT)) { // Collapsed Topics old section parameter.
     $url = $PAGE->url;
     $url->param('section', $ctopic);
@@ -56,7 +56,7 @@ if ($week = optional_param('week', 0, PARAM_INT)) { // Weeks old section paramet
     debugging('Outdated week param passed to course/view.php', DEBUG_DEVELOPER);
     redirect($url);
 }
-// End backwards-compatible aliasing..
+// End backwards-compatible aliasing....
 
 $context = context_course::instance($course->id);
 
@@ -82,7 +82,7 @@ if ($devicetype == "mobile") {
 }
 $renderer->set_portable($portable);
 
-if (!empty($displaysection)) {
+if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTIPAGE)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
 } else {
     $defaulttogglepersistence = clean_param(get_config('format_topcoll', 'defaulttogglepersistence'), PARAM_INT);
@@ -103,137 +103,128 @@ if (!empty($displaysection)) {
         $userpreference,
         $course->numsections,
         $defaulttogglepersistence,
-        $defaultuserpreference));
+        $defaultuserpreference,
+        $PAGE->user_is_editing()));
 
     $tcsettings = $courseformat->get_settings();
-    ?>
-    <style type="text/css" media="screen">
-    /* <![CDATA[ */
 
-    /* -- Toggle -- */
-    .course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {
-        background-color: <?php
-                            if ($tcsettings['togglebackgroundcolour'][0] != '#') {
-                                echo '#';
-                            }
-                            echo $tcsettings['togglebackgroundcolour'];
-                          ?>;
+    echo '<style type="text/css" media="screen">';
+    echo '/* <![CDATA[ */';
+
+    echo '/* -- Toggle -- */';
+    echo '.course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {';
+    echo 'background-color: ';
+    if ($tcsettings['togglebackgroundcolour'][0] != '#') {
+        echo '#';
     }
+    echo $tcsettings['togglebackgroundcolour'].';';
+    echo '}';
 
-    /* -- Toggle text -- */
-    .course-content ul.ctopics li.section .content .toggle a, .course-content ul.ctopics li.section .content.sectionhidden {
-        color: <?php
-                if ($tcsettings['toggleforegroundcolour'][0] != '#') {
-                    echo '#';
-                }
-                echo $tcsettings['toggleforegroundcolour'];
-               ?>;
-        text-align: <?php
+    echo '/* -- Toggle text -- */';
+    echo '.course-content ul.ctopics li.section .content .toggle span, .course-content ul.ctopics li.section .content.sectionhidden {';
+    echo 'color: ';
+    if ($tcsettings['toggleforegroundcolour'][0] != '#') {
+        echo '#';
+    }
+    echo $tcsettings['toggleforegroundcolour'].';';
+    echo 'text-align: ';
     switch ($tcsettings['togglealignment']) {
         case 1:
-            echo 'left';
+            echo 'left;';
             break;
         case 3:
-            echo 'right';
+            echo 'right;';
             break;
         default:
-            echo 'center';
+            echo 'center;';
     }
-    ?>;
-    }
+    echo '}';
 
-    /* Toggle icon position. */
-    .course-content ul.ctopics li.section .content .toggle a, #toggle-all .content h4 a {
-        background-position: <?php
+    echo '/* Toggle icon position. */';
+    echo '.course-content ul.ctopics li.section .content .toggle span, #toggle-all .content h4 span {';
+    echo 'background-position: ';
     switch ($tcsettings['toggleiconposition']) {
         case 2:
             echo 'right';
             break;
         default:
             echo 'left';
-    }
-    ?> center;
-    }
+    };
+    echo ' center;';
+    echo '}';
 
-    /* -- What happens when a toggle is hovered over -- */
-    .course-content ul.ctopics li.section .content .toggle a:hover, .course-content ul.ctopics li.section .content.sectionhidden .toggle a:hover {
-        color: <?php
-                 if ($tcsettings['toggleforegroundhovercolour'][0] != '#') {
-                     echo '#';
-                 }
-                 echo $tcsettings['toggleforegroundhovercolour'];
-               ?>;
+    echo '/* -- What happens when a toggle is hovered over -- */';
+    echo '.course-content ul.ctopics li.section .content .toggle span:hover,';
+    echo '.course-content ul.ctopics li.section .content.sectionhidden .toggle span:hover {';
+    echo 'color: ';
+    if ($tcsettings['toggleforegroundhovercolour'][0] != '#') {
+        echo '#';
     }
+    echo $tcsettings['toggleforegroundhovercolour'].';';
+    echo '}';
 
-    .course-content ul.ctopics li.section .content div.toggle:hover {
-        background-color: <?php
-                            if ($tcsettings['togglebackgroundhovercolour'][0] != '#') {
-                                echo '#';
-                            }
-                            echo $tcsettings['togglebackgroundhovercolour'];
-                          ?>;
+    echo '.course-content ul.ctopics li.section .content div.toggle:hover {';
+    echo 'background-color: ';
+    if ($tcsettings['togglebackgroundhovercolour'][0] != '#') {
+        echo '#';
     }
+    echo $tcsettings['togglebackgroundhovercolour'].';';
+    echo '}';
 
-<?php
+    $topcollsidewidth = get_string('topcollsidewidthlang', 'format_topcoll');
+    $topcollsidewidthdelim = strpos($topcollsidewidth, '-');
+    $topcollsidewidthlang = strcmp(substr($topcollsidewidth, 0, $topcollsidewidthdelim), current_language());
+    $topcollsidewidthval = substr($topcollsidewidth, $topcollsidewidthdelim + 1);
     // Dynamically changing widths with language.
-    if ((!$PAGE->user_is_editing()) && ($portable == 0)) { ?>
-    .course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {
-        margin: 0 <?php echo get_string('topcollsidewidth', 'format_topcoll'); ?>;
-    }
-<?php
-    } else if ($PAGE->user_is_editing()) { ?>
-    .course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {
-        margin: 0 40px;
-    }
-<?php
+    if ((!$PAGE->user_is_editing()) && ($portable == 0) && ($topcollsidewidthlang == 0)) {
+        echo '.course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {';
+        echo 'margin: 0 '.$topcollsidewidthval.';';
+        echo '}';
+    } else if ($PAGE->user_is_editing()) {
+        echo '.course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {';
+        echo 'margin: 0 40px;';
+        echo '}';
     }
 
     // Make room for editing icons.
-    if (!$PAGE->user_is_editing()) { ?>
-    .course-content ul.ctopics li.section.main .side, .course-content ul.ctopics li.tcsection .side {
-        width: <?php echo get_string('topcollsidewidth', 'format_topcoll'); ?>;
-    }
-<?php
+    if ((!$PAGE->user_is_editing()) && ($topcollsidewidthlang == 0)) {
+        echo '.course-content ul.ctopics li.section.main .side, .course-content ul.ctopics li.tcsection .side {';
+        echo 'width: '.$topcollsidewidthval.';';
+        echo '}';
     }
 
     // Establish horizontal unordered list for horizontal columns.
-    if ($tcsettings['layoutcolumnorientation'] == 2) { ?>
-    .course-content ul.ctopics li.section {
-        display: inline-block;
-        vertical-align: top;
-    }
-    .course-content ul.ctopics li.section.hidden {
-        display: inline-block !important; /* Only using '!important' because of Bootstrap 3. */
-    }
-    body.ie7 .course-content ul.ctopics li.section {
-        zoom: 1;
-        *display: inline;
-    }
-<?php
+    if (($renderer->get_format_responsive()) && ($tcsettings['layoutcolumnorientation'] == 2)) {
+        echo '.course-content ul.ctopics li.section {';
+        echo 'display: inline-block;';
+        echo 'vertical-align: top;';
+        echo '}';
+        echo '.course-content ul.ctopics li.section.hidden {';
+        echo "display: inline-block !important; /* Only using '!important' because of Bootstrap 3. */";
+        echo '}';
     }
     // Site wide configuration Site Administration -> Plugins -> Course formats -> Collapsed Topics.
     $tcborderradiustl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustl'), PARAM_TEXT);
     $tcborderradiustr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustr'), PARAM_TEXT);
     $tcborderradiusbr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbr'), PARAM_TEXT);
     $tcborderradiusbl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbl'), PARAM_TEXT);
-    ?>
-    .course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {
-        -moz-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
-        -webkit-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
-        border-top-left-radius: <?php echo $tcborderradiustl ?>em;
-        -moz-border-top-right-radius: <?php echo $tcborderradiustr ?>em;
-        -webkit-border-top-right-radius: <?php echo $tcborderradiustr ?>em;
-        border-top-right-radius: <?php echo $tcborderradiustr ?>em;
-        -moz-border-bottom-right-radius: <?php echo $tcborderradiusbr ?>em;
-        -webkit-border-bottom-right-radius: <?php echo $tcborderradiusbr ?>em;
-        border-bottom-right-radius: <?php echo $tcborderradiusbr ?>em;
-        -moz-border-bottom-left-radius: <?php echo $tcborderradiusbl ?>em;
-        -webkit-border-bottom-left-radius: <?php echo $tcborderradiusbl ?>em;
-        border-bottom-left-radius: <?php echo $tcborderradiusbl ?>em;
-    }
-    /* ]]> */
-    </style>
-    <?php
+    echo '.course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {';
+    echo '-moz-border-top-left-radius: '.$tcborderradiustl.'em;';
+    echo '-webkit-border-top-left-radius: '.$tcborderradiustl.'em;';
+    echo 'border-top-left-radius: '.$tcborderradiustl.'em;';
+    echo '-moz-border-top-right-radius: '.$tcborderradiustr.'em;';
+    echo '-webkit-border-top-right-radius: '.$tcborderradiustr.'em;';
+    echo 'border-top-right-radius: '.$tcborderradiustr.'em;';
+    echo '-moz-border-bottom-right-radius: '.$tcborderradiusbr.'em;';
+    echo '-webkit-border-bottom-right-radius: '.$tcborderradiusbr.'em;';
+    echo 'border-bottom-right-radius: '.$tcborderradiusbr.'em;';
+    echo '-moz-border-bottom-left-radius: '.$tcborderradiusbl.'em;';
+    echo '-webkit-border-bottom-left-radius: '.$tcborderradiusbl.'em;';
+    echo 'border-bottom-left-radius: '.$tcborderradiusbl.'em;';
+    echo '}';
+
+    echo '/* ]]> */';
+    echo '</style>';
     $renderer->print_multiple_section_page($course, null, null, null, null);
 }
 

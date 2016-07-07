@@ -35,15 +35,17 @@
 M.format_topcoll = M.format_topcoll || {};
 
 // Namespace variables:
-M.format_topcoll.thesparezeros = "00000000000000000000000000"; // A constant of 26 0's to be used to pad the storage state of the toggles when converting between base 2 and 36, this is to be compact.
-M.format_topcoll.togglestate;
-M.format_topcoll.courseid;
+// A constant of 26 0's to be used to pad the storage state of the toggles when converting between base 2 and 36,
+// this is to be compact.
+M.format_topcoll.thesparezeros = "00000000000000000000000000";
+M.format_topcoll.togglestate = false;
+M.format_topcoll.courseid = 0;
 M.format_topcoll.togglePersistence = 1; // Toggle persistence - 1 = on, 0 = off.
-M.format_topcoll.ourYUI;
-M.format_topcoll.numSections;
-M.format_topcoll.ie8;
+M.format_topcoll.ourYUI = false;
+M.format_topcoll.numSections = 0;
+M.format_topcoll.userIsEditing = false;
 
-// Namespace constants:
+// Namespace constants:....
 M.format_topcoll.TOGGLE_6 = 1;
 M.format_topcoll.TOGGLE_5 = 2;
 M.format_topcoll.TOGGLE_4 = 4;
@@ -60,7 +62,8 @@ M.format_topcoll.TOGGLE_1 = 32;
  * @param {Integer} theTogglePersistence Persistence on (1) or off (0).
  * @param {Integer} theDefaultTogglePersistence Persistence all open (1) or all closed (0) when thetogglestate is null.
  */
-M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections, theTogglePersistence, theDefaultTogglePersistence) {
+M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections, theTogglePersistence,
+    theDefaultTogglePersistence, theUserIsEditing) {
     "use strict";
     // Init.
     this.ourYUI = Y;
@@ -68,12 +71,10 @@ M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections,
     this.togglestate = theToggleState;
     this.numSections = parseInt(theNumSections);
     this.togglePersistence = theTogglePersistence;
+    this.userIsEditing = theUserIsEditing;
 
-    // IE8 - humm!
-    var bodyNode = Y.one(document.body);
-    M.format_topcoll.ie8 = bodyNode.hasClass('ie8');
     if ((this.togglestate !== null) && (this.togglePersistence == 1)) { // Toggle persistence - 1 = on, 0 = off.
-        if (this.is_old_preference(this.togglestate) == true) {
+        if (this.is_old_preference(this.togglestate) === true) {
             // Old preference, so convert to new.
             this.convert_to_new_preference();
         }
@@ -81,7 +82,7 @@ M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections,
         var numdigits = this.get_required_digits(this.numSections);
         if (numdigits > this.togglestate.length) {
             var dchar;
-            if (theDefaultTogglePersistence == 0) {
+            if (theDefaultTogglePersistence === 0) {
                 dchar = this.get_min_digit();
             } else {
                 dchar = this.get_max_digit();
@@ -95,18 +96,21 @@ M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections,
         }
     } else {
         // Reset to default.
-        if (theDefaultTogglePersistence == 0) {
+        if (theDefaultTogglePersistence === 0) {
             this.resetState(this.get_min_digit());
         } else {
             this.resetState(this.get_max_digit());
         }
     }
 
-    // Info on http://yuilibrary.com/yui/docs/event/delegation.html
-    // Delegated event handler for the toggles.
-    // Inspiration thanks to Ben Kelada.
-    // Code help thanks to the guru Andrew Nicols.
-    Y.delegate('click', this.toggleClick, Y.config.doc, 'ul.ctopics .toggle', this);
+    // For some reason Y.delegate does not work on iPhones / iPad's on M3.1 with 'spans' instead of 'a' tags.
+    for (var togi = 1; togi <= this.numSections; togi++) {
+        // Cope with hidden / not shown toggles.
+        var toggle = Y.one("ul.ctopics #toggle-" + togi);
+        if (toggle) {
+            toggle.on('click', this.toggleClick, this);
+        }
+    }
 
     // Event handlers for all opened / closed.
     var allopen = Y.one("#toggles-all-opened");
@@ -120,6 +124,12 @@ M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections,
 };
 
 M.format_topcoll.toggleClick = function(e) {
+    if (this.userIsEditing) {
+        var parentClasses = e.target.get('parentNode').getAttribute('class');
+        if ((parentClasses.indexOf('quickediticon') > -1) || (parentClasses.indexOf('inplaceeditable') > -1)) {
+            return;
+        }
+    }
     var toggleIndex = parseInt(e.currentTarget.get('id').replace("toggle-", ""));
     e.preventDefault();
     this.toggle_topic(e.currentTarget, toggleIndex);
@@ -128,7 +138,8 @@ M.format_topcoll.toggleClick = function(e) {
 M.format_topcoll.allOpenClick = function(e) {
     e.preventDefault();
     M.format_topcoll.ourYUI.all(".toggledsection").addClass('sectionopen');
-    M.format_topcoll.ourYUI.all(".toggle a").addClass('toggle_open').removeClass('toggle_closed');
+    M.format_topcoll.ourYUI.all(".toggle span.the_toggle").addClass('toggle_open').removeClass('toggle_closed')
+        .setAttribute('aria-pressed', 'true');
     M.format_topcoll.resetState(M.format_topcoll.get_max_digit());
     M.format_topcoll.save_toggles();
 };
@@ -136,7 +147,8 @@ M.format_topcoll.allOpenClick = function(e) {
 M.format_topcoll.allCloseClick = function(e) {
     e.preventDefault();
     M.format_topcoll.ourYUI.all(".toggledsection").removeClass('sectionopen');
-    M.format_topcoll.ourYUI.all(".toggle a").addClass('toggle_closed').removeClass('toggle_open');
+    M.format_topcoll.ourYUI.all(".toggle span.the_toggle").addClass('toggle_closed').removeClass('toggle_open')
+        .setAttribute('aria-pressed', 'false');
     M.format_topcoll.resetState(M.format_topcoll.get_min_digit());
     M.format_topcoll.save_toggles();
 };
@@ -153,61 +165,38 @@ M.format_topcoll.resetState = function(dchar) {
 // Args - targetNode that initiated the call, toggleNum the number of the toggle.
 M.format_topcoll.toggle_topic = function(targetNode, toggleNum) {
     "use strict";
-    var targetLink = targetNode.one('a');
+    var target = targetNode.one('span.the_toggle');
     var state;
-    if (!targetLink.hasClass('toggle_open')) {
-        targetLink.addClass('toggle_open').removeClass('toggle_closed');
-        // take care of special markup of the mebis theme...
-        if(targetLink.one('.closebutton') != null) {
-            //changed toggle targets
-            targetLink.one('.closebutton').setHTML('');
-            $('#toggledsection-'+toggleNum).parent().parent().show();
-            $('#toggledsection-'+toggleNum).parent().show();
-            $('#toggledsection-'+toggleNum).addClass('sectionopen');
-        } else {
-            // ... and also let other themes work
-            targetNode.next('.toggledsection').addClass('sectionopen');
-        }
+    if (!target.hasClass('toggle_open')) {
+        target.addClass('toggle_open').removeClass('toggle_closed').setAttribute('aria-pressed', 'true');
+        targetNode.next('.toggledsection').addClass('sectionopen');
         state = true;
     } else {
-        targetLink.addClass('toggle_closed').removeClass('toggle_open');
-        // take care of special markup of the mebis theme
-        if(targetLink.one('.closebutton') != null) {
-            //changed toggle targets
-            targetLink.one('.closebutton').setHTML('');
-            $('#toggledsection-'+toggleNum).removeClass('sectionopen');
-            $('#toggledsection-'+toggleNum).parent().hide();
-            $('#toggledsection-'+toggleNum).parent().parent().hide();
-        } else {
-            // ... and also let other themes work
-            targetNode.next('.toggledsection').removeClass('sectionopen');
-        }
+        target.addClass('toggle_closed').removeClass('toggle_open').setAttribute('aria-pressed', 'false');
+        targetNode.next('.toggledsection').removeClass('sectionopen');
         state = false;
-    }
-    //IE 8 Hack/workaround to force IE8 to repaint everything
-    if (M.format_topcoll.ie8) {
-        M.format_topcoll.ourYUI.all(".toggle a").addClass('ie8_hackclass_donotuseincss').removeClass('ie8_hackclass_donotuseincss');
-        console.log('IE8 repaint.');
     }
 
     this.set_toggle_state(toggleNum, state);
     this.save_toggles();
 };
 
-// Old maximum number of sections was 52, but as the conversion utilises integers which are 32 bit signed, this must be broken into two string segments for the
-// process to work.  Therefore each 6 character base 36 string will represent 26 characters for part 1 and 27 for part 2 in base 2.
-// This is all required to save cookie space, so instead of using 53 bytes (characters) per course, only 12 are used.
-// Convert from a base 36 string to a base 2 string - effectively a private function.
-// Args - thirtysix - a 12 character string representing a base 36 number.
+/* Old maximum number of sections was 52, but as the conversion utilises integers which are 32 bit signed,
+   this must be broken into two string segments for the process to work.  Therefore each 6 character base 36
+   string will represent 26 characters for part 1 and 27 for part 2 in base 2.
+   This is all required to save cookie space, so instead of using 53 bytes (characters) per course, only 12 are used.
+   Convert from a base 36 string to a base 2 string - effectively a private function.
+  Args - thirtysix - a 12 character string representing a base 36 number. */
 M.format_topcoll.to2baseString = function(thirtysix) {
     "use strict";
-    // Break apart the string because integers are signed 32 bit and therefore can only store 31 bits, therefore a 53 bit number will cause overflow / carry with loss of resolution.
+    // Break apart the string because integers are signed 32 bit and therefore can only store 31 bits, therefore a
+    // 53 bit number will cause overflow / carry with loss of resolution.
     var firstpart = parseInt(thirtysix.substring(0,6),36);
     var secondpart = parseInt(thirtysix.substring(6,12),36);
     var fps = firstpart.toString(2);
     var sps = secondpart.toString(2);
 
-    // Add in preceding 0's if base 2 sub strings are not long enough
+    // Add in preceding 0's if base 2 sub strings are not long enough.
     if (fps.length < 26) {
         // Need to PAD.
         fps = this.thesparezeros.substring(0,(26 - fps.length)) + fps;
@@ -220,8 +209,8 @@ M.format_topcoll.to2baseString = function(thirtysix) {
     return fps + sps;
 };
 
-// Save the toggles - called from togglebinary and allToggle.
-// AJAX call to server to save the state of the toggles for this course for the current user if on.
+/* Save the toggles - called from togglebinary and allToggle.
+   AJAX call to server to save the state of the toggles for this course for the current user if on. */
 M.format_topcoll.save_toggles = function() {
     "use strict";
     if (this.togglePersistence == 1) { // Toggle persistence - 1 = on, 0 = off.
@@ -229,7 +218,7 @@ M.format_topcoll.save_toggles = function() {
     }
 };
 
-// New base 64 code:
+// New base 64 code:....
 M.format_topcoll.is_old_preference = function(pref) {
     "use strict";
     var retr = false;
@@ -259,7 +248,9 @@ M.format_topcoll.convert_to_new_preference = function() {
     bin = toggleBinary.substring(49, 53);
     logbintext += bin + ' ';
     value = parseInt(bin, 2);
-    value = value << 2;
+    // @codingStandardsIgnoreStart
+    value = value << 2; // jshint ignore:line
+    // @codingStandardsIgnoreEnd
     this.togglestate += this.encode_value_to_character(value);
 };
 
@@ -273,10 +264,14 @@ M.format_topcoll.set_toggle_state = function(togglenum, state) {
     var togglecharpos = this.get_toggle_pos(togglenum);
     var toggleflag = this.get_toggle_flag(togglenum, togglecharpos);
     var value = this.decode_character_to_value(this.togglestate.charAt(togglecharpos - 1));
-    if (state == true) {
-        value |= toggleflag;
+    if (state === true) {
+        // @codingStandardsIgnoreStart
+        value |= toggleflag; // jshint ignore:line
+        // @codingStandardsIgnoreEnd
     } else {
-        value &= ~toggleflag;
+        // @codingStandardsIgnoreStart
+        value &= ~toggleflag; // jshint ignore:line
+        // @codingStandardsIgnoreEnd
     }
     var newchar = this.encode_value_to_character(value);
     var start = this.togglestate.substring(0,togglecharpos - 1);
@@ -296,12 +291,12 @@ M.format_topcoll.get_toggle_pos = function(togglenum) {
 
 M.format_topcoll.get_min_digit = function() {
     "use strict";
-    return ':'; // 58 ':';
+    return ':'; // ':' is 58.
 };
 
 M.format_topcoll.get_max_digit = function() {
     "use strict";
-    return 'y'; // 58 'y';
+    return 'y'; // 'y' is 121.
 };
 
 M.format_topcoll.get_toggle_flag = function(togglenum, togglecharpos) {
@@ -334,7 +329,7 @@ M.format_topcoll.get_toggle_flag = function(togglenum, togglecharpos) {
 M.format_topcoll.decode_character_to_value = function(character) {
     "use strict";
     return character.charCodeAt(0) - 58;
-}
+};
 
 M.format_topcoll.encode_value_to_character = function(val) {
     "use strict";
@@ -354,18 +349,17 @@ M.format_topcoll.encode_value_to_character = function(val) {
  */
 M.format_topcoll.set_user_preference = function(name, value) {
     YUI().use('io', function(Y) {
-        var url = M.cfg.wwwroot + '/course/format/topcoll/settopcollpref.php?sesskey=' +
-                M.cfg.sesskey + '&pref=' + encodeURI(name) + '&value=' + encodeURI(value);
+        var url = M.cfg.wwwroot + '/course/format/topcoll/settopcollpref.php?sesskey=' + M.cfg.sesskey + '&pref=' + encodeURI(name) + '&value=' + encodeURI(value); // jshint ignore:line
 
         // If we are a developer, ensure that failures are reported.
         var cfg = {
-                method: 'get',
-                on: {}
-            };
+            method: 'get',
+            on: {}
+        };
         if (M.cfg.developerdebug) {
-            cfg.on.failure = function(id, o, args) {
-                console.log("Error updating topcoll preference '" + name + "' using AJAX.  Almost certainly your session has timed out.  Clicking this link will repeat the AJAX call that failed so you can see the error: ");
-            }
+            cfg.on.failure = function() {
+                console.log("Error updating topcoll preference '" + name + "' using AJAX.  Almost certainly your session has timed out.  Clicking this link will repeat the AJAX call that failed so you can see the error: "); // jshint ignore:line
+            };
         }
 
         // Make the request.

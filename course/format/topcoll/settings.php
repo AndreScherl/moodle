@@ -31,12 +31,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  *
  */
-
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_heading('format_topcoll_defaults', get_string('defaultheadingsub', 'format_topcoll'),
-        format_text(get_string('defaultheadingsubdesc', 'format_topcoll'), FORMAT_MARKDOWN)));
+    $settings->add(new admin_setting_heading('format_topcoll_defaults',
+            get_string('defaultheadingsub', 'format_topcoll'),
+            format_text(get_string('defaultheadingsubdesc', 'format_topcoll'), FORMAT_MARKDOWN)));
 
     /* Default course display.
      * Course display default, can be either one of:
@@ -60,56 +60,56 @@ if ($ADMIN->fulltree) {
     $description = get_string('defaultdisplayinstructions_desc', 'format_topcoll');
     $default = 2;
     $choices = array(
-        1 => new lang_string('no'),   // No.
+        1 => new lang_string('no'), // No.
         2 => new lang_string('yes')   // Yes.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 
     /* Layout configuration.
-       Here you can see what numbers in the array represent what layout for setting the default value below.
-       1 => Toggle word, toggle section x and section number - default.
-       2 => Toggle word and section number.
-       3 => Toggle word and toggle section x.
-       4 => Toggle word.
-       5 => Toggle section x and section number.
-       6 => Section number.
-       7 => No additions.
-       8 => Toggle section x.
-       Default layout to use - used when a new Collapsed Topics course is created or an old one is accessed for the first time
-       after installing this functionality introduced in CONTRIB-3378. */
+      Here you can see what numbers in the array represent what layout for setting the default value below.
+      1 => Toggle word, toggle section x and section number - default.
+      2 => Toggle word and section number.
+      3 => Toggle word and toggle section x.
+      4 => Toggle word.
+      5 => Toggle section x and section number.
+      6 => Section number.
+      7 => No additions.
+      8 => Toggle section x.
+      Default layout to use - used when a new Collapsed Topics course is created or an old one is accessed for the first time
+      after installing this functionality introduced in CONTRIB-3378. */
     $name = 'format_topcoll/defaultlayoutelement';
     $title = get_string('defaultlayoutelement', 'format_topcoll');
     $description = get_string('defaultlayoutelement_descpositive', 'format_topcoll');
     $default = 1;
-    $choices = array( // In insertion order and not numeric for sorting purposes.
-        1 => new lang_string('setlayout_all', 'format_topcoll'),                             // Toggle word, toggle section x and section number - default.
-        3 => new lang_string('setlayout_toggle_word_section_x', 'format_topcoll'),           // Toggle word and toggle section x.
-        2 => new lang_string('setlayout_toggle_word_section_number', 'format_topcoll'),      // Toggle word and section number.
+    $choices = array(// In insertion order and not numeric for sorting purposes.
+        1 => new lang_string('setlayout_all', 'format_topcoll'), // Toggle word, toggle section x and section number - default.
+        3 => new lang_string('setlayout_toggle_word_section_x', 'format_topcoll'), // Toggle word and toggle section x.
+        2 => new lang_string('setlayout_toggle_word_section_number', 'format_topcoll'), // Toggle word and section number.
         5 => new lang_string('setlayout_toggle_section_x_section_number', 'format_topcoll'), // Toggle section x and section number.
-        4 => new lang_string('setlayout_toggle_word', 'format_topcoll'),                     // Toggle word.
-        8 => new lang_string('setlayout_toggle_section_x', 'format_topcoll'),                // Toggle section x.
-        6 => new lang_string('setlayout_section_number', 'format_topcoll'),                  // Section number.
+        4 => new lang_string('setlayout_toggle_word', 'format_topcoll'), // Toggle word.
+        8 => new lang_string('setlayout_toggle_section_x', 'format_topcoll'), // Toggle section x.
+        6 => new lang_string('setlayout_section_number', 'format_topcoll'), // Section number.
         7 => new lang_string('setlayout_no_additions', 'format_topcoll')                     // No additions.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 
     /* Structure configuration.
-       Here so you can see what numbers in the array represent what structure for setting the default value below.
-       1 => Topic.
-       2 => Week.
-       3 => Latest Week First.
-       4 => Current Topic First.
-       5 => Day.
-       Default structure to use - used when a new Collapsed Topics course is created or an old one is accessed for the first time
-       after installing this functionality introduced in CONTRIB-3378. */
+      Here so you can see what numbers in the array represent what structure for setting the default value below.
+      1 => Topic.
+      2 => Week.
+      3 => Latest Week First.
+      4 => Current Topic First.
+      5 => Day.
+      Default structure to use - used when a new Collapsed Topics course is created or an old one is accessed for the first time
+      after installing this functionality introduced in CONTRIB-3378. */
     $name = 'format_topcoll/defaultlayoutstructure';
     $title = get_string('defaultlayoutstructure', 'format_topcoll');
     $description = get_string('defaultlayoutstructure_desc', 'format_topcoll');
     $default = 1;
     $choices = array(
-        1 => new lang_string('setlayoutstructuretopic', 'format_topcoll'),             // Topic.
-        2 => new lang_string('setlayoutstructureweek', 'format_topcoll'),              // Week.
-        3 => new lang_string('setlayoutstructurelatweekfirst', 'format_topcoll'),      // Latest Week First.
+        1 => new lang_string('setlayoutstructuretopic', 'format_topcoll'), // Topic.
+        2 => new lang_string('setlayoutstructureweek', 'format_topcoll'), // Week.
+        3 => new lang_string('setlayoutstructurelatweekfirst', 'format_topcoll'), // Latest Week First.
         4 => new lang_string('setlayoutstructurecurrenttopicfirst', 'format_topcoll'), // Current Topic First.
         5 => new lang_string('setlayoutstructureday', 'format_topcoll')                // Day.
     );
@@ -121,8 +121,8 @@ if ($ADMIN->fulltree) {
     $description = get_string('defaultlayoutcolumns_desc', 'format_topcoll');
     $default = 1;
     $choices = array(
-        1 => new lang_string('one', 'format_topcoll'),   // Default.
-        2 => new lang_string('two', 'format_topcoll'),   // Two.
+        1 => new lang_string('one', 'format_topcoll'), // Default.
+        2 => new lang_string('two', 'format_topcoll'), // Two.
         3 => new lang_string('three', 'format_topcoll'), // Three.
         4 => new lang_string('four', 'format_topcoll')   // Four.
     );
@@ -178,7 +178,7 @@ if ($ADMIN->fulltree) {
     $description = get_string('defaulttogglealignment_desc', 'format_topcoll');
     $default = 2;
     $choices = array(
-        1 => new lang_string('left', 'format_topcoll'),   // Left.
+        1 => new lang_string('left', 'format_topcoll'), // Left.
         2 => new lang_string('center', 'format_topcoll'), // Centre.
         3 => new lang_string('right', 'format_topcoll')   // Right.
     );
@@ -191,7 +191,7 @@ if ($ADMIN->fulltree) {
     $description = get_string('defaulttoggleiconposition_desc', 'format_topcoll');
     $default = 1;
     $choices = array(
-        1 => new lang_string('left', 'format_topcoll'),   // Left.
+        1 => new lang_string('left', 'format_topcoll'), // Left.
         2 => new lang_string('right', 'format_topcoll')   // Right.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
@@ -215,18 +215,18 @@ if ($ADMIN->fulltree) {
     $description = get_string('defaulttoggleiconset_desc', 'format_topcoll');
     $default = 'arrow';
     $choices = array(
-        'arrow' => new lang_string('arrow', 'format_topcoll'),               // Arrow icon set.
-        'bulb' => new lang_string('bulb', 'format_topcoll'),                 // Bulb icon set.
-        'cloud' => new lang_string('cloud', 'format_topcoll'),               // Cloud icon set.
-        'eye' => new lang_string('eye', 'format_topcoll'),                   // Eye icon set.
+        'arrow' => new lang_string('arrow', 'format_topcoll'), // Arrow icon set.
+        'bulb' => new lang_string('bulb', 'format_topcoll'), // Bulb icon set.
+        'cloud' => new lang_string('cloud', 'format_topcoll'), // Cloud icon set.
+        'eye' => new lang_string('eye', 'format_topcoll'), // Eye icon set.
         'groundsignal' => new lang_string('groundsignal', 'format_topcoll'), // Ground signal set.
-        'led' => new lang_string('led', 'format_topcoll'),                   // LED icon set.
-        'point' => new lang_string('point', 'format_topcoll'),               // Point icon set.
-        'power' => new lang_string('power', 'format_topcoll'),               // Power icon set.
-        'radio' => new lang_string('radio', 'format_topcoll'),               // Radio icon set.
-        'smiley' => new lang_string('smiley', 'format_topcoll'),             // Smiley icon set.
-        'square' => new lang_string('square', 'format_topcoll'),             // Square icon set.
-        'sunmoon' => new lang_string('sunmoon', 'format_topcoll'),           // Sun / Moon icon set.
+        'led' => new lang_string('led', 'format_topcoll'), // LED icon set.
+        'point' => new lang_string('point', 'format_topcoll'), // Point icon set.
+        'power' => new lang_string('power', 'format_topcoll'), // Power icon set.
+        'radio' => new lang_string('radio', 'format_topcoll'), // Radio icon set.
+        'smiley' => new lang_string('smiley', 'format_topcoll'), // Smiley icon set.
+        'square' => new lang_string('square', 'format_topcoll'), // Square icon set.
+        'sunmoon' => new lang_string('sunmoon', 'format_topcoll'), // Sun / Moon icon set.
         'switch' => new lang_string('switch', 'format_topcoll')              // Switch icon set.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
@@ -257,13 +257,14 @@ if ($ADMIN->fulltree) {
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 
-    $settings->add(new admin_setting_heading('format_topcoll_configuration', get_string('configurationheadingsub', 'format_topcoll'),
-        format_text(get_string('configurationheadingsubdesc', 'format_topcoll'), FORMAT_MARKDOWN)));
+    $settings->add(new admin_setting_heading('format_topcoll_configuration',
+            get_string('configurationheadingsub', 'format_topcoll'),
+            format_text(get_string('configurationheadingsubdesc', 'format_topcoll'), FORMAT_MARKDOWN)));
 
     /* Toggle persistence - 1 = on, 0 = off.  You may wish to disable for an AJAX performance increase.
-       Note: If turning persistence off remove any rows containing 'topcoll_toggle_x' in the 'name' field
-             of the 'user_preferences' table in the database.  Where the 'x' in 'topcoll_toggle_x' will be
-             a course id. */
+      Note: If turning persistence off remove any rows containing 'topcoll_toggle_x' in the 'name' field
+      of the 'user_preferences' table in the database.  Where the 'x' in 'topcoll_toggle_x' will be
+      a course id. */
     $name = 'format_topcoll/defaulttogglepersistence';
     $title = get_string('defaulttogglepersistence', 'format_topcoll');
     $description = get_string('defaulttogglepersistence_desc', 'format_topcoll');
@@ -291,7 +292,7 @@ if ($ADMIN->fulltree) {
     $name = 'format_topcoll/defaulttoggleiconsize';
     $title = get_string('defaulttoggleiconsize', 'format_topcoll');
     $description = get_string('defaulttoggleiconsize_desc', 'format_topcoll');
-    $default = 'medium';
+    $default = 'tc-medium';
     $choices = array(
         'tc-small' => new lang_string('small', 'format_topcoll'),
         'tc-medium' => new lang_string('medium', 'format_topcoll'),
@@ -354,49 +355,6 @@ if ($ADMIN->fulltree) {
     $title = get_string('defaulttoggleborderradiustr', 'format_topcoll');
     $description = get_string('defaulttoggleborderradiustr_desc', 'format_topcoll');
     $default = '0.7';
-    $choices = array(
-        '0.0' => new lang_string('em0_0', 'format_topcoll'),
-        '0.1' => new lang_string('em0_1', 'format_topcoll'),
-        '0.2' => new lang_string('em0_2', 'format_topcoll'),
-        '0.3' => new lang_string('em0_3', 'format_topcoll'),
-        '0.4' => new lang_string('em0_4', 'format_topcoll'),
-        '0.5' => new lang_string('em0_5', 'format_topcoll'),
-        '0.6' => new lang_string('em0_6', 'format_topcoll'),
-        '0.7' => new lang_string('em0_7', 'format_topcoll'),
-        '0.8' => new lang_string('em0_8', 'format_topcoll'),
-        '0.9' => new lang_string('em0_9', 'format_topcoll'),
-        '1.0' => new lang_string('em1_0', 'format_topcoll'),
-        '1.1' => new lang_string('em1_1', 'format_topcoll'),
-        '1.2' => new lang_string('em1_2', 'format_topcoll'),
-        '1.3' => new lang_string('em1_3', 'format_topcoll'),
-        '1.4' => new lang_string('em1_4', 'format_topcoll'),
-        '1.5' => new lang_string('em1_5', 'format_topcoll'),
-        '1.6' => new lang_string('em1_6', 'format_topcoll'),
-        '1.7' => new lang_string('em1_7', 'format_topcoll'),
-        '1.8' => new lang_string('em1_8', 'format_topcoll'),
-        '1.9' => new lang_string('em1_9', 'format_topcoll'),
-        '2.0' => new lang_string('em2_0', 'format_topcoll'),
-        '2.1' => new lang_string('em2_1', 'format_topcoll'),
-        '2.2' => new lang_string('em2_2', 'format_topcoll'),
-        '2.3' => new lang_string('em2_3', 'format_topcoll'),
-        '2.4' => new lang_string('em2_4', 'format_topcoll'),
-        '2.5' => new lang_string('em2_5', 'format_topcoll'),
-        '2.6' => new lang_string('em2_6', 'format_topcoll'),
-        '2.7' => new lang_string('em2_7', 'format_topcoll'),
-        '2.8' => new lang_string('em2_8', 'format_topcoll'),
-        '2.9' => new lang_string('em2_9', 'format_topcoll'),
-        '3.0' => new lang_string('em3_0', 'format_topcoll'),
-        '3.1' => new lang_string('em3_1', 'format_topcoll'),
-        '3.2' => new lang_string('em3_2', 'format_topcoll'),
-        '3.3' => new lang_string('em3_3', 'format_topcoll'),
-        '3.4' => new lang_string('em3_4', 'format_topcoll'),
-        '3.5' => new lang_string('em3_5', 'format_topcoll'),
-        '3.6' => new lang_string('em3_6', 'format_topcoll'),
-        '3.7' => new lang_string('em3_7', 'format_topcoll'),
-        '3.8' => new lang_string('em3_8', 'format_topcoll'),
-        '3.9' => new lang_string('em3_9', 'format_topcoll'),
-        '4.0' => new lang_string('em4_0', 'format_topcoll')
-    );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 
     // Toggle border radius bottom right.
@@ -404,49 +362,6 @@ if ($ADMIN->fulltree) {
     $title = get_string('defaulttoggleborderradiusbr', 'format_topcoll');
     $description = get_string('defaulttoggleborderradiusbr_desc', 'format_topcoll');
     $default = '0.7';
-    $choices = array(
-        '0.0' => new lang_string('em0_0', 'format_topcoll'),
-        '0.1' => new lang_string('em0_1', 'format_topcoll'),
-        '0.2' => new lang_string('em0_2', 'format_topcoll'),
-        '0.3' => new lang_string('em0_3', 'format_topcoll'),
-        '0.4' => new lang_string('em0_4', 'format_topcoll'),
-        '0.5' => new lang_string('em0_5', 'format_topcoll'),
-        '0.6' => new lang_string('em0_6', 'format_topcoll'),
-        '0.7' => new lang_string('em0_7', 'format_topcoll'),
-        '0.8' => new lang_string('em0_8', 'format_topcoll'),
-        '0.9' => new lang_string('em0_9', 'format_topcoll'),
-        '1.0' => new lang_string('em1_0', 'format_topcoll'),
-        '1.1' => new lang_string('em1_1', 'format_topcoll'),
-        '1.2' => new lang_string('em1_2', 'format_topcoll'),
-        '1.3' => new lang_string('em1_3', 'format_topcoll'),
-        '1.4' => new lang_string('em1_4', 'format_topcoll'),
-        '1.5' => new lang_string('em1_5', 'format_topcoll'),
-        '1.6' => new lang_string('em1_6', 'format_topcoll'),
-        '1.7' => new lang_string('em1_7', 'format_topcoll'),
-        '1.8' => new lang_string('em1_8', 'format_topcoll'),
-        '1.9' => new lang_string('em1_9', 'format_topcoll'),
-        '2.0' => new lang_string('em2_0', 'format_topcoll'),
-        '2.1' => new lang_string('em2_1', 'format_topcoll'),
-        '2.2' => new lang_string('em2_2', 'format_topcoll'),
-        '2.3' => new lang_string('em2_3', 'format_topcoll'),
-        '2.4' => new lang_string('em2_4', 'format_topcoll'),
-        '2.5' => new lang_string('em2_5', 'format_topcoll'),
-        '2.6' => new lang_string('em2_6', 'format_topcoll'),
-        '2.7' => new lang_string('em2_7', 'format_topcoll'),
-        '2.8' => new lang_string('em2_8', 'format_topcoll'),
-        '2.9' => new lang_string('em2_9', 'format_topcoll'),
-        '3.0' => new lang_string('em3_0', 'format_topcoll'),
-        '3.1' => new lang_string('em3_1', 'format_topcoll'),
-        '3.2' => new lang_string('em3_2', 'format_topcoll'),
-        '3.3' => new lang_string('em3_3', 'format_topcoll'),
-        '3.4' => new lang_string('em3_4', 'format_topcoll'),
-        '3.5' => new lang_string('em3_5', 'format_topcoll'),
-        '3.6' => new lang_string('em3_6', 'format_topcoll'),
-        '3.7' => new lang_string('em3_7', 'format_topcoll'),
-        '3.8' => new lang_string('em3_8', 'format_topcoll'),
-        '3.9' => new lang_string('em3_9', 'format_topcoll'),
-        '4.0' => new lang_string('em4_0', 'format_topcoll')
-    );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 
     // Toggle border radius bottom left.
@@ -454,48 +369,16 @@ if ($ADMIN->fulltree) {
     $title = get_string('defaulttoggleborderradiusbl', 'format_topcoll');
     $description = get_string('defaulttoggleborderradiusbl_desc', 'format_topcoll');
     $default = '0.7';
+    $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
+
+    /* Format responsive.  Turn on to support a non responsive theme theme. */
+    $name = 'format_topcoll/formatresponsive';
+    $title = get_string('formatresponsive', 'format_topcoll');
+    $description = get_string('formatresponsive_desc', 'format_topcoll');
+    $default = 0;
     $choices = array(
-        '0.0' => new lang_string('em0_0', 'format_topcoll'),
-        '0.1' => new lang_string('em0_1', 'format_topcoll'),
-        '0.2' => new lang_string('em0_2', 'format_topcoll'),
-        '0.3' => new lang_string('em0_3', 'format_topcoll'),
-        '0.4' => new lang_string('em0_4', 'format_topcoll'),
-        '0.5' => new lang_string('em0_5', 'format_topcoll'),
-        '0.6' => new lang_string('em0_6', 'format_topcoll'),
-        '0.7' => new lang_string('em0_7', 'format_topcoll'),
-        '0.8' => new lang_string('em0_8', 'format_topcoll'),
-        '0.9' => new lang_string('em0_9', 'format_topcoll'),
-        '1.0' => new lang_string('em1_0', 'format_topcoll'),
-        '1.1' => new lang_string('em1_1', 'format_topcoll'),
-        '1.2' => new lang_string('em1_2', 'format_topcoll'),
-        '1.3' => new lang_string('em1_3', 'format_topcoll'),
-        '1.4' => new lang_string('em1_4', 'format_topcoll'),
-        '1.5' => new lang_string('em1_5', 'format_topcoll'),
-        '1.6' => new lang_string('em1_6', 'format_topcoll'),
-        '1.7' => new lang_string('em1_7', 'format_topcoll'),
-        '1.8' => new lang_string('em1_8', 'format_topcoll'),
-        '1.9' => new lang_string('em1_9', 'format_topcoll'),
-        '2.0' => new lang_string('em2_0', 'format_topcoll'),
-        '2.1' => new lang_string('em2_1', 'format_topcoll'),
-        '2.2' => new lang_string('em2_2', 'format_topcoll'),
-        '2.3' => new lang_string('em2_3', 'format_topcoll'),
-        '2.4' => new lang_string('em2_4', 'format_topcoll'),
-        '2.5' => new lang_string('em2_5', 'format_topcoll'),
-        '2.6' => new lang_string('em2_6', 'format_topcoll'),
-        '2.7' => new lang_string('em2_7', 'format_topcoll'),
-        '2.8' => new lang_string('em2_8', 'format_topcoll'),
-        '2.9' => new lang_string('em2_9', 'format_topcoll'),
-        '3.0' => new lang_string('em3_0', 'format_topcoll'),
-        '3.1' => new lang_string('em3_1', 'format_topcoll'),
-        '3.2' => new lang_string('em3_2', 'format_topcoll'),
-        '3.3' => new lang_string('em3_3', 'format_topcoll'),
-        '3.4' => new lang_string('em3_4', 'format_topcoll'),
-        '3.5' => new lang_string('em3_5', 'format_topcoll'),
-        '3.6' => new lang_string('em3_6', 'format_topcoll'),
-        '3.7' => new lang_string('em3_7', 'format_topcoll'),
-        '3.8' => new lang_string('em3_8', 'format_topcoll'),
-        '3.9' => new lang_string('em3_9', 'format_topcoll'),
-        '4.0' => new lang_string('em4_0', 'format_topcoll')
+        0 => new lang_string('off', 'format_topcoll'), // Off.
+        1 => new lang_string('on', 'format_topcoll')   // On.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 }

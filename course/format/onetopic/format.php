@@ -58,12 +58,12 @@ $renderer = $PAGE->get_renderer('format_onetopic');
 
 $section = optional_param('section', -1, PARAM_INT);
 
-if (isset($section) && $section >= 0) {
+if (isset($section) && $section >= 0 && $course->numsections >= $section) {
      $USER->display[$course->id] = $section;
      $displaysection = $section;
 } 
 else {
-    if (isset($USER->display[$course->id])) {
+    if (isset($USER->display[$course->id]) && $course->numsections >= $USER->display[$course->id]) {
         $displaysection = $USER->display[$course->id];
     } else {
         $USER->display[$course->id] = 0;
@@ -71,7 +71,23 @@ else {
     }
 }
 
-$renderer->print_single_section_page($course, null, null, null, null, $displaysection);
+$disable_ajax = optional_param('onetopic_da', -1, PARAM_INT);
+
+if (!isset($USER->onetopic_da)) {
+    $USER->onetopic_da = array();
+}
+
+if ($disable_ajax !== -1) {
+    if ($disable_ajax === 0) {
+        $USER->onetopic_da[$course->id] = false;
+    }
+    else {
+        $USER->onetopic_da[$course->id] = true;
+    }
+}
+
+$renderer->print_single_section_page($course, null, $mods, $modnames, $modnamesused, $displaysection);
 
 // Include course format js module
 $PAGE->requires->js('/course/format/topics/format.js');
+$PAGE->requires->js('/course/format/onetopic/format.js');

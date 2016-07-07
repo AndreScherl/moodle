@@ -17,14 +17,14 @@
  * Version details
  *
  * @package contribution
- * @copyright 2014 David Herney Bernal - cirano
+ * @copyright 2015 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2014070301;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014050800;        // Requires this Moodle version.
+$plugin->version = 2016020502;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2015111000;        // Requires this Moodle version.
 $plugin->component = 'format_onetopic';    // Full name of the plugin (used for diagnostics)
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'chuscalito';
+$plugin->maturity = MATURITY_RC;
+$plugin->release = 'las brisas';

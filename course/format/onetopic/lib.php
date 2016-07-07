@@ -36,6 +36,9 @@ require_once($CFG->dirroot. '/course/format/lib.php');
 
 class format_onetopic extends format_base {
 
+    const TEMPLATETOPIC_NOT = 0;
+    const TEMPLATETOPIC_SINGLE = 1;
+    const TEMPLATETOPIC_LIST = 2;
     /**
      * Returns true if this course format uses sections
      *
@@ -59,8 +62,22 @@ class format_onetopic extends format_base {
             return format_string($section->name, true,
                     array('context' => context_course::instance($this->courseid)));
         } else {
-            return get_string('sectionname', 'format_onetopic') . ' ' . $section->section;
+            return $this->get_default_section_name($section);
         }
+    }
+
+    /**
+     * Returns the default section name for the topics course format.
+     *
+     * If the section number is 0, it will use the string with key = section0name from the course format's lang file.
+     * If the section number is not 0, the base implementation of format_base::get_default_section_name which uses
+     * the string with the key = 'sectionname' from the course format's lang file + the section number will be used.
+     *
+     * @param stdClass $section Section object from database or just field course_sections section
+     * @return string The default value for the section name.
+     */
+    public function get_default_section_name($section) {
+        return get_string('sectionname', 'format_onetopic') . ' ' . $section->section;
     }
 
     /**
@@ -111,8 +128,16 @@ class format_onetopic extends format_base {
      * @return stdClass
      */
     public function supports_ajax() {
+        global $course, $USER;
+
+        if (!isset($USER->onetopic_da)) {
+            $USER->onetopic_da = array();
+        }
+
+        $disable_ajax = isset($USER->onetopic_da[$course->id]) ? $USER->onetopic_da[$course->id] : false;
+
         $ajaxsupport = new stdClass();
-        $ajaxsupport->capable = true;
+        $ajaxsupport->capable = !$disable_ajax;
         return $ajaxsupport;
     }
 
@@ -135,6 +160,19 @@ class format_onetopic extends format_base {
 
         // check if there are callbacks to extend course navigation
         parent::extend_course_navigation($navigation, $node);
+
+        // We want to remove the general section if it is empty.
+        $modinfo = get_fast_modinfo($this->get_course());
+        $sections = $modinfo->get_sections();
+        if (!isset($sections[0])) {
+            // The general section is empty to find the navigation node for it we need to get its ID.
+            $section = $modinfo->get_section_info(0);
+            $generalsection = $node->get($section->id, navigation_node::TYPE_SECTION);
+            if ($generalsection) {
+                // We found the node - now remove it.
+                $generalsection->remove();
+            }
+        }
     }
 
     /**
@@ -203,6 +241,14 @@ class format_onetopic extends format_base {
                     'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT
                 ),
+                'templatetopic' => array(
+                    'default' => self::TEMPLATETOPIC_NOT,
+                    'type' => PARAM_INT
+                ),
+                'templatetopic_icons' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT
+                )
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -246,16 +292,41 @@ class format_onetopic extends format_base {
                     ),
                 ),
                 'coursedisplay' => array(
-                    'label' => new lang_string('coursedisplay'),
+                    'label' => new lang_string('coursedisplay', 'format_onetopic'),
                     'element_type' => 'select',
                     'element_attributes' => array(
                         array(
-                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
+                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single', 'format_onetopic'),
+                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi', 'format_onetopic')
                         )
                     ),
                     'help' => 'coursedisplay',
-                    'help_component' => 'moodle',
+                    'help_component' => 'format_onetopic',
+                ),
+                'templatetopic' => array(
+                    'label' => new lang_string('templatetopic', 'format_onetopic'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            self::TEMPLATETOPIC_NOT => new lang_string('templetetopic_not', 'format_onetopic'),
+                            self::TEMPLATETOPIC_SINGLE => new lang_string('templetetopic_single', 'format_onetopic'),
+                            self::TEMPLATETOPIC_LIST => new lang_string('templetetopic_list', 'format_onetopic')
+                        )
+                    ),
+                    'help' => 'templatetopic',
+                    'help_component' => 'format_onetopic',
+                ),
+                'templatetopic_icons' => array(
+                    'label' => get_string('templatetopic_icons', 'format_onetopic'),
+                    'help' => 'templatetopic_icons',
+                    'help_component' => 'format_onetopic',
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => new lang_string('no'),
+                            1 => new lang_string('yes')
+                        )
+                    ),
                 )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
@@ -308,8 +379,8 @@ class format_onetopic extends format_base {
      */
     public function update_course_format_options($data, $oldcourse = null) {
         global $DB;
+        $data = (array)$data;
         if ($oldcourse !== null) {
-            $data = (array)$data;
             $oldcourse = (array)$oldcourse;
             $options = $this->course_format_options();
             foreach ($options as $key => $unused) {
@@ -331,14 +402,167 @@ class format_onetopic extends format_base {
                         // and $data['hidetabsbar'] is not set,
                         // we fill it with the default option
                         $data['hidetabsbar'] = 0;
+                    } else if ($key === 'templatetopic') {
+                        $data['templatetopic'] = self::TEMPLATETOPIC_NOT;
+                    } else if ($key === 'templatetopic_icons') {
+                        $data['templatetopic_icons'] = 0;
                     }
                 }
             }
         }
-        return $this->update_format_options($data);
+        $changed = $this->update_format_options($data);
+        if ($changed && array_key_exists('numsections', $data)) {
+            // If the numsections was decreased, try to completely delete the orphaned sections (unless they are not empty).
+            $numsections = (int)$data['numsections'];
+            $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections}
+                        WHERE course = ?', array($this->courseid));
+            for ($sectionnum = $maxsection; $sectionnum > $numsections; $sectionnum--) {
+                if (!$this->delete_section($sectionnum, false)) {
+                    break;
+                }
+            }
+        }
+        return $changed;
+    }
+
+    public function section_format_options($foreditform = false) {
+        static $sectionformatoptions = false;
+
+        if ($sectionformatoptions === false) {
+            $sectionformatoptions = array(
+                'level' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT
+                ),
+                'firsttabtext' => array(
+                    'default' => 0,
+                    'type' => PARAM_TEXT
+                ),
+                'fontcolor' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW
+                ),
+                'bgcolor' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW
+                ),
+                'cssstyles' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW
+                )
+            );
+        }
+
+        if ($foreditform) {
+            $sectionformatoptionsedit = array(
+                'level' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT,
+                    'label' => get_string('level', 'format_onetopic'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => get_string('asprincipal', 'format_onetopic'),
+                            1 => get_string('aschild', 'format_onetopic')
+                        )
+                    ),
+                    'help' => 'level',
+                    'help_component' => 'format_onetopic',
+                ),
+                'firsttabtext' => array(
+                    'default' => get_string('index', 'format_onetopic'),
+                    'type' => PARAM_TEXT,
+                    'label' => get_string('firsttabtext', 'format_onetopic'),
+                    'help' => 'firsttabtext',
+                    'help_component' => 'format_onetopic',
+                ),
+                'fontcolor' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW,
+                    'label' => get_string('fontcolor', 'format_onetopic'),
+                    'help' => 'fontcolor',
+                    'help_component' => 'format_onetopic',
+                ),
+                'bgcolor' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW,
+                    'label' => get_string('bgcolor', 'format_onetopic'),
+                    'help' => 'bgcolor',
+                    'help_component' => 'format_onetopic',
+                ),
+                'cssstyles' => array(
+                    'default' => '',
+                    'type' => PARAM_RAW,
+                    'label' => get_string('cssstyles', 'format_onetopic'),
+                    'help' => 'cssstyles',
+                    'help_component' => 'format_onetopic',
+                )
+            );
+
+            $sectionformatoptions = $sectionformatoptionsedit; //array_merge_recursive($sectionformatoptions, $sectionformatoptionsedit);
+        }
+        return $sectionformatoptions;
+    }
+
+
+    /**
+     * Whether this format allows to delete sections
+     *
+     * Do not call this function directly, instead use {@link course_can_delete_section()}
+     *
+     * @param int|stdClass|section_info $section
+     * @return bool
+     */
+    public function can_delete_section($section) {
+        return true;
     }
 }
 
+class format_onetopic_replace_regularexpression {
+    public $_string_search;
+    public $_string_replace;
 
+    public $_tag_string = '{label_tag_replace}';
 
+    public function replace_tag_in_expresion ($match) {
 
+        $term = $match[0];
+        $term = str_replace("[[", '', $term);
+        $term = str_replace("]]", '', $term);
+
+        $text = strip_tags($term);
+
+        if (strpos($text, ':') > -1) {
+
+            $pattern = '/([^:])+:/i';
+            $text = preg_replace($pattern, '', $text);
+
+            //Change text for alternative text
+            $new_replace = str_replace($this->_string_search, $text, $this->_string_replace);
+
+            //posible html tags position
+            $pattern = '/([>][^<]*:[^<]*[<])+/i';
+            $term = preg_replace($pattern, '><:><', $term);
+
+            $pattern = '/([>][^<]*:[^<]*$)+/i';
+            $term = preg_replace($pattern, '><:>', $term);
+
+            $pattern = '/(^[^<]*:[^<]*[<])+/i';
+            $term = preg_replace($pattern, '<:><', $term);
+
+            $pattern = '/(^[^<]*:[^<]*$)/i';
+            $term = preg_replace($pattern, '<:>', $term);
+
+            $pattern = '/([>][^<^:]*[<])+/i';
+            $term = preg_replace($pattern, '><', $term);
+
+            $term = str_replace('<:>', $new_replace, $term);
+        }
+        else {
+            //Change tag for resource or mod name
+            $new_replace = str_replace($this->_tag_string, $this->_string_search, $this->_string_replace);
+            $term = str_replace($this->_string_search, $new_replace, $term);
+        }
+        return $term;
+    }
+}

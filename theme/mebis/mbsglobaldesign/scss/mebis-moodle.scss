@@ -24,13 +24,14 @@
 @import "../../scss/learning-platform";
 
 // Moodle Style Overwrites
-
+@import "../../scss/moodle/autocomplete";
 @import "../../scss/moodle/category";
 @import "../../scss/moodle/coursebox";
 @import "../../scss/moodle/fastaccessnavigation";
 @import "../../scss/moodle/headertoolbar";
 @import "../../scss/moodle/pageheader";
 @import "../../scss/moodle/pagefooter";
+@import "../../scss/moodle/rowfluid";
 @import "../../scss/moodle/schoolbox";
 
 @import "../../scss/moodle/cu-activities";

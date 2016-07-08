@@ -14346,6 +14346,64 @@ div[role="main"] > h2 {
   }
 }
 
+/*
+    Styles for autocomplete form element
+*/
+/* 
+    Created on : 08.07.2016, 13:44:51
+    Author     : Huebler
+*/
+.form-autocomplete-selection {
+  margin: 0.2em;
+  min-height: 21px;
+}
+.form-autocomplete-selection input[type="text"]:focus {
+  border-color: #ff6600;
+  -webkit-box-shadow: 0 1px 1px rgba(255, 102, 0, 0.6);
+  box-shadow: 0 1px 1px rgba(255, 102, 0, 0.6);
+}
+
+.form-autocomplete-multiple [role=listitem] {
+  cursor: pointer;
+}
+
+.form-autocomplete-downarrow {
+  position: relative;
+  top: -0.1em;
+  left: -1.5em;
+  cursor: pointer;
+  color: #000;
+}
+
+.form-autocomplete-suggestions {
+  position: absolute;
+  background-color: white;
+  border: 2px solid #EEE;
+  border-radius: 3px;
+  min-width: 206px;
+  max-height: 20em;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  margin-top: -0.2em;
+  z-index: 1;
+}
+.form-autocomplete-suggestions li {
+  list-style-type: none;
+  padding: 0.2em;
+  margin: 0;
+  cursor: pointer;
+  color: #333333;
+}
+.form-autocomplete-suggestions li:hover {
+  background-color: #ff6600;
+  color: #fff;
+}
+.form-autocomplete-suggestions li[aria-selected=true] {
+  background-color: #00a8d5;
+  color: #fff;
+}
+
 /* This file contains Styles related to categories.
 
 category-box: 
@@ -15024,6 +15082,48 @@ category-box:
   margin-top: 20px;
 }
 
+/*
+    All styles for column templates.
+*/
+/* 
+    Created on : 08.07.2016, 11:20:19
+    Author     : Huebler
+*/
+.row-fluid {
+  width: 100%;
+}
+.row-fluid::before {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.row-fluid::after {
+  display: table;
+  content: "";
+  line-height: 0;
+  clear: both;
+}
+.row-fluid [class*="span"] {
+  float: left;
+  margin-right: 0;
+}
+.row-fluid .span4 {
+  width: 33.33%;
+  width: calc(100% / 3);
+}
+.row-fluid .span8 {
+  width: 66,67%;
+  width: calc(200% / 3);
+}
+
+@media (max-width: 768px) {
+  .row-fluid [class*="span"] {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 /* schoolbox: 
   
   This box is only used in the block_mbssearch and block_mbsmyschools 
@@ -16742,6 +16842,7 @@ input[type="checkbox"] + label {
     - #page-content
     - #page-admin-purgecaches 
     - #page-admin-tool-lp-plans
+    - #page-mod-assign-grader
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -16888,6 +16989,58 @@ input[type="checkbox"] + label {
   padding-bottom: 20px;
 }
 
+.path-mod-assign [data-region="grading-navigation-panel"] {
+  background: #fff;
+}
+.path-mod-assign [data-region="user-info"] .img-rounded {
+  height: 2.5em;
+}
+.path-mod-assign [data-region="grade-panel"] h3 {
+  font-size: 1.25em;
+}
+.path-mod-assign [data-region="grade-panel"] .mform .fitem {
+  margin: 0;
+}
+.path-mod-assign [data-region="grade-panel"] .mform fieldset .ftoggler {
+  padding: 0;
+}
+.path-mod-assign [data-region="grade-panel"] #fitem_id_assignfeedbackcomments_editor img.smallicon {
+  max-width: none;
+}
+.path-mod-assign [data-region="grade-actions-panel"] {
+  background: #fff;
+  height: auto;
+}
+.path-mod-assign [data-region="grade-actions-panel"] button[type="submit"] {
+  border-color: #ccc;
+}
+
+#page-mod-assign-grader [data-region="user-selector"] .form-autocomplete-suggestions {
+  margin-left: 60px;
+  padding-left: 0;
+}
+
+@media (min-width: 768px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 760px;
+  }
+}
+@media (min-width: 992px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 980px;
+  }
+}
+@media (min-width: 1200px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 1040px;
+  }
+}
+
+@media (max-width: 768px) {
+  #page-mod-assign-grader [data-region="grade-panel"] {
+    position: inherit;
+  }
+}
 /*
     Styles, which are used for the user filemanager.
 */

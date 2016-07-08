@@ -11,6 +11,7 @@
     - #page-content
     - #page-admin-purgecaches 
     - #page-admin-tool-lp-plans
+    - #page-mod-assign-grader
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -61,7 +62,7 @@
             overflow-y: hidden;
         }
     }
-    
+
     .homepage-container {
         width: 90%;
     }
@@ -213,4 +214,64 @@
     }
 }
 
+// START Styles for Grading page.
+.path-mod-assign {
+    [data-region="grading-navigation-panel"] {
+        background: $white;
+    }
+    [data-region="user-info"] .img-rounded {
+        height: 2.5em;
+    }
+    [data-region="grade-panel"] {
+        h3 {
+            font-size: 1.25em;
+        }
+        .mform {
+            .fitem {
+                margin: 0;
+            }
+            fieldset .ftoggler {
+                padding: 0;
+            }
+        }
+        #fitem_id_assignfeedbackcomments_editor {
+            img.smallicon {
+                max-width: none;
+            }
+        }
+    }
+    [data-region="grade-actions-panel"] {
+        background: $white;
+        height: auto;
+        button[type="submit"] {
+            border-color: #ccc;
+        }
+    }
+}
+
+#page-mod-assign-grader {
+    [data-region="user-selector"] .form-autocomplete-suggestions {
+        margin-left: $space-large;
+        padding-left: 0;
+    }
+}
+
+#page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    @media (min-width: $screen-sm-min) {
+        max-width: $container-sm;
+    }
+    @media (min-width: $screen-md-min) {
+        max-width: $container-md;
+    }
+    @media (min-width: $screen-lg-min) {
+        max-width: $container-lg;
+    }
+}
+
+@media (max-width: $screen-sm-min) {
+    #page-mod-assign-grader [data-region="grade-panel"] {
+        position: inherit;
+    }
+}
+// END Styles for Grading page.
 

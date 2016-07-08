@@ -1,0 +1,49 @@
+/*
+    All styles for column templates.
+*/
+/* 
+    Created on : 08.07.2016, 11:20:19
+    Author     : Huebler
+*/
+
+.row-fluid {
+    width: 100%;
+
+    &::before {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &::after {
+        display: table;
+        content: "";
+        line-height: 0;
+        clear: both;
+    }
+
+    [class*="span"] {
+        float: left;
+        margin-right: 0;
+    }
+    
+    .span4 {
+        width: 33.33%;
+        width: calc(100% / 3);
+    }
+    
+    .span8 {
+        width: 66,67%;
+        width: calc(200% / 3);        
+    }   
+}
+
+@media (max-width: $screen-sm) {
+
+    .row-fluid [class*="span"] {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+

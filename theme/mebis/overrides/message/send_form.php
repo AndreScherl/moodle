@@ -53,6 +53,6 @@ class theme_mebis_send_form extends moodleform {
         $mform->setType('viewing', PARAM_ALPHANUMEXT);
 
         $mform->addElement('textarea', 'message', get_string('message', 'message'), $displayoptions, $editoroptions);
-        $mform->addElement('submit', 'submitbutton', get_string('sendmessage', 'message'), array('class' => 'btn btn-primary'));
+        $mform->addElement('submit', 'submitbutton', get_string('sendmessage', 'message'));
     }
 }

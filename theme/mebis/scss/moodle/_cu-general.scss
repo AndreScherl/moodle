@@ -70,10 +70,26 @@ button {
     white-space: normal;
 }
 
-
 // general styles ordered alphabetically.
+.alert-info {
+    background-color: $brand-secondary;
+    border-color: $brand-secondary;
+    color: $white;
+}
+
 .clearer {
     height : 0;
+}
+
+.close {
+    color: $brand-gray-light;
+    text-shadow: none;
+    opacity: inherit;
+    
+    &:hover, &:focus {
+        color: white;
+        opacity: inherit;
+    }
 }
 
 .collapsed .fcontainer, .collapsed ul {
@@ -101,13 +117,13 @@ div.editor_atto_content {
     color: $white;
 }
 
-.mform .felement.fstatic, .form-item .form-description {
-    color: #333;
-}
-
 input[type="radio"] + label,
 input[type="checkbox"] + label {
     margin-left:5px;
+}
+
+.mform .felement.fstatic, .form-item .form-description {
+    color: #333;
 }
 
 // Style form elements.
@@ -216,14 +232,15 @@ input[type="checkbox"] + label {
     }
 }
 
-/* fhüb: Do we really need this? 
-.moodle-dialogue-base .moodle-dialogue-wrap {
-    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-}*/
-
 .pagination-row {
     margin-top: 25px;
     margin-bottom: 25px;
+}
+
+//format onetopic dublicate activities
+.progressbar_container {
+    // Need important because of element style.
+    width: auto !important;
 }
 
 .tree_item  span, .tree_item span:focus {

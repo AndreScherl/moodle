@@ -16608,8 +16608,24 @@ button {
   white-space: normal;
 }
 
+.alert-info {
+  background-color: #ff6600;
+  border-color: #ff6600;
+  color: #fff;
+}
+
 .clearer {
   height: 0;
+}
+
+.close {
+  color: #e6e6e6;
+  text-shadow: none;
+  opacity: inherit;
+}
+.close:hover, .close:focus {
+  color: white;
+  opacity: inherit;
 }
 
 .collapsed .fcontainer, .collapsed ul {

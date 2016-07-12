@@ -15,31 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_journal entry updated event.
+ * The mod_journal entry created event.
  *
  * @package     mod_journal
- * @copyright   2014 drachels@drachels.com
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright   2015 David Monllao
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_journal\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_journal entry updated class.
+ * The mod_journal entry created class.
  *
  * @package    mod_journal
- * @since      Moodle 2.7
- * @copyright  2014 drachels@drachels.com
+ * @since      Moodle 3.1
+ * @copyright  2015 David Monllao
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class entry_updated extends \core\event\base {
+class entry_created extends \core\event\base {
 
     /**
      * Init method.
      */
     protected function init() {
-        $this->data['crud'] = 'u';
+        $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'journal';
     }
@@ -50,7 +50,7 @@ class entry_updated extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('evententryupdated', 'mod_journal');
+        return get_string('evententrycreated', 'mod_journal');
     }
 
     /**
@@ -59,8 +59,8 @@ class entry_updated extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' has updated an entry for the journal activity " .
-            "with the course module id '$this->contextinstanceid'";
+        return "The user with id '$this->userid' has created an entry for the journal activity with " .
+            "the course module id '$this->contextinstanceid'";
     }
 
     /**
@@ -78,6 +78,6 @@ class entry_updated extends \core\event\base {
      */
     protected function get_legacy_logdata() {
         $url = new \moodle_url('edit.php', array('id' => $this->contextinstanceid));
-        return array($this->courseid, 'journal', 'update entry', $url->out(), $this->objectid, $this->contextinstanceid);
+        return array($this->courseid, 'journal', 'add entry', $url->out(), $this->objectid, $this->contextinstanceid);
     }
 }

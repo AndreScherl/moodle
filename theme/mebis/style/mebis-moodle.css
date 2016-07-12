@@ -15466,6 +15466,10 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   white-space: normal;
 }
 
+.wiki_navigation_container {
+  display: flex;
+}
+
 @media only screen and (min-width: 1200px) {
   #page-mod-assign-grading .homepage-container {
     padding-left: 100px;

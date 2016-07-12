@@ -408,6 +408,10 @@ div.que.geogebra {
     }
 }
 
+.wiki_navigation_container {
+    display: flex;
+}
+
 @media only screen and (min-width: $screen-lg-min) { 
     #page-mod-assign-grading .homepage-container {
         padding-left: 100px;

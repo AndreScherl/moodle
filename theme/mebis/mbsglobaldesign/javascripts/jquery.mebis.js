@@ -38,11 +38,11 @@ require.config({
 });
 
 // the mebis Lernplattform only needs a few plugins, so you have to add the ones you need here
-define('mebis', ['jquery', 'velocity'], function($) {
+define('mebis', ['jquery', 'velocity'], function($, Velocity) {
     'use strict';
     
-    // Use jQuery to access the global jQuery variable, e.g. to access the jquery plugins listed above.
-    // $ is the local jQuery variable within this module.
+    // Because the requirejs shim config doesn't work properly, the velocity module is defined below.
+    $.fn.velocity = Velocity;
     
     var $win; // to be initialized after DOM ready.
     var $body;
@@ -63,7 +63,7 @@ define('mebis', ['jquery', 'velocity'], function($) {
         $('.me-back-top').on('click', function (e) {
             e.preventDefault();
             
-            jQuery('html')
+            $('html')
                 .velocity('stop')
                 .velocity('scroll', {duration: 800, offset: 0});
 
@@ -421,7 +421,7 @@ define('mebis', ['jquery', 'velocity'], function($) {
                 anchorOffset += $('header.me-page-header').height();
             }
             anchorTop -= anchorOffset;
-            jQuery('body')
+            $('body')
                 .velocity('stop')
                 .velocity('scroll', {duration: 800, offset: anchorTop});
 

@@ -223,7 +223,8 @@ class backup {
         $newtpl = clone($template);
         $newtpl->id = null;
         $newtpl->courseid = $cid;
-        $newtpl->status = dataobj\template::STATUS_UNDER_REVIEW;
+        $newtpl->reviewerid = 0;
+        $newtpl->status = dataobj\template::STATUS_CREATED;
         $newtpl->feedback = $message;
         $newtpl->feedbackformat = FORMAT_PLAIN;
         $newtpl->rating = null;
@@ -240,9 +241,6 @@ class backup {
         if (!empty($userenrolments)) {
             course::unenrol($cid, $userenrolments);
         }
-        
-        //Enrol reviewer
-        user::enrol_reviewer($cid, $newtpl->reviewerid, true);
         
         return $cid;
     }

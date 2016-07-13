@@ -16264,6 +16264,9 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 .format-topcoll.path-course #main-content-wrapper .sectionname {
   color: #fff;
 }
+.format-topcoll.path-course #main-content-wrapper .row-fluid [class*="span"] {
+  float: inherit;
+}
 
 #page-course-view-topcoll #topcoll-display-instructions {
   color: #fff;

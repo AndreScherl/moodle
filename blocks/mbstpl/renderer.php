@@ -215,14 +215,21 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Return list of template history.
-     * 
+     *
      * @param array $revhists
      */
     public function templatehistory($revhists, $files) {
+
         $html = '';
         $html .= html_writer::tag('h3', get_string('history', 'block_mbstpl'));
+
         foreach ($revhists as $hist) {
+
             $assignedname = $hist->firstname . ' ' . $hist->lastname;
+            if (!empty($hist->deleteduserid)) {
+                $assignedname = $hist->deletedusername;
+            }
+
             $assignedname = html_writer::tag('strong', get_string('to', 'block_mbstpl') . ' ' . $assignedname, array('title' => get_string('assigned', 'block_mbstpl')));
             $assigneddate = userdate($hist->timecreated);
 
@@ -246,7 +253,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Print all my tempates to the block.
-     * 
+     *
      * @param object $templates
      * @return string
      */
@@ -311,7 +318,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Render the page content for the search template page.
-     * 
+     *
      * @param MoodleQuickform $searchform
      * @param object $result result containing result informations
      * @param string $layout grid or list
@@ -340,7 +347,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
             if ($result->total > $result->limitfrom + $result->limitnum) {
 
                 $formdata = ($result->formdata) ? $result->formdata : false;
-                
+
                 $html .= $this->templatesearch_moreresults($formdata);
 
                 $ajaxurl = new \moodle_url('/blocks/mbstpl/ajax.php');
@@ -356,22 +363,22 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Render the load more result element. The element saves all the current 
+     * Render the load more result element. The element saves all the current
      * form data, when it is created to retrieve further items.
-     * 
-     * Note that we intenntionally ignore changes inputed in the form without 
+     *
+     * Note that we intenntionally ignore changes inputed in the form without
      * a page reload. We believe this is the best approach regarding usability.
-     * 
+     *
      * @return string HTML of load result element
      */
     protected function templatesearch_moreresults($formdata) {
-        
+
         // Store POST array in hidden field of form.
         $searchurl = new moodle_url('/blocks/mbstpl/templatesearch.php', array('param' => base64_encode(serialize($formdata))));
-        
+
         $loadmoreform = new \block_mbstpl\form\loadmore($searchurl, array(), 'post', '', array('id' => 'mbstpl-loadmore-form'));
         $o = $loadmoreform->render();
-        
+
         $text = get_string('loadmoreresults', 'block_mbstpl');
         $o .= \html_writer::div($text, 'mbstpl-search-loadmoreresults', array('id' => 'mbstpl-search-loadmoreresults'));
         return $o;
@@ -393,7 +400,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
     /**
      * Render the lits items
-     * 
+     *
      * @param object $result result containing result informations
      * @param string $layout grid or list
      * @return type
@@ -401,7 +408,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
     protected function templatesearch_listitems($searchresult, $layout) {
 
         $listitems = '';
-        
+
         foreach ($searchresult->courses as $course) {
 
             $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
@@ -418,7 +425,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
             $listitem .= html_writer::div($complaintlink . $courselink, 'righticons');
             $listitem .= html_writer::div($course->catname, 'crsdetails');
-            $listitem .= html_writer::div(get_string('author', 'block_mbstpl') . ': ' . $course->authorname, 'crsauthor');
+
+            $authorname = $course->authorname;
+            if (!empty($course->deleteduserid)) {
+                $authorname = $course->deletedusername;
+            }
+
+            $listitem .= html_writer::div(get_string('author', 'block_mbstpl') . ': ' . $authorname, 'crsauthor');
 
             if (!is_null($course->rating)) {
                 $template = mbst\dataobj\template::get_from_course($course->id);

@@ -186,4 +186,40 @@ class user {
     public static function format_creator_name($user) {
         return s(fullname($user).' '.$user->email);
     }
+
+    /**
+     * Save firstname and lastname of a user, when a user is deleted and is author of
+     * a template.
+     *
+     * @param \core\event\user_deleted $event
+     */
+    public static function user_deleted(\core\event\user_deleted $event) {
+        global $DB;
+
+        $data = $event->get_data();
+        $userid = $data['objectid'];
+
+        // Check, whether user is author, 99% of times we return here.
+        if (!$exists = $DB->get_record('block_mbstpl_template', array('authorid' => $userid), '*', IGNORE_MULTIPLE)) {
+            return;
+        }
+
+        $exists = $DB->get_record('block_mbstpl_userdeleted', array('userid' => $userid));
+
+        // Check, whether user is already listed.
+        if (!$exists) {
+
+            $user = $event->get_record_snapshot('user', $userid);
+
+            $author = new \stdClass();
+            $author->userid = $userid;
+            $author->firstname = $user->firstname;
+            $author->lastname = $user->lastname;
+            $author->timecreated = time();
+
+            $DB->insert_record('block_mbstpl_userdeleted', $author);
+
+        }
+    }
+
 }

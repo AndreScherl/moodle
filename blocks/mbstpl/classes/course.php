@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -113,12 +112,12 @@ class course {
 
     /**
      * Get all the licenses to fill the course license dropdown.
-     * 
+     *
      * @return array list of available licenses
      */
     public static function get_course_licenses() {
         global $DB;
-        $sql = 'SELECT * 
+        $sql = 'SELECT *
                   FROM {block_mbstpl_clicense} AS cl
                   JOIN {license} AS l
                     ON cl.shortname = l.shortname';
@@ -132,7 +131,7 @@ class course {
 
     /**
      * Add course license
-     * 
+     *
      * @global $DB
      * @param string $shortname
      * @return bool|int true or insert id
@@ -146,7 +145,7 @@ class course {
 
     /**
      * Get single course license by shortname
-     * 
+     *
      * @global $DB
      * @param string $shortname
      * @return bool|object - database record or false
@@ -158,7 +157,7 @@ class course {
 
     /**
      * Remove course license
-     * 
+     *
      * @global $DB
      * @param string $shortname
      * @return bool true
@@ -319,10 +318,16 @@ class course {
      */
     public static function get_revhist($templateid) {
         global $DB;
+
+        // Get additional information for the case user is already deleted.
+        $deletedusername = $DB->sql_fullname("COALESCE(ud.firstname, ' ')", "COALESCE(ud.lastname, ' ')");
+        $udsql = " $deletedusername AS deletedusername, ud.userid as deleteduserid ";
+
         $sql = "
-        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback, rh.feedbackformat
+        SELECT rh.id, rh.status, rh.timecreated, u.firstname, u.lastname, rh.feedback, rh.feedbackformat, $udsql
         FROM {block_mbstpl_revhist} rh
         JOIN {user} u ON u.id = rh.assignedid
+        LEFT JOIN {block_mbstpl_userdeleted} ud ON ud.userid = rh.assignedid
         WHERE rh.templateid = ?
         ORDER BY rh.id DESC
         ";
@@ -377,19 +382,25 @@ class course {
 
         $fields = get_all_user_name_fields(true, 'u');
 
+        $deletedusername = $DB->sql_fullname("COALESCE(ud.firstname, ' ')", "COALESCE(ud.lastname, ' ')");
+        $udsql = " $deletedusername AS deletedusername, ud.userid as deleteduserid ";
+
         if ($includereviehistory) {
             $sql = "
-            SELECT u.id, $fields
+            SELECT u.id, $fields, $udsql
             FROM {block_mbstpl_revhist} rh
             JOIN {user} u ON u.id = rh.assignedid
+            LEFT JOIN {block_mbstpl_userdeleted} ud ON ud.userid = rh.assignedid
             WHERE rh.templateid = ?
             GROUP BY u.id
             ";
         } else {
+
             $sql = "
-            SELECT u.id, $fields
+            SELECT u.id, $fields, $udsql
             FROM {block_mbstpl_template} tpl
             JOIN {user} u ON u.id = tpl.authorid
+            LEFT JOIN {block_mbstpl_userdeleted} ud ON ud.userid = tpl.authorid
             WHERE tpl.id = ?
             ";
         }
@@ -397,7 +408,12 @@ class course {
         $results = $DB->get_records_sql($sql, array($templateid));
         $creators = array();
         foreach ($results as $result) {
-            $creators[] = fullname($result);
+
+            if (!empty($result->deleteduserid)) {
+                $creators[] = $result->deletedusername;
+            } else {
+                $creators[] = fullname($result);
+            }
         }
         return implode(', ', $creators);
     }
@@ -582,7 +598,7 @@ class course {
         $exclude_enrolments[] = 'manual';
         $plugins = enrol_get_plugins(true);
         $instances = enrol_get_instances($courseid, false);
-        foreach ($instances as $instance) {            
+        foreach ($instances as $instance) {
             if (!in_array($instance->enrol, $exclude_enrolments)) {
                 $plugin = $plugins[$instance->enrol];
                 $plugin->delete_instance($instance);

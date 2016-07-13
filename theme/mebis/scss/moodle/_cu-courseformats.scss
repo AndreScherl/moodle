@@ -31,6 +31,12 @@
     .sectionname {
         color: $white;
     }
+
+    .row-fluid {
+        [class*="span"] {
+            float: inherit;
+        }
+    }
 }
 
 // Collapse and expand.

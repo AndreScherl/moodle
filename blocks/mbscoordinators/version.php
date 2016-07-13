@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015052800;
+$plugin->version   = 2016071300;
 $plugin->requires  = 2014051201;
 $plugin->component = 'block_mbscoordinators';
 $plugin->depencies = array('local_mbs' => ANY_VERSION);

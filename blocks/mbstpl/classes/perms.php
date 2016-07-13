@@ -136,7 +136,7 @@ class perms {
      * @return bool
      */
     public static function can_assignauthor(dataobj\template $template, \context_course $coursecontext) {
-        if ($template->status != $template::STATUS_UNDER_REVIEW && $template->status != $template::STATUS_UNDER_REVISION) {
+        if ($template->status == $template::STATUS_PUBLISHED && $template->status == $template::STATUS_ARCHIVED) {
             return false;
         }
 

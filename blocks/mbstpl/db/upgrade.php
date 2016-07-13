@@ -352,11 +352,11 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
             $license->type = 1;
             $DB->update_record('block_mbstpl_license', $license);
         }
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015113000, 'mbstpl');
     }
-    
+
      if ($oldversion < 2015120400) {
 
         // Define table block_mbstpl_clicense to be created.
@@ -379,7 +379,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015120400, 'mbstpl');
     }
 
-      
+
     if ($oldversion < 2015121300) {
 
         $table = new xmldb_table('block_mbstpl_backup');
@@ -389,13 +389,13 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        
+
         // Define field excludedeploydataids to be added to block_mbstpl_backup.
         $field = new xmldb_field('excludedeploydataids', XMLDB_TYPE_TEXT, null, null, null, null, null, 'userdataids');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        
+
         upgrade_block_savepoint(true, 2015121300, 'mbstpl');
     }
 
@@ -412,7 +412,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015121400, 'mbstpl');
     }
-    
+
     if ($oldversion < 2015121800) {
 
         // Define table block_mbstpl_license to be dropped.
@@ -439,7 +439,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2015122100, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016011100) {
 
         $table = new xmldb_table('block_mbstpl_question');
@@ -451,12 +451,12 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016011100, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016011800) {
 
          // Define table block_mbstpl_subjects to be created.
         $table = new xmldb_table('block_mbstpl_subjects');
-        
+
         //  Adding fields to table block_mbstpl_subjects.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
         $table->add_field('subject', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'id');
@@ -468,7 +468,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-        
+
         // Conditionally install subject data.
         if ($dbman->table_exists($table)) {
             \block_mbstpl\questman\manager::install_subjects();
@@ -477,51 +477,79 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016011800, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016012600) {
-               
+
         // Conditionally install subject data.
         \block_mbstpl\questman\manager::install_subjects();
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016012600, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016012601) {
-               
+
         // Conditionally install question data.
         \block_mbstpl\questman\manager::install_questions();
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016012601, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016030700) {
-               
+
         // Update question data.
         \block_mbstpl\questman\manager::install_questions();
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016030700, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016030800) {
-               
+
         // Update question data.
         \block_mbstpl\questman\manager::install_questions();
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016030800, 'mbstpl');
     }
-    
+
     if ($oldversion < 2016050400) {
-               
+
         // Update question data.
         \block_mbstpl\questman\manager::update_lookupsetquestions();
-        
+
         // Mbstpl savepoint reached.
         upgrade_block_savepoint(true, 2016050400, 'mbstpl');
     }
-    
+
+     if ($oldversion < 2016062700) {
+
+        // Define table block_mbstpl_userdeleted to be created.
+        $table = new xmldb_table('block_mbstpl_userdeleted');
+
+        // Adding fields to table block_mbstpl_userdeleted.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('firstname', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('lastname', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table block_mbstpl_userdeleted.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table block_mbstpl_userdeleted.
+        $table->add_index('userid', XMLDB_INDEX_NOTUNIQUE, array('userid'));
+
+        // Conditionally launch create table for block_mbstpl_userdeleted.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016062700, 'mbstpl');
+    }
+
+
     return true;
 }

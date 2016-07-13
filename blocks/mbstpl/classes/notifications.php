@@ -194,30 +194,6 @@ class notifications {
     }
 
     /**
-     * Notify the local review about the template created for revision.
-     * @param dataobj\template $template
-     * @param int $reviewerid
-     */
-    public static function notify_forrevision(dataobj\template $template, $reviewerid) {
-        global $DB;
-        if (empty($template->reviewerid)) {
-            return;
-        }
-        $toid = $reviewerid;
-        $coursename = $DB->get_field('course', 'fullname', array('id' => $template->courseid), MUST_EXIST);
-        $courseurl = new \moodle_url('/course/view.php', array('id' => $template->courseid));
-        $a = (object)array(
-            'fullname' => $coursename,
-            'reason' => $template->feedback,
-            'url' => (string)$courseurl,
-        );
-        $subject = get_string('emailrevision_subj', 'block_mbstpl');
-        $body = get_string('emailrevision_body', 'block_mbstpl', $a);
-        $touser = $DB->get_record('user', array('id' => $toid), '*', MUST_EXIST);
-        self::send_message('forrevision', $touser, $subject, $body);
-    }
-
-    /**
      * Notify administrator upon an error.
      * @param string $identifier
      * @param \Exception $e

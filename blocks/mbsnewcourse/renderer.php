@@ -72,22 +72,28 @@ class block_mbsnewcourse_renderer extends plugin_renderer_base {
         $coordinators = get_users_by_capability($context, 'moodle/site:approvecourse');
 
         foreach ($coordinators as $coordinator) {
-
+            
+            if ($USER->institution != $coordinator->institution) {
+                continue;
+            }
+            
             $messageurl = new moodle_url('/message/index.php', array('id' => $coordinator->id));
             $messageicon = $OUTPUT->pix_icon('t/email', get_string('sendmessage', 'block_mbsnewcourse'));
             $messagelink = html_writer::link($messageurl, $messageicon);
 
             if (has_capability('moodle/user:viewdetails', $context, $USER->id)) {
-
                 $profileurl = new moodle_url('/user/profile.php', array('id' => $coordinator->id));
             } else {
-
                 $profileurl = $messageurl;
             }
             $coordlink = $messagelink . ' ' . html_writer::link($profileurl, fullname($coordinator));
             $out .= html_writer::tag('li', $coordlink);
         }
-        $out = html_writer::nonempty_tag('ul', $out);
+        if(empty($out)) {
+            $out .= get_string('hidden', 'block_mbsnewcourse');
+        } else {
+            $out = html_writer::nonempty_tag('ul', $out);
+        }
 
         return html_writer::tag('div', $out, array('class' => 'block_mbsnewcourse_coordinators'));
     }

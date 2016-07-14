@@ -14,6 +14,31 @@
     Author     : Andreas Wagner, ISB Bayern
 */
 
+
+//##### Need this styles for courseformats with backgroundcolor transparent #####
+// grades overview
+#page-course-user #main-content-wrapper {
+    padding: 10px;
+    background: $white;
+}
+
+//Course edit page: course/edit.php
+#page-course-edit #main-content-wrapper {
+    background: $white;
+}
+
+//edit sectionname 
+#page-course-editsection #main-content-wrapper {
+    background: $white;
+}
+
+.format-topcoll, .format-onetopic, .format-weeks, .format-topics {
+    &.path-user.path-course #main-content-wrapper  {
+        background: $white;
+    }
+}
+//##### END: Need this styles for courseformats with backgroundcolor transparent #####
+
 // +++++++From here on: special styles for topics format. ++++++++++++
 .format-topics.path-course #main-content-wrapper  {
     background: transparent;    
@@ -30,12 +55,6 @@
 
     .sectionname {
         color: $white;
-    }
-
-    .row-fluid {
-        [class*="span"] {
-            float: inherit;
-        }
     }
 }
 
@@ -393,7 +412,7 @@
 
     #main-content-wrapper  {
 
-        padding: 0 15px;
+        padding: 0 10px 20px;
 
         .course-content {
 

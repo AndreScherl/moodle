@@ -15089,35 +15089,35 @@ category-box:
     Created on : 08.07.2016, 11:20:19
     Author     : Huebler
 */
-.row-fluid {
+.path-mod-assign .row-fluid {
   width: 100%;
 }
-.row-fluid::before {
+.path-mod-assign .row-fluid::before {
   display: table;
   content: "";
   line-height: 0;
 }
-.row-fluid::after {
+.path-mod-assign .row-fluid::after {
   display: table;
   content: "";
   line-height: 0;
   clear: both;
 }
-.row-fluid [class*="span"] {
+.path-mod-assign .row-fluid [class*="span"] {
   float: left;
   margin-right: 0;
 }
-.row-fluid .span4 {
+.path-mod-assign .row-fluid .span4 {
   width: 33.33%;
   width: calc(100% / 3);
 }
-.row-fluid .span8 {
+.path-mod-assign .row-fluid .span8 {
   width: 66,67%;
   width: calc(200% / 3);
 }
 
 @media (max-width: 768px) {
-  .row-fluid [class*="span"] {
+  .path-mod-assign .row-fluid [class*="span"] {
     width: 100%;
     float: none;
     margin-left: 0;
@@ -16250,6 +16250,23 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     Created on : 18.05.2015, 08:22:35
     Author     : Andreas Wagner, ISB Bayern
 */
+#page-course-user #main-content-wrapper {
+  padding: 10px;
+  background: #fff;
+}
+
+#page-course-edit #main-content-wrapper {
+  background: #fff;
+}
+
+#page-course-editsection #main-content-wrapper {
+  background: #fff;
+}
+
+.format-topcoll.path-user.path-course #main-content-wrapper, .format-onetopic.path-user.path-course #main-content-wrapper, .format-weeks.path-user.path-course #main-content-wrapper, .format-topics.path-user.path-course #main-content-wrapper {
+  background: #fff;
+}
+
 .format-topics.path-course #main-content-wrapper {
   background: transparent;
 }
@@ -16263,9 +16280,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 }
 .format-topcoll.path-course #main-content-wrapper .sectionname {
   color: #fff;
-}
-.format-topcoll.path-course #main-content-wrapper .row-fluid [class*="span"] {
-  float: inherit;
 }
 
 #page-course-view-topcoll #topcoll-display-instructions {
@@ -16510,7 +16524,7 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   padding-left: 5px;
 }
 #page-course-view-grid #main-content-wrapper {
-  padding: 0 15px;
+  padding: 0 10px 20px;
 }
 #page-course-view-grid #main-content-wrapper .course-content ul.gtopics-0 li h3.sectionname {
   font-weight: normal;
@@ -16871,25 +16885,16 @@ input[type="checkbox"] + label {
     Created on : 16.05.2015, 19:46:57
     Author     : Andreas Wagner
 */
+.path-user.path-course-view #main-content-wrapper {
+  padding: 0 20px 20px;
+}
+
 .path-course-view #main-content-wrapper {
   padding: 0;
 }
 .path-course-view .course-headline h2, .path-course-view .course-headline h1 {
   color: #fff;
   margin-bottom: 25px;
-}
-
-#page-course-user #main-content-wrapper {
-  padding: 10px;
-  background: #fff;
-}
-
-#page-course-edit #main-content-wrapper {
-  background: #fff;
-}
-
-#page-course-editsection #main-content-wrapper {
-  background: #fff;
 }
 
 #page-calendar-view #main-content-wrapper {

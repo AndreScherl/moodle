@@ -499,18 +499,8 @@ class theme_mebis_header_renderer extends renderer_base {
             } else {
                 $url = '#';
             }
-            if ($item->get_title() === 'Logout' || $item->get_title() === 'Dashboard') {
+            if ($item->get_title() === 'Logout' || $item->get_title() === 'Dashboard' || $item->get_title() === 'Mitteilungen') {
                 return '';
-            }
-            if ($item->get_title() === 'Mitteilungen') {
-                $unreadMessages = '';
-                if (message_count_unread_messages() > 0) {
-                    $unreadMessages = ' (' . message_count_unread_messages() . ')';
-                }
-                $text = $item->get_title() . $unreadMessages;
-                $content = '<li>';
-                $content .= html_writer::link($url, $text, array('title' => $item->get_title(), 'class' => 'internal'));
-                $content .= '</li>';
             }
             if ($item->get_title() !== null) {
                 $content = '<li>';
@@ -582,17 +572,22 @@ class theme_mebis_header_renderer extends renderer_base {
     public function main_menubar() {
         $content = '';
 
+        // Messages menu item.
+        $unreadMessages = '';
+        if (message_count_unread_messages() > 0) {
+            $unreadMessages = html_writer::tag('span', message_count_unread_messages(), array('class' => 'me-msg-count'));
+        }
+
+        $url = new moodle_url('/message/index.php');
+        $text = html_writer::tag('i', '', array('class' => 'fa fa-bullhorn')) . $unreadMessages;
+        $messageslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
+        $content .= html_writer::tag('li', $messageslink);
+
         // Files menu item.
         $url = new moodle_url('/user/files.php');
         $text = html_writer::tag('i', '', array('class' => 'icon-me-eigene-dateien'));
         $fileslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
         $content .= html_writer::tag('li', $fileslink);
-
-        // My dashboard item.
-        $url = new moodle_url('/my');
-        $text = html_writer::tag('i', '', array('class' => 'fa fa-laptop'));
-        $dashboardlink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
-        $content .= html_writer::tag('li', $dashboardlink);
 
         // add block menu item.
         $content .= $this->render_menubar_add_block_menu();

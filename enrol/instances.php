@@ -248,7 +248,7 @@ foreach ($instances as $instance) {
         ++$updowncount;
 
         // edit links
-        if ($plugin->instance_deleteable($instance)
+        if ($plugin->can_delete_instance($instance)
 //+++ awag DS19: Löschen der eigenen Einschreibungsmethode nicht zulässig, falls es die einzige Einschreibemethode im Kurs ist.
             and ((!in_array($instance->enrol, $enrolmentmethods)) or (count($enrolmentmethods) > 1))
 //--- awag

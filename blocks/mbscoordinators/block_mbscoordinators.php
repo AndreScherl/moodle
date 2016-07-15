@@ -119,7 +119,7 @@ class block_mbscoordinators extends block_base {
      * @return object[]
      */
     protected function get_coordinators() {
-        global $PAGE;
+        global $PAGE, $USER;
 
         // ...get the school category from current category.
         $categoryid = $PAGE->context->instanceid;
@@ -131,8 +131,17 @@ class block_mbscoordinators extends block_base {
         // ...get all users, which may manage the school category.
         $fields = 'u.id, ' . get_all_user_name_fields(true, 'u');
         $schoolcatcontext = context_coursecat::instance($schoolcat->id, MUST_EXIST);
-
-        return get_users_by_capability($schoolcatcontext, 'moodle/category:manage', $fields, 'lastname ASC, firstname ASC');
+        
+        $coordinators = get_users_by_capability($schoolcatcontext, 'moodle/category:manage', $fields, 'lastname ASC, firstname ASC');
+        
+        $coordinators_of_same_school = array();
+        foreach ($coordinators as $coordinator) {
+            $coord = \core_user::get_user($coordinator->id);
+            if ($USER->institution == $coord->institution) {
+                array_push($coordinators_of_same_school, $coordinator);
+            }
+        }
+        return $coordinators_of_same_school;
     }
 
     public function hide_header() {

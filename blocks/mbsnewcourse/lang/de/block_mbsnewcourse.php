@@ -36,6 +36,7 @@ $string['courserequestsupport'] = 'Hinweise für den mebis-Koordinator dieser Sc
 $string['mbsnewcourse:addinstance'] = 'Hinzufügen des Blocks Neuer Kurs';
 $string['mbsnewcourse:myaddinstance'] = 'Neuer Kurs Block zu Meine Startseite hinzufügen';
 $string['missinginstitutionid'] = 'ID der Institution fehlt, navigieren Sie in einen Kursbereich. Dort können Sie Kurse beantragen.';
+$string['hidden'] = '...für Benutzer einer anderen Schule verborgen.';
 $string['pluginname'] = 'mebis Neuer Kurs';
 $string['requestcourse'] = 'Kurs anfordern';
 $string['requestcategory'] = 'Kursbereich des Kurses';

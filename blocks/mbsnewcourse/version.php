@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015020205;
+$plugin->version   = 2016071300;
 $plugin->requires  = 2012112900;
 $plugin->depencies = array('local_mbs' => ANY_VERSION);
 $plugin->component = 'block_mbsnewcourse';

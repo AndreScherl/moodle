@@ -33,21 +33,21 @@ $string['pluginname'] = 'Mebis - Anpassungen';
 $string['schoolnode'] = 'Meine Schulen';
 
 // Datenschutz.
-$string['mbs:institutionview'] = 'User anderer Institutionen sehen';
+$string['mbs:institutionview'] = 'Benutzer anderer Institutionen sehen';
 $string['invalidredirect'] = 'Diese Weiterleitung ist nicht gestattet.';
 
 $string['notallowedtoaccessuserreport'] = 'Der Zugriff auf den Userreport ist nicht gestattet';
 $string['notallowedtoaccessrecentactivities'] = 'Der Zugriff auf Neues im Kurs ist nicht gestattet.';
 
-$string['nopermissiontoedituser'] = 'Sie dürfen das Profil dieses Users nicht bearbeiten.'.
-'<p>Nur User von der gleichen Schule dürfen ein Profil bearbeiten.</p>';
+$string['nopermissiontoedituser'] = 'Sie dürfen das Profil dieses Benutzers nicht bearbeiten.'.
+'<p>Nur Benutzer von der gleichen Schule dürfen ein Profil bearbeiten.</p>';
 
 $string['noinstitutionerror'] = 'Sie sind keiner Institution (z. B. einer Schule) zugewiesen und können diese Aktion deshalb nicht durchführen.'.
 'Bitte wenden Sie sich an den Support, um die Zuordnung zu einer Institution vornehmenzulassen';
 
-$string['nopermissiontoviewuser'] = 'Sie dürfen diesen User nicht sehen.'.
-'<h1>Sichtbarkeitsregelung von Usern</h1>'.
-'<p>Normale User sehen auf der Plattform nur User der gleichen Schule oder User mit denen sie gemeinsam an einem Kurs teilnehmen.</p>';   
+$string['nopermissiontoviewuser'] = 'Sie dürfen diesen Benutzer nicht sehen.'.
+'<h1>Sichtbarkeitsregelung von Benutzern</h1>'.
+'<p>Benutzer sehen auf der Plattform nur Benutzer der gleichen Schule oder Benutzer mit denen sie gemeinsam an einem Kurs teilnehmen.</p>';   
 
 // Sidebar Navigation.
 $string['local_mbs_mebis_sites'] = 'Navigationslinks';

@@ -15301,6 +15301,26 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   margin-left: 0;
 }
 
+#page-question-addquestion.jsenabled #chooseqtypebox {
+  width: 100%;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .alloptions {
+  max-width: inherit;
+  box-shadow: none;
+  overflow: inherit;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .instruction {
+  display: none;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .typesummary {
+  display: inline;
+  position: static;
+  background-color: transparent;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .options {
+  border-bottom: none;
+}
+
 #page-mod-quiz-edit #main-content-wrapper {
   overflow: hidden;
 }

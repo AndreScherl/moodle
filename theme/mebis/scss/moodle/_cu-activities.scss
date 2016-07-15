@@ -173,6 +173,30 @@ div.que.geogebra {
 }
 
 //++++++++++++++++++++++++  From here on: special styles for questions in general +++++++++++++++
+#page-question-addquestion.jsenabled {
+    #chooseqtypebox {
+        width: 100%;   
+        .choosercontainer #chooseform {
+            .alloptions {
+                max-width: inherit;
+                box-shadow: none;
+                overflow: inherit;
+            }
+            .instruction {
+                display: none;
+            }
+            .typesummary {   
+                display: inline;
+                position: static;
+                background-color: transparent;
+            }
+            .options {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
 #page-mod-quiz-edit {
 
     #main-content-wrapper {

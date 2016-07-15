@@ -4,6 +4,7 @@
     - database
     - assign
     - feedback
+    - game
     - #page-mod-wiki-view
     - #page-mod-page-view
     - #page-mod-glossary-view
@@ -34,6 +35,22 @@
     Created on : 05.06.2015, 12:13:08
     Author     : Franziska Hübler, ISB
 */
+
+// styling for games.
+.path-mod-game {
+    #region-main table table {
+        td {
+            padding: 5px;
+        }
+        &#crossword td {
+            padding: 3px;
+        }
+    }
+    .gamebox {
+        width: 30px;
+        font-size: $font-size-base;
+    }
+}
 
 #page-mod-data-templates #main-content-wrapper {
 
@@ -387,11 +404,11 @@ div.que.geogebra {
 
     .gradereport-grader-table {
         font-size: $font-size-base-small;
-        
+
         img {
             max-width: none;
         }
-        
+
         // Generating more space for more important rows.
         .userfield.userinstitution {
             display: none;

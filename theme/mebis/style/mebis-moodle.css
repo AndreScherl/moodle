@@ -15180,6 +15180,7 @@ category-box:
     - database
     - assign
     - feedback
+    - game
     - #page-mod-wiki-view
     - #page-mod-page-view
     - #page-mod-glossary-view
@@ -15210,6 +15211,17 @@ category-box:
     Created on : 05.06.2015, 12:13:08
     Author     : Franziska Hübler, ISB
 */
+.path-mod-game #region-main table table td {
+  padding: 5px;
+}
+.path-mod-game #region-main table table#crossword td {
+  padding: 3px;
+}
+.path-mod-game .gamebox {
+  width: 30px;
+  font-size: 18px;
+}
+
 #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
   width: 25%;
   float: left;

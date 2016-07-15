@@ -15187,6 +15187,7 @@ category-box:
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
     - #page-mod-assign-mod
+    - #page-mod-assign-editsubmission
     - #page-mod-assign-grading
     - #page-question-type-geogebra
     - #page-mod-book-view
@@ -15233,10 +15234,10 @@ category-box:
   max-width: 100%;
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1 {
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
   height: inherit !important;
 }
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
+#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
@@ -16491,6 +16492,9 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   list-style-image: none;
 }
 #page-course-view-grid #gridshadebox_content .section_action_menu ul {
+  padding-left: 0;
+}
+#page-course-view-grid #gridshadebox_content .moodle-actionmenu.section-cm-edit-actions ul {
   padding-left: 0;
 }
 #page-course-view-grid #gridshadebox_content #gridshadebox_close {

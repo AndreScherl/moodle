@@ -361,7 +361,11 @@
             }
         }
 
-        .section_action_menu ul{
+        .section_action_menu ul {
+            padding-left: 0;
+        }
+        
+        .moodle-actionmenu.section-cm-edit-actions ul {
             padding-left: 0;
         }
 

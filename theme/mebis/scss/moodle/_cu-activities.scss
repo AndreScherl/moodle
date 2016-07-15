@@ -11,6 +11,7 @@
     - #page-mod-lesson-edit 
     - #page-mod-lesson-view
     - #page-mod-assign-mod
+    - #page-mod-assign-editsubmission
     - #page-mod-assign-grading
     - #page-question-type-geogebra
     - #page-mod-book-view
@@ -64,7 +65,7 @@
 }
 
 //styling Assignment GeoGebra submissions
-#page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra {
+#page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra, #page-mod-assign-editsubmission {
 
     div#applet_container1 {
         //need important because of element style

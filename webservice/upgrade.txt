@@ -17,6 +17,10 @@ This information is intended for authors of webservices, not people writing webs
   on the string returned by the getMessage() method of the thrown exception.
 * With Zend_SOAP dropped, moodle_zend_soap_server is now also deprecated.
 * As mentioned in the 2.9 notes, deprecated web service functions have now been removed.
+* Since our new XML-RPC server implementation does not support introspection, it is critical that all clients send
+  parameters in the correct order.
+* File uploading to the user private file area via the webservice/upload.php script is not supported anymore.
+  Only uploads to the draft area are allowed.
 
 === 3.0 ===
 

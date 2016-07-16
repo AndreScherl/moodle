@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/lti/locallib.php');
 $action       = optional_param('action', '', PARAM_ALPHANUMEXT);
 $id           = optional_param('id', '', PARAM_INT);
 $tab          = optional_param('tab', '', PARAM_ALPHAEXT);
-$returnto     = optional_param('returnto', '', PARAM_ALPHANUM);
+$returnto     = optional_param('returnto', '', PARAM_ALPHA);
 
 if ($returnto == 'toolconfigure') {
     $returnurl = new moodle_url($CFG->wwwroot . '/mod/lti/toolconfigure.php');
@@ -96,9 +96,11 @@ if ($data = $form->get_data()) {
     $type = new stdClass();
     if (!empty($id)) {
         $type->id = $id;
+        lti_load_type_if_cartridge($data);
         lti_update_type($type, $data);
     } else {
         $type->state = LTI_TOOL_STATE_CONFIGURED;
+        lti_load_type_if_cartridge($data);
         lti_add_type($type, $data);
     }
     redirect($redirect);

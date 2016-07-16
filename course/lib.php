@@ -1289,6 +1289,14 @@ function get_module_metadata($course, $modnames, $sectionreturn = null) {
                 // otherwise append the link url to the module name.
                 $item->name = (count($items) == 1 &&
                     $item->link->out() === $defaultmodule->link->out()) ? $modname : $modname . ':' . $item->link;
+
+                // If the module provides the helptext property, append it to the help text to match the look and feel
+                // of the default course modules.
+                if (isset($item->help) && isset($item->helplink)) {
+                    $linktext = get_string('morehelp');
+                    $item->help .= html_writer::tag('div',
+                        $OUTPUT->doc_link($item->helplink, $linktext, true), array('class' => 'helpdoclink'));
+                }
                 $modlist[$course->id][$modname][$item->name] = $item;
             }
             $return += $modlist[$course->id][$modname];
@@ -1764,6 +1772,7 @@ function course_delete_module($cmid) {
     // very quick on an empty table).
     $DB->delete_records('course_modules_completion', array('coursemoduleid' => $cm->id));
     $DB->delete_records('course_completion_criteria', array('moduleinstance' => $cm->id,
+                                                            'course' => $cm->course,
                                                             'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY));
 
     // Delete all tag instances associated with the instance of this module.

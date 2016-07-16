@@ -152,14 +152,15 @@ class core_user {
         // If noreply user is set then use it, else create one.
         if (!empty($CFG->noreplyuserid)) {
             self::$noreplyuser = self::get_user($CFG->noreplyuserid);
+            self::$noreplyuser->emailstop = 1; // Force msg stop for this user.
+            return self::$noreplyuser;
+        } else {
+            // Do not cache the dummy user record to avoid language internationalization issues.
+            $noreplyuser = self::get_dummy_user_record();
+            $noreplyuser->maildisplay = '1'; // Show to all.
+            $noreplyuser->emailstop = 1;
+            return $noreplyuser;
         }
-
-        if (empty(self::$noreplyuser)) {
-            self::$noreplyuser = self::get_dummy_user_record();
-            self::$noreplyuser->maildisplay = '1'; // Show to all.
-        }
-        self::$noreplyuser->emailstop = 1; // Force msg stop for this user.
-        return self::$noreplyuser;
     }
 
     /**
@@ -182,18 +183,19 @@ class core_user {
         // If custom support user is set then use it, else if supportemail is set then use it, else use noreply.
         if (!empty($CFG->supportuserid)) {
             self::$supportuser = self::get_user($CFG->supportuserid, '*', MUST_EXIST);
-        }
-
-        // Try sending it to support email if support user is not set.
-        if (empty(self::$supportuser) && !empty($CFG->supportemail)) {
-            self::$supportuser = self::get_dummy_user_record();
-            self::$supportuser->id = self::SUPPORT_USER;
-            self::$supportuser->email = $CFG->supportemail;
+        } else if (empty(self::$supportuser) && !empty($CFG->supportemail)) {
+            // Try sending it to support email if support user is not set.
+            $supportuser = self::get_dummy_user_record();
+            $supportuser->id = self::SUPPORT_USER;
+            $supportuser->email = $CFG->supportemail;
             if ($CFG->supportname) {
-                self::$supportuser->firstname = $CFG->supportname;
+                $supportuser->firstname = $CFG->supportname;
             }
-            self::$supportuser->username = 'support';
-            self::$supportuser->maildisplay = '1'; // Show to all.
+            $supportuser->username = 'support';
+            $supportuser->maildisplay = '1'; // Show to all.
+            // Unset emailstop to make sure support message is sent.
+            $supportuser->emailstop = 0;
+            return $supportuser;
         }
 
         // Send support msg to admin user if nothing is set above.
@@ -337,8 +339,8 @@ class core_user {
                 'choices' => array_merge(array('' => ''), \core_calendar\type_factory::get_list_of_calendar_types()));
         $fields['theme'] = array('type' => PARAM_THEME, 'null' => NULL_NOT_ALLOWED,
                 'default' => theme_config::DEFAULT_THEME, 'choices' => array_merge(array('' => ''), get_list_of_themes()));
-        $fields['timezone'] = array('type' => PARAM_TIMEZONE, 'null' => NULL_NOT_ALLOWED, 'default' => $CFG->timezone,
-                'choices' => core_date::get_list_of_timezones(null, true));
+        $fields['timezone'] = array('type' => PARAM_TIMEZONE, 'null' => NULL_NOT_ALLOWED,
+                'default' => core_date::get_server_timezone()); // Must not use choices here: timezones can come and go.
         $fields['firstaccess'] = array('type' => PARAM_INT, 'null' => NULL_NOT_ALLOWED);
         $fields['lastaccess'] = array('type' => PARAM_INT, 'null' => NULL_NOT_ALLOWED);
         $fields['lastlogin'] = array('type' => PARAM_INT, 'null' => NULL_NOT_ALLOWED);
@@ -528,7 +530,7 @@ class core_user {
      * Get the choices of the property.
      *
      * This is a helper method to validate a value against a list of acceptable choices.
-     * For instance: country, timezone, language, themes and etc.
+     * For instance: country, language, themes and etc.
      *
      * @param string $property property name to be retrieved.
      * @throws coding_exception if the requested property name is invalid or if it does not has a list of choices.

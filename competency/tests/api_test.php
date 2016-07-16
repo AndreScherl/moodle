@@ -2579,6 +2579,47 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->assertEquals(null, $ev4->get_actionuserid());
     }
 
+    public function test_list_evidence_in_course() {
+        global $SITE;
+
+        $this->resetAfterTest(true);
+        $dg = $this->getDataGenerator();
+        $lpg = $dg->get_plugin_generator('core_competency');
+        $u1 = $dg->create_user();
+        $course = $dg->create_course();
+        $coursecontext = context_course::instance($course->id);
+
+        $this->setAdminUser();
+        $f = $lpg->create_framework();
+        $c = $lpg->create_competency(array('competencyframeworkid' => $f->get_id()));
+        $c2 = $lpg->create_competency(array('competencyframeworkid' => $f->get_id()));
+        $cc = api::add_competency_to_course($course->id, $c->get_id());
+        $cc2 = api::add_competency_to_course($course->id, $c2->get_id());
+
+        $pagegenerator = $this->getDataGenerator()->get_plugin_generator('mod_page');
+        $page = $pagegenerator->create_instance(array('course' => $course->id));
+
+        $cm = get_coursemodule_from_instance('page', $page->id);
+        $cmcontext = context_module::instance($cm->id);
+        // Add the competency to the course module.
+        $ccm = api::add_competency_to_course_module($cm, $c->get_id());
+
+        // Now add the evidence to the course.
+        $evidence1 = api::add_evidence($u1->id, $c->get_id(), $coursecontext->id, \core_competency\evidence::ACTION_LOG,
+            'invaliddata', 'error');
+
+        $result = api::list_evidence_in_course($u1->id, $course->id, $c->get_id());
+        $this->assertEquals($result[0]->get_id(), $evidence1->get_id());
+
+        // Now add the evidence to the course module.
+        $evidence2 = api::add_evidence($u1->id, $c->get_id(), $cmcontext->id, \core_competency\evidence::ACTION_LOG,
+            'invaliddata', 'error');
+
+        $result = api::list_evidence_in_course($u1->id, $course->id, $c->get_id(), 'timecreated', 'ASC');
+        $this->assertEquals($evidence1->get_id(), $result[0]->get_id());
+        $this->assertEquals($evidence2->get_id(), $result[1]->get_id());
+    }
+
     public function test_list_course_modules_using_competency() {
         global $SITE;
 
@@ -2686,17 +2727,17 @@ class core_competency_api_testcase extends advanced_testcase {
         $lpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
         $user = $dg->create_user();
 
-        $dg->create_scale(array("id" => "1", "scale" => "value1, value2"));
-        $dg->create_scale(array("id" => "2", "scale" => "value3, value4, value5, value6"));
+        $s1 = $dg->create_scale(array("scale" => "value1, value2"));
+        $s2 = $dg->create_scale(array("scale" => "value3, value4, value5, value6"));
 
-        $scaleconfiguration1 = '[{"scaleid":"1"},{"name":"value1","id":1,"scaledefault":1,"proficient":0},' .
+        $scaleconfiguration1 = '[{"scaleid":"'.$s1->id.'"},{"name":"value1","id":1,"scaledefault":1,"proficient":0},' .
                 '{"name":"value2","id":2,"scaledefault":0,"proficient":1}]';
-        $scaleconfiguration2 = '[{"scaleid":"2"},{"name":"value3","id":1,"scaledefault":1,"proficient":0},'
+        $scaleconfiguration2 = '[{"scaleid":"'.$s2->id.'"},{"name":"value3","id":1,"scaledefault":1,"proficient":0},'
                 . '{"name":"value4","id":2,"scaledefault":0,"proficient":1}]';
 
         // Create a framework with scale configuration1.
         $frm = array(
-            'scaleid' => 1,
+            'scaleid' => $s1->id,
             'scaleconfiguration' => $scaleconfiguration1
         );
         $framework = $lpg->create_framework($frm);
@@ -2704,7 +2745,7 @@ class core_competency_api_testcase extends advanced_testcase {
 
         // Create competency with its own scale configuration.
         $c2 = $lpg->create_competency(array('competencyframeworkid' => $framework->get_id(),
-                                            'scaleid' => 2,
+                                            'scaleid' => $s2->id,
                                             'scaleconfiguration' => $scaleconfiguration2
                                         ));
 
@@ -3961,7 +4002,6 @@ class core_competency_api_testcase extends advanced_testcase {
         $dg = $this->getDataGenerator();
         $lpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
 
-        $currenttime = time();
         $syscontext = context_system::instance();
 
         // Create users.
@@ -3979,10 +4019,8 @@ class core_competency_api_testcase extends advanced_testcase {
         $pc1 = $lpg->create_plan_competency(array('planid' => $p1->get_id(), 'competencyid' => $c1->get_id()));
         $pc2 = $lpg->create_plan_competency(array('planid' => $p2->get_id(), 'competencyid' => $c1->get_id()));
 
-        // Create user competency. Add user_evidence and associate it to the user competency.
+        // Create user competency and add an evidence.
         $uc = $lpg->create_user_competency(array('userid' => $user->id, 'competencyid' => $c1->get_id()));
-        $ue = $lpg->create_user_evidence(array('userid' => $user->id));
-        $uec = $lpg->create_user_evidence_competency(array('userevidenceid' => $ue->get_id(), 'competencyid' => $c1->get_id()));
         $e1 = $lpg->create_evidence(array('usercompetencyid' => $uc->get_id()));
 
         // Check both plans as one evidence.
@@ -3990,24 +4028,18 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->assertEquals(1, count(api::list_evidence($user->id, $c1->get_id(), $p2->get_id())));
 
         // Complete second plan.
-        $currenttime += 1;
         $p2->set_status(plan::STATUS_COMPLETE);
         $p2->update();
-        $plansql = "UPDATE {" . plan::TABLE . "} SET timemodified = :currenttime WHERE id = :planid";
-        $DB->execute($plansql, array('currenttime' => $currenttime, 'planid' => $p2->get_id()));
 
-        // Add an other user evidence for the same competency.
-        $currenttime += 1;
-        $ue2 = $lpg->create_user_evidence(array('userid' => $user->id));
-        $uec2 = $lpg->create_user_evidence_competency(array('userevidenceid' => $ue2->get_id(), 'competencyid' => $c1->get_id()));
+        // Add another evidence for the same competency, but in the future (time + 1).
         $e2 = $lpg->create_evidence(array('usercompetencyid' => $uc->get_id()));
         $evidencesql = "UPDATE {" . evidence::TABLE . "} SET timecreated = :currenttime WHERE id = :evidenceid";
-        $DB->execute($evidencesql, array('currenttime' => $currenttime, 'evidenceid' => $e2->get_id()));
+        $DB->execute($evidencesql, array('currenttime' => time() + 1, 'evidenceid' => $e2->get_id()));
 
-        // Check first plan which is not completed as all evidences.
+        // Check that the first plan, which is not completed, has all the evidence.
         $this->assertEquals(2, count(api::list_evidence($user->id, $c1->get_id(), $p1->get_id())));
 
-        // Check second plan completed before the new evidence as only the first evidence.
+        // Check that the second plan, completed before the new evidence, only has the first piece of evidence.
         $listevidences = api::list_evidence($user->id, $c1->get_id(), $p2->get_id());
         $this->assertEquals(1, count($listevidences));
         $this->assertEquals($e1->get_id(), $listevidences[$e1->get_id()]->get_id());
@@ -4413,5 +4445,101 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->setExpectedException('required_capability_exception');
 
         api::delete_evidence($ev1);
+    }
+
+    public function test_list_plans_to_review() {
+        $dg = $this->getDataGenerator();
+        $this->resetAfterTest();
+        $ccg = $dg->get_plugin_generator('core_competency');
+        $sysctx = context_system::instance();
+        $this->setAdminUser();
+
+        $reviewer = $dg->create_user();
+        $roleallow = $dg->create_role();
+        $roleprohibit = $dg->create_role();
+        assign_capability('moodle/competency:planreview', CAP_ALLOW, $roleallow, $sysctx->id);
+        assign_capability('moodle/competency:planreview', CAP_PROHIBIT, $roleprohibit, $sysctx->id);
+        role_assign($roleallow, $reviewer->id, $sysctx->id);
+        accesslib_clear_all_caches_for_unit_testing();
+
+        $u1 = $dg->create_user();
+        $u2 = $dg->create_user();
+        $f1 = $ccg->create_framework();
+        $comp1 = $ccg->create_competency(['competencyframeworkid' => $f1->get_id()]);
+        $p1a = $ccg->create_plan(['userid' => $u1->id, 'status' => plan::STATUS_WAITING_FOR_REVIEW]);
+        $p1b = $ccg->create_plan(['userid' => $u1->id, 'status' => plan::STATUS_IN_REVIEW, 'reviewerid' => $reviewer->id]);
+        $p1c = $ccg->create_plan(['userid' => $u1->id, 'status' => plan::STATUS_DRAFT]);
+        $p2a = $ccg->create_plan(['userid' => $u2->id, 'status' => plan::STATUS_WAITING_FOR_REVIEW]);
+        $p2b = $ccg->create_plan(['userid' => $u2->id, 'status' => plan::STATUS_IN_REVIEW]);
+        $p2c = $ccg->create_plan(['userid' => $u2->id, 'status' => plan::STATUS_ACTIVE]);
+        $p2d = $ccg->create_plan(['userid' => $u2->id, 'status' => plan::STATUS_ACTIVE]);
+        api::complete_plan($p2d);
+
+        // The reviewer can review all plans waiting for review, or in review where they are the reviewer.
+        $this->setUser($reviewer);
+        $result = api::list_plans_to_review();
+        $this->assertEquals(3, $result['count']);
+        $this->assertEquals($p1a->get_id(), $result['plans'][0]->plan->get_id());
+        $this->assertEquals($p1b->get_id(), $result['plans'][1]->plan->get_id());
+        $this->assertEquals($p2a->get_id(), $result['plans'][2]->plan->get_id());
+
+        // The reviewer cannot view the plans when they do not have the permission in the user's context.
+        role_assign($roleprohibit, $reviewer->id, context_user::instance($u2->id)->id);
+        accesslib_clear_all_caches_for_unit_testing();
+        $result = api::list_plans_to_review();
+        $this->assertEquals(2, $result['count']);
+        $this->assertEquals($p1a->get_id(), $result['plans'][0]->plan->get_id());
+        $this->assertEquals($p1b->get_id(), $result['plans'][1]->plan->get_id());
+    }
+
+    public function test_list_user_competencies_to_review() {
+        $dg = $this->getDataGenerator();
+        $this->resetAfterTest();
+        $ccg = $dg->get_plugin_generator('core_competency');
+        $sysctx = context_system::instance();
+        $this->setAdminUser();
+
+        $reviewer = $dg->create_user();
+        $roleallow = $dg->create_role();
+        $roleprohibit = $dg->create_role();
+        assign_capability('moodle/competency:usercompetencyreview', CAP_ALLOW, $roleallow, $sysctx->id);
+        assign_capability('moodle/competency:usercompetencyreview', CAP_PROHIBIT, $roleprohibit, $sysctx->id);
+        role_assign($roleallow, $reviewer->id, $sysctx->id);
+        accesslib_clear_all_caches_for_unit_testing();
+
+        $u1 = $dg->create_user();
+        $u2 = $dg->create_user();
+        $f1 = $ccg->create_framework();
+        $c1 = $ccg->create_competency(['competencyframeworkid' => $f1->get_id()]);
+        $c2 = $ccg->create_competency(['competencyframeworkid' => $f1->get_id()]);
+        $c3 = $ccg->create_competency(['competencyframeworkid' => $f1->get_id()]);
+        $uc1a = $ccg->create_user_competency(['userid' => $u1->id, 'competencyid' => $c1->get_id(),
+            'status' => user_competency::STATUS_IDLE]);
+        $uc1b = $ccg->create_user_competency(['userid' => $u1->id, 'competencyid' => $c2->get_id(),
+            'status' => user_competency::STATUS_WAITING_FOR_REVIEW]);
+        $uc1c = $ccg->create_user_competency(['userid' => $u1->id, 'competencyid' => $c3->get_id(),
+            'status' => user_competency::STATUS_IN_REVIEW, 'reviewerid' => $reviewer->id]);
+        $uc2a = $ccg->create_user_competency(['userid' => $u2->id, 'competencyid' => $c1->get_id(),
+            'status' => user_competency::STATUS_WAITING_FOR_REVIEW]);
+        $uc2b = $ccg->create_user_competency(['userid' => $u2->id, 'competencyid' => $c2->get_id(),
+            'status' => user_competency::STATUS_IDLE]);
+        $uc2c = $ccg->create_user_competency(['userid' => $u2->id, 'competencyid' => $c3->get_id(),
+            'status' => user_competency::STATUS_IN_REVIEW]);
+
+        // The reviewer can review all plans waiting for review, or in review where they are the reviewer.
+        $this->setUser($reviewer);
+        $result = api::list_user_competencies_to_review();
+        $this->assertEquals(3, $result['count']);
+        $this->assertEquals($uc2a->get_id(), $result['competencies'][0]->usercompetency->get_id());
+        $this->assertEquals($uc1b->get_id(), $result['competencies'][1]->usercompetency->get_id());
+        $this->assertEquals($uc1c->get_id(), $result['competencies'][2]->usercompetency->get_id());
+
+        // The reviewer cannot view the plans when they do not have the permission in the user's context.
+        role_assign($roleprohibit, $reviewer->id, context_user::instance($u2->id)->id);
+        accesslib_clear_all_caches_for_unit_testing();
+        $result = api::list_user_competencies_to_review();
+        $this->assertEquals(2, $result['count']);
+        $this->assertEquals($uc1b->get_id(), $result['competencies'][0]->usercompetency->get_id());
+        $this->assertEquals($uc1c->get_id(), $result['competencies'][1]->usercompetency->get_id());
     }
 }

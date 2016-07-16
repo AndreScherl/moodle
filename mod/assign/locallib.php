@@ -3390,7 +3390,7 @@ class assign {
         $o .= $this->get_renderer()->render($header);
 
         // If userid is passed - we are only grading a single student.
-        $rownum = required_param('rownum', PARAM_INT);
+        $rownum = optional_param('rownum', 0, PARAM_INT);
         $useridlistid = optional_param('useridlistid', $this->get_useridlist_key_id(), PARAM_ALPHANUM);
         $userid = optional_param('userid', 0, PARAM_INT);
         $attemptnumber = optional_param('attemptnumber', -1, PARAM_INT);
@@ -3403,6 +3403,7 @@ class assign {
             $useridlist = $SESSION->mod_assign_useridlist[$useridlistkey];
         } else {
             $rownum = 0;
+            $useridlistid = 0;
             $useridlist = array($userid);
         }
 
@@ -3522,11 +3523,11 @@ class assign {
 
         // Now show the grading form.
         if (!$mform) {
-            $pagination = array('rownum'=>$rownum,
-                                'useridlistid'=>$useridlistid,
-                                'last'=>$last,
-                                'userid'=>optional_param('userid', 0, PARAM_INT),
-                                'attemptnumber'=>$attemptnumber);
+            $pagination = array('rownum' => $rownum,
+                                'useridlistid' => $useridlistid,
+                                'last' => $last,
+                                'userid' => $userid,
+                                'attemptnumber' => $attemptnumber);
             $formparams = array($this, $data, $pagination);
             $mform = new mod_assign_grade_form(null,
                                                $formparams,
@@ -5465,11 +5466,10 @@ class assign {
      * @param int $updatetime
      * @return void
      */
-    public function send_notification($userfrom,
-                                      $userto,
-                                      $messagetype,
-                                      $eventtype,
-                                      $updatetime) {
+    public function send_notification($userfrom, $userto, $messagetype, $eventtype, $updatetime) {
+        global $USER;
+        $userid = core_user::is_real_user($userfrom->id) ? $userfrom->id : $USER->id;
+        $uniqueid = $this->get_uniqueid_for_user($userid);
         self::send_assignment_notification($userfrom,
                                            $userto,
                                            $messagetype,
@@ -5481,7 +5481,7 @@ class assign {
                                            $this->get_module_name(),
                                            $this->get_instance()->name,
                                            $this->is_blind_marking(),
-                                           $this->get_uniqueid_for_user($userfrom->id));
+                                           $uniqueid);
     }
 
     /**
@@ -5632,7 +5632,12 @@ class assign {
             $this->update_submission($submission, $userid, true, $instance->teamsubmission);
             $completion = new completion_info($this->get_course());
             if ($completion->is_enabled($this->get_course_module()) && $instance->completionsubmit) {
-                $completion->update_state($this->get_course_module(), COMPLETION_COMPLETE, $userid);
+                $this->update_activity_completion_records($instance->teamsubmission,
+                                                          $instance->requireallteammemberssubmit,
+                                                          $submission,
+                                                          $userid,
+                                                          COMPLETION_COMPLETE,
+                                                          $completion);
             }
 
             if (!empty($data->submissionstatement) && $USER->id == $userid) {
@@ -6324,7 +6329,12 @@ class assign {
         }
         $completion = new completion_info($this->get_course());
         if ($completion->is_enabled($this->get_course_module()) && $instance->completionsubmit) {
-            $completion->update_state($this->get_course_module(), $complete, $USER->id);
+            $this->update_activity_completion_records($instance->teamsubmission,
+                                                      $instance->requireallteammemberssubmit,
+                                                      $submission,
+                                                      $USER->id,
+                                                      $complete,
+                                                      $completion);
         }
 
         if (!$instance->submissiondrafts) {
@@ -6393,6 +6403,17 @@ class assign {
         } else {
             $submission = $this->get_user_submission($userid, true);
         }
+
+        // Check that no one has modified the submission since we started looking at it.
+        if (isset($data->lastmodified) && ($submission->timemodified > $data->lastmodified)) {
+            // Another user has submitted something. Notify the current user.
+            if ($submission->status !== ASSIGN_SUBMISSION_STATUS_NEW) {
+                $notices[] = $instance->teamsubmission ? get_string('submissionmodifiedgroup', 'mod_assign')
+                                                       : get_string('submissionmodified', 'mod_assign');
+                return false;
+            }
+        }
+
         if ($instance->submissiondrafts) {
             $submission->status = ASSIGN_SUBMISSION_STATUS_DRAFT;
         } else {
@@ -6591,7 +6612,9 @@ class assign {
         $userid = isset($params['userid']) ? $params['userid'] : 0;
         $attemptnumber = isset($params['attemptnumber']) ? $params['attemptnumber'] : 0;
         $gradingpanel = !empty($params['gradingpanel']);
-        if (!$userid) {
+        $bothids = ($userid && $useridlistid);
+
+        if (!$userid || $bothids) {
             $useridlistkey = $this->get_useridlist_key($useridlistid);
             if (empty($SESSION->mod_assign_useridlist[$useridlistkey])) {
                 $SESSION->mod_assign_useridlist[$useridlistkey] = $this->get_grading_userid_list();
@@ -6757,6 +6780,8 @@ class assign {
         $mform->setType('attemptnumber', PARAM_INT);
         $mform->addElement('hidden', 'ajax', optional_param('ajax', 0, PARAM_INT));
         $mform->setType('ajax', PARAM_INT);
+        $mform->addElement('hidden', 'userid', optional_param('userid', 0, PARAM_INT));
+        $mform->setType('userid', PARAM_INT);
 
         if ($this->get_instance()->teamsubmission) {
             $mform->addElement('header', 'groupsubmissionsettings', get_string('groupsubmissionsettings', 'assign'));
@@ -7487,11 +7512,11 @@ class assign {
 
         $data = new stdClass();
 
-        $gradeformparams = array('rownum'=>$rownum,
-                                 'useridlistid'=>$useridlistid,
-                                 'last'=>false,
-                                 'attemptnumber'=>$attemptnumber,
-                                 'userid'=>optional_param('userid', 0, PARAM_INT));
+        $gradeformparams = array('rownum' => $rownum,
+                                 'useridlistid' => $useridlistid,
+                                 'last' => $last,
+                                 'attemptnumber' => $attemptnumber,
+                                 'userid' => $userid);
         $mform = new mod_assign_grade_form(null,
                                            array($this, $data, $gradeformparams),
                                            'post',
@@ -7986,6 +8011,42 @@ class assign {
         }
         return $this->get_course_module()->id . '_' . $id;
     }
+
+    /**
+     * Updates and creates the completion records in mdl_course_modules_completion.
+     *
+     * @param int $teamsubmission value of 0 or 1 to indicate whether this is a group activity
+     * @param int $requireallteammemberssubmit value of 0 or 1 to indicate whether all group members must click Submit
+     * @param obj $submission the submission
+     * @param int $userid the user id
+     * @param int $complete
+     * @param obj $completion
+     *
+     * @return null
+     */
+    protected function update_activity_completion_records($teamsubmission,
+                                                          $requireallteammemberssubmit,
+                                                          $submission,
+                                                          $userid,
+                                                          $complete,
+                                                          $completion) {
+
+        if (($teamsubmission && $submission->groupid > 0 && !$requireallteammemberssubmit) ||
+            ($teamsubmission && $submission->groupid > 0 && $requireallteammemberssubmit &&
+             $submission->status == ASSIGN_SUBMISSION_STATUS_SUBMITTED)) {
+
+            $members = groups_get_members($submission->groupid);
+
+            foreach ($members as $member) {
+                $completion->update_state($this->get_course_module(), $complete, $member->id);
+            }
+        } else {
+            $completion->update_state($this->get_course_module(), $complete, $userid);
+        }
+
+        return;
+    }
+
 }
 
 /**

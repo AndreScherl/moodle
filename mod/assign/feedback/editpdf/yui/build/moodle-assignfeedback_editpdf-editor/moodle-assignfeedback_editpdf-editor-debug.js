@@ -74,6 +74,7 @@ var AJAXBASE = M.cfg.wwwroot + '/mod/assign/feedback/editpdf/ajax.php',
         'oval': '.ovalbutton',
         'stamp': '.stampbutton',
         'select': '.selectbutton',
+        'drag': '.dragbutton',
         'highlight': '.highlightbutton'
     },
     STROKEWEIGHT = 4;
@@ -360,7 +361,7 @@ var EDIT = function() {
      * @type String
      * @public
      */
-    this.tool = "comment";
+    this.tool = "drag";
 
     /**
      * The currently comment colour
@@ -1554,7 +1555,7 @@ Y.extend(ANNOTATIONSTAMP, M.assignfeedback_editpdf.annotation, {
      */
     draw : function() {
         var drawable = new M.assignfeedback_editpdf.drawable(this.editor),
-            drawingregion = this.editor.get_dialogue_element(SELECTOR.DRAWINGREGION),
+            drawingcanvas = this.editor.get_dialogue_element(SELECTOR.DRAWINGCANVAS),
             node,
             position;
 
@@ -1570,16 +1571,10 @@ Y.extend(ANNOTATIONSTAMP, M.assignfeedback_editpdf.annotation, {
             'zIndex': 50
         });
 
-        drawingregion.append(node);
+        drawingcanvas.append(node);
         node.setX(position.x);
         node.setY(position.y);
         drawable.store_position(node, position.x, position.y);
-
-        // Pass throught the event handlers on the div.
-        node.on('gesturemovestart', this.editor.edit_start, null, this.editor);
-        node.on('gesturemove', this.editor.edit_move, null, this.editor);
-        node.on('gesturemoveend', this.editor.edit_end, null, this.editor);
-
         drawable.nodes.push(node);
 
         this.drawable = drawable;
@@ -2508,7 +2503,7 @@ var COMMENT = function(editor, gradeid, pageno, x, y, width, colour, rawtext) {
     this.draw = function(focus) {
         var drawable = new M.assignfeedback_editpdf.drawable(this.editor),
             node,
-            drawingregion = this.editor.get_dialogue_element(SELECTOR.DRAWINGREGION),
+            drawingcanvas = this.editor.get_dialogue_element(SELECTOR.DRAWINGCANVAS),
             container,
             menu,
             position,
@@ -2538,14 +2533,14 @@ var COMMENT = function(editor, gradeid, pageno, x, y, width, colour, rawtext) {
             color: COMMENTTEXTCOLOUR
         });
 
-        drawingregion.append(container);
+        drawingcanvas.append(container);
         container.setStyle('position', 'absolute');
         container.setX(position.x);
         container.setY(position.y);
         drawable.store_position(container, position.x, position.y);
         drawable.nodes.push(container);
         node.set('value', this.rawtext);
-        scrollheight = node.get('scrollHeight'),
+        scrollheight = node.get('scrollHeight');
         node.setStyles({
             'height' : scrollheight + 'px',
             'overflow': 'hidden'
@@ -3294,7 +3289,7 @@ EDITOR.prototype = {
      * @method refresh_button_state
      */
     refresh_button_state : function() {
-        var button, currenttoolnode, imgurl;
+        var button, currenttoolnode, imgurl, drawingregion;
 
         // Initalise the colour buttons.
         button = this.get_dialogue_element(SELECTOR.COMMENTCOLOURBUTTON);
@@ -3315,6 +3310,8 @@ EDITOR.prototype = {
         currenttoolnode = this.get_dialogue_element(TOOLSELECTOR[this.currentedit.tool]);
         currenttoolnode.addClass('assignfeedback_editpdf_selectedbutton');
         currenttoolnode.setAttribute('aria-pressed', 'true');
+        drawingregion = this.get_dialogue_element(SELECTOR.DRAWINGREGION);
+        drawingregion.setAttribute('data-currenttool', this.currentedit.tool);
 
         button = this.get_dialogue_element(SELECTOR.STAMPSBUTTON);
         button.one('img').setAttrs({'src': this.get_stamp_image_url(this.currentedit.stamp),
@@ -3728,7 +3725,8 @@ EDITOR.prototype = {
         currenttoolnode.removeClass('assignfeedback_editpdf_selectedbutton');
         currenttoolnode.setAttribute('aria-pressed', 'false');
         this.currentedit.tool = tool;
-        if (tool !== "comment" && tool !== "select" && tool !== "stamp") {
+
+        if (tool !== "comment" && tool !== "select" && tool !== "drag" && tool !== "stamp") {
             this.lastannotationtool = tool;
         }
         this.refresh_button_state();
@@ -3890,9 +3888,12 @@ EDITOR.prototype = {
         e.preventDefault();
         var bounds = this.get_canvas_bounds(),
             canvas = this.get_dialogue_element(SELECTOR.DRAWINGCANVAS),
+            drawingregion = this.get_dialogue_element(SELECTOR.DRAWINGREGION),
             clientpoint = new M.assignfeedback_editpdf.point(e.clientX + canvas.get('docScrollX'),
                                                              e.clientY + canvas.get('docScrollY')),
-            point = this.get_canvas_coordinates(clientpoint);
+            point = this.get_canvas_coordinates(clientpoint),
+            diffX,
+            diffY;
 
         // Ignore events out of the canvas area.
         if (point.x < 0 || point.x > bounds.width || point.y < 0 || point.y > bounds.height) {
@@ -3908,6 +3909,13 @@ EDITOR.prototype = {
                 this.currentannotation.move( this.currentedit.annotationstart.x + point.x - this.currentedit.start.x,
                                              this.currentedit.annotationstart.y + point.y - this.currentedit.start.y);
             }
+        } else if (this.currentedit.tool === 'drag') {
+            diffX = point.x - this.currentedit.start.x;
+            diffY = point.y - this.currentedit.start.y;
+
+            drawingregion.getDOMNode().scrollLeft -= diffX;
+            drawingregion.getDOMNode().scrollTop -= diffY;
+
         } else {
             if (this.currentedit.start) {
                 this.currentedit.end = point;
@@ -4149,7 +4157,7 @@ EDITOR.prototype = {
         drawingcanvas.setStyle('height', page.height + 'px');
 
         // Update page select.
-        this.get_dialogue_element(SELECTOR.PAGESELECT).set('value', this.currentpage);
+        this.get_dialogue_element(SELECTOR.PAGESELECT).set('selectedIndex', this.currentpage);
 
         this.resize(); // Internally will call 'redraw', after checking the dialogue size.
     },

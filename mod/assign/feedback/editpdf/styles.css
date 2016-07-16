@@ -14,9 +14,16 @@
     background-color: #ccc;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 20px rgba(0,0,0,.2);
 }
 .assignfeedback_editpdf_widget .moodle-dialogue-bd .drawingregion {
     position: inherit;
+}
+.assignfeedback_editpdf_widget .drawingregion[data-currenttool=drag] .drawingcanvas {
+    cursor: move;
+}
+.assignfeedback_editpdf_widget .drawingregion[data-currenttool=select] .drawingcanvas {
+    cursor: pointer;
 }
 .assignfeedback_editpdf_widget .drawingregion {
     border: 1px solid #ccc;
@@ -26,6 +33,7 @@
     bottom: 0px;
     position: absolute;
     overflow: auto;
+    background-color: #ccc;
 }
 
 .assignfeedback_editpdf_widget {
@@ -307,7 +315,7 @@ ul.assignfeedback_editpdf_menu {
     overflow: hidden;
     position: relative;
 }
-@media (max-width: 899px) {
+@media (max-width: 960px) {
     .assignfeedback_editpdf_widget .pageheader {
         height: 104px;
     }
@@ -317,21 +325,17 @@ ul.assignfeedback_editpdf_menu {
 }
 @media (max-width: 767px) {
     .assignfeedback_editpdf_widget .drawingregion {
-        position: inherit;
+        position: relative;
         margin-bottom: 1em;
+        top: 0;
     }
     .assignfeedback_editpdf_widget .pageheader {
-        height: 52px;
-    }
-    .assignfeedback_editpdf_widget .drawingregion {
-        top: 52px;
+        height: auto;
     }
 }
-@media (max-width: 683px) {
+@media (max-width: 480px) {
     .assignfeedback_editpdf_widget .pageheader {
-        height: 104px;
-    }
-    .assignfeedback_editpdf_widget .drawingregion {
-        top: 104px;
+        padding-left: 5px;
+        padding-right: 5px;
     }
 }

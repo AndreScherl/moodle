@@ -760,7 +760,6 @@ class moodle_url {
         if ($forcedownload) {
             $params['forcedownload'] = 1;
         }
-        $path = rtrim($path, '/');
         $url = new moodle_url($urlbase, $params);
         $url->set_slashargument($path);
         return $url;
@@ -1175,6 +1174,7 @@ function format_text_menu() {
  *                      with the class no-overflow before being returned. Default false.
  *      allowid     :   If true then id attributes will not be removed, even when
  *                      using htmlpurifier. Default false.
+ *      blanktarget :   If true all <a> tags will have target="_blank" added unless target is explicitly specified.
  * </pre>
  *
  * @staticvar array $croncache
@@ -1222,6 +1222,7 @@ function format_text($text, $format = FORMAT_MOODLE, $options = null, $courseidd
     if (!isset($options['overflowdiv'])) {
         $options['overflowdiv'] = false;
     }
+    $options['blanktarget'] = !empty($options['blanktarget']);
 
     // Calculate best context.
     if (empty($CFG->version) or $CFG->version < 2013051400 or during_initial_install()) {
@@ -1318,6 +1319,26 @@ function format_text($text, $format = FORMAT_MOODLE, $options = null, $courseidd
         $text = html_writer::tag('div', $text, array('class' => 'no-overflow'));
     }
 
+    if ($options['blanktarget']) {
+        $domdoc = new DOMDocument();
+        $domdoc->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $text);
+        foreach ($domdoc->getElementsByTagName('a') as $link) {
+            if ($link->hasAttribute('target') && strpos($link->getAttribute('target'), '_blank') === false) {
+                continue;
+            }
+            $link->setAttribute('target', '_blank');
+            if (strpos($link->getAttribute('rel'), 'noreferrer') === false) {
+                $link->setAttribute('rel', trim($link->getAttribute('rel') . ' noreferrer'));
+            }
+        }
+
+        // This regex is nasty and I don't like it. The correct way to solve this is by loading the HTML like so:
+        // $domdoc->loadHTML($text, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD); however it seems like the libxml
+        // version that travis uses doesn't work properly and ends up leaving <html><body>, so I'm forced to use
+        // this regex to remove those tags.
+        $text = trim(preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $domdoc->saveHTML($domdoc->documentElement)));
+    }
+
     return $text;
 }
 
@@ -1404,13 +1425,15 @@ function format_string($string, $striplinks = true, $options = null) {
         $options['filter'] = true;
     }
 
+    $options['escape'] = !isset($options['escape']) || $options['escape'];
+
     if (!$options['context']) {
         // We did not find any context? weird.
         return $string = strip_tags($string);
     }
 
     // Calculate md5.
-    $md5 = md5($string.'<+>'.$striplinks.'<+>'.$options['context']->id.'<+>'.current_language());
+    $md5 = md5($string.'<+>'.$striplinks.'<+>'.$options['context']->id.'<+>'.$options['escape'].'<+>'.current_language());
 
     // Fetch from cache if possible.
     if (isset($strcache[$md5])) {
@@ -1419,7 +1442,7 @@ function format_string($string, $striplinks = true, $options = null) {
 
     // First replace all ampersands not followed by html entity code
     // Regular expression moved to its own method for easier unit testing.
-    $string = replace_ampersands_not_followed_by_entity($string);
+    $string = $options['escape'] ? replace_ampersands_not_followed_by_entity($string) : $string;
 
     if (!empty($CFG->filterall) && $options['filter']) {
         $filtermanager = filter_manager::instance();
@@ -1429,8 +1452,11 @@ function format_string($string, $striplinks = true, $options = null) {
 
     // If the site requires it, strip ALL tags from this string.
     if (!empty($CFG->formatstringstriptags)) {
-        $string = str_replace(array('<', '>'), array('&lt;', '&gt;'), strip_tags($string));
-
+        if ($options['escape']) {
+            $string = str_replace(array('<', '>'), array('&lt;', '&gt;'), strip_tags($string));
+        } else {
+            $string = strip_tags($string);
+        }
     } else {
         // Otherwise strip just links if that is required (default).
         if ($striplinks) {
@@ -1918,24 +1944,35 @@ function html_to_text($html, $width = 75, $dolinks = true) {
 }
 
 /**
- * Converts content introduced in an editor to plain text.
+ * Converts texts or strings to plain text.
+ *
+ * - When used to convert user input introduced in an editor the text format needs to be passed in $contentformat like we usually
+ *   do in format_text.
+ * - When this function is used for strings that are usually passed through format_string before displaying them
+ *   we need to set $contentformat to false. This will execute html_to_text as these strings can contain multilang tags if
+ *   multilang filter is applied to headings.
  *
  * @param string $content The text as entered by the user
- * @param int $contentformat The text format: FORMAT_MOODLE, FORMAT_HTML, FORMAT_PLAIN or FORMAT_MARKDOWN
+ * @param int|false $contentformat False for strings or the text format: FORMAT_MOODLE/FORMAT_HTML/FORMAT_PLAIN/FORMAT_MARKDOWN
  * @return string Plain text.
  */
 function content_to_text($content, $contentformat) {
 
     switch ($contentformat) {
         case FORMAT_PLAIN:
-            return $content;
+            // Nothing here.
+            break;
         case FORMAT_MARKDOWN:
-            $html = markdown_to_html($content);
-            return html_to_text($html, 75, false);
+            $content = markdown_to_html($content);
+            $content = html_to_text($content, 75, false);
+            break;
         default:
-            // FORMAT_HTML and FORMAT_MOODLE.
-            return html_to_text($content, 75, false);
+            // FORMAT_HTML, FORMAT_MOODLE and $contentformat = false, the later one are strings usually formatted through
+            // format_string, we need to convert them from html because they can contain HTML (multilang filter).
+            $content = html_to_text($content, 75, false);
     }
+
+    return trim($content, "\r\n ");
 }
 
 /**

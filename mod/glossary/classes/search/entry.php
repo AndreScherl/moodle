@@ -53,7 +53,7 @@ class entry extends \core_search\area\base_mod {
 
         $sql = "SELECT ge.*, g.course FROM {glossary_entries} ge
                   JOIN {glossary} g ON g.id = ge.glossaryid
-                WHERE ge.timemodified >= ?";
+                WHERE ge.timemodified >= ? ORDER BY ge.timemodified ASC";
         return $DB->get_recordset_sql($sql, array($modifiedfrom));
     }
 
@@ -90,7 +90,7 @@ class entry extends \core_search\area\base_mod {
 
         // Prepare associative array with data from DB.
         $doc = \core_search\document_factory::instance($entry->id, $this->componentname, $this->areaname);
-        $doc->set('title', $entry->concept);
+        $doc->set('title', content_to_text($entry->concept, false));
         $doc->set('content', content_to_text($entry->definition, $entry->definitionformat));
         $doc->set('contextid', $context->id);
         $doc->set('courseid', $entry->course);
@@ -106,6 +106,7 @@ class entry extends \core_search\area\base_mod {
 
         // Adding keywords as extra info.
         if ($keywords) {
+            // No need to pass through content_to_text here as this is just a list of keywords.
             $doc->set('description1', implode(' ' , $keywords));
         }
 

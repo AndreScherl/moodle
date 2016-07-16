@@ -6,13 +6,14 @@
 }
 .path-admin-tool-lp .progresstext {
     display: inline-block;
-    height: 40px;
     vertical-align: top;
 }
 .path-admin-tool-lp .progress {
     width: 100%;
     display: inline-block;
-    margin-right: 2em;
+}
+.path-admin-tool-lp .progress .bar {
+    min-width: 3em;
 }
 .dir-rtl.path-admin-tool-lp .progress .bar {
     float: right;
@@ -117,6 +118,9 @@
 .path-admin-tool-lp [data-region="competencylinktree"] select {
     width: 100%;
 }
+.path-admin-tool-lp [data-region] .generaltable.fullwidth {
+    clear: both;
+}
 
 .path-admin-tool-lp .competency-rule-points {
     margin-top: 10px;
@@ -219,6 +223,10 @@ input[type="checkbox"].tool_lp_scale_proficient {
 }
 .user-competency-course-navigation {
     width: 240px;
+}
+.user-competency-course-navigation span {
+    max-width: 100%;
+    overflow: hidden;
 }
 
 /** Competency grader */

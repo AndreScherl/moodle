@@ -58,6 +58,9 @@ class behat_enrol extends behat_base {
             array($this->escape($enrolmethod), get_string('addinstance', 'enrol'))
         );
 
+        // Wait again, for page to reloaded.
+        $this->execute('behat_general::i_wait_to_be_redirected');
+
         // Set form fields.
         $this->execute("behat_forms::i_set_the_following_fields_to_these_values", $table);
 
@@ -86,9 +89,8 @@ class behat_enrol extends behat_base {
 
         $this->execute("behat_forms::press_button", get_string('enrolusers', 'enrol'));
 
-        $this->execute('behat_forms::i_set_the_field_to', array(get_string('assignroles', 'role'), $rolename));
-
         if ($this->running_javascript()) {
+            $this->execute('behat_forms::i_set_the_field_to', array(get_string('assignroles', 'role'), $rolename));
 
             // We have a div here, not a tr.
             $userliteral = behat_context_helper::escape($userfullname);
@@ -100,6 +102,7 @@ class behat_enrol extends behat_base {
             $this->execute("behat_forms::press_button", get_string('finishenrollingusers', 'enrol'));
 
         } else {
+            $this->execute('behat_forms::i_set_the_field_to', array(get_string('assignrole', 'role'), $rolename));
             $this->execute('behat_forms::i_set_the_field_to', array("addselect", $userfullname));
             $this->execute("behat_forms::press_button", "add");
         }

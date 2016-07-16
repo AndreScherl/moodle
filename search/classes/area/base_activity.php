@@ -62,7 +62,8 @@ abstract class base_activity extends base_mod {
      */
     public function get_recordset_by_timestamp($modifiedfrom = 0) {
         global $DB;
-        return $DB->get_recordset_select($this->get_module_name(), static::MODIFIED_FIELD_NAME . ' >= ?', array($modifiedfrom));
+        return $DB->get_recordset_select($this->get_module_name(), static::MODIFIED_FIELD_NAME . ' >= ?', array($modifiedfrom),
+                static::MODIFIED_FIELD_NAME . ' ASC');
     }
 
     /**
@@ -94,7 +95,7 @@ abstract class base_activity extends base_mod {
 
         // Prepare associative array with data from DB.
         $doc = \core_search\document_factory::instance($record->id, $this->componentname, $this->areaname);
-        $doc->set('title', $record->name);
+        $doc->set('title', content_to_text($record->name, false));
         $doc->set('content', content_to_text($record->intro, $record->introformat));
         $doc->set('contextid', $context->id);
         $doc->set('courseid', $record->course);

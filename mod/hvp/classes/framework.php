@@ -54,9 +54,9 @@ class framework implements \H5PFrameworkInterface {
             $fs = new \mod_hvp\file_storage();
 
             $context = \context_system::instance();
-            $url = "{$CFG->sessioncookiepath}pluginfile.php/{$context->id}/mod_hvp";
+            $url = "{$CFG->httpswwwroot}/pluginfile.php/{$context->id}/mod_hvp";
 
-            $language = \current_language();
+            $language = self::get_language();
 
             $export = !(isset($CFG->mod_hvp_export) && $CFG->mod_hvp_export === '0');
 
@@ -85,6 +85,79 @@ class framework implements \H5PFrameworkInterface {
             default:
                 return $core;
         }
+    }
+
+    /**
+     * Get current H5P language code.
+     *
+     * @return string Language Code
+     */
+    public static function get_language() {
+        static $map;
+
+        if (empty($map)) {
+            // Create mapping for "converting" language codes
+            $map = array(
+                'no' => 'nb'
+            );
+        }
+
+        // Get current language in Moodle
+        $language = \current_language();
+
+        // Try to map
+        return isset($map[$language]) ? $map[$language] : $language;
+    }
+
+    /**
+     * Make it easy to download and install H5P libraries.
+     *
+     * @param boolean $onlyupdate Prevent install of new libraries
+     * @return string|null Error or null if everything's OK.
+     */
+    public static function downloadH5pLibraries($onlyupdate = false) {
+        global $CFG;
+
+        $update_available = \get_config('mod_hvp', 'update_available');
+        $current_update = \get_config('mod_hvp', 'current_update');
+        if ($update_available === $current_update) {
+            // Prevent re-submission of forms/action
+            return null;
+        }
+
+        // URL for file to download
+        $download_url = \get_config('mod_hvp', 'update_available_path');
+        if (!$download_url) {
+            return get_string('missingh5purl', 'hvp');
+        }
+
+        // Generate local tmp file path
+        $local_folder = $CFG->tempdir . uniqid('/hvp-');
+        $local_file = $local_folder . '.h5p';
+
+        if (!\download_file_content($download_url, null, null, false, 300, 20, false, $local_file)) {
+            return get_string('unabletodownloadh5p', 'hvp');
+        }
+
+        // Add folder and file paths to H5P Core
+        $interface = \mod_hvp\framework::instance('interface');
+        $interface->getUploadedH5pFolderPath($local_folder);
+        $interface->getUploadedH5pPath($local_file);
+
+        // Validate package
+        $h5pValidator = \mod_hvp\framework::instance('validator');
+        if (!$h5pValidator->isValidPackage(true, $onlyupdate)) {
+            @unlink($local_file);
+            $messages = \mod_hvp\framework::messages('error');
+            return implode('<br/>', $messages);
+        }
+
+        // Install H5P file into Moodle
+        $storage = \mod_hvp\framework::instance('storage');
+        $storage->savePackage(null, null, true);
+        \set_config('current_update', $update_available, 'mod_hvp');
+
+        return null;
     }
 
     /**
@@ -185,77 +258,77 @@ class framework implements \H5PFrameworkInterface {
      * Implements t
      */
     public function t($message, $replacements = array()) {
-        static $map;
+        static $translations_map;
 
-        if (empty($map)) {
+        if (empty($translations_map)) {
             // Create mapping
-            $map = [
-                'Your PHP version does not support ZipArchive.' => get_string('noziparchive', 'hvp'),
-                'The file you uploaded is not a valid HTML5 Package (It does not have the .h5p file extension)' => get_string('noextension', 'hvp'),
-                'The file you uploaded is not a valid HTML5 Package (We are unable to unzip it)' => get_string('nounzip', 'hvp'),
-                'Could not parse the main h5p.json file' => get_string('noparse', 'hvp'),
-                'The main h5p.json file is not valid' => get_string('nojson', 'hvp'),
-                'Invalid content folder' => get_string('invalidcontentfolder', 'hvp'),
-                'Could not find or parse the content.json file' => get_string('nocontent', 'hvp'),
-                'Library directory name must match machineName or machineName-majorVersion.minorVersion (from library.json). (Directory: %directoryName , machineName: %machineName, majorVersion: %majorVersion, minorVersion: %minorVersion)' => get_string('librarydirectoryerror', 'hvp', $replacements),
-                'A valid content folder is missing' => get_string('missingcontentfolder', 'hvp'),
-                'A valid main h5p.json file is missing' => get_string('invalidmainjson', 'hvp'),
-                'Missing required library @library' => get_string('missinglibrary', 'hvp', $replacements),
-                "Note that the libraries may exist in the file you uploaded, but you're not allowed to upload new libraries. Contact the site administrator about this." => get_string('missinguploadpermissions', 'hvp'),
-                'Invalid library name: %name' => get_string('invalidlibraryname', 'hvp', $replacements),
-                'Could not find library.json file with valid json format for library %name' => get_string('missinglibraryjson', 'hvp', $replacements),
-                'Invalid semantics.json file has been included in the library %name' => get_string('invalidsemanticsjson', 'hvp', $replacements),
-                'Invalid language file %file in library %library' => get_string('invalidlanguagefile', 'hvp', $replacements),
-                'Invalid language file %languageFile has been included in the library %name' => get_string('invalidlanguagefile2', 'hvp', $replacements),
-                'The file "%file" is missing from library: "%name"' => get_string('missinglibraryfile', 'hvp', $replacements),
-                'The library "%libraryName" requires H5P %requiredVersion, but only H5P %coreApi is installed.' => get_string('missingcoreversion', 'hvp', $replacements),
-                "Invalid data provided for %property in %library. Boolean expected." => get_string('invalidlibrarydataboolean', 'hvp', $replacements),
-                "Invalid data provided for %property in %library" => get_string('invalidlibrarydata', 'hvp', $replacements),
-                "Can't read the property %property in %library" => get_string('invalidlibraryproperty', 'hvp', $replacements),
-                'The required property %property is missing from %library' => get_string('missinglibraryproperty', 'hvp', $replacements),
-                'Illegal option %option in %library' => get_string('invalidlibraryoption', 'hvp', $replacements),
-                'Added %new new H5P libraries and updated %old old.' => get_string('addedandupdatelibraries', 'hvp', $replacements),
-                'Added %new new H5P libraries.' => get_string('addednewlibraries', 'hvp', $replacements),
-                'Updated %old H5P libraries.' => get_string('updatedlibraries', 'hvp', $replacements),
-                'Missing dependency @dep required by @lib.' => get_string('missingdependency', 'hvp', $replacements),
-                'Provided string is not valid according to regexp in semantics. (value: \"%value\", regexp: \"%regexp\")' => get_string('invalidstring', 'hvp', $replacements),
-                'File "%filename" not allowed. Only files with the following extensions are allowed: %files-allowed.' => get_string('invalidfile', 'hvp', $replacements),
-                'Invalid selected option in multi-select.' => get_string('invalidmultiselectoption', 'hvp'),
-                'Invalid selected option in select.' => get_string('invalidselectoption', 'hvp'),
-                'H5P internal error: unknown content type "@type" in semantics. Removing content!' => get_string('invalidsemanticstype', 'hvp', $replacements),
-                'Library used in content is not a valid library according to semantics' => get_string('invalidsemantics', 'hvp'),
-                'Copyright information' => get_string('copyrightinfo', 'hvp'),
-                'Title' => get_string('title', 'hvp'),
-                'Author' => get_string('author', 'hvp'),
-                'Year(s)' => get_string('years', 'hvp'),
-                'Source' => get_string('source', 'hvp'),
-                'License' => get_string('license', 'hvp'),
-                'Undisclosed' => get_string('undisclosed', 'hvp'),
-                'Attribution 4.0' => get_string('attribution', 'hvp'),
-                'Attribution-ShareAlike 4.0' => get_string('attributionsa', 'hvp'),
-                'Attribution-NoDerivs 4.0' => get_string('attributionnd', 'hvp'),
-                'Attribution-NonCommercial 4.0' => get_string('attributionnc', 'hvp'),
-                'Attribution-NonCommercial-ShareAlike 4.0' => get_string('attributionncsa', 'hvp'),
-                'Attribution-NonCommercial-NoDerivs 4.0' => get_string('attributionncnd', 'hvp'),
-                'General Public License v3' => get_string('gpl', 'hvp'),
-                'Public Domain' => get_string('pd', 'hvp'),
-                'Public Domain Dedication and Licence' => get_string('pddl', 'hvp'),
-                'Public Domain Mark' => get_string('pdm', 'hvp'),
-                'Copyright' => get_string('copyrightstring', 'hvp'),
-                'Unable to create directory.' => get_string('unabletocreatedir', 'hvp'),
-                'Unable to get field type.' => get_string('unabletogetfieldtype', 'hvp'),
-                "File type isn't allowed." => get_string('filetypenotallowed', 'hvp'),
-                'Invalid field type.' => get_string('invalidfieldtype', 'hvp'),
-                'Invalid image file format. Use jpg, png or gif.' => get_string('invalidimageformat', 'hvp'),
-                'File is not an image.' => get_string('filenotimage', 'hvp'),
-                'Invalid audio file format. Use mp3 or wav.' => get_string('invalidaudioformat', 'hvp'),
-                'Invalid video file format. Use mp4 or webm.' => get_string('invalidvideoformat', 'hvp'),
-                'Could not save file.' => get_string('couldnotsave', 'hvp'),
-                'Could not copy file.' => get_string('couldnotcopy', 'hvp')
+            $translations_map = [
+                'Your PHP version does not support ZipArchive.' => 'noziparchive',
+                'The file you uploaded is not a valid HTML5 Package (It does not have the .h5p file extension)' => 'noextension',
+                'The file you uploaded is not a valid HTML5 Package (We are unable to unzip it)' => 'nounzip',
+                'Could not parse the main h5p.json file' => 'noparse',
+                'The main h5p.json file is not valid' => 'nojson',
+                'Invalid content folder' => 'invalidcontentfolder',
+                'Could not find or parse the content.json file' => 'nocontent',
+                'Library directory name must match machineName or machineName-majorVersion.minorVersion (from library.json). (Directory: %directoryName , machineName: %machineName, majorVersion: %majorVersion, minorVersion: %minorVersion)' => 'librarydirectoryerror',
+                'A valid content folder is missing' => 'missingcontentfolder',
+                'A valid main h5p.json file is missing' => 'invalidmainjson',
+                'Missing required library @library' => 'missinglibrary',
+                "Note that the libraries may exist in the file you uploaded, but you're not allowed to upload new libraries. Contact the site administrator about this." => 'missinguploadpermissions',
+                'Invalid library name: %name' => 'invalidlibraryname',
+                'Could not find library.json file with valid json format for library %name' => 'missinglibraryjson',
+                'Invalid semantics.json file has been included in the library %name' => 'invalidsemanticsjson',
+                'Invalid language file %file in library %library' => 'invalidlanguagefile',
+                'Invalid language file %languageFile has been included in the library %name' => 'invalidlanguagefile2',
+                'The file "%file" is missing from library: "%name"' => 'missinglibraryfile',
+                'The system was unable to install the <em>%component</em> component from the package, it requires a newer version of the H5P plugin. This site is currently running version %current, whereas the required version is %required or higher. You should consider upgrading and then try again.' => 'missingcoreversion',
+                "Invalid data provided for %property in %library. Boolean expected." => 'invalidlibrarydataboolean',
+                "Invalid data provided for %property in %library" => 'invalidlibrarydata',
+                "Can't read the property %property in %library" => 'invalidlibraryproperty',
+                'The required property %property is missing from %library' => 'missinglibraryproperty',
+                'Illegal option %option in %library' => 'invalidlibraryoption',
+                'Added %new new H5P libraries and updated %old old.' => 'addedandupdatelibraries',
+                'Added %new new H5P libraries.' => 'addednewlibraries',
+                'Updated %old H5P libraries.' => 'updatedlibraries',
+                'Missing dependency @dep required by @lib.' => 'missingdependency',
+                'Provided string is not valid according to regexp in semantics. (value: \"%value\", regexp: \"%regexp\")' => 'invalidstring',
+                'File "%filename" not allowed. Only files with the following extensions are allowed: %files-allowed.' => 'invalidfile',
+                'Invalid selected option in multi-select.' => 'invalidmultiselectoption',
+                'Invalid selected option in select.' => 'invalidselectoption',
+                'H5P internal error: unknown content type "@type" in semantics. Removing content!' => 'invalidsemanticstype',
+                'Library used in content is not a valid library according to semantics' => 'invalidsemantics',
+                'Copyright information' => 'copyrightinfo',
+                'Title' => 'title',
+                'Author' => 'author',
+                'Year(s)' => 'years',
+                'Source' => 'source',
+                'License' => 'license',
+                'Undisclosed' => 'undisclosed',
+                'Attribution 4.0' => 'attribution',
+                'Attribution-ShareAlike 4.0' => 'attributionsa',
+                'Attribution-NoDerivs 4.0' => 'attributionnd',
+                'Attribution-NonCommercial 4.0' => 'attributionnc',
+                'Attribution-NonCommercial-ShareAlike 4.0' => 'attributionncsa',
+                'Attribution-NonCommercial-NoDerivs 4.0' => 'attributionncnd',
+                'General Public License v3' => 'gpl',
+                'Public Domain' => 'pd',
+                'Public Domain Dedication and Licence' => 'pddl',
+                'Public Domain Mark' => 'pdm',
+                'Copyright' => 'copyrightstring',
+                'Unable to create directory.' => 'unabletocreatedir',
+                'Unable to get field type.' => 'unabletogetfieldtype',
+                "File type isn't allowed." => 'filetypenotallowed',
+                'Invalid field type.' => 'invalidfieldtype',
+                'Invalid image file format. Use jpg, png or gif.' => 'invalidimageformat',
+                'File is not an image.' => 'filenotimage',
+                'Invalid audio file format. Use mp3 or wav.' => 'invalidaudioformat',
+                'Invalid video file format. Use mp4 or webm.' => 'invalidvideoformat',
+                'Could not save file.' => 'couldnotsave',
+                'Could not copy file.' => 'couldnotcopy'
             ];
         }
 
-        return str_replace(array_keys($replacements), $replacements, $map[$message]);
+        return get_string($translations_map[$message], 'hvp', $replacements);
     }
 
     /**
@@ -419,7 +492,18 @@ class framework implements \H5PFrameworkInterface {
     /**
      * Implements mayUpdateLibraries
      */
-    public function mayUpdateLibraries() {
+    public function mayUpdateLibraries($allow = false) {
+        static $override;
+
+        // Allow overriding the permission check. Needed when installing
+        // since caps hasn't been set.
+        if ($allow) {
+            $override = true;
+        }
+        if ($override) {
+            return true;
+        }
+
         // Check permissions
         $context = \context_system::instance();
         if (!has_capability('mod/hvp:updatelibraries', $context)) {
@@ -1109,7 +1193,8 @@ class framework implements \H5PFrameworkInterface {
 
         // Get the counts for the given type of event
         $records = $DB->get_records_sql(
-                "SELECT library_name AS name,
+                "SELECT id,
+                        library_name AS name,
                         library_version AS version,
                         num
                    FROM {hvp_counters}

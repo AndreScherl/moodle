@@ -35,19 +35,20 @@ require_once('autoloader.php');
 function hvp_get_core_settings() {
     global $USER, $CFG, $COURSE;
 
-    $basepath = $CFG->sessioncookiepath;
-    $ajaxpath = $basepath . 'mod/hvp/ajax.php?action=';
-
     $systemcontext = \context_system::instance();
     $coursecontext = \context_course::instance($COURSE->id);
+
+    $basepath = $CFG->httpswwwroot . '/';
+    $ajaxpath = "{$basepath}mod/hvp/ajax.php?contextId={$coursecontext->id}&token=";
+
     $settings = array(
         'baseUrl' => $basepath,
         'url' => "{$basepath}pluginfile.php/{$coursecontext->id}/mod_hvp",
         'libraryUrl' => "{$basepath}pluginfile.php/{$systemcontext->id}/mod_hvp/libraries",
         'postUserStatistics' => true,
         'ajax' => array(
-            'setFinished' => $ajaxpath . 'set_finished',
-            'contentUserData' => $ajaxpath . 'contents_user_data&content_id=:contentId&data_type=:dataType&sub_content_id=:subContentId'
+            'setFinished' => $ajaxpath . \H5PCore::createToken('result') . '&action=set_finished',
+            'contentUserData' => $ajaxpath . \H5PCore::createToken('contentuserdata') . '&action=contents_user_data&content_id=:contentId&data_type=:dataType&sub_content_id=:subContentId',
         ),
         'tokens' => array(
           'result' => \H5PCore::createToken('result'),
@@ -169,7 +170,7 @@ function hvp_add_editor_assets($id = null) {
     $PAGE->requires->js(new moodle_url('/mod/hvp/editor.js' . $cachebuster), true);
 
     // Add translations
-    $language = \current_language();
+    $language = \mod_hvp\framework::get_language();
     $languagescript = "editor/language/{$language}.js";
     if (!file_exists("{$CFG->dirroot}/mod/hvp/{$languagescript}")) {
       $languagescript = 'editor/language/en.js';
@@ -178,8 +179,9 @@ function hvp_add_editor_assets($id = null) {
 
     // Add JavaScript settings
     $context = \context_course::instance($COURSE->id);
-    $filespathbase = "{$CFG->sessioncookiepath}pluginfile.php/{$context->id}/mod_hvp/";
+    $filespathbase = "{$CFG->httpswwwroot}/pluginfile.php/{$context->id}/mod_hvp/";
     $contentvalidator = $core = \mod_hvp\framework::instance('contentvalidator');
+    $editorajaxtoken = \H5PCore::createToken('editorajax');
     $settings['editor'] = array(
       'filesPath' => $filespathbase . ($id ? "content/{$id}" : 'editor'),
       'fileIcon' => array(
@@ -187,14 +189,10 @@ function hvp_add_editor_assets($id = null) {
         'width' => 50,
         'height' => 50,
       ),
-      'ajaxPath' => $url . 'ajax.php?action=',
+      'ajaxPath' => "{$url}ajax.php?contextId={$context->id}&token={$editorajaxtoken}&action=",
       'libraryUrl' => $url . 'editor/',
       'copyrightSemantics' => $contentvalidator->getCopyrightSemantics(),
-      'assets' => $assets,
-      'uploadParams' => array(
-        'token' => \H5PCore::createToken('editorfileuploads'),
-        'contextId' => $context->id
-      )
+      'assets' => $assets
     );
 
     if ($id !== null) {
@@ -372,7 +370,7 @@ function hvp_get_library_upgrade_info($name, $major, $minor) {
     $context = \context_system::instance();
     $libraryfoldername = "{$library->name}-{$library->version->major}.{$library->version->minor}";
     if (\mod_hvp\file_storage::fileExists($context->id, 'libraries', '/' . $libraryfoldername . '/', 'upgrades.js')) {
-        $basepath = $CFG->sessioncookiepath;
+        $basepath = $CFG->httpswwwroot . '/';
         $library->upgradesScript = "{$basepath}pluginfile.php/{$context->id}/mod_hvp/libraries/{$libraryfoldername}/upgrades.js";
     }
 

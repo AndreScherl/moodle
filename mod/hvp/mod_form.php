@@ -127,7 +127,7 @@ class mod_hvp_mod_form extends moodleform_mod {
 
         // Set editor defaults
         $defaultvalues['h5plibrary'] = ($content === null ? 0 : H5PCore::libraryToString($content['library']));
-        $defaultvalues['h5pparams'] = ($content === null ? '{}' : $defaultvalues['filtered']);
+        $defaultvalues['h5pparams'] = ($content === null ? '{}' : $core->filterParameters($content));
 
         // Add required editor assets.
         require_once 'locallib.php';
@@ -179,8 +179,9 @@ class mod_hvp_mod_form extends moodleform_mod {
                     $h5pvalidator = \mod_hvp\framework::instance('validator');
                     if (! $h5pvalidator->isValidPackage()) {
                         // Errors while validating the package
-                        $messages = \mod_hvp\framework::messages('error');
-                        $errors['h5pfile'] = implode('<br/>', $messages);
+                        $infomessages =  implode('<br/>', \mod_hvp\framework::messages('info'));
+                        $errormessages = implode('<br/>', \mod_hvp\framework::messages('error'));
+                        $errors['h5pfile'] = ($errormessages ? $errormessages . '<br/>' : '') . $infomessages;
                     }
                 }
             }

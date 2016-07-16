@@ -43,7 +43,7 @@ class content_user_data {
 
         // Query String Parameters.
         $content_id = required_param('content_id', PARAM_INT);
-        $data_id = required_param('data_type', PARAM_ALPHA);
+        $data_id = required_param('data_type', PARAM_RAW);
         $sub_content_id = required_param('sub_content_id', PARAM_INT);
 
         // Form Data.
@@ -60,33 +60,31 @@ class content_user_data {
         if ($data !== NULL && $pre_load !== NULL && $invalidate !== NULL) {
 
             // Validate token
-            if (!\H5PCore::validToken('contentuserdata', filter_input(INPUT_POST, 'token'))) {
+            if (!\H5PCore::validToken('contentuserdata', required_param('token', PARAM_RAW))) {
                 \H5PCore::ajaxError(get_string('invalidtoken', 'hvp'));
                 exit;
             }
 
-            $context = \context_course::instance($DB->get_field('hvp', 'course', array('id' => $content_id)));
+            // Use context id if supplied
+            $context_id = optional_param('contextId', null, PARAM_INT);
+            if ($context_id) {
+                $context = \context::instance_by_id($context_id);
+            }
+            else { // Otherwise try to find it from content id
+                $context = \context_course::instance($DB->get_field('hvp', 'course', array('id' => $content_id)));
+            }
 
-            // Delete user data.
+            // Check permissions
+            if (!has_capability('mod/hvp:savecontentuserdata', $context)) {
+                \H5PCore::ajaxError(get_string('nopermissiontosavecontentuserdata', 'hvp'));
+                http_response_code(403);
+                exit;
+            }
+
             if ($data === '0') {
-
-                // Check permissions
-                if (!has_capability('mod/hvp:deletecontentuserdata', $context)) {
-                    \H5PCore::ajaxError(get_string('nopermissiontodeletecontentuserdata', 'hvp'));
-                    http_response_code(403);
-                    exit;
-                }
-
+                // Delete user data.
                 self::delete_user_data($content_id, $sub_content_id, $data_id);
             } else {
-
-                // Check permissions
-                if (!has_capability('mod/hvp:savecontentuserdata', $context)) {
-                    \H5PCore::ajaxError(get_string('nopermissiontosavecontentuserdata', 'hvp'));
-                    http_response_code(403);
-                    exit;
-                }
-
                 // Save user data.
                 self::save_user_data($content_id, $sub_content_id, $data_id, $pre_load, $invalidate, $data);
             }

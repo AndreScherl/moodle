@@ -197,7 +197,7 @@ switch($action) {
         header('Content-type: application/json');
 
         if (!empty($name)) {
-            print $editor->getLibraryData($name, $major, $minor, \current_language());
+            print $editor->getLibraryData($name, $major, $minor, \mod_hvp\framework::get_language());
             new \mod_hvp\event(
                     'library', NULL,
                     NULL, NULL,
@@ -221,7 +221,7 @@ switch($action) {
         global $DB;
         // TODO: Check permissions
 
-        if (!\H5PCore::validToken('editorfileuploads', required_param('token', PARAM_RAW))) {
+        if (!\H5PCore::validToken('editorajax', required_param('token', PARAM_RAW))) {
             \H5PCore::ajaxError(get_string('invalidtoken', 'hvp'));
             exit;
         }

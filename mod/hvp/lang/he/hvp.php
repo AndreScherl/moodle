@@ -14,48 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$string['modulename'] = 'Interactive Content';
-$string['modulename_help'] = 'The H5P activity module enables you to create interactive content such as Interactive Videos, Question Sets, Drag and Drop Questions, Multi-Choice Questions, Presentations and much more.
-
-In addition to being an authoring tool for rich content, H5P enables you to import and export H5P files for effective reuse and sharing of content.
-
-User interactions and scores are tracked using xAPI and are available through the Moodle Gradebook.
-
-You add interactive H5P content by uploading a .h5p file. You can create and download .h5p files on h5p.org';
+$string['modulename'] = 'תוכן אינטראקטיבי';
+$string['modulename_help'] = 'פעילות H5P מאפשר יצירה של תוכן דינמי ואינטראקטיבי כגון: סרטוני וידאו משובצים בשאלות מסוגים שונים, מצגות הכוללות שאלות מגוונות, משחקוני למידה, שאלות גרירה למיניהן, רב־בררה, ועוד סוגים רבים...
+בנוסף, ניתן ליבא וליצא חבילות לומדה לשימוש חוזר בתכנים קיימים.  הפעילות מבצעת מקב למידה מבוסס על תקן xAPI ומדווחת ציונים לגליון הציונים של ה Moodle.
+ניתן להעלות קבצי h5p ממאגר עצמי הלמידה (OER) של אתר h5p.org';
 $string['modulename_link'] = 'https://h5p.org/moodle-more-help';
-$string['modulenameplural'] = 'Interactive Content';
+$string['modulenameplural'] = 'תוכן אינטראקטיבי';
 $string['pluginadministration'] = 'H5P';
 $string['pluginname'] = 'H5P';
-$string['intro'] = 'Introduction';
-$string['h5pfile'] = 'H5P File';
-$string['fullscreen'] = 'Fullscreen';
-$string['disablefullscreen'] = 'Disable fullscreen';
-$string['download'] = 'Download';
-$string['copyright'] = 'Rights of use';
-$string['embed'] = 'Embed';
-$string['showadvanced'] = 'Show advanced';
-$string['hideadvanced'] = 'Hide advanced';
+$string['intro'] = 'הנחיה לתלמידים';
+$string['h5pfile'] = 'קובץ H5P';
+$string['fullscreen'] = 'מסך־מלא';
+$string['disablefullscreen'] = 'תצוגה רגילה';
+$string['download'] = 'הורדה';
+$string['copyright'] = 'זכויות יוצרים';
+$string['embed'] = 'שיבוץ';
+$string['showadvanced'] = 'תצוגת תכונות מתקדמות';
+$string['hideadvanced'] = 'הסתרת תכונות מתקדמות';
 $string['resizescript'] = 'Include this script on your website if you want dynamic sizing of the embedded content:';
-$string['size'] = 'Size';
-$string['close'] = 'Close';
-$string['title'] = 'Title';
-$string['author'] = 'Author';
-$string['year'] = 'Year';
-$string['source'] = 'Source';
-$string['license'] = 'License';
-$string['thumbnail'] = 'Thumbnail';
-$string['nocopyright'] = 'No copyright information available for this content.';
-$string['downloadtitle'] = 'Download this content as a H5P file.';
-$string['copyrighttitle'] = 'View copyright information for this content.';
-$string['embedtitle'] = 'View the embed code for this content.';
-$string['h5ptitle'] = 'Visit H5P.org to check out more cool content.';
-$string['contentchanged'] = 'This content has changed since you last used it.';
-$string['startingover'] = "You'll be starting over.";
-$string['confirmdialogheader'] = 'Confirm action';
-$string['confirmdialogbody'] = 'Please confirm that you wish to proceed. This action is not reversible.';
-$string['cancellabel'] = 'Cancel';
-$string['confirmlabel'] = 'Confirm';
-$string['noh5ps'] = 'There\'s no interactive content available for this course.';
+$string['size'] = 'גודל';
+$string['close'] = 'סגירה';
+$string['title'] = 'כותרת';
+$string['author'] = 'יוצר/ת';
+$string['year'] = 'שנה';
+$string['source'] = 'מקור';
+$string['license'] = 'רשיון';
+$string['thumbnail'] = 'תמונה ממוזערת';
+$string['nocopyright'] = 'לא קיים מידע אודות זכויות יוצרים עבור תוכן זה.';
+$string['downloadtitle'] = 'הורדת תוכן זה כקובץ H5P.';
+$string['copyrighttitle'] = 'צפיה בזכויות היוצרים של תוכן זה.';
+$string['embedtitle'] = 'תצוגת קוד השיבוץ של תוכן זה.';
+$string['h5ptitle'] = 'בקרו באתר H5P.org לחיפוש ואיחזור של תוכן נוסף.';
+$string['contentchanged'] = 'התוכן של רכיב זה עודכן מאז השימוש האחרון שלכם בפעילות זו.';
+$string['startingover'] = "הפעילות תוצג מההתחלה.";
+$string['confirmdialogheader'] = 'אישור פעולה';
+$string['confirmdialogbody'] = 'יש לאשר פעולה זו. שימו לב! לא ניתן יהיה לחזור למצב הנוכחי.';
+$string['cancellabel'] = 'ביטול';
+$string['confirmlabel'] = 'אישור';
+$string['noh5ps'] = 'לא קיים תוכן H5P אינטראקטיבי בקורס זה.';
 
 // Update message email for admin
 $string['messageprovider:updates'] = 'Notification of available H5P updates';
@@ -147,44 +143,44 @@ $string['upgradeinvalidtoken'] = 'Error: Invalid security token!';
 $string['upgradelibrarymissing'] = 'Error: Your library is missing!';
 
 // Results / report page.
-$string['user'] = 'User';
-$string['score'] = 'Score';
-$string['maxscore'] = 'Maximum Score';
-$string['finished'] = 'Finished';
-$string['loadingdata'] = 'Loading data.';
-$string['ajaxfailed'] = 'Failed to load data.';
-$string['nodata'] = "There's no data available that matches your criteria.";
-$string['currentpage'] = 'Page $current of $total';
-$string['nextpage'] = 'Next page';
-$string['previouspage'] = 'Previous page';
-$string['search'] = 'Search';
-$string['empty'] = 'No results available';
+$string['user'] = 'משתמש';
+$string['score'] = 'ניקוד';
+$string['maxscore'] = 'ניקוד מירבי';
+$string['finished'] = 'הסתיים';
+$string['loadingdata'] = 'מאחזר את התוכן.';
+$string['ajaxfailed'] = 'התרחשה שגיאה, התוכן לא זמין.';
+$string['nodata'] = "לא קיימים תכנים העונים על בקשת החיפוש שלך.";
+$string['currentpage'] = 'עמוד $current מתוך $total';
+$string['nextpage'] = 'לעמוד הבא';
+$string['previouspage'] = 'לעמוד הקודם';
+$string['search'] = 'חיפוש';
+$string['empty'] = 'לא נמצאו תכנים';
 
 // Editor
-$string['javascriptloading'] = 'Waiting for JavaScript...';
-$string['action'] = 'Action';
-$string['upload'] = 'Upload';
-$string['create'] = 'Create';
-$string['editor'] = 'Editor';
+$string['javascriptloading'] = 'מחכים ל JavaScript...';
+$string['action'] = 'פעולה';
+$string['upload'] = 'העלאה';
+$string['create'] = 'יצירה';
+$string['editor'] = 'עורך';
 
-$string['invalidlibrary'] = 'Invalid library';
-$string['nosuchlibrary'] = 'No such library';
-$string['noparameters'] = 'No parameters';
-$string['invalidparameters'] = 'Invalid Parameters';
-$string['missingcontentuserdata'] = 'Error: Could not find content user data';
+$string['invalidlibrary'] = 'ספריה לא תקינה';
+$string['nosuchlibrary'] = 'לא קיימת ספריה כזו';
+$string['noparameters'] = 'חסרים משתני אתחול';
+$string['invalidparameters'] = 'משתני אתחול לא תקינים';
+$string['missingcontentuserdata'] = 'התרחשה תקלה: לא זמינים נתוני השימוש של התלמיד עבור פעילות זו';
 
 // Capabilities
-$string['hvp:addinstance'] = 'Add a new H5P Activity';
-$string['hvp:restrictlibraries'] = 'Restrict a H5P library';
-$string['hvp:updatelibraries'] = 'Update the version of an H5P library';
-$string['hvp:userestrictedlibraries'] = 'Use restricted H5P libraries';
-$string['hvp:savecontentuserdata'] = 'Save H5P content user data';
-$string['hvp:saveresults'] = 'Save result for H5P content';
-$string['hvp:viewresults'] = 'View result for H5P content';
-$string['hvp:getcachedassets'] = 'Get cached H5P content assets';
-$string['hvp:getcontent'] = 'Get/view content of H5P file in course';
-$string['hvp:getexport'] = 'Get export file from H5P in course';
-$string['hvp:updatesavailable'] = 'Get notification when H5P updates are available';
+$string['hvp:addinstance'] = 'הוספת פעילות H5P חדשה';
+$string['hvp:restrictlibraries'] = 'הגבלת גישה לספריית H5P';
+$string['hvp:updatelibraries'] = 'עדכון גרסה של ספריית H5P';
+$string['hvp:userestrictedlibraries'] = 'שימוש בספריות H5P שמורות';
+$string['hvp:savecontentuserdata'] = 'שמירת נתוני משתמש מתוך פעילות H5P';
+$string['hvp:saveresults'] = 'שמירת תוצאות שימוש ברכיב H5P';
+$string['hvp:viewresults'] = 'צפיה בתוצאות שימוש ברכיב H5P';
+$string['hvp:getcachedassets'] = 'אחזור משאבי מטמון של רכיב H5P';
+$string['hvp:getcontent'] = 'צפיה בתוכן פעילות H5P מתוך הקורס';
+$string['hvp:getexport'] = 'יצוא תוכן פעילות H5P מתוך הקורס';
+$string['hvp:updatesavailable'] = 'קבלת התראות כאשר זמין רכיב H5P חדש';
 
 // Capabilities error messages
 $string['nopermissiontoupgrade'] = 'You do not have permission to upgrade libraries.';
@@ -254,18 +250,18 @@ $string['couldnotsave'] = 'Could not save file.';
 $string['couldnotcopy'] = 'Could not copy file.';
 
 // Welcome messages
-$string['welcomeheader'] = 'Welcome to the world of H5P!';
+$string['welcomeheader'] = 'ברוכים הבאים לעולם של H5P!';
 $string['welcomegettingstarted'] =
-    'To get started with H5P and Moodle take a look at our ' .
-    '<a {$a->moodle_tutorial}>tutorial</a> and check out the ' .
-    '<a {$a->example_content}>example content</a> at H5P.org for inspiration.<br>' .
-    'The most popuplar content types have been installed for your convenience!';
+    'כדי להתחיל בהכרת רכיב H5P במערכת Moodle ניתן לבחור ב' .
+    '<a {$a->moodle_tutorial}>מדריך</a> וגם ' .
+    '<a {$a->example_content}>תוכן לדוגמה</a> באתר H5P.org לקבלת השראה.<br>' .
+    'התוכן הפופולארי ביותר הותקן וכעת זמין לנוחיותכם!';
 $string['welcomecommunity'] =
-    'We hope you will enjoy H5P and get engaged in our growing community through our ' .
-    '<a {$a->forums}>forums</a> and chat room ' .
+    'אנו מקווים שתהנו פעילות ברכיב H5P ושתמצאו עניין וזמן להצטרף לקהילת המשתמשים ויצרני התוכן העולמית שלנו בעזרת הקישורים הבאים  ' .
+    '<a {$a->forums}>פורומים, קבוצות דיון</a> וחדרי רב־שיח ' .
     '<a {$a->gitter}>H5P at Gitter</a>';
 $string['welcomecontactus'] =
-    'If you have any feedback, don\'t hesitate to ' .
-    '<a {$a}>contact us</a>. ' .
-    'We take feedback very seriously and are dedicated ' .
-    'to making H5P better every day!';
+    'נשמח לקבל כל משוב ' .
+    '<a {$a}>יצירת קשר</a>. ' .
+    'אנו מתייחסים למשוב באופן מאוד רציני ומחוייבים ' .
+    'ליצירת חווית שימוש איכותית ומשופרת ברכיב H5P !';

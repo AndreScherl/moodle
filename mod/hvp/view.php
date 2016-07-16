@@ -82,7 +82,7 @@ $export = '';
 if (!isset($CFG->mod_hvp_export) || $CFG->mod_hvp_export === true) {
     // Find course context.
     $context = \context_course::instance($course->id);
-    $hvppath = "{$CFG->sessioncookiepath}pluginfile.php/{$context->id}/mod_hvp";
+    $hvppath = "{$CFG->httpswwwroot}/pluginfile.php/{$context->id}/mod_hvp";
 
     $exportfilename = ($content['slug'] ? $content['slug'] . '-' : '') . $content['id'] . '.h5p';
     $export = "{$hvppath}/exports/{$exportfilename}";
@@ -161,5 +161,14 @@ if ($embedtype === 'div') {
         '" class="h5p-iframe" data-content-id="' . $content['id'] .
         '" style="height:1px" src="about:blank" frameBorder="0" scrolling="no"></iframe></div>';
 }
+
+$context = \context_module::instance($id);
+// Trigger module viewed event.
+$event = \mod_hvp\event\course_module_viewed::create(array(
+    'objectid' => $cm->instance,
+    'context' => $context
+));
+$event->add_record_snapshot('course_modules', $cm);
+$event->trigger();
 
 echo $OUTPUT->footer();

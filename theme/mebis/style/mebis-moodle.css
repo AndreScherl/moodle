@@ -16172,6 +16172,9 @@ Styles, which are specific for a special course format, should go to _ca-coursef
   list-style-position: outside;
   list-style-image: none;
 }
+.course-content .section .content td {
+  height: 25px;
+}
 .course-content ul li.section.main {
   background-color: #fff;
   margin-top: 30px;
@@ -16317,6 +16320,9 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 
 #page-course-view-topcoll #topcoll-display-instructions {
   color: #fff;
+}
+#page-course-view-topcoll .section .section_action_menu {
+  margin-left: -60px;
 }
 #page-course-view-topcoll .section .completionprogress {
   padding-right: 40px;
@@ -16691,6 +16697,10 @@ button {
 
 div.editor_atto_content ul, div.editor_atto_content ol {
   padding: 0px 20px;
+}
+div.editor_atto_content td {
+  height: 25px;
+  vertical-align: top;
 }
 
 .filemanager {

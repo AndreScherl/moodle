@@ -39,3 +39,4 @@ composer.lock
 /.bundle
 local/codechecker/
 moosh.bat
+/node_modules/

@@ -67,7 +67,8 @@ class filter_videoeasy extends moodle_text_filter {
 			//do all the non youtube extensions in one foul swoop
 			if(!empty($handleexts)){
 				$handleextstring = implode('|',$handleexts);
-				$search = '/<a\s[^>]*href="([^"#\?]+\.(' .  $handleextstring. '))(\?d=([\d]{1,4})x([\d]{1,4}))?"[^>]*>([^>]*)<\/a>/is';
+				//$oldsearch = '/<a\s[^>]*href="([^"#\?]+\.(' .  $handleextstring. '))(\?d=([\d]{1,4})x([\d]{1,4}))?"[^>]*>([^>]*)<\/a>/is';
+				$search='/<a\s[^>]*href="([^"#\?]+\.(' .  $handleextstring. '))(.*?)"[^>]*>([^>]*)<\/a>/is';
 				$newtext = preg_replace_callback($search, 'self::filter_videoeasy_allexts_callback', $newtext);
 			}
 			
@@ -139,7 +140,7 @@ class filter_videoeasy extends moodle_text_filter {
 	 * @return string
 	 */
 	private function filter_videoeasy_process($link, $ext) {
-	global $CFG, $PAGE;
+	global $CFG, $PAGE, $COURSE;
 		//get template info
 		$conf = get_config('filter_videoeasy');
 		
@@ -166,14 +167,15 @@ class filter_videoeasy extends moodle_text_filter {
 		$require_amd =  $conf->{'template_amd_' . $templateid} && $CFG->version>=2015051100;
 		
 		/*
-		* 1 = url, 2=ext, 3=?d=widthxheight, 4=width,5=height,6=linkedtext
-		*
+		* Old Search Params 1 = url, 2=ext, 3=?d=widthxheight, 4=width,5=height,6=linkedtext
+		*  Old Search Params 1 = url, 2=ext, 3=d=widthxheight&prop=value, 4=linkedtext
 		*/
 		//echo "player:" . $templateid;
-		//print_r($link);
+//		print_r($link);
 		//echo ("player:" . $templateid);
 		//echo ("ext:" . $ext);
 		//clean up url
+
 		$url = $link[1];
 		$url = str_replace('&amp;', '&', $url);
 		$rawurl = $url;
@@ -210,11 +212,10 @@ class filter_videoeasy extends moodle_text_filter {
 			$autopngfilename = str_replace('.' . $ext,'.png',$filename);
 			$autojpgfilename = str_replace('.' . $ext,'.jpg',$filename);
 
-			//$url = $link[5];
 			$videourl = $rawurl;
 			$autoposterurljpg = $urlstub . '.jpg';
 			$autoposterurlpng = $urlstub . '.png';
-			$title = $link[6];
+			$title = $link[4];
 		}
 		
 		
@@ -239,15 +240,25 @@ class filter_videoeasy extends moodle_text_filter {
 		$proparray = filter_videoeasy_fetch_emptyproparray();
 		$proparray = array_merge($proparray,filter_videoeasy_parsepropstring($defaults));
 	
+		//Add any params from url
+		if(!empty($link[3])){
+			//drop the first char if it is ?, whch it probably is
+			$paramstring =  ltrim ($link[3], '?');
+			$paramstring = str_replace('&amp;', '&', $paramstring);
+			$params = array();
+			parse_str($paramstring, $params);
+			$proparray = array_merge($proparray,$params);
+		}else{
+			$paramstring="";
+		}
 	
 		//use default widths or explicit width/heights if they were passed in ie http://url.to.video.mp4?d=640x480
-		if (!empty($link[4])) {
-			$proparray['WIDTH'] = $link[4];
+		if(isset($proparray['d'])){
+			$dimensions = explode('x',$proparray['d']);
+			if(count($dimensions)==2){
+				list($proparray['WIDTH'],$proparray['HEIGHT'])=$dimensions;
+			}
 		}
-		if (!empty($link[5])) {
-			$proparray['HEIGHT'] = $link[5];
-		}
-
 	
 		//I liked this better, but jquery was odd about it.
 		//$autoid = $urlstub . '_' . time() . (string)rand(100,32767) ;
@@ -281,11 +292,23 @@ class filter_videoeasy extends moodle_text_filter {
 		$proparray['AUTOPNGFILENAME'] = $autopngfilename;
 		$proparray['AUTOJPGFILENAME'] = $autojpgfilename;
 		$proparray['VIDEOURL'] = $videourl;
+		$proparray['RAWVIDEOURL'] =  !empty($paramstring) ?  $videourl . '?' . $paramstring : $videourl;
+		$proparray['RAWPARAMS'] = $paramstring;
 		$proparray['AUTOPOSTERURLJPG'] = $autoposterurljpg;
 		$proparray['AUTOPOSTERURLPNG'] = $autoposterurlpng;
 		$proparray['TITLE'] = $title;
 		$proparray['AUTOID'] = $autoid;
 		$proparray['FILEEXT'] = $ext;
+		//Add courseid and CourseContextId if necessary
+		if($COURSE && isset($COURSE->id)){
+			$proparray['COURSEID'] = $COURSE->id;
+			$context = context_course::instance($COURSE->id);
+			$proparray['COURSECONTEXTID'] = $context->id;
+		}
+		
+		
+		
+		
 	
 		//might need this if cant load into header, but need to.
 		//$scripttag="<script src='@@REQUIREJS@@'></script>";
@@ -385,13 +408,20 @@ class filter_videoeasy extends moodle_text_filter {
 		if($require_amd){
 			$generator = new filter_videoeasy_template_script_generator($templateid,$ext);
 			$template_amd_script = $generator->get_template_script();
-		
+
+			//props can't be passed in at much length , Moodle complains about too many
+			//so we do this ... lets hope it don't break things
+			$jsonstring = json_encode($proparray);
+			$props_html = \html_writer::tag('input', '', array('id' => 'filter_videoeasy_amdopts_' . $proparray['AUTOID'], 'type' => 'hidden', 'value' => $jsonstring));
+			$templatebody = $props_html . $templatebody;
+
 			//load define for this template. Later it will be called from loadgenerico
 			$PAGE->requires->js_amd_inline($template_amd_script);
 			
 			//for AMD
-			$PAGE->requires->js_call_amd('filter_videoeasy/videoeasy_amd','loadvideoeasy', array($proparray));
-			
+			$PAGE->requires->js_call_amd('filter_videoeasy/videoeasy_amd','loadvideoeasy', array(array('AUTOID'=>$proparray['AUTOID'])));
+
+
 		}else{		
 			//require any scripts from the template
 			$PAGE->requires->js('/filter/videoeasy/videoeasyjs.php?ext=' . $ext . '&t=' . $templateid);
@@ -401,6 +431,7 @@ class filter_videoeasy extends moodle_text_filter {
 		}
 
 		//return our expanded template
+
 		return $templatebody;
 	}
 

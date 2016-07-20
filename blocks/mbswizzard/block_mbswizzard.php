@@ -32,13 +32,14 @@ class block_mbswizzard extends block_base {
     
     function get_required_javascript() {
         global $PAGE;
-        parent::get_required_javascript();
- 
-        $PAGE->requires->jquery();
-        $PAGE->requires->jquery_plugin('ui');
-        $PAGE->requires->jquery_plugin('ui-css');
-        $PAGE->requires->jquery_plugin('mbswizzard-scrollTo', 'block_mbswizzard');
-        $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
+//        parent::get_required_javascript();
+// 
+//        $PAGE->requires->jquery();
+//        $PAGE->requires->jquery_plugin('ui');
+//        $PAGE->requires->jquery_plugin('ui-css');
+//        $PAGE->requires->jquery_plugin('mbswizzard-scrollTo', 'block_mbswizzard');
+//        $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
+        $PAGE->requires->js_call_amd('block_mbswizzard/mbswizzard', 'init');
     }
 
     function get_content() {

@@ -25,17 +25,29 @@
     }
 }
 
+.preferences-groups {
+    @include column-count(2);
+    @include column-gap(20px);
+
+    .preferences-group {
+        border: 1px solid $brand-primary;
+        padding: 0 15px;
+        margin-bottom: 20px;
+        display: inline-block;
+        width: 100%;
+    }
+}
+
 // view user profile in courses.
 .path-user.path-course .userprofile {    
-   background: $white;
-   padding: 20px 20px 0;
+    background: $white;
+    padding: 20px 20px 0;
 }
 
 @media only screen and (max-width: $screen-sm-min) {
-    .userprofile {
-        .profile_tree {
-            @include column-count(1);
-        }
+    .userprofile .profile_tree, .preferences-groups {
+        @include column-count(1);
     }
 }
+
 

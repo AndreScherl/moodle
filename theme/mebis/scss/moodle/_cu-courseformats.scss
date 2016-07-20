@@ -65,9 +65,13 @@
         color: $white;
     }
 
-    // Completionprogress.
-    .section .completionprogress {
-        padding-right: 40px;
+    .section {
+        .section_action_menu {
+            margin-left: -$space-large;
+        }
+        .completionprogress {
+            padding-right: 40px;
+        }
     }
 
     // Highlight current section.
@@ -364,7 +368,7 @@
         .section_action_menu ul {
             padding-left: 0;
         }
-        
+
         .moodle-actionmenu.section-cm-edit-actions ul {
             padding-left: 0;
         }

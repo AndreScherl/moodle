@@ -39,7 +39,7 @@ class block_mbswizzard extends block_base {
 //        $PAGE->requires->jquery_plugin('ui-css');
 //        $PAGE->requires->jquery_plugin('mbswizzard-scrollTo', 'block_mbswizzard');
 //        $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
-        $PAGE->requires->js_call_amd('block_mbswizzard/mbswizzard', 'init');
+        $PAGE->requires->js_call_amd('block_mbswizzard/mbswizzard', 'initialize');
     }
 
     function get_content() {
@@ -61,11 +61,12 @@ class block_mbswizzard extends block_base {
         }
         
         if($this->instance === null) {
-            $PAGE->requires->jquery();
-            $PAGE->requires->jquery_plugin('ui');
-            $PAGE->requires->jquery_plugin('ui-css');
-            $PAGE->requires->jquery_plugin('mbswizzard-scrollTo', 'block_mbswizzard');
-            $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
+//            $PAGE->requires->jquery();
+//            $PAGE->requires->jquery_plugin('ui');
+//            $PAGE->requires->jquery_plugin('ui-css');
+//            $PAGE->requires->jquery_plugin('mbswizzard-scrollTo', 'block_mbswizzard');
+//            $PAGE->requires->js(new moodle_url('/blocks/mbswizzard/js/wizzard.js'));
+            $PAGE->requires->js_call_amd('block_mbswizzard/mbswizzard', 'initialize');
             
             $this->content->text .= $renderer->title();
         }

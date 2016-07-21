@@ -16885,7 +16885,6 @@ input[type="checkbox"] + label {
     - moodle-dialogue-base
     - newmessageoverlay
     - user-enroller-panel
-    - atto-plugins
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -16900,14 +16899,6 @@ input[type="checkbox"] + label {
 }
 #page-lib-editor-atto-plugins-managefiles-manage .file-picker .fp-repo-items {
   background-color: #fff;
-}
-
-.moodle-dialogue {
-  z-index: 600 !important;
-}
-
-.user-enroller-panel {
-  z-index: 600 !important;
 }
 
 @media only screen and (max-width: 992px) {

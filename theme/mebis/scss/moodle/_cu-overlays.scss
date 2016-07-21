@@ -4,7 +4,6 @@
     - moodle-dialogue-base
     - newmessageoverlay
     - user-enroller-panel
-    - atto-plugins
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -15,7 +14,6 @@
     z-index: auto;   
 }
 
-// Styles for atto.
 #page-lib-editor-atto-plugins-managefiles-manage {
     background: $white;
 
@@ -24,21 +22,11 @@
     }
 }
 
-.moodle-dialogue {
-    // Need important because of element.style.
-    z-index: 600 !important;
-}
-
-.user-enroller-panel {
-    // Need important because of element.style.
-    z-index: 600 !important;
-}
-
 @media only screen and (max-width: $screen-desktop) {
 
     .moodle-dialogue-base {
 
-        .moodle-dialogue-fullscreen {
+        .moodle-dialogue-fullscreen{
             left: 10%;
             width: 85%;
             top: 100px;
@@ -59,8 +47,7 @@
 @media only screen and (max-width: $screen-xs-min) {
 
     .user-enroller-panel {
-        // Need important because of element.style.
-        left: 10% !important;
+        left: 10% !important; //need important because of the element.style
         width: auto;
     }
 }

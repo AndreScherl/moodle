@@ -1,4 +1,4 @@
-define(['jquery', 'theme_mebis/mbslearningplatform'], function($) {
+define(['jquery'], function($) {
     'use strict';
     
     var preventLinkDefault = function() {

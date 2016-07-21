@@ -22,7 +22,7 @@ require.config({
 /**
  * @module block_mbswizzard/mbswizzard
  */
-define(['jquery', 'bootstrap', 'jquery.scrollTo'], function($){
+define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
     'use strict';
     
     var mbswizzard = {

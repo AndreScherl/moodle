@@ -5,7 +5,7 @@ require.config({
     paths: {
         'velocity': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/velocity.min',
         'jquery.jcarousel': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/jcarousel/jcarousel.min',
-        'bootstrap': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
+//        'bootstrap': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
         'jquery.tooltipster': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/tooltipster/jquery.tooltipster.min',
         'jquery.shuffle': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/jquery.shuffle',
         'modernizr': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min',
@@ -20,11 +20,11 @@ require.config({
             deps: ['jquery'],
             exports: 'jQuery.jcarousel'
         },
-        'bootstrap': {
-            deps: ['jquery'],
-            // Little hack because bootstrap doesn't export anything. So just check one of its jQuery plugins.
-            exports: 'jQuery.fn.popover'
-        },
+//        'bootstrap': {
+//            deps: ['jquery'],
+//            // Little hack because bootstrap doesn't export anything. So just check one of its jQuery plugins.
+//            exports: 'jQuery.fn.popover'
+//        },
         'jquery.tooltipster': {
             deps: ['jquery'],
             exports: 'jQuery.fn.tooltipster'

@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/config', 'bootstrap'], function($, config) {
+define(['jquery', 'core/config'], function($, config) {
     
     var blockvisibility = {
         /*

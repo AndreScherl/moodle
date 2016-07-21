@@ -34,10 +34,7 @@ class block_mbsgettingstarted extends block_base {
         global $PAGE;
         parent::get_required_javascript();
 
-        $PAGE->requires->jquery();
-        $PAGE->requires->jquery_plugin('ui');
-        $PAGE->requires->jquery_plugin('ui-css');
-        $PAGE->requires->js(new moodle_url('/blocks/mbsgettingstarted/js/blockvisibility/blockvisibility.js'));
+        $PAGE->requires->js_call_amd('block_mbsgettingstarted/blockvisibility', 'init');
     }
 
     function get_content() {

@@ -1153,6 +1153,11 @@ class course_enrolment_manager {
         $plugins = $this->get_enrolment_plugins(true); // Skip disabled plugins.
         $buttons = array();
         foreach ($plugins as $plugin) {
+            // hack: remove manual_enrol_button of class enrolment. 
+            if (get_class($plugin) === 'enrol_class_plugin') {
+                 continue;
+            }
+            // hack: remove manual_enrol_button of class enrolment. 
             $newbutton = $plugin->get_manual_enrol_button($this);
             if (is_array($newbutton)) {
                 $buttons += $newbutton;

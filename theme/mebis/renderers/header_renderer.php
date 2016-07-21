@@ -466,7 +466,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         return $content;
     }
-
+    
     protected function render_custom_menu_item(custom_menu_item $item) {
         static $submenucount = 0;
         if ($item->has_children()) {
@@ -615,11 +615,19 @@ class theme_mebis_header_renderer extends renderer_base {
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('li');
         }
+        
+        // add teachSHARE link.
+        if (\block_mbstpl\perms::can_searchtemplates()) {
+            $text = html_writer::tag('i', '', array('class' => 'icon-me-teachshare'));
+            $url = new moodle_url('/blocks/mbstpl/templatesearch.php');
+            $teachsharelink = html_writer::link($url, $text);
+            $content .= html_writer::tag('li', $teachsharelink);
+        }
 
         // add all the course related administration stuff.
         $content .= $this->render_menubar_courseadmin_menu();
 
-        // add a complaints link for course templates
+        // add a complaints link for course templates.
         if (class_exists('\block_mbstpl\course')) {
             global $COURSE;
             $template = \block_mbstpl\dataobj\template::fetch(array('courseid' => $COURSE->id));

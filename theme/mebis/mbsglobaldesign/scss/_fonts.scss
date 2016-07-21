@@ -376,8 +376,20 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'teachSHARE';
+    src: url('[[font:theme|teachSHARE.eot]]');
+    src: url('[[font:theme|teachSHARE.eot]]') format('embedded-opentype'),
+        url('[[font:theme|teachSHARE.woff]]') format('woff'),
+        url('[[font:theme|teachSHARE.ttf]]') format('truetype'),
+        url('[[font:theme|teachSHARE.svg]]') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 [class^="icon-me"], [class*=" icon-me"] {
-    font-family: mebis-icons;
+    font-family: mebis-icons, teachSHARE;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -583,6 +595,7 @@
 .icon-me-stern_leer:before { content: "\e657"; }
 .icon-me-suchbegriff-bestaetigen:before { content: "\e658"; }
 .icon-me-support:before { content: "\e659"; }
+.icon-me-teachshare:before { content: "\e900";}
 .icon-me-test:before { content: "\e65a"; }
 .icon-me-text-bearbeiten:before { content: "\e65b"; }
 .icon-me-textfeld:before { content: "\e65c"; }

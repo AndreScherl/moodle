@@ -1,4 +1,16 @@
-define(['jquery'], function($) {
+require.config({
+    // You have to change the following paths to meet your mebis application requirements
+    paths: {
+        'mebis': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/javascripts/jquery.mebis'
+    },
+    shim: {
+        'mebis': {
+            deps: ['jquery']
+        }
+    }
+});
+ 
+define(['jquery', 'mebis'], function($, mebis) {
     'use strict';
     
     var preventLinkDefault = function() {
@@ -26,6 +38,7 @@ define(['jquery'], function($) {
         init: function() {
             preventLinkDefault();
             hiddennav();
+            mebis.init();
         }
     };
 });

@@ -1,13 +1,15 @@
+// If you load the mebis module, do not forget to call its init method.
+
 require.config({
     // You have to change the following paths to meet your mebis application requirements
     paths: {
-        'velocity': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/velocity.min',
-        'jquery.jcarousel': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jcarousel/jcarousel.min',
-        'bootstrap': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
-        'jquery.tooltipster': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/tooltipster/jquery.tooltipster.min',
-        'jquery.shuffle': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/jquery.shuffle',
-        'modernizr': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min',
-        'stackblur': M.cfg['wwwroot']+'/theme/mebis/mbsglobaldesign/vendor/stackblur'
+        'velocity': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/velocity.min',
+        'jquery.jcarousel': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/jcarousel/jcarousel.min',
+        'bootstrap': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/bootstrap/bootstrap.min',
+        'jquery.tooltipster': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/tooltipster/jquery.tooltipster.min',
+        'jquery.shuffle': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/jquery.shuffle',
+        'modernizr': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/modernizr-2.6.2-respond-1.1.0.min',
+        'stackblur': M.cfg.wwwroot+'/theme/mebis/mbsglobaldesign/vendor/stackblur'
     },
     shim: {
         'velocity': {
@@ -505,6 +507,15 @@ define('mebis', ['jquery', 'velocity'], function($, Velocity) {
             }
         }
     }
+    
+    var resize = function () {
+        initBlockLinkResize();
+        preventOverlappingSidebar();
+    };
+    var orientationchange = function () {
+        initBlockLinkResize();
+        initImageBlurCanvas();
+    };
 
     return {
         init: function () {
@@ -530,25 +541,13 @@ define('mebis', ['jquery', 'velocity'], function($, Velocity) {
             initAnchorLinks();
             handleSelectboxNavChange();
             preventOverlappingSidebar();
-        },
-        resize: function () {
-            initBlockLinkResize();
-            preventOverlappingSidebar();
-        },
-        orientationchange: function () {
-            initBlockLinkResize();
-            initImageBlurCanvas();
+            
+            $(window).on('resize', function() {
+                resize();
+            });
+            $(window).on('orientationchange', function() {
+                orientationchange();
+            });
         }
     }
-
-});
-
-requirejs(['jquery', 'mebis'], function($, mbs) {
-    mbs.init();
-    $(window).on('resize', function() {
-        mbs.resize();
-    });
-    $(window).on('orientationchange', function() {
-        mbs.orientationchange();
-    });
 });

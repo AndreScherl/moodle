@@ -17206,6 +17206,9 @@ input[type="checkbox"] + label {
 .box.message .messagearea .messagerecent .singlemessage .themessage {
   border-color: #ff6600;
 }
+.box.message .messagearea .messagehistory .messagecontent .deleteicon {
+  position: relative;
+}
 .box.message .messagearea .messagehistory .messagehistorytype {
   padding: 5px 0;
 }

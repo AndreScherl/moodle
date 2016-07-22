@@ -51,6 +51,11 @@
         }
 
         .messagehistory {
+            .messagecontent {
+                .deleteicon {
+                    position: relative;
+                }
+            }
             .messagehistorytype {
                 padding: 5px 0;
 

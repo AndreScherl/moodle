@@ -45,8 +45,8 @@
                 "actionsel": "div.singlebutton input[type=submit]"
 		},{
 		"url": "/course/view.php",
-		"sel": "div.content .summary a",
-		"tip": "Klicken Sie auf das Zahnrad um eine eigene Überschrift zu erstellen."	
+		"sel": "#section-0 div.section_action_menu",
+		"tip": "Klicken Sie auf \"Bearbeiten\" und anschließend auf \"Abschnitt bearbeiten\", um eine eigene Überschrift zu erstellen."	
 		},{
 		"url": "/course/editsection.php",
 		"sel": "fieldset.felement.fgroup",

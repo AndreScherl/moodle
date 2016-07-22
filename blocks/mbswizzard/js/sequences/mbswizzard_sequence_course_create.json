@@ -21,7 +21,7 @@
                 "actionsel": ".wizzard_next_step"
 		},{
 		"url": "/course/edit.php",
-		"sel": "input[name=submitbutton]",
+		"sel": "input[name=saveanddisplay]",
 		"tip": "Klicken Sie hier, um den Kurs anzulegen."	
 		}	
 	],

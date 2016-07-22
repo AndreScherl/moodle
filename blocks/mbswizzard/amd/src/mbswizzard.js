@@ -99,7 +99,7 @@ define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
                 callback(true);
             }, this), 'json')
             .fail(function(){
-                $(window).alert("Sequence loading from json failed.");
+                alert("Sequence loading from json failed.");
                 callback(false);
             });
         },
@@ -143,12 +143,12 @@ define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
             }
 
             // Show the current tooltip.
-            var placement = "auto";
-            if (cs.placement !== null) {
+            var placement = "top";
+            if (cs.placement) {
                 placement = cs.placement;
             }
             var viewport = { selector: 'body', padding: 0 };
-            if(cs.viewport !== null) {
+            if(cs.viewport) {
                 viewport = cs.viewport;
             }
 
@@ -167,7 +167,8 @@ define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
             $.scrollTo(cs.sel, 1000, {
                 offset: {top:-offsettop}
             });
-            $(cs.sel).focus();
+            // commented the following line because setting the focus leads a conflict with moodle js empty form field validation 
+            //$(cs.sel).focus();
             this.update_progressbar();
         },
 
@@ -181,10 +182,10 @@ define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
                 this.prepare_finish_sequence('finish');
                 return;
             }
-
+            
             // If there is an action selector to get to the next step, take it. Otherwise listen to the origin target.
             // Only needed, if you stay on the same page
-            if (this.sequence.steps[cstep].actionsel !== null) {
+            if (this.sequence.steps[cstep].actionsel) {
                 $(this.sequence.steps[cstep].actionsel).on('click', $.proxy(function() {
                     this.sequence.current_step = cstep+1;
                     this.store_sequence(this.sequence);
@@ -258,8 +259,8 @@ define(['jquery', 'theme_bootstrap/bootstrap', 'jquery.scrollTo'], function($){
             localStorage.removeItem('mbswizzard_current_sequence');
             $('.tooltip').tooltip('destroy');
             if(state === 'finish'){
-                $(window).alert('Herzlichen Glückwunsch!\nSie haben den Wizzard erfolgreich abgeschlossen.');
-                $(window).exit();
+                alert('Herzlichen Glückwunsch!\nSie haben den Wizzard erfolgreich abgeschlossen.');
+                exit();
             }
         }
     };

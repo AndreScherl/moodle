@@ -116,6 +116,10 @@ class mod_game_mod_form extends moodleform_mod {
             }
             $mform->addElement('select', 'glossarycategoryid', get_string('sourcemodule_glossarycategory', 'game'), $a);
             $mform->disabledIf('glossarycategoryid', 'sourcemodule', 'neq', 'glossary');
+
+            // Only approved.
+            $mform->addElement('selectyesno', 'glossaryonlyapproved', get_string('glossary_only_approved', 'game'));
+            $mform->disabledIf('subcategories', 'sourcemodule', 'neq', 'glossary');
         }
 
         // Question Category - Short Answer.
@@ -259,6 +263,8 @@ class mod_game_mod_form extends moodleform_mod {
             $mform->addElement('select', 'param3', get_string('cross_layout', 'game'), $crosslayoutoptions);
             $mform->setType('param5', PARAM_INT);
             $mform->addElement('selectyesno', 'param6', get_string('cross_disabletransformuppercase', 'game'));
+            $mform->addElement('text', 'param8', get_string('cross_maxcomputetime', 'game'));
+            $mform->setType('param8', PARAM_INT);
         }
 
         // Cryptex options.
@@ -273,6 +279,8 @@ class mod_game_mod_form extends moodleform_mod {
             $mform->addElement('selectyesno', 'param7', get_string('hangman_allowspaces', 'game'));
             $mform->addElement('text', 'param8', get_string('cryptex_maxtries', 'game'));
             $mform->setType('param8', PARAM_INT);
+            $mform->addElement('text', 'param3', get_string('cross_maxcomputetime', 'game'));
+            $mform->setType('param3', PARAM_INT);
         }
 
         // Millionaire options.
@@ -482,6 +490,14 @@ class mod_game_mod_form extends moodleform_mod {
                     $defaultvalues->snakes_footerx = $rec->footerx;
                     $defaultvalues->snakes_footery = $rec->footery;
                 }
+            }
+        } else if ($defaultvalues->gamekind == 'cross') {
+            if (!isset( $defaultvalues->param8)) {
+                $defaultvalues->param8 = 2;
+            }
+        } else if ($defaultvalues->gamekind == 'cryptex') {
+            if (!isset( $defaultvalues->param3)) {
+                $defaultvalues->param3 = 2;
             }
         }
 

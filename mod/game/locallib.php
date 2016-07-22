@@ -139,6 +139,11 @@ function game_question_shortanswer_glossary( $game, $allowspaces, $userepetition
         $select .= " AND concept NOT LIKE '% %'  ";
     }
 
+    if ($game->glossaryonlyapproved) {
+        // Only approved glossary entries will be used.
+        $select .= ' AND (ge.approved=1 OR teacherentry=1)';
+    }
+
     if (($id = game_question_selectrandom( $game, $table, $select, 'ge.id', $userepetitions)) == false) {
         return false;
     }
@@ -1775,7 +1780,7 @@ function game_export_createtempdir() {
 
     srand( (double)microtime() * 1000000);
     while (true) {
-        $rbasedir = "game/".date("Y-m-d H.i.s-").rand(0, 10000);
+        $rbasedir = "game/".date("Y-m-d-H.i.s-").rand(0, 10000);
         $newdir = $CFG->dataroot.'/temp/'.$rbasedir;
         if (!file_exists( $newdir)) {
             mkdir( $newdir);

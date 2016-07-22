@@ -17,9 +17,7 @@
 // Translated by Vasilis Daloukas.
 
 // File bookquiz/importodt.php.
-$string[ 'bookquiz_import_odt'] = 'Import from an OpenOffice file (odt)';
 $string[ 'bookquiz_not_select_book'] = 'You have not select book';
-$string[ 'bookquiz_subchapter'] = 'Create subchapters';
 
 // File bookquiz/play.php.
 $string[ 'bookquiz_empty'] = 'The book is empty';
@@ -235,10 +233,10 @@ $string[ 'cross_layout0'] = 'Phrases on the bottom of cross';
 $string[ 'cross_layout1'] = 'Phrases on the right of cross';
 $string[ 'cross_maxcols'] = 'Maximum number of cols/rows';
 $string[ 'cross_max_attempts'] = 'Maximum number of attempts';
+$string[ 'cross_maxcomputetime'] = 'Maximum compute time in seconds';
 $string[ 'cross_maxwords'] = 'Maximum number of words';
 $string[ 'cross_minwords'] = 'Minimum number of words';
 $string[ 'cross_options'] = 'Crossword options';
-$string[ 'cross_showprint'] = 'Show print button';
 $string[ 'cryptex_maxtries'] = 'Max tries';
 $string[ 'cryptex_options'] = 'Cryptex options';
 $string[ 'disablesummarize'] = 'Disable summarize';
@@ -247,6 +245,7 @@ $string[ 'gameopen'] = 'Open the game';
 $string[ 'gameopenclose'] = 'Open and close dates';
 $string[ 'gameopenclose_help'] = 'Students can only start their attempt(s) after the open time and they must complete their attempts before the close time.';
 $string[ 'grademethod'] = 'Grading method';
+$string[ 'glossary_only_approved'] = "Only approved or teacher's glossary entries";
 $string[ 'hangman_allowspaces'] = 'Allow spaces in words';
 $string[ 'hangman_allowsub'] = 'Allow the symbol - in words';
 $string[ 'hangman_imageset'] = 'Select the images of hangman';

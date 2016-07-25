@@ -1576,10 +1576,13 @@ Y.extend(ANNOTATIONSTAMP, M.assignfeedback_editpdf.annotation, {
         node.setY(position.y);
         drawable.store_position(node, position.x, position.y);
 
-        // Pass throught the event handlers on the div.
-        node.on('gesturemovestart', this.editor.edit_start, null, this.editor);
-        node.on('gesturemove', this.editor.edit_move, null, this.editor);
-        node.on('gesturemoveend', this.editor.edit_end, null, this.editor);
+        // Bind events only when editing.
+        if (!this.editor.get('readonly')) {
+            // Pass through the event handlers on the div.
+            node.on('gesturemovestart', this.editor.edit_start, null, this.editor);
+            node.on('gesturemove', this.editor.edit_move, null, this.editor);
+            node.on('gesturemoveend', this.editor.edit_end, null, this.editor);
+        }
 
         drawable.nodes.push(node);
 
@@ -2546,7 +2549,7 @@ var COMMENT = function(editor, gradeid, pageno, x, y, width, colour, rawtext) {
         drawable.store_position(container, position.x, position.y);
         drawable.nodes.push(container);
         node.set('value', this.rawtext);
-        scrollheight = node.get('scrollHeight'),
+        scrollheight = node.get('scrollHeight');
         node.setStyles({
             'height' : scrollheight + 'px',
             'overflow': 'hidden'

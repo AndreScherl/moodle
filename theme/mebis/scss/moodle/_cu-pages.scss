@@ -12,6 +12,8 @@
     - #page-admin-purgecaches 
     - #page-admin-tool-lp-plans
     - #page-mod-assign-grader
+    - #page-admin-tool-lp-coursecompetencies
+    - #page-admin-tool-lp-user_competency_in_course
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -53,6 +55,34 @@
 
     .homepage-container {
         width: 90%;
+    }
+}
+
+// competencies.
+#page-admin-tool-lp-coursecompetencies, #page-admin-tool-lp-user_competency_in_course {
+    ul.inline {
+        list-style-type: none;
+    }
+}
+
+.path-mod.pagelayout-admin {
+    .form-autocomplete-downarrow {
+        top: -2em;
+        left: 9.5em;
+    }
+    .form-autocomplete-suggestions {
+        margin-top: -1.5em;
+    }
+}
+
+[data-region=user-competency-full-info] {
+    .label-important {
+        background-color: transparent;
+        border: 1px solid $brand-secondary;
+        @include border-radius(10px 10px 10px 10px);
+        color: $black;
+        margin-right: 3px;
+        margin-top: 3px;
     }
 }
 
@@ -211,6 +241,8 @@
         height: 2.5em;
     }
     [data-region="grade-panel"] {
+        top: 95px;
+        
         h3 {
             font-size: 1.25em;
         }

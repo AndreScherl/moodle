@@ -14368,14 +14368,22 @@ div[role="main"] > h2 {
   margin: 0.2em;
   min-height: 21px;
 }
+.form-autocomplete-selection [role=listitem] {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #00a8d5;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px 10px 10px 10px;
+  color: #000;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
 .form-autocomplete-selection input[type="text"]:focus {
   border-color: #ff6600;
   -webkit-box-shadow: 0 1px 1px rgba(255, 102, 0, 0.6);
   box-shadow: 0 1px 1px rgba(255, 102, 0, 0.6);
-}
-
-.form-autocomplete-multiple [role=listitem] {
-  cursor: pointer;
 }
 
 .form-autocomplete-downarrow {
@@ -16937,6 +16945,8 @@ input[type="checkbox"] + label {
     - #page-admin-purgecaches 
     - #page-admin-tool-lp-plans
     - #page-mod-assign-grader
+    - #page-admin-tool-lp-coursecompetencies
+    - #page-admin-tool-lp-user_competency_in_course
 */
 /* 
     Created on : 16.05.2015, 19:46:57
@@ -16963,6 +16973,29 @@ input[type="checkbox"] + label {
 }
 #page-calendar-view .homepage-container {
   width: 90%;
+}
+
+#page-admin-tool-lp-coursecompetencies ul.inline, #page-admin-tool-lp-user_competency_in_course ul.inline {
+  list-style-type: none;
+}
+
+.path-mod.pagelayout-admin .form-autocomplete-downarrow {
+  top: -2em;
+  left: 9.5em;
+}
+.path-mod.pagelayout-admin .form-autocomplete-suggestions {
+  margin-top: -1.5em;
+}
+
+[data-region=user-competency-full-info] .label-important {
+  background-color: transparent;
+  border: 1px solid #ff6600;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px 10px 10px 10px;
+  color: #000;
+  margin-right: 3px;
+  margin-top: 3px;
 }
 
 #page-course-index-category div[role="main"] > .generalbox {
@@ -17079,6 +17112,9 @@ input[type="checkbox"] + label {
 }
 .path-mod-assign [data-region="user-info"] .img-rounded {
   height: 2.5em;
+}
+.path-mod-assign [data-region="grade-panel"] {
+  top: 95px;
 }
 .path-mod-assign [data-region="grade-panel"] h3 {
   font-size: 1.25em;

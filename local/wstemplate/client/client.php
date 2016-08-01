@@ -22,8 +22,8 @@
 // 5- Run this script directly from your browser: you should see 'Hello, FIRSTNAME'
 
 /// SETUP - NEED TO BE CHANGED
-$token = 'dff3bc6a9368d3b0db1ef59f6760ef7c';
-$domainname = 'http://YOURMOODLE';
+$token = '3a51298f3427a4c2243ed0125b1552f0';
+$domainname = 'localhost/mebis3';
 
 /// FUNCTION NAME
 $functionname = 'local_wstemplate_hello_world';

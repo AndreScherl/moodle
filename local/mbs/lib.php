@@ -98,12 +98,6 @@ function local_mbs_extend_settings_navigation(settings_navigation $navigation, c
             $node->remove();
         }
     }
-
-    // Extend for block_mbstpl.
-    $context = local_mbs_get_block_mbstpl_context($context);
-    if ($context) {
-        block_mbstpl\course::extend_coursenav($navigation, $context);
-    }
 }
 
 /**

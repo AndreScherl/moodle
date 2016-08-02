@@ -257,7 +257,7 @@ class perms {
      * @return bool
      */
     public static function can_searchtemplates() {
-        // anyone else
+        // anyone else.
         return self::get_course_categories_by_cap('block/mbstpl:createcoursefromtemplate');
     }
 
@@ -270,11 +270,11 @@ class perms {
      * @return boolean, array
      */
     protected static function get_course_categories_by_cap($capability, $limit = 0) {
-        // don't forget the admin
-        if (has_capability('block/mbstpl:createcoursefromtemplate', \context_system::instance())) {
+        // don't forget the admin.
+        if (has_capability($capability, \context_system::instance())) {
             return true;
         }
-        // anyone else
+        // anyone else.
         global $DB, $USER;
         $sql = "SELECT DISTINCT c.id
                 FROM {course_categories} c

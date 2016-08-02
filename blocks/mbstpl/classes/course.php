@@ -41,10 +41,9 @@ class course {
      * @param \navigation_node $coursenode
      * @param \context_course $coursecontext
      */
-    public static function extend_coursenav(\navigation_node &$coursenode, \context_course $coursecontext) {
+    public static function mbstplnav(\custom_menu $menu, \context_course $coursecontext) {
         global $USER;
 
-        $tplnode = $coursenode->create(get_string('pluginname', 'block_mbstpl'), null, \navigation_node::COURSE_CURRENT);
         $cid = $coursecontext->instanceid;
 
         /* @var $template dataobj\template */
@@ -52,7 +51,7 @@ class course {
 
         if (!$template && has_capability('block/mbstpl:sendcoursetemplate', $coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/sendtemplate.php', array('course' => $cid));
-            $tplnode->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url);
+            $menu->add(get_string('sendcoursetemplate', 'block_mbstpl'), $url, get_string('sendcoursetemplate', 'block_mbstpl'));
         }
 
         if ($template) {
@@ -61,53 +60,51 @@ class course {
 
             if (perms::can_assignauthor($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'author'));
-                $tplnode->add(get_string('assignauthor', 'block_mbstpl'), $url);
+                $menu->add(get_string('assignauthor', 'block_mbstpl'), $url, get_string('assignauthor', 'block_mbstpl'));
             }
 
             if (!$isauthor && (perms::can_assignreview($template, $coursecontext) || perms::can_returnreview($template, $coursecontext))) {
                 $url = new \moodle_url('/blocks/mbstpl/assign.php', array('course' => $cid, 'type' => 'reviewer'));
-                $tplnode->add(get_string('assignreviewer', 'block_mbstpl'), $url);
+                $menu->add(get_string('assignreviewer', 'block_mbstpl'), $url, get_string('assignreviewer', 'block_mbstpl'));
             }
 
             if (perms::can_viewfeedback($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/viewfeedback.php', array('course' => $cid));
-                $tplnode->add(get_string('templatefeedback', 'block_mbstpl'), $url);
+                $menu->add(get_string('templatefeedback', 'block_mbstpl'), $url, get_string('templatefeedback', 'block_mbstpl'));
             }
 
             if (perms::can_editmeta($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/editmeta.php', array('course' => $cid));
-                $tplnode->add(get_string('editmeta', 'block_mbstpl'), $url);
+                $menu->add(get_string('editmeta', 'block_mbstpl'), $url, get_string('editmeta', 'block_mbstpl'));
             }
 
             if (perms::can_viewabout($coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/abouttemplate.php', array('course' => $cid));
-                $tplnode->add(get_string('mbstpl:abouttemplate', 'block_mbstpl'), $url);
+                $menu->add(get_string('mbstpl:abouttemplate', 'block_mbstpl'), $url, get_string('mbstpl:abouttemplate', 'block_mbstpl'));
             }
 
             if (perms::can_leaverating($coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
-                $tplnode->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url);
+                $menu->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url, get_string('mbstpl:ratetemplate', 'block_mbstpl'));
             }
 
             if (perms::can_coursefromtpl($template)) {
                 $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));
-                $tplnode->add(get_string('duplcourseforuse', 'block_mbstpl'), $url);
+                $menu->add(get_string('duplcourseforuse', 'block_mbstpl'), $url, get_string('duplcourseforuse', 'block_mbstpl'));
             }
 
             if (perms::can_sendrevision($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $cid));
-                $tplnode->add(get_string('forrevision', 'block_mbstpl'), $url);
+                $menu->add(get_string('forrevision', 'block_mbstpl'), $url, get_string('forrevision', 'block_mbstpl'));
             }
         }
 
         if (perms::can_viewhistory($coursecontext)) {
             $url = new \moodle_url('/blocks/mbstpl/viewhistory.php', array('course' => $cid));
-            $tplnode->add(get_string('viewhistory', 'block_mbstpl'), $url);
+            $menu->add(get_string('viewhistory', 'block_mbstpl'), $url, get_string('viewhistory', 'block_mbstpl'));
         }
-
-        if ($tplnode->has_children()) {
-            $coursenode->add_node($tplnode);
-        }
+        
+        return $menu;
     }
 
     /**

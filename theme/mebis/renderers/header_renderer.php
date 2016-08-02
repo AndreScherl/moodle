@@ -556,6 +556,58 @@ class theme_mebis_header_renderer extends renderer_base {
 
         return $content;
     }
+    
+    protected function render_menubar_mbstpl_menu() {
+        global $COURSE;
+        $content = '';
+        
+        // Show only for mebis role 'Kursersteller'.
+        if (!\block_mbstpl\perms::can_searchtemplates()) {
+            return '';
+        }
+        
+        $icon = html_writer::tag('i', '', array('class' => 'icon-me-teachshare'));
+        $url = new moodle_url('/blocks/mbstpl/templatesearch.php');
+            
+        // For all sites, except real courses.
+        if ($COURSE->id == SITEID) {              
+            $teachsharelink = html_writer::link($url, $icon);
+            $content .= html_writer::tag('li', $teachsharelink);
+            return $content;
+        }
+        
+        // For real courses.
+        $menu = new custom_menu('', current_language());
+        $menu->add(get_string('templatesearch', 'block_mbstpl'), $url, get_string('templatesearch', 'block_mbstpl'));
+        $context = context_course::instance($COURSE->id);
+        $context = local_mbs_get_block_mbstpl_context($context);
+        $menucontent = '';
+        if ($context) {
+            $menu = block_mbstpl\course::mbstplnav($menu, $context);
+            foreach ($menu->get_children() as $item) {
+                $menucontent .= $this->render_custom_menu_item($item);
+            }   
+        }
+        if (!empty($menucontent)) {
+            $content .= html_writer::start_tag('li', array('id' => 'mbstpldropdownmenu', 'class' => 'dropdown'));
+            $content .= html_writer::tag('a', $icon, array('class' => 'dropdown-toggle me-component-nav-mobile-spacer', 
+                'href' => '#', 'data-prevent' => 'default'));
+            $content .= html_writer::start_tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'));
+                $content .= html_writer::start_tag('li');
+                    $content .= html_writer::start_div('mbstplmenu');
+                    $content .= html_writer::start_div('dropdown-inner');
+                    $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
+                    $content .= $menucontent;
+                    $content .= html_writer::end_tag('ul');
+                    $content .= html_writer::end_tag('div');
+                    $content .= html_writer::end_tag('div');
+                $content .= html_writer::end_tag('li');
+            $content .= html_writer::end_tag('ul');
+            $content .= html_writer::end_tag('li');
+        }
+
+        return $content;
+    }
 
     /**
      * Renders the main menubar inside the header (submenu), including:
@@ -617,12 +669,7 @@ class theme_mebis_header_renderer extends renderer_base {
         }
         
         // add teachSHARE link.
-        if (\block_mbstpl\perms::can_searchtemplates()) {
-            $text = html_writer::tag('i', '', array('class' => 'icon-me-teachshare'));
-            $url = new moodle_url('/blocks/mbstpl/templatesearch.php');
-            $teachsharelink = html_writer::link($url, $text);
-            $content .= html_writer::tag('li', $teachsharelink);
-        }
+        $content .= $this->render_menubar_mbstpl_menu();
 
         // add all the course related administration stuff.
         $content .= $this->render_menubar_courseadmin_menu();

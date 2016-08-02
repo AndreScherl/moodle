@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/lib/outputrenderers.php");
 require_once($CFG->dirroot . "/user/lib.php");
+require_once($CFG->dirroot . "/local/mbs/lib.php");
 
 class theme_mebis_header_renderer extends renderer_base {
 

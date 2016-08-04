@@ -19,12 +19,12 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 /**
  * Class template
  * For block_mbstpl_template.
  * @package block_mbstpl
  */
+
 namespace block_mbstpl\dataobj;
 
 use context_course;
@@ -43,7 +43,6 @@ class template extends base {
     const STATUS_PUBLISHED = 3;
     const STATUS_ARCHIVED = 4;
     const STATUS_ASSIGNED_REVIEWER = 5;
-
     const FILEAREA = 'template';
 
     /**
@@ -154,7 +153,6 @@ class template extends base {
         $this->add_to_revhist();
     }
 
-
     /**
      * Updates rating without adding to revision history or changing timemodified.
      *
@@ -183,7 +181,7 @@ class template extends base {
         // Trigger template event.
         $context = context_course::instance($this->courseid);
         $event = \block_mbstpl\event\template_created::create(
-            array('context' => $context, 'objectid' => $this->id));
+        array('context' => $context, 'objectid' => $this->id));
         $event->trigger();
     }
 
@@ -213,7 +211,7 @@ class template extends base {
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id, '', false);
         foreach ($files as $file) {
-            $filerecord = (object)array(
+            $filerecord = (object) array(
                 'filearea' => revhist::FILEAREA,
                 'itemid' => $revhist->id,
             );
@@ -267,4 +265,24 @@ class template extends base {
         }
         return explode(',', $this->excludedeploydataids);
     }
+
+    /**
+     * Get all the backup files existing for this template.
+     * Note that the may be more than one template using the same origbpk_ file.
+     *
+     * @return \stdClass
+     */
+    public function get_backup_files($courseid) {
+
+        $fs = get_file_storage();
+        $context = \context_system::instance();
+
+        // Sort files by type.
+        $result = new \stdClass();
+        $result->orgbackup = $fs->get_area_files($context->id, 'block_mbstpl', 'backups', $this->backupid, 'timecreated DESC', false);
+        $result->pubbackup = $fs->get_area_files($context->id, 'block_mbstpl', 'pubbackups', $courseid, 'timecreated DESC', false);
+
+        return $result;
+    }
+
 }

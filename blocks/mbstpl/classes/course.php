@@ -98,6 +98,11 @@ class course {
                 $url = new \moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $cid));
                 $tplnode->add(get_string('forrevision', 'block_mbstpl'), $url);
             }
+
+            if (perms::can_createdpublishedbackup($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/publishedbackup.php', array('course' => $cid));
+                $tplnode->add(get_string('templatereset', 'block_mbstpl'), $url);
+            }
         }
 
         if (perms::can_viewhistory($coursecontext)) {

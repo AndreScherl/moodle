@@ -35,9 +35,11 @@ class backup {
 
     const PREFIX_PRIMARY = 'origbkp_';
     const PREFIX_SECONDARY = 'tplbkp_';
+    const PREFIX_PUBLISHED = 'pubbkp_';
 
     /** @var dataobj\backup */
     private static $primaryrestoreof = null;
+
     /** @var int[] */
     private static $mappedexcludedeploydataids = null;
 
@@ -110,7 +112,7 @@ class backup {
         $versionid++;
         $backup->lastversion = $versionid;
         $courseid = self::launch_primary_restore($backup);
-        
+
         // Delete all enrolments except manual
         course::delete_enrol_instances($courseid);
         // Unenrol everybody who was enroled manual, e. g. anonymous users
@@ -143,7 +145,6 @@ class backup {
         return $courseid;
     }
 
-
     /**
      * Create a backup for a template.
      * @param \block_mbstpl\dataobj\template $backup
@@ -156,9 +157,6 @@ class backup {
         $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
         return $filename;
     }
-
-
-
 
     /**
      * Deploy a backed up template.
@@ -187,7 +185,7 @@ class backup {
 
         $coursefromtpl->insert();
 
-        // Unenrol everybody        
+        // Unenrol everybody
         $userenrolments = course::get_all_enrolled_users($cid);
         if (!empty($userenrolments)) {
             course::unenrol($cid, $userenrolments);
@@ -235,13 +233,13 @@ class backup {
         $origmeta = new dataobj\meta(array('templateid' => $template->id), true, MUST_EXIST);
         $tplmeta = new dataobj\meta(array('templateid' => $newtpl->id), true, MUST_EXIST);
         $tplmeta->copy_from($origmeta);
-        
-        // Unenrol everybody        
+
+        // Unenrol everybody
         $userenrolments = course::get_all_enrolled_users($cid);
         if (!empty($userenrolments)) {
             course::unenrol($cid, $userenrolments);
         }
-        
+
         return $cid;
     }
 
@@ -275,13 +273,15 @@ class backup {
      * @param int $userid
      * @return mixed filename|false on error
      */
-    private static function launch_primary_backup($courseid, $backupid, $withusers, $userid) {
+    private static function launch_primary_backup($courseid, $backupid, $withusers, $userid, $filename = '') {
         global $CFG;
 
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/helper/backup_cron_helper.class.php');
 
-        $filename = self::get_filename($backupid);
+        if (empty($filename)) {
+            $filename = self::get_filename($backupid);
+        }
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
         $settings = array(
             'users' => 0,
@@ -307,8 +307,7 @@ class backup {
         // Needed to determine partial anonymisations.
         self::$coursecontext = \context_course::instance($courseid);
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
-            \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
             foreach ($settings as $setting => $value) {
@@ -340,7 +339,7 @@ class backup {
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
             $bc->get_plan()->get_setting('filename')->set_value(
-                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -362,7 +361,7 @@ class backup {
             $fs = get_file_storage();
             $context = \context_system::instance();
             $cleanfilename = $fs->get_unused_filename($context->id, 'block_mbstpl', 'backups', $backupid, '/', $filename);
-            $filerecord = (object)array(
+            $filerecord = (object) array(
                 'contextid' => $context->id,
                 'component' => 'block_mbstpl',
                 'filearea' => 'backups',
@@ -439,7 +438,7 @@ class backup {
         $info = \backup_general_helper::get_backup_information($tmpname);
 
         // Create course.
-        $cdata = (object)array(
+        $cdata = (object) array(
             'category' => $catid,
             'shortname' => self::generate_course_shortname($info->original_course_shortname, $backup->lastversion),
             'fullname' => $info->original_course_fullname,
@@ -451,8 +450,7 @@ class backup {
         $admin = get_admin();
         self::$primaryrestoreof = $backup;
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, \backup::TARGET_NEW_COURSE);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_NEW_COURSE);
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
@@ -462,7 +460,7 @@ class backup {
         remove_dir($tmpdir);
 
         // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
-        $upd = (object)array(
+        $upd = (object) array(
             'id' => $course->id,
             'shortname' => $cdata->shortname,
             'fullname' => $cdata->fullname,
@@ -485,7 +483,7 @@ class backup {
         foreach ($excludeids as $excludeid) {
             $rec = \restore_dbops::get_backup_ids_record($restoreid, 'course_module', $excludeid);
             if ($rec && $rec->newitemid) {
-                $newexcludeids[] = (int)$rec->newitemid;
+                $newexcludeids[] = (int) $rec->newitemid;
             }
         }
         self::$mappedexcludedeploydataids = $newexcludeids;
@@ -527,8 +525,7 @@ class backup {
         // Needed to determine partial anonymisations.
         self::$coursecontext = \context_course::instance($courseid);
 
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO,
-            \backup::MODE_AUTOMATED, $userid);
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_AUTOMATED, $userid);
         $backupok = true;
         try {
 
@@ -546,8 +543,7 @@ class backup {
 
                 // Since 'users' and 'anonymize' needs to start as 1, we need to explicity set each
                 // 'userinfo' setting, defaulting to 0 if it's not explicitly set by the user.
-                if ($setting instanceof \backup_activity_userinfo_setting
-                        || $setting instanceof \backup_section_userinfo_setting) {
+                if ($setting instanceof \backup_activity_userinfo_setting || $setting instanceof \backup_section_userinfo_setting) {
                     $value = $hassetting ? $settings[$settingname] : 0;
                     $setting->set_value($value);
                 } else if ($hassetting) {
@@ -562,7 +558,7 @@ class backup {
             $users = $bc->get_plan()->get_setting('users')->get_value();
             $anonymised = $bc->get_plan()->get_setting('anonymize')->get_value();
             $bc->get_plan()->get_setting('filename')->set_value(
-                \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
+            \backup_plan_dbops::get_default_backup_filename($format, $type, $id, $users, $anonymised));
 
             $bc->set_status(\backup::STATUS_AWAITING);
 
@@ -603,7 +599,7 @@ class backup {
      * @param int $targetcrs
      * @return int courseid
      */
-    private static function launch_secondary_restore(dataobj\template $template, $filename, $targetcat = 0, $targetcrs = 0) {
+    private static function launch_secondary_restore(dataobj\template $template, $filename, $targetcat = 0, $targetcrs = 0, $deleteexisting = false) {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -644,7 +640,7 @@ class backup {
         }
         if ($targetcat) {
             // Create course.
-            $cdata = (object)array(
+            $cdata = (object) array(
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
@@ -655,13 +651,22 @@ class backup {
         } else {
             $course = get_course($targetcrs);
             $restoretype = \backup::TARGET_EXISTING_ADDING;
+            if ($deleteexisting) {
+                $restoretype = \backup::TARGET_EXISTING_DELETING;
+            }
         }
 
         // Restore.
         $admin = get_admin();
         try {
-            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE,
-                $admin->id, $restoretype);
+            $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, $restoretype);
+
+            $options = array();
+            $options['keep_roles_and_enrolments'] = 1;
+            $options['keep_groups_and_groupings'] = 1;
+            if ($rc->get_target() == \backup::TARGET_EXISTING_DELETING) {
+                \restore_dbops::delete_course_content($rc->get_courseid(), $options);
+            }
             $rc->execute_precheck();
             $rc->execute_plan();
         } catch (\Exception $e) {
@@ -671,7 +676,7 @@ class backup {
 
         // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.
         if ($restoretype == \backup::TARGET_NEW_COURSE && isset($cdata)) {
-            $upd = (object)array(
+            $upd = (object) array(
                 'id' => $course->id,
                 'shortname' => $cdata->shortname,
                 'fullname' => $cdata->fullname,
@@ -693,7 +698,7 @@ class backup {
 
         $page = new \moodle_page();
         $page->set_context(\context_course::instance($coursefromtpl->courseid));
-        
+
         $blocktitle = get_string('newblocktitle', 'block_mbstpl');
         $licence = $template->get_license();
         $licencelink = \html_writer::link($licence->source, $licence->fullname);
@@ -709,7 +714,7 @@ class backup {
                 'itemid' => file_get_submitted_draft_itemid('config_text')
             )
         );
-        
+
         // There might be a teachSHARE-html block -> use it (don't add a second one)
         $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id));
         foreach ($blockrecords as $blockrecord) {
@@ -717,11 +722,10 @@ class backup {
             if (!empty($blockcontent)) {
                 if ($blockcontent->title == $blocktitle) {
                     $block = block_instance('html', $blockrecord, $page);
-                    $block->instance_config_save((object)$blockconfig);
+                    $block->instance_config_save((object) $blockconfig);
                     return;
                 }
             }
-            
         }
 
         // There is no teachSHARE-html block -> create one
@@ -730,12 +734,12 @@ class backup {
 
         $bm = new \block_manager($page);
         $bm->add_region($region);
-        $bm->add_block('html', $region, 0, false, 'course-view-*');          
-        
+        $bm->add_block('html', $region, 0, false, 'course-view-*');
+
         $blockrecords = $DB->get_records('block_instances', array('blockname' => 'html', 'parentcontextid' => $page->context->id), 'id');
         $blockrecord = array_pop($blockrecords);
         $block = block_instance('html', $blockrecord, $page);
-        $block->instance_config_save((object)$blockconfig);
+        $block->instance_config_save((object) $blockconfig);
     }
 
     /**
@@ -794,7 +798,7 @@ class backup {
         global $DB;
 
         $context = \context_system::instance();
-        $params = array('contextid'=>$context->id, 'component'=>'block_mbstpl', 'filearea'=>'backups', 'dir'=> '.');
+        $params = array('contextid' => $context->id, 'component' => 'block_mbstpl', 'filearea' => 'backups', 'dir' => '.');
         $fs = get_file_storage();
 
         if (empty($sort)) {
@@ -831,4 +835,67 @@ class backup {
         }
         return $results;
     }
+
+    /**
+     * Create a backup for a template.
+     * @param \block_mbstpl\dataobj\backup $backup
+     * @return string filename or throws error on failure
+     */
+    public static function backup_published($courseid, dataobj\template $template) {
+        global $CFG, $USER;
+
+        $user = $USER;
+
+        if (!$tempfilename = self::launch_secondary_backup($courseid, $template->id, array('anonymize' => 1), $user->id, true)) {
+            throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl');
+        }
+
+        $filename = self::PREFIX_PUBLISHED . $courseid . '.mbz';
+
+        $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
+        $filepath = $dir.'/'.$tempfilename;
+
+        $fs = get_file_storage();
+        $context = \context_system::instance();
+        $cleanfilename = $fs->get_unused_filename($context->id, 'block_mbstpl', 'pubbackups', $courseid, '/', $filename);
+        $filerecord = (object) array(
+            'contextid' => $context->id,
+            'component' => 'block_mbstpl',
+            'filearea' => 'pubbackups',
+            'itemid' => $courseid,
+            'filepath' => '/',
+            'filename' => $cleanfilename,
+            'userid' => $user->id,
+        );
+        $fs->create_file_from_pathname($filerecord, $filepath);
+        @unlink($filepath);
+
+        return $filename;
+    }
+
+     public static function restore_published($courseid, dataobj\template $template) {
+        global $CFG, $USER;
+
+        $context = \context_system::instance();
+
+        // Get the most recent file from filestorage.
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'block_mbstpl', 'pubbackups', $courseid, 'timecreated DESC', false);
+        if (empty($files)) {
+            throw new \moodle_exception('nofiletorestore');
+        }
+
+        $file = reset($files);
+
+        $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
+        $tempfilename = self::PREFIX_PUBLISHED . $courseid .'_'.time().'.mbz';
+        $filepath = $dir.'/'.$tempfilename;
+
+        $file-> copy_content_to($filepath);
+
+        $cid = self::launch_secondary_restore($template, $tempfilename, 0, $courseid, true);
+
+
+     }
+
 }

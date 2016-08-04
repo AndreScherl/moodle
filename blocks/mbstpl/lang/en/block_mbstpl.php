@@ -101,8 +101,8 @@ $string['emailcoursepublished_body'] = 'Dear course author,
     .'https://www.mebis.bayern.de/infoportal/fortbildung/tutorials/weitere/teachshare/austauschkurs-ueberarbeiten/';
 $string['emailcoursepublished_subj'] = 'Template course published';
 $string['emailcomplaint_body'] = 'Dear Support,
-    
-    there is a complaint for the template course {$a->coursename}. 
+
+    there is a complaint for the template course {$a->coursename}.
     From: {$a->from}
     Error: {$a->error}
     Details: {$a->details}
@@ -110,13 +110,13 @@ $string['emailcomplaint_body'] = 'Dear Support,
     Revision-URL: {$a->revision}
 
 Best regards
-Your ISB programers';     
+Your ISB programers';
 $string['emailcomplaint_subj'] = 'Complaint';
 $string['emailcomplaintsend_body'] = 'Dear teachSHARE user,
-    
-    thanks for your complaint. 
-    
-Best regards, 
+
+    thanks for your complaint.
+
+Best regards,
 your support team
 Andrea Taras
 Akademie für Lehrerfortbildung und Personalführung
@@ -320,3 +320,44 @@ $string['viewhistory'] = 'View history';
 $string['viewrating'] = 'View rating';
 $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
 $string['yourrating'] = 'Your Rating';
+
+// New strings to be sorted in alphabetically, after translation.
+$string['backupcreated'] = 'Backup created';
+$string['backupinformation'] = 'Backup information';
+$string['courseresetstrategy'] = 'Course reset';
+$string['courseresetstrategydescription'] = 'Course reset';
+$string['coursebackupwithuserdata'] = '<p>This course template contains userdata. When other users are producing additional user data by testing the course,
+    a course reset is done by a restore of the latest available backup file, that is created after publishing the course. These files (published backups)
+    are named like pubbkp_[number of course].mbz and listed below.</p>
+    <p>A course reset also includes the unenrolment of every user, that is participating the course.</p>';
+$string['coursebackupnopubbackup'] = '<p><b>No (published) backup file?</b></p><p>If there is no published backup file available or you have changed the course and want to keep this changes during the next resets,
+    you may create a new one:
+    <ul>
+    <li>Switch the visibility of the course to off</li>
+    <li>Be sure to remove all the data, that should not be restored later on</li>
+    <li>Click the button to backup the course. This will:<ul>
+    <li>Unenrol all users</li><li>Backup the course to pubbkp_[number of course].mbz</li></ul></ul>';
+$string['courseresetwithuserdata'] = '<p>Reset of the course will happen by adhoc and scheduled tasks, if you want to reset the course immediately (by restoring a published backup), just
+    click the button below</p>';
+$string['courseresetnouserdata'] = '<p>This course template contains <b>no userdata</b>.
+    Reset of the course will be done by adhoc and scheduled tasks, that are resetting the course with standard setup, see: {$a}</p>';
+$string['courserestored'] = 'Course successfully restored';
+$string['containsuserdata'] = 'Contains user data';
+$string['createanewbackupfile'] = 'Create a new backup file to use for course reset.';
+$string['createpublishedbackup'] = 'Create a new published backup file';
+$string['creator'] = 'Creator of backup';
+$string['deletebackupfile'] = 'Delete the backup file';
+$string['deletebackupfiledesc'] = 'Do you really want to delete the file: {$a}?';
+$string['dothecoursereset'] = 'Do the course reset';
+$string['filedeleted'] = 'File deleted';
+$string['id'] = 'ID';
+$string['notavailable'] = 'Not available';
+$string['pubbackupfile'] = 'Published backup file';
+$string['publishedbackup'] = 'Published template overview';
+$string['origbackupfile'] = 'Original backup file';
+$string['restorebackupfile'] = 'Reset course by restoring newest backup file';
+$string['templatereset'] = 'Resetting template';
+$string['timecreated'] = 'Time created';
+$string['unknowncourse'] = 'Unkown course (probably deleted), course id was: {$a}';
+$string['unkowncreator'] = 'Unkown creator of this backup';
+$string['userdataids'] = 'Included user data ids';

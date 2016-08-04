@@ -703,4 +703,144 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $this->templatesearch_listitems($searchresult, $layout);
     }
 
+    /**
+     * Render the backup information of a (course-) template
+     *
+     * @param object $backupinfo
+     * @return string
+     */
+    public function render_tpl_backup_info($backupinfo) {
+
+        $o = html_writer::tag('h4', get_string('backupinformation', 'block_mbstpl'));
+
+        $table = new html_table();
+
+        $course = get_string('unknowncourse', 'block_mbstpl', $backupinfo->origcourseid);
+        if ($backupinfo->origcourse) {
+            $linktext = $backupinfo->origcourse->fullname;
+            $url = new \moodle_url('/course/view.php', array('id' => $backupinfo->origcourse->id));
+
+            $course = html_writer::link($url, $linktext, array('target' => '_blank'));
+        }
+        $table->data[] = array(get_string('course'), $course);
+
+        $creator = get_string('unkowncreator', 'block_mbstpl');
+        if ($backupinfo->creator) {
+
+            if ($backupinfo->creator->deleted == 0) {
+                $text = fullname($backupinfo->creator);
+                $url = new \moodle_url('/user/profile.php', array('id' => $backupinfo->creator->id));
+                $creator = html_writer::link($url, $text, array('target' => '_blank'));
+            } else {
+                $creator = $backupinfo->creator->udfirstname . ' ' . $backupinfo->creator->udlastname;
+            }
+        }
+        $table->data[] = array(get_string('creator', 'block_mbstpl'), $creator);
+
+        $includeuserdata = ($backupinfo->includeuserdata == 1) ? get_string('yes') : get_string('no');
+        $table->data[] = array(get_string('containsuserdata', 'block_mbstpl'), $includeuserdata);
+
+        if (!empty($backupinfo->userdataids)) {
+            $table->data[] = array(get_string('userdataids', 'block_mbstpl'), $backupinfo->userdataids);
+        }
+
+        $o .= html_writer::table($table);
+
+        return $o;
+    }
+
+    /**
+     * Render a table for all backups available.
+     *
+     * @param array $files list of backup files.
+     * @return string
+     */
+    protected function render_files_table($courseid, $files, $whennofile, $showdelete = false) {
+
+        if (empty($files)) {
+            return $whennofile;
+        }
+
+        $table = new html_table();
+        $table->head = array(get_string('id', 'block_mbstpl'), get_string('timecreated', 'block_mbstpl'), get_string('filename', 'backup'));
+
+        $showdelete = ($showdelete && (count($files) > 1));
+
+        if ($showdelete) {
+            $table->head[] = get_string('action');
+        }
+
+        $count = 1;
+        foreach ($files as $file) {
+
+            $row = array($file->get_id(), userdate($file->get_timecreated()), $file->get_filename());
+
+            if ($showdelete && $count > 1) {
+                $params = array(
+                    'fileid' => $file->get_id(),
+                    'action' => 'deletebackupfile',
+                    'course' => $courseid,
+                    'sesskey' =>  sesskey()
+                );
+
+                $url = new moodle_url('/blocks/mbstpl/publishedbackup.php', $params);
+                $row[] = html_writer::link($url, get_string('delete'));
+            } else {
+                $row[] = '';
+            }
+
+            $table->data[] = $row;
+            $count++;
+        }
+
+        return html_writer::table($table);
+    }
+
+    /**
+     * Render the backup files overview. Note that backuped courses including userdata
+     * should have a backup file, that is created when the course is published.
+     *
+     * @param object $files
+     * @param object $backupinfo
+     * @param moodle_url $pageurl
+     * @return string
+     */
+    public function render_tpl_backupfiles($courseid, $files, $backupinfo, moodle_url $pageurl) {
+
+        $o = '';
+        $o .= html_writer::tag('h5', get_string('origbackupfile', 'block_mbstpl'));
+        $whennofile = html_writer::tag('div', get_string('notavailable', 'block_mbstpl'));
+        $o .= $this->render_files_table($courseid, $files->orgbackup, $whennofile);
+
+        $o .= html_writer::tag('h4', get_string('courseresetstrategy', 'block_mbstpl'));
+
+        if ($backupinfo->includeuserdata) {
+
+            $o .= html_writer::tag('div', get_string('coursebackupwithuserdata', 'block_mbstpl'));
+
+            $o .= html_writer::tag('h5', get_string('pubbackupfile', 'block_mbstpl'));
+
+            $whennofile = get_string('coursebackupnopubbackup', 'block_mbstpl');
+            $o .= $this->render_files_table($courseid, $files->pubbackup, $whennofile, true);
+
+            $pageurl->param('action', 'createnewbackupfile');
+            $o .= $this->output->single_button($pageurl, get_string('createanewbackupfile', 'block_mbstpl'));
+
+            if (!empty($files->pubbackup)) {
+
+                $o .= html_writer::tag('h5', get_string('dothecoursereset', 'block_mbstpl'));
+                $o .= html_writer::tag('div', get_string('courseresetwithuserdata', 'block_mbstpl'));
+                $pageurl->param('action', 'restorebackupfile');
+                $o .= $this->output->single_button($pageurl, get_string('restorebackupfile', 'block_mbstpl'));
+            }
+        } else {
+
+            $url = new moodle_url('/course/reset.php', array('id' => $courseid));
+            $link = html_writer::link($url, get_string('resetcourse'));
+            $o .= html_writer::tag('div', get_string('courseresetnouserdata', 'block_mbstpl', $link));
+        }
+
+        return $o;
+    }
+
 }

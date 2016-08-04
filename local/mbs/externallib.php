@@ -24,7 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once("$CFG->libdir/externallib.php");
+require_once($CFG->libdir.'/externallib.php');
+require_once($CFG->dirroot.'/user/externallib.php');
 
 /**
  * local mbs external functions
@@ -89,9 +90,12 @@ class local_mbs_external extends external_api {
         $user['username'] = trim(core_text::strtolower($user['username']));
     
         // Create the user data now!
-        $user['id'] = user_create_user($user, false, true);
+        $userid = user_create_user($user, false, true);
         
-        return array('id' => $user['id']);     
+        $newuser = $DB->get_record('user', array('id' => $userid));
+        $userdetails = user_get_user_details_courses($newuser);
+        
+        return array('user' => $userdetails);     
     }
     
     /**
@@ -129,16 +133,15 @@ class local_mbs_external extends external_api {
      * @return external_description
      */
     public static function local_mbs_create_user_returns() {
-        //return new external_value(core_user::get_property_type('id'), 'user id');
         return new external_function_parameters(
-            array('id' => new external_value(core_user::get_property_type('id'), 'user id'))
+            array('user' => \core_user_external::user_description())
         );
     }
     
     /**
      * Update a user with a user object (will compare against the ID)
      *
-     * @throws invalid_parameter_exception, moodle_exception
+     * @throws invalid_parameter_exception
      * @param stdClass $user The user to update.
      * @return int The user id.
      */
@@ -188,12 +191,11 @@ class local_mbs_external extends external_api {
         }
         
         // Update user.
-        $success = $DB->update_record('user', $user);
-        if ($success) {
-            return array('id' => $user['id']);  
-        } else {
-            throw new moodle_exception('User update failed.');
-        }
+        $DB->update_record('user', $user);
+        
+        $userupdated = $DB->get_record('user', array('id' => $user['id']));
+        $userdetails = user_get_user_details_courses($userupdated);        
+        return array('user' => $userdetails);   
     }
     
     /**
@@ -236,7 +238,7 @@ class local_mbs_external extends external_api {
      */
     public static function local_mbs_update_user_returns() {
         return new external_function_parameters(
-            array('id' => new external_value(core_user::get_property_type('id'), 'user id'))
+            array('user' => \core_user_external::user_description())
         );
     }
     

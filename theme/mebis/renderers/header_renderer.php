@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/lib/outputrenderers.php");
+require_once($CFG->dirroot . "/lib/navigationlib.php");
 require_once($CFG->dirroot . "/user/lib.php");
 require_once($CFG->dirroot . "/local/mbs/lib.php");
 
@@ -400,16 +401,16 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return string
      */
     protected function render_menubar_admin_menu() {
-
+        
         // Display
         if (!has_capability('moodle/site:config', context_system::instance())) {
             return '';
         }
 
-        $content = html_writer::start_tag('li', array('class' => 'admin-dropdown admin-string'));
+        $content = html_writer::start_tag('li', array('class' => 'admin-dropdown admin-string'));        
         $content .= html_writer::tag('strong', get_string('menu-administration-head', 'theme_mebis'));
         $content .= html_writer::end_tag('li');
-
+        
         $url = new moodle_url('/admin/index.php');
         $text = get_string('menu-administration-link', 'theme_mebis');
         $webadminlink = html_writer::link($url, $text, array('class' => 'internal'));
@@ -423,7 +424,7 @@ class theme_mebis_header_renderer extends renderer_base {
      * @global object $USER; 
      * @return string
      */
-    protected function render_menubar_user_menu() {
+    protected function render_menubar_user_menu($withtitle = false) {
         global $USER;
 
         $menu = new custom_menu('', current_language());
@@ -465,6 +466,14 @@ class theme_mebis_header_renderer extends renderer_base {
             $content .= $this->render_custom_menu_item($item);
         }
 
+        if ($withtitle) {
+            $title = get_string('menu-user', 'theme_mebis');
+            $titlemenu = html_writer::start_tag('li', array('class' => 'hiddennavnode'));
+            $titlemenu .= html_writer::tag('span', $title, array('class' => 'internal hiddennavbutton'));
+            $titlemenu .= html_writer::tag('ul', $content, array('class' => 'hiddennavleaf'));
+            $titlemenu .= html_writer::end_tag('li');
+            return $titlemenu;
+        }
         return $content;
     }
     
@@ -516,6 +525,27 @@ class theme_mebis_header_renderer extends renderer_base {
         return $content;
     }
 
+    
+    
+    /** Render all category specific settings.
+     * 
+     * @return String Html string of the menubar
+     */
+    protected function render_menubar_category_menu() {
+        global $PAGE;
+        $content = '';
+        $context = $PAGE->context;
+        if ($context->contextlevel != CONTEXT_COURSECAT) {
+            return '';
+        } 
+        $settingsnav = $PAGE->settingsnav;
+        if ($settingsnav instanceof navigation_node) {
+            $categorymenu = $this->generateMenuContentFor($settingsnav, array('Site administration'));
+            $content = $categorymenu;
+        }
+        return $content;        
+    }
+    
     /** Render all the course related administration stuff.
      * 
      * @return string
@@ -533,7 +563,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         if ($node instanceof navigation_node) {
 
-            $coursemenu = $this->generateMenuContentFor($node, array('siteadministration', 'usersettings'));
+            $coursemenu = $this->generateMenuContentFor($node, array('Site administration'));
 
             if ($coursemenu) {
                 $content = html_writer::start_tag('li', array('id' => 'coursedropdownmenu', 'class' => 'dropdown'));
@@ -558,6 +588,10 @@ class theme_mebis_header_renderer extends renderer_base {
         return $content;
     }
     
+    /** Render all block_mbstpl specific settings.
+     * 
+     * @return String Html string of the menubar
+     */
     protected function render_menubar_mbstpl_menu() {
         global $COURSE;
         $content = '';
@@ -647,7 +681,12 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // add menu containing user and website administration functions. 
         $adminmenu = $this->render_menubar_admin_menu();
-        $usermenu = $this->render_menubar_user_menu();
+        $withtitle = false;
+        $categorymenu = $this->render_menubar_category_menu();
+        if (!empty($categorymenu)) {
+            $withtitle = true;
+        }
+        $usermenu = $this->render_menubar_user_menu($withtitle);
 
         if (!empty($usermenu) || !empty($adminmenu)) {
             $content .= html_writer::start_tag('li', array('class' => 'dropdown'));
@@ -659,7 +698,7 @@ class theme_mebis_header_renderer extends renderer_base {
             $content .= html_writer::start_div('cogmenu');
             $content .= html_writer::start_div('dropdown-inner');
             $content .= html_writer::start_tag('ul', array('class' => 'me-subnav'));
-            $content .= $usermenu . $adminmenu;
+            $content .= $categorymenu. $usermenu . $adminmenu;
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('div');
             $content .= html_writer::end_tag('div');
@@ -720,7 +759,7 @@ class theme_mebis_header_renderer extends renderer_base {
                 // skip all nodes which contain one of the given $nodeFilter
                 $skipLink = false;
                 foreach ($nodeFilter as $filter) {
-                    if (false !== strpos($navchild->id, $filter)) {
+                    if (false !== strpos($navchild->text, $filter)) {
                         $skipLink = true;
                         break;
                     }

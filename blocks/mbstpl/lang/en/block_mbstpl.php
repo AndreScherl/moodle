@@ -322,8 +322,11 @@ $string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will re
 $string['yourrating'] = 'Your Rating';
 
 // New strings to be sorted in alphabetically, after translation.
+$string['addenrolmbs'] = 'Add a enrol mbs.';
+$string['advancedsearch'] = 'Advanced search';
 $string['backupcreated'] = 'Backup created';
 $string['backupinformation'] = 'Backup information';
+$string['configreset'] = 'Config reset';
 $string['courseresetstrategy'] = 'Course reset';
 $string['courseresetstrategydescription'] = 'Course reset';
 $string['coursebackupwithuserdata'] = '<p>This course template contains userdata. When other users are producing additional user data by testing the course,
@@ -343,6 +346,7 @@ $string['courseresetwithuserdata'] = '<p>Reset of the course will happen by adho
     click the button below</p>';
 $string['courseresetnouserdata'] = '<p>This course template contains <b>no userdata</b>.
     Reset of the course will be done by adhoc and scheduled tasks, that are resetting the course with standard setup, see: {$a}</p>';
+$string['course'] = 'Template course';
 $string['courserestored'] = 'Course successfully restored';
 $string['containsuserdata'] = 'Contains user data';
 $string['contentchanged'] = 'Content was changed';
@@ -356,6 +360,10 @@ $string['filedeleted'] = 'File deleted';
 $string['id'] = 'ID';
 $string['implementedownmodules'] = 'Modules checkable by own methods';
 $string['lastresettime'] = 'Time of last template reset';
+$string['nextruntime'] = 'Next run time';
+$string['nextruntimefrom'] = 'Next run time from';
+$string['nextruntimeto'] = 'till';
+$string['notaskavailable'] = 'No task';
 $string['notavailable'] = 'Not available';
 $string['nofiletorestoretemplate'] = 'There is no backup file to restore template (id: {$a})';
 $string['pubbackupfile'] = 'Published backup file';
@@ -363,10 +371,13 @@ $string['publishedbackup'] = 'Published template overview';
 $string['origbackupfile'] = 'Original backup file';
 $string['recentactivitymodules'] = 'Modules checkable by print_recent_activity';
 $string['restorebackupfile'] = 'Reset course by restoring newest backup file';
+$string['status'] = 'Status';
+$string['tasksoverview'] = 'Tasks overview';
 $string['templatereset'] = 'Resetting template';
 $string['timecreated'] = 'Time created';
 $string['uncheckedmodules'] = 'Unchecked modules';
 $string['unknowncourse'] = 'Unkown course (probably deleted), course id was: {$a}';
 $string['unkowncreator'] = 'Unkown creator of this backup';
 $string['userdataids'] = 'Included user data ids';
+$string['userdataincluded'] = 'Includes user data';
 $string['uncheckablemodules'] = 'Modules not checkable';

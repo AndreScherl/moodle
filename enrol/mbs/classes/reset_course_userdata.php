@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Adds new instance of enrol_mbs to specified course
- * or edits current instance.
+ * Reset courses using different methods depending on user data.
  *
  * @package    enrol_mbs
- * @copyright  2015 Janek Lasocki-Biczysko, Synergy Learning for ALP
+ * @copyright  2015 Janek Lasocki-Biczysko, Synergy Learning for ALP, 2016 Andreas Wagner ISB Bayern
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -113,7 +112,14 @@ class reset_course_userdata {
      * @param object $template
      * @throws \moodle_exception thrown, when no file  exists for restore.
      */
-    private static function restore_course_template($course, $template) {
+    public static function restore_course_template($course, $template) {
+
+         // Unenrol everybody.
+        $userenrolments = \block_mbstpl\course::get_all_enrolled_users($course->id);
+        if (!empty($userenrolments)) {
+            \block_mbstpl\course::unenrol($course->id, $userenrolments);
+        }
+
         // If there is no pubbk_ file send email to admins.
         try {
             \block_mbstpl\backup::restore_published($course->id, $template);

@@ -898,4 +898,19 @@ class block_mbstpl_renderer extends plugin_renderer_base {
 
           return html_writer::table($table);
     }
+
+    public function get_fullusername($firstname, $lastname) {
+
+        $parts = array();
+
+        if (!empty($firstname)) {
+            $parts[] = $firstname;
+        }
+        if (!empty($lastname)) {
+            $parts[] = $lastname;
+        }
+
+        return implode(', ', $parts);
+    }
+
 }

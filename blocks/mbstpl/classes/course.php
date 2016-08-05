@@ -172,12 +172,8 @@ class course {
         return $DB->delete_records('block_mbstpl_clicense', array('shortname' => $shortname));
     }
 
-    /**
-     * Returns the shortname of the status.
-     * @param $status
-     */
-    public static function get_statusshortname($status) {
-        $statuses = array(
+    public static function get_statuses() {
+        return array(
             dataobj\template::STATUS_CREATED => 'statuscreated',
             dataobj\template::STATUS_UNDER_REVIEW => 'statusunderreview',
             dataobj\template::STATUS_UNDER_REVISION => 'statusunderrevision',
@@ -185,6 +181,27 @@ class course {
             dataobj\template::STATUS_ARCHIVED => 'statusarchived',
             dataobj\template::STATUS_ASSIGNED_REVIEWER => 'statusassignedreviewer'
         );
+    }
+
+    public static function get_statuses_menu() {
+
+        $menu = array();
+        $statuses =self::get_statuses();
+
+        foreach($statuses as $key => $shortname) {
+            $menu[$key] = get_string($shortname, 'block_mbstpl');
+        }
+
+        asort($menu);
+        return $menu;
+    }
+
+    /**
+     * Returns the shortname of the status.
+     * @param $status
+     */
+    public static function get_statusshortname($status) {
+        $statuses =self::get_statuses();
         return $statuses[$status];
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -30,26 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 
 class reset_course_userdata {
 
-    /**
-     * Resets the user data for a course that was created from a template
-     *
-     * @param int $courseid
-     */
-    public static function reset_course_from_template($courseid) {
+    private static function reset_course_userdata($course) {
         global $DB, $CFG;
 
-        $template = \block_mbstpl\dataobj\template::get_from_course($courseid);
-        if (!$template) {
-            throw new \moodle_exception('errorunabletoresetnontemplate', 'enrol_mbs');
-        }
-        if ($template->status != $template::STATUS_PUBLISHED) {
-            return;
-        }
-        
-        $course = get_course($courseid);
-
         $data = array(
-            'id' => $courseid,
+            'id' => $course->id,
             'reset_events' => true,
             'reset_notes' => true,
             'delete_blog_associations' => true,
@@ -93,4 +77,88 @@ class reset_course_userdata {
 
         reset_course_userdata($data);
     }
+
+    /**
+     * Check whether there where auto enrolled users in the course.
+     * If not do no reset.
+
+     * @return boolean true, if there are new users.
+     */
+    private static function has_auto_enrolled_users($courseid) {
+        global $DB;
+
+        $sql = "SELECT count(*)
+                FROM {user_enrolments} ue
+                JOIN mdl_enrol e on e.id = ue.enrolid
+                AND e.courseid = :courseid
+                AND e.enrol = :enrol ";
+
+        $params = array(
+            'courseid' => $courseid,
+            'enrol' => 'mbstplaenrl'
+        );
+
+        $countenrolments = $DB->count_records_sql($sql, $params);
+
+        if ($countenrolments == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Restore the template by using a public backup file.
+     *
+     * @param int $course
+     * @param object $template
+     * @throws \moodle_exception thrown, when no file  exists for restore.
+     */
+    private static function restore_course_template($course, $template) {
+        // If there is no pubbk_ file send email to admins.
+        try {
+            \block_mbstpl\backup::restore_published($course->id, $template);
+        } catch (\moodle_exception $e) {
+            \block_mbstpl\notifications::notify_error('errordeploying', $e);
+            throw $e;
+        }
+    }
+
+    /**
+     * Resets the user data for a course that was created from a template
+     *
+     * @param int $courseid
+     */
+    public static function reset_course_from_template($courseid) {
+
+        $template = \block_mbstpl\dataobj\template::get_from_course($courseid);
+        if (!$template) {
+            throw new \moodle_exception('errorunabletoresetnontemplate', 'enrol_mbs');
+        }
+        if ($template->status != $template::STATUS_PUBLISHED) {
+            return;
+        }
+        // When there was no enrolment with tutor author enrol since last reset, do no new reset.
+        $hasautoenrolled = self::has_auto_enrolled_users($courseid);
+        if (!$hasautoenrolled) {
+            return;
+        }
+
+        // Get the backup to given template to select restore strategy.
+        $backup = new \block_mbstpl\dataobj\backup(array('id' => $template->backupid), true, MUST_EXIST);
+        $course = get_course($courseid);
+
+        if ($backup->incluserdata == 0) {
+            // If there is no userdata in the course, do a standard course reset.
+            self::reset_course_userdata($course);
+        } else {
+            // Try to detect, whether there are changes made, during the last reset.
+            if (self::has_course_content_changed($course, $template->lastresettime)) {
+                self::restore_course_template($course, $template);
+            }
+        }
+
+        // Log last template reset.
+        $template->store_last_reset_time(time());
+    }
+
 }

@@ -838,6 +838,7 @@ class backup {
 
     /**
      * Create a backup for a template.
+     *
      * @param \block_mbstpl\dataobj\backup $backup
      * @return string filename or throws error on failure
      */
@@ -853,7 +854,7 @@ class backup {
         $filename = self::PREFIX_PUBLISHED . $courseid . '.mbz';
 
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
-        $filepath = $dir.'/'.$tempfilename;
+        $filepath = $dir . '/' . $tempfilename;
 
         $fs = get_file_storage();
         $context = \context_system::instance();
@@ -873,8 +874,15 @@ class backup {
         return $filename;
     }
 
-     public static function restore_published($courseid, dataobj\template $template) {
-        global $CFG, $USER;
+    /**
+     * Restore a published template into the this course.
+     *
+     * @param int $courseid the course to restore into, content will be deleted!
+     * @param \block_mbstpl\dataobj\template $template
+     * @throws \moodle_exception
+     */
+    public static function restore_published($courseid, dataobj\template $template) {
+        global $CFG;
 
         $context = \context_system::instance();
 
@@ -882,20 +890,20 @@ class backup {
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'block_mbstpl', 'pubbackups', $courseid, 'timecreated DESC', false);
         if (empty($files)) {
-            throw new \moodle_exception('nofiletorestore');
+            throw new \moodle_exception('nofiletorestoretemplate', 'block_mbstpl', '', $courseid);
         }
 
         $file = reset($files);
 
         $dir = $CFG->dataroot . '/' . course::BACKUP_LOCALPATH . '/backup';
-        $tempfilename = self::PREFIX_PUBLISHED . $courseid .'_'.time().'.mbz';
-        $filepath = $dir.'/'.$tempfilename;
+        $tempfilename = self::PREFIX_PUBLISHED . $courseid . '_' . time() . '.mbz';
+        $filepath = $dir . '/' . $tempfilename;
 
-        $file-> copy_content_to($filepath);
+        $file->copy_content_to($filepath);
 
-        $cid = self::launch_secondary_restore($template, $tempfilename, 0, $courseid, true);
+        self::launch_secondary_restore($template, $tempfilename, 0, $courseid, true);
 
-
-     }
+        $template->store_last_reset_time(time());
+    }
 
 }

@@ -109,6 +109,7 @@ if (($action == 'deletebackupfile') and (confirm_sesskey())) {
 // Get all available backup files.
 $backupfiles = $template->get_backup_files($courseid);
 $backupinfo = $backup->get_backup_info();
+$resettemplateinfo = $template->get_template_reset_info($course);
 
 $PAGE->set_context($coursecontext);
 $pagetitle = get_string('publishedbackup', 'block_mbstpl');
@@ -118,10 +119,10 @@ echo $OUTPUT->header();
 
 $renderer = mbst\course::get_renderer();
 
-
 echo html_writer::tag('h2', $pagetitle);
 
 echo $renderer->render_tpl_backup_info($backupinfo);
 echo $renderer->render_tpl_backupfiles($course->id, $backupfiles, $backupinfo, $thisurl);
+echo $renderer->render_tpl_reset_info($resettemplateinfo);
 
 echo $OUTPUT->footer();

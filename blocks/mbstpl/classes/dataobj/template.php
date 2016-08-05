@@ -83,6 +83,7 @@ class template extends base {
         'rating' => null,
         'reminded' => 0,
         'excludedeploydataids' => '',
+        'lastresettime' => 0
     );
 
     /* @var int Course id  */
@@ -117,6 +118,9 @@ class template extends base {
 
     /** @var string */
     public $excludedeploydataids;
+
+    /** @var int */
+    public $lastresettime;
 
     /**
      * Set the table name here.
@@ -266,6 +270,12 @@ class template extends base {
         return explode(',', $this->excludedeploydataids);
     }
 
+    public function store_last_reset_time($time) {
+
+        $this->lastresettime = $time;
+        $this->update_notouch();
+    }
+
     /**
      * Get all the backup files existing for this template.
      * Note that the may be more than one template using the same origbpk_ file.
@@ -283,6 +293,47 @@ class template extends base {
         $result->pubbackup = $fs->get_area_files($context->id, 'block_mbstpl', 'pubbackups', $courseid, 'timecreated DESC', false);
 
         return $result;
+    }
+
+    public function get_template_reset_info($course) {
+
+        $info = new \stdClass();
+        $info->lastresettime = $this->lastresettime;
+
+        // Check, whether there are changes in course.
+        $modulesunchecked = array();
+        $contentchanged = \block_mbstpl\course::has_course_content_changed($course, $this->lastresettime, $modulesunchecked);
+
+        $info->contentchanged = array();
+        if ($contentchanged) {
+            $info->contentchanged = array_keys($contentchanged);
+        }
+
+        $info->modulesunchecked = array();
+        if ($modulesunchecked) {
+            $info->modulesunchecked = array_keys($modulesunchecked);
+        }
+
+        $modules = get_plugin_list_with_function('mod', 'print_recent_activity');
+
+        $recentactivitymodules = array();
+        foreach ($modules as $name => $function) {
+            $key = substr($name, 4);
+            $recentactivitymodules[$key] = 1;
+        }
+
+        // Modules with print_recent activity function.
+        $info->recentactivitymodules = $recentactivitymodules;
+
+        // All modules.
+        $modulesnames = get_module_types_names();
+        $implemented = \block_mbstpl\course::get_implemented_has_changed_modules();
+        $info->implementedmodules = $implemented;
+
+        $uncheckablesmodules = array_diff_key($modulesnames, $recentactivitymodules, $implemented);
+        $info->uncheckablemodules = array_keys($uncheckablesmodules);
+
+        return $info;
     }
 
 }

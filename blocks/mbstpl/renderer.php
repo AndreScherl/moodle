@@ -773,7 +773,13 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $count = 1;
         foreach ($files as $file) {
 
-            $row = array($file->get_id(), userdate($file->get_timecreated()), $file->get_filename());
+            $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(),
+            $file->get_component(), $file->get_filearea(), $file->get_itemid(),
+            $file->get_filepath(), $file->get_filename(), true);
+
+            $filename = html_writer::link($fileurl, $file->get_filename());
+
+            $row = array($file->get_id(), userdate($file->get_timecreated()), $filename);
 
             if ($showdelete && $count > 1) {
                 $params = array(
@@ -843,4 +849,53 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         return $o;
     }
 
+    public function render_tpl_reset_info($resetinfo) {
+
+          $table = new html_table();
+
+          $resettime = get_string('never');
+          if ($resetinfo->lastresettime > 0) {
+              $resettime = userdate($resetinfo->lastresettime);
+          }
+          $table->data[] = array(get_string('lastresettime', 'block_mbstpl'), $resettime);
+
+          if (!$resetinfo->contentchanged) {
+              $contentchanged = html_writer::tag('span', get_string('no'), array('class' => 'notifysuccess bold'));
+          } else {
+              $contentchanged = html_writer::tag('span', implode(', ',$resetinfo->contentchanged), array('class' => 'notifyproblem bold'));
+          }
+
+          $table->data[] = array(get_string('contentchanged', 'block_mbstpl'), $contentchanged);
+
+          $uncheckedmodules = get_string('none');
+          if (!empty($resetinfo->modulesunchecked)) {
+              $uncheckedmodules = implode(', ', $resetinfo->modulesunchecked);
+          }
+
+          $table->data[] = array(get_string('uncheckedmodules', 'block_mbstpl'), $uncheckedmodules);
+
+          $checkedablemodules = get_string('none');
+          if (!empty($resetinfo->recentactivitymodules)) {
+              $checkedablemodules = implode(', ', array_keys($resetinfo->recentactivitymodules));
+          }
+
+          $table->data[] = array(get_string('recentactivitymodules', 'block_mbstpl'), $checkedablemodules);
+
+          $implementedownmodules = get_string('none');
+          if (!empty($resetinfo->implementedmodules)) {
+              $implementedownmodules = implode(', ', $resetinfo->implementedmodules);
+          }
+
+          $table->data[] = array(get_string('implementedownmodules', 'block_mbstpl'), $implementedownmodules);
+
+
+          $uncheckablemodules = get_string('none');
+          if (!empty($resetinfo->uncheckablemodules)) {
+              $uncheckablemodules = implode(', ', $resetinfo->uncheckablemodules);
+          }
+
+          $table->data[] = array(get_string('uncheckablemodules', 'block_mbstpl'), $uncheckablemodules);
+
+          return html_writer::table($table);
+    }
 }

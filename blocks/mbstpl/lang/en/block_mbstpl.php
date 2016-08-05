@@ -334,15 +334,18 @@ $string['coursebackupnopubbackup'] = '<p><b>No (published) backup file?</b></p><
     you may create a new one:
     <ul>
     <li>Switch the visibility of the course to off</li>
-    <li>Be sure to remove all the data, that should not be restored later on</li>
+    <li>Be sure to remove all the data, that should not be restored later on, when possible restore course content from latest template backup</li>
     <li>Click the button to backup the course. This will:<ul>
-    <li>Unenrol all users</li><li>Backup the course to pubbkp_[number of course].mbz</li></ul></ul>';
+    <li>Backup the course to pubbkp_[number of course].mbz</li></ul>
+    <li>Switch visibility to on</li>
+    </ul>';
 $string['courseresetwithuserdata'] = '<p>Reset of the course will happen by adhoc and scheduled tasks, if you want to reset the course immediately (by restoring a published backup), just
     click the button below</p>';
 $string['courseresetnouserdata'] = '<p>This course template contains <b>no userdata</b>.
     Reset of the course will be done by adhoc and scheduled tasks, that are resetting the course with standard setup, see: {$a}</p>';
 $string['courserestored'] = 'Course successfully restored';
 $string['containsuserdata'] = 'Contains user data';
+$string['contentchanged'] = 'Content was changed';
 $string['createanewbackupfile'] = 'Create a new backup file to use for course reset.';
 $string['createpublishedbackup'] = 'Create a new published backup file';
 $string['creator'] = 'Creator of backup';
@@ -351,13 +354,19 @@ $string['deletebackupfiledesc'] = 'Do you really want to delete the file: {$a}?'
 $string['dothecoursereset'] = 'Do the course reset';
 $string['filedeleted'] = 'File deleted';
 $string['id'] = 'ID';
+$string['implementedownmodules'] = 'Modules checkable by own methods';
+$string['lastresettime'] = 'Time of last template reset';
 $string['notavailable'] = 'Not available';
+$string['nofiletorestoretemplate'] = 'There is no backup file to restore template (id: {$a})';
 $string['pubbackupfile'] = 'Published backup file';
 $string['publishedbackup'] = 'Published template overview';
 $string['origbackupfile'] = 'Original backup file';
+$string['recentactivitymodules'] = 'Modules checkable by print_recent_activity';
 $string['restorebackupfile'] = 'Reset course by restoring newest backup file';
 $string['templatereset'] = 'Resetting template';
 $string['timecreated'] = 'Time created';
+$string['uncheckedmodules'] = 'Unchecked modules';
 $string['unknowncourse'] = 'Unkown course (probably deleted), course id was: {$a}';
 $string['unkowncreator'] = 'Unkown creator of this backup';
 $string['userdataids'] = 'Included user data ids';
+$string['uncheckablemodules'] = 'Modules not checkable';

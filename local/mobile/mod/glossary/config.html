@@ -1,0 +1,297 @@
+<?php 
+    $yes = get_string("yes");
+    $no  = get_string("no");
+?>
+<form method="post" action="module.php" name="form">
+
+<table cellpadding=9 cellspacing=0 >
+<tr valign=top>
+    <td colspan = 3 align=center><strong><?php print_string("glossaryleveldefaultsettings","glossary") ?></strong></td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_entbypage:</td>
+    <td>
+    <input name=glossary_entbypage type=text size=3 value="<?php p(isset($CFG->glossary_entbypage) ? $CFG->glossary_entbypage : 10) ?>">
+    </td>
+    <td>
+    <?php print_string("entbypage", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_studentspost:</td>
+    <td>
+    <SELECT size=1 name=glossary_studentspost>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_studentspost) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnfstudentcanpost", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_dupentries:</td>
+    <td>
+    <SELECT size=1 name=glossary_dupentries>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_dupentries) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnfallowdupentries", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_allowcomments:</td>
+    <td>
+    <SELECT size=1 name=glossary_allowcomments>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_allowcomments) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnfallowcomments", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_linkbydefault:</td>
+    <td>
+    <SELECT size=1 name=glossary_linkbydefault>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_linkbydefault) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnflinkglossaries", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_defaultapproval:</td>
+    <td>
+    <SELECT size=1 name=glossary_defaultapproval>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_defaultapproval) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnfapprovalstatus", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td colspan = 3 align=center><strong><?php print_string("entryleveldefaultsettings","glossary") ?></strong></td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_linkentries:</td>
+    <td>
+    <SELECT size=1 name=glossary_linkentries>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_linkentries) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnflinkentry", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_casesensitive:</td>
+    <td>
+    <SELECT size=1 name=glossary_casesensitive>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_casesensitive) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnfcasesensitive", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align=right><p>glossary_fullmatch:</td>
+    <td>
+    <SELECT size=1 name=glossary_fullmatch>
+<?php 
+    $yselected = "";
+    $nselected = "";
+    if ($CFG->glossary_fullmatch) {
+        $yselected = " SELECTED ";
+    } else {
+        $nselected = " SELECTED ";
+    }
+?>
+    <OPTION value=1 <?php p($yselected) ?>><?php p($yes)?></OPTION>
+    <OPTION value=0 <?php p($nselected) ?>><?php p($no)?></OPTION>
+    </SELECT>
+    </td>
+    <td>
+    <?php print_string("cnffullmatch", "glossary") ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td colspan = 3 align=center><a name=formats><strong><?php print_string("displayformatssetup","glossary") ?></strong></td>
+</tr>
+<tr>
+    <td colspan=3 align=center>
+<?php
+    if ( !$displayformat = get_record("glossary_displayformats","fid",0) ) {
+        unset($displayformat);
+        $displayformat->fid = 0;
+        $displayformat->relatedview = 0;
+        $displayformat->visible = 1;
+        $displayformat->id = insert_record("glossary_displayformats",$displayformat);
+    }
+    if ( !$displayformat = get_record("glossary_displayformats","fid",1) ) {
+        unset($displayformat);
+        $displayformat->fid = 1;
+        $displayformat->relatedview = 1;
+        $displayformat->visible = 1;
+        $displayformat->id = insert_record("glossary_displayformats",$displayformat);
+    }
+
+    $formats = array();
+    $formats[0] = get_string("displayformatdefault", "glossary");
+    $formats[1] = get_string("displayformatcontinuous", "glossary");
+
+    $basedir = opendir("$CFG->dirroot/mod/glossary/formats");
+    while ($dir = readdir($basedir)) {
+        $firstchar = substr($dir, 0, 1);
+        if ($firstchar == "." or $dir == "CVS" or $dir == "_vti_cnf") {
+            continue;
+        }
+        if (filetype("$CFG->dirroot/mod/glossary/formats/$dir") == "dir") {
+            continue;
+        }
+        if ( $pos = strpos($dir, ".") ) {
+            $dir = substr($dir, 0, $pos );
+            if ($dir != 0 and $dir != 1) {  // excluding basic formats
+                if ( !$displayformat = get_record("glossary_displayformats","fid",$dir) ) {
+                    unset($displayformat);
+                    $displayformat->fid = $dir;
+                    $displayformat->relatedview = $dir;
+                    $displayformat->visible = 1;
+                    $displayformat->id = insert_record("glossary_displayformats",$displayformat);
+                }
+                $formats[$dir] = get_string("displayformat$dir", "glossary");
+            }
+        }
+    }
+    asort($formats);
+
+    echo '<table cellpadding="5" bgcolor="#FFFFFF" class="generaltab" width="40%" align="center">';
+    for ($i = 0; $i < count($formats); $i++) {
+        if ( $formats[$i] ) {
+            $format = get_record("glossary_displayformats","fid",$i);
+            echo '<tr>';
+                echo '<td>' . $formats[$i] . '</td>';
+                $eicon = "<a title=\"" . get_string("edit") . "\" href=\"$CFG->wwwroot/mod/glossary/formats.php?id=$i&mode=edit\"><img border=\"0\" src=\"../pix/t/edit.gif\"></a>";
+                if ( $format->visible ) {
+                    $vtitle = get_string("hide");
+                    $vicon = "hide.gif";
+                } else {
+                    $vtitle = get_string("show");
+                    $vicon = "show.gif";
+                }
+                $vicon = "<a title=\"" . $vtitle . "\" href=\"$CFG->wwwroot/mod/glossary/formats.php?id=$i&mode=visible\"><img border=\"0\" src=\"../pix/t/" . $vicon . "\"></a>";
+
+                echo '<td align="center"> ' . $eicon . '&nbsp;&nbsp;' . $vicon . '</td>';
+            echo '</tr>';
+        }
+    }
+    echo '</table>';
+
+?>
+
+	</td>
+</tr>
+<tr valign=top>
+        <td align=right><p>glossary_enablerssfeeds:</td>
+        <td>
+    <?php
+        if ($CFG->enablerssfeeds == 0) {
+            print_string("no");
+        } else {
+            unset($options);
+            $options[0] = get_string("no");
+            $options[1] = get_string("yes");
+
+            choose_from_menu ($options, "glossary_enablerssfeeds", $CFG->glossary_enablerssfeeds, "", "", "");
+        }
+    ?>
+    </td>
+    <td>
+    <?php
+        print_string("configenablerssfeeds","glossary");
+        if ($CFG->enablerssfeeds == 0) {
+            print_string("configenablerssfeedsdisabled");
+        }
+    ?>
+    </td>
+</tr>
+<tr>
+    <td colspan=3 align=center>
+	<input type="submit" value="<?php print_string("savechanges") ?>"></td>
+</tr>
+</table>
+
+</form>

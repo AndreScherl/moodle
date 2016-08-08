@@ -105,7 +105,7 @@ class theme_mebis_core_course_renderer extends theme_bootstrap_core_course_rende
 
         if (can_edit_in_category($category)) {
             // Add 'Manage' button if user has permissions to edit this category.
-            $managebutton = $this->single_button(new moodle_url('/course/management.php'), get_string('managecourses'), 'get');
+            $managebutton = $this->single_button(new moodle_url('/course/management.php', array('categoryid' => $coursecat->id)), get_string('managecourses'), 'get');
             $this->page->set_button($managebutton);
         }
         /* awag: Don't use the category select element.

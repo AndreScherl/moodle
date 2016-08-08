@@ -1,0 +1,228 @@
+<?PHP
+    // Make sure all variables are defined
+    if (!isset($form->showreports)) {
+        $form->showreports = 0;
+    }
+    if (!isset($form->maxbytes)) {
+        $form->maxbytes = 0;
+    }
+    if (!isset($form->hiddensections)) {
+        $form->hiddensections = 0;
+    }
+    if (!isset($form->lang)) {
+        $form->lang = '';
+    }
+?>
+<FORM METHOD="post" action="edit.php" NAME="form">
+<table cellpadding=9 cellspacing=0 >
+<tr valign=top>
+    <td align="right"><P><?php  print_string("category") ?>:</td>
+    <td><?php
+           $displaylist = array();
+           $parentlist = array();
+           make_categories_list($displaylist, $parentlist);
+           choose_from_menu($displaylist, "category", "$form->category", "");
+           helpbutton("coursecategory", get_string("category"));
+        ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("fullname") ?>:</td>
+    <td><input type="text" name="fullname" maxlength="254" size=50 value="<?php  p($form->fullname) ?>">
+    <?php  helpbutton("coursefullname", get_string("fullname")) ?>
+    <?php  if (isset($err["fullname"])) formerr($err["fullname"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("shortname") ?>:</td>
+    <td><input type="text" name="shortname" maxlength="15"  size="10" value="<?php  p($form->shortname) ?>">
+    <?php  helpbutton("courseshortname", get_string("shortname")) ?>
+    <?php  if (isset($err["shortname"])) formerr($err["shortname"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("summary") ?>:</td>
+    <td><?php
+        print_textarea($usehtmleditor, 10, 50, 660, 200, "summary", $form->summary);
+        helpbutton("text", get_string("helptext"));
+        if (isset($err["summary"])) formerr($err["summary"]);
+    ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("format") ?>:</td>
+    <td><?php
+           choose_from_menu ($form->courseformats, "format", "$form->format", "");
+           helpbutton("courseformats", get_string("courseformats"));
+        ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("startdate") ?>:</td>
+    <td><?php
+           print_date_selector("startday", "startmonth", "startyear", $form->startdate);
+           helpbutton("coursestartdate", get_string("startdate"));
+    ?></td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("numberweeks") ?>:</td>
+    <td><?php
+           for ($i=1; $i<=52; $i++) {
+              $sectionmenu[$i] = "$i";
+           }
+           choose_from_menu ($sectionmenu, "numsections", "$form->numsections", "");
+           helpbutton("coursenumsections", get_string("numberweeks"));
+    ?></td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("groupmode") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices[NOGROUPS] = get_string("groupsnone");
+    $choices[SEPARATEGROUPS] = get_string("groupsseparate");
+    $choices[VISIBLEGROUPS] = get_string("groupsvisible");
+    choose_from_menu ($choices, "groupmode", $form->groupmode, "");
+    helpbutton("groupmode", get_string("groupmode"));
+
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;';
+    print_string('force');
+    echo ': ';
+    unset($choices);
+    $choices["0"] = get_string("no");
+    $choices["1"] = get_string("yes");
+    choose_from_menu ($choices, "groupmodeforce", $form->groupmodeforce, "");
+    helpbutton("groupmodeforce", get_string("groupmodeforce")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("availability") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices["0"] = get_string("courseavailablenot");
+    $choices["1"] = get_string("courseavailable");
+    choose_from_menu ($choices, "visible", $form->visible, "");
+    helpbutton("courseavailability", get_string("availability")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("enrolmentkey") ?>:</td>
+    <td><input type="text" name="password" size=25 value="<?php  p($form->password) ?>">
+    <?php  helpbutton("enrolmentkey", get_string("enrolmentkey")) ?>
+    <?php  if (isset($err["password"])) formerr($err["password"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("opentoguests") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices["0"] = get_string("guestsno");
+    $choices["1"] = get_string("guestsyes");
+    $choices["2"] = get_string("guestskey");
+    choose_from_menu ($choices, "guest", $form->guest, "");
+    helpbutton("guestaccess", get_string("opentoguests")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("hiddensections") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices["0"] = get_string("hiddensectionscollapsed");
+    $choices["1"] = get_string("hiddensectionsinvisible");
+    choose_from_menu ($choices, "hiddensections", $form->hiddensections, "");
+    helpbutton("coursehiddensections", get_string("hiddensections")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("newsitemsnumber") ?>:</td>
+    <td><?php
+       $newsitem = get_string("newsitem");
+       $newsitems = get_string("newsitems");
+
+       $options = array("0" => "0 $newsitems",
+                        "1" => "1 $newsitem",
+                        "2" => "2 $newsitems",
+                        "3" => "3 $newsitems",
+                        "4" => "4 $newsitems",
+                        "5" => "5 $newsitems",
+                        "6" => "6 $newsitems",
+                        "7" => "7 $newsitems",
+                        "8" => "8 $newsitems",
+                        "9" => "9 $newsitems",
+                        "10" => "10 $newsitems");
+       choose_from_menu ($options, "newsitems", "$form->newsitems", "");
+       helpbutton("coursenewsitems", get_string("newsitemsnumber"));
+    ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("showgrades") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices["0"] = get_string("no");
+    $choices["1"] = get_string("yes");
+    choose_from_menu ($choices, "showgrades", $form->showgrades, "");
+    helpbutton("coursegrades", get_string("grades")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("showreports") ?>:</td>
+    <td><?php
+    unset($choices);
+    $choices["0"] = get_string("no");
+    $choices["1"] = get_string("yes");
+    choose_from_menu ($choices, "showreports", $form->showreports, "");
+    helpbutton("coursereports", get_string("activityreport")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("maximumupload") ?>:</td>
+    <td><?php
+    $choices = get_max_upload_sizes($CFG->maxbytes);
+    choose_from_menu ($choices, "maxbytes", $form->maxbytes, "");
+    helpbutton("courseuploadsize", get_string("maximumupload")); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("wordforteacher") ?>:</td>
+    <td><input type="text" name="teacher" maxlength="100" size=25 value="<?php  p($form->teacher) ?>">
+    (<?php  print_string("wordforteachereg") ?>)
+    <?php  if (isset($err["teacher"])) formerr($err["teacher"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("wordforteachers") ?>:</td>
+    <td><input type="text" name="teachers" maxlength="100" size=25 value="<?php  p($form->teachers) ?>">
+    (<?php  print_string("wordforteacherseg") ?>)
+    <?php  if (isset($err["teachers"])) formerr($err["teachers"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("wordforstudent") ?>:</td>
+    <td><input type="text" name="student" maxlength="100" size=25 value="<?php  p($form->student) ?>">
+    (<?php  print_string("wordforstudenteg") ?>)
+    <?php  if (isset($err["student"])) formerr($err["student"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("wordforstudents") ?>:</td>
+    <td><input type="text" name="students" maxlength="100" size=25 value="<?php  p($form->students) ?>">
+    (<?php  print_string("wordforstudentseg") ?>)
+    <?php  if (isset($err["students"])) formerr($err["students"]); ?>
+    </td>
+</tr>
+<tr valign=top>
+    <td align="right"><P><?php  print_string("forcelanguage") ?>:</td>
+  <td>
+    <?php
+        $languages[''] = get_string("forceno");
+        $languages += get_list_of_languages();
+        choose_from_menu ($languages, "lang", $form->lang, "", "", "");
+    ?>
+    </td>
+</tr>
+<tr>
+    <td></td>
+    <td><input type="submit" value="<?php  print_string("savechanges") ?>"></td>
+</table>
+<input type="hidden" name="id" value="<?php echo $form->id ?>">
+</form>

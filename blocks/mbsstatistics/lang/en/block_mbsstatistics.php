@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * English text
  *
  * @package    block_mbsstatistics
  * @copyright  René Egger <rene.egger@isb.bayern.de>
@@ -25,5 +25,4 @@
 $string['displayname'] = 'Statistics';
 $string['pluginname'] = 'mebis Statistics';
 $string['mbsstatistics:addinstance'] = 'Add a mbsstatistics block';
-$string['mbsstatistics:moveblock'] = 'Move Statistics';
 $string['mbsstatistics:myaddinstance'] = 'Add a mbsstatistics block to my moodle';

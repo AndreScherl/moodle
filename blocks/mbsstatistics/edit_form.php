@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
  *
  * @package    block_mbsstatistics
  * @copyright  René Egger <rene.egger@isb.bayern.de>

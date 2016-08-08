@@ -100,7 +100,7 @@ class course {
 
             if (perms::can_createdpublishedbackup($template, $coursecontext)) {
                 $url = new \moodle_url('/blocks/mbstpl/publishedbackup.php', array('course' => $cid));
-                $tplnode->add(get_string('templatereset', 'block_mbstpl'), $url, get_string('templatereset', 'block_mbstpl'));
+                $menu->add(get_string('templatereset', 'block_mbstpl'), $url, get_string('templatereset', 'block_mbstpl'));
             }
         }
 

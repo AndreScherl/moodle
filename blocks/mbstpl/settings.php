@@ -70,7 +70,7 @@ if ($ADMIN->fulltree) {
                                                   get_string('tplremindafter', 'block_mbstpl'),
                                                   get_string('tplremindafter_desc', 'block_mbstpl'),
                                                   DAYSECS * 180, DAYSECS));
-    
+
     $settings->add(new admin_setting_configtext('block_mbstpl/searchpagesize',
                                                   get_string('searchpagesize', 'block_mbstpl'), null, 15, PARAM_INT));
 
@@ -87,5 +87,8 @@ $category->add('block_mbstpl', new admin_externalpage('blockmbstplmanagesearch',
 
 $category->add('block_mbstpl', new admin_externalpage('blockmbstplmanageqforms',
     get_string('manageqforms', 'block_mbstpl'), "$CFG->wwwroot/blocks/mbstpl/questman/index.php"));
+
+$category->add('block_mbstpl', new admin_externalpage('blockmbstpltasks',
+    get_string('tasksoverview', 'block_mbstpl'), "$CFG->wwwroot/blocks/mbstpl/taskoverview.php"));
 
 unset($category);

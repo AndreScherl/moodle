@@ -30,7 +30,7 @@ function block_mbstpl_pluginfile($course, $cm, $context, $filearea, $args, $forc
     $itemid = (int)array_shift($args);
     $filename = array_pop($args);
 
-    if ($filearea == 'backups' && $context->contextlevel == CONTEXT_SYSTEM) {
+    if ((($filearea == 'backups') || ($filearea == 'pubbackups')) && ($context->contextlevel == CONTEXT_SYSTEM)) {
         // If downloading backups.
         if (!mbst\perms::can_viewbackups()) {
             return false;

@@ -310,7 +310,7 @@ class perms {
     public static function can_viewabout($coursecontext) {
         return has_capability('block/mbstpl:createcoursefromtemplate', $coursecontext);
     }
-    
+
     /**
      * Tells us whether the current user can delete the template.
      * @param dataobj\template
@@ -318,7 +318,7 @@ class perms {
      */
     public static function can_delete(dataobj\template $template) {
         global $USER;
-        
+
         if (is_siteadmin()) {
             return true;
         }
@@ -326,6 +326,28 @@ class perms {
         $tplinreview = !($template->status == $template::STATUS_PUBLISHED) && !($template->status == $template::STATUS_ARCHIVED);
         if ($template->reviewerid == $USER->id && $tplinreview) {
             return true;
+        }
+
+        $coursecontext = \context_course::instance($template->courseid);
+        return has_capability('block/mbstpl:coursetemplatemanager', $coursecontext);
+    }
+
+    /**
+     * Tells us whther we can create a new published backup file. This backup file is
+     * create the first time, when the course is published. When a course-template,
+     * which contains user data is resetted, we restore from this file.
+     *
+     * @param type $template
+     * @param type $coursecontext
+     */
+    public static function can_createdpublishedbackup($template, $coursecontext) {
+
+        if (is_siteadmin()) {
+            return true;
+        }
+
+        if ($template->status != $template::STATUS_PUBLISHED) {
+            return false;
         }
 
         $coursecontext = \context_course::instance($template->courseid);

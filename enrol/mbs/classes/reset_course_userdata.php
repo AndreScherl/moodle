@@ -88,7 +88,7 @@ class reset_course_userdata {
 
         $sql = "SELECT count(*)
                 FROM {user_enrolments} ue
-                JOIN mdl_enrol e on e.id = ue.enrolid
+                JOIN {enrol} e on e.id = ue.enrolid
                 AND e.courseid = :courseid
                 AND e.enrol = :enrol ";
 
@@ -143,6 +143,7 @@ class reset_course_userdata {
         if ($template->status != $template::STATUS_PUBLISHED) {
             return;
         }
+
         // When there was no enrolment with tutor author enrol since last reset, do no new reset.
         $hasautoenrolled = self::has_auto_enrolled_users($courseid);
         if (!$hasautoenrolled) {
@@ -158,7 +159,9 @@ class reset_course_userdata {
             self::reset_course_userdata($course);
         } else {
             // Try to detect, whether there are changes made, during the last reset.
-            if (self::has_course_content_changed($course, $template->lastresettime)) {
+            $modsunchecked = array();
+
+            if (\block_mbstpl\course::has_course_content_changed($course, $template->lastresettime, $modsunchecked)) {
                 self::restore_course_template($course, $template);
             }
         }

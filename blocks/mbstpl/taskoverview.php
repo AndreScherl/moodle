@@ -101,6 +101,7 @@ $renderer = $PAGE->get_renderer('block_mbstpl');
 if (!$download) {
 
     echo $OUTPUT->header();
+    echo $OUTPUT->heading(get_string('resettasksoverview', 'block_mbstpl'), 2);
 
     $filterform->display();
 

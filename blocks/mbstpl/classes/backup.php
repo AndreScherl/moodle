@@ -848,7 +848,7 @@ class backup {
         $user = $USER;
 
         if (!$tempfilename = self::launch_secondary_backup($courseid, $template->id, array('anonymize' => 1), $user->id, true)) {
-            throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl');
+            throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl', $courseid);
         }
 
         $filename = self::PREFIX_PUBLISHED . $courseid . '.mbz';

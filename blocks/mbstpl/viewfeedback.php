@@ -19,7 +19,6 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 global $PAGE, $USER, $DB, $OUTPUT;
@@ -48,8 +47,14 @@ if (!mbst\perms::can_viewfeedback($template, $coursecontext)) {
 }
 
 $do = optional_param('do', '', PARAM_TEXT);
-if ($do == 'publish' && mbst\course::publish($template)) {
-    redirect($courseurl);
+if ($do == 'publish' && mbst\perms::can_publish($template)) {
+
+    // Initiate deployment task.
+    $deploypublish = new \block_mbstpl\task\adhoc_deploy_publish();
+    $deploypublish->set_custom_data($template);
+    \core\task\manager::queue_adhoc_task($deploypublish);
+
+    redirect($courseurl, get_string('scheduledpublishing', 'block_mbstpl', 30));
 }
 if ($do == 'archive') {
     mbst\course::archive($template);
@@ -101,9 +106,9 @@ if ($showassignauthor) {
     echo \html_writer::link($url, get_string('assignauthor', 'block_mbstpl'), array('class' => 'btn btn-primary'));
 }
 
-$showfeedbackform = ($cansendfeedback 
-    and ($template->status != $template::STATUS_PUBLISHED && $template->status != $template::STATUS_ARCHIVED)
-    and mbst\perms::check_authorenrolled($coursecontext));
+$showfeedbackform = ($cansendfeedback
+and ( $template->status != $template::STATUS_PUBLISHED && $template->status != $template::STATUS_ARCHIVED)
+and mbst\perms::check_authorenrolled($coursecontext));
 if ($showfeedbackform) {
     $feedbackform->display();
 }

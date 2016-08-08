@@ -823,7 +823,7 @@ class course {
         // Check the standard functions.
         $changedmodules = self::get_changed_mods_by_recent_activity($course, $lastresettime, $modsunchecked);
         if ($changedmodules) {
-            //   return $changedmodules;
+            return $changedmodules;
         }
         // No changes in checked modules and no more modules to check.
         if (empty($modsunchecked)) {

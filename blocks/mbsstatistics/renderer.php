@@ -22,8 +22,27 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['displayname'] = 'Statistiken';
-$string['pluginname'] = 'mebis Statistiken';
-$string['mbsstatistics:addinstance'] = 'Hinzufügen von Statistiken';
-$string['mbsstatistics:moveblock'] = 'Statistiken verschieben';
-$string['mbsstatistics:myaddinstance'] = 'Hinzufügen von Statistiken zu meinem Schreibtisch';
+defined('MOODLE_INTERNAL') || die();
+
+use plugin_renderer_base;
+use renderable;
+
+/**
+ * Block LP renderer class.
+ *
+ * @package    block_lp
+ * @copyright  2016 Frédéric Massart - FMCorz.net
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class block_mbsstatistics_renderer extends plugin_renderer_base {
+    /**
+     * Defer to template.
+     * @param renderable $summary
+     * @return string
+     */
+    public function render_summary(renderable $summary) {
+        $data = $summary->export_for_template($this);
+        return parent::render_from_template('block_mbsstatistics/block_mbsstatistics', $data);
+    }
+
+}

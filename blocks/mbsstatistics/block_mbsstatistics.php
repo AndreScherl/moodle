@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use block_mbsstatistics\summary;
+
 class block_mbsstatistics extends block_base {
 
     /**
@@ -33,13 +35,21 @@ class block_mbsstatistics extends block_base {
     }
     
     public function get_content() {
+        global $PAGE;
+        
         if ($this->content !== null) {
           return $this->content;
         }
 
+        $summary = new summary();
+        if (!$summary->has_content()) {
+            return $this->content;
+        }
+
         $this->content         =  new stdClass;
-        $this->content->text   = 'The content of our SimpleHTML block!';
-        $this->content->footer = 'Footer here...';
+        $renderer = $PAGE->get_renderer('block_mbsstatistics');
+        $this->content->text = $renderer->render($summary);
+        $this->content->footer = '';
 
         return $this->content;
     }
@@ -52,4 +62,33 @@ class block_mbsstatistics extends block_base {
     public function applicable_formats() {
         return array('my-index' => true);
     }
+    
+    public function specialization() {
+        if (isset($this->config)) {
+            if (empty($this->config->title)) {
+                $this->title = get_string('defaulttitle', 'block_simplehtml');            
+            } else {
+                $this->title = $this->config->title;
+            }
+
+            if (empty($this->config->text)) {
+                $this->config->text = get_string('defaulttext', 'block_simplehtml');
+            }    
+        }
+    }
 }
+
+//use renderable;
+//use renderer_base;
+//use templatable;
+//
+//class block_mbsstatistics_summary implements renderable, templatable{
+//
+//    public function export_for_template(renderer_base $output) {
+//        return "Hello World!";
+//    }
+//    
+//    public function has_content() {
+//        return true;
+//    }
+//}

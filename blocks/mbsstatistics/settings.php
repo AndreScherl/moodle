@@ -22,8 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['displayname'] = 'Statistiken';
-$string['pluginname'] = 'mebis Statistiken';
-$string['mbsstatistics:addinstance'] = 'Hinzufügen von Statistiken';
-$string['mbsstatistics:moveblock'] = 'Statistiken verschieben';
-$string['mbsstatistics:myaddinstance'] = 'Hinzufügen von Statistiken zu meinem Schreibtisch';
+$settings->add(new admin_setting_heading(
+            'headerconfig',
+            get_string('headerconfig', 'block_mbsstatistics'),
+            get_string('descconfig', 'block_mbsstatistics')
+        ));
+ 
+$settings->add(new admin_setting_configcheckbox(
+            'mbsstatistics/Allow_HTML',
+            get_string('labelallowhtml', 'block_mbsstatistics'),
+            get_string('descallowhtml', 'block_mbsstatistics'),
+            '0'
+        ));

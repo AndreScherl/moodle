@@ -24,6 +24,6 @@
 
 $string['displayname'] = 'Statistics';
 $string['pluginname'] = 'mebis Statistics';
-$string['mbsmyschools:addinstance'] = 'Add a mbsstatistics block';
-$string['mbsmyschools:moveblock'] = 'Move Statistics';
-$string['mbsmyschools:myaddinstance'] = 'Add a mbsstatistics block to my moodle';
+$string['mbsstatistics:addinstance'] = 'Add a mbsstatistics block';
+$string['mbsstatistics:moveblock'] = 'Move Statistics';
+$string['mbsstatistics:myaddinstance'] = 'Add a mbsstatistics block to my moodle';

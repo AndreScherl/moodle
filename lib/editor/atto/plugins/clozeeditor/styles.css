@@ -9,6 +9,11 @@ select.type {
 
 select.points {
     width: 20%;
+    min-width: 64px;
+}
+
+div.objanswer {
+    clear: both;
 }
 
 input.answer {
@@ -22,6 +27,7 @@ div.answer {
 
 select.percentage {
     width: 80%;
+    min-width: 84px;
 }
 
 div.percentage {

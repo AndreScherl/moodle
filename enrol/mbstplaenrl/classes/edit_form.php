@@ -29,18 +29,31 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 class edit_form extends \moodleform {
 
     public function definition() {
+        global $DB;
 
         $mform = $this->_form;
 
         list($instance) = $this->_customdata;
+        $defaultroleid = get_config('enrol_mbstplaenrl', 'defaultrole');
 
         $mform->addElement('header', 'header', get_string('pluginname_desc', 'enrol_mbstplaenrl'));
 
+        $roleobjs = $DB->get_records('role_context_levels', array('contextlevel' => CONTEXT_COURSE), null, 'roleid');
+
+        $rolenames = role_fix_names($roleobjs);
+
+        $options = array(0 => get_string('select'));
+        $options[$defaultroleid] = $rolenames[$defaultroleid]->localname;
+
+        $mform->addElement('select', 'roleid', get_string('defaultrole', 'enrol_mbstplaenrl'), $options);
+        $mform->setDefault('roleid', $instance->roleid);
+
         $this->add_action_buttons(true, ($instance->id ? null : get_string('instance_save', 'enrol_mbstplaenrl')));
     }
+
 }

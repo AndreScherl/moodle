@@ -23,9 +23,9 @@
  */
 
 
-$string['defaultrole'] = 'Deafult role';
+$string['defaultrole'] = 'Default role';
 $string['mbstplaenrl:config'] = 'Configure tutor auto-enrol on template';
 $string['mbstplaenrl:unenrolself'] = 'Unenrol self';
 $string['instance_save'] = 'Save';
 $string['pluginname'] = 'Tutor auto-enrol on template';
-$string['pluginname_desc'] = 'A self-enorlment plugin for automatically enrolling tutors when visiting a template course';
+$string['pluginname_desc'] = 'A self-enrolment plugin for automatically enrolling tutors when visiting a template course';

@@ -29,6 +29,17 @@ use \block_mbstpl as mbst;
  */
 class enrol_mbstplaenrl_plugin extends enrol_plugin {
 
+   /**
+     * Is it possible to hide/show enrol instance via standard UI?
+     *
+     * @param stdClass $instance
+     * @return bool
+     */
+    public function can_hide_show_instance($instance) {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/mbstplaenrl:config', $context);
+    }    
+    
     /**
      * Get the record for a course instance of this plugin
      *

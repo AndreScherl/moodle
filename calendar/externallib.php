@@ -241,12 +241,10 @@ class core_calendar_external extends external_api {
 
         foreach ($eventlist as $eventid => $eventobj) {
             $event = (array) $eventobj;
-<<<<<<< HEAD
-=======
+
             // Description formatting.
             $calendareventobj = new calendar_event($event);
             list($event['description'], $event['format']) = $calendareventobj->format_external_text();
->>>>>>> 0563e8329054b7723af0e612231f89dc302d519f
 
             if ($hassystemcap) {
                 // User can see everything, no further check is needed.

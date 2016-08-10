@@ -23,47 +23,22 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['advancedsearch'] = 'Erweiterte Suche';
 $string['changepassword'] = 'Passwort';
-$string['configtitle'] = 'mebis';
 $string['choosereadme'] = ' <p>mebis Theme basierend auf Bootstrap 3</p>';
-$string['editusersurl'] = 'Nutzerverwaltung';
-$string['editmysettings'] = 'Lernplattform-Einstellungen';
-$string['editmebisprofile'] = 'Profil bearbeiten';
-$string['mebisprofile'] = 'Profil';
-$string['pluginname'] = 'mebis';
+$string['configtitle'] = 'mebis';
 
 $string['contrasttheme'] = 'barrierearmes Theme';
 $string['contrasttheme-descr'] = 'Dieses barrierearme Theme kann durch den Schalter in der Toolbar für die aktuelle Session ausgewählt werden.';
 
-$string['region-side-post'] = 'Rechts';
-$string['region-side-pre'] = 'Links';
-$string['region-top'] = 'Oben';
-$string['region-bottom'] = 'Unten';
-$string['region-admin-navi'] = 'Website-Administration';
+$string['coursedialog-close'] = 'zur Übersicht';
 
-$string['sidebar-apps'] = 'Meine Apps';
-$string['sidebar-search'] = 'Zur Suche';
-
-$string['url-complaints'] = 'Problem melden';
-
-$string['url-support'] = 'Link zum Supportbereich';
-$string['url-support-descr'] = 'Link zum Supportbereich';
-
-$string['url-preferences'] = 'Link zur Nutzerverwaltung (allg.)';
-$string['url-preferences-descr'] = 'Link zur Nutzerverwaltung (allgemein)';
-
-$string['url-preferences-personal'] = 'Link zur Nutzerverwaltung (pers.)';
-$string['url-preferences-personal-descr'] = 'Link zur Nutzerverwaltung (persönliches Profil)';
-
-$string['url-login'] = 'Login Url';
-$string['url-login-descr'] = 'Login Url';
-
-$string['url-logout'] = 'Logout Url';
-$string['url-logout-descr'] = 'Logout Url';
+$string['editusersurl'] = 'Nutzerverwaltung';
+$string['editmysettings'] = 'Lernplattform-Einstellungen';
+$string['editmebisprofile'] = 'Profil bearbeiten';
 
 $string['footer-links'] = 'Footer Links';
 $string['footer-links-descr'] = 'Links im Seiten-Footer - Ein Link pro Zeile im Schema: Titel|Url';
-
 $string['footer-newsletter'] = 'Newsletter';
 $string['footer-url-newsletter'] = 'Link zum Newsletter';
 $string['footer-url-newsletter-descr'] = 'Link zum Abo des Newsletters';
@@ -76,15 +51,22 @@ $string['footer-url-contact-descr'] = 'Link zum Kontakt(formular)';
 $string['footer-imprint'] = 'Impressum';
 $string['footer-data_privacy'] = 'Datenschutz';
 $string['footer-terms_of_use'] = 'Nutzungsbedingungen';
-
 $string['footer-search-schooltypes'] = 'Prüfungstermine für alle Schularten';
 $string['footer-search-course_or_school'] = 'Kurs oder Schule suchen';
 $string['footer-search-media'] = 'Was suchen Sie?';
 
+$string['header-img-title'] = 'Mebis Logo Lernplattform';
+
+$string['mebisprofile'] = 'Profil';
+
 $string['menu-administration-head'] = 'Lernplattform-Verwaltung';
 $string['menu-administration-link'] = 'Webseiten Administration';
+$string['menu-user'] = 'Nutzer-Menü';
 
-$string['coursedialog-close'] = 'zur Übersicht';
+// My Desktop
+$string['my-courses'] = 'Meine Kurse';
+$string['my-apps'] = 'Meine Apps';
+$string['my-schools'] = 'Meine Schulen';
 
 $string['nav-toggle'] = 'Toggle navigation';
 $string['nav-login'] = 'Login';
@@ -94,11 +76,25 @@ $string['nav-support'] = 'Support';
 $string['nav-management'] = 'Verwaltung';
 $string['nav-read'] = 'Vorlesen';
 
-$string['header-img-title'] = 'Mebis Logo Lernplattform';
+$string['pluginname'] = 'mebis';
 
-$string['advancedsearch'] = 'Erweiterte Suche';
+$string['region-side-post'] = 'Rechts';
+$string['region-side-pre'] = 'Links';
+$string['region-top'] = 'Oben';
+$string['region-bottom'] = 'Unten';
+$string['region-admin-navi'] = 'Website-Administration';
 
-// My Desktop
-$string['my-courses'] = 'Meine Kurse';
-$string['my-apps'] = 'Meine Apps';
-$string['my-schools'] = 'Meine Schulen';
+$string['sidebar-apps'] = 'Meine Apps';
+$string['sidebar-search'] = 'Zur Suche';
+
+$string['url-complaints'] = 'Problem melden';
+$string['url-support'] = 'Link zum Supportbereich';
+$string['url-support-descr'] = 'Link zum Supportbereich';
+$string['url-preferences'] = 'Link zur Nutzerverwaltung (allg.)';
+$string['url-preferences-descr'] = 'Link zur Nutzerverwaltung (allgemein)';
+$string['url-preferences-personal'] = 'Link zur Nutzerverwaltung (pers.)';
+$string['url-preferences-personal-descr'] = 'Link zur Nutzerverwaltung (persönliches Profil)';
+$string['url-login'] = 'Login Url';
+$string['url-login-descr'] = 'Login Url';
+$string['url-logout'] = 'Logout Url';
+$string['url-logout-descr'] = 'Logout Url';

@@ -46,55 +46,68 @@ class summary implements renderable, templatable {
    public function export_for_template(renderer_base $output) {
        global $DB;
        
-       
-       $sql_data = array();
-       $array_index = 0; 
-       $wochentag_index = 6;
-       
-       $sql_data[$array_index] = date('l', strtotime('today', time()));
-       //86400 = 24 std.
-       while($wochentag_index != 0) {
-           $array_index++;
-           $sql_data[$array_index] = strtotime('today', time()) - 86400 * $wochentag_index;
-           $array_index++;
-           $wochentag_index--;
-           $sql_data[$array_index] = strtotime('today', time()) - 86400 * $wochentag_index;
-           $array_index++;
-           $sql_data[$array_index] = date('l', $sql_data[$array_index-2]);
-       }
-       $array_index++;
-       $sql_data[$array_index] = strtotime('today', time());
-       $array_index++;
-       $sql_data[$array_index] = strtotime('today', time()) + 86400;
-       
-       $sql_object = $DB->get_record_sql('SELECT COUNT(*) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?,'
-               . '(SELECT COUNT(*) FROM {user} WHERE currentlogin >= ? AND currentlogin < ?) AS ?'
-               . ' FROM {user} WHERE currentlogin >= ? AND currentlogin < ?', $sql_data);
-       
-       $data = array(
-           'Montag_date' => date('d.m. D', strtotime('last monday', strtotime('tomorrow'))),
-           'Montag_count' => $sql_object->monday,
-           'Dienstag_date' => date('d.m. D', strtotime('last tuesday', strtotime('tomorrow'))),
-           'Dienstag_count' => $sql_object->tuesday,
-           'Mittwoch_date' => date('d.m. D', strtotime('last wednesday', strtotime('tomorrow'))),
-           'Mittwoch_count' => $sql_object->wednesday,
-           'Donnerstag_date' => date('d.m. D', strtotime('last thursday', strtotime('tomorrow'))),
-           'Donnerstag_count' => $sql_object->thursday,
-           'Freitag_date' => date('d.m. D', strtotime('last friday', strtotime('tomorrow'))),
-           'Freitag_count' => $sql_object->friday,
-           'Samstag_date' => date('d.m. D', strtotime('last saturday', strtotime('tomorrow'))),
-           'Samstag_count' => $sql_object->saturday,
-           'Sonntag_date' => date('d.m. D', strtotime('last sunday', strtotime('tomorrow'))),
-           'Sonntag_count' => $sql_object->sunday
+        $array = array();
+        $manager = get_log_manager();
+        $selectreaders = $manager->get_readers('\core\log\sql_reader');
+        
+        if ($selectreaders) {
+            $obj = new \stdClass();
+            $reader = reset($selectreaders);
+            $timestamp = strtotime('today', time());
+            $week_index = 7;
+            
+            while($week_index != 0) {
+                $count = 0;
+                $id_array = array();
+                $obj->day = date('l', $timestamp - 86400 * $week_index);
+                $am = $timestamp - 86400 * $week_index;
+                $week_index--;
+                $pm = $timestamp - 86400 * $week_index;
+                
+                $result = $reader->get_events_select('timecreated > ? AND timecreated < ? AND (action = "loggedin" OR action = "loggedout")', array($am, $pm), '', 0 ,0);
+                while($result){
+                    $sql_obj = array_shift($result)->get_data();
+                    if(!in_array($sql_obj[objectid], $id_array)) {
+                        $id_array[] = $sql_obj[objectid];
+                        $count++;
+                    }
+                }
+                unset($id_array);
+                $obj->count = $count;
+                $array[] = $obj;
+                unset($obj);
+            }
+        }
+        
+        $data = array(
+           'monday_date' => date('d.m. D', strtotime('last monday', strtotime('tomorrow'))),
+           'monday_count' => $this->return_count($array, 'Monday'),
+           'tuesday_date' => date('d.m. D', strtotime('last tuesday', strtotime('tomorrow'))),
+           'tuesday_count' => $this->return_count($array, 'Tuesday'),
+           'wednesday_date' => date('d.m. D', strtotime('last wednesday', strtotime('tomorrow'))),
+           'wednesday_count' => $this->return_count($array, 'Wednesday'),
+           'thursday_date' => date('d.m. D', strtotime('last thursday', strtotime('tomorrow'))),
+           'thursday_count' => $this->return_count($array, 'Thursday'),
+           'friday_date' => date('d.m. D', strtotime('last friday', strtotime('tomorrow'))),
+           'friday_count' => $this->return_count($array, 'Friday'),
+           'saturday_date' => date('d.m. D', strtotime('last saturday', strtotime('tomorrow'))),
+           'saturday_count' => $this->return_count($array, 'Saturday'),
+           'sunday_date' => date('d.m. D', strtotime('last sunday', strtotime('tomorrow'))),
+           'sunday_count' => $this->return_count($array, 'Sunday')
        );
-       return $data;
+        return $data;
     }
     
+    public function return_count(array $array, $day) {
+        for($i = 0; $i < sizeof($array); $i++) {
+            if($array[$i]->day == $day) {
+                return $array[$i]->count;
+            }
+        }
+        return 0;
+    }
+
+
     public function has_content() {
         return true;
     }

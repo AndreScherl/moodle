@@ -38,7 +38,7 @@ class block_mbsstatistics extends block_base {
         global $PAGE;
         
         if ($this->content !== null) {
-          return $this->content;
+            return $this->content;
         }
 
         $summary = new summary();
@@ -46,7 +46,7 @@ class block_mbsstatistics extends block_base {
             return $this->content;
         }
 
-        $this->content         =  new stdClass;
+        $this->content = new stdClass;
         $renderer = $PAGE->get_renderer('block_mbsstatistics');
         $this->content->text = $renderer->render($summary);
         $this->content->footer = '';
@@ -77,18 +77,3 @@ class block_mbsstatistics extends block_base {
         }
     }
 }
-
-//use renderable;
-//use renderer_base;
-//use templatable;
-//
-//class block_mbsstatistics_summary implements renderable, templatable{
-//
-//    public function export_for_template(renderer_base $output) {
-//        return "Hello World!";
-//    }
-//    
-//    public function has_content() {
-//        return true;
-//    }
-//}

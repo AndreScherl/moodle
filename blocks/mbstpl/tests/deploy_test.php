@@ -31,7 +31,7 @@ use block_mbstpl\backup;
 class mbstpl_deploy_test extends advanced_testcase {
 
     public function test_deploytemplate() {
-        global $DB;
+        global $DB, $CFG;
 
         // Set up.
         $this->resetAfterTest(true);
@@ -44,8 +44,42 @@ class mbstpl_deploy_test extends advanced_testcase {
         $author = $this->getDataGenerator()->create_user(array('firstname' => 'test', 'lastname' => 'author'));
         set_config('authorrole', 5, 'block_mbstpl');
 
+        $enrol = get_config('core', 'enrol_plugins_enabled');
+        $enabled = explode(',', $enrol);
+        $enabled[] = 'mbstplaenrl';
+        $enrol = implode(',', $enabled);
+        set_config('enrol_plugins_enabled', $enrol);
+
+        $student1 = $this->getDataGenerator()->create_user(array('firstname' => 'student', 'lastname' => '1'));
+        $student2 = $this->getDataGenerator()->create_user(array('firstname' => 'student', 'lastname' => '2'));
+        $student3 = $this->getDataGenerator()->create_user(array('firstname' => 'student', 'lastname' => '3'));
+
         $origcourse = $this->getDataGenerator()->create_course();
         $this->getDataGenerator()->create_module('assign', array('course' => $origcourse->id));
+        $forum1 = $this->getDataGenerator()->create_module('forum', array('course' => $origcourse->id));
+
+        $forumgenerator = self::getDataGenerator()->get_plugin_generator('mod_forum');
+
+        // Add a discussion.
+        $record = new stdClass();
+        $record->course = $origcourse->id;
+        $record->forum = $forum1->id;
+        $record->userid = $student1->id;
+        $discussion = $forumgenerator->create_discussion($record);
+
+        // Do two posts in forum.
+        $record = new stdClass();
+        $record->discussion = $discussion->id;
+        $record->userid = $student1->id;
+        $forumgenerator->create_post($record);
+
+        $record->userid = $student2->id;
+        $forumgenerator->create_post($record);
+
+        $posts = $DB->get_records('forum_posts', array('discussion' => $discussion->id));
+
+        $this->assertEquals(3, count($posts));
+
         $deploycat = $this->getDataGenerator()->create_category(array('name' => 'deployhere'));
         set_config('deploycat', $deploycat->id, 'block_mbstpl');
 
@@ -71,7 +105,18 @@ class mbstpl_deploy_test extends advanced_testcase {
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
-        $this->assertCount(1, $mods, 'Expecting 1 module in restored template');
+        $this->assertCount(2, $mods, 'Expecting 2 modules in restored template');
+
+        // Expecting a forum module with one discussion and two posts and anonymous users.
+        $discussion = $DB->get_record('forum_discussions', array('course' => $courseid));
+        $posts = $DB->get_records('forum_posts', array('discussion' => $discussion->id));
+        $this->assertEquals(3, count($posts));
+
+        foreach ($posts as $post) {
+            $user = $DB->get_record('user', array('id' => $post->userid));
+            $this->assertContains('anon', $user->firstname);
+        }
+
         // Send email to manager and author (= 2 Mails).
         $mailcount = $mailcount + 2;
         $this->assertEquals($mailcount, $mailsink->count(), "An email should have been sent after the template course was created");
@@ -91,10 +136,65 @@ class mbstpl_deploy_test extends advanced_testcase {
         $this->assertEquals($template->reviewerid, $reviewer->id);
         $this->assertEquals(++$mailcount, $mailsink->count());
 
-        // Publish.
-        $this->setUser($reviewer);
-        mbst\course::publish($template);
+        // Publish by task.
+        $this->setAdminUser();
+        $deploypublish = new \block_mbstpl\task\adhoc_deploy_publish();
+        $deploypublish->set_custom_data($template);
+        $deploypublish->execute(true);
         $this->assertEquals(++$mailcount, $mailsink->count());
+
+        // Check, whether template is published.
+        $course = $DB->get_record('course', array('id' => $courseid));
+        $this->assertEquals(1, $course->visible);
+
+        $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true);
+        $this->assertEquals(\block_mbstpl\dataobj\template::STATUS_PUBLISHED, $template->status);
+
+        // Expecting a forum module with one discussion and two posts and anonymous users.
+        $discussion = $DB->get_record('forum_discussions', array('course' => $courseid));
+        $posts = $DB->get_records('forum_posts', array('discussion' => $discussion->id));
+        $this->assertEquals(3, count($posts));
+
+        foreach ($posts as $post) {
+            $user = $DB->get_record('user', array('id' => $post->userid));
+            $this->assertContains('anon', $user->firstname);
+        }
+
+        // Now do a reset task, which should not change the discusion id, because
+        // there were no changes in the course.
+        \enrol_mbs\reset_course_userdata::reset_course_from_template($courseid);
+        $discussionafter = $DB->get_record('forum_discussions', array('course' => $courseid));
+        $this->assertEquals($discussion->id, $discussionafter->id);
+
+        // Autoenrol user and do an new post.
+        require_once($CFG->dirroot.'/enrol/mbstplaenrl/lib.php');
+        $enrolplugin = enrol_get_plugin('mbstplaenrl');
+
+        $instance = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'mbstplaenrl'), '*', MUST_EXIST);
+        $enrolplugin->enrol_user($instance, $student3->id, 5, time(), 0);
+
+        // Do a new post...
+        $record = new stdClass();
+        $record->discussion = $discussion->id;
+        $record->userid = $student3->id;
+        $forumgenerator->create_post($record);
+
+        $posts = $DB->get_records('forum_posts', array('discussion' => $discussion->id));
+        $this->assertEquals(4, count($posts));
+
+        // ... and reset the course.
+        \enrol_mbs\reset_course_userdata::reset_course_from_template($courseid);
+        $discussionafter = $DB->get_record('forum_discussions', array('course' => $courseid));
+        $this->assertNotEquals($discussion->id, $discussionafter->id);
+
+        // Expecting a forum module with one discussion and two posts and anonymous users.
+        $posts = $DB->get_records('forum_posts', array('discussion' => $discussionafter->id));
+        $this->assertEquals(3, count($posts));
+
+        foreach ($posts as $post) {
+            $user = $DB->get_record('user', array('id' => $post->userid));
+            $this->assertContains('anon', $user->firstname);
+        }
 
         // Delete User and keep firstname and lastname.
         delete_user($author);

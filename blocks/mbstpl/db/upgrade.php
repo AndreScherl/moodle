@@ -357,7 +357,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2015113000, 'mbstpl');
     }
 
-     if ($oldversion < 2015120400) {
+    if ($oldversion < 2015120400) {
 
         // Define table block_mbstpl_clicense to be created.
         $table = new xmldb_table('block_mbstpl_clicense');
@@ -454,14 +454,14 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
 
     if ($oldversion < 2016011800) {
 
-         // Define table block_mbstpl_subjects to be created.
+        // Define table block_mbstpl_subjects to be created.
         $table = new xmldb_table('block_mbstpl_subjects');
 
         //  Adding fields to table block_mbstpl_subjects.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
         $table->add_field('subject', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'id');
 
-         // Adding key to table block_mbstpl_subjects.
+        // Adding key to table block_mbstpl_subjects.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
 
         // Conditionally launch create table for block_mbstpl_subjects.
@@ -523,7 +523,7 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2016050400, 'mbstpl');
     }
 
-     if ($oldversion < 2016062700) {
+    if ($oldversion < 2016062700) {
 
         // Define table block_mbstpl_userdeleted to be created.
         $table = new xmldb_table('block_mbstpl_userdeleted');
@@ -550,6 +550,20 @@ function xmldb_block_mbstpl_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2016062700, 'mbstpl');
     }
 
+    if ($oldversion < 2016080400) {
+
+        // Define field lastresettime to be added to block_mbstpl_template.
+        $table = new xmldb_table('block_mbstpl_template');
+        $field = new xmldb_field('lastresettime', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'excludedeploydataids');
+
+        // Conditionally launch add field lastresettime.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mbstpl savepoint reached.
+        upgrade_block_savepoint(true, 2016080400, 'mbstpl');
+    }
 
     return true;
 }

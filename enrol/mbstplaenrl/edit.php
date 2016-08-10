@@ -61,7 +61,7 @@ if ($instanceid) {
     // No instance yet, we have to add new instance.
     navigation_node::override_active_url(new moodle_url('/enrol/instances.php', array('id'=>$course->id)));
 
-    $instance = (object)$plugin->get_instance_defaults();
+    $instance = (object) $plugin->get_instance_defaults();
     $instance->id       = null;
     $instance->courseid = $course->id;
     $instance->status   = ENROL_INSTANCE_ENABLED; // Do not use default for automatically created instances here.
@@ -76,28 +76,19 @@ if ($mform->is_cancelled()) {
 
     if ($instance->id) {
 
-        $instance->customint1      = $plugin->get_customint1($data);
-        $instance->customint2      = $plugin->get_customint2($data);
-        $instance->customint3      = $plugin->get_customint3($data);
-        $instance->customtext1     = $plugin->get_customtext1($data);
-
+        $instance->roleid          = $data->roleid;
         $DB->update_record('enrol', $instance);
 
     } else {
 
         $fields = array(
-            'customint1'       => $plugin->get_customint1($data),
-            'customint2'       => $plugin->get_customint2($data),
-            'customint3'       => $plugin->get_customint3($data),
-            'customtext1'      => $plugin->get_customtext1($data),
+            'roleid'           => $data->roleid
         );
 
         $instanceid = $plugin->add_instance($course, $fields);
 
         $instance = enrol_mbstplaenrl_plugin::get_instance($instanceid, $courseid);
     }
-
-    \enrol_mbstplaenrl\task\reset_course_userdata_task::schedule_single_reset_task($instance, true);
 
     redirect($return);
 }

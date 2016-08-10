@@ -40,3 +40,4 @@ composer.lock
 local/codechecker/
 moosh.bat
 /node_modules/
+/mod/hvp/.git

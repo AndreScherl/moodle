@@ -19,12 +19,12 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 /**
  * Class template
  * For block_mbstpl_template.
  * @package block_mbstpl
  */
+
 namespace block_mbstpl\dataobj;
 
 use context_course;
@@ -43,7 +43,6 @@ class template extends base {
     const STATUS_PUBLISHED = 3;
     const STATUS_ARCHIVED = 4;
     const STATUS_ASSIGNED_REVIEWER = 5;
-
     const FILEAREA = 'template';
 
     /**
@@ -84,6 +83,7 @@ class template extends base {
         'rating' => null,
         'reminded' => 0,
         'excludedeploydataids' => '',
+        'lastresettime' => 0
     );
 
     /* @var int Course id  */
@@ -118,6 +118,9 @@ class template extends base {
 
     /** @var string */
     public $excludedeploydataids;
+
+    /** @var int */
+    public $lastresettime;
 
     /**
      * Set the table name here.
@@ -154,7 +157,6 @@ class template extends base {
         $this->add_to_revhist();
     }
 
-
     /**
      * Updates rating without adding to revision history or changing timemodified.
      *
@@ -183,7 +185,7 @@ class template extends base {
         // Trigger template event.
         $context = context_course::instance($this->courseid);
         $event = \block_mbstpl\event\template_created::create(
-            array('context' => $context, 'objectid' => $this->id));
+        array('context' => $context, 'objectid' => $this->id));
         $event->trigger();
     }
 
@@ -213,7 +215,7 @@ class template extends base {
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'block_mbstpl', self::FILEAREA, $this->id, '', false);
         foreach ($files as $file) {
-            $filerecord = (object)array(
+            $filerecord = (object) array(
                 'filearea' => revhist::FILEAREA,
                 'itemid' => $revhist->id,
             );
@@ -267,4 +269,71 @@ class template extends base {
         }
         return explode(',', $this->excludedeploydataids);
     }
+
+    public function store_last_reset_time($time) {
+
+        $this->lastresettime = $time;
+        $this->update_notouch();
+    }
+
+    /**
+     * Get all the backup files existing for this template.
+     * Note that the may be more than one template using the same origbpk_ file.
+     *
+     * @return \stdClass
+     */
+    public function get_backup_files($courseid) {
+
+        $fs = get_file_storage();
+        $context = \context_system::instance();
+
+        // Sort files by type.
+        $result = new \stdClass();
+        $result->orgbackup = $fs->get_area_files($context->id, 'block_mbstpl', 'backups', $this->backupid, 'timecreated DESC', false);
+        $result->pubbackup = $fs->get_area_files($context->id, 'block_mbstpl', 'pubbackups', $courseid, 'timecreated DESC', false);
+
+        return $result;
+    }
+
+    public function get_template_reset_info($course) {
+
+        $info = new \stdClass();
+        $info->lastresettime = $this->lastresettime;
+
+        // Check, whether there are changes in course.
+        $modulesunchecked = array();
+        $contentchanged = \block_mbstpl\course::has_course_content_changed($course, $this->lastresettime, $modulesunchecked);
+
+        $info->contentchanged = array();
+        if ($contentchanged) {
+            $info->contentchanged = array_keys($contentchanged);
+        }
+
+        $info->modulesunchecked = array();
+        if ($modulesunchecked) {
+            $info->modulesunchecked = array_keys($modulesunchecked);
+        }
+
+        $modules = get_plugin_list_with_function('mod', 'print_recent_activity');
+
+        $recentactivitymodules = array();
+        foreach ($modules as $name => $function) {
+            $key = substr($name, 4);
+            $recentactivitymodules[$key] = 1;
+        }
+
+        // Modules with print_recent activity function.
+        $info->recentactivitymodules = $recentactivitymodules;
+
+        // All modules.
+        $modulesnames = get_module_types_names();
+        $implemented = \block_mbstpl\course::get_implemented_has_changed_modules();
+        $info->implementedmodules = $implemented;
+
+        $uncheckablesmodules = array_diff_key($modulesnames, $recentactivitymodules, $implemented);
+        $info->uncheckablemodules = array_keys($uncheckablesmodules);
+
+        return $info;
+    }
+
 }

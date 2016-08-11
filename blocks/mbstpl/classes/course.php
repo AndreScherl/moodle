@@ -97,6 +97,11 @@ class course {
                 $url = new \moodle_url('/blocks/mbstpl/forrevision.php', array('course' => $cid));
                 $menu->add(get_string('forrevision', 'block_mbstpl'), $url, get_string('forrevision', 'block_mbstpl'));
             }
+
+            if (perms::can_createdpublishedbackup($template, $coursecontext)) {
+                $url = new \moodle_url('/blocks/mbstpl/publishedbackup.php', array('course' => $cid));
+                $menu->add(get_string('templatereset', 'block_mbstpl'), $url, get_string('templatereset', 'block_mbstpl'));
+            }
         }
 
         if (perms::can_viewhistory($coursecontext)) {
@@ -164,12 +169,8 @@ class course {
         return $DB->delete_records('block_mbstpl_clicense', array('shortname' => $shortname));
     }
 
-    /**
-     * Returns the shortname of the status.
-     * @param $status
-     */
-    public static function get_statusshortname($status) {
-        $statuses = array(
+    public static function get_statuses() {
+        return array(
             dataobj\template::STATUS_CREATED => 'statuscreated',
             dataobj\template::STATUS_UNDER_REVIEW => 'statusunderreview',
             dataobj\template::STATUS_UNDER_REVISION => 'statusunderrevision',
@@ -177,6 +178,27 @@ class course {
             dataobj\template::STATUS_ARCHIVED => 'statusarchived',
             dataobj\template::STATUS_ASSIGNED_REVIEWER => 'statusassignedreviewer'
         );
+    }
+
+    public static function get_statuses_menu() {
+
+        $menu = array();
+        $statuses =self::get_statuses();
+
+        foreach($statuses as $key => $shortname) {
+            $menu[$key] = get_string($shortname, 'block_mbstpl');
+        }
+
+        asort($menu);
+        return $menu;
+    }
+
+    /**
+     * Returns the shortname of the status.
+     * @param $status
+     */
+    public static function get_statusshortname($status) {
+        $statuses =self::get_statuses();
         return $statuses[$status];
     }
 
@@ -601,6 +623,253 @@ class course {
                 $plugin->delete_instance($instance);
             }
         }
+    }
+
+    /**
+     * Returns whether a module has changed since last reset time by executing
+     * callback MODULE_print_recent_activity()
+     *
+     * @param object $course, the course to check
+     * @param int $lastresettime the time stamp since when changes should be detected
+     * @param array $modsunchecked list of mods in the course that are not yet checked.
+     * @return boolean true, when there was changes detected.
+     */
+    protected static function get_changed_mods_by_recent_activity($course, $lastresettime, &$modsunchecked) {
+
+        $hascontent = false;
+        $modinfo = get_fast_modinfo($course);
+        $usedmodules = $modinfo->get_used_module_names();
+
+        $checkedmodules = array();
+        $changedmodules = array();
+        foreach ($usedmodules as $modname => $modfullname) {
+            // Each module gets it's own logs and prints them.
+            ob_start();
+            $hascontent = component_callback('mod_' . $modname, 'print_recent_activity', array($course, false, $lastresettime), 0);
+
+            // Function does exist.
+            if ($hascontent !== 0) {
+                $checkedmodules[$modname] = $modfullname;
+            }
+
+            // If has_content is true, we unfortunately must check whether there is an
+            // non empty string in output as there are modules which return true
+            // but doesn't have news (like the gallery).
+            if ($hascontent) {
+                $output = ob_get_contents();
+                if (!empty($output)) {
+                    $changedmodules[$modname] = $modfullname;
+                }
+            }
+            ob_end_clean();
+        }
+
+        $modsunchecked = array_diff_key($usedmodules, $checkedmodules);
+
+        if (empty($changedmodules)) {
+            return false;
+        }
+
+        return $changedmodules;
+    }
+
+    /**
+     * Check, whether there was changes in the choice module content.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @return boolean
+     */
+    public static function has_changed_choice($course, $lastresettime) {
+        global $DB;
+
+        $sql = "SELECT count(*)
+                FROM {choice} ch
+                JOIN {choice_answers} ca ON ca.choiceid = ch.id
+                WHERE ch.course = :course AND ca.timemodified >= :lastresettime";
+
+        $params = array(
+            'course' => $course->id,
+            'lastresettime' => $lastresettime
+        );
+
+        $countmodified = $DB->count_records_sql($sql, $params);
+
+        return ($countmodified > 0);
+    }
+
+    /**
+     * Check, whether there was changes in the anonymous choice module content.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @return boolean
+     */
+    public static function has_changed_choiceanon($course, $lastresettime) {
+        global $DB;
+
+        $sql = "SELECT count(*)
+                FROM {choiceanon} ch
+                JOIN {choiceanon_answers} ca ON ca.choiceid = ch.id
+                WHERE ch.course = :course AND ca.timemodified >= :lastresettime";
+
+        $params = array(
+            'course' => $course->id,
+            'lastresettime' => $lastresettime
+        );
+
+        $countmodified = $DB->count_records_sql($sql, $params);
+
+        return ($countmodified > 0);
+    }
+
+    /**
+     * Check, whether there was changes in the data module content.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @return boolean
+     */
+    public static function has_changed_data($course, $lastresettime) {
+        global $DB;
+
+        $sql = "SELECT count(*)
+                FROM {data} d
+                JOIN {data_records} dr ON dr.dataid = d.id
+                WHERE d.course = :course AND dr.timemodified >= :lastresettime";
+
+        $params = array(
+            'course' => $course->id,
+            'lastresettime' => $lastresettime
+        );
+
+        $countmodified = $DB->count_records_sql($sql, $params);
+
+        return ($countmodified > 0);
+    }
+
+    /**
+     * Check, whether there was changes in the folder module content.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @return boolean
+     */
+    public static function has_changed_folder($course, $lastresettime) {
+        global $DB;
+
+       $sql = "SELECT count(*)
+                FROM {quiz} q
+                JOIN {quiz_attempts} qa ON qa.quiz = q.id
+                WHERE q.course = :course AND qa.timemodified >= :lastresettime";
+
+        $params = array(
+            'course' => $course->id,
+            'lastresettime' => $lastresettime
+        );
+
+        $countmodified = $DB->count_records_sql($sql, $params);
+
+        return ($countmodified > 0);
+   }
+
+    /**
+     * Check, whether there was changes in the quiz module content.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @return boolean
+     */
+    public static function has_changed_quiz($course, $lastresettime) {
+        global $DB;
+
+        $sql = "SELECT cm.id, i.timemodified, MAX(f.timemodified) AS filemodified
+                      FROM {folder} i
+                      JOIN {course_modules} cm ON cm.instance = i.id
+                      JOIN {modules} m ON m.id = cm.module AND m.name = 'folder'
+                      JOIN {context} cx ON cx.instanceid = cm.id AND cx.contextlevel = :contextmodule
+                      JOIN {files} f ON f.contextid = cx.id AND f.component = 'mod_folder' AND f.filearea = 'content'
+                                     AND f.filename <> '.' AND f.itemid = 0
+                     WHERE i.course = :course
+                     GROUP BY i.id, i.timemodified
+                     HAVING (filemodified >= :lastresettime1) OR (i.timemodified > :lastresettime2)";
+
+        $params = array(
+            'contextmodule' => CONTEXT_MODULE,
+            'course' => $course->id,
+            'lastresettime1' => $lastresettime,
+            'lastresettime2' => $lastresettime
+        );
+
+        $modifiedmodules = $DB->get_records_sql($sql, $params);
+
+        return (count($modifiedmodules) > 0);
+    }
+
+    /**
+     * Try to detect, whether the course content has changed during the last reset
+     * time.
+     *
+     * @param object $course
+     * @param int $lastresettime
+     * @param array $modsunchecked
+     * @return boolean true if there are change detected
+     */
+    public static function has_course_content_changed($course, $lastresettime, &$modsunchecked) {
+
+        // Check the standard functions.
+        $changedmodules = self::get_changed_mods_by_recent_activity($course, $lastresettime, $modsunchecked);
+        if ($changedmodules) {
+            return $changedmodules;
+        }
+        // No changes in checked modules and no more modules to check.
+        if (empty($modsunchecked)) {
+            return false;
+        }
+
+        // If there are more modules to check, try to call methodes of this class.
+        // If no method is available count as unchanged.
+        $params = array($course, $lastresettime);
+        $checkedmodules = array();
+
+        foreach ($modsunchecked as $modname => $modfullname) {
+
+            $function = '\block_mbstpl\course::has_changed_' . $modname;
+            if (method_exists('\block_mbstpl\course', 'has_changed_' . $modname)) {
+
+                $changed = call_user_func_array($function, $params);
+                $checkedmodules[$modname] = $modfullname;
+
+                if ($changed) {
+                    $changedmodules[$modname] = $modfullname;
+                }
+            }
+        }
+
+        $modsunchecked = array_diff_key($modsunchecked, $checkedmodules);
+
+        if (empty($changedmodules)) {
+            return false;
+        }
+
+        return $changedmodules;
+    }
+
+    public static function get_implemented_has_changed_modules() {
+
+        $modulesnames = get_module_types_names();
+
+        $implementedmodnames = array();
+        foreach ($modulesnames as $modname => $fullmodname) {
+
+            $function = '\block_mbstpl\course::has_changed_' . $modname;
+            if (method_exists('\block_mbstpl\course', 'has_changed_' . $modname)) {
+                $implementedmodnames[$modname] = $modname;
+            }
+        }
+
+
+        return $implementedmodnames;
     }
 
 }

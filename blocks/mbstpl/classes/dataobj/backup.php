@@ -19,12 +19,12 @@
  * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 /**
  * Class backup
  * For block_mbstpl_backup.
  * @package block_mbstpl
  */
+
 namespace block_mbstpl\dataobj;
 
 defined('MOODLE_INTERNAL') || die();
@@ -48,6 +48,8 @@ class backup extends base {
         'lastversion' => 0,
         'userdataids' => null,
         'excludedeploydataids' => null,
+        'timecreated' => 0,
+        'timemodified' => 0
     );
 
     /* @var int origcourseid id  */
@@ -98,7 +100,6 @@ class backup extends base {
     public static function get_dependants() {
         return array('meta' => 'backupid');
     }
-
 
     /**
      * Updates this object in the Database, based on its object variables. ID must be set.
@@ -171,4 +172,45 @@ class backup extends base {
         }
         return explode(',', $this->excludedeploydataids);
     }
+
+    /**
+     * Get information about the creator of the backup. When the user is deleted,
+     * we hopefully have information about the first- and lastname of deleted
+     * user.
+     *
+     *  @return object information object to describe the creator of backup.
+     */
+    private function get_creator_info() {
+        global $DB;
+
+        // Get creator.
+        $sql = "SELECT u.*, ud.firstname as udfirstname, ud.lastname as udlastname
+                FROM {user} u
+                LEFT JOIN {block_mbstpl_userdeleted} ud ON u.id = ud.userid
+                WHERE u.id = ?";
+
+        $userdata = $DB->get_record_sql($sql, array($this->creatorid));
+
+        return $userdata;
+    }
+
+    /**
+     * Get informations about this backup.
+     *
+     * @return \stdClass information object for the backup.
+     */
+    public function get_backup_info() {
+        global $DB;
+
+        $info = new \stdClass();
+        $info->origcourseid = $this->origcourseid;
+        $info->origcourse = $DB->get_record('course', array('id' => $this->origcourseid));
+        $info->creator = $this->get_creator_info();
+        $info->includeuserdata = $this->incluserdata;
+        $info->userdataids = $this->userdataids;
+        $info->lastversion = $this->lastversion;
+
+        return $info;
+    }
+
 }

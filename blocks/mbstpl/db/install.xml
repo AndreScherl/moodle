@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mbstpl/db" VERSION="20160627" COMMENT="XMLDB file for Moodle blocks/mbstpl"
+<XMLDB PATH="blocks/mbstpl/db" VERSION="20160804" COMMENT="XMLDB file for Moodle blocks/mbstpl"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -86,6 +86,7 @@
         <FIELD NAME="rating" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="reminded" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="excludedeploydataids" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Comma-separated list of cmids of activities which should never include user data when creating courses from the template."/>
+        <FIELD NAME="lastresettime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -194,7 +195,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_mbstpl_userdeleted" COMMENT="store firstname and lastname of deleted users, when they have a course in teachSHARE ">
+    <TABLE NAME="block_mbstpl_userdeleted" COMMENT="store firstname and lastname of deleted users, when they have a course in teachSHARE">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>

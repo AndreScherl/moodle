@@ -29,6 +29,17 @@ use \block_mbstpl as mbst;
  */
 class enrol_mbstplaenrl_plugin extends enrol_plugin {
 
+   /**
+     * Is it possible to hide/show enrol instance via standard UI?
+     *
+     * @param stdClass $instance
+     * @return bool
+     */
+    public function can_hide_show_instance($instance) {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/mbstplaenrl:config', $context);
+    }    
+    
     /**
      * Get the record for a course instance of this plugin
      *
@@ -94,31 +105,10 @@ class enrol_mbstplaenrl_plugin extends enrol_plugin {
     public function get_instance_defaults() {
 
         $fields = array();
-        $fields['customint1']      = true;
-        $fields['customint2']      = $this->get_config('cron_hour');
-        $fields['customint3']      = $this->get_config('cron_minute');
-        $fields['customtext1']     = $this->get_config('cron_days');
         $fields['roleid']          = $this->get_config('defaultrole');
 
         return $fields;
     }
-
-    public function get_customint1($data) {
-        return isset($data->cron_enable) ? $data->cron_enable : 0;
-    }
-
-    public function get_customint2($data) {
-        return $data->cron_time['hour'];
-    }
-
-    public function get_customint3($data) {
-        return $data->cron_time['minute'];
-    }
-
-    public function get_customtext1($data) {
-        return implode(',', array_keys($data->cron_days));
-    }
-
 
     public function allow_unenrol(stdClass $instance) {
         return true;

@@ -41,3 +41,4 @@ local/codechecker/
 moosh.bat
 /node_modules/
 /mod/hvp/.git
+/lib/editor/atto/plugins/clozeeditor/.git

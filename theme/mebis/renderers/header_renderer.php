@@ -540,7 +540,7 @@ class theme_mebis_header_renderer extends renderer_base {
         } 
         $settingsnav = $PAGE->settingsnav;
         if ($settingsnav instanceof navigation_node) {
-            $categorymenu = $this->generateMenuContentFor($settingsnav, array('Site administration'));
+            $categorymenu = $this->generateMenuContentFor($settingsnav, array(get_string('administrationsite')));
             $content = $categorymenu;
         }
         return $content;        
@@ -563,7 +563,7 @@ class theme_mebis_header_renderer extends renderer_base {
 
         if ($node instanceof navigation_node) {
 
-            $coursemenu = $this->generateMenuContentFor($node, array('Site administration'));
+            $coursemenu = $this->generateMenuContentFor($node, array(get_string('administrationsite')));
 
             if ($coursemenu) {
                 $content = html_writer::start_tag('li', array('id' => 'coursedropdownmenu', 'class' => 'dropdown'));

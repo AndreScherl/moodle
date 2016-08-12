@@ -41,70 +41,51 @@ class summary implements renderable, templatable {
 
    public function __construct() {
    }
+   
+   /** search in logfile for loggedin-users
+    * 
+    * @global type $DB
+    * @return array
+    */
 
 
    public function export_for_template(renderer_base $output) {
        global $DB;
        
-        $array = array();
+        $data = array();
         $manager = get_log_manager();
         $selectreaders = $manager->get_readers('\core\log\sql_reader');
         
         if ($selectreaders) {
-            $obj = new \stdClass();
             $reader = reset($selectreaders);
             $timestamp = strtotime('today', time());
-            $week_index = 7;
+            $weekindex = 7;
             
-            while($week_index != 0) {
+            //...for each weekday
+            while($weekindex != 0) {
                 $count = 0;
-                $id_array = array();
-                $obj->day = date('l', $timestamp - 86400 * $week_index);
-                $am = $timestamp - 86400 * $week_index;
-                $week_index--;
-                $pm = $timestamp - 86400 * $week_index;
+                unset($idarray);
+                $idarray = array();
+                $day = date('l', $timestamp - 86400 * $weekindex);
+                $am = $timestamp - 86400 * $weekindex;
+                $weekindex--;
+                $pm = $timestamp - 86400 * $weekindex;
                 
                 $result = $reader->get_events_select('timecreated > ? AND timecreated < ? AND (action = "loggedin" OR action = "loggedout")', array($am, $pm), '', 0 ,0);
                 while($result){
-                    $sql_obj = array_shift($result)->get_data();
-                    if(!in_array($sql_obj[objectid], $id_array)) {
-                        $id_array[] = $sql_obj[objectid];
+                    //count each user once
+                    $sqlobj = array_shift($result)->get_data();
+                    if(!in_array($sqlobj['objectid'], $idarray)) {
+                        $idarray[] = $sqlobj['objectid'];
                         $count++;
                     }
                 }
-                unset($id_array);
-                $obj->count = $count;
-                $array[] = $obj;
-                unset($obj);
+                $data['date'.$weekindex] = date('d.m. ', strtotime('last '.$day, strtotime('tomorrow'))).get_string('s'.$day, 'block_mbsstatistics');
+                $data['count'.$weekindex] = $count;
             }
         }
-        
-        $data = array(
-           'monday_date' => date('d.m. D', strtotime('last monday', strtotime('tomorrow'))),
-           'monday_count' => $this->return_count($array, 'Monday'),
-           'tuesday_date' => date('d.m. D', strtotime('last tuesday', strtotime('tomorrow'))),
-           'tuesday_count' => $this->return_count($array, 'Tuesday'),
-           'wednesday_date' => date('d.m. D', strtotime('last wednesday', strtotime('tomorrow'))),
-           'wednesday_count' => $this->return_count($array, 'Wednesday'),
-           'thursday_date' => date('d.m. D', strtotime('last thursday', strtotime('tomorrow'))),
-           'thursday_count' => $this->return_count($array, 'Thursday'),
-           'friday_date' => date('d.m. D', strtotime('last friday', strtotime('tomorrow'))),
-           'friday_count' => $this->return_count($array, 'Friday'),
-           'saturday_date' => date('d.m. D', strtotime('last saturday', strtotime('tomorrow'))),
-           'saturday_count' => $this->return_count($array, 'Saturday'),
-           'sunday_date' => date('d.m. D', strtotime('last sunday', strtotime('tomorrow'))),
-           'sunday_count' => $this->return_count($array, 'Sunday')
-       );
+        //return date and counted useres for each day
         return $data;
-    }
-    
-    public function return_count(array $array, $day) {
-        for($i = 0; $i < sizeof($array); $i++) {
-            if($array[$i]->day == $day) {
-                return $array[$i]->count;
-            }
-        }
-        return 0;
     }
 
 

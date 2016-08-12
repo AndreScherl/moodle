@@ -24,9 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use plugin_renderer_base;
-use renderable;
-
 /**
  * Block LP renderer class.
  *
@@ -42,7 +39,7 @@ class block_mbsstatistics_renderer extends plugin_renderer_base {
      */
     public function render_summary(renderable $summary) {
         $data = $summary->export_for_template($this);
-        return parent::render_from_template('block_mbsstatistics/block_mbsstatistics', $data);
+        return parent::render_from_template('block_mbsstatistics/summary', $data);
     }
 
 }

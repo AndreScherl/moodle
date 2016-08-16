@@ -23,13 +23,13 @@
  */
 
 $string['displayname'] = 'Statistiken';
-$string['pluginname'] = 'mebis Statistiken';
+$string['friday'] = 'Fr';
 $string['mbsstatistics:addinstance'] = 'Hinzufügen von Statistiken';
 $string['mbsstatistics:myaddinstance'] = 'Hinzufügen von Statistiken zu meinem Schreibtisch';
-$string['sMonday'] = 'Mo';
-$string['sTuesday'] = 'Di';
-$string['sWednesday'] = 'Mi';
-$string['sThursday'] = 'Do';
-$string['sFriday'] = 'Fr';
-$string['sSaturday'] = 'Sa';
-$string['sSunday'] = 'So';
+$string['monday'] = 'Mo';
+$string['pluginname'] = 'mebis Statistiken';
+$string['saturday'] = 'Sa';
+$string['sunday'] = 'So';
+$string['thursday'] = 'Do';
+$string['tuesday'] = 'Di';
+$string['wednesday'] = 'Mi';

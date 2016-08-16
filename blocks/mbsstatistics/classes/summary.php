@@ -59,17 +59,17 @@ class summary implements renderable, templatable {
         if ($selectreaders) {
             $reader = reset($selectreaders);
             $timestamp = strtotime('today', time());
-            $weekindex = 7;
+            $weekindex = 0;
             
             //...for each weekday
-            while($weekindex != 0) {
+            while($weekindex != 7) {
                 $count = 0;
                 unset($idarray);
                 $idarray = array();
-                $day = date('l', $timestamp - 86400 * $weekindex);
+                //86400s = 24h
+                $day = strtolower(date('l', $timestamp - 86400 * $weekindex));
                 $am = $timestamp - 86400 * $weekindex;
-                $weekindex--;
-                $pm = $timestamp - 86400 * $weekindex;
+                $pm = $am + 86400;
                 
                 $result = $reader->get_events_select('timecreated > ? AND timecreated < ? AND (action = "loggedin" OR action = "loggedout")', array($am, $pm), '', 0 ,0);
                 while($result){
@@ -80,10 +80,12 @@ class summary implements renderable, templatable {
                         $count++;
                     }
                 }
-                $data['date'.$weekindex] = date('d.m. ', strtotime('last '.$day, strtotime('tomorrow'))).get_string('s'.$day, 'block_mbsstatistics');
+                $data['date'.$weekindex] = date('d.m. ', strtotime('last '.$day, strtotime('tomorrow'))).get_string($day, 'block_mbsstatistics');
                 $data['count'.$weekindex] = $count;
+                $weekindex++;
             }
         }
+        print_r($data);
         //return date and counted useres for each day
         return $data;
     }

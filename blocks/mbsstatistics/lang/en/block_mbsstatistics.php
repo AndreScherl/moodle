@@ -23,13 +23,13 @@
  */
 
 $string['displayname'] = 'Statistics';
-$string['pluginname'] = 'mebis Statistics';
+$string['friday'] = 'Fri';
 $string['mbsstatistics:addinstance'] = 'Add a mbsstatistics block';
 $string['mbsstatistics:myaddinstance'] = 'Add a mbsstatistics block to my moodle';
-$string['sMonday'] = 'Mon';
-$string['sTuesday'] = 'Tue';
-$string['sWednesday'] = 'Wed';
-$string['sThursday'] = 'Thu';
-$string['sFriday'] = 'Fri';
-$string['sSaturday'] = 'Sat';
-$string['sSunday'] = 'Sun';
+$string['monday'] = 'Mon';
+$string['pluginname'] = 'mebis Statistics';
+$string['saturday'] = 'Sat';
+$string['sunday'] = 'Sun';
+$string['thursday'] = 'Thu';
+$string['tuesday'] = 'Tue';
+$string['wednesday'] = 'Wed';

@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -21,35 +22,37 @@
  * @copyright  2016 Matthias Ostermann  <mail@matthias-ostermann.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-	/**
- 	* Initialise the js strings required for this module.
- 	*/
-	function atto_clozeeditor_strings_for_js() {
-    	global $PAGE;
+/**
+ * Initialise the js strings required for this module.
+ */
+function atto_clozeeditor_strings_for_js() {
+    global $PAGE;
 
-	    $PAGE->requires->strings_for_js(array('addanswer',
-        	                                  'answer',
-                                                  'createcloze',
-                                	          'editcloze',
-                                	          'feedback',
-                                                  'heading',
-        	                                  'insert',
-                                	          'multichoice',
-        	                                  'multichoice_h',
-        	                                  'multichoice_v',
-        	                                  'numerical',
-        	                                  'percentage',
-                        	                  'points',
-        	                                  'shortanswer',
-        	                                  'shortanswer_c',
-                                                  'todo',
-        	                                  'type'),
-                                    	'atto_clozeeditor');
+    $PAGE->requires->strings_for_js(
+        array('addanswer',
+            'answer',
+            'createcloze',
+            'editcloze',
+            'feedback',
+            'heading',
+            'insert',
+            'multichoice',
+            'multichoice_h',
+            'multichoice_v',
+            'numerical',
+            'percentage',
+            'points',
+            'shortanswer',
+            'shortanswer_c',
+            'todo',
+            'type'),
+        'atto_clozeeditor'
+    );
 
-	    $PAGE->requires->strings_for_js(array('top',
-                                                  'bottom'),
-                                    	'editor');
-	};
+    $PAGE->requires->strings_for_js(
+        array('top','bottom'),
+        'editor'
+    );
+};

@@ -62,23 +62,23 @@ if (empty($cats) && empty($courses)) {
 
 $step = optional_param('step', 1, PARAM_INT);
 $creator = mbst\course::get_creators($template->id);
+$licence = $template->get_license();
+$licencelink = \html_writer::link($licence->source, $licence->fullname);
+$licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+    'creator' => $creator,
+    'licence' => (string) $licencelink
+));
 $customdata = array(
     'course' => $course,
     'cats' => $cats,
     'courses' => $courses,
     'creator' => $creator,
     'step' => $step,
-    'template' => $template
+    'template' => $template,
+    'licence' => $licencestring
 );
 
-$licence = $template->get_license();
-$licencelink = \html_writer::link($licence->source, $licence->fullname);
-$licence = get_string('duplcourselicensedefault', 'block_mbstpl', array(
-    'creator' => $creator,
-    'licence' => (string) $licencelink
-));
 $form = new mbst\form\dupcrs(null, $customdata);
-$form->set_data(array('licence' => $licence));
 
 $redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
 if ($form->is_cancelled()) {

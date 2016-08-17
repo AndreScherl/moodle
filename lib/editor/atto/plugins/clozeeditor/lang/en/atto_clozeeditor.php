@@ -21,7 +21,6 @@
  * @copyright  2016 Matthias Ostermann  <mail@matthias-ostermann.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 $string['pluginname'] = 'ClozeEditor';
 $string['addanswer'] = 'Add answer';
 $string['answer'] = 'Answer:';

@@ -35,7 +35,7 @@ class block_mbsstatistics_renderer extends plugin_renderer_base {
     /**
      * Defer to template.
      * @param renderable $summary
-     * @return string
+     * @return string|boolean
      */
     public function render_summary(renderable $summary) {
         $data = $summary->export_for_template($this);

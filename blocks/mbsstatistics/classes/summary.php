@@ -47,8 +47,6 @@ class summary implements renderable, templatable {
     * @global type $DB
     * @return array
     */
-
-
    public function export_for_template(renderer_base $output) {
        global $DB;
        
@@ -61,19 +59,18 @@ class summary implements renderable, templatable {
             $timestamp = strtotime('today', time());
             $weekindex = 0;
             
-            //...for each weekday
+            // ...for each weekday.
             while($weekindex != 7) {
                 $count = 0;
-                unset($idarray);
                 $idarray = array();
-                //86400s = 24h
+                // 86400s = 24h.
                 $day = strtolower(date('l', $timestamp - 86400 * $weekindex));
                 $am = $timestamp - 86400 * $weekindex;
                 $pm = $am + 86400;
                 
                 $result = $reader->get_events_select('timecreated > ? AND timecreated < ? AND (action = "loggedin" OR action = "loggedout")', array($am, $pm), '', 0 ,0);
                 while($result){
-                    //count each user once
+                    // count each user once.
                     $sqlobj = array_shift($result)->get_data();
                     if(!in_array($sqlobj['objectid'], $idarray)) {
                         $idarray[] = $sqlobj['objectid'];
@@ -86,7 +83,7 @@ class summary implements renderable, templatable {
             }
         }
         print_r($data);
-        //return date and counted useres for each day
+        // return date and counted useres for each day.
         return $data;
     }
 

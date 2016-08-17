@@ -63,17 +63,4 @@ class block_mbsstatistics extends block_base {
         return array('my-index' => true);
     }
     
-    public function specialization() {
-        if (isset($this->config)) {
-            if (empty($this->config->title)) {
-                $this->title = get_string('defaulttitle', 'block_simplehtml');            
-            } else {
-                $this->title = $this->config->title;
-            }
-
-            if (empty($this->config->text)) {
-                $this->config->text = get_string('defaulttext', 'block_simplehtml');
-            }    
-        }
-    }
 }

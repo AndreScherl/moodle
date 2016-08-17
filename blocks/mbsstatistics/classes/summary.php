@@ -44,11 +44,9 @@ class summary implements renderable, templatable {
    
    /** search in logfile for loggedin-users
     * 
-    * @global type $DB
     * @return array
     */
    public function export_for_template(renderer_base $output) {
-       global $DB;
        
         $data = array();
         $manager = get_log_manager();
@@ -82,7 +80,6 @@ class summary implements renderable, templatable {
                 $weekindex++;
             }
         }
-        print_r($data);
         // return date and counted useres for each day.
         return $data;
     }

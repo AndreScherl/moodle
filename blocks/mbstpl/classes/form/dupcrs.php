@@ -102,14 +102,8 @@ class dupcrs extends \moodleform {
         }
         $form->addRule('restoreto', get_string('required'), 'required', null, 'client');
 
-        //licenseinfo
-        $licence = $this->_customdata['template']->get_license();
-        $licencelink = \html_writer::link($licence->source, $licence->fullname);
-        $licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
-            'creator' => $this->_customdata['creator'],
-            'licence' => $licencelink
-        ));
-        $form->addElement('static', 'licence', get_string('duplcourselicense', 'block_mbstpl'), $licencestring);
+        // licenseinfo.
+        $form->addElement('static', 'licence', get_string('duplcourselicense', 'block_mbstpl'), $this->_customdata['licence']);
         
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
@@ -148,7 +142,7 @@ class dupcrs extends \moodleform {
         $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks(), $template);
         $builder->prepare_section_elements();
         
-        //terms of use
+        // terms of use.
         $form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
         $form->addElement('checkbox', 'termsofuse', get_string('termsofuse', 'block_mbstpl'), get_string('termsofuse_descr', 'block_mbstpl'));
         $form->addRule('termsofuse', get_string('required'), 'required', null, 'client');

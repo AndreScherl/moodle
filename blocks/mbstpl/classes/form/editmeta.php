@@ -76,7 +76,8 @@ class editmeta extends licenseandassetform {
         if (empty($cdata['justtags'])) {
             $includechecklist = empty($cdata['freeze']);
             $includecheckbox = empty($cdata['freeze']);
-            $this->define_legalinfo_fieldset($includechecklist, $includecheckbox);
+            $iscreator = !empty($cdata['iscreator']);
+            $this->define_legalinfo_fieldset($includechecklist, $includecheckbox, $iscreator);
         }
 
         if (!empty($cdata['withrating']) && !empty($template->rating)) {

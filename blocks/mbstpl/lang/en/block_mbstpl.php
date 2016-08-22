@@ -80,10 +80,10 @@ $string['deploycat'] = 'Template deployment category';
 $string['deployuserinfo'] = 'Deploy user data';
 $string['destination'] = 'Destination';
 $string['duplcourseforuse'] = 'Duplicate course for use';
-$string['duplcourseforuse1'] = 'Select Sections and Activities to Duplicate';
+$string['duplcourseforuse1'] = 'Next';
 $string['duplcourseforuse2'] = 'Duplicate Course from Template';
-$string['duplcourselicensedefault'] = 'This course has been created by {$a->creator} and is licensed under {$a->licence}';
-$string['duplcourselicense'] = 'License';
+$string['duplcourselicensedefault'] = 'The contents provided from {$a->creator} are licensed under {$a->licence}.';
+$string['duplcourselicense'] = 'License information for the contents provided by the course author';
 $string['editmeta'] = 'Edit meta settings';
 $string['emailassignedreviewer_body'] = 'Dear course reviewer,
 The you have been assigned to review template course {$a->fullname}. You can review it now at at: {$a->url} .';
@@ -188,7 +188,7 @@ $string['layoutgrid'] = 'Grid';
 $string['layoutlist'] = 'List';
 $string['leastoneoption'] = 'Please select at least one option.';
 $string['legalinfo'] = 'Legal Information';
-$string['license'] = 'Published under license';
+$string['license'] = 'Publish own contents under license';
 $string['license_help'] = '<ul><li><a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">BY - Attribution</a></li>'
         . '<li><a href="https://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">SA - ShareAlike</a></li>'
         . '<li><a href="https://creativecommons.org/licenses/by-nc/3.0/de/" target="_blank">NC - NonCommercial</a></li>'

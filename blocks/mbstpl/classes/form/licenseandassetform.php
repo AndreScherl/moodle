@@ -46,13 +46,33 @@ abstract class licenseandassetform extends \moodleform {
         }
     }
 
-    protected function define_license() {
-        global $OUTPUT;
-        $labelstring = get_string('license', 'block_mbstpl');
-        $labelstring .= $OUTPUT->help_icon('license', 'block_mbstpl');
-        $form = $this->_form;
-        $form->addElement('license', 'license', $labelstring, null, false);
-        $form->addRule('license', null, 'required');
+    /**
+     * Adds license information for the contents provided by the course author.
+     * 
+     * @global type $OUTPUT
+     * @param bool $iscreator
+     */
+    protected function define_license($iscreator) {
+        global $OUTPUT; 
+        $form = $this->_form;        
+        if ($iscreator) {
+            $labelstring = get_string('license', 'block_mbstpl');        
+            $labelstring .= $OUTPUT->help_icon('license', 'block_mbstpl');
+            $form->addElement('license', 'license', $labelstring, null, false);
+            $form->addRule('license', null, 'required');
+        } else {
+            $labelstring = get_string('duplcourselicense', 'block_mbstpl');
+            $labelstring .= $OUTPUT->help_icon('license', 'block_mbstpl');
+            $template = $this->_customdata['template'];
+            $creator = \block_mbstpl\course::get_creators($template->id);
+            $licence = $template->get_license();
+            $licencelink = \html_writer::link($licence->source, $licence->fullname);
+            $licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+                'creator' => $creator,
+                'licence' => (string) $licencelink
+            ));
+            $form->addElement('static', 'licence', $labelstring, $licencestring);        
+        }           
     }
 
     public function set_data($default_values) {
@@ -81,12 +101,19 @@ abstract class licenseandassetform extends \moodleform {
         $this->_form->addElement('static', 'creator', get_string('creator', 'block_mbstpl'), $creator);
     }
 
-    protected function define_legalinfo_fieldset($includechecklist = true, $includecheckbox = true) {
+    /**
+     * Adds legal data questions and license information for the contents provided by the course author.
+     * 
+     * @param bool $includechecklist
+     * @param bool $includecheckbox
+     * @param bool $iscreator
+     */
+    protected function define_legalinfo_fieldset($includechecklist = true, $includecheckbox = true, $iscreator = true) {
 
         $this->_form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
 
         // License.
-        $this->define_license();
+        $this->define_license($iscreator);
 
         // Legal data questions.
         if ($includechecklist) {

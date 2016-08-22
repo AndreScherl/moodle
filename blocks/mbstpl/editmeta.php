@@ -57,7 +57,8 @@ $creator = $DB->get_record('user', array('id' => $backup->creatorid));
 $customdata = array(
     'courseid' => $courseid,
     'questions' => $questions,
-    'creator' => $creator
+    'creator' => $creator,
+    'iscreator' => true
 );
 
 // Set up the form.

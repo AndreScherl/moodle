@@ -54,7 +54,8 @@ $PAGE->set_title($pagetitle);
 
 $tform = mbst\questman\manager::build_form($template, $course, array(
     'withrating' => true,
-    'freeze' => true
+    'freeze' => true,
+    'iscreator' => false
 ));
 
 echo $OUTPUT->header();

@@ -81,12 +81,14 @@ $string['deploycat'] = 'teachSHARE Kursbereich';
 $string['deployuserinfo'] = 'Nutzerdaten dürfen in Kopien des Austauschkurses verwendet werden.';
 $string['destination'] = 'Ziel';
 $string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
-$string['duplcourseforuse1'] = 'Abschnitte und Aktivitäten zur Duplizierung auswählen';
+$string['duplcourseforuse1'] = 'Weiter';
 $string['duplcourseforuse2'] = 'Kurs aus dieser Vorlage erstellen';
-$string['duplcourselicensedefault'] = 'Die von {$a->creator} erstellten Inhalte dieses Kurses stehen unter der Lizenz {$a->licence}.';
-$string['duplcourselicense'] = 'Lizenzinformation für die Eigeninhalte des Kurses';
+$string['duplcourselicensedefault'] = 'Die von {$a->creator} erstellten Inhalte dieses Kurses stehen unter der Lizenz '
+        . '{$a->licence}. Alle weiteren Inhalte haben die Lizenz wie an entsprechender Stelle angegeben.';
+$string['duplcourselicense'] = 'Lizenzinformation für die vom Kursautor erstellten Inhalte';
 $string['editmeta'] = 'Kursinformationen editieren';
-$string['emailassignedreviewer_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'Sie wurden ausgewählt, diesen Kurs zu überprüfen: {$a->fullname}. Sie können den Kurs nun unter folgender Adresse überprüfen: {$a->url} .';
+$string['emailassignedreviewer_body'] = 'Sehr geehrter Kurs-Reviewer,'."\n".'Sie wurden ausgewählt, diesen Kurs zu überprüfen: '
+        . '{$a->fullname}. Sie können den Kurs nun unter folgender Adresse überprüfen: {$a->url} .';
 $string['emailassignedreviewer_subj'] = 'Sie wurden als Reviewer zugeteilt.';
 $string['emailassignedauthor_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
 sie wurden im Kurs {$a->fullname} als Kursautor eingeschrieben. Sie können den Kurs unter folgender Adresse einsehen: {$a->url} .';

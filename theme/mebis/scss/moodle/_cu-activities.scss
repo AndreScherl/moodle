@@ -237,6 +237,20 @@ div.que.geogebra {
 }
 
 #page-mod-quiz-attempt,
+#page-mod-quiz-review {
+    .submitbtns {
+        text-align: right;
+        
+        .mod_quiz-next-nav {
+            float: none;
+        }
+        .mod_quiz-prev-nav {
+            float:left;
+        }
+    }
+}
+
+#page-mod-quiz-attempt,
 #page-mod-quiz-review,
 #page-question-preview {
 

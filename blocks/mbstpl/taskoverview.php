@@ -62,7 +62,7 @@ $table->set_attribute('cellspacing', '0');
 $table->set_attribute('cellpadding', '3');
 $table->set_attribute('class', 'generaltable');
 
-$columns = array('id', 'courseid1', 'authorid', 'status', 'userdataincluded', 'lastresettime', 'nextruntime', 'action');
+$columns = array('id', 'courseid1', 'authorid', 'status', 'incluserdata', 'lastresettime', 'nextruntime', 'action');
 $headers = array('', 'course', 'author', 'status', 'userdataincluded', 'lastresettime', 'nextruntime', '');
 
 foreach ($headers as $i => $header) {

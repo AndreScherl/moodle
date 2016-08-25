@@ -714,19 +714,6 @@ class theme_mebis_header_renderer extends renderer_base {
         // add all the course related administration stuff.
         $content .= $this->render_menubar_courseadmin_menu();
 
-        // add a complaints link for course templates.
-        if (class_exists('\block_mbstpl\course')) {
-            global $COURSE;
-            $template = \block_mbstpl\dataobj\template::fetch(array('courseid' => $COURSE->id));
-            if ($template && $url = \block_mbstpl\course::get_complaint_url()) {
-                $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
-                $complaintlink = html_writer::link($url, $text, array(
-                            'class' => 'me-component-nav-mobile-spacer',
-                            'title' => get_string('url-complaints', 'theme_mebis')));
-                $content .= html_writer::tag('li', $complaintlink);
-            }
-        }
-
         $contentlist = html_writer::tag('ul', $content, array('class' => 'nav'));
         return html_writer::div($contentlist, 'moodle-menu');
     }

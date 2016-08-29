@@ -33,19 +33,25 @@ class reset_course_userdata {
 
         $data = array(
             'id' => $course->id,
-            'reset_events' => true,
-            'reset_notes' => true,
             'delete_blog_associations' => true,
+            'reset_comments' => true,
             'reset_completion' => true,
-            'reset_roles_overrides' => true,
-            'reset_roles_local' => true,
+            'reset_data' => true,
+            'reset_events' => true,
+            'reset_game_all' => true,
+            'reset_glossary_all' => true,
+            'reset_gradebook_items' => true,
+            'reset_gradebook_grades' => true,
             'reset_groups_members' => true,
             'reset_groups_remove' => true,
             'reset_groupings_members' => true,
             'reset_groupings_remove' => true,
-            'reset_gradebook_items' => true,
-            'reset_gradebook_grades' => true,
-            'reset_comments' => true
+            'reset_notes' => true,         
+            'reset_roles_overrides' => true,
+            'reset_roles_local' => true,
+            'reset_wiki_comments' => true,
+            'reset_wiki_pages' => true,
+            'reset_wiki_tags' => true            
         );
 
         // Get roles for the unenrol user list

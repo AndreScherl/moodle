@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,11 +29,11 @@ namespace local_mbslicenseinfo\local;
 defined('MOODLE_INTERNAL') || die();
 
 class mbslicenseinfo {
-    
+
     public static $captype_viewall = 10;
     public static $captype_editown = 20;
     public static $captype_editall = 30;
-    
+
     /**
      * To group the files by content hash and order them, 
      * we must fetch the license data in two steps:
@@ -96,14 +97,6 @@ class mbslicenseinfo {
 
         // Build SQL.
         $sql = $select . $from . $where . "GROUP BY f.contenthash ORDER BY f.id desc";
-
-       /* $esql = str_replace('{', 'mdl_', $sql);
-        $esql = str_replace('}', '', $esql);
-        foreach ($params as $key => $value) {
-            $esql = str_replace(':' . $key, "'$value'", $esql);
-        }
-
-        print_r($esql);*/
 
         $countsql = $countselect . $from . $where;
 
@@ -174,13 +167,7 @@ class mbslicenseinfo {
             $filemeta = new \stdClass();
             $filemeta->title = $file->title;
             $filemeta->source = $file->source;
-            if ($fmid = $DB->get_field('local_mbslicenseinfo_fmeta', 'id', array('files_id' => $file->id))) {
-                $filemeta->id = $fmid;
-                $success *= $DB->update_record('local_mbslicenseinfo_fmeta', $filemeta);
-            } else {
-                $filemeta->files_id = $file->id;
-                $success *= $DB->insert_record('local_mbslicenseinfo_fmeta', $filemeta);
-            }
+            $success *= self::set_fmeta($filemeta, $file->id);
 
             // User license stuff.
             $ul = $file->license;
@@ -284,19 +271,19 @@ class mbslicenseinfo {
      * @return boolean false, when user has none of the capabilities otherwise cap constant
      */
     public static function get_license_capability($context) {
-        
+
         if (has_capability('local/mbslicenseinfo:editalllicenses', $context)) {
             return self::$captype_editall;
         }
-        
+
         if (has_capability('local/mbslicenseinfo:editownlicenses', $context)) {
             return self::$captype_editown;
         }
-        
+
         if (has_capability('local/mbslicenseinfo:viewalllicenses', $context)) {
             return self::$captype_viewall;
         }
-        
+
         return false;
     }
 
@@ -325,30 +312,61 @@ class mbslicenseinfo {
     public static function get_onlymine_pref($coursecontext) {
 
         $captype = self::get_license_capability($coursecontext);
-       
+
         $useronlymine = get_user_preferences('mbslicensesonlymine', 1);
-        
+
         switch ($captype) {
-            
+
             case self::$captype_editall :
                 $onlymine = optional_param('onlymine', $useronlymine, PARAM_INT);
                 break;
-            
+
             case self::$captype_editown :
                 $onlymine = 1;
                 break;
-            
+
             case self::$captype_viewall :
                 $onlymine = 0;
                 break;
-            
         }
-        
+
         if ($onlymine <> $useronlymine) {
             set_user_preference('mbslicensesonlymine', $onlymine);
         }
 
         return $onlymine;
+    }
+
+    /**
+     * Get filemeta data: title and source.
+     * 
+     * @global $DB
+     * @param int $fileid id of the file in {files} table
+     * @return object 
+     */
+    public static function get_fmeta($fileid) {
+        global $DB;
+
+        return $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $fileid), 'title, source');
+    }
+    
+    /**
+     * Set filemeta data.
+     * 
+     * @global $DB
+     * @param object $filemeta metadata to insert/update
+     * @param int $fileid id of the file in {files} table
+     * @return bool|int true or new id 
+     */
+    public static function set_fmeta($filemeta, $fileid) {
+        global $DB;
+        if ($fmid = $DB->get_field('local_mbslicenseinfo_fmeta', 'id', array('files_id' => $fileid))) {
+            $filemeta->id = $fmid;
+            return $DB->update_record('local_mbslicenseinfo_fmeta', $filemeta);
+        } else {
+            $filemeta->files_id = $fileid;
+            return $DB->insert_record('local_mbslicenseinfo_fmeta', $filemeta);
+        }
     }
 
 }

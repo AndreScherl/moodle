@@ -36,7 +36,7 @@ class MoodleQuickForm_license extends MoodleQuickForm_select {
 
     public function __construct($elementName = null, $elementLabel = null,
                                      $attributes = null, $withnew = false) {
-        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
         $this->_type = 'license';
         $this->_persistantFreeze = true;
         $this->_withnew = $withnew;

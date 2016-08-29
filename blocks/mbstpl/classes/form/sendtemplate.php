@@ -65,7 +65,8 @@ class sendtemplate extends licenseandassetform {
         $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withanon', 'block_mbstpl'), 1);
         $radioarray[] = $form->createElement('radio', 'withanon', '', get_string('withoutanon', 'block_mbstpl'), 0);
         $form->addGroup($radioarray, 'incluserdata', get_string('incluserdata', 'block_mbstpl'), array(' ', ' '), false);
-        $form->setDefault('withanon', 1);
+        $form->setDefault('withanon', 0);
+        $form->addHelpButton('incluserdata', 'incluserdata', 'block_mbstpl');
 
         // Tags.
         $this->define_tags();

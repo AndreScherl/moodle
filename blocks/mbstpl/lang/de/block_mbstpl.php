@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -24,9 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addenrolmbs'] = 'Rücksetzungs-plugin hinzufügen';
 $string['addfrombank'] = 'Fügen Sie eine Frage aus der Fragensammlung ein';
 $string['addqtodraft'] = 'Frage verwenden';
 $string['addquestion'] = 'Neue Frage hinzufügen';
+$string['advancedsearch'] = 'Erweitere Suche';
 $string['ajaxurl'] = 'Ajax-URL für die Daten';
 $string['archive'] = 'Archiv';
 $string['assigned'] = 'Zugewiesen';
@@ -38,6 +41,9 @@ $string['author'] = 'Autor';
 $string['authorrole'] = 'Autoren Rolle';
 $string['authorrole_desc'] = 'Rolle für den im Kurs einzuschreibenden Autor';
 $string['backtemplatefeedback'] = 'Zurück zum Feedback für diesen Kurs';
+$string['backupcreated'] = 'Backup erstellt';
+$string['backupinformation'] = 'Informationen zum Backup';
+$string['cancelbutton'] = 'Abbrechen';
 $string['checklistexpln'] = 'Anm.: Fragen dieser Art werden am Ende des Formulars als Checkliste für die Inhalte dieses Kurses angezeigt<br>
 Jeder Inhalt kann als \'Ja\', \'Nein\', oder \'Nicht anwendbar\' markiert werden.<br>
 Es kann keine Kurssuche ausgeführt werden, die auf diesen Feldern basiert.';
@@ -55,18 +61,45 @@ $string['complaintformerrortype_2'] = 'Verstoß gegen die Nutzungsordnung';
 $string['complaintformerrortype_3'] = 'Anderer Fehler';
 $string['complainturl'] = 'URL für Beschwerden';
 $string['complainturl_desc'] = 'Externe URL für Beschwerden bezüglich Kursen. Die Kurs-ID wird angehängt.';
+$string['configreset'] = 'Rücksetzung konfigurieren';
 $string['confirmdelquest'] = 'Diese Frage ist in Gebrauch. Sie kann aus diesem Entwurf gelöscht werden, verbleibt aber noch in der Fragensammlung. Wollen Sie die Frage löschen?';
 $string['confirmdelquestforever'] = 'Diese Frage wird beim Löschen vollständig aus der Fragensammlung gelöscht. Wollen Sie die Frage löschen?';
+$string['containsuserdata'] = 'Kurs enthielt beim Einsenden Userdaten';
+$string['contentchanged'] = 'Inhalte des Kurses wurden verändert';
+$string['course'] = 'Kurs Template';
+$string['coursebackupnopubbackup'] = '<p><b>Es is kein (published) backup file verfügbar?</b></p><p>Sie können ein Backupfile erzeugen, das künftig zur
+    Zurücksetzung eines Kurses verwendet wird:
+    <ul>
+    <li>Setzen sie den Kurs auf nicht sichtbar</li>
+    <li>Entfernen sie alle Daten, die bei der Kurszurücksetzung nicht wiederhergestellt werden sollen</li>
+    <li>Starten sie das Backup: der Kurs wird sofort in die Datei pubbkp_[ID des Kurses].mbz gesichert</li>
+    <li>Schalten sie den Kurs wieder sichtbar</li>
+    </ul>';
+$string['coursebackupwithuserdata'] = '<p>Dieses Kurs-Template enthielt bereits beim erstmaligen Einsenden Userdaten, die anonymisiert wurden.
+    Wenn beim Ausprobieren des Kurses auf teachSHARE neue Userdaten erzeugt werden, wird der Kurs durch eine Wiederherstellung des letzten verfügbaren
+    Backupfiles zurückgesetzt. Alle verfügbaren Backupfiles enthalten im Dateinamen die Kurs ID und sind nach folgendem Schema bezeichnet: pubbkp_[ID des Kurses].mbz.
+    Bei der Zurücksetzung des Kurses werden alle Teilnehmer aus dem Kurs entfernt.';
 $string['coursekeyword'] = 'Kurspasswort';
 $string['courselicense'] = 'Kurslizenz';
 $string['coursename'] = 'Kursname';
 $string['coursemetadata'] = 'Kurs-Metadaten';
+$string['courseresetnouserdata'] = '<p>Dieses Kurstemplate enthielt beim Einsenden <b>keine Userdaten</b>.
+    Die Zurücksetzung des Kurses erfolgt mit der Standardzurücksetzung von Moodle, siehe: {$a}</p>';
+$string['courseresetstrategy'] = 'Kursrücksetzung';
+$string['courseresetstrategydescription'] = 'Kursrücksetzung';
+$string['courseresetwithuserdata'] = '<p>
+    Normalerweise wird die Zurücksetzung des Kurses durch einen Hintergrundprozesses automatisch durchgeführt,
+    hier können sie eine Kurszurücksetzung aber auch sofort manuell auslösen:</p>';
+$string['courserestored'] = 'Kurs erfolgreich zurückgesetzt';
 $string['coursesfromtemplate'] = 'Nach dieser Vorlage erstellte Kurse';
 $string['coursetemplates'] = 'Austauschkurse';
-$string['creator'] = 'Kursautor';
+$string['createanewbackupfile'] = 'Ein Backup für künftige Zurücksetzungen des Kurses erstellen';
 $string['createdby'] = 'Erstellt durch';
 $string['createdon'] = 'Erstellt am';
+$string['createpublishedbackup'] = 'Ein Backup für künftige Zurücksetzungen des Kurses erstellen';
 $string['creationdate'] = 'Erstellungsdatum';
+$string['creator'] = 'Kursautor';
+$string['creatorbackup'] = 'Ersteller des Backups';
 $string['currentrating'] = 'Aktuelle Bewertung';
 $string['datasource'] = 'Datenquelle für zugrundeliegende Werte';
 $string['datasource_help'] = 'Wenn die gespeicherten Werte durch IDS repräsentiert werden, kann es sein, dass für die Anzeige
@@ -77,9 +110,12 @@ $string['datasource_help'] = 'Wenn die gespeicherten Werte durch IDS repräsenti
 $string['description'] = 'Beschreibung';
 $string['delayedrestore'] = 'Austauschkurs Erzeugung verzögern';
 $string['delayedrestore_desc'] = 'Kopieren der Kurse über CRON planen anstatt sofort ausführen.';
+$string['deletebackupfile'] = 'Backup löschen';
+$string['deletebackupfiledesc'] = 'Möchten sie diese Datei wirklich löschen: {$a}?';
 $string['deploycat'] = 'teachSHARE Kursbereich';
 $string['deployuserinfo'] = 'Nutzerdaten dürfen in Kopien des Austauschkurses verwendet werden.';
 $string['destination'] = 'Ziel';
+$string['dothecoursereset'] = 'Kurs zurücksetzen';
 $string['duplcourseforuse'] = 'Kurs für Nutzung kopieren';
 $string['duplcourseforuse1'] = 'Weiter';
 $string['duplcourseforuse2'] = 'Kurs aus dieser Vorlage erstellen';
@@ -147,6 +183,7 @@ $string['emailstatsrep_subj'] = 'Statistikbericht für Austauschkurse.';
 $string['emailtempldeployed_body'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,'."\n".'vielen Dank für Ihre Einreichung.
     Sie erhalten eine Nachricht wenn Ihr Kurs veröffentlicht wurde.';
 $string['emailtempldeployed_subj'] = 'Kurs eingereicht';
+$string['errorbackinguptemplate'] = 'Beim Backup des Templates (ID: {$a}) ist ein Fehler aufgetreten';
 $string['errorcannotassignauthor'] = 'Sie können keine Autoren für diesen Kurs zuweisen.';
 $string['errorcannotassignreviewer'] = 'Sie können keinen Reviewer für diesen Kurs zuweisen.';
 $string['errorcannotcomplain'] = 'Sie können zu diesem Kurs kein Problem melden.';
@@ -160,6 +197,7 @@ $string['errorcannotviewfeedback'] = 'Sie können das Feedback für diesen Kurs 
 $string['errorcatnotexists'] = 'Kategorie, in die wiederhergestellt werden soll, existiert nicht.';
 $string['errorcoursenottemplate'] = 'Dieser Kurs ist kein Austauschkurs.';
 $string['errordeploying'] = 'Fehler beim Bereitstellen des Austauschkurses.';
+$string['errordeploypublish'] = 'Beim Veröffentlichen des Templates {$a} ist ein Fehler aufgetreten';
 $string['erroremailbody'] = 'Ein Fehler ist aufgetreten: {$a->message}'."\n".'{$a->errorstr}';
 $string['erroremailsubj'] = 'Fehler bei einem Austauschkurs';
 $string['errormanualenrolnotset'] = 'Manuelle Einschreibung wurde für diesen Kurs nicht aktiviert.';
@@ -178,11 +216,21 @@ $string['feedbackfor'] = 'Feedback für {$a}';
 $string['field_checklist'] = 'Checklist';
 $string['field_checkboxgroup'] = 'Checkboxgroup';
 $string['field_lookupset'] = 'Lookupset';
+$string['filedeleted'] = 'Datei gelöscht';
 $string['forrevision'] = 'Überarbeitung nötig';
 $string['history'] = 'Verlauf';
+$string['id'] = 'ID';
+$string['implementedownmodules'] = 'Module, die durch Methoden des Plugins geprüft werden';
 $string['incluserdata'] = 'Nutzerdaten veröffentlichen';
+$string['incluserdata_help'] = '<ul><li>Mit anonymisierten Nutzerdaten: Wählen Sie diese Option, wenn Sie z. B. Glossar-, Wiki- 
+    oder Datenbankinhalte veröffentlichen wollen. Sie können dann nach absenden dieses Formulars in einem zweiten Formular für
+    jede Akitivtät wählen, ob die Nutzerdaten mitveröffentlicht werden sollen oder nicht.</li>
+    <li>Ohne Nutzerdaten: Alle Einträge in Aktivitäten werden gelöscht, insbesondere auch Lehrereinträge in Glossaren oder 
+    Wikis.</li>
+    <li>Die Entscheidung für oder gegen Nutzerdaten kann nachträglich nicht umgekehrt werden.</li></ul>';
 $string['incorrectfieldname'] = 'Eingabe eines falschen Feldnamens.';
 $string['initialform'] = 'Entwurf';
+$string['lastresettime'] = 'Zeitpunkt des letzten Resets';
 $string['lastupdate'] = 'Letzte Aktualisierung';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Kacheln';
@@ -229,6 +277,7 @@ $string['messageprovider:forrevision'] = 'teachSHARE: Zurückgewiesen zur Übera
 $string['messageprovider:published'] = 'teachSHARE: Veröffentlicht';
 $string['messageprovider:stats'] = 'teachSHARE: Statistik';
 $string['messageprovider:reminder'] = 'teachSHARE: Erinnerungen';
+$string['missingpermisson'] = 'Kurs template (ID: {$a}) kann nicht veröffentlicht werden, da Rechte fehlen';
 $string['mustselectuser'] = 'Sie müssen einen Nutzer auswählen';
 $string['myassigned'] = 'Kurse in Bearbeitung';
 $string['mypublished'] = 'Meine veröffentlichten Kurse';
@@ -240,14 +289,23 @@ $string['myrevision'] = 'Meine Kurse in Bearbeitung';
 $string['na'] = 'irrelevant';
 $string['newblocktitle'] = 'teachSHARE';
 $string['newlicense'] = 'Neue Lizenz hinzufügen';
+$string['nextruntime'] = 'Nächste Ausführung';
+$string['nextruntimefrom'] = 'Nächste Ausführung von';
+$string['nextruntimeto'] = 'bis';
 $string['nextstatsreport'] = 'Neuer Statistikbericht';
 $string['nextstatsreport_desc'] = 'Datum zur Ausführung des nächsten Statistikberichts';
 $string['noactiontpls_body'] = 'Folgende(r) Kurs(e) wurde(n) während der letzten Bearbeitungsperiode nicht geändert:'."\n".'{$a}';
 $string['noactiontpls_subj'] = 'Ungeprüfte Vorlagen';
+$string['nofiletorestoretemplate'] = 'Es ist keine Backupdatei für eine Zurücksetzen des Kurses verfügbar (id: {$a})';
+$string['notaskavailable'] = 'Kein Vorgang';
+$string['notavailable'] = 'Nicht verfügbar';
 $string['noresults'] = 'Keine Suchergebnisse. Bitte verändern Sie Ihre Sucheinstellungen.';
 $string['nountouchedtemplates'] = 'Es sind keine ungeprüften Vorlagen im gesetzten Zeitraum vorhanden.';
+$string['origbackupfile'] = 'Erste Backup Datei (beim Einsenden)';
 $string['pluginname'] = 'teachSHARE';
 $string['pluginnamecategory'] = 'teachSHARE (mehr)';
+$string['pubbackupfile'] = 'Kurs Template Backup';
+$string['publishedbackup'] = 'Übersicht zum Kurs Template Backup';
 $string['qformactivate'] = 'Diesen Entwurf aktivieren';
 $string['qbank'] = 'Fragensammlung';
 $string['qformdiscard'] = 'Frageformular verwerfen';
@@ -258,8 +316,18 @@ $string['questionname'] = 'Fragebezeichnung';
 $string['questionrequired'] = 'Pflichtfeld';
 $string['questiontitle'] = 'Fragetitel';
 $string['questiontype'] = 'Fragetyp';
+$string['rating'] = 'Bewertung';
+$string['ratingavg'] = 'durchschnittliche Bewertung';
+$string['rating_header'] = 'Bewertung abgeben';
+$string['rating_star'] = '{$a} Stern';
 $string['reasonforrevision'] = 'Gründe für die Überarbeitung';
+$string['recentactivitymodules'] = 'Module, die mit print_recent_activity geprüft werden';
+$string['redirectdupcrsmsg'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
+ihr Antrag für eine Kurskopie ist eingegangen. Sie erhalten eine Nachricht, sobald die Aktion ausgeführt wurde.';
+$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert.';
 $string['removefromdraft'] = 'Aus Entwurf entfernen';
+$string['resettasksoverview'] = 'Übersicht über die Prozesse zur Template Zurücksetzung';
+$string['restorebackupfile'] = 'Setze diesen Kurs durch eine Wiederherstellung des neuesten Backups zurück';
 $string['reviewerrole'] = 'Reviewer-Rolle';
 $string['reviewerrole_desc'] = 'Rolle für den im Kurs einzuschreibenden Reviewer';
 $string['save'] = 'Speichern';
@@ -277,116 +345,53 @@ $string['sendfeedbacktoreviewer'] = 'Nachricht an Reviewer';
 $string['sentforreview'] = 'Vielen Dank für die Einreichung Ihres Kurses bei teachSHARE.';
 $string['searchpagesize'] = 'Seitenaufteilung in der teachSHARE Suche';
 $string['searchresult'] = 'Suchergebnis';
+$string['scheduledpublishing'] = 'Die Veröffentlichung wurde geplant. Der Kurs sollte innerhalb weniger Minuten veröffentlicht werden. Bitte
+    haben sie ein wenig Geduld.';
 $string['startsreportsent'] = 'Statistikbericht erfolgreich verschickt.';
 $string['statsreporttooearly'] = 'Zu früh für nächsten Statistikbericht. Geplant für {$a}.';
+$string['status'] = 'Status';
 $string['statusarchived'] = 'Archiviert';
 $string['statusassignedreviewer'] = 'Reviewer zugewiesen';
 $string['statuscreated'] = 'Erstellt';
 $string['statuspublished'] = 'Veröffentlicht';
 $string['statusunderreview'] = 'Bearbeitung durch Reviewer';
 $string['statusunderrevision'] = 'Bearbeitung durch Autor';
+$string['submitbutton'] = 'Senden';
 $string['tag'] = 'Schlagwort';
 $string['tags'] = 'Schlagworte';
 $string['tagshelpbutton'] = 'Hilfe: Schlagworte';
 $string['tagshelpbutton_help'] = 'Geben Sie Schlagworte an, die den Inhalt oder Einsatz Ihres Kurses beschreiben, z. B. für einen SCHILF-Kurs: schilf, fortbildung';
 $string['tagsplaceholder'] = 'schlagwort1, schlagwort2';
 $string['tasknote'] = 'Auftragsnotiz';
+$string['tasksoverview'] = 'Übersicht Template Reset';
 $string['teacherrole'] = 'Lehrer-Rolle';
 $string['teacherrole_desc'] = 'Rolle, die einem Nutzer zugewiesen wird, wenn er einen Austauschkurs für die Nutzung kopiert.';
 $string['termsofuse'] = 'Nutzungsbedingungen';
 $string['termsofuse_descr'] = 'Ich habe die <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">Nutzungsbedingungen</a> gelesen und akzeptiere sie.';
 $string['templatefeedback'] = 'Rückmeldeformular zum Austauschkurs';
 $string['templatehistoryreport'] = 'Verlauf für den Austauschkurs "{$a->fullname}" ({$a->shortname})';
+$string['templatereset'] = 'Zurücksetzen des Templates';
 $string['templatesearch'] = 'Tauschkurse suchen';
 $string['timeassigned'] = 'Zugewiesen seit';
+$string['timecreated'] = 'Erstellt';
 $string['to'] = 'An:';
 $string['tplremindafter'] = 'Erinnerung bezüglich Austauschkurs senden nach';
 $string['tplremindafter_desc'] = 'Jeder Nutzer, der das Recht Master Reviewer im teachSHARE Kursbereich-Kontext hat,
     wird benachrichtigt, wenn ein Kurs nicht in der vorgegebenen Zeit bearbeitet wird.';
 $string['tplremindersent'] = 'Erinnerung abgeschickt.';
+$string['uncheckablemodules'] = 'Module, die nicht auf inhaltliche Änderungen geprüft werden können';
+$string['uncheckedmodules'] = 'Module, die nicht auf inhaltliche Änderungen geprüft wurden';
 $string['unknownaction'] = 'unbekannte Aktion';
 $string['updated'] = 'Zeit';
+$string['unknowncourse'] = 'Unbekannte Kurs (möglicherweise gelöscht), die Kurs ID war: {$a}';
+$string['unknowncreator'] = 'Unbekannter Backup-Ersteller';
 $string['uploadfile'] = 'Datei hochladen';
+$string['userdataids'] = 'IDs der Module mit Userdaten';
+$string['userdataincluded'] = 'Enthielt beim Einsenden Userdaten';
 $string['useq'] = 'Diese Frage nutzen';
 $string['viewfeedback'] = 'Feedback anschauen';
-$string['withanon'] = 'Mit anonymisierten Nutzerdaten';
-$string['withoutanon'] = 'Ohne Nutzerdaten';
-$string['rating'] = 'Bewertung';
-$string['ratingavg'] = 'durchschnittliche Bewertung';
-$string['rating_header'] = 'Bewertung abgeben';
-$string['submitbutton'] = 'Senden';
-$string['cancelbutton'] = 'Abbrechen';
-$string['rating_star'] = '{$a} Stern';
-$string['redirectdupcrsmsg'] = 'Sehr geehrte(r) Nutzer(in) der mebis-Lernplattform,
-ihr Antrag für eine Kurskopie ist eingegangen. Sie erhalten eine Nachricht, sobald die Aktion ausgeführt wurde.';
 $string['viewhistory'] = 'Chronik anschauen';
 $string['viewrating'] = 'Bewertung anschauen';
-$string['redirectdupcrsmsg_done'] = 'Der Austauschkurs wurde kopiert. Sie werden zum kopierten Kurs weitergeleitet.';
+$string['withanon'] = 'Mit anonymisierten Nutzerdaten';
+$string['withoutanon'] = 'Ohne Nutzerdaten';
 $string['yourrating'] = 'Meine Bewertung';
-
-// New strings to be sorted in alphabetically, after translation.
-$string['addenrolmbs'] = 'Rücksetzungs-plugin hinzufügen';
-$string['advancedsearch'] = 'Erweitere Suche';
-$string['backupcreated'] = 'Backup erstellt';
-$string['backupinformation'] = 'Informationen zum Backup';
-$string['configreset'] = 'Rücksetzung konfigurieren';
-$string['courseresetstrategy'] = 'Kursrücksetzung';
-$string['courseresetstrategydescription'] = 'Kursrücksetzung';
-$string['coursebackupwithuserdata'] = '<p>Dieses Kurs-Template enthielt bereits beim erstmaligen Einsenden Userdaten, die anonymisiert wurden.
-    Wenn beim Ausprobieren des Kurses auf teachSHARE neue Userdaten erzeugt werden, wird der Kurs durch eine Wiederherstellung des letzten verfügbaren
-    Backupfiles zurückgesetzt. Alle verfügbaren Backupfiles enthalten im Dateinamen die Kurs ID und sind nach folgendem Schema bezeichnet: pubbkp_[ID des Kurses].mbz.
-    Bei der Zurücksetzung des Kurses werden alle Teilnehmer aus dem Kurs entfernt.';
-$string['coursebackupnopubbackup'] = '<p><b>Es is kein (published) backup file verfügbar?</b></p><p>Sie können ein Backupfile erzeugen, das künftig zur
-    Zurücksetzung eines Kurses verwendet wird:
-    <ul>
-    <li>Setzen sie den Kurs auf nicht sichtbar</li>
-    <li>Entfernen sie alle Daten, die bei der Kurszurücksetzung nicht wiederhergestellt werden sollen</li>
-    <li>Starten sie das Backup: der Kurs wird sofort in die Datei pubbkp_[ID des Kurses].mbz gesichert</li>
-    <li>Schalten sie den Kurs wieder sichtbar</li>
-    </ul>';
-$string['courseresetwithuserdata'] = '<p>
-    Normalerweise wird die Zurücksetzung des Kurses durch einen Hintergrundprozesses automatisch durchgeführt,
-    hier können sie eine Kurszurückstzung aber auch sofort manuell auslösen:</p>';
-$string['courseresetnouserdata'] = '<p>Dieses Kurstamplate enthielt beim Einsenden <b>keine Userdaten</b>.
-    Die Zurücksetzung des Kurses erfolgt mit der Standardzurücksetzung von Moodle, siehe: {$a}</p>';
-$string['course'] = 'Kurs Template';
-$string['courserestored'] = 'Kurs erfolgreich zurückgesetzt';
-$string['containsuserdata'] = 'Kurs enthielt beim Einsenden Userdaten';
-$string['contentchanged'] = 'Inhalte des Kurses wurden verändert';
-$string['createanewbackupfile'] = 'Ein Backup für künftige Zurücksetzungen des Kurses erstellen';
-$string['createpublishedbackup'] = 'Ein Backup für künftige Zurücksetzungen des Kurses erstellen';
-$string['creator'] = 'Ersteller des Backups';
-$string['deletebackupfile'] = 'Backup löschen';
-$string['deletebackupfiledesc'] = 'Möchten sie diese Datei wirklich löschen: {$a}?';
-$string['dothecoursereset'] = 'Kurs zurücksetzen';
-$string['errorbackinguptemplate'] = 'Beim Backup des Templates (ID: {$a}) ist ein Fehler aufgetreten';
-$string['errordeploypublish'] = 'Beim Veröffentlichen des Templates {$a} ist ein Fehler aufgetreten';
-$string['filedeleted'] = 'Datei gelöscht';
-$string['id'] = 'ID';
-$string['implementedownmodules'] = 'Module, die durch Methoden des Plugins geprüft werden';
-$string['lastresettime'] = 'Zeitpunkt des letzten Resets';
-$string['missingpermisson'] = 'Kurs template (ID: {$a}) kann nicht veröffentlicht werden, da Rechte fehlen';
-$string['nextruntime'] = 'Nächste Ausführung';
-$string['nextruntimefrom'] = 'Nächste Ausführung von';
-$string['nextruntimeto'] = 'bis';
-$string['notaskavailable'] = 'Kein Vorgang';
-$string['notavailable'] = 'Nicht verfügbar';
-$string['nofiletorestoretemplate'] = 'Es ist keine Backupdatei für eine Zurücksetzen des Kurses verfügbar (id: {$a})';
-$string['pubbackupfile'] = 'Kurs Template Backup';
-$string['publishedbackup'] = 'Übersicht zum Kurs Template Backup';
-$string['origbackupfile'] = 'Erste Backup Datei (beim Einsenden)';
-$string['recentactivitymodules'] = 'Module, die mit print_recent_activity geprüft werden';
-$string['resettasksoverview'] = 'Übersicht über die Prozesse zur Template Zurücksetzung';
-$string['restorebackupfile'] = 'Setze diesn Kurs durch eine Wiederherstellung des neuesten Backups zurück';
-$string['scheduledpublishing'] = 'Die Veröffentlichung wurde geplant. Der Kurs sollte innerhalb weniger Minuten veröffentlicht werden. Bitte
-    haben sie ein wenig Geduld.';
-$string['status'] = 'Status';
-$string['tasksoverview'] = 'Übersicht Template Reset';
-$string['templatereset'] = 'Zurücksetzen des Templates';
-$string['timecreated'] = 'Erstellt';
-$string['uncheckedmodules'] = 'Module, die nicht auf inhaltliche Änderungen geprüft wurden';
-$string['unknowncourse'] = 'Unbekannte Kurs (möglicherweise gelöscht), die Kurs ID war: {$a}';
-$string['unkowncreator'] = 'Unbekannter Backup-Ersteller';
-$string['userdataids'] = 'Enthaltene User IDs';
-$string['userdataincluded'] = 'Enthielt beim Einsenden Userdaten';
-$string['uncheckablemodules'] = 'Module, die nicht auf inhaltliche Änderungen geprüft werden können';

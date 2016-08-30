@@ -14192,6 +14192,10 @@ button.close {
   .me-wrapper #topbar {
     background: transparent;
   }
+  .me-wrapper #topbar .navbar-collapse.collapse,
+  .me-wrapper #topbar .navbar-collapse.collapsing {
+    margin-top: 0;
+  }
   .me-wrapper #topbar .container {
     width: 100% !important;
     padding: 0;

@@ -2499,7 +2499,7 @@ function glossary_xml_export_files($tag, $taglevel, $contextid, $filearea, $item
  * @return int
  */
 function glossary_xml_import_files($xmlparent, $tag, $contextid, $filearea, $itemid) {
-    global $USER;
+    global $USER, $CFG;
     $count = 0;
     if (isset($xmlparent[$tag][0]['#']['FILE'])) {
         $fs = get_file_storage();
@@ -2515,15 +2515,20 @@ function glossary_xml_import_files($xmlparent, $tag, $contextid, $filearea, $ite
             );
             // +++ Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
             $filerecord['userid'] = $USER->id;
-            $filerecord['author'] = $file['#']['FILEAUTHOR'][0]['#'];
-            $license = $file['#']['FILELICENSE'][0]['#']; 
-            if (!class_exists('\local_mbs\local\licensemanager')) {        
-                if (license_manager::get_license_by_shortname($license)) {
-                    $filerecord['license'] = $license;
-                }
-            } else {
-                if(\local_mbs\local\licensemanager::get_licenses(array('shortname' => $license, 'userid' => $USER->id))) {
-                   $filerecord['license'] = $license;
+            if(array_key_exists('FILEAUTHOR', $file['#'])) {
+                $filerecord['author'] = $file['#']['FILEAUTHOR'][0]['#'];
+            }
+            if(array_key_exists('FILELICENSE', $file['#'])) {
+                $license = $file['#']['FILELICENSE'][0]['#']; 
+                if (!class_exists('\local_mbs\local\licensemanager')) {     
+                    require_once($CFG->libdir . "/licenselib.php");
+                    if (license_manager::get_license_by_shortname($license)) {
+                        $filerecord['license'] = $license;
+                    }
+                } else {
+                    if(\local_mbs\local\licensemanager::get_licenses(array('shortname' => $license, 'userid' => $USER->id))) {
+                       $filerecord['license'] = $license;
+                    }
                 }
             }
             // --- Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.

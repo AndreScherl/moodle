@@ -98,6 +98,17 @@ class enrol_class_plugin extends enrol_plugin {
     }
     
     /**
+     * Is it possible to delete enrol instance via standard UI?
+     *
+     * @param object $instance
+     * @return bool
+     */
+    public function can_delete_instance($instance) {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/class:config', $context);
+    }
+    
+    /**
      * Returns edit icons for the page with list of instances.
      * @param stdClass $instance
      * @return array
@@ -345,6 +356,101 @@ class enrol_class_plugin extends enrol_plugin {
     public function restore_group_member($instance, $groupid, $userid) {
         // Nothing to do here, the group members are added in $this->restore_group_restored()
         return;
+    }
+    
+    /**
+     * Return an array of valid options for the status.
+     *
+     * @return array
+     */
+    protected function get_status_options() {
+        $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
+                         ENROL_INSTANCE_DISABLED => get_string('no'));
+        return $options;
+    }
+    
+    /**
+     * Return an array of valid options for the roles.
+     *
+     * @param stdClass $instance
+     * @param context $coursecontext
+     * @return array
+     */
+    protected function get_role_options($instance, $coursecontext) {
+        global $DB;
+
+        $roles = get_assignable_roles($coursecontext);
+        $roles[0] = get_string('none');
+        $roles = array_reverse($roles, true); // Descending default sortorder.
+        if ($instance->id and !isset($roles[$instance->roleid])) {
+            if ($role = $DB->get_record('role', array('id' => $instance->roleid))) {
+                $roles = role_fix_names($roles, $coursecontext, ROLENAME_ALIAS, true);
+                $roles[$instance->roleid] = role_get_name($role, $coursecontext);
+            } else {
+                $roles[$instance->roleid] = get_string('error');
+            }
+        }
+
+        return $roles;
+    }
+    
+    /**
+     * Return an array of valid options for the groups.
+     *
+     * @param context $coursecontext
+     * @return array
+     */
+    protected function get_group_options($coursecontext) {
+        $groups = array(0 => get_string('none'));
+        
+        foreach (groups_get_all_groups($coursecontext->instanceid) as $group) {
+            $groups[$group->id] = format_string($group->name, true, array('context' => $coursecontext));
+        }
+
+        return $groups;
+    }
+    
+    /**
+     * Perform custom validation of the data used to edit the instance.
+     *
+     * @param array $data array of ("fieldname" => value) of submitted data
+     * @param array $files array of uploaded files "element_name" => tmp_file_path
+     * @param object $instance The instance loaded from the DB
+     * @param context $context The context of the instance we are editing
+     * @return array of "element_name" => "error_description" if there are errors,
+     *         or an empty array if everything is OK.
+     * @return void
+     */
+    public function edit_instance_validation($data, $files, $instance, $context) {
+        global $DB;
+        $errors = array();
+
+        $params = array(
+            'roleid' => $data['roleid'],
+            'schoolid' => $data['schoolid'],
+            'class' => $data['customchar1'],
+            'courseid' => $data['courseid'],
+            'id' => $data['id']
+        );
+        $sql = "roleid = :roleid AND customchar1 = :class AND customchar2 = :schoolid AND courseid = :courseid "
+                . "AND enrol = 'cohort' AND id <> :id";
+        if ($DB->record_exists_select('enrol', $sql, $params)) {
+            $errors['roleid'] = get_string('instanceexists', 'enrol_class');
+        }
+        $validstatus = array_keys($this->get_status_options());
+        $validroles = array_keys($this->get_role_options($instance, $context));
+        $validgroups = array_keys($this->get_group_options($context));
+        $tovalidate = array(
+            'name' => PARAM_TEXT,
+            'status' => $validstatus,
+            'roleid' => $validroles,
+            'customint2' => $validgroups,
+            'customint3' => PARAM_BOOL
+        );
+        $typeerrors = $this->validate_param_types($data, $tovalidate);
+        $errors = array_merge($errors, $typeerrors);
+
+        return $errors;
     }
 }
 

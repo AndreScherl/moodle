@@ -148,6 +148,116 @@ class mbslicenseinfo {
 
         return $result;
     }
+    
+    /**
+     * To group the files by content hash and order them, 
+     * we must fetch the license data in two steps:
+     * 
+     * 1. We search all the files meeting the searchtext ordered title ASC and id DESC to get no edited
+     * and most recent entries first and group it by contenthash.
+     * 
+     * 2. We get all files of the course belonging to one contenthash, which means that multiple occurances will be detected 
+     * and the entries can be grouped by physical file existance.
+     * 
+     * @param int $courseid
+     * @param int $pageparams
+     * @param int $searchtext
+     * @return array containing result information
+     */
+    public function search_coursefiles($courseid, $pageparams, $searchtext) {
+        global $DB, $USER;
+
+        $select = "SELECT f.contenthash ";
+        $countselect = "SELECT count(DISTINCT f.contenthash) as total ";
+
+        $from = "FROM {files} f
+                 JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
+        
+        // Get where.
+        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
+        $params = array('contextlevel' => CONTEXT_COURSE);
+
+        // Restrict to coursecontext.
+        $coursecontext = \context_course::instance($courseid);
+        $cond[] = $DB->sql_like('c.path', ':contextpath');
+        $params['contextpath'] = $coursecontext->path . '%';
+
+        // Restrict to mimetypes.
+        $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');
+        if (!empty($neededmimetypes)) {
+            $list = explode(',', $neededmimetypes);
+            $cond[] = " f.mimetype IN ('" . implode("', '", $list) . "') ";
+        } else {
+            // When no mime type is checked, show nothing.
+            $cond[] = ' 1 = 2 ';
+        }
+
+        // Show only incomplete.
+        if (!empty($pageparams['onlyincomplete'])) {
+            $from .= " LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
+            $cond[] = " ((fm.title = '') OR (fm.title IS NULL) OR (fm.source = '') OR (fm.source IS NULL)) ";
+        }
+
+        // Show only own.
+        if (!empty($pageparams['onlymine'])) {
+            $cond[] = ' f.userid = :userid ';
+            $params['userid'] = $USER->id;
+        }
+        
+        $where = "WHERE " . implode(" AND ", $cond);
+        
+        // Searchparams.
+        $search = ' '.$DB->sql_like('f.filename', ':filename', false).' ';
+        $params['filename'] = '%' . $searchtext . '%';
+        if (empty($pageparams['onlyincomplete'])) {
+            $from .= " LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
+            $search = '('.$search.' OR '.$DB->sql_like('fm.title', ':name', false).') ';
+            $params['name'] = '%' . $searchtext . '%';
+        }
+        $cond[] = $search;
+        
+        $wheresearch = "WHERE " . implode(" AND ", $cond);
+
+        // Build SQL.
+        $sql = $select . $from . $wheresearch . "GROUP BY f.contenthash ORDER BY f.id desc";
+
+        $result = array();
+        // Step 1: Get the contenthashes ordered by empty title and most recent.
+        if (!$orderedhashes = $DB->get_records_sql($sql, $params)) {
+            return $result;
+        }        
+
+        // Step 2: For each content hash retrieve other coursefiles with same content hash.
+        $contenthashes = array_keys($orderedhashes);
+
+        list($incontenthash, $inparams) = $DB->get_in_or_equal($contenthashes, SQL_PARAMS_NAMED);
+        $params = $params + $inparams;
+
+        $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid
+                   FROM {files} f
+                   JOIN {context} c ON f.contextid = c.id 
+                   LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
+
+        $where .= " AND f.contenthash {$incontenthash}";
+
+        $orderby = " ORDER by f.id desc";
+
+        $sql = $select . $where . $orderby;
+
+        if (!$allcoursefiles = $DB->get_records_sql($sql, $params)) {
+            return array();
+        }
+
+        // Order files by contenthashes.
+        foreach ($allcoursefiles as $file) {
+            if (!isset($result[$file->contenthash])) {
+                $result[$file->contenthash] = array();
+            }
+            $result[$file->contenthash][$file->id] = new mbsfile($file);
+        }
+
+        return $result;
+    }
 
     /**
      * Update the course files information

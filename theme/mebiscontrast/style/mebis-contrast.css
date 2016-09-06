@@ -235,8 +235,15 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'teachSHARE';
+  src: url("[[font:theme|teachSHARE.eot]]");
+  src: url("[[font:theme|teachSHARE.eot]]") format("embedded-opentype"), url("[[font:theme|teachSHARE.woff]]") format("woff"), url("[[font:theme|teachSHARE.ttf]]") format("truetype"), url("[[font:theme|teachSHARE.svg]]") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 [class^="icon-me"], [class*=" icon-me"] {
-  font-family: mebis-icons;
+  font-family: mebis-icons, teachSHARE;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -1027,6 +1034,10 @@
 
 .icon-me-support:before {
   content: "\e659";
+}
+
+.icon-me-teachshare:before {
+  content: "\e900";
 }
 
 .icon-me-test:before {
@@ -14398,6 +14409,10 @@ button.close {
   .me-wrapper #topbar {
     background: transparent;
   }
+  .me-wrapper #topbar .navbar-collapse.collapse,
+  .me-wrapper #topbar .navbar-collapse.collapsing {
+    margin-top: 0;
+  }
   .me-wrapper #topbar .container {
     width: 100% !important;
     padding: 0;
@@ -14565,15 +14580,9 @@ div[role="main"] > h2 {
 
 /* This file contains Styles related to categories.
 
-Please note that unfortunately there are two differnet category (box) containers:
-
 category-box: 
  This box ist used to display a (hierarchical) ordered List of categories 
  (for example for a school category on category pages)
-
-categorybox: 
-  This box is only used in the block_mbsmycourses within a category-box container
-  Is this realy needed? Should'nt we move this into _cu-blocks?
 */
 /* 
     Created on : 19.05.2015
@@ -14599,6 +14608,7 @@ categorybox:
 }
 .category-box .category-course .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box .category-course .category-course-title i {
   color: #fff;
@@ -14697,6 +14707,7 @@ categorybox:
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name {
   margin-left: 5px;
+  word-wrap: break-word;
 }
 .category-box > .category-course > .category-course-title span.category-course-title-name a {
   color: #fff;
@@ -14741,61 +14752,6 @@ categorybox:
   .category-box .category-container .category-body {
     padding: 0;
   }
-}
-
-.categorybox {
-  padding: 15px 0;
-}
-.categorybox .category-container {
-  background-color: #fff;
-  margin: 1px 20px;
-  padding: 20px 0px;
-}
-.categorybox .category-container.category-name {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.categorybox .category-container.category-name .closebutton {
-  font-family: FontAwesome;
-  position: absolute;
-  right: 60px;
-  top: 23px;
-  color: #333333;
-  cursor: pointer;
-}
-.categorybox .category-container .category-coursebox {
-  padding: 17px 60px;
-  margin: 0px 40px 1px 0;
-  background-color: #CCC;
-}
-.categorybox .category-container .category-coursebox .iconbox {
-  font-family: FontAwesome;
-  position: absolute;
-  top: 10px;
-  left: 30px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  background-color: #858585;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 18px;
-  color: #E4E4E4;
-  text-align: center;
-}
-.categorybox .category-container .category-coursebox .newbox {
-  position: absolute;
-  top: 0px;
-  right: 60px;
-  width: 40px;
-  height: 30px;
-  line-height: 30px;
-  background-color: #A0A0A0;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 10px;
-  color: #fff;
-  text-align: center;
 }
 
 #page-course-index-category .collapsible-actions {
@@ -14898,6 +14854,9 @@ categorybox:
 #page-course-index-category .content .courses .coursebox .info span a img {
   vertical-align: baseline;
 }
+#page-course-index-category .content .courses .coursebox .info span.coursename {
+  word-wrap: break-word;
+}
 #page-course-index-category .content .courses .coursebox .info span.coursename::before {
   content: "";
   font-family: "mebis-icons";
@@ -14999,6 +14958,7 @@ categorybox:
 .coursebox .coursebox-inner .coursebox-link .coursename {
   font-size: 1.25em;
   color: #333333;
+  word-wrap: break-word;
 }
 .coursebox .coursebox-inner .coursebox-link .coursename:before {
   color: #000;
@@ -15121,6 +15081,7 @@ categorybox:
 }
 .wrapper-learning-platform .moodle-menu ul.nav > li.dropdown ul > li ul {
   list-style: none;
+  margin-left: 0;
 }
 .wrapper-learning-platform .moodle-menu .me-subnav .hiddennavnode {
   color: #fff;
@@ -15348,19 +15309,18 @@ categorybox:
 /*
     This file contains style customizations for activities:
 
-    - database
     - assign
+    - badges
+    - book
+    - database
     - feedback
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-mod
-    - #page-mod-assign-view
+    - forum
+    - game
+    - glossary
+    - lesson
+    - page
+    - wiki
     - #page-question-type-geogebra
-    - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
     - #page-mod-imscp-view
@@ -15373,13 +15333,24 @@ categorybox:
     - .que.ddwtos 
     - .que.geogebra
     - .que.match
-    - .que.multichoice
+    - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
 */
 /* 
     Created on : 05.06.2015, 12:13:08
     Author     : Franziska Hübler, ISB
 */
+.path-mod-game #region-main table table td {
+  padding: 5px;
+}
+.path-mod-game #region-main table table#crossword td {
+  padding: 3px;
+}
+.path-mod-game .gamebox {
+  width: 30px;
+  font-size: 18px;
+}
+
 #page-mod-data-templates #main-content-wrapper div > ul.nav.nav-tabs.nav-justified li {
   width: 25%;
   float: left;
@@ -15396,11 +15367,32 @@ categorybox:
   }
 }
 
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-view div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div {
+#page-mod-data-edit #main-content-wrapper form div.defaulttemplate {
+  overflow: hidden;
+}
+#page-mod-data-edit #main-content-wrapper form div.defaulttemplate select {
+  width: auto;
+  max-width: 100%;
+}
+
+.path-badges .statusbox {
+  border-color: #000;
+  background: #fff;
+  width: 40%;
+  margin-bottom: 10px;
+}
+
+#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
+  height: inherit !important;
+}
+#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
 
+div.que.geogebra div.formulation div[id$='ggbdiv'] {
+  height: inherit !important;
+}
 div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   min-height: 0;
   height: inherit !important;
@@ -15413,6 +15405,11 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   margin-right: 20px;
 }
 
+.path-mod-assign div.feedback {
+  float: none;
+  width: auto;
+}
+
 #page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],
 #page-mod-choiceanon-view #main-content-wrapper form ul li input[type="radio"] {
   margin: 0 7px 0 0;
@@ -15421,6 +15418,12 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 #page-mod-choiceanon-view #main-content-wrapper form ul li label {
   padding-left: 2.8px;
   margin: 0;
+  display: inline;
+}
+
+.path-mod-choiceanon .results .data.header {
+  white-space: normal;
+  padding-right: 10px;
 }
 
 #page-mod-feedback-complete #main-content-wrapper input[type="submit"] {
@@ -15437,6 +15440,26 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 
 #page-mod-mediathek-mod #main-content-wrapper fieldset.clearfix.collapsible button {
   margin-left: 0;
+}
+
+#page-question-addquestion.jsenabled #chooseqtypebox {
+  width: 100%;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .alloptions {
+  max-width: inherit;
+  box-shadow: none;
+  overflow: inherit;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .instruction {
+  display: none;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .typesummary {
+  display: inline;
+  position: static;
+  background-color: transparent;
+}
+#page-question-addquestion.jsenabled #chooseqtypebox .choosercontainer #chooseform .options {
+  border-bottom: none;
 }
 
 #page-mod-quiz-edit #main-content-wrapper {
@@ -15462,6 +15485,19 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 #page-question-edit table#categoryquestions > tbody > tr.highlight, #page-mod-quiz-edit table#categoryquestions > tbody > tr.highlight {
   background: #333333;
   display: table-row;
+}
+
+#page-mod-quiz-attempt .submitbtns,
+#page-mod-quiz-review .submitbtns {
+  text-align: right;
+}
+#page-mod-quiz-attempt .submitbtns .mod_quiz-next-nav,
+#page-mod-quiz-review .submitbtns .mod_quiz-next-nav {
+  float: none;
+}
+#page-mod-quiz-attempt .submitbtns .mod_quiz-prev-nav,
+#page-mod-quiz-review .submitbtns .mod_quiz-prev-nav {
+  float: left;
 }
 
 #page-mod-quiz-attempt div.content:before,
@@ -15518,13 +15554,11 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 
 .que.calculatedmulti .answer div.r0 input,
 .que.calculatedmulti .answer div.r1 input {
-  margin: 0 5px 0 0;
   width: 15px;
 }
 
 .que.multianswer .answer div.r0 input,
 .que.multianswer .answer div.r1 input {
-  margin: 0 5px 0 0;
   width: 15px;
 }
 .que.multianswer .feedbackspan {
@@ -15535,13 +15569,15 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
 }
 
-.que.multichoice .ablock,
-.que.multichoice .qtext {
+.que.multichoice .ablock, .que.multichoice .qtext {
   margin: 0;
 }
-
 .que.multichoice .ablock .prompt {
   display: none;
+}
+.que.multichoice .answer div.r0 input,
+.que.multichoice .answer div.r1 input {
+  margin: 0 0 0 5px;
 }
 
 .que.ddwtos .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
@@ -15561,17 +15597,21 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   background-color: #e6e6e6;
 }
 
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
-  padding-left: 10px;
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ul, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul {
+  padding-left: 30px;
+  margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
-  list-style: disc inside none;
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ul > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ul > li, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ul > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ul > li {
+  list-style-position: outside;
+  list-style-image: none;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
-  padding-left: 10px;
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ol, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol {
+  padding-left: 30px;
+  margin-left: 0;
 }
-#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
-  list-style: decimal inside none;
+#page-mod-wiki-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-wiki-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-page-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-glossary-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-forum-discuss #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-edit #main-content-wrapper div[role="main"] div div ol > li, #page-mod-lesson-view #main-content-wrapper div[role="main"] div div ol > li, #page-mod-assign-grading #main-content-wrapper div[role="main"] div div ol > li, #page-mod-book-view #main-content-wrapper div[role="main"] div div ol > li {
+  list-style-position: outside;
+  list-style-image: none;
 }
 
 #page-mod-imscp-view .yui-layout {
@@ -15584,13 +15624,41 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   overflow: visible;
 }
 
-#page-mod-assign-view .homepage-container {
+#page-mod-assign-grading .homepage-container {
   width: 100%;
   max-width: 1692px;
 }
 
+.gradeparent {
+  margin-bottom: 1px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+}
+.gradeparent .gradereport-grader-table {
+  font-size: 14px;
+}
+.gradeparent .gradereport-grader-table img {
+  max-width: none;
+}
+.gradeparent .gradereport-grader-table .userfield.userinstitution {
+  display: none;
+}
+.gradeparent .gradereport-grader-table .userfield.useremail {
+  display: none;
+}
+
+#page-mod-lesson-view input[type="submit"] {
+  white-space: normal;
+}
+
+.wiki_navigation_container {
+  display: flex;
+}
+
 @media only screen and (min-width: 1200px) {
-  #page-mod-assign-view .homepage-container {
+  #page-mod-assign-grading .homepage-container {
     padding-left: 100px;
   }
 }
@@ -15618,25 +15686,27 @@ Put all the pagelayout specific styles here.
 */
 .pagelayout-admin #main-content-wrapper, .pagelayout-report #main-content-wrapper {
   background: #fff !important;
-  color: #000 !important;
+  color: #333333;
 }
-.pagelayout-admin .admin-navigation, .pagelayout-report .admin-navigation {
+
+.pagelayout-report .admin-navigation {
   margin-bottom: 20px;
 }
-.pagelayout-admin .admin-navigation h3, .pagelayout-report .admin-navigation h3 {
+.pagelayout-report .admin-navigation h3 {
   color: #fff;
 }
-.pagelayout-admin .admin-navigation select, .pagelayout-report .admin-navigation select {
+.pagelayout-report .admin-navigation select {
   max-width: 100%;
 }
 
-.pagelayout-maintenance .me-wrapper .container.homepage-container.admin-container {
-  background: #fff;
+.admin-layout .pagelayout-maintenance .admin-container {
   margin-bottom: 40px;
 }
-
-.admin-container table {
+.admin-layout .pagelayout-maintenance .admin-container .row {
   background: #fff;
+}
+.admin-layout .pagelayout-maintenance .admin-container .row .label-important {
+  background-color: #b94a48;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -15670,6 +15740,9 @@ In this file we collect:
 .block .header {
   background-color: inherit;
   color: inherit;
+}
+.block ul, .block ol {
+  margin-left: 0;
 }
 
 .block-transparent {
@@ -15714,6 +15787,16 @@ aside.row .block-region .block {
   color: #fff;
 }
 
+.me-wrapper .add-more-results {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.me-wrapper .add-more-results .load-more-results {
+  margin-left: 0;
+}
+
 .mbscoordinators {
   clear: both;
   overflow: hidden;
@@ -15739,6 +15822,55 @@ aside.row .block-region .block {
 }
 .mbsnewcourse > ul.mbsnewcourse-actionlinks > li a i {
   font-size: 1.25em !important;
+}
+
+#block_mbsnews .mbsnews .mbsnews-config {
+  margin: 0 -20px 20px -20px;
+  background-color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-config span {
+  padding: 10px;
+}
+#block_mbsnews .mbsnews .mbsnews-config a {
+  padding: 10px;
+}
+#block_mbsnews .mbsnews .mbsnews-message {
+  background-color: #fff;
+  color: #333333;
+  margin: 0 -20px 20px -20px;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:hover, #block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:active {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-header a:visited {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body {
+  background-color: #333333;
+  color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a {
+  color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:hover, #block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:active {
+  color: #333333;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:visited {
+  color: #fff;
+}
+#block_mbsnews .mbsnews .mbsnews-message .mbsnews-body a:before {
+  font-family: 'mebis-icons';
+  content: "\e62a";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  font-size: 0.625em;
+  margin-right: 3px;
+  display: inline-block;
 }
 
 .block_mbsgettingstarted {
@@ -15900,16 +16032,166 @@ aside.row .block-region .block {
   padding: 22px 20px 0  0;
 }
 
-.path-blocks-mbssearch .add-more-results,
-.block_mbsmycourses .add-more-results {
-  margin-left: 0;
-  margin-right: 0;
+.block_mbstpl button {
+  color: #000;
+}
+.block_mbstpl .statuslink {
+  padding: 0px 5px;
+}
+.block_mbstpl .statuslink.statuscreated {
+  background-color: #e6e6e6;
+}
+.block_mbstpl .statuslink.statusunderreview {
+  background-color: #000;
+}
+.block_mbstpl .statuslink.statusunderrevision {
+  background-color: #333333;
+}
+.block_mbstpl .statuslink.statuspublished {
+  background-color: #999999;
+}
+.block_mbstpl .statuslink.statusarchived {
+  background-color: #e6e6e6;
+}
+.block_mbstpl li {
+  padding: 2px 0;
+}
+.block_mbstpl li a {
+  color: #fff;
+}
+.block_mbstpl li a:hover {
+  color: #000;
+}
+.block_mbstpl ul {
+  list-style: none;
+}
+
+#page-blocks-mbstpl-sendtemplate .path-backup img {
+  height: 24px;
+  width: 24px;
+}
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .fitem .felement {
+  margin-left: inherit;
+}
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .grouped_settings .include_setting {
+  padding-bottom: 20px;
+}
+#page-blocks-mbstpl-sendtemplate .path-backup .mform .fitem_actionbuttons {
+  margin: 0;
+}
+
+#page-blocks-mbstpl-viewfeedback .statusbox,
+#page-blocks-mbstpl-assign .statusbox,
+#page-blocks-mbstpl-viewhistory .statusbox,
+#page-blocks-mbstpl-feedbackdetail .statusbox {
+  color: #fff;
+  border: none;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-assign .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-viewhistory .statusbox.statusassignedreviewer,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusassignedreviewer {
+  background-color: #e6e6e6;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statuscreated,
+#page-blocks-mbstpl-assign .statusbox.statuscreated,
+#page-blocks-mbstpl-viewhistory .statusbox.statuscreated,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statuscreated {
+  background-color: #e6e6e6;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusunderreview,
+#page-blocks-mbstpl-assign .statusbox.statusunderreview,
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderreview,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusunderreview {
+  background-color: #000;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusunderrevision,
+#page-blocks-mbstpl-assign .statusbox.statusunderrevision,
+#page-blocks-mbstpl-viewhistory .statusbox.statusunderrevision,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusunderrevision {
+  background-color: #333333;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statuspublished,
+#page-blocks-mbstpl-assign .statusbox.statuspublished,
+#page-blocks-mbstpl-viewhistory .statusbox.statuspublished,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statuspublished {
+  background-color: #999999;
+}
+#page-blocks-mbstpl-viewfeedback .statusbox.statusarchived,
+#page-blocks-mbstpl-assign .statusbox.statusarchived,
+#page-blocks-mbstpl-viewhistory .statusbox.statusarchived,
+#page-blocks-mbstpl-feedbackdetail .statusbox.statusarchived {
+  background-color: #e6e6e6;
+}
+#page-blocks-mbstpl-viewfeedback .mbstrevhist ul,
+#page-blocks-mbstpl-assign .mbstrevhist ul,
+#page-blocks-mbstpl-viewhistory .mbstrevhist ul,
+#page-blocks-mbstpl-feedbackdetail .mbstrevhist ul {
+  padding-left: 30px;
+}
+
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset span,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset span,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset span {
+  display: inline-block;
+  padding-right: 8px;
+}
+#page-blocks-mbstpl-templatesearch form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
+#page-blocks-mbstpl-editmeta form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup,
+#page-blocks-mbstpl-sendtemplate form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
+  padding-top: 8px;
+}
+
+#page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span,
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span,
+#page-blocks-mbstpl-dupcrs .mform.frozen fieldset .felement.fstatic span {
+  display: inline-block;
+  padding-right: 8px;
+}
+#page-blocks-mbstpl-ratetemplate .mform.frozen fieldset .felement.fstatic span input,
+#page-blocks-mbstpl-abouttemplate .mform.frozen fieldset .felement.fstatic span input,
+#page-blocks-mbstpl-dupcrs .mform.frozen fieldset .felement.fstatic span input {
+  margin-right: 4px;
+}
+#page-blocks-mbstpl-ratetemplate fieldset .felement.flookupset,
+#page-blocks-mbstpl-abouttemplate fieldset .felement.flookupset,
+#page-blocks-mbstpl-dupcrs fieldset .felement.flookupset {
+  padding-top: 8px;
+}
+
+#page-blocks-mbstpl-templatesearch #main-content-wrapper {
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  color: #fff;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper label {
+  font-weight: normal;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 {
   padding-left: 0;
   padding-right: 0;
 }
-.path-blocks-mbssearch .add-more-results .load-more-results,
-.block_mbsmycourses .add-more-results .load-more-results {
-  margin-left: 0;
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa {
+  margin-right: 0;
+}
+#page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:hover, #page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:active, #page-blocks-mbstpl-templatesearch #main-content-wrapper .col-md-12 .righticons i.fa:focus {
+  color: #fff;
+}
+
+#page-blocks-mbstpl-complaintreport form fieldset .fitem.fitem_fgroup fieldset.felement.fgroup {
+  padding-top: 8px;
+}
+
+.block_mbslicenseinfo button {
+  color: #000;
 }
 
 .block_mbsmyschools .header .title .col-md-6 {
@@ -15947,6 +16229,7 @@ aside.row .block-region .block {
 }
 .path-blocks-mbssearch #mbssearch_result {
   margin-top: 20px;
+  color: #fff;
 }
 
 .yui3-widget.yui3-aclist.yui3-widget-positioned ul.yui3-aclist-list :hover {
@@ -15990,6 +16273,16 @@ aside.row .block-region .block {
     width: 29.251%;
   }
 }
+@media only screen and (min-width: 992px) {
+  .block_mbsmycourses div.singleselect {
+    margin: 0 10px 10px 0;
+    float: left;
+  }
+  .block_mbsmycourses form#mbsmycourses_shownewsform {
+    float: right;
+    margin-top: 10px;
+  }
+}
 @media only screen and (max-width: 992px) {
   aside.row {
     margin-right: 0;
@@ -16018,16 +16311,23 @@ Styles, which are specific for a special course format, should go to _ca-coursef
 }
 
 .course-content .section .content div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
+  margin-left: 0;
 }
 .course-content .section .content div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 .course-content .section .content div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
+  margin-left: 0;
 }
 .course-content .section .content div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
+}
+.course-content .section .content td {
+  height: 25px;
 }
 .course-content ul li.section.main {
   background-color: #fff;
@@ -16140,6 +16440,23 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
     Created on : 18.05.2015, 08:22:35
     Author     : Andreas Wagner, ISB Bayern
 */
+#page-course-user #main-content-wrapper {
+  padding: 10px;
+  background: #fff;
+}
+
+#page-course-edit #main-content-wrapper {
+  background: #fff;
+}
+
+#page-course-editsection #main-content-wrapper {
+  background: #fff;
+}
+
+.format-topcoll.path-user.path-course #main-content-wrapper, .format-onetopic.path-user.path-course #main-content-wrapper, .format-weeks.path-user.path-course #main-content-wrapper, .format-topics.path-user.path-course #main-content-wrapper {
+  background: #fff;
+}
+
 .format-topics.path-course #main-content-wrapper {
   background: transparent;
 }
@@ -16158,11 +16475,11 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-topcoll #topcoll-display-instructions {
   color: #fff;
 }
+#page-course-view-topcoll .section .section_action_menu {
+  margin-left: -60px;
+}
 #page-course-view-topcoll .section .completionprogress {
   padding-right: 40px;
-}
-#page-course-view-topcoll .course-format-topcoll > .completionprogress {
-  color: #fff;
 }
 #page-course-view-topcoll .course-content ul li.section.main.current {
   border-left-color: #000;
@@ -16194,16 +16511,25 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-topcoll .toggle_open:before {
   content: "\e662";
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.on {
+#page-course-view-topcoll #toggle-all .side {
+  display: none;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span {
+  color: #000;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span:hover {
+  color: #333333;
+}
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.on {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.on:hover {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.on:hover {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.off {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.off {
   background-image: none;
 }
-#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 a.off:hover {
+#page-course-view-topcoll #toggle-all .content .toggle-arrow-hover h4 span.off:hover {
   background-image: none;
 }
 #page-course-view-topcoll .ctopics li.section .content .toggle {
@@ -16211,9 +16537,18 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   padding: 10px 10px 10px 0;
   border-radius: 0;
 }
-#page-course-view-topcoll .ctopics li.section .content .toggle a {
+#page-course-view-topcoll .ctopics li.section .content .toggle span {
   text-align: left;
-  color: white;
+  color: #fff;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle span:hover {
+  color: #fff;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle span.inplaceeditingon {
+  color: #000;
+}
+#page-course-view-topcoll .ctopics li.section .content .toggle a {
+  color: #fff;
 }
 #page-course-view-topcoll .ctopics li.section .content .toggle a:hover {
   color: #fff;
@@ -16254,6 +16589,13 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-topcoll .ctopics li.section.main .content > ul {
   padding: 0 40px 40px 40px;
 }
+#page-course-view-topcoll .course-content ul li.section.main .left, #page-course-view-topcoll .course-content ul li.section.main .right {
+  display: none;
+}
+
+#page-course-view-topcoll.editing .course-content ul li.section.main .left, #page-course-view-topcoll.editing .course-content ul li.section.main .right {
+  display: inherit;
+}
 
 .format-onetopic.path-course #main-content-wrapper {
   background: transparent;
@@ -16265,6 +16607,7 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   border-bottom: dotted 1px rgba(230, 230, 230, 0.3);
   padding-top: 20px;
   padding-bottom: 10px;
+  margin: 0;
 }
 #page-course-view-onetopic .course.course-format-onetopic .single-section.onetopic .nav.nav-tabs li {
   padding: 0 20px 10px 0;
@@ -16297,11 +16640,16 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   color: #fff;
   width: 100%;
 }
-#page-course-view-onetopic .course.course-format-onetopic .move-list-box {
+#page-course-view-onetopic .course.course-format-onetopic .more-controls-box {
   background-color: #fff;
+  float: right;
+  border: 1px solid #e6e6e6;
+  padding: 5px;
+  margin-top: 20px;
 }
-#page-course-view-onetopic .course.course-format-onetopic .move-list-box ul {
-  list-style: none;
+
+#page-course-format-onetopic-duplicate #main-content-wrapper {
+  background: #fff;
 }
 
 #page-course-view-grid:not(.editing) #gridshadebox_content {
@@ -16320,16 +16668,26 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   border: none;
 }
 #page-course-view-grid #gridshadebox_content div div ul {
-  padding-left: 10px;
+  padding-left: 30px;
+  margin-left: 0;
 }
 #page-course-view-grid #gridshadebox_content div div ul > li {
-  list-style: disc inside none;
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-course-view-grid #gridshadebox_content div div ol {
-  padding-left: 10px;
+  padding-left: 30px;
+  margin-left: 0;
 }
 #page-course-view-grid #gridshadebox_content div div ol > li {
-  list-style: decimal inside none;
+  list-style-position: outside;
+  list-style-image: none;
+}
+#page-course-view-grid #gridshadebox_content .section_action_menu ul {
+  padding-left: 0;
+}
+#page-course-view-grid #gridshadebox_content .moodle-actionmenu.section-cm-edit-actions ul {
+  padding-left: 0;
 }
 #page-course-view-grid #gridshadebox_content #gridshadebox_close {
   padding-top: 5px;
@@ -16353,12 +16711,16 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 #page-course-view-grid .course-content .gridicon_link {
   cursor: pointer;
 }
-#page-course-view-grid .course-content ul li.section.main {
+#page-course-view-grid .course-content ul.gtopics li.section.main {
   padding: 0;
   border-bottom: inherit;
 }
+#page-course-view-grid .course-content ul.gtopics li.section .side {
+  width: inherit;
+  padding-left: 5px;
+}
 #page-course-view-grid #main-content-wrapper {
-  padding: 0 15px;
+  padding: 0 10px 20px;
 }
 #page-course-view-grid #main-content-wrapper .course-content ul.gtopics-0 li h3.sectionname {
   font-weight: normal;
@@ -16459,12 +16821,44 @@ div[role="main"] ul, div[role="main"] ol {
   overflow: visible;
 }
 
+button {
+  white-space: normal;
+}
+
+.alert-info {
+  background-color: #333333;
+  border-color: #333333;
+  color: #fff;
+}
+
 .clearer {
   height: 0;
 }
 
+.close {
+  color: #e6e6e6;
+  text-shadow: none;
+  opacity: inherit;
+}
+.close:hover, .close:focus {
+  color: white;
+  opacity: inherit;
+}
+
 .collapsed .fcontainer, .collapsed ul {
   display: none;
+}
+
+div.editor_atto_content ul, div.editor_atto_content ol {
+  padding: 0px 20px;
+}
+div.editor_atto_content td {
+  height: 25px;
+  vertical-align: top;
+}
+
+.filemanager {
+  font-size: 18px;
 }
 
 .hiddenelement {
@@ -16478,12 +16872,13 @@ div[role="main"] ul, div[role="main"] ol {
   color: #fff;
 }
 
-.mform .felement.fstatic, .form-item .form-description {
-  color: #333;
-}
-
+input[type="radio"] + label,
 input[type="checkbox"] + label {
   margin-left: 5px;
+}
+
+.mform .felement.fstatic, .form-item .form-description {
+  color: #333;
 }
 
 .mform fieldset .ftoggler {
@@ -16568,13 +16963,13 @@ input[type="checkbox"] + label {
   background: #000;
 }
 
-/* fhüb: Do we really need this? 
-.moodle-dialogue-base .moodle-dialogue-wrap {
-    @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
-}*/
 .pagination-row {
   margin-top: 25px;
   margin-bottom: 25px;
+}
+
+.progressbar_container {
+  width: auto !important;
 }
 
 .tree_item span, .tree_item span:focus {
@@ -16638,35 +17033,15 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 13:46:45
     Author     : Franziska Hübler, ISB
 */
-.moodle-dialogue-base {
-  /* fhüb: Do we really need this? 
-  .moodle-dialogue-wrap {
-        border-radius: 0;
-
-        .moodle-dialogue-hd.moodle-dialogue-hd {
-            background: $brand-gray-lighter;
-            text-shadow: none;
-        }
-
-        input[type="text"] {
-            max-width: 0;
-            min-width: 100%;
-            display: block;
-        }
-
-        .yui3-button.closebutton {
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        label.control-label {
-            color: $brand-gray-dark;
-        }
-    }*/
-}
-
 #newmessageoverlay {
   z-index: auto;
+}
+
+#page-lib-editor-atto-plugins-managefiles-manage {
+  background: #fff;
+}
+#page-lib-editor-atto-plugins-managefiles-manage .file-picker .fp-repo-items {
+  background-color: #fff;
 }
 
 @media only screen and (max-width: 992px) {
@@ -16703,30 +17078,25 @@ input[type="checkbox"] + label {
     - #page-course-management
     - #page-content
     - #page-admin-purgecaches 
+    - #page-admin-tool-lp-plans
+    - #page-mod-assign-grader
+    - #page-admin-tool-lp-coursecompetencies
+    - #page-admin-tool-lp-user_competency_in_course
 */
 /* 
     Created on : 16.05.2015, 19:46:57
     Author     : Andreas Wagner
 */
+.path-user.path-course-view #main-content-wrapper {
+  padding: 0 20px 20px;
+}
+
 .path-course-view #main-content-wrapper {
   padding: 0;
 }
 .path-course-view .course-headline h2, .path-course-view .course-headline h1 {
   color: #fff;
   margin-bottom: 25px;
-}
-
-.path-user.path-course.path-course-view #main-content-wrapper {
-  padding: 10px;
-  background: #fff;
-}
-
-#page-course-edit #main-content-wrapper {
-  background: #fff;
-}
-
-#page-course-editsection #main-content-wrapper {
-  background: #fff;
 }
 
 #page-calendar-view #main-content-wrapper {
@@ -16738,6 +17108,29 @@ input[type="checkbox"] + label {
 }
 #page-calendar-view .homepage-container {
   width: 90%;
+}
+
+#page-admin-tool-lp-coursecompetencies ul.inline, #page-admin-tool-lp-user_competency_in_course ul.inline {
+  list-style-type: none;
+}
+
+.path-mod.pagelayout-admin .form-autocomplete-downarrow {
+  top: -2em;
+  left: 9.5em;
+}
+.path-mod.pagelayout-admin .form-autocomplete-suggestions {
+  margin-top: -1.5em;
+}
+
+[data-region=user-competency-full-info] .label-important {
+  background-color: transparent;
+  border: 1px solid #333333;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px 10px 10px 10px;
+  color: #000;
+  margin-right: 3px;
+  margin-top: 3px;
 }
 
 #page-course-index-category div[role="main"] > .generalbox {
@@ -16788,11 +17181,11 @@ input[type="checkbox"] + label {
   padding-bottom: 20px;
 }
 
-#page-my-index #main-content-wrapper {
+.pagelayout-mydashboard #main-content-wrapper {
   background: transparent;
   color: #fff;
 }
-#page-my-index #main-content-wrapper h2 {
+.pagelayout-mydashboard #main-content-wrapper h2 {
   background: transparent;
   color: #fff;
 }
@@ -16816,26 +17209,94 @@ input[type="checkbox"] + label {
 }
 
 #page-content, #page-admin-purgecaches,
-#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup {
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup,
+#page-mod-page-view.pagelayout-popup {
   background: #fff;
 }
 #page-content div[role="main"] div div ul, #page-admin-purgecaches div[role="main"] div div ul,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul {
-  padding-left: 10px;
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul, #page-question-preview.pagelayout-popup div[role="main"] div div ul,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ul {
+  padding-left: 30px;
+  margin-left: 0;
 }
 #page-content div[role="main"] div div ul > li, #page-admin-purgecaches div[role="main"] div div ul > li,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li {
-  list-style: disc inside none;
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ul > li, #page-question-preview.pagelayout-popup div[role="main"] div div ul > li,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ul > li {
+  list-style-position: outside;
+  list-style-image: none;
 }
 #page-content div[role="main"] div div ol, #page-admin-purgecaches div[role="main"] div div ol,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol {
-  padding-left: 10px;
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol, #page-question-preview.pagelayout-popup div[role="main"] div div ol,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ol {
+  padding-left: 30px;
+  margin-left: 0;
 }
 #page-content div[role="main"] div div ol > li, #page-admin-purgecaches div[role="main"] div div ol > li,
-#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li {
-  list-style: decimal inside none;
+#page-mod-quiz-reviewquestion.pagelayout-popup div[role="main"] div div ol > li, #page-question-preview.pagelayout-popup div[role="main"] div div ol > li,
+#page-mod-page-view.pagelayout-popup div[role="main"] div div ol > li {
+  list-style-position: outside;
+  list-style-image: none;
 }
 
+#page-admin-tool-lp-plans div[role="main"] {
+  padding-bottom: 20px;
+}
+
+.path-mod-assign [data-region="grading-navigation-panel"] {
+  background: #fff;
+}
+.path-mod-assign [data-region="user-info"] .img-rounded {
+  height: 2.5em;
+}
+.path-mod-assign [data-region="grade-panel"] {
+  top: 95px;
+}
+.path-mod-assign [data-region="grade-panel"] h3 {
+  font-size: 1.25em;
+}
+.path-mod-assign [data-region="grade-panel"] .mform .fitem {
+  margin: 0;
+}
+.path-mod-assign [data-region="grade-panel"] .mform fieldset .ftoggler {
+  padding: 0;
+}
+.path-mod-assign [data-region="grade-panel"] #fitem_id_assignfeedbackcomments_editor img.smallicon {
+  max-width: none;
+}
+.path-mod-assign [data-region="grade-actions-panel"] {
+  background: #fff;
+  height: auto;
+}
+.path-mod-assign [data-region="grade-actions-panel"] button[type="submit"] {
+  border-color: #ccc;
+}
+
+#page-mod-assign-grader [data-region="user-selector"] .form-autocomplete-suggestions {
+  margin-left: 60px;
+  padding-left: 0;
+}
+
+@media (min-width: 768px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 760px;
+  }
+}
+@media (min-width: 992px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 980px;
+  }
+}
+@media (min-width: 1200px) {
+  #page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    max-width: 1040px;
+  }
+}
+
+@media (max-width: 768px) {
+  #page-mod-assign-grader [data-region="grade-panel"] {
+    position: inherit;
+  }
+}
 /*
     Styles, which are used for the user filemanager.
 */
@@ -16848,41 +17309,32 @@ input[type="checkbox"] + label {
   padding-left: 0;
   padding-right: 0;
 }
-
-.user-filemanager {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+#page-user-files #main-content-wrapper .box.generalbox {
+  margin-top: 40px;
   background: #fff;
   color: #333333;
 }
-.user-filemanager #fitem_id_files_filemanager {
-  margin-bottom: 20px;
-  min-height: 320px;
+#page-user-files #main-content-wrapper .box.generalbox fieldset {
+  min-width: 100%;
 }
-.user-filemanager #fitem_id_files_filemanager .filemanager-container {
-  min-height: 175px;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager {
+  margin-left: 0;
+  margin-right: 0;
 }
-.user-filemanager .mform .fitem {
-  width: 100%;
-  margin: 0;
-}
-.user-filemanager .mform .fitem .fitemtitle {
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .fitemtitle {
   float: none;
   width: 100%;
   text-align: left;
 }
-.user-filemanager .mform .fitem .felement {
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement {
   float: none;
   width: 100%;
 }
-.user-filemanager .mform .fitem_actionbuttons > div.felement {
-  margin: 0;
-  text-align: right;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement .filemanager {
+  font-size: 18px;
 }
-.user-filemanager .mform .fitem_actionbuttons > div.felement input {
-  margin: 0;
+#page-user-files #main-content-wrapper .box.generalbox fieldset #fitem_id_files_filemanager .felement .filemanager .fp-path-folder {
+  background-position: left;
 }
 
 /*
@@ -16892,24 +17344,87 @@ input[type="checkbox"] + label {
     Created on : 21.05.2015, 13:10:44
     Author     : Franziska Hübler, ISB
 */
-.usermessages table#message_contacts,
-.usermessages table#message_participants {
+.box.message {
+  margin-left: 0;
+  margin-right: 0;
+}
+.box.message .usermessages-left .singleselect select {
+  max-width: 100%;
+}
+.box.message table#message_contacts,
+.box.message table#message_participants {
   width: 100%;
 }
-.usermessages table#message_contacts td.heading,
-.usermessages table#message_participants td.heading {
+.box.message table#message_contacts td.heading,
+.box.message table#message_participants td.heading {
   color: #333333;
   background: transparent;
 }
-.usermessages .mform .fitem_actionbuttons > div.felement {
+.box.message .messagearea {
+  border: none;
+  width: 100%;
+}
+.box.message .messagearea #personsearch input[type="text"] {
+  width: 100%;
+  margin-bottom: 0;
+}
+.box.message .messagearea .messagerecent .singlemessage {
+  border-color: #000;
+}
+.box.message .messagearea .messagerecent .singlemessage .otheruser {
+  background-color: #fff;
+}
+.box.message .messagearea .messagerecent .singlemessage .themessage {
+  border-color: #333333;
+}
+.box.message .messagearea .messagehistory .messagecontent .deleteicon {
+  position: relative;
+}
+.box.message .messagearea .messagehistory .messagehistorytype {
+  padding: 5px 0;
+}
+.box.message .messagearea .messagehistory .messagehistorytype span.visible {
+  color: #333333;
+  background-color: #fff;
+}
+.box.message .messagearea .messagehistory .messagehistorytype span.visible, .box.message .messagearea .messagehistory .messagehistorytype a.visible {
+  float: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  border: none;
+}
+.box.message .messagearea .messagehistory .messagehistorytype a.visible:hover {
+  border: none;
+  color: #333333;
+}
+.box.message .messagearea .messagehistory .messagehistory {
+  margin: 0;
+  padding: 0;
+}
+.box.message .messagearea .messagehistory .messagehistory .mdl-left .deleteicon .action-icon img.smallicon {
+  vertical-align: middle;
+}
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.left .message .text {
+  border-color: #333333;
+}
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message {
+  left: 41.66666667%;
+  float: left;
+  width: 58.33333333%;
+}
+.box.message .messagearea .messagehistory .messagehistory .mdl-left.right .message .text {
+  border-color: #000;
+}
+.box.message .messagearea .messagesend .mform fieldset .fitem {
+  margin-top: 0;
+  margin-bottom: 15px !important;
+}
+.box.message .messagearea .messagesend .mform .fitem_textarea {
+  margin: 0;
+}
+.box.message .messagearea .messagesend .mform .fitem_actionbuttons > div.felement {
   padding-left: 15px;
-}
-.usermessages .messages-area > .messagerecent > .singlemessage {
-  padding: 10px 0;
-  border-bottom: dotted 1px #333333;
-}
-.usermessages .messages-area > .messagerecent span.otheruser, .usermessages .messages-area > .messagerecent span.messagedate {
-  margin-right: 10px;
 }
 
 /*
@@ -16919,17 +17434,52 @@ input[type="checkbox"] + label {
     Created on : 28.05.2015, 14:26:10
     Author     : Franziska Hübler, ISB
 */
-#page-user-profile .userprofile {
-  margin: -20px;
+.userprofile .header-button-group {
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+.userprofile .profile_tree {
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-gap: 20px;
+  column-gap: 20px;
+}
+.userprofile .profile_tree section {
+  border: 1px solid #000;
+  padding: 0 15px;
+  margin-bottom: 20px;
 }
 
-.userprofile {
-  margin: -30px -10px -10px -10px;
+.preferences-groups {
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-gap: 20px;
+  column-gap: 20px;
 }
-.userprofile h2 {
-  background-color: #000;
+.preferences-groups .preferences-group {
+  border: 1px solid #000;
+  padding: 0 15px;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
 }
 
+.path-user.path-course .userprofile {
+  background: #fff;
+  padding: 20px 20px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .userprofile .profile_tree, .preferences-groups {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+  }
+}
 /**
  * Theme mebiscontrast style changes file.
  *
@@ -16997,4 +17547,13 @@ a:hover, a:focus {
   -o-transition: color 0.25s;
   transition: color 0.25s;
   color: #fff;
+}
+
+@media only screen and (min-width: 1200px) {
+  .me-wrapper #topbar .container .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li a {
+    color: #fff;
+  }
+  .me-wrapper #topbar .container .navbar-non-collapsing ul.change-fontsize-wrapper li a, .me-wrapper #topbar .container .navbar-non-collapsing ul.switch-theme li a, .me-wrapper #topbar .container .navbar-non-collapsing ul li.logout a {
+    color: #fff;
+  }
 }

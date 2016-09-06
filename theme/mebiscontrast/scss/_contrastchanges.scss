@@ -29,29 +29,29 @@
 // General Styles
 a {
     color: $white;
-    
+
     &:hover,
-    &:focus {
+        &:focus {
         color: $white;
     }
 }
 
 // My Dashboard
 #page-navbar {
-    
+
     .breadcrumb-nav .breadcrumb {
-    
+
         a,
         a:hover,
-        li,
-        .active:before {
+            li,
+            .active:before {
             color: $white;
         }
     }
-    
+
     .breadcrumb-button .singlebutton input[type="submit"] {
         color: $white !important;
-        
+
         &:hover {
             color: $white !important;
         }
@@ -69,16 +69,16 @@ a {
 }
 
 .moodle-menu .dropdown-inner a {
-    
+
     color: $white;
-    
+
     &:hover {
         color: $white !important;
     }
 }
 
 .block_mbsmycourses {
-    
+
     .my-courses-filter label input:checked + i {
         color: $brand-gray-light;
     }
@@ -106,6 +106,20 @@ a {
             background-color: $brand-gray-medium;
             @include transition(color .25s);
             color: $white;
+        }
+    }
+}
+
+@media only screen and (min-width: $screen-lg-min) {
+
+    .me-wrapper #topbar .container {
+        .collapse.navbar-collapse ul.nav.js-navbar-collapse-submenu li a {
+            color: $white;
+        }
+        .navbar-non-collapsing {
+            ul.change-fontsize-wrapper li a, ul.switch-theme li a, ul li.logout a {
+                color: $white;
+            }
         }
     }
 }

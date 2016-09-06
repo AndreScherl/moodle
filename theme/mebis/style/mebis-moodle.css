@@ -15200,21 +15200,18 @@ category-box:
 /*
     This file contains style customizations for activities:
 
-    - database
     - assign
+    - badges
+    - book
+    - database
     - feedback
+    - forum
     - game
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-mod
-    - #page-mod-assign-editsubmission
-    - #page-mod-assign-grading
+    - glossary
+    - lesson
+    - page
+    - wiki
     - #page-question-type-geogebra
-    - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
     - #page-mod-imscp-view
@@ -15267,6 +15264,13 @@ category-box:
 #page-mod-data-edit #main-content-wrapper form div.defaulttemplate select {
   width: auto;
   max-width: 100%;
+}
+
+.path-badges .statusbox {
+  border-color: #00a8d5;
+  background: #fff;
+  width: 40%;
+  margin-bottom: 10px;
 }
 
 #page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {

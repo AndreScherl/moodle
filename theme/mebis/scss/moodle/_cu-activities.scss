@@ -1,21 +1,18 @@
 /*
     This file contains style customizations for activities:
 
-    - database
     - assign
+    - badges
+    - book
+    - database
     - feedback
+    - forum
     - game
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-mod
-    - #page-mod-assign-editsubmission
-    - #page-mod-assign-grading
+    - glossary
+    - lesson
+    - page
+    - wiki
     - #page-question-type-geogebra
-    - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
     - #page-mod-imscp-view
@@ -67,7 +64,7 @@
     }
 }
 
-//Styles for mod-data selections
+// Styles for mod-data selections.
 #page-mod-data-edit {
     #main-content-wrapper form {
         div.defaulttemplate {
@@ -81,7 +78,17 @@
     }
 }
 
-//styling Assignment GeoGebra submissions
+// Styles for badges.
+.path-badges {
+    .statusbox {
+        border-color: $brand-primary;
+        background: $white;
+        width: 40%;
+        margin-bottom: $space-xsmall;
+    }
+}
+
+// styling Assignment GeoGebra submissions.
 #page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra, #page-mod-assign-editsubmission {
 
     div#applet_container1 {
@@ -93,7 +100,7 @@
         }
     }
 } 
-//styling GeoGebra question
+// styling GeoGebra question.
 div.que.geogebra {
     div.formulation {
         div[id$='ggbdiv'] {

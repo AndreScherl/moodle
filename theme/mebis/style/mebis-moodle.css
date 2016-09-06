@@ -14234,7 +14234,6 @@ button.close {
     max-height: initial;
     margin-right: 0;
     margin-left: 0;
-    margin-top: 0;
   }
   .me-wrapper #topbar .container .collapse.navbar-collapse .nav {
     width: 40%;
@@ -15291,6 +15290,11 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 }
 #page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span span.helptooltip {
   margin-right: 20px;
+}
+
+.path-mod-assign div.feedback {
+  float: none;
+  width: auto;
 }
 
 #page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],

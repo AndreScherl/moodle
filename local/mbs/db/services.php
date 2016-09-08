@@ -46,5 +46,13 @@ $functions = array(
             'description' => 'Delete a user.',
             'type'        => 'write',
             'capabilities'  => 'moodle/user:delete'
+    ),
+    'local_mbs_get_user' => array(                                                                              
+            'classname'   => 'local_mbs_external',
+            'methodname'  => 'local_mbs_get_user',
+            'classpath'   => 'local/mbs/externallib.php',
+            'description' => 'Search a user.',
+            'type'        => 'write',
+            'capabilities'  => 'moodle/user:viewdetails, moodle/user:viewhiddendetails, moodle/course:useremail, moodle/user:update'
     )
 );

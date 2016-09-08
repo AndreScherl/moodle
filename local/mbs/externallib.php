@@ -297,5 +297,54 @@ class local_mbs_external extends external_api {
             array('deleted' => new external_value(PARAM_BOOL, 'true if success'))
         );
     }
+    
+    /**
+     * Search a user
+     * 
+     * @throws invalid_parameter_exception
+     * @param string $username 
+     * @return object user
+     */
+    public static function local_mbs_get_user($username) {
+        global $DB, $CFG;
+        
+        // Ensure the current user is allowed to run this function.
+        $context = context_system::instance();
+        self::validate_context($context);
+        require_capability('moodle/user:viewdetails', $context);
+        
+        // Do basic automatic PARAM checks on incoming data, using params description.
+        // If any problems are found then exceptions are thrown with helpful error messages.
+        $params = self::validate_parameters(self::local_mbs_get_user_parameters(), array('username'=>$username));
+        
+        // Make sure that the user already exists.
+        if (!$DB->record_exists('user', array('username' => $username, 'mnethostid' => $CFG->mnet_localhost_id))) {
+            throw new invalid_parameter_exception('User with username '.$username.' not found.');
+        }
+        
+        $user = $DB->get_record('user', array('username' => $username, 'deleted' => 0), '*', MUST_EXIST);        
+        $userdetails = user_get_user_details_courses($user);        
+        return array('user' => $userdetails); 
+    }
+    
+    /**
+     * Returns description of local_mbs_get_user parameters
+     * @return external_function_parameters
+     */
+    public static function local_mbs_get_user_parameters() {
+        return new external_function_parameters(
+            array('username' => new external_value(core_user::get_property_type('username'), 'username'))
+        );
+    }
+    
+    /**
+     * Returns description of local_mbs_get_user result value
+     * @return external_description
+     */
+    public static function local_mbs_get_user_returns() {
+        return new external_function_parameters(
+            array('user' => \core_user_external::user_description())
+        );
+    }
 }
 

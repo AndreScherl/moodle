@@ -17501,6 +17501,7 @@ a:hover, a:focus {
 #page-navbar .breadcrumb-nav .breadcrumb a,
 #page-navbar .breadcrumb-nav .breadcrumb a:hover,
 #page-navbar .breadcrumb-nav .breadcrumb li,
+#page-navbar .breadcrumb-nav .breadcrumb li span,
 #page-navbar .breadcrumb-nav .breadcrumb .active:before {
   color: #fff;
 }

@@ -1019,21 +1019,4 @@ class datenschutz {
         }
         return has_capability('local/mbs:editschoolid', $context);
     }
-
-    /**
-     * @HOOK DS27: Bugfix of moodles messaging system to avoid message processing interruption
-     *
-     * @param bool $currentstate
-     * @return bool
-     */
-    public static function hook_user_messageselect_avoid_message_interruption($user,
-                                                                              $messagebody,
-                                                                              $format,
-                                                                              $currentstate) {
-        global $USER;
-        $mstate = message_post_message($USER, $user, $messagebody, $format);
-        $currentstate = $currentstate && $mstate;
-        return $currentstate;
-    }
-
 }

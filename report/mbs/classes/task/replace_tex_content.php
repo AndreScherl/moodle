@@ -32,8 +32,10 @@ class replace_tex_content extends \core\task\scheduled_task {
     }
 
     public function execute() {
-        
-        \report_mbs\local\reporttex::replace_tex();
+
+        if (!empty(get_config('report_mbs', 'texcronactiv'))) {
+            \report_mbs\local\reporttex::replace_tex();
+        }
     }
 
 }

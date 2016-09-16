@@ -28,7 +28,7 @@
 $string['courseid'] = 'Kurs-ID';
 $string['coursename'] = 'Kursname';
 $string['coordinators'] = 'Koordinator';
-$string['pluginname'] = 'mebis - Bericht';
+$string['pluginname'] = 'mebis Bericht und Pflege';
 $string['reportpimped'] = 'Bericht gepimpte Kurse';
 $string['reportpimpeddesc'] = 'Es wird im HTML Code von {$a} HTML-Blöcken nach den eingegebenen Suchmuster gesucht.';
 $string['school'] = 'Schule';

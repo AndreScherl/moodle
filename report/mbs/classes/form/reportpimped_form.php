@@ -15,22 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report table which contains more then one $$
+ * Report pimped courses (style and js customisations using html - block)
  * report form.
- * 
+ *
  * @package    report
  * @subpackage mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace report_mbs\form;
+
+defined('MOODLE_INTERNAL') || die();
+
+global $CFG;
+
 require_once($CFG->dirroot . '/lib/formslib.php');
 
-class reporttex_form extends moodleform {
+class reportpimped_form extends \moodleform {
 
     protected function definition() {
 
         $mform = $this->_form;
+
+        $searchpattern = $this->_customdata['searchpattern'];
+
+        if (empty($searchpattern)) {
+            $config = get_config('report_mbs');
+            $searchpattern = $config->searchpattern;
+        }
+
+        $mform->addElement('text', 'searchpattern', get_string('searchpattern', 'report_mbs'));
+        $mform->setDefault('searchpattern', $searchpattern);
+        $mform->setType('searchpattern', PARAM_RAW);
+        $mform->addHelpButton('searchpattern', 'searchpattern', 'report_mbs');
 
         $buttonarray = array();
         $buttonarray[] = &$mform->createElement('submit', 'search', get_string('search', 'report_mbs'));

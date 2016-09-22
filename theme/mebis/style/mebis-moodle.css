@@ -15273,10 +15273,10 @@ category-box:
   margin-bottom: 10px;
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
+#page-mod-assign-view div#applet_container1, #page-mod-assign-mod div#applet_container1, #page-mod-assign-grader div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
   height: inherit !important;
 }
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
+#page-mod-assign-view div#applet_container1 > div, #page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grader div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }

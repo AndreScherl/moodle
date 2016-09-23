@@ -266,10 +266,6 @@ div.que.geogebra {
 #page-mod-quiz-review,
 #page-question-preview {
 
-    div.answer {
-        width: 100%;
-    }
-
     div.content {
 
         &:before {
@@ -373,6 +369,10 @@ div.que.geogebra {
     .answer div.r0 input, 
     .answer div.r1 input {
         margin: 0 0 0 5px;
+    }
+
+    div.answer {
+        width: 100%;
     }
 }
 

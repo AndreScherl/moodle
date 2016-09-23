@@ -156,9 +156,6 @@ if (!empty($messagebody) && !$edit && !$deluser && ($preview || $send)) {
         } else if (!empty($send)) {
             $fails = array();
             foreach ($SESSION->emailto[$id] as $user) {  
-                //+++ asch DS27, avoid message interruption if an user has no email address
-                $fails[] = \local_mbs\local\datenschutz::hook_user_messageselect_avoid_message_interruption($user, $messagebody, $format, $fails);
-                //---
                 if (!message_post_message($USER, $user, $messagebody, $format)) {
                     $user->fullname = fullname($user);
                     $fails[] = get_string('messagedselecteduserfailed', 'moodle', $user);

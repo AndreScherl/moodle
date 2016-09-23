@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,6 +27,7 @@ use \local_mbslicenseinfo\local\mbslicenseinfo as mbslicenseinfo;
 $course = required_param('course', PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', get_config('local_mbslicenseinfo', 'filesperpage'), PARAM_INT);
+$searchdata = optional_param('searchdata', null, PARAM_ALPHANUM);
 
 // Adding parameters to the action url, this will create hidden fields in edit form!
 $pageparams = array('course' => $course, 'page' => $page, 'perpage' => $perpage);
@@ -57,29 +59,43 @@ $customdata['captype'] = $captype;
 $filterform = new \local_mbslicenseinfo\form\editlicensesformfilter(
         $filterurl, $customdata, 'post', '', array('id' => 'filterform'));
 
+$searchform = new \local_mbslicenseinfo\form\editlicensesformsearch($pageurl, $pageparams);
+
 $mbslicenseinfo = new mbslicenseinfo();
-$files = $mbslicenseinfo->get_coursefiles_data($course, $page * $perpage, $perpage, $pageparams);
 
 $locked = ($captype == mbslicenseinfo::$captype_viewall);
-$form = new \local_mbslicenseinfo\form\editlicensesform($pageurl, array('course' => $course, 'filesdata' => $files->data, 'locked' => $locked));
 
-if ($form->is_cancelled()) {
+if (!$searchdata) {
+    // Show all course files with pagination.
+    $files = $mbslicenseinfo->get_coursefiles_data($course, $page * $perpage, $perpage, $pageparams);
+    $form = new \local_mbslicenseinfo\form\editlicensesform($pageurl, array('course' => $course, 'filesdata' => $files->data, 'locked' => $locked));
+} else {
+    $files = unserialize(base64_decode($searchdata));
+    $form = new \local_mbslicenseinfo\form\editlicensesform($pageurl, array('course' => $course, 'filesdata' => $files, 'locked' => $locked));
+}
 
-    $redirecturl = new moodle_url('/course/view.php', array('id' => $course));
-    redirect($redirecturl);
-    
-} else if ($data = $form->get_data()) {
-
-    if (!$locked) {
-
-        mbslicenseinfo::update_course_files($data);
-        $pageurl->param('message', 'licenseinfosaved');
-        // Redirect getting new added licenses and avoid resubmit.
-        redirect($pageurl);
-
-    } else {
-        // Should normally not happen.
-        print_error('missing permission to save');
+if ($data = $searchform->get_data()) {
+    $files = $mbslicenseinfo->search_coursefiles($course, $pageparams, $data->filesearch);
+    $searchdata = base64_encode(serialize($files));
+    $cdata = array('course' => $course, 'filesdata' => $files, 'locked' => $locked, 'searchdata' => $searchdata); 
+    $url = new moodle_url($PAGE->url, $pageparams);
+    $url->param('searchdata', $searchdata);
+    $form = new \local_mbslicenseinfo\form\editlicensesform($url, $cdata);
+} else {
+    if ($form->is_cancelled()) {
+        $redirecturl = new moodle_url('/course/view.php', array('id' => $course));
+        redirect($redirecturl);
+    } else if ($data = $form->get_data()) {
+        if (!$locked) {
+                mbslicenseinfo::update_course_files($data);
+                $pageurl->param('message', 'licenseinfosaved');
+                unset($searchdata);
+                // Redirect getting new added licenses and avoid resubmit.
+                redirect($pageurl);
+        } else {
+            // Should normally not happen.
+            print_error('missing permission to save');
+        }
     }
 }
 
@@ -94,9 +110,13 @@ if (!empty($message)) {
 
 // Output filter form.
 echo $filterform->display();
+echo $searchform->display();
 
-echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
-echo html_writer::div($form->render(), 'editlicenses');
-echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
-
+if ($searchdata) {
+    echo html_writer::div($form->render(), 'editlicenses');
+} else {
+    echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
+    echo html_writer::div($form->render(), 'editlicenses');
+    echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
+}
 echo $OUTPUT->footer();

@@ -8,7 +8,7 @@
  * @copyright  (c) International GeoGebra Institute 2014
  * @license        http://www.geogebra.org/license
  */
- 
+
 $string['geogebra'] = 'GeoGebra';
 $string['enabled'] = 'GeoGebra';
 $string['algebra'] = 'Algebra';
@@ -22,7 +22,7 @@ $string['geogebrasubmission'] = 'Allow GeoGebra submission';
 $string['geometry'] = 'Geometry';
 $string['ggbtemplates'] = 'Choose a template';
 $string['ggbturl'] = 'GeoGebra template to use for student';
-$string['ggbturl_help'] = 'The perspective or GeoGebraTube material used as template for the student.';
+$string['ggbturl_help'] = 'The perspective or GeoGebra material used as template for the student.';
 $string['perspective3d'] = '3D Graphics';
 $string['pluginname'] = 'GeoGebra submissions';
 $string['probCalc'] = 'Probability Calculator';

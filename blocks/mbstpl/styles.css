@@ -228,25 +228,6 @@ span.mbshelp {
     padding: 0px;
 }
 
-#page-blocks-mbstpl-sendtemplate .moodle-dialogue-base ul {
-    padding: 0 20px;
-}
-#page-blocks-mbstpl-templatesearch .moodle-dialogue-base ul {
-    padding: 0 20px;
-}
-#page-blocks-mbstpl-editmeta .moodle-dialogue-base ul {
-    padding: 0 20px;
-}
-#page-blocks-mbstpl-ratetemplate .moodle-dialogue-base ul {
-    padding: 0 20px;
-}
-#page-blocks-mbstpl-abouttemplate .moodle-dialogue-base ul {
-    padding: 0 20px;
-} 
-#page-blocks-mbstpl-dupcrs .moodle-dialogue-base ul {
-    padding: 0 20px;
-}
-
 fieldset .felement.flookupset ul {
     list-style: none;
 }

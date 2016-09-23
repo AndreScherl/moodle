@@ -8,7 +8,7 @@
  * @copyright  (c) International GeoGebra Institute 2014
  * @license        http://www.geogebra.org/license
  */
- 
+
 $string['geogebra'] = 'GeoGebra';
 $string['enabled'] = 'GeoGebra';
 $string['algebra'] = 'Algebra';

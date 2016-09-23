@@ -87,6 +87,11 @@ class course {
                 $url = new \moodle_url('/blocks/mbstpl/ratetemplate.php', array('course' => $cid));
                 $menu->add(get_string('mbstpl:ratetemplate', 'block_mbstpl'), $url, get_string('mbstpl:ratetemplate', 'block_mbstpl'));
             }
+            
+            if (perms::can_complain()) {
+                $url = self::get_complaint_url($cid);
+                $menu->add(get_string('complaintform', 'block_mbstpl'), $url, get_string('complaintform', 'block_mbstpl'));
+            }            
 
             if (perms::can_coursefromtpl($template)) {
                 $url = new \moodle_url('/blocks/mbstpl/dupcrs.php', array('course' => $cid));

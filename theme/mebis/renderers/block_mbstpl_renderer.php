@@ -91,7 +91,7 @@ class theme_mebis_block_mbstpl_renderer extends block_mbstpl_renderer {
             $complaintcourseurl->param('courseid', $course->id);
             $text = html_writer::tag('i', '', array('class' => 'fa fa-gavel'));
 
-            $complaintlink = \html_writer::link($complaintcourseurl, $text, array('title' => get_string('url-complaints', 'theme_mebis')));
+            $complaintlink = \html_writer::link($complaintcourseurl, $text, array('title' => get_string('complaintform', 'block_mbstpl')));
             $html .= html_writer::div($complaintlink, 'righticons');
 
             $html .= html_writer::end_tag('div'); //end class 'course_title'

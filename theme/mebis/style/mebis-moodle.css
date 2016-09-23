@@ -14192,6 +14192,10 @@ button.close {
   .me-wrapper #topbar {
     background: transparent;
   }
+  .me-wrapper #topbar .navbar-collapse.collapse,
+  .me-wrapper #topbar .navbar-collapse.collapsing {
+    margin-top: 0;
+  }
   .me-wrapper #topbar .container {
     width: 100% !important;
     padding: 0;
@@ -15196,21 +15200,18 @@ category-box:
 /*
     This file contains style customizations for activities:
 
-    - database
     - assign
+    - badges
+    - book
+    - database
     - feedback
+    - forum
     - game
-    - #page-mod-wiki-view
-    - #page-mod-page-view
-    - #page-mod-glossary-view
-    - #page-mod-forum-discuss
-    - #page-mod-lesson-edit 
-    - #page-mod-lesson-view
-    - #page-mod-assign-mod
-    - #page-mod-assign-editsubmission
-    - #page-mod-assign-grading
+    - glossary
+    - lesson
+    - page
+    - wiki
     - #page-question-type-geogebra
-    - #page-mod-book-view
     - #page-mod-choice-view
     - #page-mod-choiceanon-view
     - #page-mod-imscp-view
@@ -15265,10 +15266,17 @@ category-box:
   max-width: 100%;
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
+.path-badges .statusbox {
+  border-color: #00a8d5;
+  background: #fff;
+  width: 40%;
+  margin-bottom: 10px;
+}
+
+#page-mod-assign-view div#applet_container1, #page-mod-assign-mod div#applet_container1, #page-mod-assign-grader div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1 {
   height: inherit !important;
 }
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
+#page-mod-assign-view div#applet_container1 > div, #page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grader div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
@@ -15286,6 +15294,11 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 }
 #page-mod-assign-mod #main-content-wrapper fieldset.clearfix.collapsible fieldset.felement.fgroup span span.helptooltip {
   margin-right: 20px;
+}
+
+.path-mod-assign div.feedback {
+  float: none;
+  width: auto;
 }
 
 #page-mod-choice-view #main-content-wrapper form ul li input[type="radio"],
@@ -15363,6 +15376,19 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
 #page-question-edit table#categoryquestions > tbody > tr.highlight, #page-mod-quiz-edit table#categoryquestions > tbody > tr.highlight {
   background: #ff6600;
   display: table-row;
+}
+
+#page-mod-quiz-attempt .submitbtns,
+#page-mod-quiz-review .submitbtns {
+  text-align: right;
+}
+#page-mod-quiz-attempt .submitbtns .mod_quiz-next-nav,
+#page-mod-quiz-review .submitbtns .mod_quiz-next-nav {
+  float: none;
+}
+#page-mod-quiz-attempt .submitbtns .mod_quiz-prev-nav,
+#page-mod-quiz-review .submitbtns .mod_quiz-prev-nav {
+  float: left;
 }
 
 #page-mod-quiz-attempt div.content:before,

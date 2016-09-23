@@ -2471,6 +2471,16 @@ function glossary_xml_export_files($tag, $taglevel, $contextid, $filearea, $item
             $co .= glossary_full_tag('FILENAME', $taglevel + 2, false, $file->get_filename());
             $co .= glossary_full_tag('FILEPATH', $taglevel + 2, false, $file->get_filepath());
             $co .= glossary_full_tag('CONTENTS', $taglevel + 2, false, base64_encode($file->get_content()));
+            // +++ Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
+            $co .= glossary_full_tag('FILEAUTHOR', $taglevel + 2, false, $file->get_author());
+            $co .= glossary_full_tag('FILELICENSE', $taglevel + 2, false, $file->get_license());
+            if(array_key_exists('mbslicenseinfo', core_component::get_plugin_list('local'))) {
+                if ($fmeta = \local_mbslicenseinfo\local\mbslicenseinfo::get_fmeta($file->get_id())) {
+                    $co .= glossary_full_tag('FILETITLE', $taglevel + 2, false, $fmeta->title); 
+                    $co .= glossary_full_tag('FILESOURCE', $taglevel + 2, false, $fmeta->source); 
+                }
+            } 
+            // --- Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
             $co .= glossary_end_tag('FILE', $taglevel + 1);
         }
         $co .= glossary_end_tag($tag, $taglevel);
@@ -2489,6 +2499,7 @@ function glossary_xml_export_files($tag, $taglevel, $contextid, $filearea, $item
  * @return int
  */
 function glossary_xml_import_files($xmlparent, $tag, $contextid, $filearea, $itemid) {
+    global $USER, $CFG;
     $count = 0;
     if (isset($xmlparent[$tag][0]['#']['FILE'])) {
         $fs = get_file_storage();
@@ -2502,8 +2513,37 @@ function glossary_xml_import_files($xmlparent, $tag, $contextid, $filearea, $ite
                 'filepath'  => $file['#']['FILEPATH'][0]['#'],
                 'filename'  => $file['#']['FILENAME'][0]['#'],
             );
+            // +++ Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
+            $filerecord['userid'] = $USER->id;
+            if(array_key_exists('FILEAUTHOR', $file['#'])) {
+                $filerecord['author'] = $file['#']['FILEAUTHOR'][0]['#'];
+            }
+            if(array_key_exists('FILELICENSE', $file['#'])) {
+                $license = $file['#']['FILELICENSE'][0]['#']; 
+                if (!class_exists('\local_mbs\local\licensemanager')) {     
+                    require_once($CFG->libdir . "/licenselib.php");
+                    if (license_manager::get_license_by_shortname($license)) {
+                        $filerecord['license'] = $license;
+                    }
+                } else {
+                    if(\local_mbs\local\licensemanager::get_licenses(array('shortname' => $license, 'userid' => $USER->id))) {
+                       $filerecord['license'] = $license;
+                    }
+                }
+            }
+            // --- Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
             $content =  $file['#']['CONTENTS'][0]['#'];
-            $fs->create_file_from_string($filerecord, base64_decode($content));
+            $newfile = $fs->create_file_from_string($filerecord, base64_decode($content));
+            // +++ Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
+            if(array_key_exists('mbslicenseinfo', core_component::get_plugin_list('local'))) {
+                if(isset($file['#']['FILETITLE'][0]['#']) || isset($file['#']['FILESOURCE'][0]['#'])) {
+                    $filemeta = new \stdClass();
+                    $filemeta->title = $file['#']['FILETITLE'][0]['#'];
+                    $filemeta->source = $file['#']['FILESOURCE'][0]['#'];
+                    \local_mbslicenseinfo\local\mbslicenseinfo::set_fmeta($filemeta, $newfile->get_id()); 
+                }                
+            } 
+            // --- Hack - fhüb - 29.08.2016: Export/Import glossary files author and license.
             $count++;
         }
     }

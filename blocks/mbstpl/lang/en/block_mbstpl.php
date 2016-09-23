@@ -18,17 +18,18 @@
 /**
  * Language pack from http://localhost/mebis2
  *
- * @package    block
- * @subpackage mbstpl
+ * @package    block_mbstpl
  * @copyright 2015 Andreas Wagner, andreas.wagner@isb.bayern.de
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addenrolmbs'] = 'Add a enrol mbs.';
 $string['addfrombank'] = 'Add a question from the question bank';
 $string['addqtodraft'] = 'Use question';
 $string['addquestion'] = 'Add a new question';
+$string['advancedsearch'] = 'Advanced search';
 $string['ajaxurl'] = 'Ajax-URL for data';
 $string['archive'] = 'Archive';
 $string['assigned'] = 'Assigned';
@@ -40,6 +41,9 @@ $string['author'] = 'Author';
 $string['authorrole'] = 'Author role';
 $string['authorrole_desc'] = 'The role to use when enrolling an author into a course';
 $string['backtemplatefeedback'] = 'Back to template feedback';
+$string['backupcreated'] = 'Backup created';
+$string['backupinformation'] = 'Backup information';
+$string['cancelbutton'] = 'Cancel';
 $string['checklistexpln'] = 'Note: questions of this type will be displayed together at the end of the form, to act as a checklist of the features of this course.<br>
 Each item can be marked as \'Yes\', \'No\' or \'Not applicable\'.<br>
 It is not possible to search for courses based on these fields.';
@@ -56,17 +60,44 @@ $string['complaintformerrortype_2'] = 'terms of use infringement';
 $string['complaintformerrortype_3'] = 'other';
 $string['complainturl'] = 'Complaint URL';
 $string['complainturl_desc'] = 'External URL for course complaints. courseid parameter will be appended.';
+$string['configreset'] = 'Config reset';
 $string['confirmdelquest'] = 'This question is in use. Deleting it will remove it from this draft, but will still exist in the question bank. Delete this question?';
 $string['confirmdelquestforever'] = 'Deleting question will remove it completely from the question bank. Delete this question?';
+$string['containsuserdata'] = 'Contains user data';
+$string['contentchanged'] = 'Content was changed';
+$string['course'] = 'Template course';
+$string['coursebackupnopubbackup'] = '<p><b>No (published) backup file?</b></p><p>If there is no published backup file available or you have changed the course and want to keep this changes during the next resets,
+    you may create a new one:
+    <ul>
+    <li>Switch the visibility of the course to off</li>
+    <li>Be sure to remove all the data, that should not be restored later on, when possible restore course content from latest template backup</li>
+    <li>Click the button to backup the course. This will:<ul>
+    <li>Backup the course to pubbkp_[number of course].mbz</li></ul>
+    <li>Switch visibility to on</li>
+    </ul>';
+$string['coursebackupwithuserdata'] = '<p>This course template contains userdata. When other users are producing additional user data by testing the course,
+    a course reset is done by a restore of the latest available backup file, that is created after publishing the course. These files (published backups)
+    are named like pubbkp_[number of course].mbz and listed below.</p>
+    <p>A course reset also includes the unenrolment of every user, that is participating the course.</p>';
 $string['coursekeyword'] = 'Course keyword';
 $string['courselicense'] = 'Course License';
 $string['coursename'] = 'Course name';
 $string['coursemetadata'] = 'Course Metadata';
+$string['courseresetnouserdata'] = '<p>This course template contains <b>no userdata</b>.
+    Reset of the course will be done by adhoc and scheduled tasks, that are resetting the course with standard setup, see: {$a}</p>';
+$string['courseresetstrategy'] = 'Course reset';
+$string['courseresetstrategydescription'] = 'Course reset';
+$string['courseresetwithuserdata'] = '<p>Reset of the course will happen by adhoc and scheduled tasks, if you want to reset the course immediately (by restoring a published backup), just
+    click the button below</p>';
+$string['courserestored'] = 'Course successfully restored';
 $string['coursesfromtemplate'] = 'Courses created from this template';
 $string['coursetemplates'] = 'Course templates';
-$string['creator'] = 'Creator';
+$string['createanewbackupfile'] = 'Create a new backup file to use for course reset.';
 $string['createdby'] = 'Created By';
 $string['createdon'] = 'Created On';
+$string['createpublishedbackup'] = 'Create a new published backup file';
+$string['creator'] = 'Creator';
+$string['creatorbackup'] = 'Creator of backup';
 $string['creationdate'] = 'Creation date';
 $string['currentrating'] = 'Current rating';
 $string['datasource'] = 'Data source for interpreting values';
@@ -76,9 +107,12 @@ $string['datasource_help'] = 'If the stored values are represented by ids, you m
 $string['description'] = 'Description';
 $string['delayedrestore'] = 'Delayed Course Duplication';
 $string['delayedrestore_desc'] = 'Schedule Course Duplication to run via CRON vs. immediately on request.';
+$string['deletebackupfile'] = 'Delete the backup file';
+$string['deletebackupfiledesc'] = 'Do you really want to delete the file: {$a}?';
 $string['deploycat'] = 'Template deployment category';
 $string['deployuserinfo'] = 'Deploy user data';
 $string['destination'] = 'Destination';
+$string['dothecoursereset'] = 'Do the course reset';
 $string['duplcourseforuse'] = 'Duplicate course for use';
 $string['duplcourseforuse1'] = 'Next';
 $string['duplcourseforuse2'] = 'Duplicate Course from Template';
@@ -145,6 +179,7 @@ $string['emailstatsrep_body'] = 'Please find attached the template statistics re
 $string['emailstatsrep_subj'] = 'Template statistics report.';
 $string['emailtempldeployed_body'] = 'Thank you for your submission. The template course will be reviwed.';
 $string['emailtempldeployed_subj'] = 'Template deployed';
+$string['errorbackinguptemplate'] = 'Error when backing up template (ID: {$a})';
 $string['errorcannotassignauthor'] = 'You cannot assign authors for this course.';
 $string['errorcannotassignreviewer'] = 'You cannot assign a reviewer for this course.';
 $string['errorcannotcomplain'] = 'You cannot send a complaint.';
@@ -158,6 +193,7 @@ $string['errorcannotviewfeedback'] = 'You cannot view feedback for this course.'
 $string['errorcatnotexists'] = 'Restore category does not exist.';
 $string['errorcoursenottemplate'] = 'Course is not a template.';
 $string['errordeploying'] = 'Error deploying template.';
+$string['errordeploypublish'] = 'An error occurred, while publishing a course template: {$a}';
 $string['erroremailbody'] = 'An error has occurred: {$a->message}
 {$a->errorstr}';
 $string['erroremailsubj'] = 'Templating error';
@@ -177,11 +213,20 @@ $string['feedbackfor'] = 'Feedback for {$a}';
 $string['field_checklist'] = 'Checklist';
 $string['field_checkboxgroup'] = 'Checkboxgroup';
 $string['field_lookupset'] = 'Lookupset';
+$string['filedeleted'] = 'File deleted';
 $string['forrevision'] = 'For revision';
 $string['history'] = 'History';
+$string['id'] = 'ID';
+$string['implementedownmodules'] = 'Modules checkable by own methods';
 $string['incluserdata'] = 'Publish user data';
+$string['incluserdata_help'] = '<ul><li>With anonymised user data: Choose this option, if you want to publish e. g. glossary, wiki 
+    or database entries. In a second form after this form you can choose for every activity whether to publish user data or not.</li>
+    <li>Without user data: All entries in activities are extinguished, in particular also teacher entries in glossaries or 
+    wikis.</li>
+    <li>The decision for or against user data cannot be turned around afterwards.</li></ul>';
 $string['incorrectfieldname'] = 'Incorrect field name provided.';
 $string['initialform'] = 'Initial form';
+$string['lastresettime'] = 'Time of last template reset';
 $string['lastupdate'] = 'Last update';
 $string['layout'] = 'Layout';
 $string['layoutgrid'] = 'Grid';
@@ -228,6 +273,7 @@ $string['messageprovider:forrevision'] = 'Course Template: For Revision';
 $string['messageprovider:published'] = 'Course Template: Published';
 $string['messageprovider:stats'] = 'Course Templates: Statistics';
 $string['messageprovider:reminder'] = 'Course Templates: Reminders';
+$string['missingpermisson'] = 'Course template (ID: {$a}) cannot be published: missing capability';
 $string['mustselectuser'] = 'You must select a user';
 $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';
@@ -239,15 +285,24 @@ $string['myrevision'] = 'My courses under revision';
 $string['na'] = 'N/A';
 $string['newblocktitle'] = 'teachSHARE';
 $string['newlicense'] = 'Add new license';
+$string['nextruntime'] = 'Next run time';
+$string['nextruntimefrom'] = 'Next run time from';
+$string['nextruntimeto'] = 'till';
 $string['nextstatsreport'] = 'Next statistics report';
 $string['nextstatsreport_desc'] = 'Date to run the next statistics report';
 $string['noactiontpls_body'] = 'The following template(s) have been found where no action has been taken during the last set period:
 {$a}';
 $string['noactiontpls_subj'] = 'Untouched templates';
+$string['nofiletorestoretemplate'] = 'There is no backup file to restore template (id: {$a})';
+$string['notaskavailable'] = 'No task';
+$string['notavailable'] = 'Not available';
 $string['noresults'] = 'No results found. Please change searchparams.';
 $string['nountouchedtemplates'] = 'No templates untouched during the set period.';
+$string['origbackupfile'] = 'Original backup file';
 $string['pluginname'] = 'Course templating';
 $string['pluginnamecategory'] = 'Course templating (more)';
+$string['pubbackupfile'] = 'Published backup file';
+$string['publishedbackup'] = 'Published template overview';
 $string['qformactivate'] = 'Activate this draft';
 $string['qbank'] = 'Question bank';
 $string['qformdiscard'] = 'Discard question form';
@@ -258,8 +313,17 @@ $string['questionname'] = 'Question name';
 $string['questionrequired'] = 'Required';
 $string['questiontitle'] = 'Question title';
 $string['questiontype'] = 'Question type';
+$string['rating'] = 'Rating';
+$string['ratingavg'] = 'Rating (average)';
+$string['rating_header'] = 'Rate this course\'s template';
+$string['rating_star'] = '{$a} star';
 $string['reasonforrevision'] = 'Reasons for revision';
+$string['recentactivitymodules'] = 'Modules checkable by print_recent_activity';
+$string['redirectdupcrsmsg'] = 'Your duplication request has been received. You will receive an email once the action has been completed.';
+$string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this.';
 $string['removefromdraft'] = 'Remove from draft';
+$string['resettasksoverview'] = 'Template reset tasks overview';
+$string['restorebackupfile'] = 'Reset course by restoring newest backup file';
 $string['reviewerrole'] = 'Reviewer role';
 $string['reviewerrole_desc'] = 'The role to use when enrolling a reviewer into a course';
 $string['save'] = 'Save';
@@ -277,114 +341,52 @@ $string['sendfeedbacktoreviewer'] = 'Send and assign back to reviewer';
 $string['sentforreview'] = 'This course has been sent for review. You should shortly receive email confirmation of this.';
 $string['searchpagesize'] = 'Pagesize for searchresult of templates';
 $string['searchresult'] = 'Search Result';
+$string['scheduledpublishing'] = 'Publishing is successfully scheduled. The course will be published within the a few minutes (by the next cron job).
+    Please be patient.';
 $string['startsreportsent'] = 'Statistics report sent successfully.';
 $string['statsreporttooearly'] = 'Too early for the next statistics report. Scheduled for {$a}.';
+$string['status'] = 'Status';
 $string['statusarchived'] = 'Archived';
 $string['statusassignedreviewer'] = 'Assigned reviewer';
 $string['statuscreated'] = 'Created';
 $string['statuspublished'] = 'Published';
 $string['statusunderreview'] = 'Under review';
 $string['statusunderrevision'] = 'Under revision';
+$string['submitbutton'] = 'Submit';
 $string['tag'] = 'Tag';
 $string['tags'] = 'Tags';
 $string['tagshelpbutton'] = 'Help: Tags';
 $string['tagshelpbutton_help'] = 'Give the tags which describe the contents or application of your course, e. g. SCHILF-course: schilf, fortbildung';
 $string['tagsplaceholder'] = 'tag1, tag2';
 $string['tasknote'] = 'Task note';
+$string['tasksoverview'] = 'Tasks overview';
 $string['teacherrole'] = 'Teacher role';
 $string['teacherrole_desc'] = 'The role to use when enrolling a teacher into a duplicated course.';
 $string['templatefeedback'] = 'Template feedback';
 $string['templatehistoryreport'] = 'Template History for "{$a->fullname}" ({$a->shortname})';
+$string['templatereset'] = 'Resetting template';
 $string['templatesearch'] = 'Template Search';
 $string['termsofuse'] = 'terms of use';
 $string['termsofuse_descr'] = 'Using this feature you agree to acccept the <a href="https://www.mebis.bayern.de/nutzungsbedingungenteachshare/">terms of use</a>.';
 $string['timeassigned'] = 'Time assigned';
+$string['timecreated'] = 'Time created';
 $string['to'] = 'To:';
 $string['tplremindafter'] = 'Send template reminder after';
 $string['tplremindafter_desc'] = 'Anyone with the teachSHARE course context capability of cousretemplatemanager will receive notification when a template has not been updated for the specified time.';
 $string['tplremindersent'] = 'Template reminders sent.';
+$string['uncheckablemodules'] = 'Modules not checkable';
+$string['uncheckedmodules'] = 'Unchecked modules';
 $string['unknownaction'] = 'unknown action';
 $string['updated'] = 'Updated';
-$string['uploadfile'] = 'Upload file';
-$string['useq'] = 'Use question';
-$string['viewfeedback'] = 'View feedback for this revision';
-$string['withanon'] = 'With anonymised user data';
-$string['withoutanon'] = 'Without user data';
-$string['rating'] = 'Rating';
-$string['ratingavg'] = 'Rating (average)';
-$string['rating_header'] = 'Rate this course\'s template';
-$string['submitbutton'] = 'Submit';
-$string['cancelbutton'] = 'Cancel';
-$string['rating_star'] = '{$a} star';
-$string['redirectdupcrsmsg'] = 'Your duplication request has been received. You will receive an email once the action has been completed.';
-$string['viewhistory'] = 'View history';
-$string['viewrating'] = 'View rating';
-$string['redirectdupcrsmsg_done'] = 'The course has been duplicated, you will receive an email confirming this. Redirecting you to the new course.';
-$string['yourrating'] = 'Your Rating';
-
-// New strings to be sorted in alphabetically, after translation.
-$string['addenrolmbs'] = 'Add a enrol mbs.';
-$string['advancedsearch'] = 'Advanced search';
-$string['backupcreated'] = 'Backup created';
-$string['backupinformation'] = 'Backup information';
-$string['configreset'] = 'Config reset';
-$string['courseresetstrategy'] = 'Course reset';
-$string['courseresetstrategydescription'] = 'Course reset';
-$string['coursebackupwithuserdata'] = '<p>This course template contains userdata. When other users are producing additional user data by testing the course,
-    a course reset is done by a restore of the latest available backup file, that is created after publishing the course. These files (published backups)
-    are named like pubbkp_[number of course].mbz and listed below.</p>
-    <p>A course reset also includes the unenrolment of every user, that is participating the course.</p>';
-$string['coursebackupnopubbackup'] = '<p><b>No (published) backup file?</b></p><p>If there is no published backup file available or you have changed the course and want to keep this changes during the next resets,
-    you may create a new one:
-    <ul>
-    <li>Switch the visibility of the course to off</li>
-    <li>Be sure to remove all the data, that should not be restored later on, when possible restore course content from latest template backup</li>
-    <li>Click the button to backup the course. This will:<ul>
-    <li>Backup the course to pubbkp_[number of course].mbz</li></ul>
-    <li>Switch visibility to on</li>
-    </ul>';
-$string['courseresetwithuserdata'] = '<p>Reset of the course will happen by adhoc and scheduled tasks, if you want to reset the course immediately (by restoring a published backup), just
-    click the button below</p>';
-$string['courseresetnouserdata'] = '<p>This course template contains <b>no userdata</b>.
-    Reset of the course will be done by adhoc and scheduled tasks, that are resetting the course with standard setup, see: {$a}</p>';
-$string['course'] = 'Template course';
-$string['courserestored'] = 'Course successfully restored';
-$string['containsuserdata'] = 'Contains user data';
-$string['contentchanged'] = 'Content was changed';
-$string['createanewbackupfile'] = 'Create a new backup file to use for course reset.';
-$string['createpublishedbackup'] = 'Create a new published backup file';
-$string['creator'] = 'Creator of backup';
-$string['deletebackupfile'] = 'Delete the backup file';
-$string['deletebackupfiledesc'] = 'Do you really want to delete the file: {$a}?';
-$string['dothecoursereset'] = 'Do the course reset';
-$string['errorbackinguptemplate'] = 'Error when backing up template (ID: {$a})';
-$string['errordeploypublish'] = 'An error occurred, while publishing a course template: {$a}';
-$string['filedeleted'] = 'File deleted';
-$string['id'] = 'ID';
-$string['implementedownmodules'] = 'Modules checkable by own methods';
-$string['lastresettime'] = 'Time of last template reset';
-$string['missingpermisson'] = 'Course template (ID: {$a}) cannot be published: missing capability';
-$string['nextruntime'] = 'Next run time';
-$string['nextruntimefrom'] = 'Next run time from';
-$string['nextruntimeto'] = 'till';
-$string['notaskavailable'] = 'No task';
-$string['notavailable'] = 'Not available';
-$string['nofiletorestoretemplate'] = 'There is no backup file to restore template (id: {$a})';
-$string['pubbackupfile'] = 'Published backup file';
-$string['publishedbackup'] = 'Published template overview';
-$string['origbackupfile'] = 'Original backup file';
-$string['recentactivitymodules'] = 'Modules checkable by print_recent_activity';
-$string['resettasksoverview'] = 'Template reset tasks overview';
-$string['restorebackupfile'] = 'Reset course by restoring newest backup file';
-$string['scheduledpublishing'] = 'Publishing is successfully scheduled. The course will be published within the a few minutes (by the next cron job).
-    Please be patient.';
-$string['status'] = 'Status';
-$string['tasksoverview'] = 'Tasks overview';
-$string['templatereset'] = 'Resetting template';
-$string['timecreated'] = 'Time created';
-$string['uncheckedmodules'] = 'Unchecked modules';
 $string['unknowncourse'] = 'Unkown course (probably deleted), course id was: {$a}';
-$string['unkowncreator'] = 'Unkown creator of this backup';
+$string['unknowncreator'] = 'Unkown creator of this backup';
+$string['uploadfile'] = 'Upload file';
 $string['userdataids'] = 'Included user data ids';
 $string['userdataincluded'] = 'Includes user data';
-$string['uncheckablemodules'] = 'Modules not checkable';
+$string['useq'] = 'Use question';
+$string['viewfeedback'] = 'View feedback for this revision';
+$string['viewhistory'] = 'View history';
+$string['viewrating'] = 'View rating';
+$string['withanon'] = 'With anonymised user data';
+$string['withoutanon'] = 'Without user data';
+$string['yourrating'] = 'Your Rating';

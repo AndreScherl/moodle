@@ -256,6 +256,11 @@
 
         #topbar {
             background: transparent;
+            
+            .navbar-collapse.collapse,
+            .navbar-collapse.collapsing {
+                    margin-top: 0;
+            }
 
             .container {
                 width: 100% !important;

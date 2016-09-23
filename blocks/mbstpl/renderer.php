@@ -724,7 +724,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         }
         $table->data[] = array(get_string('course'), $course);
 
-        $creator = get_string('unkowncreator', 'block_mbstpl');
+        $creator = get_string('unknowncreator', 'block_mbstpl');
         if ($backupinfo->creator) {
 
             if ($backupinfo->creator->deleted == 0) {
@@ -735,7 +735,7 @@ class block_mbstpl_renderer extends plugin_renderer_base {
                 $creator = $backupinfo->creator->udfirstname . ' ' . $backupinfo->creator->udlastname;
             }
         }
-        $table->data[] = array(get_string('creator', 'block_mbstpl'), $creator);
+        $table->data[] = array(get_string('creatorbackup', 'block_mbstpl'), $creator);
 
         $includeuserdata = ($backupinfo->includeuserdata == 1) ? get_string('yes') : get_string('no');
         $table->data[] = array(get_string('containsuserdata', 'block_mbstpl'), $includeuserdata);

@@ -107,7 +107,8 @@ class theme_mebis_help_renderer extends renderer_base {
         }
 
         //get the number of sections
-        $numsections = $DB->get_field('course_format_options', 'value', array('courseid' => $course->id, 'name' => 'numsections'));
+        $numsections = $DB->get_field('course_format_options', 'value', 
+                array('courseid' => $course->id, 'format' => $format, 'name' => 'numsections'));
         $course->numsections = $numsections;      
 
         // call the renderer

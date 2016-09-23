@@ -265,6 +265,17 @@ class enrol_mbsteamteaching_plugin extends enrol_plugin {
     }
     
     /**
+     * Is it possible to delete enrol instance via standard UI?
+     *
+     * @param object $instance
+     * @return bool
+     */
+    public function can_delete_instance($instance) {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/mbsteamteaching:config', $context);
+    }
+    
+    /**
      * Checks if user can mbsteamteaching enrol.
      *
      * @param stdClass $instance enrolment instance
@@ -663,5 +674,69 @@ class enrol_mbsteamteaching_plugin extends enrol_plugin {
         // This is necessary only because we may migrate other types to this instance,
         // we do not use component in manual or mbsteamteaching enrol.
         role_assign($roleid, $userid, $contextid, '', 0);
+    }
+    
+    /**
+     * Return an array of valid options for the status.
+     *
+     * @return array
+     */
+    protected function get_status_options() {
+        $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
+                         ENROL_INSTANCE_DISABLED => get_string('no'));
+        return $options;
+    }
+    
+    /**
+     * Perform custom validation of the data used to edit the instance.
+     *
+     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @param object $instance The instance loaded from the DB
+     * @param context $context The context of the instance we are editing
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK.
+     * @return void
+     */
+    public function edit_instance_validation($data, $files, $instance, $context) {
+        $errors = array();
+
+        $checkpassword = false;
+
+        if ($data['id']) {
+            // Check the password if we are enabling the plugin again.
+            if (($instance->status == ENROL_INSTANCE_DISABLED) && ($data['status'] == ENROL_INSTANCE_ENABLED)) {
+                $checkpassword = true;
+            }
+
+            // Check the password if the instance is enabled and the password has changed.
+            if (($data['status'] == ENROL_INSTANCE_ENABLED) && ($instance->password !== $data['password'])) {
+                $checkpassword = true;
+            }
+        } else {
+            $checkpassword = true;
+        }
+
+        if ($checkpassword) {
+            $require = $this->get_config('requirepassword');
+            $policy  = $this->get_config('usepasswordpolicy');
+            if ($require && trim($data['password']) === '') {
+                $errors['password'] = get_string('required');
+            } else if (!empty($data['password']) && $policy) {
+                $errmsg = '';
+                if (!check_password_policy($data['password'], $errmsg)) {
+                    $errors['password'] = $errmsg;
+                }
+            }
+        }
+
+        $validstatus = array_keys($this->get_status_options());
+        $tovalidate = array(
+            'status' => $validstatus
+        );
+        $typeerrors = $this->validate_param_types($data, $tovalidate);
+        $errors = array_merge($errors, $typeerrors);
+
+        return $errors;
     }
 }

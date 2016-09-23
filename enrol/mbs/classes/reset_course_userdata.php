@@ -40,7 +40,6 @@ class reset_course_userdata {
             'reset_events' => true,
             'reset_game_all' => true,
             'reset_glossary_all' => true,
-            'reset_gradebook_items' => true,
             'reset_gradebook_grades' => true,
             'reset_groups_members' => true,
             'reset_groups_remove' => true,

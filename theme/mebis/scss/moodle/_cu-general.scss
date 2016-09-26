@@ -21,6 +21,7 @@ Here are to go all styles, which are NOT:
 #main-content-wrapper {
 
     background: $white;
+    overflow-x: auto;
     padding: 0 20px 20px;
 
     div[role="main"] #maincontent {

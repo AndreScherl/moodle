@@ -16885,6 +16885,7 @@ Here are to go all styles, which are NOT:
 
 #main-content-wrapper {
   background: #fff;
+  overflow-x: auto;
   padding: 0 20px 20px;
 }
 #main-content-wrapper div[role="main"] #maincontent {

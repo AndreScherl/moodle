@@ -15,16 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    qtype_algebra
- * @copyright  Roger Moore <rwmoore@ualberta.ca>
+ * Version details
+ *
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_algebra';
-$plugin->version   = 2016012400;
-
-$plugin->requires  = 2013050100;
-$plugin->release   = '1.4 for Moodle 2.8, 2.9 and 3.0';
-$plugin->maturity  = MATURITY_STABLE;
+$plugin->version   = 2016092300;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014050800;        // Requires this Moodle version
+$plugin->component = 'block_mbsstatistics'; // Full name of the plugin (used for diagnostics)

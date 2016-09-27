@@ -15,16 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    qtype_algebra
- * @copyright  Roger Moore <rwmoore@ualberta.ca>
+ * renderer
+ *
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_algebra';
-$plugin->version   = 2016012400;
+/**
+ * Block LP renderer class.
+ *
+ * @package    block_lp
+ * @copyright  2016 Frédéric Massart - FMCorz.net
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class block_mbsstatistics_renderer extends plugin_renderer_base {
+    /**
+     * Defer to template.
+     * @param renderable $summary
+     * @return string|boolean
+     */
+    public function render_summary(renderable $summary) {
+        $data = $summary->export_for_template($this);
+        return parent::render_from_template('block_mbsstatistics/summary', $data);
+    }
 
-$plugin->requires  = 2013050100;
-$plugin->release   = '1.4 for Moodle 2.8, 2.9 and 3.0';
-$plugin->maturity  = MATURITY_STABLE;
+}

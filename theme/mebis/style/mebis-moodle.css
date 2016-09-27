@@ -15273,10 +15273,12 @@ category-box:
   margin-bottom: 10px;
 }
 
-#page-mod-assign-mod div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1, #page-mod-assign-editsubmission div#applet_container1, #page-mod-assign-viewpluginassignsubmission div#applet_container1 {
+#page-mod-assign-view div#applet_container1, #page-mod-assign-mod div#applet_container1, #page-mod-assign-grader div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1,
+#page-mod-assign-editsubmission div#applet_container1, #page-mod-assign-viewpluginassignsubmission div#applet_container1 {
   height: inherit !important;
 }
-#page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div, #page-mod-assign-editsubmission div#applet_container1 > div, #page-mod-assign-viewpluginassignsubmission div#applet_container1 > div {
+#page-mod-assign-view div#applet_container1 > div, #page-mod-assign-mod div#applet_container1 > div, #page-mod-assign-grader div#applet_container1 > div, #page-mod-assign-grading div#applet_container1 > div, #page-question-type-geogebra div#applet_container1 > div,
+#page-mod-assign-editsubmission div#applet_container1 > div, #page-mod-assign-viewpluginassignsubmission div#applet_container1 > div {
   min-height: 0;
   height: inherit !important;
 }
@@ -15471,10 +15473,20 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   margin: 0 0 0 5px;
 }
 
+.que.multichoice div.answer, .que.multianswer div.answer, .que.calculatedmulti div.answer {
+  width: 100%;
+}
+
 .que.ddwtos .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
   border-color: #00a8d5;
   -webkit-box-shadow: 0 0 6px 1px #00a8d5;
   box-shadow: 0 0 6px 1px #00a8d5;
+}
+.que.ddwtos .group1 {
+  background-color: transparent;
+}
+.que.ddwtos .unplaced {
+  background-color: #fff;
 }
 
 #page-repository-pmediathek-search #page #page-content {

@@ -15,16 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    qtype_algebra
- * @copyright  Roger Moore <rwmoore@ualberta.ca>
+ * English text
+ *
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'qtype_algebra';
-$plugin->version   = 2016012400;
-
-$plugin->requires  = 2013050100;
-$plugin->release   = '1.4 for Moodle 2.8, 2.9 and 3.0';
-$plugin->maturity  = MATURITY_STABLE;
+$string['displayname'] = 'Statistics';
+$string['friday'] = 'Fri';
+$string['mbsstatistics:addinstance'] = 'Add a mbsstatistics block';
+$string['mbsstatistics:myaddinstance'] = 'Add a mbsstatistics block to my moodle';
+$string['monday'] = 'Mon';
+$string['pluginname'] = 'mebis Statistics';
+$string['saturday'] = 'Sat';
+$string['sunday'] = 'Sun';
+$string['thursday'] = 'Thu';
+$string['tuesday'] = 'Tue';
+$string['wednesday'] = 'Wed';

@@ -104,7 +104,7 @@ class dupcrs extends \moodleform {
 
         // licenseinfo.
         $form->addElement('static', 'licence', get_string('duplcourselicense', 'block_mbstpl'), $this->_customdata['licence']);
-        
+
         $this->add_action_buttons(true, get_string('duplcourseforuse1', 'block_mbstpl'));
     }
 
@@ -141,7 +141,7 @@ class dupcrs extends \moodleform {
         $bc = new backup_controller(backup::TYPE_1COURSE, $courseid, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_AUTOMATED, $USER->id);
         $builder = new restoreformbuilder($form, $bc->get_plan()->get_tasks(), $template);
         $builder->prepare_section_elements();
-        
+
         // terms of use.
         $form->addElement('header', 'legalinfo', get_string('legalinfo', 'block_mbstpl'));
         $form->addElement('checkbox', 'termsofuse', get_string('termsofuse', 'block_mbstpl'), get_string('termsofuse_descr', 'block_mbstpl'));

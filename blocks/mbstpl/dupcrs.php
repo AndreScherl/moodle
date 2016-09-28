@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -61,13 +60,29 @@ if (empty($cats) && empty($courses)) {
 }
 
 $step = optional_param('step', 1, PARAM_INT);
+
+// Try to reset the course, may take some time.
+$readyforstep2 = optional_param('restoreto', false, PARAM_ALPHA) && (optional_param("tocat", false, PARAM_INT) || optional_param("tocrs", false, PARAM_INT));
+if (data_submitted() && ($step == 2) && ($readyforstep2)) {
+
+    // Try to reset course first.
+    try {
+        \block_mbstpl\reset_course_userdata::reset_course_from_template($template->courseid);
+    } catch (\moodle_exception $ex) {
+        // When resetting the course fails (for example when there is no pubpk_ file for a template
+        // with userdata available, admins will be noticed.
+        // In this case we currently restore the course anyway, so do NOT retthrow exception and go on with
+        // secondary deployment...
+    }
+}
+
 $creator = mbst\course::get_creators($template->id);
 $licence = $template->get_license();
 $licencelink = \html_writer::link($licence->source, $licence->fullname);
 $licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
     'creator' => $creator,
     'licence' => (string) $licencelink
-));
+    ));
 $customdata = array(
     'course' => $course,
     'cats' => $cats,
@@ -87,24 +102,22 @@ if ($form->is_cancelled()) {
 
     // Initiate deployment task.
     $taskdata = (object) array(
-                'tplid' => $template->id,
-                'settings' => $form->get_task_settings(),
-                'requesterid' => $USER->id,
+            'tplid' => $template->id,
+            'settings' => $form->get_task_settings(),
+            'requesterid' => $USER->id,
     );
 
     // We do a deployment by first resetting the course.
-    $deployment = new \block_mbstpl\task\adhoc_deploy_dupcrs();
+    $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
     $deployment->set_custom_data($taskdata);
 
-    if (get_config('block_mbstpl', 'delayedrestore')) {
-        \core\task\manager::queue_adhoc_task($deployment);
-        redirect($redirurl, get_string('redirectdupcrsmsg', 'block_mbstpl'), 5);
-    } else {
-        $deployment->execute(true);
-        $newcourseurl = new moodle_url('/course/view.php', array('id' => $deployment->get_courseid()));
-        redirect($newcourseurl, get_string('redirectdupcrsmsg_done', 'block_mbstpl'), 5);
-    }
+    // We must deploy the course as soon as possible, to duplicate the resetted course.
+    // A delayed deployment may copy user data, that is generated until deployment.
+    $deployment->execute(true);
+    $newcourseurl = new moodle_url('/course/view.php', array('id' => $deployment->get_courseid()));
+    redirect($newcourseurl, get_string('redirectdupcrsmsg_done', 'block_mbstpl'), 5);
 }
+
 echo $OUTPUT->header();
 
 echo html_writer::tag('h2', $pagetitle);

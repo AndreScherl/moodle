@@ -22,7 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class assign_submission_geogebra extends assign_submission_plugin {
 
-    public $deployscript = '<script type="text/javascript" src="https://tube.geogebra.org/scripts/deployggb.js"></script>';
+    public $deployscript = '<script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>';
 
     public $ggbscript = '<script type="text/javascript" src="submission/geogebra/ggba.js"></script>';
 
@@ -377,7 +377,7 @@ class assign_submission_geogebra extends assign_submission_plugin {
         if ($geogebrasubmission) {
             $result .= html_writer::tag('script', '', array(
                     'type' => 'text/javascript',
-                    'src'  => 'https://tube.geogebra.org/scripts/deployggb.js'));
+                    'src'  => 'https://www.geogebra.org/scripts/deployggb.js'));
             $result .= html_writer::div('', '', array('id' => 'applet_container1'));
             // We must not load the applet before it is visible, it would show nothing then.
             $applet = $this->get_applet($geogebrasubmission, '', '', '', true);
@@ -398,7 +398,7 @@ class assign_submission_geogebra extends assign_submission_plugin {
         // Always show the view link.
         // FEATURE: We could show a lightbox onmousover or a preview image.
         $showviewlink = true;
-        return '';
+        return get_string('geogebra','assignsubmission_geogebra');
     }
 
     /**
@@ -495,29 +495,21 @@ HTML;
         }
         $applet .= 'parameters.language = "' . $lang . '";';
         $applet .= 'parameters.moodle = "viewOrEditSubmission";';
-        $applet .= 'var applet1 = new GGBApplet(';
-        $applet .= ($ggbcodebaseversion !== '') ? '"' . $ggbcodebaseversion . '",' : '';
-        $applet .= ($ggbparameters !== '') ? 'parameters,' : '';
-        $applet .= ($ggbviews !== '') ? $ggbviews . ',' : '';
-        $applet .= 'true);';
-        $applet .= $this->get_applet_injectstring($toggle);
-        $applet .= '</script>';
-
-        return $applet;
-    }
-
-    /**
-     * @param bool $toggle
-     * @return string
-     */
-    private function get_applet_injectstring($toggle = false) {
-        $injectstring = '';
+        $applet .= 'var applet1;';
         if ($toggle) {
-            $injectstring .= <<<EOD
+            $applet .= <<<EOD
         ggbloaded = false;
         ggbdisplaytoggle = Y.one('#applet_container1').ancestor().siblings().pop().get('children').shift();
-        if (ggbdisplaytoggle.hasAttribute('src')) {
+        if ((typeof ggbdisplaytoggle != 'undefined') && ggbdisplaytoggle.hasAttribute('src')) {
             ggbdisplaytoggle.on('click', function () {
+EOD;
+            $applet .= 'applet1 = new GGBApplet(';
+            $applet .= ($ggbcodebaseversion !== '') ? '"' . $ggbcodebaseversion . '",' : '';
+            $applet .= ($ggbparameters !== '') ? 'parameters,' : '';
+            $applet .= ($ggbviews !== '') ? $ggbviews . ',' : '';
+            $applet .= 'true);';
+            $applet .= <<<EOD
+
                 if (!ggbloaded) {
                     applet1.inject("applet_container1", "preferHTML5");
                 }
@@ -526,17 +518,23 @@ HTML;
         } else {
 EOD;
         }
-        $injectstring .= <<<EOD
-        window.onload = function () {
+        $applet .= 'window.onload = function () {';
+        $applet .= 'applet1 = new GGBApplet(';
+        $applet .= ($ggbcodebaseversion !== '') ? '"' . $ggbcodebaseversion . '",' : '';
+        $applet .= ($ggbparameters !== '') ? 'parameters,' : '';
+        $applet .= ($ggbviews !== '') ? $ggbviews . ',' : '';
+        $applet .= 'true);';
+        $applet .= <<<EOD
             applet1.inject("applet_container1", "preferHTML5");
             ggbloaded = true;
         }
 EOD;
         if ($toggle) {
-            $injectstring .= '}';
+            $applet .= '}';
         }
+        $applet .= '</script>';
 
-        return $injectstring;
+        return $applet;
     }
 
     /**

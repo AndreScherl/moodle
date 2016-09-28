@@ -89,7 +89,8 @@
 }
 
 // styling Assignment GeoGebra submissions.
-#page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra, #page-mod-assign-editsubmission {
+#page-mod-assign-view, #page-mod-assign-mod, #page-mod-assign-grader, #page-mod-assign-grading, #page-question-type-geogebra,
+#page-mod-assign-editsubmission, #page-mod-assign-viewpluginassignsubmission {
 
     div#applet_container1 {
         //need important because of element style
@@ -158,6 +159,12 @@ div.que.geogebra {
 
     input[type="submit"] {
         margin-left: 0;
+    }
+}
+
+#page-mod-feedback-print {
+    div[role="main"] {
+        background-color: $white;
     }
 }
 
@@ -370,6 +377,13 @@ div.que.geogebra {
     .answer div.r1 input {
         margin: 0 0 0 5px;
     }
+
+}
+
+.que.multichoice, .que.multianswer, .que.calculatedmulti {
+    div.answer {
+        width: 100%;
+    }
 }
 
 // questiontype drag and drop on text.
@@ -377,6 +391,12 @@ div.que.geogebra {
     .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
         border-color: $brand-primary;
         @include box-shadow(0 0 6px 1px $brand-primary);
+    }
+    .group1 {
+        background-color: transparent;
+    }
+    .unplaced {
+        background-color: #fff;
     }
 }
 

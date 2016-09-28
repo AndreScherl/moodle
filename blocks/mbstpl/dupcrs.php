@@ -91,7 +91,9 @@ if ($form->is_cancelled()) {
                 'settings' => $form->get_task_settings(),
                 'requesterid' => $USER->id,
     );
-    $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
+
+    // We do a deployment by first resetting the course.
+    $deployment = new \block_mbstpl\task\adhoc_deploy_dupcrs();
     $deployment->set_custom_data($taskdata);
 
     if (get_config('block_mbstpl', 'delayedrestore')) {

@@ -221,7 +221,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         );
 
         // We do a deployment by first resetting the course.
-        $deployment = new \block_mbstpl\task\adhoc_deploy_dupcrs();
+        $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
         $deployment->set_custom_data($taskdata);
         $deployment->execute(true);
 

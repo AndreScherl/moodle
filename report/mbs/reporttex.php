@@ -24,21 +24,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->dirroot . '/report/mbs/reporttex_form.php');
 require_once($CFG->dirroot . '/lib/tablelib.php');
 
-// Check access.
-require_login();
-
-// Check capability.
-$context = context_system::instance();
-require_capability('moodle/site:config', $context);
+admin_externalpage_setup('reporttex', '', null, '', array('pagelayout'=>'admin'));
 
 $baseurl = new moodle_url('/report/mbs/reporttex.php');
 
 $PAGE->set_url($baseurl);
-$PAGE->set_pagelayout('admin');
-$PAGE->set_context($context);
 $PAGE->set_heading(get_string('reporttex', 'report_mbs'));
 $PAGE->set_title(get_string('reporttex', 'report_mbs'));
 

@@ -31,7 +31,7 @@ use block_mbstpl\backup;
 class mbstpl_deploy_test extends advanced_testcase {
 
     public function test_deploytemplate() {
-        global $DB, $CFG;
+        global $DB, $CFG, $USER;
 
         // Set up.
         $this->resetAfterTest(true);
@@ -49,6 +49,8 @@ class mbstpl_deploy_test extends advanced_testcase {
         $enabled[] = 'mbstplaenrl';
         $enrol = implode(',', $enabled);
         set_config('enrol_plugins_enabled', $enrol);
+
+        set_config('teacherrole', 3, 'block_mbstpl');
 
         $student1 = $this->getDataGenerator()->create_user(array('firstname' => 'student', 'lastname' => '1'));
         $student2 = $this->getDataGenerator()->create_user(array('firstname' => 'student', 'lastname' => '2'));
@@ -133,21 +135,25 @@ class mbstpl_deploy_test extends advanced_testcase {
         // Assign reviewer.
         mbst\course::assign_reviewer($template, $reviewer->id);
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
+
+        $DB->set_field('block_mbstpl_meta', 'license', 'public', array('templateid' => $template->id));
+
         $this->assertEquals($template->reviewerid, $reviewer->id);
-        $this->assertEquals(++$mailcount, $mailsink->count());
+        $this->assertEquals( ++$mailcount, $mailsink->count());
 
         // Publish by task.
         $this->setAdminUser();
         $deploypublish = new \block_mbstpl\task\adhoc_deploy_publish();
         $deploypublish->set_custom_data($template);
         $deploypublish->execute(true);
-        $this->assertEquals(++$mailcount, $mailsink->count());
+        $this->assertEquals( ++$mailcount, $mailsink->count());
 
         // Check, whether template is published.
         $course = $DB->get_record('course', array('id' => $courseid));
         $this->assertEquals(1, $course->visible);
 
         $template = new \block_mbstpl\dataobj\template(array('courseid' => $courseid), true);
+
         $this->assertEquals(\block_mbstpl\dataobj\template::STATUS_PUBLISHED, $template->status);
 
         // Expecting a forum module with one discussion and two posts and anonymous users.
@@ -162,12 +168,12 @@ class mbstpl_deploy_test extends advanced_testcase {
 
         // Now do a reset task, which should not change the discusion id, because
         // there were no changes in the course.
-        \enrol_mbs\reset_course_userdata::reset_course_from_template($courseid);
+        \block_mbstpl\reset_course_userdata::reset_course_from_template($courseid);
         $discussionafter = $DB->get_record('forum_discussions', array('course' => $courseid));
         $this->assertEquals($discussion->id, $discussionafter->id);
 
         // Autoenrol user and do an new post.
-        require_once($CFG->dirroot.'/enrol/mbstplaenrl/lib.php');
+        require_once($CFG->dirroot . '/enrol/mbstplaenrl/lib.php');
         $enrolplugin = enrol_get_plugin('mbstplaenrl');
 
         $instance = $DB->get_record('enrol', array('courseid' => $courseid, 'enrol' => 'mbstplaenrl'), '*', MUST_EXIST);
@@ -196,6 +202,29 @@ class mbstpl_deploy_test extends advanced_testcase {
             $this->assertContains('anon', $user->firstname);
         }
 
+        // Duplicate the course for use.
+        // Initiate deployment task.
+        $backupsettings = array(
+            'forum_'.$discussionafter->id.'_included' => 1
+        );
+
+        $sections = $DB->get_records('course_sections', array('course' => $courseid));
+
+        foreach ($sections as $sectionid => $unused) {
+           $backupsettings["section_{$sectionid}_included"] = 1;
+        }
+
+        $taskdata = (object) array(
+                'tplid' => $template->id,
+                'settings' => array('tocat' => 1, 'backupsettings' => $backupsettings, 'licence' => ''),
+                'requesterid' => $USER->id
+        );
+
+        // We do a deployment by first resetting the course.
+        $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
+        $deployment->set_custom_data($taskdata);
+        $deployment->execute(true);
+
         // Delete User and keep firstname and lastname.
         delete_user($author);
         $deleteduser = $DB->get_record('block_mbstpl_userdeleted', array('userid' => $author->id));
@@ -205,7 +234,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         $qidlist = \block_mbstpl\questman\manager::get_searchqs();
         $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);
 
-        $search = new mbst\search($questions, array());
+        $search = new mbst\tplsearch($questions, array());
         $result = $search->get_search_result(0, 0);
 
         $item = reset($result->courses);

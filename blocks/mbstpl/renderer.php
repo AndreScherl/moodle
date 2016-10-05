@@ -741,7 +741,8 @@ class block_mbstpl_renderer extends plugin_renderer_base {
         $table->data[] = array(get_string('containsuserdata', 'block_mbstpl'), $includeuserdata);
 
         if (!empty($backupinfo->userdataids)) {
-            $table->data[] = array(get_string('userdataids', 'block_mbstpl'), $backupinfo->userdataids);
+            $userdataids = implode(', ', explode(',', $backupinfo->userdataids));
+            $table->data[] = array(get_string('userdataids', 'block_mbstpl'), $userdataids);
         }
 
         $o .= html_writer::table($table);

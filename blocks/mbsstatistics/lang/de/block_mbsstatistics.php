@@ -15,28 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * German text
  *
- * @package    report_mbs
- * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_mbs\task;
-
-class replace_tex_content extends \core\task\scheduled_task {
-
-    public function get_name() {
-        // Shown in admin screens.
-        return get_string('replacetexcontent', 'report_mbs');
-    }
-
-    public function execute() {
-
-        if (!empty(get_config('report_mbs', 'texcronactiv'))) {
-            \report_mbs\local\reporttex::replace_tex();
-        }
-    }
-
-}
-
+$string['displayname'] = 'Statistiken';
+$string['friday'] = 'Fr';
+$string['mbsstatistics:addinstance'] = 'Hinzufügen von Statistiken';
+$string['mbsstatistics:myaddinstance'] = 'Hinzufügen von Statistiken zu meinem Schreibtisch';
+$string['monday'] = 'Mo';
+$string['pluginname'] = 'mebis Statistiken';
+$string['saturday'] = 'Sa';
+$string['sunday'] = 'So';
+$string['thursday'] = 'Do';
+$string['tuesday'] = 'Di';
+$string['wednesday'] = 'Mi';

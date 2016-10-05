@@ -15,28 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Version details
  *
- * @package    report_mbs
- * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_mbs\task;
+defined('MOODLE_INTERNAL') || die();
 
-class replace_tex_content extends \core\task\scheduled_task {
-
-    public function get_name() {
-        // Shown in admin screens.
-        return get_string('replacetexcontent', 'report_mbs');
-    }
-
-    public function execute() {
-
-        if (!empty(get_config('report_mbs', 'texcronactiv'))) {
-            \report_mbs\local\reporttex::replace_tex();
-        }
-    }
-
-}
-
+$plugin->version   = 2016092300;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014050800;        // Requires this Moodle version
+$plugin->component = 'block_mbsstatistics'; // Full name of the plugin (used for diagnostics)

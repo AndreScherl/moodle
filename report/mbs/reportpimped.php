@@ -24,33 +24,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->dirroot . '/report/mbs/reportpimped_form.php');
+require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot . '/lib/tablelib.php');
 
-// Check access.
-require_login();
-
-// Check capability.
-$context = context_system::instance();
-require_capability('moodle/site:config', $context);
+admin_externalpage_setup('reportpimpedcourses', '', null, '', array('pagelayout'=>'admin'));
 
 $searchpattern = optional_param('searchpattern', '', PARAM_RAW);
-
 $baseparams = array(
     'searchpattern' => $searchpattern,
 );
+
 $baseurl = new moodle_url('/report/mbs/reportpimped.php', $baseparams);
 
 $PAGE->set_url($baseurl);
-$PAGE->set_pagelayout('admin');
-$PAGE->set_context($context);
 $PAGE->set_heading(get_string('reportpimped', 'report_mbs'));
 $PAGE->set_title(get_string('reportpimped', 'report_mbs'));
 
 $opts = array();
 $PAGE->requires->yui_module('moodle-report_mbs-toggleinfo', 'M.report_mbs.toggleinit', array($opts));
 
-$reportpimpedform = new reportpimped_form($baseurl, $baseparams);
+$reportpimpedform = new \report_mbs\form\reportpimped_form($baseurl, $baseparams);
 
 $download = optional_param('download', false, PARAM_ALPHA);
 

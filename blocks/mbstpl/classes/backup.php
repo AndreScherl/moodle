@@ -543,7 +543,10 @@ class backup {
 
                 // Since 'users' and 'anonymize' needs to start as 1, we need to explicity set each
                 // 'userinfo' setting, defaulting to 0 if it's not explicitly set by the user.
-                if ($setting instanceof \backup_activity_userinfo_setting || $setting instanceof \backup_section_userinfo_setting) {
+                if ($setting instanceof \backup_activity_userinfo_setting || $setting instanceof \backup_section_userinfo_setting ||
+                    $setting instanceof \backup_section_included_setting || $setting instanceof \backup_activity_included_setting ||
+                    $setting instanceof \backup_activity_generic_setting) {
+
                     $value = $hassetting ? $settings[$settingname] : 0;
                     $setting->set_value($value);
                 } else if ($hassetting) {

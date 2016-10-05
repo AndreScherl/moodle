@@ -15,28 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * renderer
  *
- * @package    report_mbs
- * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
+ * @package    block_mbsstatistics
+ * @copyright  René Egger <rene.egger@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_mbs\task;
+defined('MOODLE_INTERNAL') || die();
 
-class replace_tex_content extends \core\task\scheduled_task {
-
-    public function get_name() {
-        // Shown in admin screens.
-        return get_string('replacetexcontent', 'report_mbs');
-    }
-
-    public function execute() {
-
-        if (!empty(get_config('report_mbs', 'texcronactiv'))) {
-            \report_mbs\local\reporttex::replace_tex();
-        }
+/**
+ * Block LP renderer class.
+ *
+ * @package    block_lp
+ * @copyright  2016 Frédéric Massart - FMCorz.net
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class block_mbsstatistics_renderer extends plugin_renderer_base {
+    /**
+     * Defer to template.
+     * @param renderable $summary
+     * @return string|boolean
+     */
+    public function render_summary(renderable $summary) {
+        $data = $summary->export_for_template($this);
+        return parent::render_from_template('block_mbsstatistics/summary', $data);
     }
 
 }
-

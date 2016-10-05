@@ -89,7 +89,8 @@
 }
 
 // styling Assignment GeoGebra submissions.
-#page-mod-assign-mod, #page-mod-assign-grading, #page-question-type-geogebra, #page-mod-assign-editsubmission {
+#page-mod-assign-view, #page-mod-assign-mod, #page-mod-assign-grader, #page-mod-assign-grading, #page-question-type-geogebra,
+#page-mod-assign-editsubmission, #page-mod-assign-viewpluginassignsubmission {
 
     div#applet_container1 {
         //need important because of element style
@@ -158,6 +159,12 @@ div.que.geogebra {
 
     input[type="submit"] {
         margin-left: 0;
+    }
+}
+
+#page-mod-feedback-print {
+    div[role="main"] {
+        background-color: $white;
     }
 }
 

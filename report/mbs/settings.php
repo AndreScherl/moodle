@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
+ * Report pimped courses (style and js customisations using html - block)
  * settings.
  *
  * @package    report
@@ -26,21 +26,44 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
+$ADMIN->add('reports', new admin_category('mebisreportsfolder', get_string('pluginname', 'report_mbs')));
+
 // Just a link to directorate report.
-$ADMIN->add('reports', new admin_externalpage('reportpimpedcourses', get_string('pluginname', 'report_mbs'),
+$ADMIN->add('mebisreportsfolder', new admin_externalpage('reportpimpedcourses', get_string('reportpimped', 'report_mbs'),
                 "$CFG->wwwroot/report/mbs/reportpimped.php", 'moodle/site:config'));
 
-$ADMIN->add('reports', new admin_externalpage('replacetex', get_string('replacetex', 'report_mbs'),
+$ADMIN->add('mebisreportsfolder', new admin_externalpage('reporttex', get_string('replacetex', 'report_mbs'),
                 "$CFG->wwwroot/report/mbs/reporttex.php", 'moodle/site:config'));
+
+$ADMIN->add('mebisreportsfolder', new admin_externalpage('reportorphanedcourses', get_string('reportorphaned', 'report_mbs'),
+                "$CFG->wwwroot/report/mbs/reportcourses.php", 'moodle/site:config'));
 
 if ($ADMIN->fulltree) {
 
     $settings = new admin_settingpage('reportmbs',
                     get_string('pluginname', 'report_mbs'));
 
+    $settings->add(new admin_setting_heading('reportpimpedheading',
+                    get_string('reportpimped', 'report_mbs'), ''));
+
     $settings->add(
             new admin_setting_configtext('report_mbs/searchpattern',
                     get_string('searchpattern', 'report_mbs'),
                     get_string('searchpatterndesc', 'report_mbs'), '<script|<style', PARAM_RAW));
 
+    $settings->add(new admin_setting_heading('replacetexheading',
+                    get_string('replacetex', 'report_mbs'), ''));
+
+    $settings->add(
+            new admin_setting_configcheckbox('report_mbs/texcronactiv',
+                    get_string('texcronactiv', 'report_mbs'),
+                    get_string('texcronactivdesc', 'report_mbs'), 0));
+
+    $settings->add(new admin_setting_heading('reportorphanedcourses',
+                    get_string('replacetex', 'report_mbs'), ''));
+
+    $settings->add(
+            new admin_setting_configtext('report_mbs/reportcourseperpage',
+                    get_string('reportcourseperpage', 'report_mbs'),
+                    get_string('reportcourseperpagedesc', 'report_mbs'), 20, PARAM_INT));
 }

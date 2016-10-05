@@ -30,13 +30,13 @@ class imagehelper {
     /*public static $component = 'coursecat';
     public static $filearea = 'description';
     public static $filepath = '/';*/
-    
+
     public static $component = 'block_mbsschooltitle';
     public static $filearea = 'schoollogo';
     public static $filepath = '/';
-    
+
     /** generates the image url with correct filearea
-     * 
+     *
      * @param int $categoryid
      * @param string $imagename
      * @return string the plugin url to image
@@ -46,15 +46,16 @@ class imagehelper {
         if (empty($imagename)) {
             return false;
         }
-        
+
         $catcontext = \context_coursecat::instance($categoryid);
 
         $url = new \moodle_url("/pluginfile.php/{$catcontext->id}/".self::$component."/".self::$filearea. self::$filepath . $imagename);
         return $url->out();
     }
 
-    /** get the file from file storage
-     * 
+    /**
+     * Get the file from file storage
+     *
      * @param int $categoryid
      * @param string $imagename
      * @return boolean|stored_file the file if succeeded ohterwise false
@@ -67,7 +68,20 @@ class imagehelper {
         return $fs->get_file($catcontext->id, self::$component, self::$filearea, 0, self::$filepath, $imagename);
     }
 
-    
+    /**
+     * Process the uploaded picture to the configurated height, if it is too large
+     * and save the picture in filesystem
+     *
+     * @param int $context context of the course category.
+     * @param string $component (= 'block_mbsschooltitle')
+     * @param string $filearea (='schoollogo');
+     * @param int $itemid (= 0)
+     * @param string $filepath (='/')
+     * @param string $originalfile complete path to orginal (non processed) file
+     * @param int $width unused
+     * @param int $height the maximum height of processed image
+     * @return boolean|string
+     */
     private static function process_picture($context, $component, $filearea,
                                         $itemid, $filepath, $originalfile,
                                         $width, $height) {
@@ -76,7 +90,7 @@ class imagehelper {
         require_once($CFG->libdir.'/gdlib.php');
 
         if (empty($CFG->gdversion)) {
-            debuggin('gdlib is required, please check whether global config gdversion is set!');
+            debugging('gdlib is required, please check whether global config gdversion is set!');
             return false;
         }
 
@@ -139,10 +153,11 @@ class imagehelper {
             return false;
         }
 
-        //falls das Bild zu groß ist skalierungsfaktor berechnen
+        // Scale the picture to smaller size, if it's height is too large.
         $faktor = 1;
-        if ($image->height > $height)
+        if ($image->height > $height) {
             $faktor = $height / $image->height;
+        }
         $newwidth = round($image->width * $faktor);
 
         if (function_exists('ImageCreateTrueColor') and $CFG->gdversion >= 2) {
@@ -181,9 +196,9 @@ class imagehelper {
         return $icon;
     }
 
-    
-    /** update the picture after submitting the form 
-     * 
+
+    /** update the picture after submitting the form
+     *
      * @global object $DB
      * @param record $form the submitted data
      * @param  $data
@@ -194,7 +209,7 @@ class imagehelper {
         global $DB;
 
         $picturetouse = null;
-        
+
         $context = \context_coursecat::instance($categoryid, MUST_EXIST);
 
         if (!empty($data->deletepicture)) {
@@ -202,11 +217,11 @@ class imagehelper {
             $fs = get_file_storage();
             $fs->delete_area_files($context->id, self::$component, self::$filearea, 0);
             $picturetouse = '';
-            
+
         } else {
 
             $config = get_config('block_mbsschooltitle');
-            
+
             $originalfile = $form->save_temp_file('imagefile');
             if (!$image = self::process_picture($context, self::$component, self::$filearea, 0, self::$filepath, $originalfile, $config->imgwidth, $config->imgheight)) {
                 return false;

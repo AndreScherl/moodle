@@ -16995,7 +16995,7 @@ input[type="checkbox"] + label {
     Created on : 16.05.2015, 19:46:57
     Author     : Andreas Wagner
 */
-.page-files-index #main-content-wrapper {
+#page-files-index #main-content-wrapper {
   overflow-x: auto;
 }
 

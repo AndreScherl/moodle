@@ -285,5 +285,21 @@ class core_changes {
 
         return $output;
     }
-
+    
+    /**
+     * calendar all day events hack:
+     * 
+     * Calendar events without given duration will only get date informations without time informations while exporting the
+     * calendar to ics files. The event start date is converted to greenwich time zone. All day events start at 00:00 and are
+     * converted to greenwich 22:00 the day before. Then the start date gets the wrong day.
+     * 
+     * Fix: Use strftime() instead of gmstrftime()
+     */
+    
+    public static function timestamp_to_allday_date($t = NULL) {
+        if ($t === NULL) {
+            $t = time();
+        }
+        return strftime('%Y%m%d', $t);
+    }
 }

@@ -58,7 +58,7 @@ class MoodleQuickForm_urlpmediathek extends MoodleQuickForm_url {
         $client_id = uniqid();
 
         $str .= <<<EOD
-<button id="filepicker-button-{$client_id}" style="display:none">
+<button id="filepicker-button-js-{$client_id}">
 $straddlink
 </button>
 EOD;
@@ -83,7 +83,6 @@ EOD;
 
         $module = array('name'=>'form_url', 'fullpath'=>'/lib/form/url.js', 'requires'=>array('core_filepicker'));
         $PAGE->requires->js_init_call('M.form_url.init', array($options), true, $module);
-        $PAGE->requires->js_function_call('show_item', array('filepicker-button-'.$client_id));
 
         return $str;
     }

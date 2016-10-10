@@ -33,7 +33,9 @@ class report_tex_content extends \core\task\scheduled_task {
 
     public function execute() {
 
-        if (!empty(get_config('report_mbs', 'texcronactiv'))) {
+        $texcronactiv = get_config('report_mbs', 'texcronactiv');
+
+        if (!empty($texcronactiv)) {
             \report_mbs\local\reporttex::report_tables();
         }
     }

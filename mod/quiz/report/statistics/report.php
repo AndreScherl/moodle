@@ -259,7 +259,9 @@ class quiz_statistics_report extends quiz_default_report {
             // On-screen display of overview report.
             echo $OUTPUT->heading(get_string('quizinformation', 'quiz_statistics'), 3);
             echo $this->output_caching_info($quizstats->timemodified, $quiz->id, $groupstudents, $whichattempts, $reporturl);
-            echo $this->everything_download_options();
+            // fhüb - core hack - no download options, if there are no attempts.
+            // echo $this->everything_download_options();
+            // fhüb - core hack - no download options, if there are no attempts.
             $quizinfo = $quizstats->get_formatted_quiz_info_data($course, $cm, $quiz);
             echo $this->output_quiz_info_table($quizinfo);
             if ($quizstats->s()) {

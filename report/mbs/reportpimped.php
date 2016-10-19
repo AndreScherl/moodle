@@ -15,19 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
+ * Report pimped courses (style and js customisations using html - block)
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/lib/tablelib.php');
 
-admin_externalpage_setup('reportpimpedcourses', '', null, '', array('pagelayout'=>'admin'));
+admin_externalpage_setup('reportpimpedcourses', '', null, '', array('pagelayout' => 'admin'));
 
 $searchpattern = optional_param('searchpattern', '', PARAM_RAW);
 $baseparams = array(
@@ -97,9 +96,11 @@ foreach ($statsdata as $data) {
         $course = html_writer::link($url, " " . $course, array('target' => '_blank'));
 
         if (isset($data->blockscontent)) {
+
             $contents = implode('<br /><br />', $data->blockscontent);
-            $icon = $OUTPUT->pix_icon('i/info', get_string('viewhtml', 'report_mbs'),
-                    'moodle', array('class' => 'smallicon', 'id' => 'info_' . $data->id));
+            $params = array('class' => 'smallicon', 'id' => 'info_' . $data->id);
+
+            $icon = $OUTPUT->pix_icon('i/info', get_string('viewhtml', 'report_mbs'), 'moodle', $params);
             $course .= html_writer::link('#', $icon);
             $course .= html_writer::tag('div', $contents, array('style' => 'display:none', 'id' => 'content_' . $data->id));
         }

@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
- * settings.
+ * MBS Report language string definition
  *
  * @package    report
  * @subpackage mbs
@@ -40,3 +39,63 @@ $string['searchpattern_help'] = 'Nach diesen Suchmustern wird in den HTML-Blöck
     mehrere Suchmuster können mit einer Pipe | getrennt werden.';
 $string['trainer'] = 'Trainer';
 $string['viewhtml'] = 'HTML Code anzeigen';
+
+$string['id'] = 'ID';
+$string['coursename'] = 'Course';
+$string['filessize'] = 'Dateigröße';
+$string['lastviewed'] = 'Zuletzt betreten';
+$string['lastmodified'] = 'Zuletzt verändert';
+$string['maxparticipantscount'] = 'Maximale Anzahl an Teilnehmern';
+$string['maxmodulescount'] = 'Maximale Anzahl an Modulen';
+$string['maxtrainerscount'] = 'Maximale Anzahl an Trainern';
+$string['lastviewedbefore'] = 'Zuletzt betreten vor';
+$string['lastmodifiedbefore'] = 'Zuletzt verändert vor';
+$string['oneday'] = '1 Tag';
+$string['onemonth'] = '1 Monat';
+$string['oneweek'] = '1 Woche';
+$string['halfyear'] = 'Halbes Jahr';
+$string['oneyear'] = '1 Jahr';
+
+$string['trainer'] = 'Trainer';
+$string['trainerscount'] = 'Anzahl Trainer';
+$string['participantscount'] = 'Anzahl Teilnehmer';
+$string['modulescount'] = 'Anzahl Module';
+$string['categoryname'] = 'Kursbereich';
+
+$string['reportcourseperpage'] = 'Seitenaufteilung im Kursreport';
+$string['reportcourseperpagedesc'] = 'Maximale Einträge pro Seite';
+$string['reportcourses'] = 'Kurs Report';
+$string['reportorphaned'] = 'Kurs Report';
+$string['texcronactiv'] = 'Cronjob für TeX Ersetzung aktviv';
+$string['texcronactivdesc'] = 'Der Cronjob kann hier deaktiviert werden';
+$string['reportcoursesynccount'] = 'Anzahl der Kurse, die per cronjob ausgewertet werden.';
+$string['reportcoursesynccountdesc'] = 'Aufgrund der hohen Kursanzahl werden die Statistikdaten für Kurse über eine cronjob ermittelt. Wählen sie hier, wie viele Kurs pro cronjob ausgewertet werden.';
+$string['reportcoursestats'] = 'Kurs Statistik';
+$string['coursestatscronactiv'] = 'Hintergrundprozess für Kurs Statistik aktiv';
+$string['coursestatscronactivdesc'] = 'Schalten sie den Hintergrundprzess ein oder aus.';
+$string['coursesstatscomplete'] = 'Die gesammelten Daten sind aktuell.';
+$string['coursesstatsincomplete'] = 'Die Statistikdaten sind veraltet: {$a->counttodelete} item(s) to delete, {$a->counttoadd} item(s) to add.';
+$string['status'] = 'Älteste Statistikdaten';
+
+$string['bulkaction'] = 'Massenaktion';
+$string['bulkaction_delete'] = 'Löschen';
+$string['bulkaction_move'] = 'In Kursbereich verschieden';
+$string['bulkaction_unenrol'] = 'Einschreibungen löschen';
+$string['bulkactiondeleteinfo'] = 'Folgende Kurse werden gelöscht. Dies kann nicht rückgängig gemacht werden!';
+$string['bulkactionmoveeinfo'] = 'Folgende Kurse werden in den gewählten Kursbereich verschoben';
+$string['bulkactionunenrolinfo'] = 'Alle Teilnehmer werden aus den folgenden Kurses ausgetragen.';
+$string['bulkactionrequired'] = 'Bitte wählen sie eine Aktion.';
+$string['coursesdeleted'] = 'Kurse wurden gelöscht';
+$string['coursesmoved'] = 'Kurse wurden verschoben';
+$string['courseidsmissing'] = 'Fehlende Kurs-Ids';
+$string['coursesmissing'] = 'Fehlende Kurse';
+$string['coursesunenrolled'] = 'Die Teilnehmer wurden aus den Kursen entfernt.';
+$string['doaction'] = 'Aktion ausführen';
+$string['limitcategories'] = 'Suchergebnisse limitieren';
+$string['limitcategoriesdesc'] = 'Bestimmen sie die maximale Anzahl in der Kursbereichssuche.';
+$string['depthcategories'] = 'Pfad verkürzen';
+$string['depthcategoriesdesc'] = 'Pfade zu Kurbereichen, deren Tiefe länger als dieser Wert sind, werden verkürzt dargestellt.';
+$string['nocategoryselected'] = 'Kein Kursbereich gewählt';
+$string['selectcategory'] = 'Wählen sie einen Kursbereich';
+$string['selectonecourse'] = 'Please select at least one course';
+$string['unknownaction'] = 'Unbekannte Aktion';

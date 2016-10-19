@@ -49,8 +49,8 @@ function xmldb_report_mbs_upgrade($oldversion) {
         // Mbs savepoint reached.
         upgrade_plugin_savepoint(true, 2015111101, 'report', 'mbs');
     }
-    
-     if ($oldversion < 2015111103) {
+
+    if ($oldversion < 2015111103) {
 
         // Changing type of field count on table report_mbs_tex to text.
         $table = new xmldb_table('report_mbs_tex');
@@ -63,6 +63,49 @@ function xmldb_report_mbs_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015111103, 'report', 'mbs');
     }
 
+    if ($oldversion < 2016101902) {
+
+        // Define table report_mbs_course to be created.
+        $table = new xmldb_table('report_mbs_course');
+
+        // Adding fields to table report_mbs_course.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('trainerscount', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('participantscount', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('modulescount', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('filesize', XMLDB_TYPE_CHAR, '100', null, null, null, null);
+        $table->add_field('lastviewed', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('timelastsync', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+        // Adding keys to table report_mbs_course.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table report_mbs_course.
+        $table->add_index('courseid', XMLDB_INDEX_UNIQUE, array('courseid'));
+
+        // Conditionally launch create table for report_mbs_course.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Mbs savepoint reached.
+        upgrade_plugin_savepoint(true, 2016101902, 'report', 'mbs');
+    }
+
+    if ($oldversion < 2016101903) {
+
+        // Changing type of field filesize on table report_mbs_course to number.
+        $table = new xmldb_table('report_mbs_course');
+        $field = new xmldb_field('filesize', XMLDB_TYPE_NUMBER, '20, 1', null, null, null, null, 'modulescount');
+
+        // Launch change of type for field filesize.
+        $dbman->change_field_type($table, $field);
+
+        // Mbs savepoint reached.
+        upgrade_plugin_savepoint(true, 2016101903, 'report', 'mbs');
+    }
 
     return true;
 }

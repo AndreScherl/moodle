@@ -29,26 +29,22 @@ global $CFG;
 
 require_once($CFG->dirroot . '/lib/formslib.php');
 
-class reportpimped_form extends \moodleform {
+class bulkaction_form extends \moodleform {
 
     protected function definition() {
 
         $mform = $this->_form;
 
-        $searchpattern = $this->_customdata['searchpattern'];
+        $choices = ['' => get_string('select')];
+        $choices += \report_mbs\local\reportcourses::get_actions_menu();
 
-        if (empty($searchpattern)) {
-            $config = get_config('report_mbs');
-            $searchpattern = $config->searchpattern;
-        }
+        $mform->addElement('select', 'bulkaction', get_string('bulkaction', 'report_mbs'), $choices);
 
-        $mform->addElement('text', 'searchpattern', get_string('searchpattern', 'report_mbs'));
-        $mform->setDefault('searchpattern', $searchpattern);
-        $mform->setType('searchpattern', PARAM_RAW);
-        $mform->addHelpButton('searchpattern', 'searchpattern', 'report_mbs');
+        $mform->addElement('hidden', 'courseids', '', array('id' => 'id_courseids'));
+        $mform->setType('courseids', PARAM_TEXT);
 
         $buttonarray = array();
-        $buttonarray[] = &$mform->createElement('submit', 'search', get_string('search', 'report_mbs'));
+        $buttonarray[] = &$mform->createElement('submit', 'doaction', get_string('doaction', 'report_mbs'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
         $mform->closeHeaderBefore('buttonar');
     }

@@ -15,19 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report texed tables
+ * Report texed tables
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/lib/tablelib.php');
 
-admin_externalpage_setup('reporttex', '', null, '', array('pagelayout'=>'admin'));
+admin_externalpage_setup('reporttex', '', null, '', array('pagelayout' => 'admin'));
 
 $baseurl = new moodle_url('/report/mbs/reporttex.php');
 

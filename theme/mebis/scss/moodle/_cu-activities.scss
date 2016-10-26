@@ -23,6 +23,7 @@
     - .que.calculatedmulti
     - .que.ddmatch
     - .que.ddwtos 
+    - .que.essay
     - .que.geogebra
     - .que.match
     - .que.multichoicepage-mod-lesson-view
@@ -397,6 +398,13 @@ div.que.geogebra {
     }
     .unplaced {
         background-color: #fff;
+    }
+}
+
+.que.essay {
+    div.answer {
+        float: none;
+        width: auto;
     }
 }
 

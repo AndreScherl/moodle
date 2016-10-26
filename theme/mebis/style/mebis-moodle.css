@@ -15493,6 +15493,11 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   background-color: #fff;
 }
 
+.que.essay div.answer {
+  float: none;
+  width: auto;
+}
+
 #page-repository-pmediathek-search #page #page-content {
   padding-left: 5px;
   padding-right: 5px;

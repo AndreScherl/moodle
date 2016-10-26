@@ -68,6 +68,18 @@ if (data_submitted() && ($step == 2) && ($readyforstep2)) {
     // Try to reset course first.
     try {
         \block_mbstpl\reset_course_userdata::reset_course_from_template($template->courseid);
+        // Note that the current user must have the capability to restore a course. This is controlled by a assigning a suitable rolle
+        // to this user. After resetting the course this user is not enrolled anymore, so we have to reenrol this user now.
+        $enrolplugin = enrol_get_plugin('mbstplaenrl');
+        $instance = $DB->get_record('enrol', array('courseid' => $template->courseid, 'enrol' => 'mbstplaenrl'), '*', MUST_EXIST);
+
+        $timestart = time();
+        if ($instance->enrolperiod) {
+            $timeend = $timestart + $instance->enrolperiod;
+        } else {
+            $timeend = 0;
+        }
+        $enrolplugin->enrol_user($instance, $USER->id, $instance->roleid, $timestart, $timeend);
     } catch (\moodle_exception $ex) {
         // When resetting the course fails (for example when there is no pubpk_ file for a template
         // with userdata available, admins will be noticed.

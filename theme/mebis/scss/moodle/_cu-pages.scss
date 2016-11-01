@@ -7,16 +7,16 @@
     - #page-course-index-category
     - #page-enrol-users
     - #page-enrol-index
-    - #page-my-index 
+    - #page-my-index
     - #page-course-management
     - #page-content
-    - #page-admin-purgecaches 
+    - #page-admin-purgecaches
     - #page-admin-tool-lp-plans
     - #page-mod-assign-grader
     - #page-admin-tool-lp-coursecompetencies
     - #page-admin-tool-lp-user_competency_in_course
 */
-/* 
+/*
     Created on : 16.05.2015, 19:46:57
     Author     : Andreas Wagner
 */
@@ -29,7 +29,7 @@
 
 .path-user.path-course-view {
     #main-content-wrapper {
-        padding: 0 20px 20px;    
+        padding: 0 20px 20px;
     }
 }
 
@@ -50,7 +50,7 @@
 }
 
 // calendar.
-#page-calendar-view { 
+#page-calendar-view {
     #main-content-wrapper {
         overflow: hidden;
 
@@ -69,16 +69,6 @@
 #page-admin-tool-lp-coursecompetencies, #page-admin-tool-lp-user_competency_in_course {
     ul.inline {
         list-style-type: none;
-    }
-}
-
-.path-mod.pagelayout-admin {
-    .form-autocomplete-downarrow {
-        top: -2em;
-        left: 9.5em;
-    }
-    .form-autocomplete-suggestions {
-        margin-top: -1.5em;
     }
 }
 
@@ -118,7 +108,7 @@
         background: transparent;
         color : $white;
         padding-left: 0;
-        padding-right: 0; 
+        padding-right: 0;
 
         h2 {
             background: transparent;
@@ -137,7 +127,7 @@
 
             border: none;
 
-            > .panel-heading { 
+            > .panel-heading {
                 border: none;
                 background-color: $brand-primary;
                 font-size: 27px;
@@ -203,14 +193,14 @@
     }
 }
 
-// Styles for background and lists in: 
-// - print.php pages 
-// - #page-admin-purgecaches 
+// Styles for background and lists in:
+// - print.php pages
+// - #page-admin-purgecaches
 // - page-popup
-#page-content, #page-admin-purgecaches, 
+#page-content, #page-admin-purgecaches,
 #page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup,
 #page-mod-page-view.pagelayout-popup {
-    background: $white;   
+    background: $white;
 
     div[role="main"] {
         div div ul {
@@ -228,7 +218,7 @@
                 list-style-position: outside;
                 list-style-image: none;
             }
-        }        
+        }
     }
 }
 
@@ -249,7 +239,7 @@
     }
     [data-region="grade-panel"] {
         top: 95px;
-        
+
         h3 {
             font-size: 1.25em;
         }

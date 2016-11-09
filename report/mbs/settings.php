@@ -68,7 +68,7 @@ if ($ADMIN->fulltree) {
     $settings->add(
             new admin_setting_configtext('report_mbs/reportcoursesynccount',
                     get_string('reportcoursesynccount', 'report_mbs'),
-                    get_string('reportcoursesynccountdesc', 'report_mbs'), 2000, PARAM_INT));
+                    get_string('reportcoursesynccountdesc', 'report_mbs'), 500, PARAM_INT));
 
     $settings->add(
             new admin_setting_configcheckbox('report_mbs/coursestatscronactiv',

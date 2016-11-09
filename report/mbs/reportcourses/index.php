@@ -17,13 +17,12 @@
 /**
  * Report courses (orphaned)
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 
 global $CFG, $PAGE, $OUTPUT;
 
@@ -32,19 +31,17 @@ require_once($CFG->dirroot . '/lib/tablelib.php');
 
 admin_externalpage_setup('reportorphanedcourses', '', null, '', array('pagelayout' => 'admin'));
 
-$baseurl = new moodle_url('/report/mbs/reportcourses.php');
+$baseurl = new moodle_url('/report/mbs/reportcourses/index.php');
 $PAGE->set_url($baseurl);
 
-$action = optional_param('action', '', PARAM_ALPHANUMEXT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 $default = get_config('report_mbs', 'reportcourseperpage');
 $baseurl->param('perpage', $default);
 
 $perpage = optional_param('perpage', $default, PARAM_INT);
-$details = optional_param('showdetails', 0, PARAM_INT);
 
-$filterform = new \report_mbs\form\reportcourses_form($baseurl, array('action' => $action), 'post', '', array('id' => 'mbs-report-coursesform'));
+$filterform = new \report_mbs\form\reportcourses_form($baseurl, array(), 'post', '', array('id' => 'mbs-report-coursesform'));
 $reportcourseshelper = new \report_mbs\local\reportcourses();
 
 // Get data.
@@ -76,19 +73,14 @@ $table->set_attribute('class', 'generaltable');
 $table->set_attribute('id', 'reportcourses-table');
 
 $columns = array(
-    'id', 'coursename', 'lastviewed', 'timemodified', 'trainerscount',
-    'participantscount', 'modulescount', 'categoryname'
+    'checkbox', 'id', 'coursename', 'lastviewed', 'timemodified', 'trainerscount',
+    'participantscount', 'modulescount', 'categoryname', 'filessize'
 );
 
 $headers = array(
-    'id', 'coursename', 'lastviewed', 'timemodified', 'trainerscount',
-    'participantscount', 'modulescount', 'categoryname'
+    '', 'id', 'coursename', 'lastviewed', 'timemodified', 'trainerscount',
+    'participantscount', 'modulescount', 'categoryname', 'filessize'
 );
-
-if ($details) {
-    $columns[] = 'filessize';
-    $headers[] = 'filessize';
-}
 
 foreach ($headers as $i => $header) {
     if (!empty($header)) {
@@ -98,11 +90,14 @@ foreach ($headers as $i => $header) {
     }
 }
 
+$headers[0] = \html_writer::empty_tag('input', array('type' => 'checkbox', 'id' => 'coursecheckall'));
+
 $table->headers = $headers;
 $table->define_columns($columns);
 
 $table->define_baseurl($baseurl);
 $table->sortable(true, 'coursename', SORT_DESC);
+$table->no_sorting('checkbox');
 
 $table->pageable(true);
 $table->is_downloadable(true);
@@ -116,7 +111,7 @@ $table->set_control_variables(
 
 $table->setup();
 
-$courses = $reportcourseshelper->get_courses($filterdata, $table, $perpage, $download);
+$courses = $reportcourseshelper->get_courses_stats($filterdata, $table, $perpage, $download);
 
 if (!$download) {
 
@@ -124,12 +119,15 @@ if (!$download) {
 
     $filterform->display();
 
+    echo $reportcourseshelper->render_cron_info();
     echo html_writer::start_tag('div', array('id' => 'local-impact-table-wrapper'));
 }
 
 foreach ($courses as $course) {
 
     $row = array();
+
+    $row[] = \html_writer::empty_tag('input', array('type' => 'checkbox', 'value' => $course->id, 'id' => 'course_' . $course->id));
 
     $row[] = $course->id;
 
@@ -155,11 +153,9 @@ foreach ($courses as $course) {
         $url = new moodle_url('/course/index.php', array('categoryid' => $course->categoryid));
         $category = html_writer::link($url, $course->categoryname, array('target' => '_blank'));
     }
-    $row[] = $category;
 
-    if ($details) {
-        $row[] = number_format(ceil($course->filessize / 1048576)) . " MB";
-    }
+    $row[] = $category;
+    $row[] = number_format(ceil($course->filessize / 1048576)) . " MB";
 
     $table->add_data($row);
 }
@@ -171,5 +167,12 @@ if ($download) {
 
     $table->finish_html();
     echo html_writer::end_div();
+
+    $url = new moodle_url('/report/mbs/reportcourses/bulkaction.php');
+    $bulkactionform = new \report_mbs\form\bulkaction_form($url, array(), 'post', '', array('id' => 'bulkaction-form'));
+    $bulkactionform->display();
+
+    $PAGE->requires->js_call_amd('report_mbs/reportcourses', 'init', array());
+
     echo $OUTPUT->footer();
 }

@@ -15,13 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Report orphaned courses (style and js customisations using html - block)
- * report form.
- *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -63,8 +59,6 @@ class reportcourses_form extends \moodleform {
 
         $mform->addElement('select', 'lastmodifiedbefore', get_string('lastmodifiedbefore', 'report_mbs'), $choices);
         $mform->setType('lastmodifiedbefore', PARAM_INT);
-
-        $mform->addElement('checkbox', 'showdetails', get_string('showdetails', 'report_mbs'));
 
         $buttonarray = array();
         $buttonarray[] = &$mform->createElement('submit', 'search', get_string('search', 'report_mbs'));

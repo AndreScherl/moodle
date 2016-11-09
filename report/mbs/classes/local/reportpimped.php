@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
+ * Report pimped courses (style and js customisations using html - block)
  * settings.
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,9 +29,9 @@ namespace report_mbs\local;
 class reportpimped {
 
     /** check whether the text contains at least one of the given needles.
-     * For performance reasons we use strpos here, it would be easy to change that 
+     * For performance reasons we use strpos here, it would be easy to change that
      * into a preg match search.
-     * 
+     *
      * @param array $needles list of needles to search for
      * @param string $text
      * @return boolean true if at least one needle is found
@@ -53,7 +52,7 @@ class reportpimped {
     }
 
     /** search for block instances containing given searchpattern
-     * 
+     *
      * @global object $DB
      * @param array $baseparams params containing the searchpattern
      * @return array list of block instances
@@ -89,12 +88,13 @@ class reportpimped {
     }
 
     /** retreive all the trainers (i. e. users with given capabitlity) for courses.
-     * 
+     *
      * @global object $DB
      * @param array $courseids list of courses
      * @return array list containing userinfo for trainers indexed by courseid.
      */
-    protected static function get_trainers($courseids, $capability = 'moodle/role:assign') {
+    protected static function get_trainers($courseids,
+        $capability = 'moodle/role:assign') {
         global $DB;
 
         $params = array(CONTEXT_COURSE);
@@ -130,12 +130,13 @@ class reportpimped {
     }
 
     /** retreive all the coordinators (i. e. users with given capability) for categories.
-     * 
+     *
      * @global object $DB
      * @param array $schoolids list of ids fo schools
      * @return array list containing userinfo for coordinators indexed by schoolid
      */
-    public static function get_coordinators($schoolids, $capability = 'moodle/category:manage') {
+    public static function get_coordinators($schoolids,
+        $capability = 'moodle/category:manage') {
         global $DB;
 
         $params = array(CONTEXT_COURSECAT);
@@ -173,7 +174,7 @@ class reportpimped {
      *  1. search for pimped blocks
      *  2. Getting courses containing these blocks
      *  3. Adding information for trainers, school and coordinators
-     * 
+     *
      * @global object $DB
      * @param array $baseparams
      * @return array list of stats data indexed by courseid

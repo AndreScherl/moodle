@@ -1,7 +1,7 @@
 /*
     Styles for autocomplete form element
 */
-/* 
+/*
     Created on : 08.07.2016, 13:44:51
     Author     : Huebler
 */
@@ -41,7 +41,6 @@
     border: 2px solid #EEE;
     border-radius: 3px;
     min-width: 206px;
-    max-height: 20em;
     overflow: auto;
     margin: 0;
     padding: 0;
@@ -65,4 +64,12 @@
             color: $white;
         }
     }
+
+    .form-autocomplete-downarrow {
+
+    }
+}
+
+.mform .fitem .felement.fautocomplete input[type="text"] {
+    display:inline-table
 }

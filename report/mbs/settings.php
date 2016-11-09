@@ -15,13 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Report pimped courses (style and js customisations using html - block)
- * settings.
+ * Report mbs settings file.
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
@@ -36,7 +34,7 @@ $ADMIN->add('mebisreportsfolder', new admin_externalpage('reporttex', get_string
                 "$CFG->wwwroot/report/mbs/reporttex.php", 'moodle/site:config'));
 
 $ADMIN->add('mebisreportsfolder', new admin_externalpage('reportorphanedcourses', get_string('reportorphaned', 'report_mbs'),
-                "$CFG->wwwroot/report/mbs/reportcourses.php", 'moodle/site:config'));
+                "$CFG->wwwroot/report/mbs/reportcourses/index.php", 'moodle/site:config'));
 
 if ($ADMIN->fulltree) {
 
@@ -60,10 +58,30 @@ if ($ADMIN->fulltree) {
                     get_string('texcronactivdesc', 'report_mbs'), 0));
 
     $settings->add(new admin_setting_heading('reportorphanedcourses',
-                    get_string('replacetex', 'report_mbs'), ''));
+                    get_string('reportcoursestats', 'report_mbs'), ''));
 
     $settings->add(
             new admin_setting_configtext('report_mbs/reportcourseperpage',
                     get_string('reportcourseperpage', 'report_mbs'),
                     get_string('reportcourseperpagedesc', 'report_mbs'), 20, PARAM_INT));
+
+    $settings->add(
+            new admin_setting_configtext('report_mbs/reportcoursesynccount',
+                    get_string('reportcoursesynccount', 'report_mbs'),
+                    get_string('reportcoursesynccountdesc', 'report_mbs'), 2000, PARAM_INT));
+
+    $settings->add(
+            new admin_setting_configcheckbox('report_mbs/coursestatscronactiv',
+                    get_string('coursestatscronactiv', 'report_mbs'),
+                    get_string('coursestatscronactivdesc', 'report_mbs'), 0));
+
+    $settings->add(
+            new admin_setting_configtext('report_mbs/limitcategories',
+                    get_string('limitcategories', 'report_mbs'),
+                    get_string('limitcategoriesdesc', 'report_mbs'), 20, PARAM_INT));
+
+    $settings->add(
+            new admin_setting_configtext('report_mbs/depthcategories',
+                    get_string('depthcategories', 'report_mbs'),
+                    get_string('depthcategoriesdesc', 'report_mbs'), 3, PARAM_INT));
 }

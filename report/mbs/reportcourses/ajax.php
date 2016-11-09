@@ -15,36 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report texed tables
+ * Ajax action handler.
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../config.php');
+define('AJAX_SCRIPT', true);
 
-// Check access.
+require_once(__DIR__ . '/../../../config.php');
+
 require_login();
 
-// Check capability.
-$context = context_system::instance();
-require_capability('moodle/site:config', $context);
+$action = required_param('action', PARAM_TEXT);
 
-$baseurl = new moodle_url('/report/mbs/replacetex.php');
+switch ($action) {
 
-$PAGE->set_url($baseurl);
-$PAGE->set_pagelayout('admin');
-$PAGE->set_context($context);
+    case 'searchcategories' :
 
-$tablenames = optional_param_array('table', '', PARAM_TEXT);
+        $searchtext = optional_param('searchtext', '', PARAM_TEXT);
 
-$result = array();
-if (!empty($tablenames)) {
-    $result = \report_mbs\local\reporttex::replace_tex(array_keys($tablenames));
+        $searchlimit = get_config('report_mbs', 'limitcategories');
+        $depth = get_config('report_mbs', 'depthcategories');
+
+        $results = \report_mbs\local\reportcourses::get_categories_menu($searchtext, $searchlimit, $depth);
+
+        echo json_encode(array('error' => 0, 'results' => $results));
+        die;
 }
 
-echo $OUTPUT->header();
-
-echo $OUTPUT->footer();
+print_error('unkown action');

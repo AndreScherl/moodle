@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report pimped courses (style and js customisations using html - block)
+ * Report database columns containing tex syntax
  * settings.
  *
- * @package    report
- * @subpackage mbs
+ * @package    report_mbs
  * @copyright  ISB Bayern
- * @author     Andreas Wagner<andreas.wagern@isb.bayern.de>
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -117,9 +116,9 @@ class reporttex {
     }
 
     /**
-     * Collect report data for one table by cron and store results in the 
+     * Collect report data for one table by cron and store results in the
      * table of the plugin.
-     * 
+     *
      */
     public static function report_tables($tablename = '') {
         global $DB;
@@ -132,12 +131,12 @@ class reporttex {
         $where = '';
         $params = array();
         if (!empty($tablename)) {
-           $where = " WHERE tablename = ? ";
-           $params = array($tablename);
+            $where = " WHERE tablename = ? ";
+            $params = array($tablename);
         }
-        
-        $sql = $select.$where.$orderby;
-        
+
+        $sql = $select . $where . $orderby;
+
         // Get most recent table.
         if (!$reportdate = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE)) {
             mtrace('...nothing to do ');
@@ -237,8 +236,8 @@ class reporttex {
             $total += $count;
         }
 
-        mtrace("replaced total: ".$total);
-        
+        mtrace("replaced total: " . $total);
+
         return true;
     }
 

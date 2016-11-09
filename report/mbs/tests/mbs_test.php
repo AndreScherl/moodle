@@ -15,23 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * certpaypal enrolment plugin tests.
- *
- * @package    enrol_certpaypal
- * @category   phpunit
- * @copyright  2015 Andreas Wagner (Synergy Learning)
+ * @package    report_mbs
+ * @copyright  ISB Bayern
+ * @author     Andreas Wagner<andreas.wagner@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 class report_mbs_testcase extends advanced_testcase {
 
-    public function test_report() {
+    public function test_course_stats() {
+
+        $this->resetAfterTest();
+
+        $courses = [];
+        for ($i = 0; $i < 10; $i++) {
+            $courses[] = $this->getDataGenerator()->create_course();
+        }
+
+        \report_mbs\local\reportcourses::sync_courses_stats();
+
+        delete_course($courses[0]->id, false);
+        \report_mbs\local\reportcourses::sync_courses_stats();
+
+        $reporthelper = new \report_mbs\local\reportcourses();
+        $coursestats = $reporthelper->get_courses(array(), null, 0, true);
+
+        $this->assertEquals(9, count($coursestats));
+    }
+
+    public function test_replace_tex() {
         global $DB, $CFG;
-        
+
         $this->resetAfterTest();
         $course1 = $this->getDataGenerator()->create_course();
-        
+
         // Create a page with old TeX Notation.
         $page1 = new \stdClass();
         $page1->course = $course1->id;
@@ -39,40 +57,40 @@ class report_mbs_testcase extends advanced_testcase {
             sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
             sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
             Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet';
-        
+
         $page1 = $this->getDataGenerator()->create_module('page', $page1);
-        
+
         \report_mbs\local\reporttex::report_tables('page');
         $result = $DB->get_record('report_mbs_tex', array('tablename' => 'page'));
         $this->assertEmpty($result->count);
-        
+
         $page2 = new \stdClass();
         $page2->course = $course1->id;
         $page2->content = 'Lorem ipsum ... <p> $$\frac{1}{2}$$$$Exp without blank$$</p><div>$$another TeX Content$$</div>';
-        
+
         $page2 = $this->getDataGenerator()->create_module('page', $page2);
 
         \report_mbs\local\reporttex::report_tables('page');
         $result = $DB->get_record('report_mbs_tex', array('tablename' => 'page'));
         $this->assertNotEmpty($result->count);
-        
+
         // Now replace the TeX Notation.
         $result->active = 1;
         $DB->update_record('report_mbs_tex', $result);
-        
+
         \report_mbs\local\reporttex::replace_tex();
-        
+
         // Should be now more $$ now.
         \report_mbs\local\reporttex::report_tables('page');
         $result = $DB->get_record('report_mbs_tex', array('tablename' => 'page'));
         $this->assertEmpty($result->count);
-        
+
         $page2 = $DB->get_record('page', array('id' => $page2->id));
-        
-        // Instead there should be a replacement by \( and \)
+
+        // Instead there should be a replacement by \( and \).
         $matches = array();
         preg_match_all('/\\(/', $page2->content, $matches);
         $this->assertEquals(3, count($matches[0]));
-     
+
     }
 }

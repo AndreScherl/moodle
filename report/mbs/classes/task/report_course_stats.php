@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Report mbs version file.
  *
  * @package    report_mbs
  * @copyright  ISB Bayern
@@ -23,12 +22,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace report_mbs\task;
 
-$plugin->version   = 2016102700;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2011112900;        // Requires this Moodle version.
-$plugin->cron = 0;
-$plugin->component = 'report_mbs';       // Full name of the plugin (used for diagnostics).
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->release   = '2.7+ (Build: 2014072400)';
+class report_course_stats extends \core\task\scheduled_task {
+
+    public function get_name() {
+        // Shown in admin screens.
+        return get_string('reportcoursestats', 'report_mbs');
+    }
+
+    public function execute() {
+
+        $coursestatscronactiv = get_config('report_mbs', 'coursestatscronactiv');
+
+        if (!empty($coursestatscronactiv)) {
+            \report_mbs\local\reportcourses::sync_courses_stats();
+        }
+    }
+
+}

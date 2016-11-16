@@ -355,7 +355,7 @@ class question_type {
             // Set the unique code.
             $question->stamp = make_unique_id_code();
             // awag: if question is being copied and createdby is set don't assign a new creator.
-            if (!$question->beingcopied || empty($question->createdby)) {
+            if (empty($question->beingcopied) || empty($question->createdby)) {
                 $question->createdby = $USER->id;
             }
             $question->timecreated = time();

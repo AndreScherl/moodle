@@ -4363,11 +4363,28 @@ class restore_create_categories_and_questions extends restore_structure_step {
             $data->penalty = 1;
         }
 
-        $userid = $this->get_mappingid('user', $data->createdby);
-        $data->createdby = $userid ? $userid : $this->task->get_userid();
+        // awag: Try to preserve creating and modifying user.
+        // If course is restored from same site and user exists, don't map user id.
+        if ($this->task->is_samesite()) {
 
-        $userid = $this->get_mappingid('user', $data->modifiedby);
-        $data->modifiedby = $userid ? $userid : $this->task->get_userid();
+            $user = $DB->get_record('user', array('id' => $data->createdby));
+            if (!$user || ($user->deleted == 1)) {
+                $data->createdby = $this->task->get_userid();
+            }
+
+            $user = $DB->get_record('user', array('id' => $data->modifiedby));
+            if (!$user || ($user->deleted == 1)) {
+                $data->modifiedby = $this->task->get_userid();
+            }
+
+        } else {
+
+            $userid = $this->get_mappingid('user', $data->createdby);
+            $data->createdby = $userid ? $userid : $this->task->get_userid();
+
+            $userid = $this->get_mappingid('user', $data->modifiedby);
+            $data->modifiedby = $userid ? $userid : $this->task->get_userid();
+        }
 
         // With newitemid = 0, let's create the question
         if (!$questionmapping->newitemid) {

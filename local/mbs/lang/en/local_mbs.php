@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['enrolledteachers'] = 'Enrolled teachers';
+$string['deletecourse'] = 'Delete course';
 $string['fixgapcategories'] = 'Fix course sortorder in categories';
 $string['mbs:adddeleteblock'] = 'Add or/and delete a specific block';
 $string['mbs:editschoolid'] = 'Edit school ID-Number';

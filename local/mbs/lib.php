@@ -88,6 +88,7 @@ function local_mbs_get_block_mbstpl_context($context) {
  * @param settings_navigation $navigation
  */
 function local_mbs_extend_settings_navigation(settings_navigation $navigation, context $context) {
+    global $COURSE;
 
     // ...remove website-administration for non admins.
     if (!has_capability('moodle/site:config', context_system::instance())) {
@@ -97,6 +98,16 @@ function local_mbs_extend_settings_navigation(settings_navigation $navigation, c
         if ($node) {
             $node->remove();
         }
+    }
+    
+    // add possibility for course deletion.
+    if (has_capability('moodle/course:delete', $context)) {
+        
+        if ($coursenode = $navigation->get('courseadmin')) {
+            $link = new \moodle_url('/local/mbs/course_delete.php', array('id' => $COURSE->id));
+            $coursenode->add(get_string('deletecourse', 'local_mbs'), $link);
+        }
+        
     }
 }
 

@@ -553,6 +553,11 @@ interface H5PFrameworkInterface {
    * return int
    */
   public function getLibraryContentCount();
+
+  /**
+   * Will trigger after the export file is created.
+   */
+  public function afterExportCreated();
 }
 
 /**
@@ -1311,15 +1316,15 @@ class H5PStorage {
       if (isset($options['disable'])) {
         $content['disable'] = $options['disable'];
       }
-      $contentId = $this->h5pC->saveContent($content, $contentMainId);
-      $this->contentId = $contentId;
+      $content['id'] = $this->h5pC->saveContent($content, $contentMainId);
+      $this->contentId = $content['id'];
 
       try {
         // Save content folder contents
-        $this->h5pC->fs->saveContent($current_path, $contentId);
+        $this->h5pC->fs->saveContent($current_path, $content);
       }
       catch (Exception $e) {
-        $this->h5pF->setErrorMessage($this->h5pF->t($e->getMessage()));
+        $this->h5pF->setErrorMessage($e->getMessage());
       }
 
       // Remove temp content folder
@@ -1433,7 +1438,7 @@ class H5PStorage {
    * @param $content
    */
   public function deletePackage($content) {
-    $this->h5pC->fs->deleteContent($content['id']);
+    $this->h5pC->fs->deleteContent($content);
     $this->h5pC->fs->deleteExport(($content['slug'] ? $content['slug'] . '-' : '') . $content['id'] . '.h5p');
     $this->h5pF->deleteContentData($content['id']);
   }
@@ -1574,11 +1579,15 @@ Class H5PExport {
     $zip = new ZipArchive();
     $zip->open($tmpFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
+    // Some system needs the root prefix for ZipArchive's addFile()
+    $rootPrefix = (empty($_SERVER['DOCUMENT_ROOT']) ? '' : $_SERVER['DOCUMENT_ROOT'] . '/');
+
     // Add all the files from the tmp dir.
     foreach ($files as $file) {
       // Please note that the zip format has no concept of folders, we must
       // use forward slashes to separate our directories.
       $zip->addFile($file->absolutePath, $file->relativePath);
+      $zip->addFile($rootPrefix . $file->absolutePath, $file->relativePath);
     }
 
     // Close zip and remove tmp dir
@@ -1591,9 +1600,11 @@ Class H5PExport {
     }
     catch (Exception $e) {
       $this->h5pF->setErrorMessage($this->h5pF->t($e->getMessage()));
+      return false;
     }
 
     unlink($tmpFile);
+    $this->h5pF->afterExportCreated();
 
     return true;
   }
@@ -1665,7 +1676,7 @@ class H5PCore {
 
   public static $coreApi = array(
     'majorVersion' => 1,
-    'minorVersion' => 8
+    'minorVersion' => 10
   );
   public static $styles = array(
     'styles/h5p.css',
@@ -1808,7 +1819,10 @@ class H5PCore {
    * @return Object NULL on failure.
    */
   public function filterParameters(&$content) {
-    if (isset($content['filtered']) && $content['filtered'] !== '') {
+    if (!empty($content['filtered']) &&
+        (!$this->exportEnabled ||
+         ($content['slug'] &&
+          $this->fs->hasExport($content['slug'] . '-' . $content['id'] . '.h5p')))) {
       return $content['filtered'];
     }
 
@@ -2852,6 +2866,7 @@ class H5PContentValidator {
    * @param $semantics
    */
   public function validateSelect(&$select, $semantics) {
+    $optional = isset($semantics->optional) && $semantics->optional;
     $strict = FALSE;
     if (isset($semantics->options) && !empty($semantics->options)) {
       // We have a strict set of options to choose from.
@@ -2871,7 +2886,7 @@ class H5PContentValidator {
       }
 
       foreach ($select as $key => &$value) {
-        if ($strict && !isset($options[$value])) {
+        if ($strict && !$optional && !isset($options[$value])) {
           $this->h5pF->setErrorMessage($this->h5pF->t('Invalid selected option in multi-select.'));
           unset($select[$key]);
         }
@@ -2887,7 +2902,7 @@ class H5PContentValidator {
         $select = $select[0];
       }
 
-      if ($strict && !isset($options[$select])) {
+      if ($strict && !$optional && !isset($options[$select])) {
         $this->h5pF->setErrorMessage($this->h5pF->t('Invalid selected option in select.'));
         $select = $semantics->options[0]->value;
       }

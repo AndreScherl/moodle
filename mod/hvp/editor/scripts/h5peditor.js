@@ -215,9 +215,12 @@ ns.addCommonField = function (field, parent, params, ancestor) {
     ancestor.commonFields[parent.library] = {};
   }
 
-  if (ancestor.commonFields[parent.library][field.name] === undefined) {
+  ancestor.commonFields[parent.library][parent.currentLibrary] =
+    ancestor.commonFields[parent.library][parent.currentLibrary] || {};
+
+  if (ancestor.commonFields[parent.library][parent.currentLibrary][field.name] === undefined) {
     var widget = ns.getWidgetName(field);
-    ancestor.commonFields[parent.library][field.name] = {
+    ancestor.commonFields[parent.library][parent.currentLibrary][field.name] = {
       instance: new ns.widgets[widget](parent, field, params[field.name], function (field, value) {
           for (var i = 0; i < commonField.setValues.length; i++) {
             commonField.setValues[i](field, value);
@@ -228,7 +231,7 @@ ns.addCommonField = function (field, parent, params, ancestor) {
     };
   }
 
-  commonField = ancestor.commonFields[parent.library][field.name];
+  commonField = ancestor.commonFields[parent.library][parent.currentLibrary][field.name];
   commonField.parents.push(ns.findLibraryAncestor(parent));
   commonField.setValues.push(function (field, value) {
     if (value === undefined) {
@@ -395,6 +398,7 @@ ns.createError = function (message) {
  *
  * @param {String} type
  * @param {String} content
+ * @param {String} [description]
  * @returns {String}
  */
 ns.createItem = function (type, content, description) {
@@ -455,7 +459,20 @@ ns.createLabel = function (field, content) {
     html += '<span class="h5peditor-label' + (field.optional ? '' : ' h5peditor-required') + '">' + (field.label === undefined ? field.name : field.label) + '</span>';
   }
 
-  return html + content + '</label>';
+  return html + (content || '') + '</label>';
+};
+
+/**
+ * Create a description
+ * @param {String} description
+ * @returns {string}
+ */
+ns.createDescription = function (description) {
+  var html = '';
+  if (description !== undefined) {
+    html += '<div class="h5peditor-field-description">' + description + '</div>';
+  }
+  return html;
 };
 
 /**

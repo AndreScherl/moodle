@@ -134,7 +134,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
      * @return string - license info div tag
      */
 
-    private static function build_license_div($fileinfo) {
+    public static function build_license_div($fileinfo) {
 
         if (empty($fileinfo)) {
             return false;

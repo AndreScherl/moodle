@@ -191,7 +191,7 @@ function hvp_add_editor_assets($id = null) {
       ),
       'ajaxPath' => "{$url}ajax.php?contextId={$context->id}&token={$editorajaxtoken}&action=",
       'libraryUrl' => $url . 'editor/',
-      'copyrightSemantics' => $contentvalidator->getCopyrightSemantics(),
+      'copyrightSemantics' => \local_mbslicenseinfo\local\mbshvpcontentvalidator::getCopyrightSemantics($contentvalidator->h5pF),
       'assets' => $assets
     );
 

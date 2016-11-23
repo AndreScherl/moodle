@@ -175,6 +175,17 @@ if ($embedtype === 'div') {
 // Find cm context
 $context = \context_module::instance($cm->id);
 
+// fhüb - 23.11.2016 - add licenseinfo.
+$select = 'contextid ='.$context->id. ' and component = "mod_hvp" and '
+        . 'filepath IN ("/images/", "/videos/", "/audios/") and filearea <> "draft"';
+$result = $DB->get_records_select('files', $select);
+if (!empty($result)) {
+    $renderer = $PAGE->get_renderer('local_mbslicenseinfo');
+    echo $renderer->render_collapse_button('h5p-licenseinfo');
+    echo $renderer->render_licenseinfo_collapsearea('h5p-licenseinfo', $result, $context->id);
+}
+// fhüb - 23.11.2016 - add licenseinfo.
+
 // Trigger module viewed event.
 $event = \mod_hvp\event\course_module_viewed::create(array(
     'objectid' => $cm->instance,

@@ -33,6 +33,9 @@ class mbslicenseinfo {
     public static $captype_viewall = 10;
     public static $captype_editown = 20;
     public static $captype_editall = 30;
+    
+    public static $component = 'local_mbslicenseinfo';
+    public static $fileareathumb = 'mbslicenseinfo_thumbs';
 
     /**
      * To group the files by content hash and order them, 
@@ -148,7 +151,7 @@ class mbslicenseinfo {
 
         return $result;
     }
-    
+
     /**
      * To group the files by content hash and order them, 
      * we must fetch the license data in two steps:
@@ -172,7 +175,7 @@ class mbslicenseinfo {
 
         $from = "FROM {files} f
                  JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
-        
+
         // Get where.
         $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
         $params = array('contextlevel' => CONTEXT_COURSE);
@@ -203,19 +206,19 @@ class mbslicenseinfo {
             $cond[] = ' f.userid = :userid ';
             $params['userid'] = $USER->id;
         }
-        
+
         $where = "WHERE " . implode(" AND ", $cond);
-        
+
         // Searchparams.
-        $search = ' '.$DB->sql_like('f.filename', ':filename', false).' ';
+        $search = ' ' . $DB->sql_like('f.filename', ':filename', false) . ' ';
         $params['filename'] = '%' . $searchtext . '%';
         if (empty($pageparams['onlyincomplete'])) {
             $from .= " LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
-            $search = '('.$search.' OR '.$DB->sql_like('fm.title', ':name', false).') ';
+            $search = '(' . $search . ' OR ' . $DB->sql_like('fm.title', ':name', false) . ') ';
             $params['name'] = '%' . $searchtext . '%';
         }
         $cond[] = $search;
-        
+
         $wheresearch = "WHERE " . implode(" AND ", $cond);
 
         // Build SQL.
@@ -225,7 +228,7 @@ class mbslicenseinfo {
         // Step 1: Get the contenthashes ordered by empty title and most recent.
         if (!$orderedhashes = $DB->get_records_sql($sql, $params)) {
             return $result;
-        }        
+        }
 
         // Step 2: For each content hash retrieve other coursefiles with same content hash.
         $contenthashes = array_keys($orderedhashes);
@@ -459,7 +462,7 @@ class mbslicenseinfo {
 
         return $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $fileid), 'title, source');
     }
-    
+
     /**
      * Set filemeta data.
      * 
@@ -479,4 +482,58 @@ class mbslicenseinfo {
         }
     }
 
+    /** 
+     * Generates the image url with correct filearea
+     *
+     * @param int $contextid
+     * @param string $imagename
+     * @return boolean|string the plugin url to image if succeeded otherwise false
+     */
+    public static function get_previewimageurl($contextid, $imagename, $path) {
+
+        if (empty($imagename)) {
+            return false;
+        }
+
+        $url = new \moodle_url("/pluginfile.php/$contextid/" . self::$component . "/" . self::$fileareathumb . $path . $imagename);
+        return $url->out();
+    }
+
+    /**
+     * Get a preview file from file storage
+     *
+     * @param int $contextid
+     * @param string $imagename
+     * @param array $args extra arguments (original component, original filearea, original itemid, original filepath)
+     * @return boolean|stored_file the file if succeeded otherwise false
+     */
+    public static function get_previewfile($contextid, $imagename, $args) {
+        global $DB;
+        
+        $component = array_shift($args);
+        $filearea = array_shift($args);
+        $itemid = array_shift($args);
+        $filepath = '/'.array_shift($args).'/';
+        
+        $fs = get_file_storage();
+        
+        $stored_file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $imagename);
+        
+        if ($stored_file) {            
+            $stored_file->component = self::$component;
+            $stored_file->filearea = self::$fileareathumb;
+            $preview_file = $fs->get_file_preview($stored_file, 'thumb');
+            
+            if ($preview_file) {                
+                $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0, 
+                    'filepath' => '/'.$component.'/'.$filearea.'/'.$itemid.$filepath, 'filename' => $imagename); 
+                $fs->create_file_from_storedfile($icon, $preview_file);
+
+                return $preview_file;
+            } 
+            return false;
+        } else {
+            return false;
+        }
+    }
 }

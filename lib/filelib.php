@@ -423,6 +423,12 @@ function file_prepare_draft_area(&$draftitemid, $contextid, $component, $fileare
                 $newsourcefield->original = file_storage::pack_reference($original);
                 $draftfile->set_source(serialize($newsourcefield));
                 // End of file manager hack
+
+                // +++ License - Hack - awag - 26.11.2016: note the file id for adding license meta data later.
+                if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                    \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($file, $draftfile);
+                }
+                // +++ License - Hack - awag - 26.11.2016.
             }
         }
         if (!is_null($text)) {
@@ -714,11 +720,21 @@ function file_get_drafarea_files($draftitemid, $filepath = '/') {
                     $item->image_height = $imageinfo['height'];
                 }
             }
+            // +++ License - Hack - awag - 26.11.2016: note the file id for adding license meta data later.
+            $item->id = $file->get_id();
+            // --- License - Hack - awag - 26.11.2016.
             $list[] = $item;
         }
     }
     $data->itemid = $draftitemid;
     $data->list = $list;
+
+    // +++ License - Hack - awag - 26.11.2016: add license meta data for given draft files.
+    if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+        $data->list = \local_mbslicenseinfo\local\mbslicenseinfo::add_licensemeta_to_draft_files($data->list);
+    }
+    // --- License - Hack - awag - 26.11.2016.
+
     return $data;
 }
 
@@ -906,6 +922,12 @@ function file_save_draft_area_files($draftitemid, $contextid, $component, $filea
                 $oldfile->set_license($newfile->get_license());
             }
 
+            // +++ Hack - awag - 22.11.2016: store the additional license information for uploaded (draft) file.
+            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($newfile, $oldfile);
+            }
+            // --- Hack - awag - 22.11.2016
+
             // Updated file source
             // Field files.source for draftarea files contains serialised object with source and original information.
             // We only store the source part of it for non-draft file area.
@@ -958,7 +980,13 @@ function file_save_draft_area_files($draftitemid, $contextid, $component, $filea
                 }
             }
 
-            $fs->create_file_from_storedfile($file_record, $file);
+            $newfile = $fs->create_file_from_storedfile($file_record, $file);
+
+            // +++ License Hack - awag - 22.11.2016: store the additional license information for uploaded (draft) file.
+            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($file, $newfile);
+            }
+            // --- License Hack - awag - 22.11.2016
         }
     }
 
@@ -2290,12 +2318,12 @@ function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownloa
     if (core_useragent::is_ie()) {
         $filename = rawurlencode($filename);
     }
-    
+
     //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
     // awag: 13.07.2015 temporarily commented out, TODO: check whether this download protection is necessary any further.
     //\local_mbs\local\datenschutz::hook_filelib_send_stored_file($stored_file);
     //--- awag
-    
+
 
     if ($forcedownload) {
         header('Content-Disposition: attachment; filename="'.$filename.'"');

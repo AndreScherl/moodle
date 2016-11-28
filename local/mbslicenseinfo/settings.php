@@ -42,4 +42,11 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext('local_mbslicenseinfo/filesperpage',
             get_string('filesperpage', 'local_mbslicenseinfo'),
             get_string('filesperpage_expl', 'local_mbslicenseinfo'), 10, PARAM_INT));
+
+    $settings->add(
+            new admin_setting_configtext('local_mbslicenseinfo/cleanupcount',
+                    get_string('cleanupcount', 'local_mbslicenseinfo'),
+                    get_string('cleanupcountdesc', 'local_mbslicenseinfo'), 200, PARAM_INT));
+
+
 }

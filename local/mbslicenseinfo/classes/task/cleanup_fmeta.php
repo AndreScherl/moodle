@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,18 +16,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Cleanup the entries of mbslicenseinfo_fmeta with invalied files_id
  *
- * @package   local_mbslicenseinfo
- * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @package   local_mbslicense
+ * @copyright 2016 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace local_mbslicenseinfo\task;
 
-$plugin->version   = 2016112900;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2014051203;        // Requires this Moodle version.
-$plugin->component = 'local_mbslicenseinfo'; // Full name of the plugin (used for diagnostics).
-$plugin->dependencies = array(
-    'local_mbs'  => 2015120907
-);
+class cleanup_fmeta extends \core\task\scheduled_task {
+
+    public function get_name() {
+        // Shown in admin screens
+        return get_string('cleanupmissingfmeta', 'local_mbslicense');
+    }
+
+    public function execute() {
+        \local_mbslicenseinfo\local\mbslicenseinfo::cleanup_fmeta();
+    }
+}

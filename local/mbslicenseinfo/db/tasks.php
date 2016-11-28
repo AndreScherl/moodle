@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,18 +16,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
  *
- * @package   local_mbslicenseinfo
- * @copyright Franziska Hübler <franziska.huebler@isb.bayern.de>
+ * @package   local_mbslicense
+ * @copyright 2016 Andreas Wagner, mebis Bayern
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2016112900;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2014051203;        // Requires this Moodle version.
-$plugin->component = 'local_mbslicenseinfo'; // Full name of the plugin (used for diagnostics).
-$plugin->dependencies = array(
-    'local_mbs'  => 2015120907
+$tasks = array(
+    array(
+        'classname' => 'local_mbslicenseinfo\task\cleanup_fmeta',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
 );

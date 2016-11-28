@@ -2564,6 +2564,13 @@ abstract class repository implements cacheable_object {
             if ($filemodified) {
                 $file->set_timemodified(time());
             }
+
+            // +++ License - Hack - awag - 26.11.2016 update license meta info of draft file.
+            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                \local_mbslicenseinfo\local\mbslicenseinfo::store_license_meta_from_request($file);
+            }
+            // --- License - Hack - awag - 26.11.2016.
+
         } else {
             // This is a directory - only filepath can be updated for a directory (it was moved).
             if ($updatedata['filepath'] === $filepath) {

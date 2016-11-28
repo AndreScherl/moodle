@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -35,17 +34,17 @@ class mbslicenseinfo {
     public static $captype_editall = 30;
 
     /**
-     * To group the files by content hash and order them, 
+     * To group the files by content hash and order them,
      * we must fetch the license data in two steps:
-     * 
+     *
      * 1. we search all the files ordered title ASC and id DESC to get no edited
      * and most recent entries first and group it by contenthash, so we can limit
      * the result to paging size.
-     * 
+     *
      * 2. we get all files of the course belonging to one contenthash, which means
      * that multiple occurances will be detected and the entries can be grouped
      * by physical file existance.
-     * 
+     *
      * @param int $courseid
      * @param int $limitfrom
      * @param int $limitsize
@@ -121,7 +120,7 @@ class mbslicenseinfo {
 
         $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid
                    FROM {files} f
-                   JOIN {context} c ON f.contextid = c.id 
+                   JOIN {context} c ON f.contextid = c.id
                    LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
 
         $where .= " AND f.contenthash {$incontenthash}";
@@ -148,17 +147,17 @@ class mbslicenseinfo {
 
         return $result;
     }
-    
+
     /**
-     * To group the files by content hash and order them, 
+     * To group the files by content hash and order them,
      * we must fetch the license data in two steps:
-     * 
+     *
      * 1. We search all the files meeting the searchtext ordered title ASC and id DESC to get no edited
      * and most recent entries first and group it by contenthash.
-     * 
-     * 2. We get all files of the course belonging to one contenthash, which means that multiple occurances will be detected 
+     *
+     * 2. We get all files of the course belonging to one contenthash, which means that multiple occurances will be detected
      * and the entries can be grouped by physical file existance.
-     * 
+     *
      * @param int $courseid
      * @param int $pageparams
      * @param int $searchtext
@@ -172,7 +171,7 @@ class mbslicenseinfo {
 
         $from = "FROM {files} f
                  JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
-        
+
         // Get where.
         $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
         $params = array('contextlevel' => CONTEXT_COURSE);
@@ -203,19 +202,19 @@ class mbslicenseinfo {
             $cond[] = ' f.userid = :userid ';
             $params['userid'] = $USER->id;
         }
-        
+
         $where = "WHERE " . implode(" AND ", $cond);
-        
+
         // Searchparams.
-        $search = ' '.$DB->sql_like('f.filename', ':filename', false).' ';
+        $search = ' ' . $DB->sql_like('f.filename', ':filename', false) . ' ';
         $params['filename'] = '%' . $searchtext . '%';
         if (empty($pageparams['onlyincomplete'])) {
             $from .= " LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
-            $search = '('.$search.' OR '.$DB->sql_like('fm.title', ':name', false).') ';
+            $search = '(' . $search . ' OR ' . $DB->sql_like('fm.title', ':name', false) . ') ';
             $params['name'] = '%' . $searchtext . '%';
         }
         $cond[] = $search;
-        
+
         $wheresearch = "WHERE " . implode(" AND ", $cond);
 
         // Build SQL.
@@ -225,7 +224,7 @@ class mbslicenseinfo {
         // Step 1: Get the contenthashes ordered by empty title and most recent.
         if (!$orderedhashes = $DB->get_records_sql($sql, $params)) {
             return $result;
-        }        
+        }
 
         // Step 2: For each content hash retrieve other coursefiles with same content hash.
         $contenthashes = array_keys($orderedhashes);
@@ -235,7 +234,7 @@ class mbslicenseinfo {
 
         $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid
                    FROM {files} f
-                   JOIN {context} c ON f.contextid = c.id 
+                   JOIN {context} c ON f.contextid = c.id
                    LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
 
         $where .= " AND f.contenthash {$incontenthash}";
@@ -261,7 +260,7 @@ class mbslicenseinfo {
 
     /**
      * Update the course files information
-     * 
+     *
      * @param object $data - object containing form data (arrays for fiels with similar name)
      * @return bool - success of operation
      */
@@ -312,7 +311,7 @@ class mbslicenseinfo {
 
     /**
      * Change the sort style of edit form data from column to row
-     * 
+     *
      * @param object $data - object containing form data (arrays for fiels with similar name)
      * @return array of mbsfiles objects
      */
@@ -345,7 +344,7 @@ class mbslicenseinfo {
     /**
      * Get all the mimetype moodle can deal with, group it and create an menu for
      * multicheckboxes in admin settings.
-     * 
+     *
      * @return array
      */
     public static function get_grouped_mimetypes_menu() {
@@ -376,7 +375,7 @@ class mbslicenseinfo {
 
     /**
      * Check which capability the user has on licenses.
-     * 
+     *
      * @param context $context the context, i. e. course context.
      * @return boolean false, when user has none of the capabilities otherwise cap constant
      */
@@ -399,7 +398,7 @@ class mbslicenseinfo {
 
     /**
      * Get and set the users preference for showing only incomplete license information
-     * 
+     *
      * @return int 0 = show incomplete and complete licenses information
      */
     public static function get_onlyincomplete_pref() {
@@ -415,7 +414,7 @@ class mbslicenseinfo {
     /**
      * Get and set users preference to show license information only for the files
      * uploaded by this user depending on the capability local/mbslicenseinfo:editalllicenses.
-     * 
+     *
      * @param object $coursecontext
      * @return int 0 = show licenseinformation for all course files
      */
@@ -449,24 +448,23 @@ class mbslicenseinfo {
 
     /**
      * Get filemeta data: title and source.
-     * 
+     *
      * @global $DB
      * @param int $fileid id of the file in {files} table
-     * @return object 
+     * @return object
      */
     public static function get_fmeta($fileid) {
         global $DB;
 
         return $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $fileid), 'title, source');
     }
-    
+
     /**
      * Set filemeta data.
-     * 
-     * @global $DB
+     *
      * @param object $filemeta metadata to insert/update
      * @param int $fileid id of the file in {files} table
-     * @return bool|int true or new id 
+     * @return bool|int true or new id
      */
     public static function set_fmeta($filemeta, $fileid) {
         global $DB;
@@ -479,4 +477,146 @@ class mbslicenseinfo {
         }
     }
 
+    // +++ Functions below belong to the license meta data HACK! +++++++++++++++
+
+    /**
+     * Render the upload form of the filepicker to add Title and source field.
+     *
+     * This is intentionally NOT done by overriding this files renderer, because this
+     * would require to copy a lot of code here, that is declared "private".
+     *
+     * @called Hack in:
+     *  - /files/renderer.php
+     *
+     * @return string HTML
+     */
+    public static function fp_js_template_uploadform_add_license_formfields() {
+
+        $additionallisenseformfields = '
+                 <div class="fp-licensetitle control-group clearfix">
+                    <label class="control-label">' . get_string('editlicensesformfiletitle', 'local_mbslicenseinfo') . '</label>
+                    <div class="controls">
+                        <input type="text" name="licensetitle" />
+                    </div>
+                </div>
+                 <div class="fp-licensesource control-group clearfix">
+                    <label class="control-label">' . get_string('editlicensesformfileurl', 'local_mbslicenseinfo') . '</label>
+                    <div class="controls">
+                        <input type="text" name="licensesource"/>
+                    </div>
+                </div>';
+        return $additionallisenseformfields;
+    }
+
+    /**
+     * Store license information for a file.
+     *
+     * @called from Hack in:
+     *   - /repository/upload/lib.php - process_upload(), when file is uploaded.
+     *   - /repository/lib.php - update_draftfile(), when file is edited.
+     *
+     * @param type $storedfile
+     */
+    public static function store_license_meta_from_request($storedfile) {
+
+        $licensetitle = optional_param('licensetitle', '', PARAM_TEXT);
+        $licensesource = optional_param('licensesource', '', PARAM_URL);
+
+        // Save meta license info.
+        $fileid = $storedfile->get_id();
+
+        $fmeta = new\stdClass();
+        $fmeta->source = $licensesource;
+        $fmeta->title = $licensetitle;
+
+        self::set_fmeta($fmeta, $fileid);
+    }
+
+    /**
+     * Copy the license meta data from draft
+     *
+     * @called from Hack in:
+     *   - /lib/filelib.php - file_prepare_draft_area(),
+     *      when draft files are loaded (real file => draft file).
+     *
+     *   - /lib/filelib.php - file_save_draft_area_files(),
+     *      when draft files are saved (draft files => real file).
+     *
+     * @param \stored_file $fromfile
+     * @param \stored_file $tofile
+     */
+    public static function copy_license_meta_data($fromfile, $tofile) {
+
+        // Check, whether there is a meta data for draft file.
+        $fromfileid = $fromfile->get_id();
+
+        // Is there any meta data?
+        if (!$fromfmeta = self::get_fmeta($fromfileid)) {
+            return true;
+        }
+
+        // Save meta to file.
+        $tofileid = $tofile->get_id();
+        self::set_fmeta($fromfmeta, $tofileid);
+    }
+
+    /**
+     * Adding all the license meta data to list draft file objects.
+     *
+     * @called from Hack in:
+     *  - /lib/filelib.php - file_get_drafarea_files(),
+     *
+     * @param array $files list of draft files.
+     * @return array list of draft file objects.
+     */
+    public static function add_licensemeta_to_draft_files($files) {
+        global $DB;
+
+        if (empty($files)) {
+            return $files;
+        }
+
+        // Collect file ids.
+        $fileids = array();
+        foreach ($files as $file) {
+            $fileids[] = $file->id;
+        }
+
+        $fmeta = $DB->get_records_list('local_mbslicenseinfo_fmeta', 'files_id', $fileids, '', 'files_id, title, source');
+
+        foreach ($files as $file) {
+
+            if (isset($fmeta[$file->id])) {
+                $file->licensesource = $fmeta[$file->id]->source;
+                $file->licensetitle = $fmeta[$file->id]->title;
+            } else {
+                $file->licensesource = '';
+                $file->licensetitle = '';
+            }
+        }
+
+        return $files;
+    }
+
+    // --- Functions above belong to the license meta data HACK! +++++++++++++++
+
+    /**
+     * Delete all meta data, that belong to deleted files.
+     */
+    public static function cleanup_fmeta() {
+        global $DB;
+
+        $cleanupcount = get_config('local_mbslicenseinfo', 'cleanupcount');
+
+        $sql = "SELECT meta.id
+                FROM {local_mbslicenseinfo_fmeta} meta
+                LEFT JOIN {files} f ON f.id = meta.files_id
+                WHERE f.id IS NULL ";
+
+        if (!$fmetaids = $DB->get_records_sql($sql, array(), 0, $cleanupcount)) {
+            return;
+        }
+
+        $DB->delete_records_list('local_mbslicenseinfo_fmeta', 'id', array_keys($fmetaids));
+    }
 }

@@ -23,6 +23,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+$string['cleanupcount'] = 'Anzahl der zu löschenden Einträge pro Cron Job.';
+$string['cleanupcountdesc'] = 'Geben sie an, wie viele Einträge in der Metalizenztabelle überprüft und ggf. gelöscht werden sollen.
+    eine höhere Zahl bedeutet mehr Serverlast.';
 $string['displayname'] = 'Quellenangaben';
 $string['editlicenses'] = 'Quellenangaben bearbeiten';
 $string['editlicensesdescr'] = 'Quellenangaben für Kursinhalte bearbeiten';

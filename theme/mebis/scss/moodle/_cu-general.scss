@@ -4,11 +4,11 @@ Here are to go all styles, which are NOT:
 - depending on special Page
 - depending on course format
 - depending on special Page layout
-- only used within course 
+- only used within course
 - only used related to categories
- 
+
 */
-/* 
+/*
     Created on : 16.05.2015, 18:52:40
     Author     : Andreas Wagner, ISB Bayern
 */
@@ -85,7 +85,7 @@ button {
     color: $brand-gray-light;
     text-shadow: none;
     opacity: inherit;
-    
+
     &:hover, &:focus {
         color: white;
         opacity: inherit;
@@ -282,13 +282,13 @@ input[type="checkbox"] + label {
 
 .tooltip.top,
 .tooltip.top-left,
-.tooltip.top-right { 
+.tooltip.top-right {
     .tooltip-arrow {
         border-top-color: $brand-secondary;
     }
 }
 
-.tooltip.left { 
+.tooltip.left {
     .tooltip-arrow {
         border-left-color: $brand-secondary;
     }
@@ -296,14 +296,39 @@ input[type="checkbox"] + label {
 
 .tooltip.bottom,
 .tooltip.bottom-left,
-.tooltip.bottom-right { 
+.tooltip.bottom-right {
     .tooltip-arrow {
         border-bottom-color: $brand-secondary;
     }
 }
 
-.tooltip.right { 
+.tooltip.right {
     .tooltip-arrow {
         border-right-color: $brand-secondary;
     }
+}
+
+.fp-upload-form {
+
+    .btn {
+        font-size: 16px;
+    }
+
+    .fp-formset {
+
+        .control-label {
+            font-size: 16px;
+        }
+
+        .controls {
+
+            input[type="text"], select {
+                font-size: 16px;
+                padding: 0 12px;
+                height: 29px;
+            }
+
+        }
+    }
+
 }

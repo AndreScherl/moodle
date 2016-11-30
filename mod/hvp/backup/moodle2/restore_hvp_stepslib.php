@@ -114,8 +114,7 @@ class restore_hvp_activity_structure_step extends restore_activity_structure_ste
     }
 
     protected function after_execute() {
-        // TODO
         // Add hvp related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_hvp', 'content', 'id');
+        $this->add_related_files('mod_hvp', 'content', 'hvp');
     }
 }

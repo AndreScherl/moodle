@@ -83,7 +83,6 @@ class mbshvpcontentvalidator {
     }
     
     public static function build_license_array($h5pf) {
-        error_log('überschriebene methode');
         $licensearray = array();
         $licensearray[] = (object) array(
             'value' => 'U',

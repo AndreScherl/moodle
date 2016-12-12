@@ -536,4 +536,102 @@ class mbslicenseinfo {
             return false;
         }
     }
+    
+    /**
+     * Remove Thumbnails of License Informations below H5P Modules.
+     * @param object $event
+     */
+    public static function delete_previewfile($event) {
+        
+    }
+    
+    /**
+     * Update mebis license tables with entered data from H5P Plugin
+     * 
+     * @param int $cmid Course module id of hvp instance
+     * @return bool $success?
+     */
+    public static function update_licenseinfo_from_hvp_to_moodle($cmid) {
+        global $DB;
+        
+        // Get the license info of h5p instances contents.
+        $hvpcm = $DB->get_record('course_modules', array('id' => $cmid));
+        $hvpstring = $DB->get_field('hvp', 'json_content', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
+        $hvpcontent = json_decode($hvpstring);
+        $fileinfos = self::find_hvpfileobject_with_license($hvpcontent);
+        
+        // Store the license infos into appropriate mebis tables.
+        // Note: If the user adds a file into a hvp plugin library instance, it's immediately added to moodles files table. So we can work with these records.
+        foreach($fileinfos as $fileinfo) {
+            //$filepath = explode('/', $fileinfo->path)[0];
+            $filename = explode('/', $fileinfo->path)[1];
+
+            // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.
+            // Get the file from moodles files table.
+            $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content'));
+            if(!isset($moodlefile)) {
+                continue;
+            }
+
+            // Update the file in moodles filetable
+            $moodlefile->author = $fileinfo->copyright->author;
+            $moodlefile->license = $fileinfo->copyright->license;
+            $DB->update_record('files', $moodlefile);
+
+            // Update the block mbslicenseinfo file metadata.
+            if($fmeta = $DB->get_record('block_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
+                $fmeta->title = $fileinfo->copyright->title;
+                $fmeta->source= $fileinfo->copyright->source;
+                $DB->update_record('block_mbslicenseinfo_fmeta', $fmeta);
+            } else {
+                $fmeta = new \stdClass();
+                $fmeta->files_id = $moodlefile->id;
+                $fmeta->title = $fileinfo->copyright->title;
+                $fmeta->source= $fileinfo->copyright->source;
+                $DB->insert_record('block_mbslicenseinfo_fmeta', $fmeta);
+            }
+        }
+    }
+    
+    /**
+     * Search for copyright attribute of file objects and return an array containing objects with license infos.
+     * 
+     * @param object $haystack
+     * @return array of file informations objects
+     */
+    public static function find_hvpfileobject_with_license($haystack) {
+        $results = [];
+        if (!is_object($haystack) && !is_array($haystack)) {
+            return $results;
+        }
+        
+        foreach($haystack as $key => $value) {
+            if(isset($value->copyright)) {
+                $results[] = $value;
+            } else {
+                $results = array_merge(self::find_hvpfileobject_with_license($value), $results);
+            }
+        }
+        return $results;
+    }
+    
+    /**
+     * Event Callback of H5P Module Creation.
+     * 
+     * @param object $event
+     */
+    public static function hvp_module_created(\core\event\course_module_created $event) {
+        self::update_licenseinfo_from_hvp_to_moodle($event->objectid);
+        self::delete_previewfile($event);
+    }
+
+    /**
+     * Event Callback of H5P Module Update.
+     * 
+     * @param object $event
+     */
+    public static function hvp_module_updated(\core\event\course_module_updated $event) {
+        self::update_licenseinfo_from_hvp_to_moodle($event->objectid);
+        self::delete_previewfile($event);
+    }
 }

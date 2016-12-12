@@ -23,12 +23,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016112100;
+$plugin->version   = 2016121200;
 $plugin->requires  = 2013051403;
 $plugin->cron      = 0;
 $plugin->component = 'mod_hvp';
 $plugin->maturity  = MATURITY_RC;
 $plugin->release   = '1.0-rc.4';
 $plugin->dependencies = array(
-    'local_mbslicenseinfo'  => 2016112300
+    'local_mbslicenseinfo'  => 2016121200
 );

@@ -549,7 +549,6 @@ class mbslicenseinfo {
      * Update mebis license tables with entered data from H5P Plugin
      * 
      * @param int $cmid Course module id of hvp instance
-     * @return bool $success?
      */
     public static function update_licenseinfo_from_hvp_to_moodle($cmid) {
         global $DB;
@@ -574,21 +573,21 @@ class mbslicenseinfo {
             }
 
             // Update the file in moodles filetable
-            $moodlefile->author = $fileinfo->copyright->author;
-            $moodlefile->license = $fileinfo->copyright->license;
+            $moodlefile->author = isset($fileinfo->copyright->author) ? $fileinfo->copyright->author : '';
+            $moodlefile->license = isset($fileinfo->copyright->license) ? $fileinfo->copyright->license : '';
             $DB->update_record('files', $moodlefile);
 
             // Update the block mbslicenseinfo file metadata.
-            if($fmeta = $DB->get_record('block_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
+            if($fmeta = $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
                 $fmeta->title = $fileinfo->copyright->title;
                 $fmeta->source= $fileinfo->copyright->source;
-                $DB->update_record('block_mbslicenseinfo_fmeta', $fmeta);
+                $DB->update_record('local_mbslicenseinfo_fmeta', $fmeta);
             } else {
                 $fmeta = new \stdClass();
                 $fmeta->files_id = $moodlefile->id;
                 $fmeta->title = $fileinfo->copyright->title;
                 $fmeta->source= $fileinfo->copyright->source;
-                $DB->insert_record('block_mbslicenseinfo_fmeta', $fmeta);
+                $DB->insert_record('local_mbslicenseinfo_fmeta', $fmeta);
             }
         }
     }

@@ -71,6 +71,21 @@ function xmldb_local_mbslicenseinfo_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016042600, 'error', 'mbslicenseinfo');
     }
 
+    if ($oldversion < 2016121402) {
+
+        // Changing type of field source on table local_mbslicenseinfo_fmeta to text.
+        $table = new xmldb_table('context');
+
+        $index = new xmldb_index('path-level-id', XMLDB_INDEX_NOTUNIQUE, array('path', 'contextlevel', 'id'));
+
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Mbslicenseinfo savepoint reached.
+        upgrade_plugin_savepoint(true, 2016121402, 'error', 'mbslicenseinfo');
+    }
+
 
     return true;
 }

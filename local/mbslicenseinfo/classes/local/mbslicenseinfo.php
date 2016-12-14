@@ -107,7 +107,7 @@ class mbslicenseinfo {
         if (!$result->total = $DB->count_records_sql($countsql, $params)) {
             return $result;
         }
-
+print_r(self::create_sql($sql, $params));
         if (!$orderedhashes = $DB->get_records_sql($sql, $params, $limitfrom, $limitsize)) {
             return $result;
         }
@@ -128,7 +128,7 @@ class mbslicenseinfo {
         $orderby = " ORDER by f.id desc";
 
         $sql = $select . $where . $orderby;
-
+print_r(self::create_sql($sql, $params));
         if (!$allcoursefiles = $DB->get_records_sql($sql, $params)) {
             return array();
         }
@@ -220,7 +220,7 @@ class mbslicenseinfo {
         // Build SQL.
         $sql = $select . $from . $wheresearch . "GROUP BY f.contenthash ORDER BY f.id desc";
 
-        $result = array();
+         $result = array();
         // Step 1: Get the contenthashes ordered by empty title and most recent.
         if (!$orderedhashes = $DB->get_records_sql($sql, $params)) {
             return $result;
@@ -619,4 +619,18 @@ class mbslicenseinfo {
 
         $DB->delete_records_list('local_mbslicenseinfo_fmeta', 'id', array_keys($fmetaids));
     }
+
+
+    public static function create_sql($sql, $params) {
+
+        foreach ($params as $key => $param) {
+            $sql = str_replace(':' . $key, $param, $sql);
+        }
+
+        $sql = str_replace("{", "mdl_", $sql);
+        $sql = str_replace("}", "", $sql);
+
+        return $sql;
+    }
+
 }

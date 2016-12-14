@@ -508,7 +508,6 @@ class mbslicenseinfo {
      * @return boolean|stored_file the file if succeeded otherwise false
      */
     public static function get_previewfile($contextid, $imagename, $args) {
-        global $DB;
         
         $component = array_shift($args);
         $filearea = array_shift($args);
@@ -536,13 +535,38 @@ class mbslicenseinfo {
             return false;
         }
     }
-    
+
     /**
-     * Remove Thumbnails of License Informations below H5P Modules.
-     * @param object $event
+     * Remove Thumbnails of License Informations if original file is deleted.
+     * 
+     * @global moodle_database $DB
+     * @param record $event event data.
      */
     public static function delete_previewfile($event) {
+        global $DB;
+
+        $eventdata = $event->get_data();
+        $coursemoduleid = $eventdata['cmid'];
+        $modulename = 'mod_' . $eventdata['modulename'];
         
+        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id', array('id' => $coursemoduleid));
+        
+        $thumbfiles = $DB->get_recordset('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
+        if (!empty($thumbfiles)) {
+            $select_orgfiles = 'contextid = '.$contextid. ' and component = '.$modulename. ' and mimetype LIKE "image/%" and filename <> "."';
+            $orgfiles = $DB->get_records_select('files', $select_orgfiles);
+            if (empty($orgfiles)) {
+                // delete all thumbfiles.
+                $DB->delete_records('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
+            } else {
+                // delete thumbfile if original file is deleted.
+                foreach ($thumbfiles as $thumb) {
+                    if (!in_array($thumb['filename'], $origfiles, true)) {
+                        $DB->delete_records('files', array('id' => $thumb['id']));
+                    }
+                }
+            }
+        }
     }
     
     /**

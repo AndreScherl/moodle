@@ -97,5 +97,5 @@ $string['depthcategories'] = 'Pfad verkürzen';
 $string['depthcategoriesdesc'] = 'Pfade zu Kurbereichen, deren Tiefe länger als dieser Wert sind, werden verkürzt dargestellt.';
 $string['nocategoryselected'] = 'Kein Kursbereich gewählt';
 $string['selectcategory'] = 'Wählen sie einen Kursbereich';
-$string['selectonecourse'] = 'Please select at least one course';
+$string['selectonecourse'] = 'Bitte wählen sie mindestens einen Kurs';
 $string['unknownaction'] = 'Unbekannte Aktion';

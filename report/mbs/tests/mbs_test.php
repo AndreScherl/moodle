@@ -39,7 +39,7 @@ class report_mbs_testcase extends advanced_testcase {
         \report_mbs\local\reportcourses::sync_courses_stats();
 
         $reporthelper = new \report_mbs\local\reportcourses();
-        $coursestats = $reporthelper->get_courses(array(), null, 0, true);
+        $coursestats = $reporthelper->get_courses_stats(array(), null, 0, true);
 
         $this->assertEquals(9, count($coursestats));
     }

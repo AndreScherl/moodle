@@ -176,7 +176,8 @@ class reportcourses {
 
         $cols = "  c.id, count(DISTINCT ue.userid) as participantscount,
                    count(DISTINCT ra.userid) as trainerscount,
-                   count(DISTINCT cm.id) as modulescount, max(la.timeaccess) as lastviewed ";
+                   count(DISTINCT cm.id) as modulescount, max(la.timeaccess) as lastviewed,
+                   ctx.path as coursecontextpath ";
 
         $from = "FROM {course} c
                  JOIN {context} ctx ON ctx.instanceid = c.id AND ctx.contextlevel = :contextlevel1
@@ -189,21 +190,6 @@ class reportcourses {
         $params = array('contextlevel1' => CONTEXT_COURSE);
         $params += $inroleparams;
 
-        // Get file sizes.
-        $cols .= ", sizes.sumfiles as filesize ";
-        $from .= "LEFT JOIN (
-
-                           SELECT c.id, SUM(f.filesize) as sumfiles
-                           FROM mdl_course c
-                           JOIN mdl_context ctx ON ctx.instanceid = c.id AND ctx.contextlevel = :contextlevel
-                           JOIN mdl_files f
-                           JOIN mdl_context cx ON f.contextid = cx.id
-                           WHERE f.filesize > 0 AND f.filearea <> 'draft' AND LOCATE(ctx.path, cx.path) = 1
-                           GROUP BY c.id
-
-                        ) sizes ON sizes.id = c.id ";
-
-        $params['contextlevel'] = CONTEXT_COURSE;
         $groupby = " GROUP BY c.id ";
 
         // Restrict to given courses.
@@ -215,6 +201,38 @@ class reportcourses {
         $sql = "SELECT $cols " . $from . $where . $groupby;
 
         return $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Get the size of all files that this course contains.
+     *
+     * @param string $coursecontextpath
+     * @return int
+     */
+    private static function get_filesize($coursecontextpath) {
+        global $DB;
+
+        $sql = "SELECT SUM(f.filesize) as filesize
+                FROM {files} f
+                JOIN {context} cx ON f.contextid = cx.id AND cx.contextlevel >= :coursecontextlevel ";
+
+        // Get where.
+        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
+        $params = array('coursecontextlevel' => CONTEXT_COURSE);
+
+        // Restrict to coursecontext.
+        $cond[] = $DB->sql_like('cx.path', ':contextpath');
+        $params['contextpath'] = $coursecontextpath . '%';
+
+        $where = 'WHERE '.implode(' AND ', $cond);
+
+        $filesize = $DB->get_record_sql($sql.$where, $params);
+
+        if (empty($filesize->filesize)) {
+            return 0;
+        }
+
+        return $filesize->filesize;
     }
 
     /**
@@ -241,7 +259,7 @@ class reportcourses {
             $stats->trainerscount = $data->trainerscount;
             $stats->modulescount = $data->modulescount;
             $stats->lastviewed = (empty($data->lastviewed)) ? 0 : $data->lastviewed;
-            $stats->filesize = (empty($data->filesize)) ? 0 : $data->filesize;
+            $stats->filesize = self::get_filesize($data->coursecontextpath);
             $stats->timecreated = time();
             $stats->timelastsync = $stats->timecreated;
 
@@ -282,7 +300,7 @@ class reportcourses {
             $stats->trainerscount = $data->trainerscount;
             $stats->modulescount = $data->modulescount;
             $stats->lastviewed = (empty($data->lastviewed)) ? 0 : $data->lastviewed;
-            $stats->filesize = (empty($data->filesize)) ? 0 : $data->filesize;
+            $stats->filesize = self::get_filesize($data->coursecontextpath);
             $stats->timelastsync = time();
 
             $DB->update_record('report_mbs_course', $stats);

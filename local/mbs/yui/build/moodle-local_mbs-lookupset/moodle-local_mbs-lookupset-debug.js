@@ -12,7 +12,7 @@ M.local_mbs.lookupset = {
         if (!searchbox) {
             return;
         }
-        
+
         searchbox.plug(Y.Plugin.AutoComplete, {
             resultFilters: null,
             resultHighligher: 'phraseMatch',
@@ -93,10 +93,12 @@ M.local_mbs.lookupset = {
             html += "&nbsp;<span class='flookupset-delete'>";
             html += "<img src='" + M.util.image_url('t/delete') + "' alt = '" + M.str.moodle.delete + "' title='" + M.str.moodle.delete + "'/>";
             html += "</span>";
-            html += "<input type='hidden' name='" + opts.nameselected + "[" + id + "]' value='" + content + "'/>";
+            html += "<input type='hidden' name='" + opts.nameselected + "[" + id + "]' />";
 
             // Append a new list node.
-            list.append(Y.Node.create('<li>' + html + '</li>'));
+            var item = Y.Node.create('<li>' + html + '</li>')
+            list.append(item);
+            item.one('input').set('value', content);
 
             // Set the value of the hidden formelement to indicate filled list for require rule!
             formelement.set('value', 'filled');
@@ -122,16 +124,16 @@ M.local_mbs.lookupset = {
         resultel = searchbox.next('.yui3-aclist');
         // Attach the autocomplete results box to the body tag (to avoid overflow:hidden clipping).
         resultel.appendTo('body');
-        
+
         // Conditionally show divs with more explanation.
         moreresults = Y.Node.create('<div class="moreresults">' + M.util.get_string('lookupsetmoreresults', 'local_mbs') + '</div>');
         moreresults.hide();
         resultel.one('.yui3-aclist-content').append(moreresults);
-        
+
         noresults = Y.Node.create('<div class="noresults">' + M.util.get_string('lookupsetnoresults', 'local_mbs') + '</div>');
         noresults.hide();
         searchbox.ancestor().append(noresults);
-        
+
         lessletters = Y.Node.create('<div class="toolessletters">' + M.util.get_string('lookupsetlessletters', 'local_mbs') + '</div>');
         lessletters.hide();
         searchbox.ancestor().append(lessletters);

@@ -29,7 +29,7 @@ class cleanup_fmeta extends \core\task\scheduled_task {
 
     public function get_name() {
         // Shown in admin screens
-        return get_string('cleanupmissingfmeta', 'local_mbslicense');
+        return get_string('cleanupmissingfmeta', 'local_mbslicenseinfo');
     }
 
     public function execute() {

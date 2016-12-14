@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['cleanupcount'] = 'Count of files to cleanup per cron task';
 $string['cleanupcountdesc'] = 'Setup the number of cleanup files per task (higher means longer execution time)';
+$string['cleanupmissingfmeta'] = 'Delete all meta license data, that belong to deleted files';
 $string['displayname'] = 'Licenseinfo';
 $string['editlicenses'] = 'Edit Licenses information';
 $string['editlicensesdescr'] = 'Edit Licenses information for this course';

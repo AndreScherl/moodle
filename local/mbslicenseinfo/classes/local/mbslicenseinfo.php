@@ -544,26 +544,28 @@ class mbslicenseinfo {
      */
     public static function delete_previewfile($event) {
         global $DB;
-
+        
         $eventdata = $event->get_data();
-        $coursemoduleid = $eventdata['cmid'];
-        $modulename = 'mod_' . $eventdata['modulename'];
+        $coursemoduleid = $eventdata['objectid'];
+        $modulename = 'mod_' . $eventdata['other']['modulename'];
         
-        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id', array('id' => $coursemoduleid));
-        
+        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id AND contextlevel = :level', array('id' => $coursemoduleid, 'level' => 70));
+
         $thumbfiles = $DB->get_recordset('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
         if (!empty($thumbfiles)) {
-            $select_orgfiles = 'contextid = '.$contextid. ' and component = '.$modulename. ' and mimetype LIKE "image/%" and filename <> "."';
+            $select_orgfiles = 'contextid = '.$contextid. ' and component = "'.$modulename. '" and mimetype LIKE "image/%" and filename <> "."';
             $orgfiles = $DB->get_records_select('files', $select_orgfiles);
             if (empty($orgfiles)) {
                 // delete all thumbfiles.
                 $DB->delete_records('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
             } else {
-                // delete thumbfile if original file is deleted.
+                // delete thumbfile if original file was deleted.
                 foreach ($thumbfiles as $thumb) {
-                    if (!in_array($thumb['filename'], $origfiles, true)) {
-                        $DB->delete_records('files', array('id' => $thumb['id']));
+                    $delete = true;
+                    foreach ($orgfiles as $f) {
+                        if ($thumb->filename == $f->filename) $delete = false;
                     }
+                    if ($delete) $DB->delete_records('files', array('id' => $thumb->id));
                 }
             }
         }
@@ -592,25 +594,25 @@ class mbslicenseinfo {
             // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.
             // Get the file from moodles files table.
             $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content'));
-            if(!isset($moodlefile)) {
+            if(!isset($moodlefile) || !$moodlefile) {
                 continue;
             }
 
-            // Update the file in moodles filetable
+            // Update the file in moodles filetable.
             $moodlefile->author = isset($fileinfo->copyright->author) ? $fileinfo->copyright->author : '';
             $moodlefile->license = isset($fileinfo->copyright->license) ? $fileinfo->copyright->license : '';
             $DB->update_record('files', $moodlefile);
 
-            // Update the block mbslicenseinfo file metadata.
+            // Update the mbslicenseinfo file metadata.
             if($fmeta = $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
-                $fmeta->title = $fileinfo->copyright->title;
-                $fmeta->source= $fileinfo->copyright->source;
+                $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
+                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
                 $DB->update_record('local_mbslicenseinfo_fmeta', $fmeta);
             } else {
                 $fmeta = new \stdClass();
                 $fmeta->files_id = $moodlefile->id;
-                $fmeta->title = $fileinfo->copyright->title;
-                $fmeta->source= $fileinfo->copyright->source;
+                $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
+                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
                 $DB->insert_record('local_mbslicenseinfo_fmeta', $fmeta);
             }
         }

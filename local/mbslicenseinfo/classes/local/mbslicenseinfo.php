@@ -705,7 +705,6 @@ class mbslicenseinfo {
      */
     public static function hvp_module_created(\core\event\course_module_created $event) {
         self::update_licenseinfo_from_hvp_to_moodle($event->objectid);
-        self::delete_previewfile($event);
     }
 
     /**

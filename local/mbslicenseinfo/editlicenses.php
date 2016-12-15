@@ -88,6 +88,7 @@ if ($data = $searchform->get_data()) {
     } else if ($data = $form->get_data()) {
         if (!$locked) {
                 mbslicenseinfo::update_course_files($data);
+                mbslicenseinfo::update_licenseinfo_from_moodle_to_hvp($data);
                 $pageurl->param('message', 'licenseinfosaved');
                 unset($searchdata);
                 // Redirect getting new added licenses and avoid resubmit.

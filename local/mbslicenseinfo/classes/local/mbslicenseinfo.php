@@ -637,6 +637,66 @@ class mbslicenseinfo {
         }
         return $results;
     }
+
+    /**
+     * Update mebis license tables with entered data from H5P Plugin
+     * 
+     * @param obj $data of submitted edit license form data
+     */
+    public static function update_licenseinfo_from_moodle_to_hvp($data) {
+        global $DB;
+        
+        // get files infos of submitted edit license form
+        $fmetas = self::resort_formdata($data);
+
+        // check all course files to be hvp content. If its hvp then update license info.
+        foreach ($fmetas as $fmeta) {
+            $file = $DB->get_record('files', array('id' => $fmeta->id));
+            if(!($file->component == 'mod_hvp' && $file->filearea == 'content')) {
+                continue;
+            }
+            $ctx = \context::instance_by_id($file->contextid);
+            $cmid = $ctx->instanceid;
+            $hvpcm = $DB->get_record('course_modules', array('id' => $cmid));
+            $hvprow = $DB->get_record('hvp', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
+            $hvpstring = $hvprow->json_content;
+            $hvpcontent = json_decode($hvpstring);
+            $hvpcontent = self::update_hvpfileobject_copyright_attribute($hvpcontent, $fmeta);
+            // Anschließend zurückschreiben in die hvp-Tabelle
+            $hvprow->filtered = json_encode($hvpcontent);
+            $hvprow->json_content = json_encode($hvpcontent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $DB->update_record('hvp', $hvprow);
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param object $haystack
+     * @param  object $fmeta file data of mebis edit license form
+     * @return object updated with new file metadata
+     */
+    public static function update_hvpfileobject_copyright_attribute($haystack, $fmeta) {
+        if (!is_object($haystack) && !is_array($haystack)) {
+            return $haystack;
+        }
+        foreach($haystack as $key => $value) {
+            if(isset($value->copyright) && isset($value->path) && (strpos($value->path, $fmeta->filename) !== false)) {
+                $value->copyright->title = $fmeta->title;
+                $value->copyright->author = $fmeta->author;
+                $value->copyright->license = $fmeta->license->shortname;
+                $value->copyright->source = $fmeta->source;
+            } else {
+                $value = self::update_hvpfileobject_copyright_attribute($value, $fmeta);
+            }
+            if(is_object($haystack)) {
+                $haystack->$key = $value;
+            } elseif (is_array($haystack)) {
+                $haystack[$key] = $value;
+            }
+        }
+        return $haystack;
+    }
     
     /**
      * Event Callback of H5P Module Creation.

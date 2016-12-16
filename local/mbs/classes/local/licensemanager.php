@@ -422,6 +422,14 @@ class licensemanager {
         $license->version = '2015120900';
         $active_licenses[] = $license->shortname;
         self::add($license);
+        
+        $license->shortname = 'U';
+        $license->fullname = 'Unbestimmt';
+        $license->source = '';
+        $license->enabled = 1;
+        $license->version = '2016121600';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
 
         set_config('licenses', implode(',', $active_licenses));
     }

@@ -584,7 +584,8 @@ class mbslicenseinfo {
         $hvpstring = $DB->get_field('hvp', 'json_content', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
         $hvpcontent = json_decode($hvpstring);
         $fileinfos = self::find_hvpfileobject_with_license($hvpcontent);
-        
+        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id AND contextlevel = :level', array('id' => $cmid, 'level' => 70));
+
         // Store the license infos into appropriate mebis tables.
         // Note: If the user adds a file into a hvp plugin library instance, it's immediately added to moodles files table. So we can work with these records.
         foreach($fileinfos as $fileinfo) {
@@ -593,7 +594,7 @@ class mbslicenseinfo {
 
             // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.
             // Get the file from moodles files table.
-            $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content'));
+            $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content', 'contextid' => $contextid));
             if(!isset($moodlefile) || !$moodlefile) {
                 continue;
             }

@@ -83,12 +83,9 @@ class mbshvpcontentvalidator {
     }
     
     public static function build_license_array($h5pf) {
+        global $USER;
         $licensearray = array();
-        $licensearray[] = (object) array(
-            'value' => 'U',
-            'label' => $h5pf->t('Undisclosed')
-        );
-        $recordsarray = \local_mbs\local\licensemanager::get_licenses();
+        $recordsarray = \local_mbs\local\licensemanager::get_licenses(array('userid' => $USER->id, 'enabled'=>1));
         foreach ($recordsarray as $record) {
             $licensearray[] = (object) array(
                 'value' => $record->shortname,

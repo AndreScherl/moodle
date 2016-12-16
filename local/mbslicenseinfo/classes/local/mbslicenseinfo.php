@@ -32,6 +32,9 @@ class mbslicenseinfo {
     public static $captype_viewall = 10;
     public static $captype_editown = 20;
     public static $captype_editall = 30;
+    
+    public static $component = 'local_mbslicenseinfo';
+    public static $fileareathumb = 'mbslicenseinfo_thumbs';
 
     /**
      * To group the files by content hash and order them,
@@ -631,6 +634,244 @@ print_r(self::create_sql($sql, $params));
         $sql = str_replace("}", "", $sql);
 
         return $sql;
+    }
+
+    /** 
+     * Generates the image url with correct filearea
+     *
+     * @param int $contextid
+     * @param string $imagename
+     * @return boolean|string the plugin url to image if succeeded otherwise false
+     */
+    public static function get_previewimageurl($contextid, $imagename, $path) {
+
+        if (empty($imagename)) {
+            return false;
+        }
+
+        $url = new \moodle_url("/pluginfile.php/$contextid/" . self::$component . "/" . self::$fileareathumb . $path . $imagename);
+        return $url->out();
+    }
+
+    /**
+     * Get a preview file from file storage
+     *
+     * @param int $contextid
+     * @param string $imagename
+     * @param array $args extra arguments (original component, original filearea, original itemid, original filepath)
+     * @return boolean|stored_file the file if succeeded otherwise false
+     */
+    public static function get_previewfile($contextid, $imagename, $args) {
+        
+        $component = array_shift($args);
+        $filearea = array_shift($args);
+        $itemid = array_shift($args);
+        $filepath = '/'.array_shift($args).'/';
+        
+        $fs = get_file_storage();
+        
+        $stored_file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $imagename);
+        
+        if ($stored_file) {            
+            $stored_file->component = self::$component;
+            $stored_file->filearea = self::$fileareathumb;
+            $preview_file = $fs->get_file_preview($stored_file, 'thumb');
+            
+            if ($preview_file) {                
+                $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0, 
+                    'filepath' => '/'.$component.'/'.$filearea.'/'.$itemid.$filepath, 'filename' => $imagename); 
+                $fs->create_file_from_storedfile($icon, $preview_file);
+
+                return $preview_file;
+            } 
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Remove Thumbnails of License Informations if original file is deleted.
+     * 
+     * @global moodle_database $DB
+     * @param record $event event data.
+     */
+    public static function delete_previewfile($event) {
+        global $DB;
+        
+        $eventdata = $event->get_data();
+        $coursemoduleid = $eventdata['objectid'];
+        $modulename = 'mod_' . $eventdata['other']['modulename'];
+        
+        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id AND contextlevel = :level', array('id' => $coursemoduleid, 'level' => 70));
+
+        $thumbfiles = $DB->get_recordset('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
+        if (!empty($thumbfiles)) {
+            $select_orgfiles = 'contextid = '.$contextid. ' and component = "'.$modulename. '" and mimetype LIKE "image/%" and filename <> "."';
+            $orgfiles = $DB->get_records_select('files', $select_orgfiles);
+            if (empty($orgfiles)) {
+                // delete all thumbfiles.
+                $DB->delete_records('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
+            } else {
+                // delete thumbfile if original file was deleted.
+                foreach ($thumbfiles as $thumb) {
+                    $delete = true;
+                    foreach ($orgfiles as $f) {
+                        if ($thumb->filename == $f->filename) $delete = false;
+                    }
+                    if ($delete) $DB->delete_records('files', array('id' => $thumb->id));
+                }
+            }
+        }
+    }
+    
+    /**
+     * Update mebis license tables with entered data from H5P Plugin
+     * 
+     * @param int $cmid Course module id of hvp instance
+     */
+    public static function update_licenseinfo_from_hvp_to_moodle($cmid) {
+        global $DB;
+        
+        // Get the license info of h5p instances contents.
+        $hvpcm = $DB->get_record('course_modules', array('id' => $cmid));
+        $hvpstring = $DB->get_field('hvp', 'json_content', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
+        $hvpcontent = json_decode($hvpstring);
+        $fileinfos = self::find_hvpfileobject_with_license($hvpcontent);
+        $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id AND contextlevel = :level', array('id' => $cmid, 'level' => 70));
+
+        // Store the license infos into appropriate mebis tables.
+        // Note: If the user adds a file into a hvp plugin library instance, it's immediately added to moodles files table. So we can work with these records.
+        foreach($fileinfos as $fileinfo) {
+            //$filepath = explode('/', $fileinfo->path)[0];
+            $filename = explode('/', $fileinfo->path)[1];
+
+            // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.
+            // Get the file from moodles files table.
+            $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content', 'contextid' => $contextid));
+            if(!isset($moodlefile) || !$moodlefile) {
+                continue;
+            }
+
+            // Update the file in moodles filetable.
+            $moodlefile->author = isset($fileinfo->copyright->author) ? $fileinfo->copyright->author : '';
+            $moodlefile->license = isset($fileinfo->copyright->license) ? $fileinfo->copyright->license : '';
+            $DB->update_record('files', $moodlefile);
+
+            // Update the mbslicenseinfo file metadata.
+            if($fmeta = $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
+                $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
+                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
+                $DB->update_record('local_mbslicenseinfo_fmeta', $fmeta);
+            } else {
+                $fmeta = new \stdClass();
+                $fmeta->files_id = $moodlefile->id;
+                $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
+                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
+                $DB->insert_record('local_mbslicenseinfo_fmeta', $fmeta);
+            }
+        }
+    }
+    
+    /**
+     * Search for copyright attribute of file objects and return an array containing objects with license infos.
+     * 
+     * @param object $haystack
+     * @return array of file informations objects
+     */
+    public static function find_hvpfileobject_with_license($haystack) {
+        $results = [];
+        if (!is_object($haystack) && !is_array($haystack)) {
+            return $results;
+        }
+        
+        foreach($haystack as $key => $value) {
+            if(isset($value->copyright)) {
+                $results[] = $value;
+            } else {
+                $results = array_merge(self::find_hvpfileobject_with_license($value), $results);
+            }
+        }
+        return $results;
+    }
+
+    /**
+     * Update mebis license tables with entered data from H5P Plugin
+     * 
+     * @param obj $data of submitted edit license form data
+     */
+    public static function update_licenseinfo_from_moodle_to_hvp($data) {
+        global $DB;
+        
+        // get files infos of submitted edit license form
+        $fmetas = self::resort_formdata($data);
+
+        // check all course files to be hvp content. If its hvp then update license info.
+        foreach ($fmetas as $fmeta) {
+            $file = $DB->get_record('files', array('id' => $fmeta->id));
+            if(!($file->component == 'mod_hvp' && $file->filearea == 'content')) {
+                continue;
+            }
+            $ctx = \context::instance_by_id($file->contextid);
+            $cmid = $ctx->instanceid;
+            $hvpcm = $DB->get_record('course_modules', array('id' => $cmid));
+            $hvprow = $DB->get_record('hvp', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
+            $hvpstring = $hvprow->json_content;
+            $hvpcontent = json_decode($hvpstring);
+            $hvpcontent = self::update_hvpfileobject_copyright_attribute($hvpcontent, $fmeta);
+            // Anschließend zurückschreiben in die hvp-Tabelle
+            $hvprow->filtered = json_encode($hvpcontent);
+            $hvprow->json_content = json_encode($hvpcontent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $DB->update_record('hvp', $hvprow);
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param object $haystack
+     * @param  object $fmeta file data of mebis edit license form
+     * @return object updated with new file metadata
+     */
+    public static function update_hvpfileobject_copyright_attribute($haystack, $fmeta) {
+        if (!is_object($haystack) && !is_array($haystack)) {
+            return $haystack;
+        }
+        foreach($haystack as $key => $value) {
+            if(isset($value->copyright) && isset($value->path) && (strpos($value->path, $fmeta->filename) !== false)) {
+                $value->copyright->title = $fmeta->title;
+                $value->copyright->author = $fmeta->author;
+                $value->copyright->license = $fmeta->license->shortname;
+                $value->copyright->source = $fmeta->source;
+            } else {
+                $value = self::update_hvpfileobject_copyright_attribute($value, $fmeta);
+            }
+            if(is_object($haystack)) {
+                $haystack->$key = $value;
+            } elseif (is_array($haystack)) {
+                $haystack[$key] = $value;
+            }
+        }
+        return $haystack;
+    }
+    
+    /**
+     * Event Callback of H5P Module Creation.
+     * 
+     * @param object $event
+     */
+    public static function hvp_module_created(\core\event\course_module_created $event) {
+        self::update_licenseinfo_from_hvp_to_moodle($event->objectid);
+    }
+
+    /**
+     * Event Callback of H5P Module Update.
+     * 
+     * @param object $event
+     */
+    public static function hvp_module_updated(\core\event\course_module_updated $event) {
+        self::update_licenseinfo_from_hvp_to_moodle($event->objectid);
+        self::delete_previewfile($event);
     }
 
 }

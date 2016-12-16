@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,20 +16,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage hvp
- * @copyright  2016 Joubel AS <contact@joubel.com>
+ * Local language pack from https://lernplattform.mebis.bayern.de
+ *
+ * @package    atto
+ * @subpackage equation
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016121200;
-$plugin->requires  = 2013051403;
-$plugin->cron      = 0;
-$plugin->component = 'mod_hvp';
-$plugin->maturity  = MATURITY_RC;
-$plugin->release   = '1.0-rc.4';
-$plugin->dependencies = array(
-    'local_mbslicenseinfo'  => 2016121200
-);
+$string['librarygroup1'] = 'Mathem.';
+$string['librarygroup1_desc'] = 'TeX-Befehle auf der Registerkarte \'Mathem.\'';
+$string['librarygroup2'] = 'Symbole';
+$string['librarygroup2_desc'] = 'TeX-Befehle auf der Registerkarte \'Symbole\'';
+$string['librarygroup3'] = 'Griechisch';

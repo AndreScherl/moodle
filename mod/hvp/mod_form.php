@@ -86,7 +86,7 @@ class mod_hvp_mod_form extends moodleform_mod {
                 $mform->setDefault('copyright', true);
                 $mform->disabledIf('copyright', 'frame');
             }
-        }        
+        }
 
         $this->standard_coursemodule_elements();
 

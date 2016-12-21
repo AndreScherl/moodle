@@ -743,7 +743,9 @@ print_r(self::create_sql($sql, $params));
         // Store the license infos into appropriate mebis tables.
         // Note: If the user adds a file into a hvp plugin library instance, it's immediately added to moodles files table. So we can work with these records.
         foreach($fileinfos as $fileinfo) {
-            //$filepath = explode('/', $fileinfo->path)[0];
+            if (!isset($fileinfo->path)) {
+                continue;
+            }
             $filename = explode('/', $fileinfo->path)[1];
 
             // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.

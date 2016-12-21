@@ -110,7 +110,7 @@ class mbslicenseinfo {
         if (!$result->total = $DB->count_records_sql($countsql, $params)) {
             return $result;
         }
-print_r(self::create_sql($sql, $params));
+        //print_r(self::create_sql($sql, $params));
         if (!$orderedhashes = $DB->get_records_sql($sql, $params, $limitfrom, $limitsize)) {
             return $result;
         }
@@ -131,7 +131,7 @@ print_r(self::create_sql($sql, $params));
         $orderby = " ORDER by f.id desc";
 
         $sql = $select . $where . $orderby;
-print_r(self::create_sql($sql, $params));
+        //print_r(self::create_sql($sql, $params));
         if (!$allcoursefiles = $DB->get_records_sql($sql, $params)) {
             return array();
         }

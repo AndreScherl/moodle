@@ -91,7 +91,7 @@ class reportcourses {
 
             if (strpos($filterdata->coursename, '*') !== false) {
 
-                $cond[] = $DB->sql_like('c.fullname', ':coursename');
+                $cond[] = $DB->sql_like('c.fullname', ':coursename', false);
                 $params['coursename'] = str_replace('*', '%', $filterdata->coursename);
             } else {
                 $cond[] = " c.fullname = :coursename ";

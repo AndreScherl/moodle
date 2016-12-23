@@ -69,12 +69,12 @@ $string['reportorphaned'] = 'Kurs Report';
 $string['texcronactiv'] = 'Cronjob für TeX Ersetzung aktviv';
 $string['texcronactivdesc'] = 'Der Cronjob kann hier deaktiviert werden';
 $string['reportcoursesynccount'] = 'Anzahl der Kurse, die per cronjob ausgewertet werden.';
-$string['reportcoursesynccountdesc'] = 'Aufgrund der hohen Kursanzahl werden die Statistikdaten für Kurse über eine cronjob ermittelt. Wählen sie hier, wie viele Kurs pro cronjob ausgewertet werden.';
+$string['reportcoursesynccountdesc'] = 'Aufgrund der hohen Kursanzahl werden die Statistikdaten für Kurse über einen Cron Job ermittelt. Wählen sie hier, wie viele Kurse pro Cron Job ausgewertet werden.';
 $string['reportcoursestats'] = 'Kurs Statistik';
 $string['coursestatscronactiv'] = 'Hintergrundprozess für Kurs Statistik aktiv';
 $string['coursestatscronactivdesc'] = 'Schalten sie den Hintergrundprzess ein oder aus.';
 $string['coursesstatscomplete'] = 'Die gesammelten Daten sind aktuell.';
-$string['coursesstatsincomplete'] = 'Die Statistikdaten sind veraltet: {$a->counttodelete} item(s) to delete, {$a->counttoadd} item(s) to add.';
+$string['coursesstatsincomplete'] = 'Die Statistikdaten sind veraltet: {$a->counttodelete} zu löschen, {$a->counttoadd} item(s) müssen hinzugefügt werden.';
 $string['status'] = 'Älteste Statistikdaten';
 
 $string['bulkaction'] = 'Massenaktion';
@@ -94,8 +94,10 @@ $string['doaction'] = 'Aktion ausführen';
 $string['limitcategories'] = 'Suchergebnisse limitieren';
 $string['limitcategoriesdesc'] = 'Bestimmen sie die maximale Anzahl in der Kursbereichssuche.';
 $string['depthcategories'] = 'Pfad verkürzen';
-$string['depthcategoriesdesc'] = 'Pfade zu Kurbereichen, deren Tiefe länger als dieser Wert sind, werden verkürzt dargestellt.';
+$string['depthcategoriesdesc'] = 'Pfade zu Kursbereichen, deren Tiefe länger als dieser Wert sind, werden verkürzt dargestellt.';
 $string['nocategoryselected'] = 'Kein Kursbereich gewählt';
 $string['selectcategory'] = 'Wählen sie einen Kursbereich';
 $string['selectonecourse'] = 'Bitte wählen sie mindestens einen Kurs';
 $string['unknownaction'] = 'Unbekannte Aktion';
+
+$string['numberofcourses'] = 'Anzahl gefundener Kurse: {$a}';

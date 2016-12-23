@@ -25,10 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016121401;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2011112900;        // Requires this Moodle version.
+$plugin->version   = 2016122300;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2015051100;        // Requires this Moodle version.
 $plugin->cron = 0;
 $plugin->component = 'report_mbs';       // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->release   = '2.7+ (Build: 2014072400)';
+$plugin->release   = '3.1';

@@ -120,6 +120,9 @@ if (!$download) {
     $filterform->display();
 
     echo $reportcourseshelper->render_cron_info();
+
+    $numstr = get_string('numberofcourses', 'report_mbs', $table->totalrows);
+    echo html_writer::tag('div',  $numstr, array('id' => 'local-impact-numinfo'));
     echo html_writer::start_tag('div', array('id' => 'local-impact-table-wrapper'));
 }
 

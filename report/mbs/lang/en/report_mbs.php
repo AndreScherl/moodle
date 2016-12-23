@@ -108,3 +108,5 @@ $string['nocategoryselected'] = 'No category selected';
 $string['selectcategory'] = 'Select category';
 $string['selectonecourse'] = 'Please select at least one course';
 $string['unknownaction'] = 'Unkown action';
+
+$string['numberofcourses'] = 'Number of courses found: {$a}';

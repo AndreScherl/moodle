@@ -32,7 +32,7 @@ class mbslicenseinfo {
     public static $captype_viewall = 10;
     public static $captype_editown = 20;
     public static $captype_editall = 30;
-    
+
     public static $component = 'local_mbslicenseinfo';
     public static $fileareathumb = 'mbslicenseinfo_thumbs';
 
@@ -70,8 +70,8 @@ class mbslicenseinfo {
 
         // Restrict to coursecontext.
         $coursecontext = \context_course::instance($courseid);
-        $cond[] = $DB->sql_like('c.path', ':contextpath');
-        $params['contextpath'] = $coursecontext->path . '%';
+        $cond[] = $DB->sql_like('c.path', ':contextpath', false, false);
+        $params['contextpath'] = $coursecontext->path . '/%';
 
         // Restrict to mimetypes.
         $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');
@@ -181,8 +181,8 @@ class mbslicenseinfo {
 
         // Restrict to coursecontext.
         $coursecontext = \context_course::instance($courseid);
-        $cond[] = $DB->sql_like('c.path', ':contextpath');
-        $params['contextpath'] = $coursecontext->path . '%';
+        $cond[] = $DB->sql_like('c.path', ':contextpath', false, false);
+        $params['contextpath'] = $coursecontext->path . '/%';
 
         // Restrict to mimetypes.
         $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');
@@ -636,7 +636,7 @@ class mbslicenseinfo {
         return $sql;
     }
 
-    /** 
+    /**
      * Generates the image url with correct filearea
      *
      * @param int $contextid
@@ -662,28 +662,28 @@ class mbslicenseinfo {
      * @return boolean|stored_file the file if succeeded otherwise false
      */
     public static function get_previewfile($contextid, $imagename, $args) {
-        
+
         $component = array_shift($args);
         $filearea = array_shift($args);
         $itemid = array_shift($args);
         $filepath = '/'.array_shift($args).'/';
-        
+
         $fs = get_file_storage();
-        
+
         $stored_file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $imagename);
-        
-        if ($stored_file) {            
+
+        if ($stored_file) {
             $stored_file->component = self::$component;
             $stored_file->filearea = self::$fileareathumb;
             $preview_file = $fs->get_file_preview($stored_file, 'thumb');
-            
-            if ($preview_file) {                
-                $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0, 
-                    'filepath' => '/'.$component.'/'.$filearea.'/'.$itemid.$filepath, 'filename' => $imagename); 
+
+            if ($preview_file) {
+                $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0,
+                    'filepath' => '/'.$component.'/'.$filearea.'/'.$itemid.$filepath, 'filename' => $imagename);
                 $fs->create_file_from_storedfile($icon, $preview_file);
 
                 return $preview_file;
-            } 
+            }
             return false;
         } else {
             return false;
@@ -692,17 +692,17 @@ class mbslicenseinfo {
 
     /**
      * Remove Thumbnails of License Informations if original file is deleted.
-     * 
+     *
      * @global moodle_database $DB
      * @param record $event event data.
      */
     public static function delete_previewfile($event) {
         global $DB;
-        
+
         $eventdata = $event->get_data();
         $coursemoduleid = $eventdata['objectid'];
         $modulename = 'mod_' . $eventdata['other']['modulename'];
-        
+
         $contextid = $DB->get_field_select('context', 'id', 'instanceid = :id AND contextlevel = :level', array('id' => $coursemoduleid, 'level' => 70));
 
         $thumbfiles = $DB->get_recordset('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
@@ -724,15 +724,15 @@ class mbslicenseinfo {
             }
         }
     }
-    
+
     /**
      * Update mebis license tables with entered data from H5P Plugin
-     * 
+     *
      * @param int $cmid Course module id of hvp instance
      */
     public static function update_licenseinfo_from_hvp_to_moodle($cmid) {
         global $DB;
-        
+
         // Get the license info of h5p instances contents.
         $hvpcm = $DB->get_record('course_modules', array('id' => $cmid));
         $hvpstring = $DB->get_field('hvp', 'json_content', array('course' => $hvpcm->course, 'id' => $hvpcm->instance));
@@ -774,10 +774,10 @@ class mbslicenseinfo {
             }
         }
     }
-    
+
     /**
      * Search for copyright attribute of file objects and return an array containing objects with license infos.
-     * 
+     *
      * @param object $haystack
      * @return array of file informations objects
      */
@@ -786,7 +786,7 @@ class mbslicenseinfo {
         if (!is_object($haystack) && !is_array($haystack)) {
             return $results;
         }
-        
+
         foreach($haystack as $key => $value) {
             if(isset($value->copyright)) {
                 $results[] = $value;
@@ -799,12 +799,12 @@ class mbslicenseinfo {
 
     /**
      * Update mebis license tables with entered data from H5P Plugin
-     * 
+     *
      * @param obj $data of submitted edit license form data
      */
     public static function update_licenseinfo_from_moodle_to_hvp($data) {
         global $DB;
-        
+
         // get files infos of submitted edit license form
         $fmetas = self::resort_formdata($data);
 
@@ -829,8 +829,8 @@ class mbslicenseinfo {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param object $haystack
      * @param  object $fmeta file data of mebis edit license form
      * @return object updated with new file metadata
@@ -856,10 +856,10 @@ class mbslicenseinfo {
         }
         return $haystack;
     }
-    
+
     /**
      * Event Callback of H5P Module Creation.
-     * 
+     *
      * @param object $event
      */
     public static function hvp_module_created(\core\event\course_module_created $event) {
@@ -868,7 +868,7 @@ class mbslicenseinfo {
 
     /**
      * Event Callback of H5P Module Update.
-     * 
+     *
      * @param object $event
      */
     public static function hvp_module_updated(\core\event\course_module_updated $event) {

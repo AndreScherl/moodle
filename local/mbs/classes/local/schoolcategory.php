@@ -16,7 +16,7 @@
 
 /**
  * main class schoolcategory
- * 
+ *
  * a school is a category of moodle with a specific depth
  *
  * @package    local_mbs
@@ -31,7 +31,7 @@ class schoolcategory {
     public static $schoolcatdepth = 3;
 
     /** get several columns from users school cat
-     * 
+     *
      * @global \database $DB
      * @global \record $USER
      * @return boolean
@@ -56,7 +56,7 @@ class schoolcategory {
     }
 
     /** get id of school category of the current user and store it in User sessiondata.
-     * 
+     *
      * @global database $DB
      * @global record $USER
      * @return boolean|int the id if succeeded
@@ -77,9 +77,9 @@ class schoolcategory {
 
     /** get the schoolcategory of the category (i. e. the parent category of given
      * category with the depth value of $schoolcatdepth.
-     * 
+     *
      * @param type $categoryid
-     * @return boolean|array false if failed, otherwise a record for the schoolcategory. 
+     * @return boolean|array false if failed, otherwise a record for the schoolcategory.
      */
     public static function get_schoolcategory($categoryid) {
         global $DB;
@@ -96,9 +96,9 @@ class schoolcategory {
 
     /** get the schoolcategories of the schoolcategory (i. e. the parent category of given
      *  category with the depth value of $schoolcatdepth. Similar to method above.
-     * 
+     *
      * @param type $categoryid
-     * @return array 
+     * @return array
      */
     public static function get_schoolcategories($categoryids) {
         global $DB;
@@ -131,7 +131,7 @@ class schoolcategory {
 
     /** get the id category of the schoolcategory (i. e. the parent category of given
      * category with the depth value of $schoolcatdepth.
-     * 
+     *
      * @param int $categoryid
      * @return int id of schoolcategory , 0 if not exists.
      */
@@ -145,7 +145,7 @@ class schoolcategory {
     }
 
     /** generate a list of categories below given category to display in a select box
-     * 
+     *
      * @global \local_mbs\local\database $DB
      * @param record $category
      * @return array list of categories similar to make_categories_list indexed by category id.
@@ -156,7 +156,7 @@ class schoolcategory {
         $catnames = array($category->id => $category->name);
 
         // Get a list of all categories whose path puts them below the parent.
-        $select = $DB->sql_like('path', ':schoolcatpath');
+        $select = $DB->sql_like('path', ':schoolcatpath', false, false);
         $params = array(
             'schoolcatpath' => $category->path . '/%',
         );
@@ -284,9 +284,9 @@ class schoolcategory {
     /**
      * Try to get the navigation node for a school, when page in coursecat context
      * is called.
-     * 
+     *
      * @param navigation_node $node (the root node 'courses')
-     * @return boolean|navigation_node false, when we are not in coursecat context, 
+     * @return boolean|navigation_node false, when we are not in coursecat context,
      *                                 the active node, when schoolcatid is not valid
      *                                 the school-navigationnode otherwise.
      */

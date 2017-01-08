@@ -59,5 +59,6 @@ $string['showcompleteandimcomplete'] = 'Vollständige und unvollständige Lizenz
 $string['showonlyincomplete'] = 'Nur unvollständige anzeigen';
 $string['showownlicenses'] = 'Nur Lizenzinformationen eigener Dateien im Kurs zeigen';
 $string['submitbutton'] = 'Speichern';
+$string['transfervalues'] = "Lizenzeingaben nach unten übertragen";
 $string['validation_error_nofullname'] = 'Für jede neue Lizenz muss wenigstens ein vollständiger Name angegeben werden.';
 $string['viewlicenses'] = 'Quellenangabe anzeigen';

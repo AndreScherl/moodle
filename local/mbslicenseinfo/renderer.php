@@ -65,7 +65,7 @@ class local_mbslicenseinfo_renderer extends plugin_renderer_base {
         foreach ($files as $file) {
             if (strpos($file->mimetype, 'image') !== false && $file->filename != '.') {
                 $previewfilepath = '/' . $file->component . '/' . $file->filearea . '/' . $file->itemid . $file->filepath;
-                $url = \local_mbslicenseinfo\local\mbslicenseinfo::get_previewimageurl($contextid, $file->filename, $previewfilepath);
+                $url = \local_mbslicenseinfo\local\mbslicenseinfo::get_previewurl($contextid, $file->filename, $previewfilepath);
                 $output .= '<div class="licenseinfo-img col-md-6">';
                 $output .= html_writer::img($url, 'thumbnail');
                 $output .= filter_mbslicenseinfo::build_license_div($file);

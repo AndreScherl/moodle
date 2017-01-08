@@ -39,13 +39,18 @@ class editlicensesform extends \moodleform {
         foreach ($filesdata as $contenthash => $files) {
 
             $file = reset($files);
-            $mform->addElement('header', $contenthash, get_string('relatedfiles', 'local_mbslicenseinfo', $file->filename));
+
+            $preview = \local_mbslicenseinfo\local\mbslicenseinfo::render_preview($file);
+            $preview = \html_writer::div('<div class="placeholder"></div>'.$preview, 'headerimage');
+
+            $header = \html_writer::div($preview.get_string('relatedfiles', 'local_mbslicenseinfo', $file->filename), 'licenseheader');
+            $mform->addElement('header', $contenthash, $header);
 
             $i = 0;
             foreach ($files as $fid => $file) {
                 // Files.
 
-                $mform->addElement('html', \html_writer::start_div('mbseditlicensegroup' . $i));
+                $mform->addElement('html', \html_writer::start_div('mbseditlicensegroup' . ($i % 2)));
                 $mform->addElement('hidden', 'fileid[' . $fid . ']', $file->id);
                 $mform->addElement('text', 'filename[' . $fid . ']', get_string('editlicensesformfilename', 'local_mbslicenseinfo'), array('disabled' => 'disabled'));
                 $mform->setDefault('filename[' . $fid . ']', $file->filename);
@@ -99,17 +104,15 @@ class editlicensesform extends \moodleform {
                 if (!empty($licensename)) {
                     $licensegr[0]->setSelected($licensename);
                 }
-                $mform->addElement('html', \html_writer::end_div());
 
                 $i++;
-                $i = $i % 2;
 
                 if ($locked) {
 
                     $licensegr[0]->freeze();
                     $licensegr[1]->updateAttributes(array('style' => 'display:none'));
                     $licensegr[2]->updateAttributes(array('style' => 'display:none'));
-                    
+
                     $mform->freeze(array(
                         'fileid[' . $fid . ']',
                         'filename[' . $fid . ']',
@@ -117,7 +120,14 @@ class editlicensesform extends \moodleform {
                         'filesource[' . $fid . ']',
                         'author[' . $fid . ']'
                     ));
+                } else {
+                    if ((count($files) > 1) && ($i == 1)) {
+                        $mform->addElement('button', 'transfervalues['. $fid .']', '↓ '.get_string('transfervalues', 'local_mbslicenseinfo').' ↓',
+                            array('id' => 'transfer_'.$contenthash, 'class' => 'mbslicenseinfo-transferbutton'));
+                    }
                 }
+
+                $mform->addElement('html', \html_writer::end_div());
             }
         }
 
@@ -139,13 +149,14 @@ class editlicensesform extends \moodleform {
 
     /**
      * Load the js
-     * 
+     *
      * @global type $PAGE
      */
     private function init_js() {
         global $PAGE;
         $args = array();
         $PAGE->requires->yui_module('moodle-local_mbs-newlicense', 'M.local_mbs.newlicense.init', $args, null, true);
+        $PAGE->requires->js_call_amd('local_mbslicenseinfo/editlicenses', 'init', array());
     }
 
     /**

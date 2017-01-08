@@ -32,7 +32,6 @@ class mbslicenseinfo {
     public static $captype_viewall = 10;
     public static $captype_editown = 20;
     public static $captype_editall = 30;
-
     public static $component = 'local_mbslicenseinfo';
     public static $fileareathumb = 'mbslicenseinfo_thumbs';
 
@@ -65,7 +64,7 @@ class mbslicenseinfo {
                  JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
 
         // Get where.
-        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
+        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' AND f.filearea <> 'mbslicenseinfo_thumbs' ");
         $params = array('contextlevel' => CONTEXT_COURSE);
 
         // Restrict to coursecontext.
@@ -121,7 +120,8 @@ class mbslicenseinfo {
         list($incontenthash, $inparams) = $DB->get_in_or_equal($contenthashes, SQL_PARAMS_NAMED);
         $params = $params + $inparams;
 
-        $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid
+        $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid,
+                   f.mimetype, f.contextid, f.filepath, f.component, f.filearea , f.itemid
                    FROM {files} f
                    JOIN {context} c ON f.contextid = c.id
                    LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
@@ -131,7 +131,7 @@ class mbslicenseinfo {
         $orderby = " ORDER by f.id desc";
 
         $sql = $select . $where . $orderby;
-        //print_r(self::create_sql($sql, $params));
+
         if (!$allcoursefiles = $DB->get_records_sql($sql, $params)) {
             return array();
         }
@@ -176,7 +176,7 @@ class mbslicenseinfo {
                  JOIN {context} c ON f.contextid = c.id AND c.contextlevel >= :contextlevel";
 
         // Get where.
-        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' ");
+        $cond = array(" f.filename <> '.' AND f.filearea <> 'draft' AND f.filearea <> 'mbslicenseinfo_thumbs' ");
         $params = array('contextlevel' => CONTEXT_COURSE);
 
         // Restrict to coursecontext.
@@ -223,7 +223,7 @@ class mbslicenseinfo {
         // Build SQL.
         $sql = $select . $from . $wheresearch . "GROUP BY f.contenthash ORDER BY f.id desc";
 
-         $result = array();
+        $result = array();
         // Step 1: Get the contenthashes ordered by empty title and most recent.
         if (!$orderedhashes = $DB->get_records_sql($sql, $params)) {
             return $result;
@@ -235,7 +235,8 @@ class mbslicenseinfo {
         list($incontenthash, $inparams) = $DB->get_in_or_equal($contenthashes, SQL_PARAMS_NAMED);
         $params = $params + $inparams;
 
-        $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid
+        $select = "SELECT f.id, f.contenthash, f.filename, f.author, fm.title, fm.source, f.license, f.userid,
+                   f.mimetype, f.contextid, f.filepath, f.component, f.filearea , f.itemid
                    FROM {files} f
                    JOIN {context} c ON f.contextid = c.id
                    LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id ";
@@ -285,12 +286,33 @@ class mbslicenseinfo {
             $ul = $file->license;
             // Insert local_mbslicenseinfo_ul table.
             if ($ul->shortname == '__createnewlicense__') {
-                $ul->userid = $USER->id;
-                $ul->shortname = null;
-                $newulid = $DB->insert_record('local_mbslicenseinfo_ul', $ul);
-                $ul->id = $newulid;
-                $ul->shortname = 'ul_' . $newulid;
-                $success *= $DB->update_record('local_mbslicenseinfo_ul', $ul);
+
+                // When there are more than two new licenses in this submit,
+                // which have the same name, user and source save only the first one.
+                $params = array(
+                    'userid' => $USER->id,
+                    'fullname' => $ul->fullname,
+                    'source' => $ul->source
+                );
+
+                $select = " userid = :userid AND fullname = :fullname AND source = :source ";
+
+                $licenseexists = $DB->get_record_select('local_mbslicenseinfo_ul', $select, $params, '*', IGNORE_MULTIPLE);
+
+                // For the other licenses set the shortname for storing license info in table.
+                if ($licenseexists) {
+
+                    $ul->shortname = $licenseexists->shortname;
+                    $ul->id = $licenseexists->id;
+                } else {
+
+                    $ul->userid = $USER->id;
+                    $ul->shortname = null;
+                    $newulid = $DB->insert_record('local_mbslicenseinfo_ul', $ul);
+                    $ul->id = $newulid;
+                    $ul->shortname = 'ul_' . $newulid;
+                    $success *= $DB->update_record('local_mbslicenseinfo_ul', $ul);
+                }
             }
             // Update local_mbslicenseinfo_ul table.
             if ($ulic = $DB->get_record('local_mbslicenseinfo_ul', array('shortname' => $ul->shortname))) {
@@ -344,14 +366,7 @@ class mbslicenseinfo {
         return $files;
     }
 
-    /**
-     * Get all the mimetype moodle can deal with, group it and create an menu for
-     * multicheckboxes in admin settings.
-     *
-     * @return array
-     */
-    public static function get_grouped_mimetypes_menu() {
-        global $OUTPUT;
+    public static function get_grouped_mimetypes() {
 
         $mimetypes = get_mimetypes_array();
 
@@ -364,6 +379,20 @@ class mbslicenseinfo {
             }
             $mimetypegrouped[$mimetype['type']]['fileext'][] = $fileext;
         }
+
+        return $mimetypegrouped;
+    }
+
+    /**
+     * Get all the mimetype moodle can deal with, group it and create an menu for
+     * multicheckboxes in admin settings.
+     *
+     * @return array
+     */
+    public static function get_grouped_mimetypes_menu() {
+        global $OUTPUT;
+
+        $mimetypegrouped = self::get_grouped_mimetypes();
 
         $choices = array();
         foreach ($mimetypegrouped as $mimetype => $item) {
@@ -427,6 +456,7 @@ class mbslicenseinfo {
 
         $useronlymine = get_user_preferences('mbslicensesonlymine', 1);
 
+        $onlymine = 1;
         switch ($captype) {
 
             case self::$captype_editall :
@@ -623,7 +653,6 @@ class mbslicenseinfo {
         $DB->delete_records_list('local_mbslicenseinfo_fmeta', 'id', array_keys($fmetaids));
     }
 
-
     public static function create_sql($sql, $params) {
 
         foreach ($params as $key => $param) {
@@ -643,7 +672,7 @@ class mbslicenseinfo {
      * @param string $imagename
      * @return boolean|string the plugin url to image if succeeded otherwise false
      */
-    public static function get_previewimageurl($contextid, $imagename, $path) {
+    public static function get_previewurl($contextid, $imagename, $path) {
 
         if (empty($imagename)) {
             return false;
@@ -666,24 +695,43 @@ class mbslicenseinfo {
         $component = array_shift($args);
         $filearea = array_shift($args);
         $itemid = array_shift($args);
-        $filepath = '/'.array_shift($args).'/';
+        $filepath = '/' . array_shift($args) . '/';
 
         $fs = get_file_storage();
 
         $stored_file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $imagename);
 
+        $mimetype = $stored_file->get_mimetype();
+        $isimage = ($mimetype === 'image/gif' or $mimetype === 'image/jpeg' or $mimetype === 'image/png');
+
         if ($stored_file) {
-            $stored_file->component = self::$component;
-            $stored_file->filearea = self::$fileareathumb;
-            $preview_file = $fs->get_file_preview($stored_file, 'thumb');
+
+            // If it is a image, create thumbnail.
+            if ($isimage) {
+
+                $stored_file->component = self::$component;
+                $stored_file->filearea = self::$fileareathumb;
+                $preview_file = $fs->get_file_preview($stored_file, 'thumb');
+
+                if ($preview_file) {
+                    $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0,
+                        'filepath' => '/' . $component . '/' . $filearea . '/' . $itemid . $filepath, 'filename' => $imagename);
+                    $fs->create_file_from_storedfile($icon, $preview_file);
+
+                    return $preview_file;
+                }
+            }
+
+            // If it is no image, create an alternative url, to embed in a text via link and use media filters.
+            $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0,
+                'filepath' => '/' . $component . '/' . $filearea . '/' . $itemid . $filepath, 'filename' => $imagename);
+            $preview_file = $fs->create_file_from_storedfile($icon, $stored_file);
 
             if ($preview_file) {
-                $icon = array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb, 'itemid' => 0,
-                    'filepath' => '/'.$component.'/'.$filearea.'/'.$itemid.$filepath, 'filename' => $imagename);
-                $fs->create_file_from_storedfile($icon, $preview_file);
-
                 return $preview_file;
             }
+
+            // Create preview failed.
             return false;
         } else {
             return false;
@@ -707,7 +755,7 @@ class mbslicenseinfo {
 
         $thumbfiles = $DB->get_recordset('files', array('contextid' => $contextid, 'component' => self::$component, 'filearea' => self::$fileareathumb));
         if (!empty($thumbfiles)) {
-            $select_orgfiles = 'contextid = '.$contextid. ' and component = "'.$modulename. '" and mimetype LIKE "image/%" and filename <> "."';
+            $select_orgfiles = 'contextid = ' . $contextid . ' and component = "' . $modulename . '" and mimetype LIKE "image/%" and filename <> "."';
             $orgfiles = $DB->get_records_select('files', $select_orgfiles);
             if (empty($orgfiles)) {
                 // delete all thumbfiles.
@@ -717,12 +765,59 @@ class mbslicenseinfo {
                 foreach ($thumbfiles as $thumb) {
                     $delete = true;
                     foreach ($orgfiles as $f) {
-                        if ($thumb->filename == $f->filename) $delete = false;
+                        if ($thumb->filename == $f->filename)
+                            $delete = false;
                     }
-                    if ($delete) $DB->delete_records('files', array('id' => $thumb->id));
+                    if ($delete)
+                        $DB->delete_records('files', array('id' => $thumb->id));
                 }
             }
         }
+    }
+
+    /**
+     * Render a preview image and a detailed content area using the filters for content
+     * of a popup dialogue
+     *
+     * @param object $file file record retrieved by sql statement (not a stored_file record!).
+     * @return type
+     */
+    public static function render_preview($file) {
+        global $OUTPUT;
+
+        if (strpos($file->mimetype, 'image') !== false) {
+
+            // Get preview url and the original url to display image in original size.
+            $filepath = '/' . $file->component . '/' . $file->filearea . '/' . $file->itemid . $file->filepath;
+            $imgurl = self::get_previewurl($file->contextid, $file->filename, $filepath);
+            $result = \html_writer::img($imgurl, 'thumbnail');
+
+            return $result;
+        }
+
+        $mimetypes = self::get_grouped_mimetypes();
+
+        $iconname = $mimetypes['document/unknown']['icon'];
+        $result = $OUTPUT->pix_icon('f/' . $iconname, $file->mimetype, 'moodle', array('class' => 'iconsmall'));
+
+        if (isset($mimetypes[$file->mimetype])) {
+
+            // Generate a preview icon based on mimetype.
+            $iconname = $mimetypes[$file->mimetype]['icon'];
+            $icon = $OUTPUT->pix_icon('f/' . $iconname, $file->mimetype, 'moodle', array('class' => 'iconsmall'));
+
+            // If mimetype is known, try to apply filters to render a suitable preview of the file.
+            $previewfilepath = '/' . $file->component . '/' . $file->filearea . '/' . $file->itemid . $file->filepath;
+            $url = \local_mbslicenseinfo\local\mbslicenseinfo::get_previewurl($file->contextid, $file->filename, $previewfilepath);
+
+            //$previewcontenttext = format_text(\html_writer::link($url, 'file'), FORMAT_HTML);
+            $previewcontenttext = format_text(\html_writer::link($url, 'file'), FORMAT_MOODLE, array('trusted' => true));
+            $previewcontent = \html_writer::div($previewcontenttext, 'mbslicenseinfo-preview-content', array('style' => 'display:none'));
+
+            $result = \html_writer::div($icon . $previewcontent, 'mbslicenseinfo-previewicon');
+        }
+
+        return $result;
     }
 
     /**
@@ -742,7 +837,7 @@ class mbslicenseinfo {
 
         // Store the license infos into appropriate mebis tables.
         // Note: If the user adds a file into a hvp plugin library instance, it's immediately added to moodles files table. So we can work with these records.
-        foreach($fileinfos as $fileinfo) {
+        foreach ($fileinfos as $fileinfo) {
             if (!isset($fileinfo->path)) {
                 continue;
             }
@@ -751,7 +846,7 @@ class mbslicenseinfo {
             // Note: No need to write into license table or block_mbslicenseinfo_ul, because the hvp popup form doesn't support this.
             // Get the file from moodles files table.
             $moodlefile = $DB->get_record('files', array('filename' => $filename, 'component' => 'mod_hvp', 'filearea' => 'content', 'contextid' => $contextid));
-            if(!isset($moodlefile) || !$moodlefile) {
+            if (!isset($moodlefile) || !$moodlefile) {
                 continue;
             }
 
@@ -761,15 +856,15 @@ class mbslicenseinfo {
             $DB->update_record('files', $moodlefile);
 
             // Update the mbslicenseinfo file metadata.
-            if($fmeta = $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
+            if ($fmeta = $DB->get_record('local_mbslicenseinfo_fmeta', array('files_id' => $moodlefile->id))) {
                 $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
-                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
+                $fmeta->source = isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
                 $DB->update_record('local_mbslicenseinfo_fmeta', $fmeta);
             } else {
                 $fmeta = new \stdClass();
                 $fmeta->files_id = $moodlefile->id;
                 $fmeta->title = isset($fileinfo->copyright->title) ? $fileinfo->copyright->title : '';
-                $fmeta->source= isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
+                $fmeta->source = isset($fileinfo->copyright->source) ? $fileinfo->copyright->source : '';
                 $DB->insert_record('local_mbslicenseinfo_fmeta', $fmeta);
             }
         }
@@ -787,8 +882,8 @@ class mbslicenseinfo {
             return $results;
         }
 
-        foreach($haystack as $key => $value) {
-            if(isset($value->copyright)) {
+        foreach ($haystack as $key => $value) {
+            if (isset($value->copyright)) {
                 $results[] = $value;
             } else {
                 $results = array_merge(self::find_hvpfileobject_with_license($value), $results);
@@ -811,7 +906,7 @@ class mbslicenseinfo {
         // check all course files to be hvp content. If its hvp then update license info.
         foreach ($fmetas as $fmeta) {
             $file = $DB->get_record('files', array('id' => $fmeta->id));
-            if(!($file->component == 'mod_hvp' && $file->filearea == 'content')) {
+            if (!($file->component == 'mod_hvp' && $file->filearea == 'content')) {
                 continue;
             }
             $ctx = \context::instance_by_id($file->contextid);
@@ -839,8 +934,8 @@ class mbslicenseinfo {
         if (!is_object($haystack) && !is_array($haystack)) {
             return $haystack;
         }
-        foreach($haystack as $key => $value) {
-            if(isset($value->copyright) && isset($value->path) && (strpos($value->path, $fmeta->filename) !== false)) {
+        foreach ($haystack as $key => $value) {
+            if (isset($value->copyright) && isset($value->path) && (strpos($value->path, $fmeta->filename) !== false)) {
                 $value->copyright->title = $fmeta->title;
                 $value->copyright->author = $fmeta->author;
                 $value->copyright->license = $fmeta->license->shortname;
@@ -848,7 +943,7 @@ class mbslicenseinfo {
             } else {
                 $value = self::update_hvpfileobject_copyright_attribute($value, $fmeta);
             }
-            if(is_object($haystack)) {
+            if (is_object($haystack)) {
                 $haystack->$key = $value;
             } elseif (is_array($haystack)) {
                 $haystack[$key] = $value;

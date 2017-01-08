@@ -35,13 +35,18 @@ class mbsfile {
     public $source;
     public $author;
     public $license;
+    public $mimetype;
+    public $contextid;
+    public $filepath;
+    public $component;
+    public $filearea;
+    public $itemid;
 
     /**
      * Construct a file object with all appropriate data, if id is given.
-     * 
+     *
      * @param object $filewmeta file record with some meta data.
      */
-    
     public function __construct($filewmeta) {
 
         $this->id = $filewmeta->id;
@@ -53,16 +58,24 @@ class mbsfile {
         if ($license = $this->get_license($filewmeta->license)) {
             $this->license = $license;
         }
+
+        // additional infos, if available.
+        $this->mimetype = (!empty($filewmeta->mimetype)) ? $filewmeta->mimetype : '';
+        $this->contextid = (!empty($filewmeta->contextid)) ? $filewmeta->contextid : 0;
+        $this->filepath = (!empty($filewmeta->filepath)) ? $filewmeta->filepath : '';
+        $this->component = (!empty($filewmeta->component)) ? $filewmeta->component : '';
+        $this->filearea = (!empty($filewmeta->filearea)) ? $filewmeta->filearea : '';
+        $this->itemid = (!empty($filewmeta->itemid)) ? $filewmeta->itemid : 0;
     }
 
     /**
      * Get the license of the file
-     * 
+     *
      * @param string $shortname - shortname of license
      * @return object - license object
      */
     public function get_license($shortname) {
-        
+
         $license = new \stdClass();
         $license->id = null;
         $license->userid = null;
@@ -82,4 +95,5 @@ class mbsfile {
 
         return $license;
     }
+
 }

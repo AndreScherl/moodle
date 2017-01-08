@@ -58,5 +58,6 @@ $string['showcompleteandimcomplete'] = 'Show complete and incomplete licenses';
 $string['showonlyincomplete'] = 'Show only incomplete licenses';
 $string['showownlicenses'] = 'Show only my licenses';
 $string['submitbutton'] = 'Submit';
+$string['transfervalues'] = 'Input the values from above to below';
 $string['validation_error_nofullname'] = 'Every new license must at least been given a full name';
 $string['viewlicenses'] = 'View licenses';

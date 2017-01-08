@@ -54,21 +54,21 @@ class filter_mbslicenseinfo extends moodle_text_filter {
         $fileinfo = self::extract_file_information($match);
         self::add_layoutinformation($match, $fileinfo);
         $licenseinfo = self::build_license_div($fileinfo);
-        
+
         $attributes = array();
         if (!empty($fileinfo->float)) {
             $attributes['style'] = $fileinfo->float;
         }
-        
+
         $enhancedmediatag = html_writer::div($match[0] . $licenseinfo, 'mediaandlicense', $attributes);
 
         return $enhancedmediatag;
     }
-    
+
     private static function add_layoutinformation($match, &$fileinfo) {
-        
+
         $tag = $match[0];
-        
+
         $matches = array();
         if (preg_match('/width=\"(.*?)\"/s', $tag, $matches)) {
             $fileinfo->width = $matches[1];
@@ -76,11 +76,11 @@ class filter_mbslicenseinfo extends moodle_text_filter {
         if (preg_match('/style=\".*?(float\:[^;]*)(;|\")/s', $tag, $matches)) {
             $fileinfo->float = $matches[1];
         }
-        
+
         if (preg_match('/style=\".*?(margin[^\:]*\:([^;]*))(;|\")/s', $tag, $matches)) {
             $fileinfo->margin = $matches[2];
         }
-        
+
     }
 
     /*
@@ -98,7 +98,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
 
     /*
      * Get the file path information out of the right match in the match array
-     * 
+     *
      * @param array $matcharray - the matches as delivered by preg_replace_callback()
      * @return object with processed path informations of the file
      */
@@ -128,7 +128,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
 
     /*
      * Get all relevant metadata of the file to display and build the license div tag
-     * 
+     *
      * @global $DB
      * @param object $fileinfo - fileinfo object with path sorted informations
      * @return string - license info div tag
@@ -144,7 +144,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
 
         // Get the id of right file out of db files table.
         $sql = "SELECT * FROM {files} f
-                LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id 
+                LEFT JOIN {local_mbslicenseinfo_fmeta} fm ON fm.files_id = f.id
                 WHERE f.contextid = :contextid AND f.component = :component
                 AND f.filearea = :filearea AND f.filename = :filename";
 
@@ -155,7 +155,7 @@ class filter_mbslicenseinfo extends moodle_text_filter {
             'filename' => $fileinfo->filename
         );
 
-        if (!$filewmeta = $DB->get_record_sql($sql, $params)) {
+        if (!$filewmeta = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE)) {
             return '';
         }
 
@@ -174,21 +174,21 @@ class filter_mbslicenseinfo extends moodle_text_filter {
         }
         $author = (empty($file->author)) ? '' : $file->author . ', ';
         $text = get_string('source', 'filter_mbslicenseinfo') . ': ' . $filelink . ', ' . $author . $licenselink;
-        
+
         $styles = array();
         if (!empty($fileinfo->width)) {
             $styles[] = "width:{$fileinfo->width}px";
         }
-        
+
         if (!empty($fileinfo->margin)) {
             $styles[] .= "margin-left:{$fileinfo->margin}";
         }
-        
+
         $attributes = array();
         if (!empty($styles)) {
             $attributes['style'] = implode(';', $styles);
         }
-        
+
         $licenseinfo = html_writer::div($text, 'licenseinfo', $attributes);
 
         return $licenseinfo;

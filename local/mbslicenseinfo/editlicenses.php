@@ -77,7 +77,7 @@ if (!$searchdata) {
 if ($data = $searchform->get_data()) {
     $files = $mbslicenseinfo->search_coursefiles($course, $pageparams, $data->filesearch);
     $searchdata = base64_encode(serialize($files));
-    $cdata = array('course' => $course, 'filesdata' => $files, 'locked' => $locked, 'searchdata' => $searchdata); 
+    $cdata = array('course' => $course, 'filesdata' => $files, 'locked' => $locked, 'searchdata' => $searchdata);
     $url = new moodle_url($PAGE->url, $pageparams);
     $url->param('searchdata', $searchdata);
     $form = new \local_mbslicenseinfo\form\editlicensesform($url, $cdata);
@@ -119,5 +119,6 @@ if ($searchdata) {
     echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
     echo html_writer::div($form->render(), 'editlicenses');
     echo $OUTPUT->paging_bar($files->total, $page, $perpage, $pageurl);
+    echo html_writer::div('', '', array('id' => 'dialog'));
 }
 echo $OUTPUT->footer();

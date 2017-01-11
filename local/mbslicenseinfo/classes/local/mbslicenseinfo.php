@@ -806,15 +806,18 @@ class mbslicenseinfo {
             $iconname = $mimetypes[$file->mimetype]['icon'];
             $icon = $OUTPUT->pix_icon('f/' . $iconname, $file->mimetype, 'moodle', array('class' => 'iconsmall'));
 
-            // If mimetype is known, try to apply filters to render a suitable preview of the file.
-            $previewfilepath = '/' . $file->component . '/' . $file->filearea . '/' . $file->itemid . $file->filepath;
-            $url = \local_mbslicenseinfo\local\mbslicenseinfo::get_previewurl($file->contextid, $file->filename, $previewfilepath);
+            // Disable the preview by returning only the icon, to enable preview out comment the following lines:
+            $result = $icon;
 
-            //$previewcontenttext = format_text(\html_writer::link($url, 'file'), FORMAT_HTML);
-            $previewcontenttext = format_text(\html_writer::link($url, 'file'), FORMAT_MOODLE, array('trusted' => true));
-            $previewcontent = \html_writer::div($previewcontenttext, 'mbslicenseinfo-preview-content', array('style' => 'display:none'));
+            // $previewfilepath = '/' . $file->component . '/' . $file->filearea . '/' . $file->itemid . $file->filepath;
+            // $url = \local_mbslicenseinfo\local\mbslicenseinfo::get_previewurl($file->contextid, $file->filename, $previewfilepath);
 
-            $result = \html_writer::div($icon . $previewcontent, 'mbslicenseinfo-previewicon');
+            // $previewcontenttext = format_text(\html_writer::link($url, 'file'), FORMAT_MOODLE, array('trusted' => true));
+            // $previewcontent = \html_writer::div($previewcontenttext, 'mbslicenseinfo-preview-content', array('style' => 'display:none'));
+            // $result = \html_writer::div($icon . $previewcontent, 'mbslicenseinfo-previewicon');
+
+            // Note that there is still part of javascript, which can handle a preview.
+            // If we decided to remove the preview totally the related js in edilicenses.js should be removed too.
         }
 
         return $result;

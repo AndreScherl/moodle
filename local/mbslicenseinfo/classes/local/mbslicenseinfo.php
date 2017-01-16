@@ -69,8 +69,11 @@ class mbslicenseinfo {
 
         // Restrict to coursecontext.
         $coursecontext = \context_course::instance($courseid);
-        $cond[] = $DB->sql_like('c.path', ':contextpath', false, false);
-        $params['contextpath'] = $coursecontext->path . '/%';
+
+        // Search in all subcontexts of course (contextpath1) and in coursecontext itsself (contextpath2).
+        $cond[] = "((".$DB->sql_like('c.path', ':contextpath1', false, false).") OR (c.path = :contextpath2)) ";
+        $params['contextpath1'] = $coursecontext->path . '/%';
+        $params['contextpath2'] = $coursecontext->path;
 
         // Restrict to mimetypes.
         $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');
@@ -181,8 +184,10 @@ class mbslicenseinfo {
 
         // Restrict to coursecontext.
         $coursecontext = \context_course::instance($courseid);
-        $cond[] = $DB->sql_like('c.path', ':contextpath', false, false);
-        $params['contextpath'] = $coursecontext->path . '/%';
+        // Search in all subcontexts of course (contextpath1) and in coursecontext itsself (contextpath2).
+        $cond[] = "((".$DB->sql_like('c.path', ':contextpath1', false, false).") OR (c.path = :contextpath2)) ";
+        $params['contextpath1'] = $coursecontext->path . '/%';
+        $params['contextpath2'] = $coursecontext->path;
 
         // Restrict to mimetypes.
         $neededmimetypes = get_config('local_mbslicenseinfo', 'mimewhitelist');

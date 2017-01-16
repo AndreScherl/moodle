@@ -46,8 +46,11 @@ class backup_local_mbslicenseinfo_plugin extends backup_local_plugin {
         $courseid = $this->task->get_courseid();
         $coursecontext = \context_course::instance($courseid);
 
-        $incourse = $DB->sql_like('c.path', ':contextpath', false, false);
-        $params = array('contextpath' => array('sqlparam' => $coursecontext->path . '/%'));
+        $incourse = " ((".$DB->sql_like('c.path', ':contextpath1', false, false).") OR (c.path = :contextpath2)) ";
+        $params = array(
+            'contextpath1' => array('sqlparam' => $coursecontext->path . '/%'),
+            'contextpath2' => array('sqlparam' => $coursecontext->path)
+        );
 
         $sql = "SELECT f.id, li.title, li.source, li.files_id
                   FROM {files} AS f

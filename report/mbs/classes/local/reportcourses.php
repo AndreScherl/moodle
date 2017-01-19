@@ -39,8 +39,7 @@ class reportcourses {
      * @param string $action name of an action
      * @param \moodle_url $redirecturl the url to redirect, if an error occurs
      */
-    public static function require_valid_action($action,
-        \moodle_url $redirecturl) {
+    public static function require_valid_action($action, \moodle_url $redirecturl) {
         if (!in_array($action, self::$bulkactions)) {
             print_error('unknownaction', 'report_mbs', $redirecturl);
         }
@@ -176,15 +175,12 @@ class reportcourses {
 
         $cols = "  c.id, count(DISTINCT ue.userid) as participantscount,
                    count(DISTINCT ra.userid) as trainerscount,
-                   count(DISTINCT cm.id) as modulescount, max(la.timeaccess) as lastviewed,
                    ctx.path as coursecontextpath ";
 
         $from = "FROM {course} c
                  JOIN {context} ctx ON ctx.instanceid = c.id AND ctx.contextlevel = :contextlevel1
-                 LEFT JOIN {course_modules} cm ON cm.course = c.id
                  LEFT JOIN {enrol} e ON e.courseid = c.id
                  LEFT JOIN {user_enrolments} ue ON ue.enrolid = e.id
-                 LEFT JOIN {user_lastaccess} la ON la.courseid = c.id
                  LEFT JOIN {role_assignments} ra ON ra.contextid = ctx.id AND ue.userid = ra.userid AND ra.roleid $inroleid";
 
         $params = array('contextlevel1' => CONTEXT_COURSE);
@@ -193,14 +189,47 @@ class reportcourses {
         $groupby = " GROUP BY c.id ";
 
         // Restrict to given courses.
-        list($incourseids, $inparams) = $DB->get_in_or_equal($courseids, SQL_PARAMS_NAMED);
+        list($incourseids, $incourseparams) = $DB->get_in_or_equal($courseids, SQL_PARAMS_NAMED);
 
         $where = "WHERE c.id {$incourseids}";
-        $params += $inparams;
+        $params += $incourseparams;
 
         $sql = "SELECT $cols " . $from . $where . $groupby;
 
-        return $DB->get_records_sql($sql, $params);
+        // First Step: get courses with enrolments.
+        $courses = $DB->get_records_sql($sql, $params);
+
+        // Second Step: get lastaccesses in another query to avoid performance problems.
+        $sql = "SELECT c.id, max(la.timeaccess) as lastviewed
+                FROM {course} c
+                LEFT JOIN {user_lastaccess} la ON la.courseid = c.id
+                WHERE c.id {$incourseids} GROUP BY c.id ";
+
+        $lastaccesses = $DB->get_records_sql($sql, $incourseparams);
+
+        // Third Step: get modulcounts in another query to avoid performance problems.
+        $sql = "SELECT c.id, count(cm.id) as modulescount
+                FROM {course} c
+                LEFT JOIN {course_modules} cm ON cm.course = c.id
+                WHERE c.id {$incourseids} GROUP BY c.id ";
+
+        $modulecounts = $DB->get_records_sql($sql, $incourseparams);
+
+        foreach ($courses as $course) {
+
+            $course->lastviewed = 0;
+            $course->modulescount = 0;
+
+            if (!empty($lastaccesses[$course->id])) {
+                $course->lastviewed = $lastaccesses[$course->id]->lastviewed;
+            }
+
+            if (!empty($modulecounts[$course->id])) {
+                $course->modulescount = $modulecounts[$course->id]->modulescount;
+            }
+        }
+
+        return $courses;
     }
 
     /**
@@ -221,12 +250,13 @@ class reportcourses {
         $params = array('coursecontextlevel' => CONTEXT_COURSE);
 
         // Restrict to coursecontext.
-        $cond[] = $DB->sql_like('cx.path', ':contextpath');
-        $params['contextpath'] = $coursecontextpath . '%';
+        $cond[] = "((".$DB->sql_like('cx.path', ':contextpath1', false, false).") OR (cx.path = :contextpath2))";
+        $params['contextpath1'] = $coursecontextpath . '/%';
+        $params['contextpath2'] = $coursecontextpath;
 
-        $where = 'WHERE '.implode(' AND ', $cond);
+        $where = 'WHERE ' . implode(' AND ', $cond);
 
-        $filesize = $DB->get_record_sql($sql.$where, $params);
+        $filesize = $DB->get_record_sql($sql . $where, $params);
 
         if (empty($filesize->filesize)) {
             return 0;
@@ -453,8 +483,7 @@ class reportcourses {
      * @param int $shortenlimit
      * @return array list of found categories for ajax return.
      */
-    public static function get_categories_menu($searchtext, $searchlimit,
-        $shortenlimit) {
+    public static function get_categories_menu($searchtext, $searchlimit, $shortenlimit) {
         global $DB, $CFG;
 
         require_once($CFG->dirroot . '/lib/coursecatlib.php');

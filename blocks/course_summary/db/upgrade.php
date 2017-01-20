@@ -60,7 +60,7 @@ function xmldb_block_course_summary_upgrade($oldversion, $block) {
     // Moodle v3.1.0 release upgrade line.
     // Put any upgrade step following this.
 
-    // Moodle v3.0.0 release upgrade line.
+    // Automatically generated Moodle v3.2.0 release upgrade line.
     // Put any upgrade step following this.
 
     return true;

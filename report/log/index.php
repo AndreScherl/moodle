@@ -42,7 +42,7 @@ $chooselog   = optional_param('chooselog', false, PARAM_BOOL);
 $logformat   = optional_param('download', '', PARAM_ALPHA);
 $logreader      = optional_param('logreader', '', PARAM_COMPONENT); // Reader which will be used for displaying logs.
 $edulevel    = optional_param('edulevel', -1, PARAM_INT); // Educational level.
-$hostcourse  = optional_param('host_course', null, PARAM_INT); // MNet Course ID.
+$origin      = optional_param('origin', '', PARAM_TEXT); // Event origin.
 
 $params = array();
 if (!empty($id)) {
@@ -147,7 +147,7 @@ if (empty($course) || ($course->id == $SITE->id)) {
 }
 
 $reportlog = new report_log_renderable($logreader, $course, $user, $modid, $modaction, $group, $edulevel, $showcourses, $showusers,
-        $chooselog, true, $url, $date, $logformat, $page, $perpage, 'timecreated DESC');
+        $chooselog, true, $url, $date, $logformat, $page, $perpage, 'timecreated DESC', $origin);
 $readers = $reportlog->get_readers();
 $output = $PAGE->get_renderer('report_log');
 
@@ -163,10 +163,6 @@ if (empty($readers)) {
             echo $output->header();
             $userinfo = get_string('allparticipants');
             $dateinfo = get_string('alldays');
-
-            if ($hostcourse) {
-                echo $OUTPUT->notification(get_string('mnetlogwarning', 'report_log'));
-            }
 
             if ($user) {
                 $u = $DB->get_record('user', array('id' => $user, 'deleted' => 0), '*', MUST_EXIST);
@@ -187,9 +183,6 @@ if (empty($readers)) {
     } else {
         echo $output->header();
         echo $output->heading(get_string('chooselogs') .':');
-        if ($hostcourse) {
-            echo $OUTPUT->notification(get_string('mnetlogwarning', 'report_log'));
-        }
         echo $output->render($reportlog);
     }
 }

@@ -423,12 +423,6 @@ function file_prepare_draft_area(&$draftitemid, $contextid, $component, $fileare
                 $newsourcefield->original = file_storage::pack_reference($original);
                 $draftfile->set_source(serialize($newsourcefield));
                 // End of file manager hack
-
-                // +++ License - Hack - awag - 26.11.2016: note the file id for adding license meta data later.
-                if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-                    \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($file, $draftfile);
-                }
-                // +++ License - Hack - awag - 26.11.2016.
             }
         }
         if (!is_null($text)) {
@@ -720,21 +714,11 @@ function file_get_drafarea_files($draftitemid, $filepath = '/') {
                     $item->image_height = $imageinfo['height'];
                 }
             }
-            // +++ License - Hack - awag - 26.11.2016: note the file id for adding license meta data later.
-            $item->id = $file->get_id();
-            // --- License - Hack - awag - 26.11.2016.
             $list[] = $item;
         }
     }
     $data->itemid = $draftitemid;
     $data->list = $list;
-
-    // +++ License - Hack - awag - 26.11.2016: add license meta data for given draft files.
-    if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-        $data->list = \local_mbslicenseinfo\local\mbslicenseinfo::add_licensemeta_to_draft_files($data->list);
-    }
-    // --- License - Hack - awag - 26.11.2016.
-
     return $data;
 }
 
@@ -922,12 +906,6 @@ function file_save_draft_area_files($draftitemid, $contextid, $component, $filea
                 $oldfile->set_license($newfile->get_license());
             }
 
-            // +++ Hack - awag - 22.11.2016: store the additional license information for uploaded (draft) file.
-            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-                \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($newfile, $oldfile);
-            }
-            // --- Hack - awag - 22.11.2016
-
             // Updated file source
             // Field files.source for draftarea files contains serialised object with source and original information.
             // We only store the source part of it for non-draft file area.
@@ -980,13 +958,7 @@ function file_save_draft_area_files($draftitemid, $contextid, $component, $filea
                 }
             }
 
-            $newfile = $fs->create_file_from_storedfile($file_record, $file);
-
-            // +++ License Hack - awag - 22.11.2016: store the additional license information for uploaded (draft) file.
-            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-                \local_mbslicenseinfo\local\mbslicenseinfo::copy_license_meta_data($file, $newfile);
-            }
-            // --- License Hack - awag - 22.11.2016
+            $fs->create_file_from_storedfile($file_record, $file);
         }
     }
 
@@ -2099,6 +2071,70 @@ function send_temp_file_finished($path) {
 }
 
 /**
+ * Serve content which is not meant to be cached.
+ *
+ * This is only intended to be used for volatile public files, for instance
+ * when development is enabled, or when caching is not required on a public resource.
+ *
+ * @param string $content Raw content.
+ * @param string $filename The file name.
+ * @return void
+ */
+function send_content_uncached($content, $filename) {
+    $mimetype = mimeinfo('type', $filename);
+    $charset = strpos($mimetype, 'text/') === 0 ? '; charset=utf-8' : '';
+
+    header('Content-Disposition: inline; filename="' . $filename . '"');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 2) . ' GMT');
+    header('Pragma: ');
+    header('Accept-Ranges: none');
+    header('Content-Type: ' . $mimetype . $charset);
+    header('Content-Length: ' . strlen($content));
+
+    echo $content;
+    die();
+}
+
+/**
+ * Safely save content to a certain path.
+ *
+ * This function tries hard to be atomic by first copying the content
+ * to a separate file, and then moving the file across. It also prevents
+ * the user to abort a request to prevent half-safed files.
+ *
+ * This function is intended to be used when saving some content to cache like
+ * $CFG->localcachedir. If you're not caching a file you should use the File API.
+ *
+ * @param string $content The file content.
+ * @param string $destination The absolute path of the final file.
+ * @return void
+ */
+function file_safe_save_content($content, $destination) {
+    global $CFG;
+
+    clearstatcache();
+    if (!file_exists(dirname($destination))) {
+        @mkdir(dirname($destination), $CFG->directorypermissions, true);
+    }
+
+    // Prevent serving of incomplete file from concurrent request,
+    // the rename() should be more atomic than fwrite().
+    ignore_user_abort(true);
+    if ($fp = fopen($destination . '.tmp', 'xb')) {
+        fwrite($fp, $content);
+        fclose($fp);
+        rename($destination . '.tmp', $destination);
+        @chmod($destination, $CFG->filepermissions);
+        @unlink($destination . '.tmp'); // Just in case anything fails.
+    }
+    ignore_user_abort(false);
+    if (connection_aborted()) {
+        die();
+    }
+}
+
+/**
  * Handles the sending of file data to the user's browser, including support for
  * byteranges etc.
  *
@@ -2114,9 +2150,12 @@ function send_temp_file_finished($path) {
  *                        if this is passed as true, ignore_user_abort is called.  if you don't want your processing to continue on cancel,
  *                        you must detect this case when control is returned using connection_aborted. Please not that session is closed
  *                        and should not be reopened.
+ * @param array $options An array of options, currently accepts:
+ *                       - (string) cacheability: public, or private.
  * @return null script execution stopped unless $dontdie is true
  */
-function send_file($path, $filename, $lifetime = null , $filter=0, $pathisstring=false, $forcedownload=false, $mimetype='', $dontdie=false) {
+function send_file($path, $filename, $lifetime = null , $filter=0, $pathisstring=false, $forcedownload=false, $mimetype='',
+                   $dontdie=false, array $options = array()) {
     global $CFG, $COURSE;
 
     if ($dontdie) {
@@ -2150,7 +2189,13 @@ function send_file($path, $filename, $lifetime = null , $filter=0, $pathisstring
 
     if ($lifetime > 0) {
         $cacheability = ' public,';
-        if (isloggedin() and !isguestuser()) {
+        if (!empty($options['cacheability']) && ($options['cacheability'] === 'public')) {
+            // This file must be cache-able by both browsers and proxies.
+            $cacheability = ' public,';
+        } else if (!empty($options['cacheability']) && ($options['cacheability'] === 'private')) {
+            // This file must be cache-able only by browsers.
+            $cacheability = ' private,';
+        } else if (isloggedin() and !isguestuser()) {
             // By default, under the conditions above, this file must be cache-able only by browsers.
             $cacheability = ' private,';
         }
@@ -2242,7 +2287,7 @@ function send_file($path, $filename, $lifetime = null , $filter=0, $pathisstring
  */
 function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownload=false, array $options=array()) {
     global $CFG, $COURSE;
-    
+
     if (empty($options['filename'])) {
         $filename = null;
     } else {
@@ -2319,12 +2364,6 @@ function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownloa
         $filename = rawurlencode($filename);
     }
 
-    //+++ awag DS18:  verhindert den Download verschiedener Dateitypen, falls diese nicht durch einen Player aufgerufen werden.
-    // awag: 13.07.2015 temporarily commented out, TODO: check whether this download protection is necessary any further.
-    //\local_mbs\local\datenschutz::hook_filelib_send_stored_file($stored_file);
-    //--- awag
-
-
     if ($forcedownload) {
         header('Content-Disposition: attachment; filename="'.$filename.'"');
     } else if ($mimetype !== 'application/x-shockwave-flash') {
@@ -2400,127 +2439,6 @@ function send_stored_file($stored_file, $lifetime=null, $filter=0, $forcedownloa
     }
     die; //no more chars to output!!!
 }
-
-/**
- * Retrieves an array of records from a CSV file and places
- * them into a given table structure
- *
- * @global stdClass $CFG
- * @global moodle_database $DB
- * @param string $file The path to a CSV file
- * @param string $table The table to retrieve columns from
- * @return bool|array Returns an array of CSV records or false
- */
-function get_records_csv($file, $table) {
-    global $CFG, $DB;
-
-    if (!$metacolumns = $DB->get_columns($table)) {
-        return false;
-    }
-
-    if(!($handle = @fopen($file, 'r'))) {
-        print_error('get_records_csv failed to open '.$file);
-    }
-
-    $fieldnames = fgetcsv($handle, 4096);
-    if(empty($fieldnames)) {
-        fclose($handle);
-        return false;
-    }
-
-    $columns = array();
-
-    foreach($metacolumns as $metacolumn) {
-        $ord = array_search($metacolumn->name, $fieldnames);
-        if(is_int($ord)) {
-            $columns[$metacolumn->name] = $ord;
-        }
-    }
-
-    $rows = array();
-
-    while (($data = fgetcsv($handle, 4096)) !== false) {
-        $item = new stdClass;
-        foreach($columns as $name => $ord) {
-            $item->$name = $data[$ord];
-        }
-        $rows[] = $item;
-    }
-
-    fclose($handle);
-    return $rows;
-}
-
-/**
- * Create a file with CSV contents
- *
- * @global stdClass $CFG
- * @global moodle_database $DB
- * @param string $file The file to put the CSV content into
- * @param array $records An array of records to write to a CSV file
- * @param string $table The table to get columns from
- * @return bool success
- */
-function put_records_csv($file, $records, $table = NULL) {
-    global $CFG, $DB;
-
-    if (empty($records)) {
-        return true;
-    }
-
-    $metacolumns = NULL;
-    if ($table !== NULL && !$metacolumns = $DB->get_columns($table)) {
-        return false;
-    }
-
-    echo "x";
-
-    if(!($fp = @fopen($CFG->tempdir.'/'.$file, 'w'))) {
-        print_error('put_records_csv failed to open '.$file);
-    }
-
-    $proto = reset($records);
-    if(is_object($proto)) {
-        $fields_records = array_keys(get_object_vars($proto));
-    }
-    else if(is_array($proto)) {
-        $fields_records = array_keys($proto);
-    }
-    else {
-        return false;
-    }
-    echo "x";
-
-    if(!empty($metacolumns)) {
-        $fields_table = array_map(create_function('$a', 'return $a->name;'), $metacolumns);
-        $fields = array_intersect($fields_records, $fields_table);
-    }
-    else {
-        $fields = $fields_records;
-    }
-
-    fwrite($fp, implode(',', $fields));
-    fwrite($fp, "\r\n");
-
-    foreach($records as $record) {
-        $array  = (array)$record;
-        $values = array();
-        foreach($fields as $field) {
-            if(strpos($array[$field], ',')) {
-                $values[] = '"'.str_replace('"', '\"', $array[$field]).'"';
-            }
-            else {
-                $values[] = $array[$field];
-            }
-        }
-        fwrite($fp, implode(',', $values)."\r\n");
-    }
-
-    fclose($fp);
-    @chmod($CFG->tempdir.'/'.$file, $CFG->filepermissions);
-    return true;
-}
-
 
 /**
  * Recursively delete the file or folder with path $location. That is,
@@ -2675,7 +2593,7 @@ function file_is_executable($filename) {
  * @param  stored_file $newfile      the new file with the new content and meta-data
  * @param  stored_file $existingfile the file that will be overwritten
  * @throws moodle_exception
- * @since Moodle 3.1.1
+ * @since Moodle 3.2
  */
 function file_overwrite_existing_draftfile(stored_file $newfile, stored_file $existingfile) {
     if ($existingfile->get_component() != 'user' or $existingfile->get_filearea() != 'draft') {
@@ -2732,7 +2650,7 @@ function file_overwrite_existing_draftfile(stored_file $newfile, stored_file $ex
  * @param int $itemid identifies the item id or false for all items in the file area
  * @param array $options area options (subdirs=false, maxfiles=-1, maxbytes=0, areamaxbytes=FILE_AREA_MAX_BYTES_UNLIMITED)
  * @see file_save_draft_area_files
- * @since Moodle 3.1.1
+ * @since Moodle 3.2
  */
 function file_merge_files_from_draft_area_into_filearea($draftitemid, $contextid, $component, $filearea, $itemid,
                                                         array $options = null) {
@@ -2752,7 +2670,7 @@ function file_merge_files_from_draft_area_into_filearea($draftitemid, $contextid
  * @param int $getfromdraftid the id of the draft area where are the files to merge.
  * @param int $mergeintodraftid the id of the draft area where new files will be merged.
  * @throws coding_exception
- * @since Moodle 3.1.1
+ * @since Moodle 3.2
  */
 function file_merge_draft_area_into_draft_area($getfromdraftid, $mergeintodraftid) {
     global $USER;
@@ -2871,6 +2789,10 @@ class curl {
     private $cookie   = false;
     /** @var bool tracks multiple headers in response - redirect detection */
     private $responsefinished = false;
+    /** @var security helper class, responsible for checking host/ports against blacklist/whitelist entries.*/
+    private $securityhelper;
+    /** @var bool ignoresecurity a flag which can be supplied to the constructor, allowing security to be bypassed. */
+    private $ignoresecurity;
 
     /**
      * Curl constructor.
@@ -2881,6 +2803,8 @@ class curl {
      *  cookie: (string) path to cookie file, false if none
      *  cache: (bool) use cache
      *  module_cache: (string) type of cache
+     *  securityhelper: (\core\files\curl_security_helper_base) helper object providing URL checking for requests.
+     *  ignoresecurity: (bool) set true to override and ignore the security helper when making requests.
      *
      * @param array $settings
      */
@@ -2945,6 +2869,14 @@ class curl {
         if (!isset($this->emulateredirects)) {
             $this->emulateredirects = ini_get('open_basedir');
         }
+
+        // Curl security setup. Allow injection of a security helper, but if not found, default to the core helper.
+        if (isset($settings['securityhelper']) && $settings['securityhelper'] instanceof \core\files\curl_security_helper_base) {
+            $this->set_security($settings['securityhelper']);
+        } else {
+            $this->set_security(new \core\files\curl_security_helper());
+        }
+        $this->ignoresecurity = isset($settings['ignoresecurity']) ? $settings['ignoresecurity'] : false;
     }
 
     /**
@@ -3124,8 +3056,9 @@ class curl {
                 $this->responsefinished = false;
                 $this->response = array();
             }
-            list($key, $value) = explode(" ", rtrim($header, "\r\n"), 2);
-            $key = rtrim($key, ':');
+            $parts = explode(" ", rtrim($header, "\r\n"), 2);
+            $key = rtrim($parts[0], ':');
+            $value = isset($parts[1]) ? $parts[1] : null;
             if (!empty($this->response[$key])) {
                 if (is_array($this->response[$key])) {
                     $this->response[$key][] = $value;
@@ -3298,6 +3231,29 @@ class curl {
     }
 
     /**
+     * Returns the current curl security helper.
+     *
+     * @return \core\files\curl_security_helper instance.
+     */
+    public function get_security() {
+        return $this->securityhelper;
+    }
+
+    /**
+     * Sets the curl security helper.
+     *
+     * @param \core\files\curl_security_helper $securityobject instance/subclass of the base curl_security_helper class.
+     * @return bool true if the security helper could be set, false otherwise.
+     */
+    public function set_security($securityobject) {
+        if ($securityobject instanceof \core\files\curl_security_helper) {
+            $this->securityhelper = $securityobject;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Multi HTTP Requests
      * This function could run multi-requests in parallel.
      *
@@ -3347,6 +3303,20 @@ class curl {
     }
 
     /**
+     * Helper function to reset the request state vars.
+     *
+     * @return void.
+     */
+    protected function reset_request_state_vars() {
+        $this->info             = array();
+        $this->error            = '';
+        $this->errno            = 0;
+        $this->response         = array();
+        $this->rawresponse      = array();
+        $this->responsefinished = false;
+    }
+
+    /**
      * Single HTTP Request
      *
      * @param string $url The URL to request
@@ -3354,19 +3324,21 @@ class curl {
      * @return bool
      */
     protected function request($url, $options = array()) {
+        // Reset here so that the data is valid when result returned from cache, or if we return due to a blacklist hit.
+        $this->reset_request_state_vars();
+
+        // If curl security is enabled, check the URL against the blacklist before calling curl_exec.
+        // Note: This will only check the base url. In the case of redirects, the blacklist is also after the curl_exec.
+        if (!$this->ignoresecurity && $this->securityhelper->url_is_blocked($url)) {
+            $this->error = $this->securityhelper->get_blocked_url_string();
+            return $this->error;
+        }
+
         // Set the URL as a curl option.
         $this->setopt(array('CURLOPT_URL' => $url));
 
         // Create curl instance.
         $curl = curl_init();
-
-        // Reset here so that the data is valid when result returned from cache.
-        $this->info             = array();
-        $this->error            = '';
-        $this->errno            = 0;
-        $this->response         = array();
-        $this->rawresponse      = array();
-        $this->responsefinished = false;
 
         $this->apply_opt($curl, $options);
         if ($this->cache && $ret = $this->cache->get($this->options)) {
@@ -3378,6 +3350,15 @@ class curl {
         $this->error = curl_error($curl);
         $this->errno = curl_errno($curl);
         // Note: $this->response and $this->rawresponse are filled by $hits->formatHeader callback.
+
+        // In the case of redirects (which curl blindly follows), check the post-redirect URL against the blacklist entries too.
+        if (intval($this->info['redirect_count']) > 0 && !$this->ignoresecurity
+            && $this->securityhelper->url_is_blocked($this->info['url'])) {
+            $this->reset_request_state_vars();
+            $this->error = $this->securityhelper->get_blocked_url_string();
+            curl_close($curl);
+            return $this->error;
+        }
 
         if ($this->emulateredirects and $this->options['CURLOPT_FOLLOWLOCATION'] and $this->info['http_code'] != 200) {
             $redirects = 0;
@@ -4335,6 +4316,14 @@ function file_pluginfile($relativepath, $forcedownload, $preview = null) {
             if ($CFG->forcelogin) {
                 // no login necessary - unless login forced everywhere
                 require_login();
+            }
+
+            // Check if user can view this category.
+            if (!has_capability('moodle/category:viewhiddencategories', $context)) {
+                $coursecatvisible = $DB->get_field('course_categories', 'visible', array('id' => $context->instanceid));
+                if (!$coursecatvisible) {
+                    send_file_not_found();
+                }
             }
 
             $filename = array_pop($args);

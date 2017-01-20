@@ -21,8 +21,6 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool result
  */
 function xmldb_repository_dropbox_upgrade($oldversion) {
-    global $CFG;
-
     // Moodle v2.8.0 release upgrade line.
     // Put any upgrade step following this.
 
@@ -35,7 +33,11 @@ function xmldb_repository_dropbox_upgrade($oldversion) {
     // Moodle v3.1.0 release upgrade line.
     // Put any upgrade step following this.
 
-    // Moodle v3.0.0 release upgrade line.
+    if ($oldversion < 2016091300) {
+        unset_config('legacyapi', 'dropbox');
+        upgrade_plugin_savepoint(true, 2016091300, 'repository', 'dropbox');
+    }
+    // Automatically generated Moodle v3.2.0 release upgrade line.
     // Put any upgrade step following this.
 
     return true;

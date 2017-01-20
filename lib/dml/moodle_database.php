@@ -137,6 +137,11 @@ abstract class moodle_database {
     private $inorequaluniqueindex = 1;
 
     /**
+     * @var boolean variable use to temporarily disable logging.
+     */
+    protected $skiplogging = false;
+
+    /**
      * Constructor - Instantiates the database, specifying if it's external (connect to other systems) or not (Moodle DB).
      *              Note that this affects the decision of whether prefix checks must be performed or not.
      * @param bool $external True means that an external database is used.
@@ -487,6 +492,11 @@ abstract class moodle_database {
      * @return void
      */
     public function query_log($error=false) {
+        // Logging disabled by the driver.
+        if ($this->skiplogging) {
+            return;
+        }
+
         $logall    = !empty($this->dboptions['logall']);
         $logslow   = !empty($this->dboptions['logslow']) ? $this->dboptions['logslow'] : false;
         $logerrors = !empty($this->dboptions['logerrors']);
@@ -523,6 +533,20 @@ abstract class moodle_database {
             }
             $this->loggingquery = false;
         }
+    }
+
+    /**
+     * Disable logging temporarily.
+     */
+    protected function query_log_prevent() {
+        $this->skiplogging = true;
+    }
+
+    /**
+     * Restore old logging behavior.
+     */
+    protected function query_log_allow() {
+        $this->skiplogging = false;
     }
 
     /**
@@ -2048,6 +2072,33 @@ abstract class moodle_database {
      */
     public function sql_compare_text($fieldname, $numchars=32) {
         return $this->sql_order_by_text($fieldname, $numchars);
+    }
+
+    /**
+     * Returns an equal (=) or not equal (<>) part of a query.
+     *
+     * Note the use of this method may lead to slower queries (full scans) so
+     * use it only when needed and against already reduced data sets.
+     *
+     * @since Moodle 3.2
+     *
+     * @param string $fieldname Usually the name of the table column.
+     * @param string $param Usually the bound query parameter (?, :named).
+     * @param bool $casesensitive Use case sensitive search when set to true (default).
+     * @param bool $accentsensitive Use accent sensitive search when set to true (default). (not all databases support accent insensitive)
+     * @param bool $notequal True means not equal (<>)
+     * @return string The SQL code fragment.
+     */
+    public function sql_equal($fieldname, $param, $casesensitive = true, $accentsensitive = true, $notequal = false) {
+        // Note that, by default, it's assumed that the correct sql equal operations are
+        // case sensitive. Only databases not observing this behavior must override the method.
+        // Also, accent sensitiveness only will be handled by databases supporting it.
+        $equalop = $notequal ? '<>' : '=';
+        if ($casesensitive) {
+            return "$fieldname $equalop $param";
+        } else {
+            return "LOWER($fieldname) $equalop LOWER($param)";
+        }
     }
 
     /**

@@ -166,6 +166,8 @@ class core_competency_api_testcase extends advanced_testcase {
 
     /**
      * Test updating a template.
+     *
+     * @expectedException coding_exception
      */
     public function test_update_template() {
         $cat = $this->getDataGenerator()->create_category();
@@ -184,7 +186,6 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->assertEquals('success', $template->get_shortname());
 
         // Trying to change the context.
-        $this->setExpectedException('coding_exception');
         api::update_template((object) array('id' => $template->get_id(), 'contextid' => context_coursecat::instance($cat->id)));
     }
 
@@ -510,6 +511,9 @@ class core_competency_api_testcase extends advanced_testcase {
         }
     }
 
+    /**
+     * @expectedException coding_exception
+     */
     public function test_create_plan_from_template() {
         $this->resetAfterTest(true);
         $this->setAdminUser();
@@ -531,7 +535,6 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->assertFalse($plan);
 
         // Check that api::create_plan cannot be used.
-        $this->setExpectedException('coding_exception');
         unset($record->id);
         $plan = api::create_plan($record);
     }
@@ -753,6 +756,8 @@ class core_competency_api_testcase extends advanced_testcase {
 
     /**
      * Test that the method to complete a plan.
+     *
+     * @expectedException coding_exception
      */
     public function test_complete_plan() {
         global $DB;
@@ -833,7 +838,6 @@ class core_competency_api_testcase extends advanced_testcase {
         }
 
         // Completing a plan that is completed throws an exception.
-        $this->setExpectedException('coding_exception');
         api::complete_plan($plan);
     }
 
@@ -1877,6 +1881,71 @@ class core_competency_api_testcase extends advanced_testcase {
 
         $result = api::create_template_cohort($t1, $c2);
         $this->assertInstanceOf('core_competency\\template_cohort', $result);
+    }
+
+    public function test_reorder_template_competencies_permissions() {
+        $this->resetAfterTest(true);
+
+        $dg = $this->getDataGenerator();
+        $lpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
+        $cat = $dg->create_category();
+        $catcontext = context_coursecat::instance($cat->id);
+        $syscontext = context_system::instance();
+
+        $user = $dg->create_user();
+        $role = $dg->create_role();
+        assign_capability('moodle/competency:templatemanage', CAP_ALLOW, $role, $syscontext->id, true);
+        $dg->role_assign($role, $user->id, $syscontext->id);
+
+        // Create a template.
+        $template = $lpg->create_template(array('contextid' => $catcontext->id));
+
+        // Create a competency framework.
+        $framework = $lpg->create_framework(array('contextid' => $catcontext->id));
+
+        // Create competencies.
+        $competency1 = $lpg->create_competency(array('competencyframeworkid' => $framework->get_id()));
+        $competency2 = $lpg->create_competency(array('competencyframeworkid' => $framework->get_id()));
+
+        // Add the competencies.
+        $lpg->create_template_competency(array(
+            'templateid' => $template->get_id(),
+            'competencyid' => $competency1->get_id()
+        ));
+        $lpg->create_template_competency(array(
+            'templateid' => $template->get_id(),
+            'competencyid' => $competency2->get_id()
+        ));
+        $this->setUser($user);
+        // Can reorder competencies with system context permissions in category context.
+        $result = api::reorder_template_competency($template->get_id(), $competency2->get_id(), $competency1->get_id());
+        $this->assertTrue($result);
+        unassign_capability('moodle/competency:templatemanage', $role, $syscontext->id);
+        accesslib_clear_all_caches_for_unit_testing();
+
+        try {
+            api::reorder_template_competency($template->get_id(), $competency2->get_id(), $competency1->get_id());
+            $this->fail('Exception expected due to not permissions to manage template competencies');
+        } catch (required_capability_exception $e) {
+            $this->assertEquals('nopermissions', $e->errorcode);
+        }
+
+        // Giving permissions in category context.
+        assign_capability('moodle/competency:templatemanage', CAP_ALLOW, $role, $catcontext->id, true);
+        $dg->role_assign($role, $user->id, $catcontext->id);
+        // User with templatemanage capability in category context can reorder competencies in temple.
+        $result = api::reorder_template_competency($template->get_id(), $competency1->get_id(), $competency2->get_id());
+        $this->assertTrue($result);
+        // Removing templatemanage capability in category context.
+        unassign_capability('moodle/competency:templatemanage', $role, $catcontext->id);
+        accesslib_clear_all_caches_for_unit_testing();
+
+        try {
+            api::reorder_template_competency($template->get_id(), $competency2->get_id(), $competency1->get_id());
+            $this->fail('Exception expected due to not permissions to manage template competencies');
+        } catch (required_capability_exception $e) {
+            $this->assertEquals('nopermissions', $e->errorcode);
+        }
     }
 
     public function test_delete_template() {
@@ -4430,6 +4499,9 @@ class core_competency_api_testcase extends advanced_testcase {
         $this->assertTrue(evidence::record_exists($ev2->get_id()));
     }
 
+    /**
+     * @expectedException required_capability_exception
+     */
     public function test_delete_evidence_without_permissions() {
         $this->resetAfterTest();
         $dg = $this->getDataGenerator();
@@ -4442,7 +4514,6 @@ class core_competency_api_testcase extends advanced_testcase {
         $ev1 = $ccg->create_evidence(['usercompetencyid' => $uc1->get_id()]);
 
         $this->setUser($u1);
-        $this->setExpectedException('required_capability_exception');
 
         api::delete_evidence($ev1);
     }

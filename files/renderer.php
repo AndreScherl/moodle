@@ -175,7 +175,7 @@ class core_files_renderer extends plugin_renderer_base {
      * @param form_filemanager $fm
      * @return string
      */
-    private function fm_print_generallayout($fm) {
+    protected function fm_print_generallayout($fm) {
         global $OUTPUT;
         $options = $fm->options;
         $client_id = $options->client_id;
@@ -264,7 +264,7 @@ class core_files_renderer extends plugin_renderer_base {
      * @see fp_js_template_iconfilename()
      * @return string
      */
-    private function fm_js_template_iconfilename() {
+    protected function fm_js_template_iconfilename() {
         $rv = '
 <div class="fp-file">
     <a href="#">
@@ -295,7 +295,7 @@ class core_files_renderer extends plugin_renderer_base {
      * @see fp_js_template_listfilename()
      * @return string
      */
-    private function fm_js_template_listfilename() {
+    protected function fm_js_template_listfilename() {
         $rv = '
 <span class="fp-filename-icon">
     <a href="#">
@@ -322,7 +322,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fm_js_template_mkdir() {
+    protected function fm_js_template_mkdir() {
         $rv = '
 <div class="filemanager fp-mkdir-dlg" role="dialog" aria-live="assertive" aria-labelledby="fp-mkdir-dlg-title">
     <div class="fp-mkdir-dlg-text">
@@ -341,7 +341,7 @@ class core_files_renderer extends plugin_renderer_base {
      * @see fp_js_template_message()
      * @return string
      */
-    private function fm_js_template_message() {
+    protected function fm_js_template_message() {
         return $this->fp_js_template_message();
     }
 
@@ -386,18 +386,8 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fm_js_template_fileselectlayout() {
+    protected function fm_js_template_fileselectlayout() {
         global $OUTPUT;
-
-        // License Hack awag - 26.11.2016: render additional license form fields.
-        // This is done intentionally without overriding the renderer, because
-        // this would require to copy a lot of function code, that is declared "private".
-        $additionallicensefields = '';
-        if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-            $additionallicensefields = \local_mbslicenseinfo\local\mbslicenseinfo::fp_js_template_uploadform_add_license_formfields();
-        }
-        // License Hack awag - 26.11.2016.
-
         $strloading  = get_string('loading', 'repository');
         $iconprogress = $this->pix_icon('i/loading_small', $strloading).'';
         $rv = '
@@ -420,7 +410,7 @@ class core_files_renderer extends plugin_renderer_base {
                     <div class="controls">
                         <input type="text"/>
                     </div>
-                </div>'.$additionallicensefields.'
+                </div>
                 <div class="fp-author control-group clearfix">
                     <label class="control-label">'.get_string('author', 'repository').'</label>
                     <div class="controls">
@@ -484,7 +474,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fm_js_template_confirmdialog() {
+    protected function fm_js_template_confirmdialog() {
         $rv = '
 <div class="filemanager fp-dlg">
     <div class="fp-dlg-text"></div>
@@ -515,7 +505,7 @@ class core_files_renderer extends plugin_renderer_base {
      * @param form_filemanager $fm
      * @return string
      */
-    private function fm_print_restrictions($fm) {
+    protected function fm_print_restrictions($fm) {
         $maxbytes = display_size($fm->options->maxbytes);
         $strparam = (object) array('size' => $maxbytes, 'attachments' => $fm->options->maxfiles,
             'areasize' => display_size($fm->options->areamaxbytes));
@@ -578,7 +568,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_generallayout() {
+    protected function fp_js_template_generallayout() {
         $rv = '
 <div tabindex="0" class="file-picker fp-generallayout" role="dialog" aria-live="assertive">
     <div class="fp-repo-area">
@@ -660,7 +650,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_iconfilename() {
+    protected function fp_js_template_iconfilename() {
         $rv = '
 <a class="fp-file" href="#" >
     <div style="position:relative;">
@@ -691,7 +681,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_listfilename() {
+    protected function fp_js_template_listfilename() {
         $rv = '
 <span class="fp-filename-icon">
     <a href="#">
@@ -715,7 +705,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_nextpage() {
+    protected function fp_js_template_nextpage() {
         $rv = '
 <div class="fp-nextpage">
     <div class="fp-nextpage-link"><a href="#">'.get_string('more').'</a></div>
@@ -754,7 +744,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_selectlayout() {
+    protected function fp_js_template_selectlayout() {
         $rv = '
 <div class="file-picker fp-select">
     <div class="fp-select-loading">
@@ -838,17 +828,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_uploadform() {
-
-        // License Hack awag - 26.11.2016: render additional license form fields.
-        // This is done intentionally without overriding the renderer, because
-        // this would require to copy a lot of function code, that is declared "private".
-        $additionallicensefields = '';
-        if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
-            $additionallicensefields = \local_mbslicenseinfo\local\mbslicenseinfo::fp_js_template_uploadform_add_license_formfields();
-        }
-        // License Hack awag - 26.11.2016.
-
+    protected function fp_js_template_uploadform() {
         $rv = '
 <div class="fp-upload-form">
     <div class="fp-content-center">
@@ -865,7 +845,7 @@ class core_files_renderer extends plugin_renderer_base {
                     <div class="controls">
                         <input type="text"/>
                     </div>
-                </div>'.$additionallicensefields.'
+                </div>
                 <div class="fp-setauthor control-group clearfix">
                     <label class="control-label">'.get_string('author', 'repository').'</label>
                     <div class="controls">
@@ -893,7 +873,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_loading() {
+    protected function fp_js_template_loading() {
         return '
 <div class="fp-content-loading">
     <div class="fp-content-center">
@@ -911,7 +891,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_error() {
+    protected function fp_js_template_error() {
         $rv = '
 <div class="fp-content-error" ><div class="fp-error"></div></div>';
         return $rv;
@@ -930,7 +910,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_message() {
+    protected function fp_js_template_message() {
         $rv = '
 <div class="file-picker fp-msg" role="alertdialog" aria-live="assertive" aria-labelledby="fp-msg-labelledby">
     <p class="fp-msg-text" id="fp-msg-labelledby"></p>
@@ -954,7 +934,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_processexistingfile() {
+    protected function fp_js_template_processexistingfile() {
         $rv = '
 <div class="file-picker fp-dlg">
     <p class="fp-dlg-text"></p>
@@ -981,7 +961,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_processexistingfilemultiple() {
+    protected function fp_js_template_processexistingfilemultiple() {
         $rv = '
 <div class="file-picker fp-dlg">
     <p class="fp-dlg-text"></p>
@@ -1017,7 +997,7 @@ class core_files_renderer extends plugin_renderer_base {
      *
      * @return string
      */
-    private function fp_js_template_loginform() {
+    protected function fp_js_template_loginform() {
         $rv = '
 <div class="fp-login-form">
     <div class="fp-content-center">
@@ -1036,8 +1016,6 @@ class core_files_renderer extends plugin_renderer_base {
 
                     <div class="controls"><select></select></div>
                 </div>';
-        // HACK to prevent browsers from automatically inserting the user's password into the wrong fields.
-        $rv .= prevent_form_autofill_password();
         $rv .= '
                 <div class="fp-login-input control-group clearfix">
                     <label class="control-label"></label>

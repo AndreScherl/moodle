@@ -75,9 +75,7 @@ class mod_folder_renderer extends plugin_renderer_base {
                     get_string('downloadfolder', 'folder')
                 );
 
-                $output .= $this->output->container(
-                    $downloadbutton,
-                    'mdl-align folder-download-button');
+                $output .= $downloadbutton;
             }
             
             // SYNERGY LEARNING - see if students are allowed to edit files.
@@ -87,9 +85,7 @@ class mod_folder_renderer extends plugin_renderer_base {
                     get_string('edit')
                 );
 
-                $output .= $this->output->container(
-                    $editbutton,
-                    'mdl-align folder-edit-button');
+                $output .= $editbutton;
             }
         }
         return $output;

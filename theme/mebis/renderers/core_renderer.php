@@ -472,7 +472,7 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
 }
 
 // The following code embeds the mediathek player in the 'preview' page when inserting video/audion
-require_once($CFG->libdir . '/medialib.php');
+require_once($CFG->dirroot . '/media/classes/player_external.php');
 
 class core_media_player_mediathek extends core_media_player_external {
 

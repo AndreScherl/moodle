@@ -3082,7 +3082,9 @@ function initialise_filepicker($args) {
 
     $return->licenses = $licenses;
 
-    $return->author = fullname($USER);
+    // +++ License - Hack - most - 27.01.2017 remove fullname($USER) as default
+    $return->author = '';
+    // --- License - Hack - most - 27.01.2017
 
     if (empty($args->context)) {
         $context = $PAGE->context;

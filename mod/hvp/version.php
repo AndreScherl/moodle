@@ -23,14 +23,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016121900;
-// Plugin-Version ohne Hacks: $plugin->version   = 2016113000;
-
+$plugin->version   = 2017010800;
 $plugin->requires  = 2013051403;
 $plugin->cron      = 0;
 $plugin->component = 'mod_hvp';
 $plugin->maturity  = MATURITY_RC;
-$plugin->release   = '1.0-rc.5';
-$plugin->dependencies = array(
-    'local_mbslicenseinfo'  => 2016121200
-);
+$plugin->release   = '1.0-rc.6';

@@ -40,6 +40,8 @@ class backup_hvp_activity_structure_step extends backup_activity_structure_step 
         $hvp = new backup_nested_element('hvp', array('id'), array(
             'course',
             'name',
+            'intro',
+            'introformat',
             'json_content',
             'embed_type',
             'disable',
@@ -114,6 +116,7 @@ class backup_hvp_activity_structure_step extends backup_activity_structure_step 
 
         // Define file annotations
         $hvp->annotate_files('mod_hvp', 'content', null);
+        $hvp->annotate_files('mod_hvp', 'intro', null);
 
         // Return the root element (hvp), wrapped into standard activity structure
         return $this->prepare_activity_structure($hvp);

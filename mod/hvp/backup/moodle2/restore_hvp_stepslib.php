@@ -30,7 +30,6 @@
 class restore_hvp_activity_structure_step extends restore_activity_structure_step {
 
     protected function define_structure() {
-
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
@@ -116,5 +115,6 @@ class restore_hvp_activity_structure_step extends restore_activity_structure_ste
     protected function after_execute() {
         // Add hvp related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_hvp', 'content', 'hvp');
+        $this->add_related_files('mod_hvp', 'intro', null);
     }
 }

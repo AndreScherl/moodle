@@ -373,7 +373,7 @@ class reportcourses {
         }
 
         // Get courses to update.
-        $updatecourseids = $DB->get_records('report_mbs_course', array(), 'timelastsync DESC', 'courseid', 0, $maxcount);
+        $updatecourseids = $DB->get_records('report_mbs_course', array(), 'timelastsync ASC', 'courseid', 0, $maxcount);
         $countupdated = 0;
         if (!empty($updatecourseids)) {
             $countupdated = self::update_course_stats_data(array_keys($updatecourseids));

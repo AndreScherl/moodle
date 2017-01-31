@@ -31,6 +31,7 @@ $string['courseoverviewfiles'] = 'Bild für die Kursbeschreibung';
 $string['courseoverviewfiles_help'] = 'Bilder der Kursbeschreibung werden in der Kursübersicht zusammen mit der Kursbeschreibung angezeigt.';
 $string['courseprofiles'] = 'Besuchte Kurse';
 $string['editmyprofile'] = 'Meine Einstellungen bearbeiten';
+$string['emaildisplayno'] = 'Nur für Lehrer sichtbar';
 $string['emailempty'] = 'Der/die Teilnehmer/in hat keine Email-Adresse angegeben.';
 $string['home'] = 'Lernplattform';
 $string['messagedselectedusersfailed'] = 'Beim Versenden der Mitteilung ist ein Problem aufgetreten. Es kann sein, dass einzelne Empfänger/innen die Nachricht nicht erhalten haben, weil z.B. keine Email-Adresse angegeben wurde.';

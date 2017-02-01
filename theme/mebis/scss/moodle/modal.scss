@@ -1,9 +1,10 @@
-/*
-    This file is a copy from theme/bootstrapbase/less/moodle/modal.less with customizations.
-*/
 /* 
     Created on : 27.01.2017
     Author     : Franziska Hübler, ISB
+*/
+
+/*
+    This part is a copy from theme/bootstrapbase/less/moodle/modal.less with customizations.
 */
 
 body {
@@ -39,7 +40,6 @@ body {
 
         .modal-header {
             min-height: 13px;
-            padding: 5px;
             font-size: 12px;
             font-weight: normal;
             letter-spacing: 1px;
@@ -54,17 +54,6 @@ body {
             border-radius: 10px 10px 0 0;
             position: relative;
 
-            h3 {
-                font-size: 12px;
-                font-weight: normal;
-                letter-spacing: 1px;
-                line-height: 20px;
-                
-                &:focus {
-                    outline: none;
-                }
-            }
-
             .close {
                 position: absolute;
                 top: 5px;
@@ -73,28 +62,9 @@ body {
                 height: 15px;
                 line-height: 15px;
                 font-size: 15px;
-                margin: 0;
-                opacity: 1;
                 background-image: url([[pix:theme|sprite]]);
                 background-repeat: no-repeat;
-                border-style: none;
-                border-radius: 4px;
-                box-shadow:
-                    0 0 0 1px rgba(0, 0, 0, 0.25) inset,
-                    0 2px 0 rgba(255, 255, 255, 0.30) inset,
-                    0 1px 2px rgba(0, 0, 0, 0.15);
-
-                &:hover {
-                    background-position: 0 0;
-                }
-
-                &:active {
-                    background-position: 0 0;
-                }
-
-                &:focus {
-                    background-position: 0 0;
-                }
+                opacity: 1;        
             }
         }
 
@@ -106,7 +76,6 @@ body {
         .modal-footer {
             border-top: 1px solid #bbb;
             text-align: center;
-            padding: .7em 0;
             background-color: $brand-gray-light;
             box-shadow: none;
             border-radius: 0 0 10px 10px;
@@ -120,8 +89,175 @@ body {
     }
 }
 
-.modal-backdrop {
+@mixin setModalBackdrop() {
     z-index: 4049;
     background-color: #aaa;
     opacity: 0.4;
+} 
+
+.modal-backdrop {
+    @include setModalBackdrop();
 }
+
+/*
+    This part is a copy from theme/boost/scss/bootstrap/_modal.scss with customizations.
+*/
+
+// .modal-open      - body class for killing the scroll
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal-content   - actual modal w/ bg and corners and shit
+
+$modal-border-width: 1px !default;
+
+// Kill the scroll on the body
+.modal-open {
+    overflow: hidden;
+}
+
+// Container that the modal scrolls within
+.modal {
+    display: inherit;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-modal;
+    display: inherit;
+    overflow: hidden;
+    // Prevent Chrome on Windows from adding a focus outline. For details, see
+    // https://github.com/twbs/bootstrap/pull/10951.
+    outline: 0;
+    -webkit-overflow-scrolling: touch;
+
+    // When fading in the modal, animate it to slide down
+    &.fade .modal-dialog {
+        transition: transform .3s ease-out;
+        transform: translate(0, -25%);
+    }
+    &.in .modal-dialog { transform: translate(0, 0); }
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: $space-xsmall;
+}
+
+// Actual modal
+.modal-content {
+    position: relative;
+    background-color: $modal-content-bg;
+    background-clip: padding-box;
+    border: $modal-border-width solid $modal-content-border-color;
+    @include border-radius(.3rem);
+    @include box-shadow(0 3px 9px rgba(0,0,0,.5));
+    // Remove focus outline from opened modal
+    outline: 0;
+}
+
+// Modal background
+.modal-backdrop {
+    // Fade for backdrop
+    &.fade { opacity: 0; }
+    &.in { opacity: $modal-backdrop-opacity; }
+}
+
+// Modal header
+// Top section of the modal w/ title and dismiss
+.modal-header {
+    padding: 8px;
+    border-bottom: $modal-border-width solid $modal-header-border-color;
+    @include clearfix;
+    
+    h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+            
+    // Close icon
+    .close {
+        color: $brand-gray-dark;
+        margin: 0;
+        border-style: none;
+        border-radius: 4px;
+        box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.25) inset,
+            0 2px 0 rgba(255, 255, 255, 0.30) inset,
+            0 1px 2px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+            background-position: 0 0;
+        }
+
+        &:active {
+            background-position: 0 0;
+        }
+
+        &:focus {
+            background-position: 0 0;
+        }
+    }
+}
+
+// Title text within header
+.modal-title {
+    margin: 0;
+    line-height: $modal-title-line-height;
+}
+
+// Modal body
+// Where all modal content resides (sibling of .modal-header and .modal-footer)
+.modal-body {
+    position: relative;
+    padding: $modal-inner-padding;
+}
+
+// Footer (for actions)
+.modal-footer {
+    padding: 8px;
+    text-align: right; // right align buttons
+    border-top: $modal-border-width solid $modal-footer-border-color;
+    @include clearfix(); // clear it in case folks use .pull-* classes on buttons
+}
+
+// Measure scrollbar width for padding body during modal show/hide
+.modal-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+}
+
+// Scale up the modal
+@media (min-width: $screen-sm) {
+    // Automatically set modal's width for larger viewports
+    .modal-dialog {
+        max-width: $modal-md;
+        margin: 30px auto;
+    }
+
+    .modal-content {
+        @include box-shadow(0 5px 15px rgba(0,0,0,.5));
+    }
+
+    .modal-sm { max-width: $modal-sm; }
+}
+
+@media (min-width: $screen-lg) {
+    .modal-lg { max-width: $modal-lg; }
+}
+
+

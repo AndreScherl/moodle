@@ -15030,9 +15030,9 @@ category-box:
 }
 #page-navbar .breadcrumb-nav {
   margin-bottom: 0;
+  padding: 20px 0 20px;
 }
 #page-navbar .breadcrumb-nav .breadcrumb {
-  padding: 20px 0 20px;
   border-radius: 0;
   background: transparent;
   font-size: 0.75em;
@@ -18334,12 +18334,12 @@ input[type="checkbox"] + label {
     height: 470px;
   }
 }
-/*
-    This file is a copy from theme/bootstrapbase/less/moodle/modal.less with customizations.
-*/
 /* 
     Created on : 27.01.2017
     Author     : Franziska Hübler, ISB
+*/
+/*
+    This part is a copy from theme/bootstrapbase/less/moodle/modal.less with customizations.
 */
 body.modal-open {
   overflow: hidden;
@@ -18372,7 +18372,6 @@ body.modal-open {
 }
 .modal-container .modal .modal-header {
   min-height: 13px;
-  padding: 5px;
   font-size: 12px;
   font-weight: normal;
   letter-spacing: 1px;
@@ -18387,15 +18386,6 @@ body.modal-open {
   border-radius: 10px 10px 0 0;
   position: relative;
 }
-.modal-container .modal .modal-header h3 {
-  font-size: 12px;
-  font-weight: normal;
-  letter-spacing: 1px;
-  line-height: 20px;
-}
-.modal-container .modal .modal-header h3:focus {
-  outline: none;
-}
 .modal-container .modal .modal-header .close {
   position: absolute;
   top: 5px;
@@ -18404,22 +18394,9 @@ body.modal-open {
   height: 15px;
   line-height: 15px;
   font-size: 15px;
-  margin: 0;
-  opacity: 1;
   background-image: url([[pix:theme|sprite]]);
   background-repeat: no-repeat;
-  border-style: none;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
-}
-.modal-container .modal .modal-header .close:hover {
-  background-position: 0 0;
-}
-.modal-container .modal .modal-header .close:active {
-  background-position: 0 0;
-}
-.modal-container .modal .modal-header .close:focus {
-  background-position: 0 0;
+  opacity: 1;
 }
 .modal-container .modal .modal-body {
   max-height: none;
@@ -18428,7 +18405,6 @@ body.modal-open {
 .modal-container .modal .modal-footer {
   border-top: 1px solid #bbb;
   text-align: center;
-  padding: .7em 0;
   background-color: #e6e6e6;
   box-shadow: none;
   border-radius: 0 0 10px 10px;
@@ -18441,6 +18417,294 @@ body.modal-open {
   z-index: 4049;
   background-color: #aaa;
   opacity: 0.4;
+}
+
+/*
+    This part is a copy from theme/boost/scss/bootstrap/_modal.scss with customizations.
+*/
+.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  display: inherit;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: inherit;
+  overflow: hidden;
+  outline: 0;
+  -webkit-overflow-scrolling: touch;
+}
+.modal.fade .modal-dialog {
+  transition: transform .3s ease-out;
+  transform: translate(0, -25%);
+}
+.modal.in .modal-dialog {
+  transform: translate(0, 0);
+}
+
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-border-radius: 0.3rem;
+  -webkit-border-radius: 0.3rem;
+  border-radius: 0.3rem;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  outline: 0;
+}
+
+.modal-backdrop.fade {
+  opacity: 0;
+}
+.modal-backdrop.in {
+  opacity: 0.5;
+}
+
+.modal-header {
+  padding: 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.modal-header:before, .modal-header:after {
+  content: " ";
+  display: table;
+}
+.modal-header:after {
+  clear: both;
+}
+.modal-header h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.modal-header h3:focus {
+  outline: none;
+}
+.modal-header .close {
+  color: #333333;
+  margin: 0;
+  border-style: none;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.modal-header .close:hover {
+  background-position: 0 0;
+}
+.modal-header .close:active {
+  background-position: 0 0;
+}
+.modal-header .close:focus {
+  background-position: 0 0;
+}
+
+.modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+
+.modal-body {
+  position: relative;
+  padding: 15px;
+}
+
+.modal-footer {
+  padding: 8px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.modal-footer:before, .modal-footer:after {
+  content: " ";
+  display: table;
+}
+.modal-footer:after {
+  clear: both;
+}
+
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 600px;
+    margin: 30px auto;
+  }
+
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-sm {
+    max-width: 300px;
+  }
+}
+@media (min-width: 1200px) {
+  .modal-lg {
+    max-width: 900px;
+  }
+}
+/*
+    This file is a copy from theme/bootstrapbase/less/moodle/tool_usertours.less with customizations.
+*/
+/* 
+    Created on : 01.02.2017
+    Author     : Franziska Hübler, ISB
+*/
+/**
+ * Tour step must sit above all other UI components.
+ * The backdrop is the lowest point in the tour.
+ * Everything else is in the container, and the target background should be at the same z-index.
+ * ----- moodle
+ *  ---- step backdrop
+ *   --- step container
+ *   --- step target background
+ */
+div[data-flexitour="backdrop"] {
+  z-index: 4049;
+  background-color: #aaa;
+  opacity: 0.4;
+  z-index: 4030;
+}
+
+div[data-flexitour="step-background-fader"],
+div[data-flexitour="step-background"] {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  z-index: 4031;
+}
+
+span[data-flexitour="container"],
+div[data-flexitour="step-background-fader"],
+[data-flexitour="step-backdrop"] > td,
+[data-flexitour="step-backdrop"] {
+  z-index: 4032;
+}
+
+span[data-flexitour="container"] {
+  margin: 0 8px;
+}
+span[data-flexitour="container"]:focus {
+  outline: none;
+}
+span[data-flexitour="container"] div[data-role="flexitour-step"] {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+span[data-flexitour="container"] div[data-role="flexitour-step"] > div {
+  display: block;
+  margin: 0;
+}
+span[data-flexitour="container"] .modal {
+  position: static;
+  margin-left: 0;
+}
+span[data-flexitour="container"] div[data-role="arrow"] {
+  border-width: 11px;
+}
+span[data-flexitour="container"] div[data-role="arrow"]:after {
+  content: " ";
+}
+span[data-flexitour="container"] div[data-role="arrow"],
+span[data-flexitour="container"] div[data-role="arrow"]:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 10px;
+}
+span[data-flexitour="container"][x-placement="top"], span[data-flexitour="container"][x-placement="top-start"] {
+  margin-bottom: 10px;
+}
+span[data-flexitour="container"][x-placement="top"] div[data-role="arrow"], span[data-flexitour="container"][x-placement="top-start"] div[data-role="arrow"] {
+  bottom: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: rgba(0, 0, 0, 0.25);
+}
+span[data-flexitour="container"][x-placement="top"] div[data-role="arrow"]:after, span[data-flexitour="container"][x-placement="top-start"] div[data-role="arrow"]:after {
+  bottom: 1px;
+  margin-left: -10px;
+  content: " ";
+  border-bottom-width: 0;
+  border-top-color: #fff;
+}
+span[data-flexitour="container"][x-placement="bottom"], span[data-flexitour="container"][x-placement="bottom-start"] {
+  margin-top: 10px;
+}
+span[data-flexitour="container"][x-placement="bottom"] div[data-role="arrow"], span[data-flexitour="container"][x-placement="bottom-start"] div[data-role="arrow"] {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+}
+span[data-flexitour="container"][x-placement="bottom"] div[data-role="arrow"]:after, span[data-flexitour="container"][x-placement="bottom-start"] div[data-role="arrow"]:after {
+  top: 1px;
+  margin-left: -10px;
+  content: " ";
+  border-top-width: 0;
+  border-bottom-color: #fff;
+}
+span[data-flexitour="container"][x-placement="left"], span[data-flexitour="container"][x-placement="left-start"] {
+  margin-right: 10px;
+}
+span[data-flexitour="container"][x-placement="left"] div[data-role="arrow"], span[data-flexitour="container"][x-placement="left-start"] div[data-role="arrow"] {
+  right: -11px;
+  top: 50%;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+span[data-flexitour="container"][x-placement="left"] div[data-role="arrow"]:after, span[data-flexitour="container"][x-placement="left-start"] div[data-role="arrow"]:after {
+  right: 1px;
+  margin-top: -10px;
+  content: " ";
+  border-right-width: 0;
+  border-left-color: #fff;
+}
+span[data-flexitour="container"][x-placement="right"], span[data-flexitour="container"][x-placement="right-start"] {
+  margin-left: 10px;
+}
+span[data-flexitour="container"][x-placement="right"] div[data-role="arrow"], span[data-flexitour="container"][x-placement="right-start"] div[data-role="arrow"] {
+  left: -11px;
+  top: 50%;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+span[data-flexitour="container"][x-placement="right"] div[data-role="arrow"]:after, span[data-flexitour="container"][x-placement="right-start"] div[data-role="arrow"]:after {
+  left: 1px;
+  margin-top: -10px;
+  content: " ";
+  border-left-width: 0;
+  border-right-color: #fff;
 }
 
 /** To check whether styles are necessary:

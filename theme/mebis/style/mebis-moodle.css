@@ -16752,6 +16752,16 @@ button {
   white-space: normal;
 }
 
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+  color: #000;
+}
+
+input[type="submit"].disabled, input[type="submit"][disabled],
+input[type="reset"].disabled,
+input[type="reset"][disabled] {
+  color: #000;
+}
+
 .alert-info {
   background-color: #ff6600;
   border-color: #ff6600;
@@ -16980,6 +16990,17 @@ input[type="checkbox"] + label {
   background: #fff;
 }
 #page-lib-editor-atto-plugins-managefiles-manage .file-picker .fp-repo-items {
+  background-color: #fff;
+}
+
+.user-enroller-panel {
+  background-color: #fff;
+  border: 1px solid #999999;
+}
+.user-enroller-panel h2 {
+  font-size: 1.5em;
+}
+.user-enroller-panel .list-group-item {
   background-color: #fff;
 }
 
@@ -18375,7 +18396,6 @@ body.modal-open {
   font-size: 12px;
   font-weight: normal;
   letter-spacing: 1px;
-  color: #333;
   text-align: center;
   text-shadow: 1px 1px 1px #fff;
   border-bottom: 1px solid #bbb;
@@ -18479,6 +18499,7 @@ body.modal-open {
 }
 
 .modal-header {
+  color: #333333;
   padding: 8px;
   border-bottom: 1px solid #e5e5e5;
 }

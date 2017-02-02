@@ -70,6 +70,22 @@ button {
     white-space: normal;
 }
 
+.btn {
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        color: $black;
+    }
+}
+
+input[type="submit"],
+input[type="reset"] {
+    &.disabled,
+    &[disabled] {
+        color: $black;
+    }
+}
+
 // general styles ordered alphabetically.
 .alert-info {
     background-color: $brand-secondary;

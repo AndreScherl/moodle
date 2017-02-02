@@ -25,3 +25,4 @@ require_once('renderers/block_settings_renderer.php');
 require_once('renderers/block_mbstpl_renderer.php');
 require_once('renderers/core_backup_renderer.php');
 require_once('renderers/block_mbsnews_renderer.php');
+require_once('renderers/mod_hvp_renderer.php');

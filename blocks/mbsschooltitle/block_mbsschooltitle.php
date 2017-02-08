@@ -47,9 +47,10 @@ class block_mbsschooltitle extends block_base {
         return $this->content;
     }
 
-    /** get all the data necessary for displaying a correct header. Note that this
+    /**
+     *  Get all the data necessary for displaying a correct header. Note that this
      *  depends on the given context:
-     * 
+     *
      *  context_user: return data from school category where user belongs to.
      *  context_course: return data from school category, where course is in.
      *  context_category: return data from school category of the subtree,
@@ -82,38 +83,50 @@ class block_mbsschooltitle extends block_base {
                 break;
 
             default:
-                $schoolcatid = SITEID;
+                $schoolcatid = 0;
                 break;
         }
 
-        if (!empty($schoolcatid)) {
-
-            if ($titledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $schoolcatid))) {
-
-                $titledata->usersschoolid = $usersschoolcatid;
-                $titledata->imageurl = \block_mbsschooltitle\local\imagehelper::get_imageurl($schoolcatid, $titledata->image);
-                $titledata->editurl = $this->get_editurl($schoolcatid);
-
-                return $titledata;
-            }
-        } 
-        
         $titledata = new stdClass();
-        $titledata->categoryid = 0;
+        $titledata->categoryid = $schoolcatid;
+        $titledata->usersschoolid = $usersschoolcatid;
         $titledata->imageurl = '';
         $titledata->headline = '';
-        $titledata->usersschoolid = $usersschoolcatid;
-        $titledata->editurl = '';
+
+        // Get the url (or false) to edit schooltitle.
+        // Note that schoolid can have a value of 0, when categories have depth < 3.
+        $titledata->editurl = $this->get_editurl($schoolcatid);
+
+        // Get the data stored in database.
+        if ($schooltitledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $schoolcatid))) {
+
+            $titledata->imageurl = \block_mbsschooltitle\local\imagehelper::get_imageurl($schoolcatid, $schooltitledata->image);
+            $titledata->headline = $schooltitledata->headline;
+        }
+
+        // If headline is still empty, try to get schoolcategory name.
+        if (empty($titledata->headline) && ($category = coursecat::get($schoolcatid, IGNORE_MISSING, true))) {
+            $titledata->headline = $category->name;
+        }
 
         return $titledata;
     }
 
+    /**
+     * Get the edit url for school of user, if possible.
+     *
+     * @param int $schoolcatid
+     * @return boolean false, if user has no capability to edit schooltitle.
+     */
     private function get_editurl($schoolcatid) {
         global $PAGE;
 
-        $schoolcatcontext = context_coursecat::instance($schoolcatid);
-        $showeditinglink = (has_capability('block/mbsschooltitle:edittitle', $schoolcatcontext));
+        // Safe check of context.
+        if (!$schoolcatcontext = context_coursecat::instance($schoolcatid, IGNORE_MISSING)) {
+            return false;
+        }
 
+        $showeditinglink = (has_capability('block/mbsschooltitle:edittitle', $schoolcatcontext));
         if ($showeditinglink) {
 
             $redirecturl = base64_encode($PAGE->url->out());

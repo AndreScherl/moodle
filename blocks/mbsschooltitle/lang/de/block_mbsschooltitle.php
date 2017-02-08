@@ -34,5 +34,5 @@ $string['mbsschhooltitle:addinstance'] = 'Mebis Schultitel hinzufügen';
 $string['mbsschhooltitle:myaddinstance'] = 'Mebis Schultitel zu meiner Startseite hinzufügen';
 $string['mbsschooltitle:edittitle'] = 'Schultitle bearbeiten';
 $string['pluginname'] = 'mebis Schultitel';
-$string['settings'] = 'Einstellungen';
+$string['settings'] = 'Einstellungen für {$a}';
 $string['toschoolcategory'] = 'zum Schulbereich';

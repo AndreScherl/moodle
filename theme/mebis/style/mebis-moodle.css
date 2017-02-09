@@ -14951,16 +14951,6 @@ category-box:
   margin-left: 15px;
   font-weight: normal;
 }
-.wrapper-learning-platform .me-msg-count {
-  position: absolute;
-  background: none repeat scroll 0% 0% #ff6600;
-  border-radius: 5px;
-  font-size: 11px;
-  bottom: 5px;
-  color: #fff;
-  left: 30px;
-  padding: 2px 5px;
-}
 @media only screen and (max-width: 992px) {
   .wrapper-learning-platform .moodle-menu ul.nav > li > a {
     padding: 10px 7px;
@@ -14978,12 +14968,21 @@ category-box:
   }
 }
 @media only screen and (max-width: 768px) {
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav {
+    margin-left: 0;
+  }
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav > li {
+    width: 50px;
+  }
   .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav > li.dropdown {
     position: static;
   }
   .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav > li.dropdown > ul > li {
     font-size: 1.1875em;
     line-height: 200%;
+  }
+  .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav .popover-region-toggle {
+    padding: 10px 7px;
   }
   .wrapper-learning-platform .me-component-nav .moodle-menu ul.nav .dropdown-menu {
     position: absolute;
@@ -16989,6 +16988,7 @@ input[type="checkbox"] + label {
     - moodle-dialogue-base
     - newmessageoverlay
     - user-enroller-panel
+    - hover-tooltip
 */
 /* 
     Created on : 28.05.2015, 13:46:45
@@ -17014,6 +17014,53 @@ input[type="checkbox"] + label {
 }
 .user-enroller-panel .list-group-item {
   background-color: #fff;
+}
+
+.hover-tooltip-container {
+  position: relative;
+}
+.hover-tooltip-container .hover-tooltip {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  /*rtl:ignore*/
+  left: 50%;
+  top: calc(-50% - 5px);
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: .3rem;
+  box-sizing: border-box;
+  padding: 5px;
+  white-space: nowrap;
+  transition: opacity 0.15s, visibility 0.15s;
+  z-index: 1000;
+}
+.hover-tooltip-container .hover-tooltip:before {
+  content: '';
+  display: inline-block;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.2);
+  position: absolute;
+  bottom: -8px;
+  left: calc(50% - 8px);
+}
+.hover-tooltip-container .hover-tooltip:after {
+  content: '';
+  display: inline-block;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #fff;
+  position: absolute;
+  bottom: -6px;
+  left: calc(50% - 7px);
+  z-index: 2;
+}
+.hover-tooltip-container:hover .hover-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.15s 0.5s, visibility 0.15s 0.5s;
 }
 
 @media only screen and (max-width: 992px) {
@@ -18740,6 +18787,381 @@ span[data-flexitour="container"][x-placement="right"] div[data-role="arrow"]:aft
   border-right-color: #fff;
 }
 
+/* 
+    Created on : 09.02.2017
+    Author     : Franziska Hübler, ISB
+*/
+/*
+    This part is a copy from theme/boost/scss/moodle/popover-region.scss with customizations.
+*/
+.popover-region {
+  float: right;
+  position: relative;
+}
+.popover-region.collapsed .popover-region-toggle:before, .popover-region.collapsed .popover-region-toggle:after {
+  display: none;
+}
+.popover-region.collapsed .popover-region-container {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.25s, opacity 101ms 0.25s, visibility 101ms 0.25s;
+}
+.popover-region i {
+  font-size: 1.5em;
+  padding-top: 6px;
+  margin: 0;
+}
+.popover-region i.fa-bell-o {
+  font-size: 1.3em;
+  padding-top: 8px;
+}
+
+.popover-region-toggle {
+  cursor: pointer;
+  color: #00a8d5;
+  padding: 10px 15px;
+}
+.popover-region-toggle:hover {
+  color: #ff6600;
+}
+.popover-region-toggle::before {
+  content: '';
+  display: inline-block;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #ddd;
+  position: absolute;
+  bottom: 0;
+  right: 7px;
+}
+.popover-region-toggle::after {
+  content: '';
+  display: inline-block;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid #fff;
+  position: absolute;
+  bottom: -1px;
+  right: 8px;
+  z-index: 2;
+}
+
+.count-container {
+  position: absolute;
+  background: none repeat scroll 0% 0% #ff6600;
+  border-radius: 5px;
+  font-size: 11px;
+  bottom: 5px;
+  color: #fff;
+  left: 30px;
+  padding: 2px 5px;
+}
+
+.popover-region-container {
+  opacity: 1;
+  visibility: visible;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 500px;
+  width: 380px;
+  border: 1px solid #ddd;
+  transition: height 0.25s;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.popover-region-header-container {
+  height: 25px;
+  line-height: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.popover-region-footer-container {
+  height: 30px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
+  padding-top: 3px;
+}
+
+.popover-region-header-text {
+  float: left;
+  margin: 0;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.popover-region-header-actions {
+  float: right;
+}
+.popover-region-header-actions > * {
+  margin-left: 10px;
+  min-width: 20px;
+  display: inline-block;
+}
+.popover-region-header-actions .loading-icon {
+  display: none;
+  height: 12px;
+  width: 12px;
+}
+.popover-region-header-actions .newmessage-link {
+  margin-right: 10px;
+}
+.popover-region-header-actions label {
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.popover-region-content-container {
+  height: calc(100% - 55px);
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.popover-region-content-container > .loading-icon {
+  display: none;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.popover-region-content-container .empty-message {
+  display: none;
+  text-align: center;
+  padding: 10px;
+}
+.popover-region-content-container.loading > .loading-icon {
+  display: block;
+}
+.popover-region-content-container.loading .empty-message {
+  display: none;
+}
+
+.navbar .popover-region {
+  float: right;
+  margin-right: 10px;
+}
+.navbar .popover-region.collapsed .popover-region-container {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.25s, opacity 101ms 0.25s, visibility 101ms 0.25s;
+}
+.navbar .popover-region-toggle {
+  width: 25px;
+}
+.navbar .count-container {
+  padding: 2px;
+  border-radius: 2px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  line-height: 10px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+.navbar .popover-region-container {
+  top: 36.00000001px;
+}
+
+.content-item-container {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 5px;
+  position: relative;
+  margin: 0;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.content-item-container:hover {
+  color: #fff;
+  background-color: #00a8d5;
+}
+.content-item-container:hover .content-item-footer .timestamp {
+  color: #fff;
+}
+.content-item-container.unread {
+  margin: 0;
+}
+.content-item-container.unread:hover {
+  color: #fff;
+  background-color: #00a8d5;
+}
+.content-item-container.unread .content-item-body .notification-message {
+  font-weight: 600;
+}
+.content-item-container .context-link {
+  color: inherit;
+  text-decoration: none;
+}
+.content-item-container .content-item-body {
+  box-sizing: border-box;
+  margin-bottom: 5px;
+}
+.content-item-container .content-item-footer {
+  text-align: left;
+  box-sizing: border-box;
+}
+.content-item-container .content-item-footer .timestamp {
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0;
+  color: #666;
+  margin-left: 24px;
+}
+.content-item-container .view-more {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.content-item-container.notification .content-item-body .notification-image {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  float: left;
+}
+.content-item-container.notification .content-item-body .notification-image img {
+  height: 75%;
+}
+.content-item-container.notification .content-item-body .notification-message {
+  display: inline-block;
+  font-size: 12px;
+  width: calc(100% - 24px);
+}
+.content-item-container.selected {
+  background-color: #00a8d5;
+  color: #fff;
+  border-color: #00a8d5;
+}
+.content-item-container.selected .content-item-footer .timestamp {
+  color: #fff;
+}
+
+.popover-region-notifications .popover-region-header-container .mark-all-read-button .normal-icon {
+  display: inline-block;
+}
+.popover-region-notifications .popover-region-header-container .mark-all-read-button.loading .normal-icon {
+  display: none;
+}
+.popover-region-notifications .popover-region-header-container .mark-all-read-button.loading .loading-icon {
+  display: inline-block;
+}
+.popover-region-notifications .all-notifications {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+  overflow: hidden;
+}
+.popover-region-notifications .all-notifications:empty + .empty-message {
+  display: block;
+}
+.popover-region-notifications .notification-image {
+  display: inline-block;
+  width: 8%;
+  vertical-align: top;
+}
+.popover-region-notifications .notification-image img {
+  height: 75%;
+}
+.popover-region-notifications .notification-message {
+  display: inline-block;
+  font-size: 12px;
+}
+.popover-region-notifications .popover-region-content-container.loading .all-notifications:empty + .empty-message {
+  display: none;
+}
+
+.popover-region-messages .mark-all-read-button .normal-icon {
+  display: inline-block;
+}
+.popover-region-messages .mark-all-read-button.loading .normal-icon {
+  display: none;
+}
+.popover-region-messages .mark-all-read-button.loading .loading-icon {
+  display: inline-block;
+}
+.popover-region-messages .popover-region-content-container.loading .popover-region-content .messages:empty + .empty-message {
+  display: none;
+}
+.popover-region-messages .messages:empty + .empty-message {
+  display: block;
+}
+.popover-region-messages .content-item-container.unread .content-item-body {
+  font-weight: 600;
+  width: calc(90% - 30px);
+}
+.popover-region-messages .content-item-container.unread .unread-count-container {
+  display: inline-block;
+  width: 10%;
+  text-align: center;
+  float: right;
+}
+.popover-region-messages .content-item {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.popover-region-messages .profile-image-container {
+  width: 30px;
+  display: inline-block;
+  text-align: center;
+  float: left;
+}
+.popover-region-messages .profile-image-container img {
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.popover-region-messages .content-item-body {
+  display: inline-block;
+  box-sizing: border-box;
+  width: calc(100% - 30px);
+  font-size: 12px;
+  padding-left: 10px;
+  overflow: hidden;
+}
+.popover-region-messages .content-item-body h3 {
+  font-size: 12px;
+  line-height: 12px;
+  margin: 0;
+  width: 100%;
+}
+.popover-region-messages .content-item-body p {
+  margin: 0;
+}
+.popover-region-messages .unread-count-container {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .nav .popover-region .popover-region-container {
+    right: -70px;
+  }
+}
+@media (max-width: 480px) {
+  .nav .popover-region .popover-region-container {
+    position: fixed;
+    top: 46px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+  }
+}
 /** To check whether styles are necessary:
 
 TODO: need to check whether some style are necessary, kept for documentation

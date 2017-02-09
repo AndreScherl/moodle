@@ -101,3 +101,4 @@ $string['selectonecourse'] = 'Bitte wählen sie mindestens einen Kurs';
 $string['unknownaction'] = 'Unbekannte Aktion';
 
 $string['numberofcourses'] = 'Anzahl gefundener Kurse: {$a}';
+$string['draftfilescronactiv'] = 'Löschen von nicht aufgeräumten "draft"-Files';

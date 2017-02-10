@@ -17672,6 +17672,10 @@ input[type="checkbox"] + label {
 .messaging-area-container .messaging-area .contacts-area .tabs .tab .tabimage img {
   height: 20px;
 }
+.messaging-area-container .messaging-area .contacts-area .tabs .tab .tabimage i.fa {
+  font-size: 1.3em;
+  padding-top: 5px;
+}
 .messaging-area-container .messaging-area .contacts-area .tabs .tab.selected {
   color: #00a8d5;
 }

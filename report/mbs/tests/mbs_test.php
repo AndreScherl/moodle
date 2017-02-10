@@ -24,6 +24,9 @@ defined('MOODLE_INTERNAL') || die();
 
 class report_mbs_testcase extends advanced_testcase {
 
+    private static $countuser = 10;
+    private static $countcourse = 10;
+
     public function test_course_stats() {
 
         $this->resetAfterTest();
@@ -92,5 +95,33 @@ class report_mbs_testcase extends advanced_testcase {
         preg_match_all('/\\(/', $page2->content, $matches);
         $this->assertEquals(3, count($matches[0]));
 
+    }
+
+    public function test_course_stats_performance() {
+
+        $this->resetAfterTest();
+
+        $courses = [];
+        for ($i = 0; $i < self::$countcourse; $i++) {
+            $courses[] = $this->getDataGenerator()->create_course();
+        }
+
+        $users = [];
+        for ($i = 0; $i < self::$countuser; $i++) {
+            $users[] = $this->getDataGenerator()->create_user();
+        }
+
+        //Enrol users into courses.
+        foreach ($courses as $course) {
+            foreach ($users as $user) {
+                $this->getDataGenerator()->enrol_user($user->id, $course->id);
+            }
+        }
+
+        $timestart = microtime(true);
+        \report_mbs\local\reportcourses::sync_courses_stats();
+        $timeelapsed = microtime(true) - $timestart;
+
+        print_r($timeelapsed);
     }
 }

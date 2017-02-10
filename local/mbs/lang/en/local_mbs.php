@@ -29,6 +29,7 @@ $string['mbs:editschoolid'] = 'Edit school ID-Number';
 $string['mbs:globalblockscleanup'] = 'Global cleanup of all (user) blocks';
 $string['mbs:viewcourselist'] = 'View list of courses';
 $string['mbs:viewteacherlist'] = 'View list of teachers on category management page';
+$string['messagetoparticipants'] = 'Message to participants';
 $string['pluginname'] = 'Mebis - Adjustments';
 $string['schoolnode'] = 'My schools';
 

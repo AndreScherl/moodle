@@ -84,4 +84,10 @@ if ($ADMIN->fulltree) {
             new admin_setting_configtext('report_mbs/depthcategories',
                     get_string('depthcategories', 'report_mbs'),
                     get_string('depthcategoriesdesc', 'report_mbs'), 3, PARAM_INT));
+
+     $settings->add(
+            new admin_setting_configcheckbox('report_mbs/draftfilescronactiv',
+                    get_string('draftfilescronactiv', 'report_mbs'),
+                    '', 0));
+
 }

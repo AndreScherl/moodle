@@ -250,7 +250,7 @@ class reportcourses {
         $params = array('coursecontextlevel' => CONTEXT_COURSE);
 
         // Restrict to coursecontext.
-        $cond[] = "((".$DB->sql_like('cx.path', ':contextpath1', false, false).") OR (cx.path = :contextpath2))";
+        $cond[] = "((" . $DB->sql_like('cx.path', ':contextpath1', false, false) . ") OR (cx.path = :contextpath2))";
         $params['contextpath1'] = $coursecontextpath . '/%';
         $params['contextpath2'] = $coursecontextpath;
 
@@ -373,7 +373,7 @@ class reportcourses {
         }
 
         // Get courses to update.
-        $updatecourseids = $DB->get_records('report_mbs_course', array(), 'timelastsync DESC', 'courseid', 0, $maxcount);
+        $updatecourseids = $DB->get_records('report_mbs_course', array(), 'timelastsync ASC', 'courseid', 0, $maxcount);
         $countupdated = 0;
         if (!empty($updatecourseids)) {
             $countupdated = self::update_course_stats_data(array_keys($updatecourseids));
@@ -519,6 +519,31 @@ class reportcourses {
         }
 
         return array_values($catmenu);
+    }
+
+    /**
+     * Delete the draft files, that will never be deleted by core cleanup trash task because
+     * for that files the directory entry "." is missing.
+     */
+    public static function delete_old_draftfiles() {
+        global $DB;
+
+        $fs = get_file_storage();
+
+        mtrace('Deleting old draft files with missing folder... ', '');
+        cron_trace_time_and_memory();
+
+        $old = time() - 60 * 60 * 24 * 8;
+        $sql = "SELECT *
+                FROM {files}
+                WHERE component = 'user' AND filearea = 'draft' AND timecreated < :old";
+
+        $rs = $DB->get_recordset_sql($sql, array('old' => $old), 0, 200);
+        foreach ($rs as $filerecord) {
+            $fs->get_file_instance($filerecord)->delete();
+        }
+        $rs->close();
+        mtrace('done.');
     }
 
 }

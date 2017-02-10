@@ -46,29 +46,29 @@ $PAGE->set_pagelayout('admin');
 $titledata = $DB->get_record('block_mbsschooltitle', array('categoryid' => $categoryid));
 
 if (empty($redirecturl)) {
-    
+
     $url = new moodle_url('/course/index.php', array('categoryid' => $categoryid));
     $redirecturl = $url->out();
-    
+
 } else {
     $redirecturl = clean_param(base64_decode($redirecturl), PARAM_URL);
 }
 
-$edittitleform = new edittitle_form($pageurl, array('categoryid' => $categoryid, 'titledata' => $titledata, 'redirecturl' => $redirecturl));
+$edittitleform = new edittitle_form($pageurl, array('category' => $category, 'titledata' => $titledata, 'redirecturl' => $redirecturl));
 
 if ($data = $edittitleform->get_data()) {
-    
+
     if ($titledata) {
-        
+
         $titledata->headline = $data->headline;
         $titledata->timemodified = time();
         $DB->update_record('block_mbsschooltitle', $titledata);
-        
+
     } else {
         $data->timemodified = time();
         $DB->insert_record('block_mbsschooltitle', $data);
     }
-    
+
     \block_mbsschooltitle\local\imagehelper::update_picture($edittitleform, $data, $categoryid);
     redirect($redirecturl);
 }

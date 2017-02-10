@@ -110,3 +110,4 @@ $string['selectonecourse'] = 'Please select at least one course';
 $string['unknownaction'] = 'Unkown action';
 
 $string['numberofcourses'] = 'Number of courses found: {$a}';
+$string['draftfilescronactiv'] = 'Cron for trashing draft files without folder';

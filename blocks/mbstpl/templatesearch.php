@@ -46,6 +46,10 @@ if (!mbst\perms::can_searchtemplates()) {
     throw new moodle_exception('errorcannotsearch', 'block_mbstpl');
 }
 
+// Adding breadcrumb navigation. 
+$node = $PAGE->navbar->add(get_string('templatesearch', 'block_mbstpl'));
+$node->make_active();
+
 // Load questions.
 $qidlist = \block_mbstpl\questman\manager::get_searchqs();
 $questions = \block_mbstpl\questman\manager::get_questsions_in_order($qidlist);

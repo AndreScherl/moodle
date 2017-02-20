@@ -9,6 +9,7 @@
     - forum
     - game
     - glossary
+    - hvp
     - lesson
     - page
     - wiki
@@ -526,4 +527,15 @@ div.que.geogebra {
             }
         }        
     }
+}
+/* ============================= H5P Twitter Icon invisible ============================= */
+
+.h5p-course-presentation .h5p-summary-twitter-message > span, 
+.h5p-course-presentation .h5p-summary-facebook-message > span,
+.h5p-summary-twitter-message {
+    display: none;
+}
+
+.h5p-course-presentation .h5p-summary-twitter-message::before {
+    content: ""  
 }

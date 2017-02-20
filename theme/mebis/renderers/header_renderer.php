@@ -28,6 +28,7 @@ require_once($CFG->dirroot . "/lib/outputrenderers.php");
 require_once($CFG->dirroot . "/lib/navigationlib.php");
 require_once($CFG->dirroot . "/user/lib.php");
 require_once($CFG->dirroot . "/local/mbs/lib.php");
+require_once($CFG->dirroot . "/message/output/popup/lib.php");
 
 class theme_mebis_header_renderer extends renderer_base {
 
@@ -657,18 +658,13 @@ class theme_mebis_header_renderer extends renderer_base {
      * @return String Html string of the menubar
      */
     public function main_menubar() {
+        global $PAGE;
+        
         $content = '';
 
         // Messages menu item.
-        $unreadMessages = '';
-        if (message_count_unread_messages() > 0) {
-            $unreadMessages = html_writer::tag('span', message_count_unread_messages(), array('class' => 'me-msg-count'));
-        }
-
-        $url = new moodle_url('/message/index.php');
-        $text = html_writer::tag('i', '', array('class' => 'fa fa-bullhorn')) . $unreadMessages;
-        $messageslink = html_writer::link($url, $text, array('class' => 'me-component-nav-mobile-spacer'));
-        $content .= html_writer::tag('li', $messageslink);
+        $messagerenderer = $PAGE->get_renderer('core', 'message');
+        $content .= message_popup_render_navbar_output($messagerenderer);
 
         // Files menu item.
         $url = new moodle_url('/user/files.php');
@@ -713,8 +709,8 @@ class theme_mebis_header_renderer extends renderer_base {
 
         // add all the course related administration stuff.
         $content .= $this->render_menubar_courseadmin_menu();
-
-        $contentlist = html_writer::tag('ul', $content, array('class' => 'nav'));
+        
+        $contentlist = html_writer::tag('ul', $content, array('class' => 'nav'));         
         return html_writer::div($contentlist, 'moodle-menu');
     }
 

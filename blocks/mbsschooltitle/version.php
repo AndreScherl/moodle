@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Versioninformation of mbsschooltitle
+ * Version information of mbsschooltitle
  *
  * @package   block_mbsschooltitle
  * @copyright Andreas Wagner, ISB Bayern
@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015071601;       
-$plugin->requires  = 2014051201;       
-$plugin->component = 'block_mbsschooltitle'; 
+$plugin->version   = 2017020800;
+$plugin->requires  = 2014051201;
+$plugin->component = 'block_mbsschooltitle';
 $plugin->depencies = array('local_mbs' => ANY_VERSION);
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '2.7+ (Build: 2015011601)';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '3.1';

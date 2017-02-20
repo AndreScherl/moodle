@@ -109,6 +109,14 @@ function local_mbs_extend_settings_navigation(settings_navigation $navigation, c
         }
         
     }
+    
+    if (has_capability('moodle/course:create', $context)) {
+        $courseadmin = $navigation->get('courseadmin');
+        if ($courseadmin && $courseadmin->get('users')) {
+            $link = new \moodle_url('/user/index.php', array('id' => $COURSE->id));
+            $courseadmin->get('users')->add(get_string('messagetoparticipants', 'local_mbs'), $link);
+        }        
+    }
 }
 
 /**

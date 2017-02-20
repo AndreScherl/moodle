@@ -38,6 +38,13 @@ class report_course_stats extends \core\task\scheduled_task {
         if (!empty($coursestatscronactiv)) {
             \report_mbs\local\reportcourses::sync_courses_stats();
         }
+
+        // Delete old draftfile, that have no directory folder.
+        $draftfilescronactiv = get_config('report_mbs', 'draftfilescronactiv');
+
+        if (!empty($draftfilescronactiv)) {
+            \report_mbs\local\reportcourses::delete_old_draftfiles();
+        }
     }
 
 }

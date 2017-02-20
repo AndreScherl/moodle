@@ -34,5 +34,5 @@ $string['mbsschooltitle:addinstance'] = 'Add mebis school title';
 $string['mbsschooltitle:myaddinstance'] = 'Add mebis school title to my moodle';
 $string['mbsschooltitle:edittitle'] = 'Edit the title for a school';
 $string['pluginname'] = 'Mebis title for School';
-$string['settings'] = 'Settings';
+$string['settings'] = 'Settings for {$a}';
 $string['toschoolcategory'] = 'go to category of my school';

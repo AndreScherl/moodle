@@ -37,6 +37,10 @@ class block_mbsstatistics extends block_base {
     public function get_content() {
         global $PAGE;
         
+        if (!is_siteadmin()) {
+            return;
+        }
+        
         if ($this->content !== null) {
             return $this->content;
         }
@@ -60,7 +64,7 @@ class block_mbsstatistics extends block_base {
      * @return array
      */
     public function applicable_formats() {
-        return array('my-index' => true);
+        return array('my' => true);
     }
     
 }

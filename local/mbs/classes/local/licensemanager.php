@@ -91,10 +91,12 @@ class licensemanager {
 
         $recordsoutput = array();
         // get licenses by conditions
-        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $paramuserl)) {
-            $recordsoutput = $records;
+        if ($records = $DB->get_records('license', $paramcorel, 'fullname')) {
+            foreach ($records as $record) {
+                array_push($recordsoutput, $record);
+            }
         }
-        if ($records = $DB->get_records('license', $paramcorel)) {
+        if ($records = $DB->get_records('local_mbslicenseinfo_ul', $paramuserl, 'fullname')) {
             foreach ($records as $record) {
                 array_push($recordsoutput, $record);
             }
@@ -416,10 +418,10 @@ class licensemanager {
         self::add($license);
 
         $license->shortname = 'gemeinfrei';
-        $license->fullname = 'gemeinfrei (gemäß §§ 5, 64-69, 70, 72 UrhG)';
-        $license->source = '';
+        $license->fullname = 'Gemeinfrei (gemäß §§ 5, 64-69, 70, 72 UrhG)';
+        $license->source = 'https://www.gesetze-im-internet.de/urhg/';
         $license->enabled = 1;
-        $license->version = '2015120900';
+        $license->version = '2017012700';
         $active_licenses[] = $license->shortname;
         self::add($license);
         
@@ -431,6 +433,62 @@ class licensemanager {
         $active_licenses[] = $license->shortname;
         self::add($license);
 
+        $license->shortname = 'geschuetzt';
+        $license->fullname = 'Urheberrechtlich geschützt';
+        $license->source = 'https://www.gesetze-im-internet.de/urhg/__15.html';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc4';
+        $license->fullname = 'CC BY 4.0';
+        $license->source = 'https://creativecommons.org/licenses/by/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nd4';
+        $license->fullname = 'CC BY-ND 4.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nd/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc-nd4';
+        $license->fullname = 'CC BY-NC-ND 4.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc-nd/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc4';
+        $license->fullname = 'CC BY-NC 4.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-nc-sa4';
+        $license->fullname = 'CC BY-NC-SA 4.0';
+        $license->source = 'http://creativecommons.org/licenses/by-nc-sa/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+
+        $license->shortname = 'cc-sa4';
+        $license->fullname = 'CC BY-SA 4.0';
+        $license->source = 'http://creativecommons.org/licenses/by-sa/4.0/';
+        $license->enabled = 1;
+        $license->version = '2017012700';
+        $active_licenses[] = $license->shortname;
+        self::add($license);
+        
         set_config('licenses', implode(',', $active_licenses));
     }
 

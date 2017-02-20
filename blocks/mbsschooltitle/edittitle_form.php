@@ -29,10 +29,10 @@ class edittitle_form extends moodleform {
         global $CFG;
 
         $mform = $this->_form;
-        $categoryid = $this->_customdata['categoryid'];
+        $category = $this->_customdata['category'];
         $titledata = $this->_customdata['titledata'];
 
-        $mform->addElement('header', 'headersettings', get_string('settings', 'block_mbsschooltitle'));
+        $mform->addElement('header', 'headersettings', get_string('settings', 'block_mbsschooltitle', $category->name));
 
         $mform->addElement('text', 'headline', get_string('headline', 'block_mbsschooltitle'), array('size' => '70'));
         if (isset($titledata->headline)) {
@@ -42,10 +42,10 @@ class edittitle_form extends moodleform {
 
         $file = false;
         if (!empty($titledata->image)) {
-            $file = \block_mbsschooltitle\local\imagehelper::get_imagefile($categoryid, $titledata->image);
+            $file = \block_mbsschooltitle\local\imagehelper::get_imagefile($category->id, $titledata->image);
         }
-        
-        $currentpicture = $this->render_currentimage($categoryid, $file);
+
+        $currentpicture = $this->render_currentimage($category->id, $file);
         $mform->addElement('static', 'currentpicture', get_string('currentpicture'), $currentpicture);
 
         if ($file) {
@@ -55,9 +55,9 @@ class edittitle_form extends moodleform {
 
         $mform->addElement('filepicker', 'imagefile', get_string('newpicture'), '', array('maxbytes' => get_max_upload_file_size($CFG->maxbytes)));
 
-        $mform->addElement('hidden', 'categoryid', $categoryid);
+        $mform->addElement('hidden', 'categoryid', $category->id);
         $mform->setType('categoryid', PARAM_INT);
-        
+
         // Buttons.
         $this->add_action_buttons(true);
     }
@@ -67,13 +67,13 @@ class edittitle_form extends moodleform {
         if (!$file) {
             return get_string('none');
         }
-        
+
         $imgurl = \block_mbsschooltitle\local\imagehelper::get_imageurl($categoryid, $file->get_filename());
-        
+
         $alt = get_string('imagepreview', 'block_mbsschooltitle');
         $attributes = array('src' => $imgurl.'?'.time(), 'alt' => $alt, 'title' => $alt);
-        
+
         return html_writer::empty_tag('img', $attributes);
-        
+
     }
 }

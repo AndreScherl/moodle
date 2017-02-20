@@ -11,7 +11,7 @@ class theme_mebis_mod_hvp_renderer extends mod_hvp_renderer {
 		$styles = array();
 		if (isset($libraries['H5P.CoursePresentation']) && $libraries['H5P.CoursePresentation']['majorVersion'] == '1') {
 			$styles[] = (object) array(
-					'path' => $CFG->httpswwwroot.'/theme/mebis/style/h5p_cp_overrides.css',
+					'path' => $CFG->httpswwwroot.'/theme/mebis/style/mebis-moodle.css',
 					'version' => '',
 			);
 		}

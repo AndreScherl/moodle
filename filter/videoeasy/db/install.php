@@ -15,19 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * filter videoeasy installation tasks
  *
- * @package    filter
- * @subpackage videoeasy
- * @copyright  2014 Justin Hunt <poodllsupport@gmail.com>
+ * @package    filter_videoeasy
+ * @copyright  2016 Justin Hunt {@link http://poodll.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016120901;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015051100;        // Requires this Moodle version
-$plugin->component = 'filter_videoeasy'; // Full name of the plugin (used for diagnostics)
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.1.14(Build 2016120901)';
-
+require_once($CFG->dirroot . '/filter/videoeasy/locallib.php');
+/**
+ * Install the plugin.
+ */
+function xmldb_filter_videoeasy_install() {
+	$admin_presets = new admin_setting_videoeasypresets('filter_videoeasy/templatepresets_0', 
+				'presets', '',0);
+    $presets = $admin_presets->fetch_presets();
+	$forinstall = array('fff');
+	$templateindex=0;
+	foreach($presets as $preset){			
+		if(in_array($preset['key'],$forinstall)){
+			$templateindex++;
+			//set the config
+			$admin_presets->set_preset_to_config($preset,$templateindex);
+		}
+	}//end of for each presets	
+}

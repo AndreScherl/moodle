@@ -1,5 +1,42 @@
 Change List
 =========
+Version 2016120901
+-added support for "player" parameter to the URL so that the player can be specified via the 
+video url. e.g <a href="blah/blah.mp4?player=flowplayer">blah.mp4</a>
+
+Version 2016112801
+-fixed a bug where html from template processed but not sent to page, and js looking for it
+
+Version 2016111901
+-fixed a bug on webservice detection for mobile/alternate content
+-added 2 new presets, pdfinline and flowplayersubtitle and added crossorigin
+to videoeasytranscript
+
+Version 2016110902
+Fixed broken support for importing/exporting bundles containing "alternate content" fields
+
+Version 2016110901
+Added "alternate content" field for falling back to on mobile app
+
+Version 2016082006
+Added property FILENAMESTUB
+
+Version 2016082005
+Fixed a bug killing shim for uploaded js file
+
+Version 2016082004
+Fixed another problem on new installs where an error occurred adding a default template
+
+Version 2016082003
+Fixed another problem on new installs where an error occurred adding a default template
+
+Version 2016082002
+Fixed a problem on new installs where an error occurred adding a default template
+
+
+Version 2016082001
+Added shimming and loading of presets from bundle files in videoeasy dir. 
+Also removed the ablity to declare a jquery dependency. You should use shimming instead
 
 Version 2016011102
 Fixed bug where uploaded JS and CSS files would not be served correctly, and the filter would fail

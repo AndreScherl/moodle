@@ -36,15 +36,13 @@ $string['template_desc'] = 'Put the template here, define variables by surroundi
 $string['templatescript'] = ' load script';
 $string['templatescript_desc'] = 'Put the load script (if any) here, define variables by surrounding them with @@ marks at either end. eg @@variable@@';
 $string['templaterequirejs'] = ' javascript URL';
-$string['templaterequirejs_desc'] = 'Almost all the players require script tags in the page header. Just put the URL here.';
+$string['templaterequirejs_desc'] = 'This is the URL of any required javascript library. Try to start with // .';
 $string['templaterequirecss'] = ' CSS URL';
-$string['templaterequirecss_desc'] = 'Some players require CSS tags in the page header. Just put the URL here.';
+$string['templaterequirecss_desc'] = 'This is the URL of any required CSS file. Try to start with // .';
 $string['templatename'] = 'Template Name';
 $string['templatename_desc'] = 'The name of this template.';
 $string['templatekey'] = 'Template Key';
-$string['templatekey_desc'] = 'The id that identifies this template. Must be unique on the site. Users never see this. If you change it you will need to reallocate the template/player to the appropriate file extension. Try not to change it.';
-$string['templaterequirejquery'] = ' needs JQuery';
-$string['templaterequirejquery_desc'] = 'Please do NOT check this. Some players(eg mediaelement and flowplayer) require JQuery. Checking here will load JQuery, but not very well. Your theme may already load JQuery anyway. If not, add this string to Site Administration -> Appearance -> Additional HTML (within HEAD):<br/> &lt;script src="https://code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;';
+$string['templatekey_desc'] = 'The id that identifies this template. Must be unique on the site. Users never see this. If you change it you will need to reallocate the template/player to the appropriate file extension. Try not to change it. Use alphanumeric characters only (no spaces)';
 $string['templatedefaults'] = ' defaults';
 $string['templatedefaults_desc'] = 'Default values for custom variables in the template/script. Usually just width, and height. Enter comma delimited sets of name=value pairs. eg width=800,height=900,feeling=joy';
 $string['useplayer'] = '{$a} Player';
@@ -74,8 +72,6 @@ $string['uploadjs'] = 'Upload JS';
 $string['uploadjs_desc'] = 'You can upload one js library file which will be loaded for your template. Only one.';
 $string['templaterequire_amd'] = 'Load via AMD';
 $string['templaterequire_amd_desc'] = 'AMD is a javascript loading mechanism. If you upload or link to javascript libraries in your template, you might have to uncheck this. It only applies if on Moodle 2.9 or greater';
-$string['jqueryurl'] = 'JQuery URL';
-$string['jqueryurl_desc'] = 'The URL VideoEasy will be used when adding jquery to the host page. Defaults to the CDN hosted version. If your site does not have internet access you will probably need to point this to a location on your Moodle server. Do not start with http: or https:. Begin the url with //. It only applies if not using AMD, since AMD always loads JQuery.';
 $string['uploadcss'] = 'Upload CSS';
 $string['uploadcss_desc'] = 'You can upload one CSS file which will be loaded for your template. Only one.';
 $string['defaultposterimage']='Default poster image';
@@ -89,3 +85,11 @@ $string['presets'] = 'Autofill template with a Preset';
 $string['presets_desc'] = 'VideoEasy comes with some default presets you can use out of the box, or to help you get started with your own template. Choose one of those here, or just create your own template from scratch. You can export a template as a bundle by clicking on the green box above. You can import a bundle by dragging it onto the green box.';
 
 $string['bundle'] = 'Bundle';
+
+$string['templateuploadjsshim'] = 'Upload Shim export';
+$string['templateuploadjsshim_desc'] = ' Leave blank unless you know what shimming is';
+$string['templaterequirejsshim'] = 'Require Shim export';
+$string['templaterequirejsshim_desc'] = ' Leave blank unless you know what shimming is';
+
+$string['templatealternate'] = 'Alternate content'; 
+$string['templatealternate_desc'] = 'Content that can be used when the custom and uploaded CSS and javascript content is not available. Currently this is used when the template is processed by a webservice, probably for content on the mobile app';

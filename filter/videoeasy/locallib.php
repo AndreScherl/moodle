@@ -82,52 +82,144 @@ class filter_videoeasy_template_script_generator {
 			//this is for loading as dependencies the uploaded or linked files
 			//massage the js URL depending on schemes and rel. links etc. Then insert it
 				$requiredjs = $conf->{'templaterequire_js_' . $templateid};
+				$requiredjs_shim =trim($conf->{'templaterequire_js_shim_' . $templateid});
 				if($requiredjs){
 					if(strpos($requiredjs,'//')===0){
 						$requiredjs = $scheme . $requiredjs;
 					}elseif(strpos($requiredjs,'/')===0){
 						$requiredjs = $CFG->wwwroot . $requiredjs;
 					}
-					//remove .js from end
-					//$requiredjs = substr($requiredjs, 0, -3);
 				}
 	
 				//if we have an uploaded JS file, then lets include that
 				$uploadjsfile = $conf->{'uploadjs_' . $templateid};
+				$uploadjs_shim =trim($conf->{'uploadjs_shim_' . $templateid});
 				if($uploadjsfile){
 					$uploadjs = filter_videoeasy_internal_file_url($uploadjsfile,'uploadjs_' . $templateid);
 				}
 
-			//Create the dependency stuff in the output js
-			$requires = array("'" . 'jquery' . "'");
-			$params = array('$');
-
-			//current key
+			//These arrays will be used to build the final amd function dependencies and exports
+			$requires = array();
+			$params = array();
+			
+			//these arrays are used for shimming
+			$shimkeys= array();
+			$shimpaths= array();
+			$shimexports= array();
+			
+			//key of the current video easy template
 			$currentkey = $conf->{'templatekey_' . $templateid};
-
+			
+			//if we have a url based required js
+			//either load it, or shim and load it
 			if($requiredjs){
-				$requires[] =  "'" . $requiredjs . "'";
-				$params[] = "requiredjs_" . $currentkey;
-	
-			}elseif($uploadjsfile){
-				$requires[] =  "'" . $uploadjs . "'";
-				//$requires[] ="'uploadjs" . $templateid . "'";
-				$params[] = "uploadjs_" . $currentkey;
-	
+				if($requiredjs_shim!=''){
+					$shimkeys[] = $currentkey . '-requiredjs'; 
+					
+					//remove .js from end of js filepath if its there
+					if(strrpos($requiredjs,'.js')==(strlen($requiredjs) -3)){
+						$requiredjs = substr($requiredjs, 0, -3);
+					}
+					
+					$shimpaths[]= $requiredjs;
+					$shimexports[]=$requiredjs_shim;
+					$requires[] = "'" . $currentkey . '-requiredjs' . "'";
+					$params[]=$requiredjs_shim;
+				}else{
+					$requires[] =  "'" . $requiredjs . "'";
+					$params[] = "requiredjs_" . $currentkey;
+				}
 			}
-
+			
+			//if we have an uploadedjs library
+			//either load it, or shim and load it			
+			if($uploadjsfile){
+				if($uploadjs_shim!=''){
+					$shimkeys[] = $currentkey . '-uploadjs';
+					
+					//remove .js from end of js filepath if its there
+					if(strrpos($uploadjs,'.js')==(strlen($uploadjs) -3)){
+						$uploadjs = substr($uploadjs, 0, -3);
+					}
+					
+					$shimpaths[]=$uploadjs;					
+					$shimexports[]=$uploadjs_shim;
+					$requires[] ="'" .  $currentkey . '-uploadjs' . "'";
+					$params[]=$uploadjs_shim;
+				}else{
+					$requires[] =  "'" . $uploadjs . "'";
+					$params[] = "uploadjs_" . $currentkey;
+				}
+			}
+			
+			//if we have a shim, lets build the javascript for that
+			//actually we build a php object first, and then we will json_encode it
+			$theshim = $this->build_shim_function($currentkey, $shimkeys, $shimpaths, $shimexports);
+			
+			
+			//load a different jquery based on path if we are shimming
+			//this is because, sigh, Moodle used no conflict for jquery, but
+			//shimmed plugins rely on jquery n global scope
+			//see: http://www.requirejs.org/docs/jquery.html#noconflictmap
+			//so we add a separate load of jquery with name '[currentkey]-jquery' and export it as '$', and don't use the 
+			//already set up (by mooodle and AMD) 'jquery' path.
+			//we add jquery to beginning of requires and params using unshift. But the end would be find too
+			if(!empty($shimkeys)){
+				array_unshift($requires,"'" . $currentkey . '-jquery' . "'");
+				array_unshift($params,'$');
+			}else{
+				array_unshift($requires,"'" . 'jquery' . "'");
+				array_unshift($params,'$');
+			}
+			
+			//Assemble the final javascript to pass to browser
 			$thefunction = "define('filter_videoeasy_d" . $templateid . "',[" . implode(',',$requires) . "], function(" . implode(',',$params) . "){ ";
 			$thefunction .= "return function(opts){" . $thescript. " \r\n}; });";
-
-		//If not AMD
+			$return_js = $theshim . $thefunction;
+			
+		//If not AMD return regular JS
 		}else{
-
-			$thefunction = "if(typeof filter_videoeasy_extfunctions == 'undefined'){filter_videoeasy_extfunctions={};}";
-			$thefunction .= "filter_videoeasy_extfunctions['" . $ext . "']= function(opts) {" . $thescript. " \r\n};";
-
+		
+			$return_js = "if(typeof filter_videoeasy_extfunctions == 'undefined'){filter_videoeasy_extfunctions={};}";
+			$return_js .= "filter_videoeasy_extfunctions['" . $ext . "']= function(opts) {" . $thescript. " \r\n};";
 		}
-    	return $thefunction;
+    	return $return_js;
     }//end of function
+	
+	protected function build_shim_function($currentkey, $shimkeys, $shimpaths, $shimexports){
+			global $CFG;
+			
+			$theshim="";
+			$theshimtemplate = "requirejs.config(@@THESHIMCONFIG@@);";
+			if(!empty($shimkeys)){
+				$paths = new stdClass();
+				$shim = new stdClass();
+				
+				//Add a path to  a separetely loaded jquery for shimmed libraries
+				$paths->{$currentkey . '-jquery'} = $CFG->wwwroot  . '/filter/videoeasy/jquery/jquery-1.12.4.min'; 
+				$jquery_shimconfig = new stdClass();
+				$jquery_shimconfig->exports = '$';
+				$shim->{$currentkey . '-jquery'}=$jquery_shimconfig;
+				
+				for($i=0;$i<count($shimkeys);$i++){
+					$paths->{$shimkeys[$i]} = $shimpaths[$i];
+					$oneshimconfig = new stdClass();
+					$oneshimconfig->exports = $shimexports[$i];
+					$oneshimconfig->deps = array($currentkey . '-jquery');
+					$shim->{$shimkeys[$i]} = $oneshimconfig;
+				}
+				
+				//buuld the actual function that will set up our shim
+				//we use php object -> json to kep it simple.
+				//But its still not simple
+				$theshimobject = new stdClass();
+				$theshimobject->paths=$paths;
+				$theshimobject->shim =$shim;
+				$theshimconfig=json_encode($theshimobject,JSON_UNESCAPED_SLASHES);
+				$theshim = str_replace('@@THESHIMCONFIG@@', $theshimconfig,$theshimtemplate);
+			}
+		return $theshim;
+	}
 }//end of class
 
 
@@ -225,163 +317,60 @@ class admin_setting_videoeasypresets extends admin_setting {
 
 	}
 
-	
-	protected function fetch_presets(){
+	 protected function parse_preset_template(\SplFileInfo $fileinfo){
+		$file=$fileinfo->openFile("r");
+		$content = "";
+		while(!$file->eof()){
+			$content .= $file->fgets();
+		}
+		$preset_object = json_decode($content);
+		if($preset_object && is_object($preset_object)){
+			return get_object_vars($preset_object);
+		}else{
+			return false;
+		}
+	}//end of parse preset template
 
-	$ret = array();
-	$defaultpresets = array(1,2,3,4,5,6);//filter_videoeasy_fetch_players();
-	$additionalpresets = array(7,8,9,10,11,12);
+
+	public function fetch_presets(){          
+		global $CFG;
+		$ret = array();
+		$dir = new \DirectoryIterator($CFG->dirroot . '/filter/videoeasy/presets');
+		foreach($dir as $fileinfo){
+			if(!$fileinfo->isDot()){
+			  $preset = $this->parse_preset_template($fileinfo);
+			  if($preset){
+				$ret[]=$preset;
+			  }
+			}
+		}
+	   return $ret;
+	}//end of fetch presets function
 	
-	//prepare template info
-	$templaterequires=filter_videoeasy_fetch_template_requires($defaultpresets);
-	$templatebodys=filter_videoeasy_fetch_template_bodys($defaultpresets);
-	$templatescripts=filter_videoeasy_fetch_template_scripts($defaultpresets);
-	$templatestyles=filter_videoeasy_fetch_template_styles($defaultpresets);
-	$templatedefaults=filter_videoeasy_fetch_template_defaults($defaultpresets);
-	$templatekeys=filter_videoeasy_fetch_template_keys($defaultpresets);
-	$templatenames=filter_videoeasy_fetch_template_names($defaultpresets);
-	
-	foreach($defaultpresets as $preset){
-		$presets = array();
-		$presets['key'] =$templatekeys[$preset];
-		if(!$presets['key']){continue;}
-		$presets['name'] =$templatenames[$preset];
-		$presets['requirecss'] =$templaterequires[$preset]['css'];
-		$presets['requirejs'] =  $templaterequires[$preset]['js'];
-		$presets['amd'] = $templaterequires[$preset]['amd'];
-		$presets['jquery'] = $templaterequires[$preset]['jquery'];
-		$presets['defaults'] = $templatedefaults[$preset];
-		$presets['body'] =$templatebodys[$preset];
-		$presets['script'] = $templatescripts[$preset];
-		$presets['style'] = $templatestyles[$preset];		
-	  //update our return value
-	    $ret[$preset] = $presets;
-	}//end of for each
-	foreach($additionalpresets as $preset){
-		$presets = array();
-		switch ($preset){
-			case 7:
-				$presets['key'] ='youtubestandard';
-				$presets['name'] ='YouTube(standard)';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  '';
-				$presets['amd'] = 1;
-				$presets['jquery'] = 0;
-				$presets['defaults'] = 'WIDTH=600,HEIGHT=400';
-				$presets['body'] ='<iframe width="@@WIDTH@@" height="@@HEIGHT@@" src="//www.youtube.com/embed/@@FILENAME@@" frameborder="0" allowfullscreen></iframe>';
-				$presets['script'] = '';
-				$presets['style'] = '';
-				break;
-		/*
-			case 8:
-				$presets['key'] ='YouTube(Mediaelement.js)';
-				$presets['requirecss'] ='https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.13.2/css/mediaelementplayer.min.css';
-				$presets['requirejs'] ='https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.13.2/js/mediaelement-and-player.min.js';
-				$presets['jquery'] = 1;
-				$presets['defaults'] = 'WIDTH=640,HEIGHT=480';
-				$presets['body'] ='<video width="@@WIDTH@@" height="@@HEIGHT@@" id="@@AUTOID@@" preload="none">
-    <source type="video/youtube" src="http://www.youtube.com/watch?v=@@FILENAME@@" />
-</video>';
-				$presets['script'] = '';
-				$presets['style'] = '';
-				break;
-		*/
-			case 8:
-				$presets['key'] ='multisourcevideo';
-				$presets['name'] ='Multi Source Video';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  '';
-				$presets['amd'] = 1;
-				$presets['jquery'] = 0;
-				$presets['defaults'] = 'WIDTH=640,HEIGHT=480';
-				$presets['body'] ='<video width="@@WIDTH@@" height="@@HEIGHT@@" controls>
-  <source src="@@VIDEOURL@@" type="video/mp4">
-  <source src="@@URLSTUB@@.ogg" type="video/ogg">
-Your browser does not support the video tag.
-</video>';
-				$presets['script'] = '';
-				$presets['style'] = '';
-				break;
-			case 9:
-				$presets['key'] ='multisourceaudio';
-				$presets['name'] ='Multi Source Audio';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  '';
-				$presets['amd'] = 1;
-				$presets['jquery'] = 0;
-				$presets['defaults'] = '';
-				$presets['body'] ='<audio controls>
-  <source src="@@VIDEOURL@@" type="audio/mpeg">
-  <source src="@@URLSTUB@@.ogg" type="audio/ogg">
-Your browser does not support the audio element.
-</audio>';
-				$presets['script'] = '';
-				$presets['style'] = '';
-				break;
-			case 10:
-				$presets['key'] ='jwplayerrss';
-				$presets['name'] ='JW Player RSS';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  'http://jwpsrv.com/library/PERSONALCODE.js';
-				$presets['amd'] = 0;
-				$presets['jquery'] = 0;
-				$presets['defaults'] = 'WIDTH=640,HEIGHT=360';
-				$presets['body'] ='<div id="@@AUTOID@@"></div>';
-				$presets['script'] = 'jwplayer("@@AUTOID@@").setup({
-playlist: "@@videourl@@"",
-width: "@@WIDTH@@",
-height: "@@HEIGHT@@",
-listbar: {
-        position: "right",
-        size: 240,
-        layout: "basic"
-      }
-});';
-				$presets['style'] = '';
-				break;
-			case 11:
-				$presets['key'] ='soundmanager2';
-				$presets['name'] ='SoundManager2';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  '//cdn.jsdelivr.net/soundmanager2/2.97a.20130512/soundmanager2.js';
-				$presets['jquery'] = 0;
-				$presets['amd'] = 0;
-				$presets['defaults'] = '';
-				$presets['body'] ='<a onClick="soundManager.play(\'@@AUTOID@@\')" >@@FILENAME@@</a>';
-				$presets['script'] = 'soundManager.setup({
-  url: "//cdn.jsdelivr.net/soundmanager2/2.97a.20130512/soundmanager2_flash9.swf",
-  flashVersion: 9, // optional: shiny features (default = 8)
-  // preferFlash: true;
-  preferFlash: false,
-  onready: function() {
-   var mySound = soundManager.createSound({
-      id: @@AUTOID@@, // optional: provide your own unique id
-      url: @@VIDEOURL@@,
-       autoPlay: false
-    });
-  }
-});';
-				$presets['style'] = '';
-				break;
-			case 12:
-			default:
-				$presets['key'] ='';
-				$presets['name'] ='None';
-				$presets['requirecss'] ='';
-				$presets['requirejs'] =  '';
-				$presets['jquery'] = 0;
-				$presets['amd'] = 1;
-				$presets['defaults'] = '';
-				$presets['body'] ='';
-				$presets['script'] = '';
-				$presets['style'] = '';
-			
-		}//end of switch		
-	  //update our return value
-	    $ret[$preset] = $presets;
-	
-	}//end of for each
-	return $ret;
-	
-}
+	public static function set_preset_to_config($preset, $templateindex){
+		$fields = array();
+		$fields['name']='templatename';
+		$fields['key']='templatekey';
+		$fields['instructions']='templateinstructions';
+		$fields['body']='templatepreset';
+		$fields['bodyend']='templateend';
+		$fields['requirecss']='templaterequire_css';
+		$fields['requirejs']='templaterequire_js';
+		$fields['shim']='templaterequire_js_shim';
+		$fields['defaults']='templatedefaults';
+		$fields['amd']='template_amd';
+		$fields['script']='templatescript';
+		$fields['style']='templatestyle';
+		$fields['dataset']='dataset';
+		$fields['datavars']='datavars';
+		
+		foreach($fields as $fieldkey=>$fieldname){
+			if(array_key_exists($fieldkey,$preset)){
+				$fieldvalue=$preset[$fieldkey];
+			}else{
+				$fieldvalue='';
+			}
+			set_config($fieldname . '_' . $templateindex, $fieldvalue, 'filter_videoeasy');
+		}
+	}//End of set_preset_to_config
 }//end of class

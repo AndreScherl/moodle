@@ -9,8 +9,8 @@ define(['jquery','core/log'], function($, log) {
 
 	  presetdata: false,
 	  
-	  dataitems: ['key', 'name','amd','requirejs', 'requirecss',  'jquery',
-			   'body', 'script','defaults', 'style'],
+	  dataitems: ['key', 'name','amd','requirejs','shim', 'requirecss', 
+			   'body', 'script','defaults', 'style','alternate'],
 
 	  fetchcontrols: function(templateindex) {
 	  	  var controls = {};
@@ -18,12 +18,13 @@ define(['jquery','core/log'], function($, log) {
 		  controls.name = document.getElementById('id_s_filter_videoeasy_templatename_' + templateindex);
 		  controls.amd = document.getElementById('id_s_filter_videoeasy_template_amd_' + templateindex);
 		  controls.requirejs = document.getElementById('id_s_filter_videoeasy_templaterequire_js_' + templateindex);
+		  controls.shim = document.getElementById('id_s_filter_videoeasy_templaterequire_js_shim_' + templateindex);
 		  controls.requirecss = document.getElementById('id_s_filter_videoeasy_templaterequire_css_' + templateindex);
-		  controls.jquery = document.getElementById('id_s_filter_videoeasy_templaterequire_jquery_' + templateindex);
 		  controls.body = document.getElementById('id_s_filter_videoeasy_templatepreset_' + templateindex);
 		  controls.script = document.getElementById('id_s_filter_videoeasy_templatescript_' + templateindex);
 		  controls.defaults = document.getElementById('id_s_filter_videoeasy_templatedefaults_' + templateindex);
 		  controls.style = document.getElementById('id_s_filter_videoeasy_templatestyle_' + templateindex);
+		  controls.alternate = document.getElementById('id_s_filter_videoeasy_templatealternate_' + templateindex);
 		  controls.presetdata = document.getElementById('id_s_filter_videoeasy_presetdata_' + templateindex);
 		  return controls;
 	  },
@@ -79,6 +80,14 @@ define(['jquery','core/log'], function($, log) {
 				  //then set the data
 				  if (presetdata[presetindex].hasOwnProperty(item)) {
 				   controls[item].value = presetdata[presetindex][item];
+			      }else{
+			       switch(item){
+			      		case 'amd':
+			      			controls[item].value =0;
+			      			break;
+			      		default:
+			      			controls[item].value ='';
+			      	}
 			      }
 			  }
 		  );

@@ -30,7 +30,7 @@ class qtype_geogebra_renderer extends qtype_renderer {
      */
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         global $PAGE, $CFG;
-        $PAGE->requires->js(new moodle_url('https://tube.geogebra.org/scripts/deployggb.js'));
+        $PAGE->requires->js(new moodle_url('https://www.geogebra.org/scripts/deployggb.js'));
 
         $result = '';
 
@@ -88,10 +88,9 @@ class qtype_geogebra_renderer extends qtype_renderer {
         );
 
         $result .= html_writer::empty_tag('input', $exerciseinputattributes);
-
         $questiontext = $question->format_questiontext($qa);
 
-        $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
+        $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext', 'style' => 'visibility: hidden;'));
 
         $ggbdivname = $qa->get_qt_field_name('ggbdiv');
         $result .= html_writer::div('', '', array('id' => $ggbdivname));
@@ -114,6 +113,7 @@ class qtype_geogebra_renderer extends qtype_renderer {
                          'answerinput'         => $answerinputname,
                          'exerciseresultinput' => $exerciseinputname,
                          'responsevars'        => $responsevars,
+                         'slot'                => $qa->get_slot(),
                          'lang'                => current_language()
         );
 
@@ -147,42 +147,44 @@ class qtype_geogebra_renderer extends qtype_renderer {
         /* @var $question qtype_geogebra_question */
         $question = $qa->get_question();
         $feedback = '';
-        $itemid = 0;
-        if ($question->isexercise) {
-            $exerciseresult = json_decode($qa->get_last_qt_var('exerciseresult'));
-            $singleCorrectIgnoreOthers = false;
-            foreach ($exerciseresult as $assignment) {
-                if (0.999 < $assignment->fraction) {
-                    $singleCorrectIgnoreOthers = true;
-                    if ($assignment->hint) {
-                        if ($feedback) {
-                            $feedback .= "<br>";
-                        };
-                        $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
-                                $qa, 'question', 'answerfeedback', $itemid++);
+        if (!$qa->get_state()->is_gave_up()) {
+            $itemid = 0;
+            if ($question->isexercise) {
+                $exerciseresult = json_decode($qa->get_last_qt_var('exerciseresult'));
+                $singleCorrectIgnoreOthers = false;
+                foreach ($exerciseresult as $assignment) {
+                    if (0.999 < $assignment->fraction) {
+                        $singleCorrectIgnoreOthers = true;
+                        if ($assignment->hint) {
+                            if ($feedback) {
+                                $feedback .= "<br>";
+                            };
+                            $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
+                                    $qa, 'question', 'answerfeedback', $itemid++);
+                        }
                     }
                 }
-            }
-            foreach ($exerciseresult as $assignment) {
-                if (!$singleCorrectIgnoreOthers || $assignment->fraction < 0) {
-                    if ($assignment->hint) {
-                        if ($feedback) {
-                            $feedback .= "<br>";
-                        };
-                        $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
-                                $qa, 'question', 'answerfeedback', $itemid++);
+                foreach ($exerciseresult as $assignment) {
+                    if (!$singleCorrectIgnoreOthers || $assignment->fraction < 0) {
+                        if ($assignment->hint) {
+                            if ($feedback) {
+                                $feedback .= "<br>";
+                            };
+                            $feedback .= $question->format_text($assignment->hint, FORMAT_HTML,
+                                    $qa, 'question', 'answerfeedback', $itemid++);
+                        }
                     }
                 }
-            }
-        } else {
-            $response = $qa->get_last_qt_var('answer');
-            $i = 0;
-            foreach ($question->answers as $answer) {
-                if ((bool)substr($response, $i, 1)) {
-                    $feedback .= $question->format_text($answer->feedback, $answer->feedbackformat,
-                            $qa, 'question', 'answerfeedback', $answer->id);
+            } else {
+                $response = $qa->get_last_qt_var('answer');
+                $i = 0;
+                foreach ($question->answers as $answer) {
+                    if ((bool)substr($response, $i, 1)) {
+                        $feedback .= $question->format_text($answer->feedback, $answer->feedbackformat,
+                                $qa, 'question', 'answerfeedback', $answer->id);
+                    }
+                    $i++;
                 }
-                $i++;
             }
         }
         return $feedback;

@@ -15,9 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_hvp
- * @copyright 2016 Mediamaisteri Oy {@link http://www.mediamaisteri.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Describe how H5P activites are to be restored from backup
+ *
+ * @package     mod_hvp
+ * @category    backup
+ * @copyright   2016 Joubel AS <contact@joubel.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -41,6 +44,10 @@ class restore_hvp_activity_task extends restore_activity_task {
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
+        // Add H5P libraries
+        $this->add_step(new restore_hvp_libraries_structure_step('hvp_structure', 'hvp_libraries.xml'));
+
+        // Add H5P content
         $this->add_step(new restore_hvp_activity_structure_step('hvp_structure', 'hvp.xml'));
     }
 
@@ -78,6 +85,8 @@ class restore_hvp_activity_task extends restore_activity_task {
     static public function define_restore_log_rules() {
         $rules = array();
 
+        $rules[] = new restore_log_rule('hvp', 'add', 'view.php?id={course_module}', '{hvp}');
+        $rules[] = new restore_log_rule('hvp', 'update', 'view.php?id={course_module}', '{hvp}');
         $rules[] = new restore_log_rule('hvp', 'view', 'view.php?id={course_module}', '{hvp}');
 
         return $rules;

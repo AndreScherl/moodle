@@ -2234,5 +2234,4 @@ class hotpot {
             }
         }
     }
-
 }

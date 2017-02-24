@@ -15452,6 +15452,15 @@ div.que.geogebra div.formulation div[id$='ggbdiv'] > div {
   border-top-color: #ddd;
 }
 
+.path-mod-quiz .qnbutton.blocked, .path-mod-quiz .qnbutton.notyetanswered, .path-mod-quiz .qnbutton.requiresgrading,
+.path-mod-quiz .qnbutton.invalidanswer, .path-mod-quiz .qnbutton.correct, .path-mod-quiz .qnbutton.incorrect, .path-mod-quiz .qnbutton.partiallycorrect {
+  color: #333333;
+}
+.path-mod-quiz .qnbutton.blocked:hover, .path-mod-quiz .qnbutton.notyetanswered:hover, .path-mod-quiz .qnbutton.requiresgrading:hover,
+.path-mod-quiz .qnbutton.invalidanswer:hover, .path-mod-quiz .qnbutton.correct:hover, .path-mod-quiz .qnbutton.incorrect:hover, .path-mod-quiz .qnbutton.partiallycorrect:hover {
+  color: #fff;
+}
+
 .que.ddmatch li.placeholder, .que.ddmatch li.matchdrag {
   list-style-type: none !important;
 }

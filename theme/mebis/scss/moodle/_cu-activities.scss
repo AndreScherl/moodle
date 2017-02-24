@@ -313,6 +313,17 @@ div.que.geogebra {
     }
 }
 
+.path-mod-quiz {
+    .qnbutton.blocked, .qnbutton.notyetanswered, .qnbutton.requiresgrading, 
+    .qnbutton.invalidanswer, .qnbutton.correct, .qnbutton.incorrect, .qnbutton.partiallycorrect  {
+        color: $brand-gray-dark;
+        
+        &:hover {
+            color: $white;
+        }
+    }
+}
+
 //++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
 
 // questiontype ddmatch.

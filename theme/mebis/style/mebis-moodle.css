@@ -14361,6 +14361,10 @@ div[role="main"] > h2 {
   }
 }
 
+.mediaplugin {
+  width: 100%;
+}
+
 /*
     Styles for autocomplete form element
 */

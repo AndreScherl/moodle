@@ -314,7 +314,7 @@
     }
 }
 
-// +++++++From here on: special styles for grid format. ++++++++++++
+// +++++++ Special styles for grid format. START ++++++++++++
 #page-course-view-grid {
 
     &:not(.editing) {
@@ -429,9 +429,6 @@
             }
 
             ul.gridicons li {
-
-                padding-left: 0;
-                padding-right: 0;
                 margin: 10px;             
                 @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
 
@@ -453,7 +450,7 @@
                 .image_holder {
                     border-style: none;
                     background-color: transparent;
-                    width: auto;
+                    margin: 0 20px;
                 }
 
                 p.icon_content {
@@ -464,21 +461,27 @@
                 a {
                     .icon_content {
                         font-weight: 400;
-                        line-height: 20px;
-                        margin-bottom: 5px;
-                        position: relative;
-                        color: $brand-gray-dark;
-                        text-align: center;
+                        line-height: 14px;
+                        left: 0;
 
-                        &:before {
+                        &:not(:empty):before {
                             content: "\00BB";
                             font-size: 1.125em;
                             color: $brand-primary;
                             margin-top: -12px;
                         }
-                    } 
+                    }
+
+                    &:hover {
+                        color: $brand-gray-dark;
+                    }
                 }
             }
         }
     }
 }
+.course-content ul.gridicons li .icon_content {
+    margin: 0 20px;
+    color: $brand-gray-dark;
+}
+// +++++++ Special styles for grid format. END ++++++++++++

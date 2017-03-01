@@ -77,14 +77,16 @@ $string['defaultsectiontitleboxinsideposition_desc'] = 'Position des Themanamens
 $string['sectiontitleboxinsidepositiontop'] = 'Oben';
 $string['sectiontitleboxinsidepositionmiddle'] = 'Mitte';
 $string['sectiontitleboxinsidepositionbottom'] = 'Unten';
-$string['showsectiontitlesummary'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung)';
-$string['showsectiontitlesummary_help'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung).';
-$string['defaultshowsectiontitlesummary'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung)';
-$string['defaultshowsectiontitlesummary_desc'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung).';
-$string['setshowsectiontitlesummaryposition'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung)';
-$string['setshowsectiontitlesummaryposition_help'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung): \'Oben\', \'Unten\', \'Links\' or \'Rechts\'.';
-$string['defaultsetshowsectiontitlesummaryposition'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung)';
-$string['defaultsetshowsectiontitlesummaryposition_desc'] = 'Name des Themas bei Mouseover anzeigen (keine Auswirkung): \'Oben\', \'Unten\', \'Links\' or \'Rechts\'.';
+$string['showsectiontitlesummary'] = 'Beschreibung des Themas bei Mouseover anzeigen';
+$string['showsectiontitlesummary_help'] = 'Beschreibung des Themas bei Mouseover anzeigen.';
+$string['defaultshowsectiontitlesummary'] = 'Beschreibung des Themas bei Mouseover anzeigen';
+$string['defaultshowsectiontitlesummary_desc'] = 'Beschreibung des Themas bei Mouseover anzeigen.';
+$string['setshowsectiontitlesummaryposition'] = 'Position der Beschreibung bei Mouseover';
+$string['setshowsectiontitlesummaryposition_help'] = 'Position der Beschreibung bei Mouseover: \'Oben\', \'Unten\', \'Links\' or '
+        . '\'Rechts\'. Dazu muss die Option \'Beschreibung des Themas bei Mouseover anzeigen\' aktiviert sein';
+$string['defaultsetshowsectiontitlesummaryposition'] = 'Position der Beschreibung bei Mouseover';
+$string['defaultsetshowsectiontitlesummaryposition_desc'] = 'Position der Beschreibung bei Mouseover: \'Oben\', \'Unten\', \'Links\' or '
+        . '\'Rechts\'. Dazu muss die Option \'Beschreibung des Themas bei Mouseover anzeigen\' aktiviert sein';
 $string['sectiontitleinsidetitletextcolour'] = 'Farbe des Themanamens bei der \'Innerhalb\' Option';
 $string['sectiontitleinsidetitletextcolour_help'] = 'Farbe des Themanamens bei der \'Innerhalb\' Option.';
 $string['defaultsectiontitleinsidetitletextcolour'] = 'Farbe des Themanamens bei der \'Innerhalb\' Option';

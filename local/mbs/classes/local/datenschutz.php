@@ -452,6 +452,7 @@ class datenschutz {
 
     /**
      * @HOOK DS09: Hook in message/lib.php in der Funktion message_search_users()
+     *                 und message/classes/api.php in der Funktion search_users()
      *
      * verändert die WHERE-Bedingung so, dass der aktuell bearbeitende User nur
      * die User mit gleichen Wert im Feld institution (Schule) oder die User, die mit ihm

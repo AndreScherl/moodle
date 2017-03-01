@@ -226,6 +226,12 @@ class api {
                                       FROM {message_contacts}
                                      WHERE userid = :userid)
               ORDER BY " . $DB->sql_fullname();
+
+        //+++ asch DS09:Sichtbarkeitstrennung-Messages
+        $sqlparts = explode("ORDER BY", $sql);
+        $sql = $sqlparts[0] . \local_mbs\local\datenschutz::hook_message_lib_message_search_users() . "ORDER BY" . $sqlparts[1];
+        //--- asch
+        
         if ($users = $DB->get_records_sql($sql,  array('userid' => $userid, 'search' => '%' . $search . '%') + $excludeparams,
             0, $limitnum)) {
             foreach ($users as $user) {

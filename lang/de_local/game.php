@@ -29,3 +29,7 @@ $string['cross_error_wordlength1'] = 'Das richtige Wort enthält&nbsp;';
 $string['lettersall'] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß';
 $string['sourcemodule_glossary'] = 'Wörterbuch wählen';
 $string['sourcemodule_glossarycategory'] = 'Wörterbuch-Kategorie wählen!';
+$string['glossary_only_approved'] = 'Nur geprüfte oder von der Lehrkraft hinzugefügte Einträge';
+$string['disablesummarize'] = 'zusammenfassung deaktivieren';
+$string['language_user_defined'] = 'Nutzerdefinierte Sprache';
+$string['cross_maxcomputetime'] = 'Maximale Berechnungszeit in Sekunden';

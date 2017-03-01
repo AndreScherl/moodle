@@ -15249,6 +15249,7 @@ category-box:
     - .que.match
     - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
+    - .path-mod-chat
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -15294,6 +15295,15 @@ category-box:
   background: #fff;
   width: 40%;
   margin-bottom: 10px;
+}
+
+.path-mod-chat .form-inline .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.path-mod-chat .list-group-item {
+  background-color: #e6e6e6;
 }
 
 #page-mod-assign-view div#applet_container1, #page-mod-assign-mod div#applet_container1, #page-mod-assign-grader div#applet_container1, #page-mod-assign-grading div#applet_container1, #page-question-type-geogebra div#applet_container1,

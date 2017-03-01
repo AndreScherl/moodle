@@ -29,6 +29,7 @@
     - .que.match
     - .que.multichoicepage-mod-lesson-view
     - .que.multianswer
+    - .path-mod-chat
 */
 /* 
     Created on : 05.06.2015, 12:13:08
@@ -87,6 +88,18 @@
         background: $white;
         width: 40%;
         margin-bottom: $space-xsmall;
+    }
+}
+
+.path-mod-chat {
+    .form-inline .form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+    
+    .list-group-item {
+        background-color: $brand-gray-light;
     }
 }
 
@@ -261,7 +274,7 @@ div.que.geogebra {
 #page-mod-quiz-review {
     .submitbtns {
         text-align: right;
-        
+
         .mod_quiz-next-nav {
             float: none;
         }
@@ -317,7 +330,7 @@ div.que.geogebra {
     .qnbutton.blocked, .qnbutton.notyetanswered, .qnbutton.requiresgrading, 
     .qnbutton.invalidanswer, .qnbutton.correct, .qnbutton.incorrect, .qnbutton.partiallycorrect  {
         color: $brand-gray-dark;
-        
+
         &:hover {
             color: $white;
         }

@@ -878,7 +878,7 @@ function chat_format_message_manually($message, $courseid, $sender, $currentuser
  * @return bool|string Returns HTML or false
  */
 function chat_format_message($message, $courseid, $currentuser, $chatlastrow=null) {
-    global $DB;
+    global $DB, $CFG;
 
     static $users;     // Cache user lookups.
 
@@ -894,7 +894,7 @@ function chat_format_message($message, $courseid, $currentuser, $chatlastrow=nul
     $strchat = $CFG->chat_anon;
 
     if ($strchat==='anony') {
-        return \local_mbs\local\datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chat_lastrow);
+        return \local_mbs\local\datenschutz::hook_mod_chat_format_message_anon($message, $courseid, $user, $currentuser, $chatlastrow);
     }
     //---DS21
     

@@ -39,10 +39,10 @@ define(['jquery', 'mebis'], function($, mebis) {
         var target = document.querySelector('body');
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.className.indexOf("moodle-dialogue") >= 0) {
+                [].forEach.call(mutation.addedNodes, function(node) {
+                    if (node != null && node.className != null && node.className.indexOf("moodle-dialogue") >= 0) {
                         var dialog = document.querySelector(".moodle-dialogue-focused");
-                        if (parseInt(dialog.style.top) < offset) {
+                        if (dialog != null && dialog.className != null && parseInt(dialog.style.top) < offset) {
                             dialog.style.top = offset + "px";
                         }
                     }

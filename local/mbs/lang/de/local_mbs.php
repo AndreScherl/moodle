@@ -49,7 +49,7 @@ $string['noinstitutionerror'] = 'Sie sind keiner Institution (z. B. einer Schule
 
 $string['nopermissiontoviewuser'] = 'Sie dürfen diesen Benutzer nicht sehen.'.
 '<h1>Sichtbarkeitsregelung von Benutzern</h1>'.
-'<p>Benutzer sehen auf der Plattform nur Benutzer der gleichen Schule oder Benutzer mit denen sie gemeinsam an einem Kurs teilnehmen.</p>';   
+'<p>Benutzer sehen auf der Plattform nur Benutzer der gleichen Schule oder Benutzer, mit denen sie gemeinsam an einem Kurs teilnehmen.</p>';   
 
 // Sidebar Navigation.
 $string['local_mbs_mebis_sites'] = 'Navigationslinks';

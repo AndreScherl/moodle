@@ -23,6 +23,19 @@
             margin-bottom: 20px;
         }
     }
+
+    .ajax-contact-button {
+        
+        &.loading {
+            .loading-icon {
+                display: block;
+            }
+        }
+
+        .loading-icon {
+            display: none;
+        }
+    }
 }
 
 .preferences-groups {

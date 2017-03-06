@@ -15740,7 +15740,8 @@ aside.row .block-region .block {
 
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-pre,
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-post,
-.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main {
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #main-content-wrapper {
   left: auto;
   right: auto;
   width: 100%;
@@ -15748,7 +15749,8 @@ aside.row .block-region .block {
 }
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-pre .blockannotation,
 .dir-ltr.editing.used-region-side-pre.used-region-side-post #block-region-side-post .blockannotation,
-.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main .blockannotation {
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #region-main .blockannotation,
+.dir-ltr.editing.used-region-side-pre.used-region-side-post #main-content-wrapper .blockannotation {
   color: #fff;
 }
 
@@ -16680,9 +16682,6 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
   width: inherit;
   padding-left: 5px;
 }
-#page-course-view-grid #main-content-wrapper {
-  padding: 0 10px 20px;
-}
 #page-course-view-grid #main-content-wrapper .course-content ul.gtopics-0 li h3.sectionname {
   font-weight: normal;
 }
@@ -16732,6 +16731,10 @@ ul.jumpnavigation:hover li.jumpnavigation-point span {
 .course-content ul.gridicons li .icon_content {
   margin: 0 20px;
   color: #333333;
+}
+
+.format-grid.path-course-view #main-content-wrapper {
+  padding: 0 10px 20px;
 }
 
 /*
@@ -17402,6 +17405,12 @@ input[type="checkbox"] + label {
   border: 1px solid #00a8d5;
   padding: 0 15px;
   margin-bottom: 20px;
+}
+.userprofile .ajax-contact-button.loading .loading-icon {
+  display: block;
+}
+.userprofile .ajax-contact-button .loading-icon {
+  display: none;
 }
 
 .preferences-groups {

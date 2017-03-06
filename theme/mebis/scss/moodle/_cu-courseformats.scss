@@ -420,8 +420,6 @@
 
     #main-content-wrapper  {
 
-        padding: 0 10px 20px;
-
         .course-content {
 
             ul.gtopics-0 li h3.sectionname {
@@ -483,5 +481,10 @@
 .course-content ul.gridicons li .icon_content {
     margin: 0 20px;
     color: $brand-gray-dark;
+}
+.format-grid.path-course-view {
+    #main-content-wrapper {
+        padding: 0 10px 20px;
+    }
 }
 // +++++++ Special styles for grid format. END ++++++++++++

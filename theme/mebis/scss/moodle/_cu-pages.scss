@@ -9,6 +9,7 @@
     - #page-enrol-index
     - #page-my-index
     - #page-course-management
+    - #page-course-switchrole
     - #page-content
     - #page-admin-purgecaches
     - #page-admin-tool-lp-plans
@@ -190,6 +191,12 @@
         #category-listing .course-count {
             color: $brand-gray-dark;
         }
+    }
+}
+
+#page-course-switchrole {
+    #main-content-wrapper {
+        background: $white;
     }
 }
 

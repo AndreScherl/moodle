@@ -41,6 +41,8 @@ $string['myprofile'] = 'Mein mebis';
 $string['noreplyname'] = 'mebis Lernplattform Systemnachricht';
 $string['publicprofile'] = 'Profil';
 $string['sitehome'] = 'Lernplattform IDM';
+$string['switchroleto_help'] = 'Wählen Sie eine Rolle um eine Vorstellung davon zu bekommen, wie jemand mit dieser Rolle diesen Kurs sehen wird.
+Bitte beachten Sie, dass diese Ansicht nicht immer perfekt ist.';
 $string['updatemymoodleoff'] = 'Schreibtisch ist fertig';
 $string['updatemymoodleon'] = 'Schreibtisch bearbeiten';
 $string['updatemyprofile'] = 'Einstellungen speichern';

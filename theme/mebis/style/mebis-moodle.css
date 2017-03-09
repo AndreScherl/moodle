@@ -17125,6 +17125,7 @@ input[type="checkbox"] + label {
     - #page-enrol-index
     - #page-my-index
     - #page-course-management
+    - #page-course-switchrole
     - #page-content
     - #page-admin-purgecaches
     - #page-admin-tool-lp-plans
@@ -17251,6 +17252,10 @@ input[type="checkbox"] + label {
 }
 #page-course-management #course-category-listings #category-listing .course-count {
   color: #333333;
+}
+
+#page-course-switchrole #main-content-wrapper {
+  background: #fff;
 }
 
 #page-content, #page-admin-purgecaches,

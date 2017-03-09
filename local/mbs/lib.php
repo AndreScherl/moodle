@@ -88,7 +88,7 @@ function local_mbs_get_block_mbstpl_context($context) {
  * @param settings_navigation $navigation
  */
 function local_mbs_extend_settings_navigation(settings_navigation $navigation, context $context) {
-    global $COURSE;
+    global $COURSE, $PAGE;
 
     // ...remove website-administration for non admins.
     if (!has_capability('moodle/site:config', context_system::instance())) {
@@ -115,7 +115,18 @@ function local_mbs_extend_settings_navigation(settings_navigation $navigation, c
         if ($courseadmin && $courseadmin->get('users')) {
             $link = new \moodle_url('/user/index.php', array('id' => $COURSE->id));
             $courseadmin->get('users')->add(get_string('messagetoparticipants', 'local_mbs'), $link);
-        }        
+        }
+    }
+    
+    if (has_capability('moodle/role:switchroles', $context)) {
+        if ($coursenode = $navigation->get('courseadmin')) {
+            $link = new moodle_url('/course/switchrole.php', array(
+                'id' => $COURSE->id,
+                'switchrole' => -1,
+                'returnurl' => $PAGE->url->out_as_local_url(false)
+            ));
+            $coursenode->add(get_string('switchroleto'), $link);
+        }
     }
 }
 

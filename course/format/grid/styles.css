@@ -75,12 +75,12 @@ div#gridmiddle-column > ul {
 }
 
 .course-content ul.gtopics li.section .left {
-    float:left;
+    float: left;
     padding: 0;
 }
 
 .course-content ul.gtopics li.section .right {
-    float:right;
+    float: right;
 }
 
 /* @group Topic Icons */
@@ -114,6 +114,7 @@ div#gridmiddle-column > ul {
 }
 
 .course-content .gridicon_link {
+    /*rtl:ignore*/
     cursor: url('[[pix:format_grid|fa-hand-o-up-f]]'), auto;
 }
 .course-content ul.gridicons li .icon_content {
@@ -206,6 +207,7 @@ div#gridmiddle-column > ul {
 
 div#gridshadebox_overlay {
     background: black;
+    /*rtl:ignore*/
     cursor: url('[[pix:format_grid|fa-times-circle-o-f]]'), auto;
     /* for IE */
     filter: alpha(opacity=70);
@@ -283,6 +285,7 @@ body.jsenabled #gridshadebox_content.hide_content {
 } 
  
 #gridshadebox_close {
+    /*rtl:ignore*/
     cursor: url('[[pix:format_grid|fa-hand-o-up-f]]'), auto;
     position: absolute;
     right: -10px;
@@ -312,14 +315,24 @@ body.jsenabled #gridshadebox_content.hide_content {
     width: 55px;
 }
 
-.gridshadebox_left_area {
-    cursor: url('[[pix:format_grid|fa-hand-o-left-f]]'), auto;
+.gridshadebox_previous_area {
     left: -55px;
 }
 
-.gridshadebox_right_area {
-    cursor: url('[[pix:format_grid|fa-hand-o-right-f]]'), auto;
+.gridshadebox_next_area {
     right: -55px;
+}
+
+.gridshadebox_previous_area.ltr,
+.gridshadebox_next_area.rtl {
+    /*rtl:ignore*/
+    cursor: url('[[pix:format_grid|fa-hand-o-left-f]]'), auto;
+}
+
+.gridshadebox_next_area.ltr,
+.gridshadebox_previous_area.rtl {
+    /*rtl:ignore*/
+    cursor: url('[[pix:format_grid|fa-hand-o-right-f]]'), auto;
 }
 
 @media (max-width: 1199px) {
@@ -330,19 +343,21 @@ body.jsenabled #gridshadebox_content.hide_content {
     .gridshadebox_area {
         width: 40px;
     }
-    .gridshadebox_left_area {
+    .gridshadebox_previous_area {
         left: -40px;
     }
-    .gridshadebox_right_area {
+    .gridshadebox_next_area {
         right: -40px;
     }
 }
 
 @media (max-width: 767px) {
     div#gridshadebox_overlay {
+        /*rtl:ignore*/
         cursor: url('[[pix:format_grid|fa-times-circle-o-fsm]]'), auto;
     }
     #gridshadebox_close {
+        /*rtl:ignore*/
         cursor: url('[[pix:format_grid|fa-hand-o-up-fsm]]'), auto;
         height: 28px;
         width: 28px;
@@ -354,13 +369,21 @@ body.jsenabled #gridshadebox_content.hide_content {
     .gridshadebox_area {
         width: 30px;
     }
-    .gridshadebox_left_area {
-        cursor: url('[[pix:format_grid|fa-hand-o-left-fsm]]'), auto;
+    .gridshadebox_previous_area {
         left: -30px;
     }
-    .gridshadebox_right_area {
-        cursor: url('[[pix:format_grid|fa-hand-o-right-fsm]]'), auto;
+    .gridshadebox_next_area {
         right: -30px;
+    }
+    .gridshadebox_previous_area.ltr,
+    .gridshadebox_next_area.rtl {
+        /*rtl:ignore*/
+        cursor: url('[[pix:format_grid|fa-hand-o-left-fsm]]'), auto;
+    }
+    .gridshadebox_next_area.ltr,
+    .gridshadebox_previous_area.rtl {
+        /*rtl:ignore*/
+        cursor: url('[[pix:format_grid|fa-hand-o-right-fsm]]'), auto;
     }
 }
 
@@ -378,10 +401,10 @@ body.jsenabled #gridshadebox_content.hide_content {
     .gridshadebox_area {
         width: 20px;
     }
-    .gridshadebox_left_area {
+    .gridshadebox_previous_area {
         left: -20px;
     }
-    .gridshadebox_right_area {
+    .gridshadebox_next_area {
         right: -20px;
     }
 }
@@ -395,11 +418,11 @@ body.jsenabled #gridshadebox_content.hide_content {
     width: 18px;
 }
 
-.gridshadebox_arrow.gridshadebox_mobile.gridshadebox_left_area {
+.gridshadebox_arrow.gridshadebox_mobile.gridshadebox_previous_area {
     left: -18px;
 }
 
-.gridshadebox_arrow.gridshadebox_mobile.gridshadebox_right_area {
+.gridshadebox_arrow.gridshadebox_mobile.gridshadebox_next_area {
     right: -18px;
 }
 
@@ -423,11 +446,11 @@ body.jsenabled #gridshadebox_content.hide_content {
     width: 31px;
 }
 
-.gridshadebox_arrow.gridshadebox_tablet.gridshadebox_left_area {
+.gridshadebox_arrow.gridshadebox_tablet.gridshadebox_previous_area {
     left: -31px;
 }
 
-.gridshadebox_arrow.gridshadebox_tablet.gridshadebox_right_area {
+.gridshadebox_arrow.gridshadebox_tablet.gridshadebox_next_area {
     right: -31px;
 }
 

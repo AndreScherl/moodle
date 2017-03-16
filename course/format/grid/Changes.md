@@ -1,5 +1,14 @@
 History
 =============
+Version 3.2.1.2
+  1. Fix 'Arrows and cursors in M3.2 with RTL' - #41.
+     Notes: Clean up CSS after MDL-57869 is fixed.
+            Rebuilt YUI JS with Shifter - https://docs.moodle.org/dev/YUI/Shifter.
+  2. Fix 'Managers assigned at Course Category levels cannot create a course with grid format selected' - #42.
+
+Version 3.2.1.1
+  1. Fix '"bordercolour" is set to 0 when creating courses using the "Upload courses" tool' - CONTRIB-6655.
+
 Version 3.2.1.0
   1. Fix 'Embedded videos still load in one section per page mode' - #39.
   2. Remove old 'format_grid_delete_course' function and replace with '\core\event\course_content_deleted' event.

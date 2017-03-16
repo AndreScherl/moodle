@@ -127,11 +127,19 @@ M.format_grid.gridkeys = {
         }
         Y.on('left', function (e) {
             e.preventDefault();
-            M.format_grid.arrow_left(e);
+            if (params.rtl) {
+                M.format_grid.next_section(e);
+            } else {
+                M.format_grid.previous_section(e);
+            }
         });
         Y.on('right', function (e) {
             e.preventDefault();
-            M.format_grid.arrow_right(e);
+            if (params.rtl) {
+                M.format_grid.previous_section(e);
+            } else {
+                M.format_grid.next_section(e);
+            }
         });
     }
 };

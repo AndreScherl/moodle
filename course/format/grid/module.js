@@ -350,7 +350,10 @@ M.format_grid.shadebox.initialize_shadebox = function() {
             top = pageelementDOM.offsetTop + pageelementDOM.clientTop;
             if (top === 0) {
                 // Use the parent.  This can happen with the Boost theme where region-main is floated.
-                top = pageelementDOM.offsetParent.offsetTop + pageelementDOM.offsetParent.clientTop;
+                // fhüb - 27.02.2017 - modul hack
+                // top = pageelementDOM.offsetParent.offsetTop + pageelementDOM.offsetParent.clientTop;
+                top = pageelementDOM.parentNode.offsetTop + pageelementDOM.parentNode.clientTop;
+                // fhüb - 27.02.2017 - modul hack
             }
             top = top + 15;
         }

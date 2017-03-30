@@ -45,7 +45,19 @@ class restore_hvp_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         // Add H5P libraries
-        $this->add_step(new restore_hvp_libraries_structure_step('hvp_structure', 'hvp_libraries.xml'));
+
+        // MBS - awag: Skip this step, we support only a restore of this within same site.
+        // $this->add_step(new restore_hvp_libraries_structure_step('hvp_structure', 'hvp_libraries.xml'));
+
+        // Check, whether course backup contains libraries.
+        $fullpath = $this->get_taskbasepath();
+        // Append the filename to the fullpath
+        $fullpath = rtrim($fullpath, '/') . '/hvp_libraries.xml';
+
+        if (file_exists($fullpath)) { // Shouldn't happen ever, but...
+            $this->log(get_string('skiphvplibrariesrestore', 'local_mbs'), backup::LOG_DEBUG);
+        }
+        // MBS - awag - end;
 
         // Add H5P content
         $this->add_step(new restore_hvp_activity_structure_step('hvp_structure', 'hvp.xml'));

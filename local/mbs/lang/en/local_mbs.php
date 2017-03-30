@@ -48,7 +48,7 @@ $string['noinstitutionerror'] = 'You have not been assigned to an instituation (
 
 $string['nopermissiontoviewuser'] = 'You may not view this user.'.
 '<h1>Visibility control of users</h1>'.
-'<p>Regular users can see on the platform only users in the same school or users with whom they participate in a course.</p>';    
+'<p>Regular users can see on the platform only users in the same school or users with whom they participate in a course.</p>';
 
 // Sidebar Navigation.
 $string['local_mbs_mebis_sites'] = 'Navigation links';
@@ -58,7 +58,7 @@ $string['local_mbs_mebis_sites_default'] =
         'Startseite,https://mebis.bayern.de;'.
         'Infoportal,https://mebis.bayern.de/infoportal;'.
         'Mediathek,https://mediathek.mebis.bayern.de;'.
-        'Lernplattform,https://lernplattform.mebis.bayern.de;'.        
+        'Lernplattform,https://lernplattform.mebis.bayern.de;'.
         'Prüfungsarchiv,https://mediathek.mebis.bayern.de/archiv.php;';
 
 
@@ -77,3 +77,7 @@ $string['newlicense_typecourse'] = 'Use as course license';
 $string['lookupsetmoreresults'] = 'Please concretise your search, other results are avaiable.';
 $string['lookupsetnoresults'] = 'To your input no results were found, please try it with other search words (at least three letters).';
 $string['lookupsetlessletters'] = 'After input of at least three letters the available results are suggested to you.';
+
+// Backup and Restore.
+$string['skiphvplibrariesbackup'] = 'Skip h5p libraries backup. Only support backup for same site.';
+$string['skiphvplibrariesrestore'] = 'Skip h5p libraries restore. Please test h5p modules after restore.';

@@ -47,7 +47,10 @@ class backup_hvp_activity_task extends backup_activity_task {
         // Ideally this step would only run once per backup, unfortunately, the
         // nature of the backup system does not allow for activities to have
         // shared resources.
-        $this->add_step(new backup_hvp_libraries_structure_step('hvp_libraries', 'hvp_libraries.xml'));
+
+        // MBS - awag: Skip libraries backup.
+        // $this->add_step(new backup_hvp_libraries_structure_step('hvp_libraries', 'hvp_libraries.xml'));
+        $this->log(get_string('skiphvplibrariesbackup', 'local_mbs'), backup::LOG_DEBUG);
 
         // One suggestion for increasing performance would be to only add the
         // libraries to one activity, but then that would have to be restored

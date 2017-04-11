@@ -222,10 +222,10 @@ $string['history'] = 'Verlauf';
 $string['id'] = 'ID';
 $string['implementedownmodules'] = 'Module, die durch Methoden des Plugins geprüft werden';
 $string['incluserdata'] = 'Nutzerdaten veröffentlichen';
-$string['incluserdata_help'] = '<ul><li>Mit anonymisierten Nutzerdaten: Wählen Sie diese Option, wenn Sie z. B. Glossar-, Wiki- 
+$string['incluserdata_help'] = '<ul><li>Mit anonymisierten Nutzerdaten: Wählen Sie diese Option, wenn Sie z. B. Glossar-, Wiki-
     oder Datenbankinhalte veröffentlichen wollen. Sie können dann nach absenden dieses Formulars in einem zweiten Formular für
     jede Akitivtät wählen, ob die Nutzerdaten mitveröffentlicht werden sollen oder nicht.</li>
-    <li>Ohne Nutzerdaten: Alle Einträge in Aktivitäten werden gelöscht, insbesondere auch Lehrereinträge in Glossaren oder 
+    <li>Ohne Nutzerdaten: Alle Einträge in Aktivitäten werden gelöscht, insbesondere auch Lehrereinträge in Glossaren oder
     Wikis.</li>
     <li>Die Entscheidung für oder gegen Nutzerdaten kann nachträglich nicht umgekehrt werden.</li></ul>';
 $string['incorrectfieldname'] = 'Eingabe eines falschen Feldnamens.';
@@ -251,6 +251,8 @@ $string['license_used'] = 'Verwendet';
 $string['loadmoreresults'] = 'Weitere Ergebnisse laden...';
 $string['managesearch'] = 'Suche verwalten';
 $string['manageqforms'] = 'Fragen für die Kursinformationen verwalten';
+$string['mbstpladmin'] = 'Ausführender User';
+$string['mbstpladmin_desc'] = 'Sie können einen User festlegen, der die Backup- und Restoreprozesse durchführt. Wird keiner gewählt, so wird der erste Systemadministrator verwendet.';
 $string['mbstpl:abouttemplate'] = 'Über diesen Kurs';
 $string['mbstpl:addinstance'] = 'teachSHARE Block hinzufügen';
 $string['mbstpl:assignauthor'] = 'Autor einem Kurs zuweisen';

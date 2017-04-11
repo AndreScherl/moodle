@@ -219,9 +219,9 @@ $string['history'] = 'History';
 $string['id'] = 'ID';
 $string['implementedownmodules'] = 'Modules checkable by own methods';
 $string['incluserdata'] = 'Publish user data';
-$string['incluserdata_help'] = '<ul><li>With anonymised user data: Choose this option, if you want to publish e. g. glossary, wiki 
+$string['incluserdata_help'] = '<ul><li>With anonymised user data: Choose this option, if you want to publish e. g. glossary, wiki
     or database entries. In a second form after this form you can choose for every activity whether to publish user data or not.</li>
-    <li>Without user data: All entries in activities are extinguished, in particular also teacher entries in glossaries or 
+    <li>Without user data: All entries in activities are extinguished, in particular also teacher entries in glossaries or
     wikis.</li>
     <li>The decision for or against user data cannot be turned around afterwards.</li></ul>';
 $string['incorrectfieldname'] = 'Incorrect field name provided.';
@@ -247,6 +247,8 @@ $string['license_used'] = 'Used';
 $string['loadmoreresults'] = 'Load more results';
 $string['managesearch'] = 'Manage search questions';
 $string['manageqforms'] = 'Manage Template Metadata questions';
+$string['mbstpladmin'] = 'User executing cron';
+$string['mbstpladmin_desc'] = 'You may setup a user that is used to execute the backup- and restore processes. If you select none, the first primary admins is used.';
 $string['mbstpl:abouttemplate'] = 'About this template';
 $string['mbstpl:addinstance'] = 'Add a my course template information block instance';
 $string['mbstpl:assignauthor'] = 'Assign an author to a course';

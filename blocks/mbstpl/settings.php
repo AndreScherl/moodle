@@ -74,6 +74,22 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_mbstpl/searchpagesize',
                                                   get_string('searchpagesize', 'block_mbstpl'), null, 15, PARAM_INT));
 
+    // Get admin menu for executing crons.
+    $admins = get_admins();
+
+    $adminmenu = array(0 => get_string('select'));
+
+    foreach ($admins as $id => $admin) {
+
+        $adminmenu[$id] = fullname($admin);
+        if (empty($admin->email)) {
+            $adminmenu[$id] .= " &lt;$admin->email&gt;";
+        }
+    }
+
+    $settings->add(new admin_setting_configselect('block_mbstpl/mbstpladmin',
+                                                  get_string('mbstpladmin', 'block_mbstpl'),
+                                                  get_string('mbstpladmin_desc', 'block_mbstpl'), null, $adminmenu));
 }
 
 $category = new admin_category('block_mbstpl', get_string('pluginnamecategory', 'block_mbstpl'));

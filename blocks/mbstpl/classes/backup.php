@@ -95,7 +95,7 @@ class backup {
      */
     public static function backup_primary(dataobj\backup $backup) {
         $filename = self::get_filename($backup->id);
-        $user = get_admin();
+        $user = self::get_mbstpl_admin();
         if (!$filename = self::launch_primary_backup($backup->origcourseid, $backup->id, $backup->incluserdata, $user->id)) {
             throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl');
         }
@@ -147,13 +147,13 @@ class backup {
 
     /**
      * Create a backup for a template.
-     * @param \block_mbstpl\dataobj\template $backup
+     * @param \block_mbstpl\dataobj\template $template
      * @param object $settings
      * @return string filename or throws error on failure
      */
     public static function backup_secondary(dataobj\template $template, $settings) {
         $backupsettings = isset($settings->backupsettings) ? (array) $settings->backupsettings : array();
-        $user = get_admin();
+        $user = self::get_mbstpl_admin();
         $filename = self::launch_secondary_backup($template->courseid, $template->id, $backupsettings, $user->id);
         return $filename;
     }
@@ -200,7 +200,7 @@ class backup {
      * @return string filename or throws error on failure
      */
     public static function backup_revision(dataobj\template $template) {
-        $user = get_admin();
+        $user = self::get_mbstpl_admin();
         $filename = self::launch_secondary_backup($template->courseid, $template->id, array(), $user->id, true);
         return $filename;
     }
@@ -447,7 +447,7 @@ class backup {
         $course = create_course($cdata);
 
         // Restore.
-        $admin = get_admin();
+        $admin = self::get_mbstpl_admin();
         self::$primaryrestoreof = $backup;
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, \backup::TARGET_NEW_COURSE);
@@ -660,7 +660,7 @@ class backup {
         }
 
         // Restore.
-        $admin = get_admin();
+        $admin = self::get_mbstpl_admin();
         try {
             $rc = new \restore_controller($tmpname, $course->id, false, \backup::MODE_SAMESITE, $admin->id, $restoretype);
 
@@ -846,9 +846,9 @@ class backup {
      * @return string filename or throws error on failure
      */
     public static function backup_published($courseid, dataobj\template $template) {
-        global $CFG, $USER;
+        global $CFG;
 
-        $user = $USER;
+        $user = self::get_mbstpl_admin();
 
         if (!$tempfilename = self::launch_secondary_backup($courseid, $template->id, array('anonymize' => 1), $user->id, true)) {
             throw new \moodle_exception('errorbackinguptemplate', 'block_mbstpl', $courseid);
@@ -907,6 +907,29 @@ class backup {
         self::launch_secondary_restore($template, $tempfilename, 0, $courseid, true);
 
         $template->store_last_reset_time(time());
+    }
+
+    /**
+     * Get a (primary) admin user to execute all the backups and restore processes.
+     */
+    private static function get_mbstpl_admin() {
+
+        // Get and verify all admins.
+        $alladmins = get_admins();
+
+        if (!$alladmins) {
+            return false;
+        }
+
+        // Get configurated admin id.
+        $mbstpladminid = get_config('block_mbstpl', 'mbstpladmin');
+
+        if (isset($alladmins[$mbstpladminid])) {
+            return $alladmins[$mbstpladminid];
+        }
+
+        $firstadmin = reset($alladmins);
+        return $firstadmin;
     }
 
 }

@@ -333,12 +333,12 @@ class perms {
     }
 
     /**
-     * Tells us whther we can create a new published backup file. This backup file is
-     * create the first time, when the course is published. When a course-template,
+     * Tells us whether the user can create a new published backup file. This püublished
+     * backup file is created the first time, when the course is published. When a course-template,
      * which contains user data is resetted, we restore from this file.
      *
-     * @param type $template
-     * @param type $coursecontext
+     * @param object $template
+     * @param context $coursecontext
      */
     public static function can_createdpublishedbackup($template, $coursecontext) {
 

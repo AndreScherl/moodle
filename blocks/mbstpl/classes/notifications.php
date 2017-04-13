@@ -38,7 +38,7 @@ class notifications {
         $user = \core_user::get_user(\core_user::NOREPLY_USER);
         $user->firstname = 'mebis teachSHARE';
         $user->lastname = 'Systemnachricht';
-        
+
         return $user;
     }
 
@@ -275,7 +275,8 @@ class notifications {
     }
 
     private static function send_message($messagetype, $touser, $subject, $body, $attachment = null, $fromuser = null) {
-        $message = new \stdClass();
+        $message = new \core\message\message();
+        $message->courseid          = SITEID;
         $message->component         = 'block_mbstpl';
         $message->name              = $messagetype;
         $message->userfrom          = isset($fromuser) ? $fromuser : self::get_fromuser();
@@ -296,7 +297,7 @@ class notifications {
 
         message_send($message);
     }
-    
+
     /**
      * Send complain to support.
      * @param $errordata
@@ -325,7 +326,7 @@ class notifications {
         $body = get_string('emailcomplaint_body', 'block_mbstpl', $a);
         self::send_message('complaint', $to, $subject, $body, $attachment = null, $from);
     }
-    
+
     /**
      * Notify the user that the complaint arrived.
      * @param $errordata

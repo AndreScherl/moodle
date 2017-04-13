@@ -107,7 +107,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
-        $this->assertCount(2, $mods, 'Expecting 2 modules in restored template');
+        $this->assertCount(3, $mods, 'Expecting 2 modules in restored template');
 
         // Expecting a forum module with one discussion and two posts and anonymous users.
         $discussion = $DB->get_record('forum_discussions', array('course' => $courseid));
@@ -166,7 +166,7 @@ class mbstpl_deploy_test extends advanced_testcase {
             $this->assertContains('anon', $user->firstname);
         }
 
-        // Now do a reset task, which should not change the discusion id, because
+        // Now do a reset task, which should not change the discussion id, because
         // there were no changes in the course.
         \block_mbstpl\reset_course_userdata::reset_course_from_template($courseid);
         $discussionafter = $DB->get_record('forum_discussions', array('course' => $courseid));

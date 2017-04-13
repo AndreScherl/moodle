@@ -675,6 +675,10 @@ class backup {
         } catch (\Exception $e) {
             throw new \moodle_exception('errorrestoringtemplate', 'block_mbstpl');
         }
+
+        $rc->destroy();
+        unset($rc);
+
         remove_dir($tmpdir);
 
         // Reset a few fields that are overwritten during 'TARGET_NEW_COURSE' restores.

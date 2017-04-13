@@ -82,8 +82,8 @@ if ($ADMIN->fulltree) {
     foreach ($admins as $id => $admin) {
 
         $adminmenu[$id] = fullname($admin);
-        if (empty($admin->email)) {
-            $adminmenu[$id] .= " &lt;$admin->email&gt;";
+        if (!empty($admin->email)) {
+            $adminmenu[$id] .= " <$admin->email>";
         }
     }
 

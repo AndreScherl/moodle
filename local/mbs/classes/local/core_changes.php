@@ -34,7 +34,7 @@ class core_changes {
     public static $teacherroleshortname = 'editingteacher';
 
     /**
-     * Called from \course\index.php function definition() 
+     * Called from \course\index.php function definition()
      */
     public static function check_view_courses() {
         global $PAGE;
@@ -59,7 +59,7 @@ class core_changes {
     }
 
     /**
-     * Called from \course\edit_form.php function definition() 
+     * Called from \course\edit_form.php function definition()
      */
     public static function add_shortname_check() {
         global $PAGE;
@@ -68,12 +68,12 @@ class core_changes {
 
     /**
      * Assign-Teacher-Hack:
-     * 
-     * set the user preference mbs_allow_teacherrole to 1 for users 
+     *
+     * set the user preference mbs_allow_teacherrole to 1 for users
      * with mebisRole "lehrer".
-     * 
-     * Called, when user logs in.
-     * 
+     *
+     * Called from local_mbs_user_loggedin (controlled by event), when user logs in.
+     *
      * @return boolean true, if user is Mebis-Lehrer
      */
     public static function set_allow_teacherrole_preference() {
@@ -96,9 +96,9 @@ class core_changes {
 
     /**
      * Assign-Teacher-Hack:
-     * 
-     * Get all the userids, which this user is allowed to assign as a teacher
-     * 
+     *
+     * Get all the userids, which this user is allowed to assign as a teacher.
+     *
      * @param int[] $userids
      * @return array()
      */
@@ -128,14 +128,21 @@ class core_changes {
 
     /**
      * Assign-Teacher-Hack:
-     * 
-     * Called from \enrol\renderer.php function initialise_javascript() 
-     * Add teacher flags for given users.
-     * 
+     *
+     * Called from \enrol\renderer.php function initialise_javascript()
+     *
+     * Add two arguments to the $arguments array:
+     *
+     * @var array $arguments['allowteacherrole']
+     * this user can assign the teacher role to the users which userids are listed in this array.
+     *
+     * @var int teacherroleid
+     * the id of the role to be assigned (in this case the with the shortname self::$teacherroleshortname
+     *
      * Note that additional hacks are made in rolemanager.js!
-     * 
+     *
      * @param array $arguments containing the userids in $arguments['userIds']
-     * 
+     *
      */
     public static function add_allowteacher_role(&$arguments) {
         global $DB;
@@ -147,7 +154,7 @@ class core_changes {
         }
 
         // Now retrieve the additional teacher role.
-        $sql = "SELECT r.id, r.name, r.shortname, rn.name AS coursealias 
+        $sql = "SELECT r.id, r.name, r.shortname, rn.name AS coursealias
               FROM {role} r
               JOIN {role_context_levels} rcl ON (rcl.contextlevel = :contextlevel AND r.id = rcl.roleid)
          LEFT JOIN {role_names} rn ON (rn.contextid = :coursecontext AND rn.roleid = r.id)
@@ -169,21 +176,23 @@ class core_changes {
             $arguments['teacherrole'] = $rolenames;
         }
 
+        // Add userids, that may receive the teacherrole.
         $arguments['allowteacherrole'] = $allowteacherrole;
+        // Add id of the role, that is considered as the teacherrole.
         $arguments['teacherroleid'] = self::get_roleid_by_shortname(self::$teacherroleshortname);
         return true;
     }
 
     /**
      * Assign-Teacher-Hack:
-     * 
+     *
      * Check, whether it is allowed to assign given role for the user.
      * This is necessary to additionally allow the assignment of teacher role in
      * course context, when users preference 'mbs_allow_teacherrole' has value of 1.
-     * 
+     *
      * Called from enrol/locallib.php course_enrolment_manager->assign_role_to_user($userid, $roleid)
      * and course_enrolment_manager->unassign_role_from_user($userid, $roleid)
-     * 
+     *
      * @param int $roleid
      * @param int $userid
      * @return boolean true, if assignment is allowed
@@ -201,29 +210,40 @@ class core_changes {
 
     /**
      * Assign-Teacher-Hack:
-     * 
+     *
      * Add all assignable roles. This is used to decide, whether a unassign button will
      * be displayed in enrol/users.php
-     * 
+     *
      * Called form enrol/users.php
-     * 
+     *
      * @param course_enrolment_manager $manager
      * @param array $users informations for users appearing in the table
      */
     public static function add_assignableroles($manager, &$users) {
+
         if (empty($users)) {
             return;
         }
 
+        // Id of role to assign for teacher capabilities.
+        $teacherroleid = self::get_roleid_by_shortname(self::$teacherroleshortname);
+
+        // Userids, that may receive teacherrole.
         $allowteacherrole = self::get_allowteacher_userids(array_keys($users));
 
-        foreach ($users as $id => $unused) {
-            $users[$id]['assignableroles'] = $manager->get_assignable_roles();
-            if (in_array($id, $allowteacherrole)) {
-                $users[$id]['assignableroles'][self::get_roleid_by_shortname(self::$teacherroleshortname)] = 1;
+        // Get all roles in this context.
+        $rolenames = role_get_names($manager->get_context(), ROLENAME_ALIAS, true);
 
-                if (isset($users[$id]['roles'][self::get_roleid_by_shortname(self::$teacherroleshortname)])) {
-                    $users[$id]['roles'][self::get_roleid_by_shortname('editingteacher')]['unchangeable'] = false;
+        foreach ($users as $id => $unused) {
+
+            $users[$id]['assignableroles'] = $manager->get_assignable_roles();
+
+            if (in_array($id, $allowteacherrole) && (isset($rolenames[$teacherroleid]))) {
+
+                $users[$id]['assignableroles'][$teacherroleid] = $rolenames[$teacherroleid];;
+
+                if (isset($users[$id]['roles'][$teacherroleid])) {
+                    $users[$id]['roles'][$teacherroleid]['unchangeable'] = false;
                 }
             }
         }
@@ -231,9 +251,9 @@ class core_changes {
 
     /**
      * Assign-Teacher-Hack:
-     * 
+     *
      * Get the role id by shortname
-     * 
+     *
      * @param string $shortname
      * @return int role id
      */
@@ -244,9 +264,9 @@ class core_changes {
 
     /**
      * mbscoordinators-Hack:
-     * 
+     *
      * Get users by id
-     * 
+     *
      * @param array $ids
      * @return array of objects
      */
@@ -257,10 +277,10 @@ class core_changes {
 
     /**
      * mbscoordinators-Hack:
-     * 
+     *
      * prepare a list of enrolled teachers in the given course
      * called from course\classes\management\helper.php -> get_course_detail_array()
-     * 
+     *
      * @param $course
      * @return array
      */
@@ -285,17 +305,17 @@ class core_changes {
 
         return $output;
     }
-    
+
     /**
      * calendar all day events hack:
-     * 
+     *
      * Calendar events without given duration will only get date informations without time informations while exporting the
      * calendar to ics files. The event start date is converted to greenwich time zone. All day events start at 00:00 and are
      * converted to greenwich 22:00 the day before. Then the start date gets the wrong day.
-     * 
+     *
      * Fix: Use strftime() instead of gmstrftime()
      */
-    
+
     public static function timestamp_to_allday_date($t = NULL) {
         if ($t === NULL) {
             $t = time();

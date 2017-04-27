@@ -51,14 +51,14 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
         },
         otherusers : {
             value : false
-        }, 
+        },
         // awag: assign teacher - Hack, ids of users, that are allowed to become a teacher.
         allowteacherrole : {
             validator: Y.Lang.isArray
-        }, 
+        },
         teacherrole : {
             validator: Y.Lang.isObject
-        }, 
+        },
         teacherroleid : {
             value : 0
         }
@@ -186,11 +186,13 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
                     complete: function(tid, outcome, args) {
                         try {
                             var roles = Y.JSON.parse(outcome.responseText);
+                            // awag: assign teacher - load assignable roles via AJAX.
                             var teacherroleid = this.get('teacherroleid');
                             if (!roles.response[teacherroleid]) {
                                 var teacherrole = this.get('teacherrole');
-                                roles.response[teacherroleid] = teacherrole[teacherroleid];
+                                roles.response[teacherroleid] = {id: teacherroleid, name: teacherrole[teacherroleid]};
                             }
+                            // awag: assign teacher - load assignable roles via AJAX.
                             this.set(ASSIGNABLEROLES, roles.response);
                         } catch (e) {
                             new M.core.exception(e);
@@ -418,7 +420,7 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
             var allowteacher = false;
             for (var key in allowteacherrole) {
                 if (userid == allowteacherrole[key]) {
-                   allowteacher = true; 
+                   allowteacher = true;
                 }
             }
             if (node = this.get('contentNode').one('#add_assignable_role_' + teacherroleid)) {

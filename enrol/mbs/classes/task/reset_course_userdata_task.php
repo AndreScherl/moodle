@@ -81,12 +81,19 @@ class reset_course_userdata_task extends \core\task\adhoc_task {
      * @see \core\task\task_base::execute()
      */
     public function execute() {
-
-        global $CFG;
+        global $CFG, $DB;
 
         $data = $this->get_custom_data();
         if (empty($data->courseid)) {
             throw new \moodle_exception("course reset task is missing courseid");
+        }
+
+        // Old adhoc task will be deleted by task manager, when executed successfully.
+        // So abort - without an error - when course does not exist.
+        $course = $DB->get_record('course', array('id' => $data->courseid));
+        if ($course) {
+            mtrace("course to reset does not exist, ID: $data->courseid, deleting adhoc task.");
+            return;
         }
 
         \enrol_mbs\reset_course_userdata::reset_course_from_template($data->courseid);

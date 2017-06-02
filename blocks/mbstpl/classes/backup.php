@@ -443,6 +443,7 @@ class backup {
             'shortname' => self::generate_course_shortname($info->original_course_shortname, $backup->lastversion),
             'fullname' => $info->original_course_fullname,
             'visible' => 0,
+            'newsitems' => 0 // prevent creation of a new forum when course_created event is fired.
         );
         $course = create_course($cdata);
 
@@ -647,7 +648,8 @@ class backup {
                 'category' => $targetcat,
                 'shortname' => self::generate_course_shortname($info->original_course_shortname, 1, false),
                 'fullname' => $info->original_course_fullname,
-                'visible' => $visible
+                'visible' => $visible,
+                'newsitems' => 0 // prevent creation of a new forum when course_created event is fired.
             );
             $course = create_course($cdata);
             $restoretype = \backup::TARGET_NEW_COURSE;

@@ -107,7 +107,7 @@ class mbstpl_deploy_test extends advanced_testcase {
         $template = new mbst\dataobj\template(array('courseid' => $courseid), true);
         $this->assertNotEmpty($template->id);
         $mods = get_course_mods($courseid);
-        $this->assertCount(3, $mods, 'Expecting 2 modules in restored template');
+        $this->assertCount(2, $mods, 'Expecting 2 modules in restored template');
 
         // Expecting a forum module with one discussion and two posts and anonymous users.
         $discussion = $DB->get_record('forum_discussions', array('course' => $courseid));
@@ -204,8 +204,9 @@ class mbstpl_deploy_test extends advanced_testcase {
 
         // Duplicate the course for use.
         // Initiate deployment task.
+        $module = get_coursemodule_from_instance("forum", $discussionafter->forum);
         $backupsettings = array(
-            'forum_'.$discussionafter->id.'_included' => 1
+            'forum_'.$module->id.'_included' => 1
         );
 
         $sections = $DB->get_records('course_sections', array('course' => $courseid));
@@ -224,6 +225,11 @@ class mbstpl_deploy_test extends advanced_testcase {
         $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
         $deployment->set_custom_data($taskdata);
         $deployment->execute(true);
+
+        // Check number of modules.
+        $newcourseid = $deployment->get_courseid();
+        $mods = get_course_mods($newcourseid);
+        $this->assertCount(1, $mods);
 
         // Delete User and keep firstname and lastname.
         delete_user($author);

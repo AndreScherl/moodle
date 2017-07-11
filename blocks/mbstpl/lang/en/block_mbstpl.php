@@ -276,6 +276,7 @@ $string['messageprovider:published'] = 'Course Template: Published';
 $string['messageprovider:stats'] = 'Course Templates: Statistics';
 $string['messageprovider:reminder'] = 'Course Templates: Reminders';
 $string['missingpermisson'] = 'Course template (ID: {$a}) cannot be published: missing capability';
+$string['missingadmin'] = 'No admin user available';
 $string['mustselectuser'] = 'You must select a user';
 $string['myassigned'] = 'My assigned tasks';
 $string['mypublished'] = 'My published courses';

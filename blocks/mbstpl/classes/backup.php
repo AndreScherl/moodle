@@ -918,7 +918,7 @@ class backup {
     /**
      * Get a (primary) admin user to execute all the backups and restore processes.
      */
-    private static function get_mbstpl_admin() {
+    public static function get_mbstpl_admin() {
 
         // Get and verify all admins.
         $alladmins = get_admins();

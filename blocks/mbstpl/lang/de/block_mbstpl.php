@@ -279,6 +279,7 @@ $string['messageprovider:forrevision'] = 'teachSHARE: Zurückgewiesen zur Übera
 $string['messageprovider:published'] = 'teachSHARE: Veröffentlicht';
 $string['messageprovider:stats'] = 'teachSHARE: Statistik';
 $string['messageprovider:reminder'] = 'teachSHARE: Erinnerungen';
+$string['missingadmin'] = 'Kein gültiger admin user vorhanden';
 $string['missingpermisson'] = 'Kurs template (ID: {$a}) kann nicht veröffentlicht werden, da Rechte fehlen';
 $string['mustselectuser'] = 'Sie müssen einen Nutzer auswählen';
 $string['myassigned'] = 'Kurse in Bearbeitung';

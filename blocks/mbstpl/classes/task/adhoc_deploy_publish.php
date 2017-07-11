@@ -28,6 +28,14 @@ class adhoc_deploy_publish extends \core\task\adhoc_task {
 
     public function execute($rethrowexception = false) {
 
+        // An admin user is needed for execution because of capability checks.
+        $admin = \block_mbstpl\backup::get_mbstpl_admin();
+        if (!$admin) {
+            // Should not happen on an ordinary site.
+            throw new \moodle_exception('missingadmin', 'block_mbstpl');
+        }
+        cron_setup_user($admin);
+
         $tempdetails = $this->get_custom_data();
         $template = new \block_mbstpl\dataobj\template(array('id' => $tempdetails->id), true, MUST_EXIST);
 

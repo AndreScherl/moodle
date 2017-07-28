@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbsmycourses-searchform",
+    "builds": {
+        "moodle-block_mbsmycourses-searchform": {
+            "jsfiles": [
+                "searchform.js"
+            ]
+        }
+    }
+}

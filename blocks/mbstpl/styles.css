@@ -1,0 +1,248 @@
+.mbstcoursebox  {
+    border-style: solid;
+    margin-bottom: 25px;
+    padding: 15px;
+}
+.boxtable > tbody > tr > td:first-child {
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.statusbox.statusbox  {
+    width: 120px;
+    text-align: center;
+    border-style: solid;
+    padding: 3px;
+}
+.statusbox.statusassignedreviewer {background-color: #dad3eb}
+.statusbox.statuscreated {background-color: #dad3eb}
+.statusbox.statusunderreview {background-color: #c9e2be}
+.statusbox.statusunderrevision {background-color: #f3c89c}
+.statusbox.statuspublished {background-color: #e5afff}
+.statusbox.statusarchived {background-color: #cccccc}
+
+.statuslink.statusassignedreviewer {background-color: #dad3eb}
+.statuslink.statuscreated {background-color: #dad3eb}
+.statuslink.statusunderreview {background-color: #c9e2be}
+.statuslink.statusunderrevision {background-color: #f3c89c}
+.statuslink.statuspublished {background-color: #e5afff}
+.statuslink.statusarchived {background-color: #cccccc}
+.statuslink.viewfeedback {font-weight: bold}
+
+table.mytemplates tr {border: solid;}
+table.mytemplates td {width: 23%; padding-top:.5em;}
+table.mytemplates td, table.mytemplates th {background-color: white!important;}
+table.mytemplates td.lastcol {width: 8%; text-align: center;}
+
+.templateactionbtns {display: table;}
+.templateactionbtns > div {display: table-cell;}
+
+
+.mbstpl-search-form .fitem {
+    display: inline-block;
+    width: 100%;
+}
+
+.mbstpl-search-form .felement {
+    margin-left: auto;
+}
+
+.mbstpl-search-form .mform .fitem .felement  > select {
+    width: 200px;
+}
+
+.mbstpl-search-form .mform .fitem .felement select:FIRST-CHILD {
+    font-weight: bold;
+}
+
+.mbstpl-search-form .fitemtitle {
+    width: 30%;
+}
+
+.mbstpl-search-listing {
+    font-weight: 400;
+    font-size: 1.25em;
+    color: #333333;
+}
+
+.mbstpl-list-item-grid {
+    display: inline-block;
+    min-height: 165px;
+    padding: 20px;
+    text-align: left;
+    background: #fff;
+    margin: 10px;
+    width: 200px;
+    float: left;
+    position: relative;
+    border-color: #666;
+    border-width: 1px;
+    border-style: solid;
+    box-shadow: 0px 0px 10px #999;
+}
+
+.mbstpl-list-item-grid > .righticons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.mbstpl-list-item-grid .crsauthor {
+    font-size: 60%;
+}
+
+.mbstpl-list-item-list {
+    display: block;
+    margin: 5px 0;
+    position: relative;
+    padding: 5px;
+    background-color: white;
+}
+
+.mbstpl-list-item-list > .righticons {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
+
+.mbstpl-list-item-list .crsauthor {
+    font-size: 60%;
+}
+
+.mbstpl-heading-panel {
+    position: relative;
+}
+
+.mbstpl-list-controller {
+    display: inline-block;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.mbstpl-list-controller img {
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+}
+
+.mbstpl-search-form #fitem_id_keyword {
+    display: block;
+}
+
+.mbstpl-search-form #fitem_id_keyword input {
+    width: 200px;
+}
+
+.mbstpl-suggestion {
+    position: absolute;
+    min-height: 30px;
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.templaterating .star {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    position: relative;
+    margin: 0;
+}
+
+.templaterating .quantity {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+.templaterating .star.fullstar {
+    background-image: url([[pix:block_mbstpl|fullstar]]);
+}
+
+.templaterating .star.halfstar {
+    background-image: url([[pix:block_mbstpl|halfstar]]);
+}
+
+.templaterating .star.emptystar {
+    background-image: url([[pix:block_mbstpl|emptystar]]);
+}
+
+.path-blocks-mbstpl dl.list dt {
+    float: left;
+    width: 180px;
+    overflow: hidden;
+    clear: left;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.path-blocks-mbstpl dl.list dd {
+    margin-left: 200px;
+}
+
+ul.mbsfilelist, ul.mbsfilelist li {
+    list-style-type: none;
+}
+
+.mbstpl-questionlabel {
+    font-weight: bold;
+}
+
+.mbstrevhist-status { float: left; margin: 6px 10px 6px 6px; }
+.mbstrevhist-name { float: right; margin: 0 6px 10px 6px; }
+.mbstrevhist-item {
+    padding: 4px;
+    border-top: 1px solid #ccc;
+}
+.mbstrevhist-item:nth-child(even) { background-color: #f4f4f4; }
+.mbstrevhist-item:nth-child(even):hover { background-color: #eeeeee; }
+.mbstrevhist-item:nth-child(odd) { background-color: #fff; }
+.mbstrevhist-item:nth-child(odd):hover { background-color: #f9f9f9; }
+
+.path-blocks-mbstpl .path-backup .mform .fitem .fitemtitle {
+    width: 200px;
+}
+.path-blocks-mbstpl .path-backup .mform .fitem .felement {
+    margin-left: 210px;
+}
+
+#page-blocks-mbstpl-sendtemplate #fitem_id_license .iconhelp {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+span.mbshelp {
+    float: right;
+    width: 16px;
+    margin-right: -18px;
+    padding: 0px;
+}
+
+fieldset .felement.flookupset ul {
+    list-style: none;
+}
+fieldset .felement.flookupset ul li {
+    display: inline-block;
+    padding: 0 8px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #00a8d5;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+}
+
+fieldset .felement.fcheckbox label {
+    display: inline;
+}
+

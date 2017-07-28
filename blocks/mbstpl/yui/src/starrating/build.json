@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbstpl-starrating",
+     "builds": {
+         "moodle-block_mbstpl-starrating": {
+             "jsfiles": [
+                 "starrating.js"
+             ]
+         }
+     }
+}

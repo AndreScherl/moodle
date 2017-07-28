@@ -1,0 +1,145 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package block_mbstpl
+ * @copyright 2015 Yair Spielmann, Synergy Learning for ALP
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+
+global $PAGE, $USER, $CFG, $DB, $OUTPUT;
+
+require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
+require_once($CFG->libdir . '/coursecatlib.php');
+
+use \block_mbstpl AS mbst;
+
+$thisurl = new moodle_url('/blocks/mbstpl/dupcrs.php');
+$PAGE->set_url($thisurl);
+$PAGE->set_pagelayout('incourse');
+$PAGE->add_body_class('path-backup');
+
+$courseid = required_param('course', PARAM_INT);
+$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$template = new mbst\dataobj\template(array('courseid' => $courseid), true, MUST_EXIST);
+
+require_login($courseid, false);
+$coursecontext = context_course::instance($courseid);
+
+$PAGE->set_context($coursecontext);
+$pagetitle = get_string('duplcourseforuse', 'block_mbstpl');
+$PAGE->set_title($pagetitle);
+if (!mbst\perms::can_coursefromtpl($template, $coursecontext)) {
+    throw new moodle_exception('errorcannotdupcrs', 'block_mbstpl');
+}
+
+// Load allowed courses and categories.
+$cats = coursecat::make_categories_list('moodle/course:create');
+$coursesearch = new restore_course_search(array(), $course->id);
+
+// +++ awag: Restrict course search to permitted courses.
+$coursesearch->require_capability('moodle/course:manageactivities');
+// --- awag: Restrict course search to permitted courses.
+$courses = $coursesearch->get_results();
+if (empty($cats) && empty($courses)) {
+    throw new moodle_exception('errornowheretorestore', 'block_mbstpl');
+}
+
+$step = optional_param('step', 1, PARAM_INT);
+
+// Try to reset the course, may take some time.
+$readyforstep2 = optional_param('restoreto', false, PARAM_ALPHA) && (optional_param("tocat", false, PARAM_INT) || optional_param("tocrs", false, PARAM_INT));
+if (data_submitted() && ($step == 2) && ($readyforstep2)) {
+
+    // Try to reset course first.
+    try {
+        \block_mbstpl\reset_course_userdata::reset_course_from_template($template->courseid);
+        // Note that the current user must have the capability to restore a course. This is controlled by a assigning a suitable rolle
+        // to this user. After resetting the course this user is not enrolled anymore, so we have to reenrol this user now.
+        $enrolplugin = enrol_get_plugin('mbstplaenrl');
+        $instance = $DB->get_record('enrol', array('courseid' => $template->courseid, 'enrol' => 'mbstplaenrl'), '*', MUST_EXIST);
+
+        $timestart = time();
+        if ($instance->enrolperiod) {
+            $timeend = $timestart + $instance->enrolperiod;
+        } else {
+            $timeend = 0;
+        }
+        $enrolplugin->enrol_user($instance, $USER->id, $instance->roleid, $timestart, $timeend);
+    } catch (\moodle_exception $ex) {
+        // When resetting the course fails (for example when there is no pubpk_ file for a template
+        // with userdata available, admins will be noticed.
+        // In this case we currently restore the course anyway, so do NOT retthrow exception and go on with
+        // secondary deployment...
+    }
+}
+
+$creator = mbst\course::get_creators($template->id);
+$licence = $template->get_license();
+$licencelink = \html_writer::link($licence->source, $licence->fullname);
+$licencestring = get_string('duplcourselicensedefault', 'block_mbstpl', array(
+    'creator' => $creator,
+    'licence' => (string) $licencelink
+    ));
+$customdata = array(
+    'course' => $course,
+    'cats' => $cats,
+    'courses' => $courses,
+    'creator' => $creator,
+    'step' => $step,
+    'template' => $template,
+    'licence' => $licencestring
+);
+
+$form = new mbst\form\dupcrs(null, $customdata);
+
+$redirurl = new moodle_url('/course/view.php', array('id' => $courseid));
+if ($form->is_cancelled()) {
+    redirect($redirurl);
+} else if ($form->get_data() && optional_param('doduplicate', 0, PARAM_INT)) {
+
+    // Initiate deployment task.
+    $taskdata = (object) array(
+            'tplid' => $template->id,
+            'settings' => $form->get_task_settings(),
+            'requesterid' => $USER->id,
+    );
+
+    // We do a deployment by first resetting the course.
+    $deployment = new \block_mbstpl\task\adhoc_deploy_secondary();
+    $deployment->set_custom_data($taskdata);
+
+    // We must deploy the course as soon as possible, to duplicate the resetted course.
+    // A delayed deployment may copy user data, that is generated until deployment.
+    $deployment->execute(true);
+    $newcourseurl = new moodle_url('/course/view.php', array('id' => $deployment->get_courseid()));
+    redirect($newcourseurl, get_string('redirectdupcrsmsg_done', 'block_mbstpl'), 5);
+}
+
+echo $OUTPUT->header();
+
+echo html_writer::tag('h2', $pagetitle);
+
+if ($step == 1) {
+    $tform = mbst\questman\manager::build_form($template, $course, array('freeze' => true, 'justtags' => true));
+    $tform->display();
+    echo html_writer::tag('h3', get_string('destination', 'block_mbstpl'));
+}
+
+$form->display();
+
+echo $OUTPUT->footer();

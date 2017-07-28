@@ -1,0 +1,45 @@
+div.formsettings {
+    float: left;
+    width: 50%;
+}
+
+select.type {
+    width: 90%;
+}
+
+select.points {
+    width: 20%;
+    min-width: 64px;
+}
+
+div.objanswer {
+    clear: both;
+}
+
+input.answer {
+    width: 90%;
+}
+
+div.answer {
+    float: left; 
+    width: 40%;
+}
+
+select.percentage {
+    width: 80%;
+    min-width: 84px;
+}
+
+div.percentage {
+    float: left; 
+    width: 20%;
+}
+
+input.feedback {
+    width: 100%;
+}
+
+div.feedback {
+    float: left; 
+    width: 40%;
+}

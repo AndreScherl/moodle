@@ -1,0 +1,1 @@
+YUI.add("moodle-report_mbs-toggleinfo",function(e,t){M.report_mbs=M.report_mbs||{},M.report_mbs.toggleinit=function(t){function n(){var t=e.all('img[id^="info"]');t&&t.each(function(t,n){var r=Number(t.get("id").split("_")[1]);t.on("click",function(t){t.preventDefault(),e.one("#content_"+r).toggleView()})})}n()}},"@VERSION@",{requires:["base","node"]});

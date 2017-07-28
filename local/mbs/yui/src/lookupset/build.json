@@ -1,0 +1,10 @@
+{
+    "name": "moodle-local_mbs-lookupset",
+    "builds": {
+        "moodle-local_mbs-lookupset": {
+            "jsfiles": [
+                "lookupset.js"
+            ]
+        }
+    }
+}

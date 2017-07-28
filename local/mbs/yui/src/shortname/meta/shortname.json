@@ -1,0 +1,9 @@
+{
+    "moodle-local_mbs-shortname": {
+        "requires": [
+            "base",
+            "json",
+            "event-valuechange"
+        ]
+    }
+}

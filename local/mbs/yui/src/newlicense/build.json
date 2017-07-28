@@ -1,0 +1,10 @@
+{
+    "name": "moodle-local_mbs-newlicense",
+    "builds": {
+         "moodle-local_mbs-newlicense": {
+             "jsfiles": [
+                 "newlicense.js"
+             ]
+         }
+     }
+}

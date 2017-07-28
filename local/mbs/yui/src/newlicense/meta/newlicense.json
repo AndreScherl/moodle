@@ -1,0 +1,8 @@
+{
+    "moodle-local_mbs-newlicense": {
+        "requires": [
+            "base",
+            "node"
+        ]
+    }
+}

@@ -1,0 +1,48 @@
+.local_profilepicture_button {
+    display: none;
+}
+
+.jsenabled .local_profilepicture_button {
+    display: inline;
+}
+
+.local_profilepicture {
+    display: none;
+    width: 520px;
+}
+
+.local_profilepicture .yui3-widget-bd {
+    max-height: 350px;
+    overflow: auto;
+}
+
+.local_profilepicture .image {
+    width: 84px;
+    height: 84px;
+    margin: 5px;
+    float: left;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.local_profilepicture .thumbnail {
+    max-width: 64px;
+    max-height: 64px;
+    margin: auto;
+    display: block;
+}
+
+.local_profilepicture .thumbnailwrap {
+    width: 84px;
+    height: 64px;
+}
+
+.local_profilepicture .filename {
+    width: 100px;
+    text-align: center;
+}
+
+.yui3-skin-sam .yui3-panel .yui3-panel-content.local_profilepicture {padding-bottom: 20px;background: #F2F2F2;border-radius: 8px;border: 1px solid #FFFFFF;display: inline-block;-webkit-box-shadow: 5px 5px 20px 0px #666666;-moz-box-shadow: 5px 5px 20px 0px #666666;box-shadow: 5px 5px 20px 0px #666666;}
+
+.yui3-skin-sam .yui3-panel .local_profilepicture .yui3-widget-hd {border-radius: 10px 10px 0px 0px;border-bottom: 1px solid #BBBBBB;padding:5px 5px 5px 5px;text-align: center;font-size:12px;letter-spacing: 1px;color:#333333; text-shadow: 1px 1px 1px #FFFFFF;filter: dropshadow(color=#FFFFFF, offx=1, offy=1);
+    background: #E2E2E2;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#CCCCCC');background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));background: -moz-linear-gradient(top,  #FFFFFF,  #CCCCCC);}

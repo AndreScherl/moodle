@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbsnews-blockmbsnews",
+    "builds": {
+        "moodle-block_mbsnews-blockmbsnews": {
+            "jsfiles": [
+                "blockmbsnews.js"
+            ]
+        }
+    }
+}

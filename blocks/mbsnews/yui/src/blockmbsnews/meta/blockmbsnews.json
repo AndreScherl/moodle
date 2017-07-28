@@ -1,0 +1,9 @@
+{
+    "moodle-block_mbsnews-blockmbsnews": {
+        "requires": [
+            "base",
+            "node",
+            "io-base"
+        ]
+    }
+}

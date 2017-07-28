@@ -1,0 +1,10 @@
+{
+    "name": "moodle-block_mbssearch-searchpage",
+    "builds": {
+        "moodle-block_mbssearch-searchpage": {
+            "jsfiles": [
+                "searchpage.js"
+            ]
+        }
+    }
+}

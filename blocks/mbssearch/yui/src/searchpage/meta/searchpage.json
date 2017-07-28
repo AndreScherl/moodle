@@ -1,0 +1,9 @@
+{
+    "moodle-block_search-courseoverview": {
+        "requires": [
+            "base",
+            "node",
+            "io"
+        ]
+    }
+}

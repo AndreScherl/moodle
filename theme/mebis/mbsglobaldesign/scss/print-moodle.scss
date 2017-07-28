@@ -1,0 +1,323 @@
+//////////////////
+// PRINT STYLES //
+//////////////////
+
+/* ============================= POPUPS & OVERLAYS ============================= */
+
+.me-content-overlay,
+.me-tag-popup,
+.me-problem-report-popup,
+.me-remove-collection-popup,
+.me-idm-portal-password-popup,
+.me-search-teacher-popup,
+.me-search-pupil-popup,
+.me-newsletter-popup {
+    display: none;
+}
+
+/* ============================= NAVIGATION ============================= */
+
+.breadcrumb,
+.me-in-page-menu {
+    display: none;
+}
+
+.me-page-header img {
+    height: auto;
+}
+
+/* ============================= FORMS ============================= */
+
+input,
+select,
+option,
+button,
+.me-search-box {
+    display: none;
+}
+
+/* ============================= FOOTER ============================= */
+
+.footer-nav,
+#page-footer .copyright,
+.footer-mebis-logo {
+    display: none;
+}
+
+/* ============================= ELEMENTS ============================= */
+
+a, a:visited {
+    text-decoration: none;
+    border: none;
+    outline: none;
+    color: #333333!important;
+}
+
+// Disable url-appending
+a[href=""],
+a[href="#"],
+.me-block-icon a,
+.me-event-blocks .me-event-block-date a,
+.me-page-header a,
+footer a {
+
+    &:after {
+        display: none;
+    }
+}
+
+.me-search-result-audio,
+.no-print,
+.blur,
+.extra-nav,
+.add-more-results,
+.me-event-footer,
+.me-block-meta,
+.me-order-box,
+.me-video-icon-overlay {
+    display: none;
+}
+
+img {
+    margin-bottom: 20px;
+}
+
+h2.me-page-headline {
+    color: #333333 !important;
+    display: inline-block !important;
+}
+
+/* ============================= HOMEPAGE ============================= */
+
+.wrapper-homepage {
+
+    #me-block-infoportal,
+    #me-block-mediathek,
+    #me-block-examination-archive,
+    #me-block-learning-platform,
+    .quickentry-box,
+    .carousel-control,
+    .me-newsletter-box {
+        display: none;
+    }
+
+    .me-news-item {
+        width: 100%!important;
+        float: none;
+        list-style: none;
+        margin-bottom: 25px;
+
+        img {
+            max-width: none;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .me-event-blocks {
+
+        .me-event-block-date {
+            min-height: 0!important;
+
+            span {
+                font-weight: 700;
+            }
+        }
+
+        .me-event-block-content {
+            min-height: 0!important;
+            margin-bottom: 10px;
+        }
+
+        .me-event-block-content-inner {
+
+            a:after {
+                display: block;
+            }
+
+        }
+    }
+
+
+}
+
+/* ============================= INFOPORTAL ============================= */
+
+.wrapper-infoportal {
+
+    h2 {
+        display: block;
+        color: #333!important;
+        margin-bottom: 10px!important;
+    }
+
+    .me-kontakt,
+    .me-order-box,
+    .me-detail-info,
+    .me-category-articles,
+    .me-search-result-blur-bg,
+    .me-event-program a {
+        display: none;
+    }
+
+    .me-search-result-image {
+        height: auto;
+    }
+
+    .me-search-result-content {
+
+        h3 {
+            margin-top: 0;
+            color: #333!important;
+            display: block!important
+        }
+    }
+
+    .row-inverted {
+
+        img {
+            width: 100%;
+            max-width: auto;
+            height: auto;
+        }
+
+        .btn {
+            display: none;
+        }
+    }
+
+    .me-article-detail {
+
+        ul {
+            padding-left: 0;
+            margin-bottom: 5px;
+
+            li {
+                list-style: none;
+                padding-left: 0;
+                margin-left: 0;
+            }
+        }
+    }
+
+    .me-event-blocks {
+
+        .me-event-block-date {
+            min-height: 0!important;
+
+            span {
+                font-weight: 700;
+            }
+        }
+
+        .me-event-block-content {
+            min-height: 0!important;
+            margin-bottom: 10px;
+        }
+
+        .me-event-block-content-inner {
+
+            a:after {
+                display: block;
+            }
+
+        }
+    }
+
+
+
+    .me-event-program {
+
+        .me-event-program-headline {
+            display: block!important;
+        }
+
+        .me-event-program-item {
+            margin-bottom: 10px;
+        }
+
+        ul, ul li {
+            margin-left: 0;
+            padding-left: 0;
+            float: none;
+        }
+
+    }
+
+
+    .me-search-result {
+        width: 100%!important;
+        float: none;
+
+        ul {
+            padding-left: 0;
+            margin-bottom: 5px;
+
+            li {
+                list-style: none;
+                padding-left: 0;
+                margin-left: 0;
+            }
+        }
+    }
+
+
+}
+
+/* ============================= MEDIATHEK ============================= */
+
+.wrapper-mediathek {
+
+    .extra-nav,
+    .me-advanced-search-box,
+    .me-search-result-meta,
+    .meta-content,
+    .me-download,
+    .me-category-articles {
+        display: none;
+    }
+
+    .me-search-result-image {
+        height: auto;
+
+        img {
+            margin-bottom: 0!important;
+        }
+    }
+
+}
+
+/* ============================= PRÜFUNGSARCHIV ============================= */
+
+.wrapper-examination-archive {
+
+    .course-detail-media-player {
+        display: none;
+    }
+
+    ul {
+        padding-left: 0;
+        margin-bottom: 5px;
+
+        li {
+            list-style: none;
+            padding-left: 0;
+            margin-left: 0;
+        }
+    }
+
+}
+
+/* ============================= IDM-PORTAL ============================= */
+
+.me-idm-portal-header-nav,
+.me-idm-portal-select-profile {
+    display: none !important;
+}
+
+.wrapper-idm-portal {
+    .btn,
+    .toggle-idm-portal-section {
+        display: none;
+    }
+}

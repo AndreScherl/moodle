@@ -1,0 +1,122 @@
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into a _cu-.. Sheet.
+
+.block_messages {
+
+    .content {
+
+        .info {
+            text-align: left;
+        }
+    }
+}
+
+.mform fieldset.collapsible legend a.fheader {
+margin-left: 0px;
+}
+
+// fixed color in text fields
+.form-item .form-setting,
+.form-item .form-description,
+.mform .fitem .felement,
+#page-mod-forum-search .c1 {
+    color: #555;
+}
+
+// no highlighting of the table rows
+.user-grade td.oddd1, .user-grade th.oddd1 {
+    background-color: transparent;
+}
+
+#graded_users_selector .singleselect label {
+    font-weight: normal;
+    padding-right: 0.5em;
+}
+
+.import-course-selector {
+    .detail-pair-value {
+        color: $white;
+
+        // got rid of the margin of the "next" button but this also affects the "search" button above
+        input[type="submit"] {
+            margin-left: 0px;
+        }
+    }
+
+    // "push" the search button a few pixel to the right by adding a margin to the search box itself
+    input[type="text"] {
+        margin-right: 5px;
+    }
+
+    input[type="text"]+input[type="submit"] {
+        margin-top: -2px;
+    }
+}
+
+.path-backup {
+    legend {
+        color: $white;
+    }
+
+    form {
+        color: #666;
+    }
+}
+
+.strong {
+    font-weight: bold;
+}
+
+#page-mod-chat-gui_basic #participants ul li .userinfo {
+    margin-left: 10px;
+}
+
+#page-mod-chat-gui_basic input#newonly {
+    margin-left: 10px;
+    margin-right: 6px;
+}
+
+.move-list-box {
+    color: $white;
+}
+
+.course-content .section.main .content .page.modtype_page,
+.course-content .section.main .content .imscp.modtype_imscp,
+.course-content .section.main .content .resource.modtype_resource,
+.course-content .section.main .content .quiz.modtype_quiz {
+    background-color: $white;
+}
+
+// Fixed with for input fields on the course > manual enrolement page
+#id_enrolperiod_number,
+#id_expirythreshold_number {
+    width: auto;
+}
+
+// Fixed with for input fields in feedback activity
+#id_name,
+#id_site_after_submit,
+#id_cmidnumber {
+    width: auto;
+}
+
+// Fixed with for input fields in geobra activity
+#id_introeditor,
+#id_geogebraurl,
+#id_width,
+#id_height,
+#id_modgrade_point {
+    width: auto;
+}
+
+// fixed positioning of availability box in feedback and geobra activity
+.availability-field {
+    padding-left: 0px !important;
+}
+
+#fitem_id_availabilityconditionsjson .availability-button {
+    margin-left: 24px;
+}

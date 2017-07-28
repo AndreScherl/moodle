@@ -1,0 +1,326 @@
+// NOTE!
+//
+// awag: currently NOT inlcuded in mebis.scss
+//
+// TODO: check whether any of this styles are necessary and transfer into related _cu-.. Sheet.
+
+#gridiconcontainer {
+    .gridicons {
+        > div > div {
+            min-height: 220px;
+
+            &.currentselected {
+                background-color: transparent !important;
+                opacity: 1;
+            }
+            .image_holder {
+                background-color: #999;
+                border: none;
+                border-radius: 0px;
+                min-height: 150px;
+                &:hover {
+                    border:none !important;
+                }
+            }
+            .icon_content {
+                background-color: $white;
+                padding: 10px;
+                font-family: "Titillium Web SemiBold","Titillium Web";
+                font-weight: 600;
+                font-style: normal;
+                font-size: 20px;
+                text-align: left;
+            }
+        }
+    }
+}
+#gridshadebox {
+
+    #gridshadebox_overlay {
+        z-index: 2;
+        opacity: 0.5;
+    }
+
+    #gridshadebox_content {
+        position: absolute !important;
+        left:0 !important;
+        top: 150px !important;
+        right: 0;
+        border: none;
+        z-index: 999!important;
+        @include box-shadow(0 0 25px rgba(0,0,0,0.35));
+
+        .gtopics {
+            margin: 0 0 10px;
+            max-height: 560px;
+            overflow: auto;
+        }
+
+        div div ul li, div div ol li {
+            border-bottom: none;
+            padding-bottom: 4px;
+            padding-top: 2px;
+        }
+
+        div div ul li {
+            list-style: disc outside none;
+        }
+        div div ol li {
+            list-style: decimal outside none;
+        }
+
+        .section.main{
+            .content {
+                padding: 20px !important;
+                .activity{
+                    border-bottom: none;
+                }
+                .page.modtype_page, .imscp.modtype_imscp,.resource.modtype_resource,.quiz.modtype_quiz {
+                    background-color: #F0F0F0;
+                    margin-top: 1px;
+                }
+            }
+            &.hide_section {
+                display: none;
+                visibility: hidden;
+            }
+            .side {
+                &.right {
+                    float: right;
+                }
+                &.left {
+                    float: left;
+                }
+            }
+        }
+
+        .gridshadebox-close-button {
+            position: relative;
+            text-align: right;
+            padding-top: 5px;
+            padding-right: 5px;
+            margin-bottom: 20px;
+
+            #gridshadebox_close {
+                position: relative;
+                top: auto;
+                left: auto;
+                color: $brand-primary;
+
+                &:hover {
+                    color: $brand-secondary;
+                }
+            }
+        }
+
+        .gridshadebox_arrow {
+            position: relative;
+            cursor: pointer;
+            padding: 20px;
+            opacity: 1;
+            text-align: center;
+            background: $brand-secondary;
+            color: $white;
+            @include transition(background .25s);
+            @include box-shadow(0 0 25px rgba(0,0,0,0.35));
+
+            &#gridshadebox_right {
+                top: inherit;
+                right: inherit;
+                top: 80px;
+            }
+
+            &#gridshadebox_left {
+                top: inherit;
+                left: inherit;
+                top: 80px;
+            }
+
+            &:hover {
+                background: $brand-primary;
+            }
+        }
+    }
+}
+
+
+
+.course-content {
+
+    ul.topics li.section .content:before  {
+
+        clear: none;
+    }
+
+    
+}
+
+
+.course {
+
+    &.course-format-topics {
+
+        .section.main {
+            @media only screen and (max-width: $screen-xs-min) {
+                padding: 20px !important;
+            }
+            
+            background: $white;
+            margin-bottom: 20px;
+            @include box-shadow(0 5px 20px 0 rgba(0,0,0,0.3));
+            position: relative;
+            border: 0;
+            border-left: 1em solid #ffffff;
+
+            .content {
+                padding: 0!important;
+
+                .mod-indent-1 {
+                    display: none;
+                }
+
+            }
+
+            .mod-indent-outer table td {
+                padding: 40px;
+            }
+        }
+
+    }
+
+    
+    
+
+    &.course-format-grid {
+
+        .me-block-inner {
+            background: $white;
+            margin-bottom: 20px;
+            position: relative;
+
+            .edit-image {
+                position: absolute;
+                top: 0;
+                right: 0;
+                text-align: right;
+                background: rgba(51,51,51,.35);
+                font-size: emCalc(12px);
+                display: block;
+                padding: 5px 10px;
+                z-index: 9;
+
+                img {
+                    margin-top: -3px;
+                }
+
+                span {
+                    display: inline-block;
+                    margin-left: 3px;
+                }
+
+                &:hover {
+                    background: rgba(51,51,51,.75);
+                }
+            }
+
+            .me-block-link {
+                overflow: hidden;
+
+                .format-grid-image {
+                    position: relative;
+                    width: 101%;
+                    padding: 0;
+                    overflow: hidden;
+                    background: #999;
+                    text-align: center;
+                    height: 160px;
+                    display: table;
+
+                    .helper {
+                        display: table-cell;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    img {
+                        vertical-align: middle;
+                        position: relative;
+                        z-index: 7;
+                        max-width: none;
+                        width: 100%;
+                        -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
+                        box-shadow: 0 5px 20px 0 rgba(0,0,0,0.3);
+                    }
+
+                    &.portrait img {
+                        width: auto;
+                        max-height: 100%;
+                    }
+
+                    .img-replace {
+                        height: 160px;
+                        width: 100%;
+                    }
+
+                    .block-blur-bg {
+                        position: absolute;
+                        z-index: 5;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        white-space: nowrap;
+                    }
+                }
+
+                .format-grid-content {
+                    padding: 20px;
+                    text-align: left;
+
+                    h3 {
+                        font-weight: 400;
+                        font-size: 1.25em;
+                        line-height: 24px;
+                        margin-bottom: 5px;
+                        position: relative;
+                        color: $brand-gray-dark;
+
+                        &:before {
+                            font-size: 1.125em;
+                            color: $brand-primary;
+                            vertical-align: middle;
+                            margin-top: -12px;
+                        }
+                    }
+                }
+
+            }
+
+            &:hover {
+
+                .me-block-link { background: $brand-secondary; }
+
+
+                .format-grid-content {
+
+                    h3, h3:before {
+                        color: $white;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+.choosercontainer {
+    label {
+        color: $brand-gray-dark;
+    }
+}
+
+.me-course-action-links a {
+    margin-left: 10px;
+}
+
+

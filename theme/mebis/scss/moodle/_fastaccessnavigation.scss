@@ -1,0 +1,42 @@
+/*
+    Sidebar: fast access menu
+    - jump to my apps
+    - jump to search
+*/
+/* 
+    Created on : 13.08.2015, 14:39:19
+    Author     : Franziska Hübler, ISB
+*/
+
+@media only screen {
+
+    .me-page-action-menu {          
+
+        li#me-to-apps div::before {
+            content: "\f009";
+            font-family: FontAwesome;
+            color: $white;
+        }
+
+        li#me-to-search div::before {
+            content: "\f002";
+            font-family: FontAwesome;
+            color: $white;
+        } 
+
+        li#me-to-apps, li#me-to-search {
+            
+            div {
+                
+                &::before {
+                    font-size: emCalc(14px);
+                }
+
+                span {
+                    padding-left: 3px;
+                }
+            }
+        }
+    }
+}
+

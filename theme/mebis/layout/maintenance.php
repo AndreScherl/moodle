@@ -1,0 +1,96 @@
+<?php
+$knownregionpre = $PAGE->blocks->is_known_region('side-pre');
+$knownregionpost = $PAGE->blocks->is_known_region('side-post');
+$knownregionadminnavi = $PAGE->blocks->is_known_region('admin-navi');
+
+$hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
+$hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
+$hastop = $PAGE->blocks->region_has_content('top', $OUTPUT);
+
+$htmlattrib = $OUTPUT->htmlattributes() . ' class="admin-layout"';
+
+// Load the javascript modules
+$PAGE->requires->js_call_amd('theme_mebis/mbslearningplatform', 'init');
+
+echo $OUTPUT->doctype();
+?>
+<html <?php echo $htmlattrib; ?>>
+    <head>
+        <title><?php echo $OUTPUT->page_title(); ?></title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png','mebis');?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png','mebis');?>">
+
+        <?php echo $OUTPUT->standard_head_html(); ?>
+
+        <span data-mode="default"></span>
+    </head>
+
+    <body <?php echo $OUTPUT->body_attributes(); ?>>
+    <?php echo $OUTPUT->standard_top_of_body_html() ?>
+
+        <!-- HOMEPAGE-WRAPPER [start] -->
+        <div class="me-wrapper wrapper-learning-platform" role="main">
+
+            <!-- Top & Side-Navigation [start] -->
+            <?php echo $OUTPUT->main_navbar(); ?>
+            <!-- Top-Navigation [end] -->
+
+            <!-- PAGE HEADER [start] -->
+            <?php echo $OUTPUT->main_header(); ?>
+            <!-- PAGE HEADER [end] -->
+
+            <!-- CONTENT -->
+
+            <div class="container">
+                <!-- Breadcrumbs -->
+                <?php echo $OUTPUT->main_breadcrumbs() ?>
+            </div>
+
+            <div class="container homepage-container admin-container">
+
+                <div class="row">
+
+                    <div class="col-md-12 hidden-lg">
+                        <div class="admin-navigation">
+                            <?php echo $OUTPUT->render_adminnav_selectbox();?>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="admin-content">
+                            <?php
+                            // echo $OUTPUT->course_content_header();
+                                echo $OUTPUT->main_content();
+                            // echo $OUTPUT->course_content_footer();
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="root-footer"></div>
+            <!-- CONTENT [end] -->
+
+        </div>
+        <!-- HOMEPAGE-WRAPPER [end] -->
+        <?php echo $OUTPUT->main_footer(); ?>
+
+        <a href="#top" id="me-back-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+        
+        <div class="container"> 
+            <footer id="page-footer">
+                <?php  echo $OUTPUT->standard_footer_html(); ?>
+            </footer>
+        </div>
+        
+        <?php
+            echo $OUTPUT->standard_end_of_body_html();
+        ?>
+    </body>
+</html>

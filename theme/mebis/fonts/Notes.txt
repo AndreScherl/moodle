@@ -1,0 +1,2 @@
+Das sind die Fonts die unsere Moodle-Installation verwendet.
+Der Ordner fonts in mbsglobaldesign ist für die anderen Angebote.

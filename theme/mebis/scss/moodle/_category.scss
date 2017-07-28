@@ -1,0 +1,409 @@
+/* This file contains Styles related to categories.
+
+category-box: 
+ This box ist used to display a (hierarchical) ordered List of categories 
+ (for example for a school category on category pages)
+*/
+/* 
+    Created on : 19.05.2015
+    Author     : Andreas Wagner, ISB Bayern.
+*/
+
+.category-box {
+    color: $brand-gray-dark;
+
+    .category-course {
+        .category-course-title {
+            padding: 15px 0 15px 20px;
+            margin: 2px 0;
+            .accessible {
+                float: right;
+                margin-right: 20px;
+            }
+            .infoToggle {
+                cursor: pointer;
+                color: $white;
+                float: right;
+                margin-right: 20px;
+                line-height: 2em;
+            }
+            span.category-course-title-name {
+                margin-left: 5px;
+                word-wrap: break-word;
+            }
+            i {
+                color: $white;
+                font-size: 1.25em;
+            }
+            a {
+                color: $white;
+            }
+        }
+        .category-course-info {
+            color: $white;
+            display: none;
+            padding: 0 15px 1px 41px;
+        }
+    }
+
+    > .category-container {
+        padding: 0 !important;
+        > .category-title {
+
+            font-weight: bold;
+            background-color: $brand-primary !important;
+            padding: 20px !important;
+            margin-bottom: 0!important;
+            > span.category-title-name a {
+                color: $white;
+            }
+            >.category-toggle {
+                color: $white;
+            }
+        }
+        > .category-body {
+            background-color: $white !important;
+            margin-top: 0px !important;
+            padding: 20px !important;
+            >.category-course {
+                background-color: rgba($brand-primary, 1.0);
+            }
+            >.category-container {
+                >.category-title {
+                    background-color: rgba($brand-primary, 1.0);
+                }
+                >.category-body {
+                    >.category-course {
+                        background-color: rgba($brand-primary, 0.85);
+                    }
+                    >.category-container  {
+                        >.category-title{
+                            background-color: rgba($brand-primary, 0.85);
+                        }
+                        >.category-body {
+                            >.category-course {
+                                background-color: rgba($brand-primary, 0.7);
+                            }
+                            >.category-container  {
+                                >.category-title{
+                                    background-color: rgba($brand-primary, 0.7);
+                                }
+                                >.category-body {
+                                    >.category-course {
+                                        background-color: rgba($brand-primary, 0.55);
+                                    }
+                                    >.category-container  {
+                                        >.category-title{
+                                            background-color: rgba($brand-primary, 0.55);
+                                        }
+                                        >.category-body {
+                                            >.category-course {
+                                                background-color: rgba($brand-primary, 0.4);
+                                            }
+                                            >.category-container  {
+                                                >.category-title{
+                                                    background-color: rgba($brand-primary, 0.4);
+                                                }
+                                                >.category-body {
+                                                    >.category-course {
+                                                        color: $brand-gray-dark;
+                                                        background-color: rgba($brand-primary, 0.25);
+                                                    }
+                                                    >.category-container  {
+                                                        >.category-title{
+                                                            color: $brand-gray-dark;
+                                                            background-color: rgba($brand-primary, 0.25);
+                                                        }
+                                                        >.category-body {
+                                                            >.category-course {
+                                                                color: $brand-gray-dark;
+                                                                background-color: rgba($brand-primary, 0.1);
+                                                            }
+                                                            >.category-container  {
+                                                                >.category-title{
+                                                                    color: $brand-gray-dark;
+                                                                    background-color: rgba($brand-primary, 0.1);
+                                                                }
+                                                                >.category-body {
+                                                                    >.category-course {
+                                                                        color: $brand-gray-dark;
+                                                                        background-color: rgba($brand-primary, 0.05);
+                                                                    }
+                                                                    >.category-container  {
+                                                                        >.category-title{
+                                                                            color: $brand-gray-dark;
+                                                                            background-color: rgba($brand-primary, 0.05);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        margin: 0 0 5px !important;
+    }
+
+    >.category-course {
+        background-color: $brand-primary !important;
+        margin: 5px 0 !important;
+        padding: 20px !important;
+        >.category-course-title {
+            padding: 0 !important;
+            span.category-course-title-name {
+                margin-left: 5px;
+                word-wrap: break-word;
+                a {
+                    color: $white;
+                }
+            }
+            i {
+                color: $white;
+                font-size: 1.25em;
+            }
+        }
+        >.category-course-info {
+            color: $white;
+        }
+    }
+    .category-container {
+        .category-title {
+            padding: 15px 0 15px 10px;
+            margin: 2px 0;
+            color: $white;
+            .category-toggle {
+                cursor: pointer;
+                float: right;
+                margin-right: 20px;
+                &::before {
+                    font-family: 'mebis-icons';
+                    content: "\e63d";
+                }
+                &.open {
+                    &::before{
+                        font-family: 'mebis-icons';
+                        content: "\e662";
+                    }
+                }
+            }
+            span.category-title-name {
+                margin-left: 5px;
+                a {
+                    color: $white;
+                }
+            }
+        }
+        .category-body {
+            display: none;
+            margin: 2px 0;
+            padding: 0 0 0 20px;
+            @media only screen and (max-width: $screen-xc) {
+                padding: 0;
+            }
+        }
+    }
+}
+
+#page-course-index-category .collapsible-actions {
+    display: none;
+}
+
+#page-course-index-category .category  {
+
+    background-color: $white !important;
+
+    > .info {
+        background-color: $brand-primary !important;
+        padding: 15px 20px;
+        margin: 2px 0 0 0;
+        border: none;
+
+        h3::after, h4::after {
+            content: "";
+            font-family: "mebis-icons";
+            float: right
+        }
+
+        h3::after {
+            margin-right: 20px;
+        }
+
+        h3, h4, h3 a, h4 a {
+            font-size: 18px;
+            color:white;
+            margin:0;
+            padding:0;
+            line-height: 1em;
+            font-weight:400;
+
+        }
+    }  
+
+}
+
+#page-course-index-category .category {
+
+    > .info {
+        background-color: rgba($brand-primary, 1.0)  !important;
+    }
+
+    > .content .category{
+        > .info {
+            background-color: rgba($brand-primary, 0.85)  !important;
+        }
+        > .content .category {
+            > .info {
+                background-color: rgba($brand-primary, 0.7)  !important;
+            }
+            > .content .category{
+                > .info {
+                    background-color: rgba($brand-primary, 0.55)  !important;
+                }
+                > .content .category{
+                    > .info {
+                        background-color: rgba($brand-primary, 0.4)  !important;
+                    }
+                    > .content .category{
+                        > .info {
+                            background-color: rgba($brand-primary, 0.25)  !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#page-course-index-category .category.collapsed {
+
+    > .info h3::after, .info h4::after {
+        content: "";
+        font-family: "mebis-icons";
+        float: right;
+    }
+}
+
+#page-course-index-category .course_category_tree {
+
+    .category.with_children > .info > .categoryname {
+        background-image: none;
+        padding:0;
+        margin: 0;
+        line-height: 26px;
+    }
+
+    .category.with_children.collapsed > .info > .categoryname {
+        background-image: none;
+    }
+
+    > .content > .subcategories {
+        margin-bottom: 5px;
+
+        > .category > .info {
+            padding: 20px;
+            margin-top:5px;
+
+            h3 a {
+                font-weight:bold;
+            }
+        }
+
+        > .category.with_children > .content {
+            padding: 20px;
+        }
+
+        > .category > .content > .subcategories {
+            padding: 0px;
+        }
+    }
+}
+
+#page-course-index-category  .content .courses {
+
+    margin: 0;
+
+    .coursebox {
+
+        border: none;
+        margin: 2px 0 0 0;
+        background-color: $brand-primary;
+
+        .info {
+            line-height: 26px;
+            background: none;
+            border:none;
+
+            span a {
+                vertical-align: top;
+
+                img {
+                    vertical-align: baseline;
+                }
+            }
+
+            span.coursename {
+                word-wrap: break-word;
+
+                &::before {
+                    content: "";
+                    font-family: "mebis-icons";
+                    margin-right: 5px;
+                    font-size:22px;
+                }
+            }
+        }
+
+        a {
+            color: $white;
+        }
+
+    }
+
+}
+
+#coursecat-management {
+
+    .grid-row-r {
+        margin-left: -20px;
+        margin-right: -20px;
+        content: " ";
+        display: table;
+        width: 100%;
+        clear: both;
+    }
+
+    .grid-col {
+
+        position: relative;
+        min-height: 1px;
+        padding-left: 20px;
+        padding-right: 20px;
+        float: left;
+
+        &.span5 {
+            width: 41.66666667%;
+        }
+
+        &.span7 {
+            width: 58.33333333%;
+        }
+
+        &.span4 {
+            width : 33%;
+        }
+    }
+
+    #course-category-listings .detail-pair .pair-value select {
+        display: block;
+        width:100%;
+    }
+}

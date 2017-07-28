@@ -1,0 +1,50 @@
+/*
+    Styles, which are used for the user filemanager.
+*/
+/* 
+    Created on : 22.05.2015, 14:10:29
+    Author     : Franziska Hübler, ISB
+*/
+
+#page-user-files {
+    #main-content-wrapper {
+        background-color: transparent;
+        padding-left: 0;
+        padding-right: 0;  
+
+        .box.generalbox {
+            margin-top: 40px;
+            background: $white;
+            color: $brand-gray-dark;
+
+            fieldset {
+                min-width: 100%;
+
+                #fitem_id_files_filemanager {
+                    margin-left: 0;
+                    margin-right: 0;
+
+                    .fitemtitle {
+                        float: none;
+                        width: 100%;
+                        text-align: left;
+                    }
+
+                    .felement {
+                        float: none;
+                        width: 100%;
+
+                        .filemanager {
+                            font-size: $font-size-base;
+
+                            .fp-path-folder {
+                                background-position: left;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

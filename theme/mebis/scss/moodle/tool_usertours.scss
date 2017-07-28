@@ -1,0 +1,136 @@
+/*
+    This file is a copy from theme/bootstrapbase/less/moodle/tool_usertours.less with customizations.
+*/
+/* 
+    Created on : 01.02.2017
+    Author     : Franziska Hübler, ISB
+*/
+
+/**
+ * Tour step must sit above all other UI components.
+ * The backdrop is the lowest point in the tour.
+ * Everything else is in the container, and the target background should be at the same z-index.
+ * ----- moodle
+ *  ---- step backdrop
+ *   --- step container
+ *   --- step target background
+ */
+$flexitour-base-zindex: 4030;
+$popoverArrowWidth: 10px;
+$popoverArrowColor: #fff;
+$popoverArrowOuterWidth: ($popoverArrowWidth + 1);
+$popoverArrowOuterColor: rgba(0,0,0,.25);
+
+// The backdrop is the backdrop used in 'modal' step display.
+div[data-flexitour="backdrop"] {
+    @include setModalBackdrop();
+
+    // The backdrop needs to have a lower z-index than everything else in the tour, but higher than everything else in Moodle.
+    z-index: $flexitour-base-zindex;
+}
+
+// The step-background is used to highlight the region targetted in the step.
+div[data-flexitour="step-background-fader"],
+div[data-flexitour="step-background"] {
+    @include border-radius(6px);
+
+    // The step target background should be above the base.
+    z-index: ($flexitour-base-zindex + 1);
+}
+
+span[data-flexitour="container"],
+div[data-flexitour="step-background-fader"],
+[data-flexitour="step-backdrop"] > td,
+[data-flexitour="step-backdrop"] {
+    // The step target background should be above the base.
+    z-index: ($flexitour-base-zindex + 2);
+}
+
+span[data-flexitour="container"] {
+    
+    margin: 0 8px;
+    
+    &:focus {
+        outline: none;
+    }
+    
+    div[data-role="flexitour-step"] {
+        background-color: #fff;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, .2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+
+        > div {
+            // When targetting some regions, the selectors override the modal ones.
+            display: block;
+            margin: 0;
+        }
+    }
+
+    .modal {
+        position: static;
+        margin-left: 0;
+    }
+
+    div[data-role="arrow"] {
+        border-width: $popoverArrowOuterWidth;
+    }
+
+    div[data-role="arrow"]:after {
+        content: " ";
+    }
+
+    div[data-role="arrow"],
+    div[data-role="arrow"]:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: $popoverArrowWidth;
+    }
+
+    // We need to know the opposite sides for arrow placement.
+    $opposites:
+        (
+            top: bottom,
+            bottom: top,
+            left: right,
+            right: left,
+        );
+
+    // These are the next leading side and allow for placement half-way along the step dialogue.
+    $sides:
+        (
+            top: left,
+            bottom: left,
+            left: top,
+            right: top,
+        );
+
+    @each $direction in map-keys($opposites) {
+        $opposite: map_get($opposites, $direction);
+        $side: map_get($sides, $direction);
+        $oppositeside: map_get($opposites, $side);
+
+        &[x-placement="#{$direction}"],
+        &[x-placement="#{$direction}-start"] {
+            margin-#{$opposite}: $popoverArrowWidth;
+            div[data-role="arrow"] {
+                #{$opposite}: -$popoverArrowOuterWidth;
+                #{$side}: 50%;
+                margin-#{$side}: -$popoverArrowOuterWidth;
+                border-#{$opposite}-width: 0;
+                border-#{$direction}-color: $popoverArrowOuterColor;
+            }
+            div[data-role="arrow"]:after {
+                #{$opposite}: 1px;
+                margin-#{$side}: -$popoverArrowWidth;
+                content: " ";
+                border-#{$opposite}-width: 0;
+                border-#{$direction}-color: $popoverArrowColor;
+            }
+        }
+    }
+}

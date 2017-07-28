@@ -1,0 +1,565 @@
+/*
+    This file contains style customizations for activities:
+
+    - assign
+    - badges
+    - book
+    - database
+    - feedback
+    - forum
+    - game
+    - glossary
+    - hvp
+    - lesson
+    - page
+    - wiki
+    - #page-question-type-geogebra
+    - #page-mod-choice-view
+    - #page-mod-choiceanon-view
+    - #page-mod-imscp-view
+    - #page-mod-quiz-edit
+    - #page-mod-quiz-attempt
+    - #page-mod-quiz-review
+    - #page-mod-quiz-preview
+    - .que.calculatedmulti
+    - .que.ddmatch
+    - .que.ddwtos 
+    - .que.essay
+    - .que.geogebra
+    - .que.match
+    - .que.multichoicepage-mod-lesson-view
+    - .que.multianswer
+    - .path-mod-chat
+*/
+/* 
+    Created on : 05.06.2015, 12:13:08
+    Author     : Franziska Hübler, ISB
+*/
+
+// styling for games.
+.path-mod-game {
+    #region-main table table {
+        td {
+            padding: 5px;
+        }
+        &#crossword td {
+            padding: 3px;
+        }
+    }
+    .gamebox {
+        width: 30px;
+        font-size: $font-size-base;
+    }
+}
+
+#page-mod-data-templates #main-content-wrapper {
+
+    div > ul.nav.nav-tabs.nav-justified li {     
+        width: 25%;
+        float:left;
+        @media only screen and (max-width: $screen-desktop) {
+            width: 100%;
+        }
+        @media only screen and (max-width: $screen-tablet) {
+            width: 30%;
+            float:left;
+        }
+    }
+}
+
+// Styles for mod-data selections.
+#page-mod-data-edit {
+    #main-content-wrapper form {
+        div.defaulttemplate {
+            overflow: hidden;
+
+            select {
+                width: auto;
+                max-width: 100%;
+            }
+        }
+    }
+}
+
+// Styles for badges.
+.path-badges {
+    .statusbox {
+        border-color: $brand-primary;
+        background: $white;
+        width: 40%;
+        margin-bottom: $space-xsmall;
+    }
+}
+
+.path-mod-chat {
+    .form-inline .form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+    
+    .list-group-item {
+        background-color: $brand-gray-light;
+    }
+}
+
+// styling Assignment GeoGebra submissions.
+#page-mod-assign-view, #page-mod-assign-mod, #page-mod-assign-grader, #page-mod-assign-grading, #page-question-type-geogebra,
+#page-mod-assign-editsubmission, #page-mod-assign-viewpluginassignsubmission {
+
+    div#applet_container1 {
+        //need important because of element style
+        height: inherit !important;
+        > div {
+            min-height: 0;            
+            height: inherit !important;
+        }
+    }
+} 
+// styling GeoGebra question.
+div.que.geogebra {
+    div.formulation {
+        div[id$='ggbdiv'] {
+            //need important because of element style
+            height: inherit !important;
+            > div {
+                min-height: 0;                
+                height: inherit !important;
+            }
+        }
+    }
+}
+
+#page-mod-assign-mod #main-content-wrapper {
+
+    fieldset.clearfix.collapsible fieldset.felement.fgroup span {
+        white-space: nowrap;
+
+        span.helptooltip {
+            margin-right: 20px;
+        }
+    } 
+}
+
+.path-mod-assign div.feedback {
+    float: none;
+    width: auto;
+}
+
+#page-mod-choice-view,
+#page-mod-choiceanon-view {
+    #main-content-wrapper {
+
+        form ul li {
+
+            input[type="radio"] {
+                margin: 0 7px 0 0;
+            }
+
+            label {
+                padding-left: 2.8px;
+                margin: 0;
+                display: inline;
+            }
+        }    
+    }
+}
+
+.path-mod-choiceanon .results .data.header{
+    white-space: normal;
+    padding-right: 10px;
+}
+
+#page-mod-feedback-complete #main-content-wrapper {
+
+    input[type="submit"] {
+        margin-left: 0;
+    }
+}
+
+#page-mod-feedback-print {
+    div[role="main"] {
+        background-color: $white;
+    }
+}
+
+#page-mod-journal-report {
+
+    .userpix {
+
+        img {
+            max-width: none;
+        }
+    }
+}
+
+#page-mod-lesson-edit #main-content-wrapper {
+    .label {
+        color: $black;
+    }
+}
+
+#page-mod-mediathek-mod #main-content-wrapper {
+
+    fieldset.clearfix.collapsible button {
+        margin-left: 0;
+    }
+}
+
+//++++++++++++++++++++++++  From here on: special styles for questions in general +++++++++++++++
+#page-question-addquestion.jsenabled {
+    #chooseqtypebox {
+        width: 100%;   
+        .choosercontainer #chooseform {
+            .alloptions {
+                max-width: inherit;
+                box-shadow: none;
+                overflow: inherit;
+            }
+            .instruction {
+                display: none;
+            }
+            .typesummary {   
+                display: inline;
+                position: static;
+                background-color: transparent;
+            }
+            .options {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+#page-mod-quiz-edit {
+
+    #main-content-wrapper {
+
+        overflow: hidden;
+
+        div.quizcontents {
+            padding: 20px;
+            background: $white;
+        }
+
+        .questionbankwindow {
+            .title {
+                word-wrap: break-word;
+            }
+
+            div.header {
+                background: $brand-primary;
+            }
+        }
+    }
+}
+
+#page-mod-quiz-edit .questionbankwindow a#showbankcmd, 
+#page-mod-quiz-edit .questionbankwindow a#hidebankcmd {
+    &:hover {
+        background-color: $brand-secondary;
+        color: $white;
+    }
+}
+
+#page-question-edit, #page-mod-quiz-edit {
+
+    table#categoryquestions>tbody>tr.highlight {
+        background: $brand-secondary;
+        display: table-row;
+    }
+}
+
+#page-mod-quiz-attempt,
+#page-mod-quiz-review {
+    .submitbtns {
+        text-align: right;
+
+        .mod_quiz-next-nav {
+            float: none;
+        }
+        .mod_quiz-prev-nav {
+            float:left;
+        }
+    }
+}
+
+#page-mod-quiz-attempt,
+#page-mod-quiz-review,
+#page-question-preview {
+
+    div.content {
+
+        &:before {
+            display: none;
+        }
+
+        .formulation {
+            color: $brand-gray-dark;
+        }
+    }
+
+    #techinfo {
+        background: $white;
+        padding-left: 20px;
+    }
+
+    .performanceinfo {
+        background: $white;
+    }
+}
+
+#page-mod-quiz-report {
+    .highlight {
+        border: none;
+        background-color: $brand-primary;
+    }
+}
+
+.que .formulation {
+    background: $white;
+    border-color: #ddd;
+    color: $black;
+
+    hr {
+        border-top-color: #ddd;
+    }
+}
+
+.path-mod-quiz {
+    .qnbutton.blocked, .qnbutton.notyetanswered, .qnbutton.requiresgrading, 
+    .qnbutton.invalidanswer, .qnbutton.correct, .qnbutton.incorrect, .qnbutton.partiallycorrect  {
+        color: $brand-gray-dark;
+
+        &:hover {
+            color: $white;
+        }
+    }
+}
+
+//++++++++++++++++++++++++  From here on: styles for special questiontypes +++++++++++++++
+
+// questiontype ddmatch.
+.que.ddmatch {
+
+    li.placeholder, li.matchdrag {
+        list-style-type: none !important;
+    }
+
+    .matchtarget.yui3-dd-drop-over li {
+        background: $brand-primary;
+        color: $white;
+    }
+
+    .formulation {
+        .correct, .incorrect {
+            background: none;
+        }
+    }
+}
+
+// questiontype match.
+.que.match .answer tr.r0 td.text,
+.que.match .answer tr.r1 td.text {
+    padding-right: 5px;
+}
+
+// questiontype calculatedmulti.
+.que.calculatedmulti {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        width: 15px;
+    }
+}
+
+// questiontype multianswer.
+.que.multianswer  {
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        width: 15px;
+    }
+
+    .feedbackspan {
+        background: $brand-primary;
+        color: $white;
+        border: none;
+        @include box-shadow(0 0 20px 1px rgba(0,0,0,0.3));
+    }
+}
+
+// questiontype multichoice.
+.que.multichoice {
+    .ablock, .qtext {
+        margin: 0;    
+    }
+
+    .ablock .prompt {
+        display: none;
+    }
+
+    .answer div.r0 input, 
+    .answer div.r1 input {
+        margin: 0 0 0 5px;
+    }
+
+}
+
+.que.multichoice, .que.multianswer, .que.calculatedmulti {
+    div.answer {
+        width: 100%;
+    }
+}
+
+// questiontype drag and drop on text.
+.que.ddwtos {
+    .drop.yui3-dd-drop-over.yui3-dd-drop-active-valid {
+        border-color: $brand-primary;
+        @include box-shadow(0 0 6px 1px $brand-primary);
+    }
+    .group1 {
+        background-color: transparent;
+    }
+    .unplaced {
+        background-color: #fff;
+    }
+}
+
+.que.essay {
+    div.answer {
+        float: none;
+        width: auto;
+    }
+}
+
+//+++++++++++++++++++++++++++++++++++++++  END: question styles  +++++++++++++++++++++++++++++++++++++++++++++
+
+
+// Styles for searching in mebis-Prüfungsarchiv.
+#page-repository-pmediathek-search {
+
+    #page #page-content {
+        padding-left: 5px;
+        padding-right: 5px;
+
+        div .searchresult {
+            color: $black;
+        }
+        ul.nav.nav-tabs.nav-justified > li {
+            background-color: $brand-gray-light;            
+        }
+    }
+}
+
+// Styles for lists in activity content. 
+#page-mod-wiki-view, #page-mod-wiki-edit, #page-mod-page-view, #page-mod-glossary-view, #page-mod-forum-discuss, #page-mod-lesson-edit, #page-mod-lesson-view, #page-mod-assign-grading, #page-mod-book-view {
+    #main-content-wrapper div[role="main"] {
+        div div ul {
+            padding-left: 30px;
+            margin-left: 0;
+            > li {
+                list-style-position: outside;
+                list-style-image: none;
+            }
+        }
+        div div ol {
+            padding-left: 30px;
+            margin-left: 0;
+            > li {
+                list-style-position: outside;
+                list-style-image: none;
+            }
+        }        
+    }
+}
+
+// IMS-Content.
+#page-mod-imscp-view {
+
+    .yui-layout  {
+        font-size: 16px;
+
+        .yui-layout-unit div.yui-layout-hd h2 {
+            font-size: $font-size-base;
+        }
+
+        //don't show scrollbars twice
+        .yui-layout-scroll div.yui-layout-bd {
+            overflow: visible;
+        }
+    } 
+}
+
+// +++++++++++++++++++++++++++++++++++++++ START Grades.
+#page-mod-assign-grading .homepage-container {
+    width: 100%;
+    max-width: 1692px;
+}
+
+.gradeparent {
+    // If class no-overflow was used, this change would be unnecessary. 
+    margin-bottom: 1px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+
+    .gradereport-grader-table {
+        font-size: $font-size-base-small;
+
+        img {
+            max-width: none;
+        }
+
+        // Generating more space for more important rows.
+        .userfield.userinstitution {
+            display: none;
+        }        
+        .userfield.useremail {
+            display: none;
+        }
+    }
+}
+// +++++++++++++++++++++++++++++++++++++++ END Grades.
+
+#page-mod-lesson-view {
+    input[type="submit"] {
+        white-space: normal;
+    }
+}
+
+.wiki_navigation_container {
+    display: flex;
+}
+
+@media only screen and (min-width: $screen-lg-min) { 
+    #page-mod-assign-grading .homepage-container {
+        padding-left: 100px;
+    }
+}
+
+@media only screen and (min-width: $screen-xc-min) {
+
+    #page-repository-pmediathek-search {
+        #mform1 {
+            display: inline;
+            fieldset:last-child {
+                float: right;
+                margin-top: 29px;
+                margin-right: 20px;
+            }
+        }        
+    }
+}
+/* ============================= H5P Twitter Icon invisible ============================= */
+
+.h5p-course-presentation .h5p-summary-twitter-message > span, 
+.h5p-course-presentation .h5p-summary-facebook-message > span,
+.h5p-summary-twitter-message {
+    display: none;
+}
+
+.h5p-course-presentation .h5p-summary-twitter-message::before {
+    content: ""  
+}

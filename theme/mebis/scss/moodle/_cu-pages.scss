@@ -1,0 +1,301 @@
+/*
+    All Styles related to special Pages.
+    - .page-files-index
+    - .path-course-view
+    - #page-calendar-view
+    - #page-course-edit
+    - #page-course-index-category
+    - #page-enrol-users
+    - #page-enrol-index
+    - #page-my-index
+    - #page-course-management
+    - #page-course-switchrole
+    - #page-content
+    - #page-admin-purgecaches
+    - #page-admin-tool-lp-plans
+    - #page-mod-assign-grader
+    - #page-admin-tool-lp-coursecompetencies
+    - #page-admin-tool-lp-user_competency_in_course
+*/
+/*
+    Created on : 16.05.2015, 19:46:57
+    Author     : Andreas Wagner
+*/
+
+#page-files-index {
+    #main-content-wrapper {
+        overflow-x: auto;
+    }
+}
+
+.path-user.path-course-view {
+    #main-content-wrapper {
+        padding: 0 20px 20px;
+    }
+}
+
+.path-course-view {
+
+    #main-content-wrapper {
+        padding: 0;
+    }
+
+    .course-headline {
+
+        h2, h1 {
+            color: $white;
+            margin-bottom: 25px;
+        }
+    }
+
+}
+
+// calendar.
+#page-calendar-view {
+    #main-content-wrapper {
+        overflow: hidden;
+
+        .heightcontainer {
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+    }
+
+    .homepage-container {
+        width: 90%;
+    }
+}
+
+// competencies.
+#page-admin-tool-lp-coursecompetencies, #page-admin-tool-lp-user_competency_in_course {
+    ul.inline {
+        list-style-type: none;
+    }
+}
+
+[data-region=user-competency-full-info] {
+    .label-important {
+        background-color: transparent;
+        border: 1px solid $brand-secondary;
+        @include border-radius(10px 10px 10px 10px);
+        color: $black;
+        margin-right: 3px;
+        margin-top: 3px;
+    }
+}
+
+#page-course-index-category {
+
+    div[role="main"] > .generalbox {
+
+        background: $white;
+        color : $black;
+        border : none;
+        border-radius: 0;
+        padding:20px;
+    }
+}
+
+#page-enrol-users .enrol_user_buttons {
+    float: none;
+    text-align: right;
+}
+
+// enrol page after search.
+#page-enrol-index {
+
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+        padding-left: 0;
+        padding-right: 0;
+
+        h2 {
+            background: transparent;
+            color : $white;
+            padding-left: 20px;
+        }
+    }
+
+    .box.generalbox.info {
+
+        li {
+            list-style: none;
+        }
+
+        .panel-default {
+
+            border: none;
+
+            > .panel-heading {
+                border: none;
+                background-color: $brand-primary;
+                font-size: 27px;
+
+                a {
+                    color: $white;
+                }
+            }
+
+            > .panel-body {
+                color: $black;
+            }
+        }
+    }
+
+    fieldset .fcontainer {
+        color: $black;
+    }
+
+    #notice {
+        padding-bottom: 20px;
+    }
+}
+
+// My Dashboard my/index.php.
+.pagelayout-mydashboard {
+
+    #main-content-wrapper {
+
+        background: transparent;
+        color : $white;
+
+        h2 {
+            background: transparent;
+            color : $white;
+        }
+    }
+}
+
+// Page course/management.php.
+#page-course-management {
+
+    #course-category-listings {
+        margin-bottom: 20px;
+
+        > div > div {
+            border: none;
+            margin-bottom : 20px;
+        }
+
+        h3 {
+            background: $brand-primary;
+            padding: 20px;
+        }
+
+        .listitem > div .idnumber {
+            color: $brand-gray-dark;
+        }
+
+        #category-listing .course-count {
+            color: $brand-gray-dark;
+        }
+    }
+}
+
+#page-course-switchrole {
+    #main-content-wrapper {
+        background: $white;
+    }
+}
+
+// Styles for background and lists in:
+// - print.php pages
+// - #page-admin-purgecaches
+// - page-popup
+#page-content, #page-admin-purgecaches,
+#page-mod-quiz-reviewquestion.pagelayout-popup, #page-question-preview.pagelayout-popup,
+#page-mod-page-view.pagelayout-popup {
+    background: $white;
+
+    div[role="main"] {
+        div div ul {
+            padding-left: 30px;
+            margin-left: 0;
+            > li {
+                list-style-position: outside;
+                list-style-image: none;
+            }
+        }
+        div div ol {
+            padding-left: 30px;
+            margin-left: 0;
+            > li {
+                list-style-position: outside;
+                list-style-image: none;
+            }
+        }
+    }
+}
+
+// Styles for Learning plans page.
+#page-admin-tool-lp-plans {
+    div[role="main"] {
+        padding-bottom: $space-small;
+    }
+}
+
+// START Styles for Grading page.
+.path-mod-assign {
+    [data-region="grading-navigation-panel"] {
+        background: $white;
+    }
+    [data-region="user-info"] .img-rounded {
+        height: 2.5em;
+    }
+    [data-region="grade-panel"] {
+        top: 95px;
+
+        h3 {
+            font-size: 1.25em;
+        }
+        .mform {
+            .fitem {
+                margin: 0;
+            }
+            fieldset .ftoggler {
+                padding: 0;
+            }
+        }
+        #fitem_id_assignfeedbackcomments_editor {
+            img.smallicon {
+                max-width: none;
+            }
+        }
+    }
+    [data-region="grade-actions-panel"] {
+        background: $white;
+        height: auto;
+        button[type="submit"] {
+            border-color: #ccc;
+        }
+    }
+}
+
+#page-mod-assign-grader {
+    [data-region="user-selector"] .form-autocomplete-suggestions {
+        margin-left: $space-large;
+        padding-left: 0;
+    }
+}
+
+#page-mod-assign-grader [data-region="grade-panel"] [data-region="grade"] {
+    @media (min-width: $screen-sm-min) {
+        max-width: $container-sm;
+    }
+    @media (min-width: $screen-md-min) {
+        max-width: $container-md;
+    }
+    @media (min-width: $screen-lg-min) {
+        max-width: $container-lg;
+    }
+}
+
+@media (max-width: $screen-sm-min) {
+    #page-mod-assign-grader [data-region="grade-panel"] {
+        position: inherit;
+    }
+}
+// END Styles for Grading page.
+

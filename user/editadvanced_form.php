@@ -291,7 +291,9 @@ class user_editadvanced_form extends moodleform {
             }
         }
 
-        if (!$user or (isset($usernew->email) && $user->email !== $usernew->email)) {
+        //+++ awag H019: leere E-Mail nicht überprüfen
+        if (!empty($usernew->email) and (!$user or (isset($usernew->email) && $user->email !== $usernew->email))) {
+        //if (!$user or (isset($usernew->email) && $user->email !== $usernew->email)) {
             if (!validate_email($usernew->email)) {
                 $err['email'] = get_string('invalidemail');
             } else if (empty($CFG->allowaccountssameemail)

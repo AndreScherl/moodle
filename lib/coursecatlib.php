@@ -584,11 +584,28 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      */
     protected static function get_tree($id) {
         global $DB;
+        
         $coursecattreecache = cache::make('core', 'coursecattree');
+        
+        /* awag - HACK: to improve performance, coursecattree is written below serialized 
+         * in one step, so change the way reading it...
+        
         $rv = $coursecattreecache->get($id);
         if ($rv !== false) {
             return $rv;
         }
+        */
+        $starttime = microtime(true);
+        if ($allserialized = $coursecattreecache->get('all')) {
+            $rv = unserialize($allserialized);
+            if (optional_param('perfdebug', 0, PARAM_INT)) {
+                echo "<br/>coursecatcache read all: ".(microtime(true) - $starttime);
+            }
+            if (isset($rv[$id])) {
+                return $rv[$id];
+            }
+        }
+        // --- awag HACK.
         // Re-build the tree.
         $sql = "SELECT cc.id, cc.parent, cc.visible
                 FROM {course_categories} cc
@@ -627,6 +644,11 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         // We must add countall to all in case it was the requested ID.
         $all['countall'] = $count;
         $coursecattreecache->set_many($all);
+        so write cache serialized in one step:
+        */
+        $allserialized = serialize($all);
+        $coursecattreecache->set('all', $allserialized);
+        // --- awag Hack.
         if (array_key_exists($id, $all)) {
             return $all[$id];
         }
@@ -1605,6 +1627,11 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             // Fool-proof.
             return false;
         }
+        
+        // awag: speedup for admins.
+        if (is_siteadmin()) {
+            return true;
+        }
 
         $context = $this->get_context();
         if (!$this->is_uservisible() ||
@@ -2399,7 +2426,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_create_subcategory() {
-        return $this->has_manage_capability();
+        // awag: speedup for admins.
+        return (is_siteadmin() || $this->has_manage_capability());
     }
 
     /**
@@ -2408,7 +2436,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_resort_subcategories() {
-        return $this->has_manage_capability() && !$this->get_not_visible_children_ids();
+        // awag: speedup for admins.
+        return (is_siteadmin() || ($this->has_manage_capability() && !$this->get_not_visible_children_ids()));
     }
 
     /**
@@ -2417,7 +2446,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_resort_courses() {
-        return $this->has_manage_capability() && $this->coursecount == $this->get_courses_count();
+        // awag: speedup admin.
+        return (is_siteadmin() || $this->has_manage_capability()) && $this->coursecount == $this->get_courses_count();
     }
 
     /**
@@ -2425,7 +2455,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_change_sortorder() {
-        return $this->id && $this->get_parent_coursecat()->can_resort_subcategories();
+        // awag: speedup for admins.
+        return $this->id && (is_siteadmin() || $this->get_parent_coursecat()->can_resort_subcategories());
     }
 
     /**
@@ -2441,7 +2472,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_edit() {
-        return $this->has_manage_capability();
+        // awag: speedup for admins.
+        return (is_siteadmin() || $this->has_manage_capability());
     }
 
     /**
@@ -2449,7 +2481,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_review_roles() {
-        return has_capability('moodle/role:assign', $this->get_context());
+        // awag: speedup for admins.
+        return (is_siteadmin() || has_capability('moodle/role:assign', $this->get_context()));
     }
 
     /**
@@ -2457,12 +2490,13 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_review_permissions() {
-        return has_any_capability(array(
+        // awag: speedup for admins.
+        return (is_siteadmin() || has_any_capability(array(
             'moodle/role:assign',
             'moodle/role:safeoverride',
             'moodle/role:override',
             'moodle/role:assign'
-        ), $this->get_context());
+        ), $this->get_context()));
     }
 
     /**
@@ -2470,7 +2504,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_review_cohorts() {
-        return has_any_capability(array('moodle/cohort:view', 'moodle/cohort:manage'), $this->get_context());
+        // awag: speedup for admins.
+        return (is_siteadmin() || has_any_capability(array('moodle/cohort:view', 'moodle/cohort:manage'), $this->get_context()));
     }
 
     /**
@@ -2478,7 +2513,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_review_filters() {
-        return has_capability('moodle/filter:manage', $this->get_context()) &&
+        // awag: speedup for admins.
+        return (is_siteadmin() || has_capability('moodle/filter:manage', $this->get_context())) &&
                count(filter_get_available_in_context($this->get_context()))>0;
     }
 
@@ -2487,7 +2523,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_change_visibility() {
-        return $this->parent_has_manage_capability();
+        // awag: speedup for admins.
+        return (is_siteadmin() || $this->parent_has_manage_capability());
     }
 
     /**
@@ -2511,7 +2548,8 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      * @return bool
      */
     public function can_restore_courses_into() {
-        return has_capability('moodle/restore:restorecourse', $this->get_context());
+        // awag: speedup for admins.
+        return (is_siteadmin() || has_capability('moodle/restore:restorecourse', $this->get_context()));
     }
 
     /**
@@ -3043,7 +3081,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function can_edit() {
-        return has_capability('moodle/course:update', $this->get_context());
+        // awag: speedup admin.
+        return (is_siteadmin() || has_capability('moodle/course:update', $this->get_context()));
     }
 
     /**
@@ -3056,7 +3095,8 @@ class course_in_list implements IteratorAggregate {
      */
     public function can_change_visibility() {
         // You must be able to both hide a course and view the hidden course.
-        return has_all_capabilities(array('moodle/course:visibility', 'moodle/course:viewhiddencourses'), $this->get_context());
+        // awag: speedup admin.
+        return (is_siteadmin() || has_all_capabilities(array('moodle/course:visibility', 'moodle/course:viewhiddencourses'), $this->get_context()));
     }
 
     /**
@@ -3072,7 +3112,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function is_uservisible() {
-        return $this->visible || has_capability('moodle/course:viewhiddencourses', $this->get_context());
+        // awag: speedup admin.
+        return is_siteadmin() || $this->visible || has_capability('moodle/course:viewhiddencourses', $this->get_context());
     }
 
     /**
@@ -3084,7 +3125,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function can_review_enrolments() {
-        return has_capability('moodle/course:enrolreview', $this->get_context());
+        // awag: speedup admin.
+        return (is_siteadmin() || has_capability('moodle/course:enrolreview', $this->get_context()));
     }
 
     /**
@@ -3096,7 +3138,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function can_delete() {
-        return can_delete_course($this->id);
+        // awag: speedup admin.
+        return (is_siteadmin() || can_delete_course($this->id));
     }
 
     /**
@@ -3108,7 +3151,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function can_backup() {
-        return has_capability('moodle/backup:backupcourse', $this->get_context());
+        // awag: speedup admin.
+        return (is_siteadmin() || has_capability('moodle/backup:backupcourse', $this->get_context()));
     }
 
     /**
@@ -3120,7 +3164,8 @@ class course_in_list implements IteratorAggregate {
      * @return bool
      */
     public function can_restore() {
-        return has_capability('moodle/restore:restorecourse', $this->get_context());
+        // awag: speedup admin.
+        return (is_siteadmin() ||  has_capability('moodle/restore:restorecourse', $this->get_context()));
     }
 }
 

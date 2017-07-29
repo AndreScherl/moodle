@@ -390,6 +390,16 @@ class core_files_renderer extends plugin_renderer_base {
      */
     protected function fm_js_template_fileselectlayout() {
         global $OUTPUT;
+        
+        // License Hack awag - 26.11.2016: render additional license form fields.
+        // This is done intentionally without overriding the renderer, because
+        // this would require to copy a lot of function code, that is declared "private".
+        $additionallicensefields = '';
+        if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+            $additionallicensefields = \local_mbslicenseinfo\local\mbslicenseinfo::fp_js_template_uploadform_add_license_formfields();
+        }
+        // License Hack awag - 26.11.2016.
+        
         $strloading  = get_string('loading', 'repository');
         $iconprogress = $this->pix_icon('i/loading_small', $strloading).'';
         $rv = '
@@ -412,7 +422,7 @@ class core_files_renderer extends plugin_renderer_base {
                     <div class="controls">
                         <input type="text"/>
                     </div>
-                </div>
+                </div>'.$additionallicensefields.'
                 <div class="fp-author control-group clearfix">
                     <label class="control-label">'.get_string('author', 'repository').'</label>
                     <div class="controls">
@@ -837,6 +847,16 @@ class core_files_renderer extends plugin_renderer_base {
      * @return string
      */
     protected function fp_js_template_uploadform() {
+        
+        // License Hack awag - 26.11.2016: render additional license form fields.
+        // This is done intentionally without overriding the renderer, because
+        // this would require to copy a lot of function code, that is declared "private".
+        $additionallicensefields = '';
+        if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+            $additionallicensefields = \local_mbslicenseinfo\local\mbslicenseinfo::fp_js_template_uploadform_add_license_formfields();
+        }
+        // License Hack awag - 26.11.2016.
+        
         $rv = '
 <div class="fp-upload-form">
     <div class="fp-content-center">
@@ -853,7 +873,7 @@ class core_files_renderer extends plugin_renderer_base {
                     <div class="controls">
                         <input type="text"/>
                     </div>
-                </div>
+                </div>'.$additionallicensefields.'
                 <div class="fp-setauthor control-group clearfix">
                     <label class="control-label">'.get_string('author', 'repository').'</label>
                     <div class="controls">

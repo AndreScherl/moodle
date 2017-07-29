@@ -65,7 +65,7 @@ class backup_anonymizer_helper {
     }
 
     public static function process_user_auth($value) {
-        return 'manual'; // Set them to manual always
+        return 'nologin'; // Set them to manual always
     }
 
     public static function process_user_username($value) {
@@ -125,7 +125,7 @@ class backup_anonymizer_helper {
     }
 
     public static function process_user_institution($value) {
-        return ''; // Clean institution
+        return 'teachSHARE'; // Set institution
     }
 
     public static function process_user_department($value) {
@@ -137,11 +137,11 @@ class backup_anonymizer_helper {
     }
 
     public static function process_user_city($value) {
-        return 'Perth'; // Set city
+        return 'Munich'; // Set city
     }
 
     public static function process_user_country($value) {
-        return 'AU'; // Set country
+        return 'DE'; // Set country
     }
 
     public static function process_user_lastip($value) {
@@ -157,7 +157,7 @@ class backup_anonymizer_helper {
     }
 
     public static function process_user_description($value) {
-        return ''; // No user description
+        return 'Anonymous teachSHARE User'; // No user description
     }
 
     public static function process_user_descriptionformat($value) {

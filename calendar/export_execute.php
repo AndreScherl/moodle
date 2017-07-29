@@ -221,8 +221,13 @@ foreach($events as $event) {
         $ev->add_property('dtstart', Bennu::timestamp_to_datetime($event->timestart));
         $ev->add_property('dtend', Bennu::timestamp_to_datetime($event->timestart));
     } else {
-        // This can be used to represent all day events in future.
-        throw new coding_exception("Negative duration is not supported yet.");
+        // When no duration is present, ie an all day event, VALUE should be date instead of time and dtend = dtstart + 1 day.
+        /**
+         * Core Hack: see local_mbs/classes/local/core_changes.php line 299
+         * Andre Scherl <andre.scherl@isb.bayern.de>: Fix start date bug of exported all day events.
+         */
+        $ev->add_property('dtstart', local_mbs\local\core_changes::timestamp_to_allday_date($event->timestart), array('value' => 'DATE')); // All day event.
+        $ev->add_property('dtend', local_mbs\local\core_changes::timestamp_to_allday_date($event->timestart + DAYSECS), array('value' => 'DATE')); // All day event.
     }
     if ($event->courseid != 0) {
         $coursecontext = context_course::instance($event->courseid);

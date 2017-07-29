@@ -226,6 +226,12 @@ class api {
                                       FROM {message_contacts}
                                      WHERE userid = :userid)
               ORDER BY " . $DB->sql_fullname();
+
+        //+++ asch DS09:Sichtbarkeitstrennung-Messages
+        $sqlparts = explode("ORDER BY", $sql);
+        $sql = $sqlparts[0] . \local_mbs\local\datenschutz::hook_message_lib_message_search_users() . "ORDER BY" . $sqlparts[1];
+        //--- asch
+        
         if ($users = $DB->get_records_sql($sql,  array('userid' => $userid, 'search' => '%' . $search . '%') + $excludeparams,
             0, $limitnum)) {
             foreach ($users as $user) {
@@ -490,41 +496,10 @@ class api {
 
         $userproperties = explode(',', $userfields);
         $arrconversations = array();
-        // The last step now is to bring all of the data we've gathered together to create
-        // a conversation (or contact, as the API is named...).
-        foreach ($messages as $message) {
-            $conversation = new \stdClass();
-            $otheruserid = ($message->useridfrom == $userid) ? $message->useridto : $message->useridfrom;
-            $otheruser = isset($otherusers[$otheruserid]) ? $otherusers[$otheruserid] : null;
-            $contact = isset($contacts[$otheruserid]) ? $contacts[$otheruserid] : null;
-
-            // Add the other user's information to the conversation, if we have one.
-            foreach ($userproperties as $prop) {
-                $conversation->$prop = ($otheruser) ? $otheruser->$prop : null;
+        if ($conversations = message_get_recent_conversations($userid, $limitfrom, $limitnum)) {
+            foreach ($conversations as $conversation) {
+                $arrconversations[$conversation->id] = helper::create_contact($conversation);
             }
-
-            // Do not process a conversation with a deleted user.
-            if (empty($conversation->id)) {
-                continue;
-            }
-
-            // Add the contact's information, if we have one.
-            $conversation->blocked = ($contact) ? $contact->blocked : null;
-
-            // Add the message information.
-            $conversation->messageid = $message->id;
-            $conversation->smallmessage = $message->smallmessage;
-            $conversation->useridfrom = $message->useridfrom;
-
-            // Only consider it unread if $user has unread messages.
-            if (isset($unreadcounts[$otheruserid])) {
-                $conversation->isread = false;
-                $conversation->unreadcount = $unreadcounts[$otheruserid]->count;
-            } else {
-                $conversation->isread = true;
-            }
-
-            $arrconversations[$otheruserid] = helper::create_contact($conversation);
         }
 
         return $arrconversations;

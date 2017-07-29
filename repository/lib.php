@@ -2601,6 +2601,13 @@ abstract class repository implements cacheable_object {
             if ($filemodified) {
                 $file->set_timemodified(time());
             }
+
+            // +++ License - Hack - awag - 26.11.2016 update license meta info of draft file.
+            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                \local_mbslicenseinfo\local\mbslicenseinfo::store_license_meta_from_request($file);
+            }
+            // --- License - Hack - awag - 26.11.2016.
+
         } else {
             // This is a directory - only filepath can be updated for a directory (it was moved).
             if ($updatedata['filepath'] === $filepath) {
@@ -3091,22 +3098,30 @@ function initialise_filepicker($args) {
 
     $return = new stdClass();
     $licenses = array();
-    if (!empty($CFG->licenses)) {
-        $array = explode(',', $CFG->licenses);
-        foreach ($array as $license) {
-            $l = new stdClass();
-            $l->shortname = $license;
-            $l->fullname = get_string($license, 'license');
-            $licenses[] = $l;
+    // fhüb - licensemanager-Hack: use license table and user license table.
+    if (!class_exists('\local_mbs\local\licensemanager')) {
+        if (!empty($CFG->licenses)) {
+            $array = explode(',', $CFG->licenses);
+            foreach ($array as $license) {
+                $l = new stdClass();
+                $l->shortname = $license;
+                $l->fullname = get_string($license, 'license');
+                $licenses[] = $l;
+            }
         }
+    } else {    
+        $licenses = \local_mbs\local\licensemanager::get_licenses(array('userid'=>$USER->id, 'enabled'=>1));
     }
+    // fhüb - licensemanager-Hack: use license table and user license table.
     if (!empty($CFG->sitedefaultlicense)) {
         $return->defaultlicense = $CFG->sitedefaultlicense;
     }
 
     $return->licenses = $licenses;
 
-    $return->author = fullname($USER);
+    // +++ License - Hack - most - 27.01.2017 remove fullname($USER) as default
+    $return->author = '';
+    // --- License - Hack - most - 27.01.2017
 
     if (empty($args->context)) {
         $context = $PAGE->context;
@@ -3147,6 +3162,13 @@ function initialise_filepicker($args) {
     $return->userprefs['recentrepository'] = get_user_preferences('filepicker_recentrepository', '');
     $return->userprefs['recentlicense'] = get_user_preferences('filepicker_recentlicense', '');
     $return->userprefs['recentviewmode'] = get_user_preferences('filepicker_recentviewmode', '');
+
+    // SYNERGY LEARNING - if there is only one repository, make sure it is selected.
+    if (count($repositories) == 1) {
+        $onlyrepo = reset($repositories);
+        $return->userprefs['recentrepository'] = $onlyrepo->id;
+    }
+    // SYNERGY LEARNING - if there is only one repository, make sure it is selected.
 
     user_preference_allow_ajax_update('filepicker_recentrepository', PARAM_INT);
     user_preference_allow_ajax_update('filepicker_recentlicense', PARAM_SAFEDIR);

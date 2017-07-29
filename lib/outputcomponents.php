@@ -370,7 +370,9 @@ class user_picture implements renderable {
         }
 
         // First try to detect deleted users - but do not read from database for performance reasons!
-        if (!empty($this->user->deleted) or strpos($this->user->email, '@') === false) {
+        // SYNERGY LEARNING - empty email addresses no longer count as 'deleted' users
+        if (!empty($this->user->deleted) or (!empty($this->user->email) && strpos($this->user->email, '@') === false)) {
+        // SYNERGY LEARNING - empty email addresses no longer count as 'deleted' users
             // All deleted users should have email replaced by md5 hash,
             // all active users are expected to have valid email.
             return $defaulturl;
@@ -2174,7 +2176,11 @@ class html_writer {
 
             foreach ($table->data as $key => $row) {
                 if (($row === 'hr') && ($countcols)) {
-                    $output .= html_writer::tag('td', html_writer::tag('div', '', array('class' => 'tabledivider')), array('colspan' => $countcols));
+                    $output .= html_writer::start_tag('tr');
+                    $output .= html_writer::start_tag('td', array('colspan' => $countcols));
+                    $output .= html_writer::tag('div', '', array('class' => 'tabledivider'));
+                    $output .= html_writer::end_tag('td');
+                    $output .= html_writer::end_tag('tr') . "\n";
                 } else {
                     // Convert array rows to html_table_rows and cell strings to html_table_cell objects
                     if (!($row instanceof html_table_row)) {
@@ -2252,8 +2258,8 @@ class html_writer {
                         }
                         $output .= html_writer::tag($tagtype, $cell->text, $tdattributes) . "\n";
                     }
+                    $output .= html_writer::end_tag('tr') . "\n";
                 }
-                $output .= html_writer::end_tag('tr') . "\n";
             }
             $output .= html_writer::end_tag('tbody') . "\n";
         }

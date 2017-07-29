@@ -155,11 +155,11 @@ if (!empty($messagebody) && !$edit && !$deluser && ($preview || $send)) {
             echo "\n</form>";
         } else if (!empty($send)) {
             $fails = array();
-            foreach ($SESSION->emailto[$id] as $user) {
+            foreach ($SESSION->emailto[$id] as $user) {  
                 if (!message_post_message($USER, $user, $messagebody, $format)) {
                     $user->fullname = fullname($user);
                     $fails[] = get_string('messagedselecteduserfailed', 'moodle', $user);
-                };
+                }
             }
             if (empty($fails)) {
                 echo $OUTPUT->heading(get_string('messagedselectedusers'));

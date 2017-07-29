@@ -39,6 +39,13 @@ defined('MOODLE_INTERNAL') || die();
 class anonymizer_final_element extends backup_final_element {
 
     public function set_value($value) {
+
+        // SYNERGY LEARNING - handle partial anonymisation.
+        if (!block_mbstpl\backup::should_anonymise($this)) {
+            parent::set_value($value);
+            return;
+        }
+
         // Get parent name
         $pname = $this->get_parent()->get_name();
         // Get my name

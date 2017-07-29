@@ -227,6 +227,12 @@ class repository_upload extends repository {
             }
         } else {
             $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
+
+            // +++ (License) Hack - awag - 26.11.2016: store the additional license information for uploaded (draft) file.
+            if (class_exists('\local_mbslicenseinfo\local\mbslicenseinfo')) {
+                \local_mbslicenseinfo\local\mbslicenseinfo::store_license_meta_from_request($stored_file);
+            }
+            // --- (License) Hack - awag - 26.11.2016
         }
 
         return array(

@@ -607,6 +607,9 @@ class course_enrolment_table extends html_table implements renderable {
                 'userIds'=>array_keys($this->users),
                 'courseId'=>$this->manager->get_course()->id,
                 'otherusers'=>isset($this->otherusers));
+            // awag: Assign-Teacher-Hack: add userids for user, that may become a teacher.
+            \local_mbs\local\core_changes::add_allowteacher_role($arguments);
+            // awag: Assign-Teacher-Hack: add userids for user, that may become a teacher.
             $this->manager->get_moodlepage()->requires->yui_module($modules, $function, array($arguments));
         }
     }

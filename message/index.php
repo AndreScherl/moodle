@@ -43,6 +43,10 @@ $user1id = optional_param('user1', $USER->id, PARAM_INT);
 $user2id = optional_param('user2', $id, PARAM_INT);
 $contactsfirst = optional_param('contactsfirst', 0, PARAM_INT);
 
+//+++ awag DS17 Sichtbarkeitsregel-Schule für Messaging
+\local_mbs\local\datenschutz::hook_message_index($user2id);
+//--- awag DS17 Sichtbarkeitsregel-Schule für Messaging
+
 $url = new moodle_url('/message/index.php');
 if ($id) {
     $url->param('id', $id);

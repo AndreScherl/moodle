@@ -485,6 +485,10 @@ function profile_definition_after_data($mform, $userid) {
             $formfield->edit_after_data($mform);
         }
     }
+        
+    //+++ awag DS10 (H003) Sichtbarkeitsregel-Schule nur nicht bearbeitbar
+    \local_mbs\local\datenschutz::hook_profile_definition_after_data($mform, $userid);
+    //---
 }
 
 /**

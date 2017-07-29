@@ -89,6 +89,12 @@ if ( $theme != 'course_theme') {
     $PAGE->requires->css('/mod/chat/gui_ajax/theme/'.$theme.'/chat.css');
 }
 
+// MBS-HACK (awag): add the mebis style sheet.
+if (file_exists($CFG->dirroot.'/theme/mebis/style/mebis.css')) {
+    $PAGE->requires->css('/theme/mebis/style/mebis.css');
+}
+// MBS-HACK (awag): add the mebis style sheet.
+
 echo $OUTPUT->header();
 echo $OUTPUT->box(html_writer::tag('h2',  get_string('participants'), array('class' => 'accesshide')) .
         '<ul id="users-list" class="list-group"></ul>', '', 'chat-userlist');

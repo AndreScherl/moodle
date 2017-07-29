@@ -584,12 +584,12 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
      */
     protected static function get_tree($id) {
         global $DB;
-        
+
         $coursecattreecache = cache::make('core', 'coursecattree');
-        
-        /* awag - HACK: to improve performance, coursecattree is written below serialized 
+
+        /* awag - HACK: to improve performance, coursecattree is written below serialized
          * in one step, so change the way reading it...
-        
+
         $rv = $coursecattreecache->get($id);
         if ($rv !== false) {
             return $rv;
@@ -644,11 +644,6 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         // We must add countall to all in case it was the requested ID.
         $all['countall'] = $count;
         $coursecattreecache->set_many($all);
-        so write cache serialized in one step:
-        */
-        $allserialized = serialize($all);
-        $coursecattreecache->set('all', $allserialized);
-        // --- awag Hack.
         if (array_key_exists($id, $all)) {
             return $all[$id];
         }
@@ -1627,7 +1622,7 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
             // Fool-proof.
             return false;
         }
-        
+
         // awag: speedup for admins.
         if (is_siteadmin()) {
             return true;

@@ -28,7 +28,7 @@
 
     }
 
-    $pluginconfig   = get_config('auth_shibboleth');
+    $pluginconfig   = get_config('auth/shibboleth');
     $shibbolethauth = get_auth_plugin('shibboleth');
 
     // Check whether Shibboleth is configured properly

@@ -66,6 +66,16 @@ $capabilities = array(
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW
         )
-    )
+    ),
+
+    // SYNERGY LEARNING - can manage files if enabled via the settings page.
+    'mod/folder:managefilesifenabled' => array(
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+        )
+    ),
 );
 

@@ -36,7 +36,10 @@ $folder = $DB->get_record('folder', array('id'=>$cm->instance), '*', MUST_EXIST)
 $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
 
 require_login($course, false, $cm);
-require_capability('mod/folder:managefiles', $context);
+// SYNERGY LEARNING - see if students are allowed to edit files.
+if (!folder_can_edit_as_student($folder, $context)) {
+    require_capability('mod/folder:managefiles', $context);
+}
 
 $PAGE->set_url('/mod/folder/edit.php', array('id' => $cm->id));
 $PAGE->set_title($course->shortname.': '.$folder->name);

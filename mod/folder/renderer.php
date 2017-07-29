@@ -73,15 +73,17 @@ class mod_folder_renderer extends plugin_renderer_base {
                 new moodle_url('/mod/folder/download_folder.php', array('id' => $cm->id)),
                 get_string('downloadfolder', 'folder')
             );
-
+            
             $buttons .= $downloadbutton;
         }
 
         // Display the "Edit" button if current user can edit folder contents.
         // Do not display it on the course page for the teachers because there
         // is an "Edit settings" button right next to it with the same functionality.
-        if (has_capability('mod/folder:managefiles', $context) &&
-            ($folder->display != FOLDER_DISPLAY_INLINE || !has_capability('moodle/course:manageactivities', $context))) {
+        if ((has_capability('mod/folder:managefiles', $context) && 
+                ($folder->display != FOLDER_DISPLAY_INLINE || !has_capability('moodle/course:manageactivities', $context)))
+                // SYNERGY LEARNING - see if students are allowed to edit files.
+                || folder_can_edit_as_student($folder, $context)) { 
             $editbutton = $this->output->single_button(
                 new moodle_url('/mod/folder/edit.php', array('id' => $cm->id)),
                 get_string('edit')

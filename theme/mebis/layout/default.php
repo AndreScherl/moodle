@@ -32,31 +32,31 @@ $knownregionsidepost = $PAGE->blocks->is_known_region('side-post');
 $knownregionbottom = $PAGE->blocks->is_known_region('bottom');
 
 $ismydashboard = ($PAGE->pagetype == 'my-index');
-$theuser = clone($USER); 
+$theuser = clone($USER);
     profile_load_data($theuser);
 
 //Block mbsnews
-if ($knownregiontop) {    
+if ($knownregiontop) {
     $attributes['data-block'] = 'mbsnews';
     $attributes['class'] = 'block_mbsnews';
     $attributes['id'] = 'block_mbsnews';
     $OUTPUT->add_fake_block('mbsnews', 'top', $attributes);
 }
-    
+
 // Add mbsgettingstarted to my dashboard?
 if (isset($USER->isTeacher) and ($USER->isTeacher == 1)) {
-         
+
     if (!isset($USER->mbsgettingstartedhide)){
         $hidembsgettingstarted = false;
     } else if (isset($USER->mbsgettingstartedhide) && !$USER->mbsgettingstartedhide) {
         $hidembsgettingstarted = false;
     } else {
         $hidembsgettingstarted = true;
-    }    
-        
-    $showmbsgettingstarted = ($ismydashboard 
+    }
+
+    $showmbsgettingstarted = ($ismydashboard
         and (!isset($theuser->profile_field_mbsgettingstartedshow) || $theuser->profile_field_mbsgettingstartedshow)
-        and !$hidembsgettingstarted 
+        and !$hidembsgettingstarted
         and $knownregiontop);
 
     if ($showmbsgettingstarted) {
@@ -90,9 +90,9 @@ echo $OUTPUT->doctype()
         <?php echo $OUTPUT->standard_head_html(); ?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->image_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->image_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->image_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
         <span data-mode="default"></span>
     </head>
@@ -118,7 +118,7 @@ echo $OUTPUT->doctype()
                     <div class="row">
                         <nav class="breadcrumb-nav" role="navigation" aria-label="breadcrumb">
                             <?php echo $OUTPUT->main_breadcrumbs(); ?>
-                        </nav>    
+                        </nav>
                         <div class="breadcrumb-button"><?php echo $OUTPUT->breadcrumb_button(); ?></div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ echo $OUTPUT->doctype()
                 ?>
 
                 <?php if ($hassidepre || $hassidepost) { ?>
-                
+
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 no-background">
                             <h2 id="my-apps"><?php echo get_string('my-apps', 'theme_mebis'); ?></h2>
@@ -152,21 +152,21 @@ echo $OUTPUT->doctype()
 
                     if ($knownregionsidepre) {
                         echo $OUTPUT->blocks('side-pre', array(), 'div');
-                        
+
                     }
 
                     if ($knownregionsidepost) {
                         echo $OUTPUT->blocks('side-post', array(), 'div');
                     }
-                    
+
                     echo html_writer::end_tag('aside');
-                    
+
                 }
-                
+
                 if ($knownregionbottom) {
                     echo $OUTPUT->blocks('bottom', array(), 'aside');
                 }
-                
+
                 ?>
 
             </div>
@@ -179,21 +179,21 @@ echo $OUTPUT->doctype()
         </div>
 
         <?php echo $OUTPUT->main_footer(); ?>
-        
+
         <div class="me-page-action-menu visible-lg">
             <ul class="me-menu-anchor-links">
-                <?php  
+                <?php
                 echo $OUTPUT->page_fastaccess_navigation();
                 echo $OUTPUT->page_action_menu();
                 ?>
             </ul>
         </div>
-                
-        <?php       
+
+        <?php
         echo $OUTPUT->page_action_navigation();
         ?>
 
-        <div class="container"> 
+        <div class="container">
             <footer id="page-footer">
                 <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
                 <?php

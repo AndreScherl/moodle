@@ -40,9 +40,9 @@ echo $OUTPUT->doctype()
         <?php echo $OUTPUT->standard_head_html(); ?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->image_url('apple-touch-icon-57x57.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->image_url('apple-touch-icon-72x72.png', 'mebis'); ?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->image_url('apple-touch-icon-114x114.png', 'mebis'); ?>">
 
         <span data-mode="default"></span>
     </head>
@@ -62,13 +62,13 @@ echo $OUTPUT->doctype()
 
             <!-- CONTENT -->
             <div class="container homepage-container admin-container">
-                
+
                 <!-- Breadcrumbs and page-heading-button -->
                 <div id="page-navbar" class="clearfix">
                     <div class="row">
                         <nav class="breadcrumb-nav" role="navigation" aria-label="breadcrumb">
                             <?php echo $OUTPUT->main_breadcrumbs(); ?>
-                        </nav>    
+                        </nav>
                         <div class="breadcrumb-button"><?php echo $OUTPUT->breadcrumb_button(); ?></div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ echo $OUTPUT->doctype()
                             ?>
                         </aside>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -117,20 +117,20 @@ echo $OUTPUT->doctype()
         <!-- HOMEPAGE-WRAPPER [end] -->
 
         <?php echo $OUTPUT->main_footer(); ?>
-        
+
         <div class="me-page-action-menu visible-lg">
             <ul class="me-menu-anchor-links">
-                <?php  
+                <?php
                 echo $OUTPUT->page_fastaccess_navigation();
                 ?>
             </ul>
         </div>
-        
-        <?php 
+
+        <?php
         echo $OUTPUT->page_action_navigation();
         ?>
 
-        <div class="container"> 
+        <div class="container">
             <footer id="page-footer">
                 <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
                 <?php

@@ -20,9 +20,9 @@ echo $OUTPUT->doctype();
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
-        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-57x57.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-72x72.png','mebis');?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->pix_url('apple-touch-icon-114x114.png','mebis');?>">
+        <link rel="apple-touch-icon" href="<?php echo $OUTPUT->image_url('apple-touch-icon-57x57.png','mebis');?>">
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $OUTPUT->image_url('apple-touch-icon-72x72.png','mebis');?>">
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $OUTPUT->image_url('apple-touch-icon-114x114.png','mebis');?>">
 
         <?php echo $OUTPUT->standard_head_html(); ?>
 
@@ -82,13 +82,13 @@ echo $OUTPUT->doctype();
         <a href="#top" id="me-back-top">
             <i class="fa fa-chevron-up"></i>
         </a>
-        
-        <div class="container"> 
+
+        <div class="container">
             <footer id="page-footer">
                 <?php  echo $OUTPUT->standard_footer_html(); ?>
             </footer>
         </div>
-        
+
         <?php
             echo $OUTPUT->standard_end_of_body_html();
         ?>

@@ -166,3 +166,9 @@ ul.jumpnavigation {
         max-width: inherit;
     }
 }
+
+/*courseview fix button MBS-2071*/
+.path-course-view li.activity form.togglecompletion .btn {
+  padding: 0px;
+  margin-right: -1px;
+}

@@ -66,8 +66,10 @@ YUI.add('moodle-format_grid-gridkeys', function (Y, NAME) {
  *
  * @package    course/format
  * @subpackage grid
+ * @version    See the value of '$plugin->version' in version.php.
  * @copyright  &copy; 2013 onwards G J Barnard in respect to modifications of standard topics format.
- * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
+ * @author     G J Barnard - {@link http://about.me/gjbarnard} and
+ *                           {@link http://moodle.org/user/profile.php?id=442195}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -95,46 +97,44 @@ M.format_grid.gridkeys = {
         return M.format_grid.gridkeys.currentGridBox;
     },
     init: function(params) {
-        if (!params.editing) {
-            Y.on('esc', function (e) {
+        Y.on('esc', function (e) {
+            e.preventDefault();
+            Y.log("Esc pressed");
+            Y.log("Selected section no: " + M.format_grid.selected_section_no);
+            M.format_grid.icon_toggle(e);
+        });
+        // Initiated in CONTRIB-3240...
+        Y.on('enter', function (e) {
+            if (M.format_grid.gridkeys.currentGridBox) {
                 e.preventDefault();
-                Y.log("Esc pressed");
-                Y.log("Selected section no: " + M.format_grid.selected_section_no);
-                M.format_grid.icon_toggle(e);
-            });
-            // Initiated in CONTRIB-3240...
-            Y.on('enter', function (e) {
-                if (M.format_grid.gridkeys.currentGridBox) {
-                    e.preventDefault();
-                    if (e.shiftKey) {
-                        Y.log("Shift Enter pressed");
-                        Y.log("Selected section no: " + M.format_grid.selected_section_no);
-                        M.format_grid.icon_toggle(e);
-                    } else {
-                        Y.log("Enter pressed");
-                        Y.log("Selected section no: " + M.format_grid.selected_section_no);
-                        M.format_grid.icon_toggle(e);
-                    }
-                }
-            });
-            Y.on('tab', function (/*e*/) {
-                setTimeout(function() {
-                    // Cope with the fact that the default event happens after us.
-                    // Therefore we need to react after focus has moved.
-                    if (M.format_grid.gridkeys.findfocused()) {
-                        M.format_grid.tab(M.format_grid.gridkeys.currentGridBoxIndex);
-                    }
-                }, 250);
-            });
-            Y.on('space', function (e) {
-                if (M.format_grid.gridkeys.currentGridBox) {
-                    e.preventDefault();
-                    Y.log("Space pressed");
+                if (e.shiftKey) {
+                    Y.log("Shift Enter pressed");
+                    Y.log("Selected section no: " + M.format_grid.selected_section_no);
+                    M.format_grid.icon_toggle(e);
+                } else {
+                    Y.log("Enter pressed");
                     Y.log("Selected section no: " + M.format_grid.selected_section_no);
                     M.format_grid.icon_toggle(e);
                 }
-            });
-        }
+            }
+        });
+        Y.on('tab', function (/*e*/) {
+            setTimeout(function() {
+                // Cope with the fact that the default event happens after us.
+                // Therefore we need to react after focus has moved.
+                if (M.format_grid.gridkeys.findfocused()) {
+                    M.format_grid.tab(M.format_grid.gridkeys.currentGridBoxIndex);
+                }
+            }, 250);
+        });
+        Y.on('space', function (e) {
+            if (M.format_grid.gridkeys.currentGridBox) {
+                e.preventDefault();
+                Y.log("Space pressed");
+                Y.log("Selected section no: " + M.format_grid.selected_section_no);
+                M.format_grid.icon_toggle(e);
+            }
+        });
         Y.on('left', function (e) {
             e.preventDefault();
             Y.log("Left pressed");

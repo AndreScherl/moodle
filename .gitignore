@@ -36,3 +36,10 @@ composer.phar
 /lib/yuilib/*/*/*-coverage.js
 atlassian-ide-plugin.xml
 /node_modules/
+
+# MBS-HACKED-PLUGINS: exclude 3rd party plugin repositories with hacks.
+/course/format/grid/.git
+/lib/editor/atto/plugins/clozeeditor/.git
+/mod/hvp/.git
+
+# MBS-PLUGINS: exclude 3rd party plugin repositories.

@@ -38,6 +38,20 @@ class theme_mebis_core_renderer extends theme_bootstrap_core_renderer {
         $this->help_renderer = new theme_mebis_help_renderer($page, $target);
     }
 
+    public function standard_head_html() {
+
+        $output = parent::standard_head_html();
+
+        // Setup help icon overlays.
+        $this->page->requires->yui_module('moodle-core-popuphelp', 'M.core.init_popuphelp');
+        $this->page->requires->strings_for_js(array(
+            'morehelp',
+            'loadinghelp',
+        ), 'moodle');
+
+        return $output;
+    }       
+
     public function main_navbar() {
         return $this->header_renderer->main_navbar();
     }

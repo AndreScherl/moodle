@@ -348,3 +348,11 @@ input[type="checkbox"] + label {
     }
 
 }
+
+//fix benötigte Eingabe Sternchen #2080
+.required img.icon,
+.req img.icon {
+    height: auto;
+    width: auto;
+    vertical-align: middle;
+}

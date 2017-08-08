@@ -200,6 +200,26 @@ if ($book->navstyle) {
         $islastchapter = true;
     }
 }
+// +++ MBS-HACK (Tobias Garske) - Aktivitätenabschluss bei Aktivität Buch triggert nicht bei Darstellungsart Inhaltsverzeichnis (MBS-2065)
+//$book->navstyl == 0 - meaning displayoption => only table of contents
+else
+{
+    $firstchapterid = 0;
+    $lastchapterid = 0;
+
+    foreach ($chapters as $ch) {
+        if ($ch->hidden) {
+            continue;
+        }
+        if (!$firstchapterid) {
+            $firstchapterid = $ch->id;
+        }
+        $lastchapterid = $ch->id;
+    }    
+    
+    $islastchapter = ($chapter->id == $lastchapterid) ? true : false;
+}
+// --- MBS-HACK
 
 book_view($book, $chapter, $islastchapter, $course, $cm, $context);
 

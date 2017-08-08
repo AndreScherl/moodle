@@ -200,8 +200,8 @@ if ($book->navstyle) {
         $islastchapter = true;
     }
 }
-// +++ MBS-HACK (Tobias Garske) - Aktivitätenabschluss bei Aktivität Buch triggert nicht bei Darstellungsart Inhaltsverzeichnis (MBS-2065)
-//$book->navstyl == 0 - meaning displayoption => only table of contents
+// +++ MBS-HACK (Tobias Garske) - Complete Activity doesnt work if displaymode is set to table of contents (MBS-2065)
+//$book->navstyl == 0 - meaning displayoption => table of contents
 else
 {
     $firstchapterid = 0;

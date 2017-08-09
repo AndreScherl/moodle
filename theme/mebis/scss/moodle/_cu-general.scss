@@ -348,3 +348,11 @@ input[type="checkbox"] + label {
     }
 
 }
+
+//fix for distorted required symbol #2080
+.required img.icon,
+.req img.icon {
+    height: auto;
+    width: auto;
+    vertical-align: middle;
+}

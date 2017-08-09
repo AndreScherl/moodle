@@ -200,6 +200,26 @@ if ($book->navstyle) {
         $islastchapter = true;
     }
 }
+// +++ MBS-HACK (Tobias Garske) - Complete Activity doesnt work if displaymode is set to table of contents (MBS-2065)
+//$book->navstyl == 0 - meaning displayoption => table of contents
+else
+{
+    $firstchapterid = 0;
+    $lastchapterid = 0;
+
+    foreach ($chapters as $ch) {
+        if ($ch->hidden) {
+            continue;
+        }
+        if (!$firstchapterid) {
+            $firstchapterid = $ch->id;
+        }
+        $lastchapterid = $ch->id;
+    }    
+    
+    $islastchapter = ($chapter->id == $lastchapterid) ? true : false;
+}
+// --- MBS-HACK
 
 book_view($book, $chapter, $islastchapter, $course, $cm, $context);
 

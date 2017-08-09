@@ -60,7 +60,11 @@ class filter_mbslicenseinfo extends moodle_text_filter {
             $attributes['style'] = $fileinfo->float;
         }
 
-        $enhancedmediatag = html_writer::div($match[0] . $licenseinfo, 'mediaandlicense', $attributes);
+        $attributes['class'] = 'mediaandlicense';
+        if (!empty($fileinfo->class)) {
+            $attributes['class'] .= ' '.$fileinfo->class;
+        }
+        $enhancedmediatag = html_writer::tag('figure', $match[0] . $licenseinfo, $attributes);
 
         return $enhancedmediatag;
     }
@@ -80,18 +84,21 @@ class filter_mbslicenseinfo extends moodle_text_filter {
         if (preg_match('/style=\".*?(margin[^\:]*\:([^;]*))(;|\")/s', $tag, $matches)) {
             $fileinfo->margin = $matches[2];
         }
-
+        if (preg_match('/class=\"(.*?)\"/s', $tag, $matches)) {
+            $fileinfo->class = $matches[1];
+        }
     }
 
     /*
      * Callback for preg_replace_callback() function
      */
-
     private function enhance_media_tag($match) {
 
         $fileinfo = self::extract_file_information($match);
         $licenseinfo = self::build_license_div($fileinfo);
-        $enhancedmediatag = html_writer::div($match[0] . $licenseinfo, 'mediaandlicense');
+
+        $attributes['class'] = 'mediaandlicense';
+        $enhancedmediatag = html_writer::tag('figure', $match[0] . $licenseinfo, $attributes);
 
         return $enhancedmediatag;
     }
@@ -189,7 +196,8 @@ class filter_mbslicenseinfo extends moodle_text_filter {
             $attributes['style'] = implode(';', $styles);
         }
 
-        $licenseinfo = html_writer::div($text, 'licenseinfo', $attributes);
+        $attributes['class'] = 'licenseinfo';
+        $licenseinfo = html_writer::tag('figcaption', $text, $attributes);
 
         return $licenseinfo;
     }

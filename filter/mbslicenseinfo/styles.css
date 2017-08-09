@@ -1,3 +1,7 @@
 .licenseinfo {
     font-size: 0.8em;
 }
+
+figure.atto_image_button_right  figcaption {
+    margin-left: 0.5em;
+}

@@ -17899,6 +17899,16 @@ input[type="checkbox"] + label {
   vertical-align: middle;
 }
 
+.choosercontainer label {
+  color: #333333;
+}
+.choosercontainer #chooseform .option span.modicon img.icon {
+  padding: 0px;
+  margin-left: 0.5em;
+  width: 20px;
+  height: 20px;
+}
+
 /*
     Styles, which are used for overlays
 

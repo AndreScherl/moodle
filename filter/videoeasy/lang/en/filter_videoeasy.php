@@ -43,6 +43,8 @@ $string['templatename'] = 'Template Name';
 $string['templatename_desc'] = 'The name of this template.';
 $string['templatekey'] = 'Template Key';
 $string['templatekey_desc'] = 'The id that identifies this template. Must be unique on the site. Users never see this. If you change it you will need to reallocate the template/player to the appropriate file extension. Try not to change it. Use alphanumeric characters only (no spaces)';
+$string['templateversion'] = 'The version of this template {$a}';
+$string['templateversion_desc'] = 'When sharing templates it is best to maintain a clear version per release. The version format is up to you.';
 $string['templatedefaults'] = ' defaults';
 $string['templatedefaults_desc'] = 'Default values for custom variables in the template/script. Usually just width, and height. Enter comma delimited sets of name=value pairs. eg width=800,height=900,feeling=joy';
 $string['useplayer'] = '{$a} Player';
@@ -93,3 +95,9 @@ $string['templaterequirejsshim_desc'] = ' Leave blank unless you know what shimm
 
 $string['templatealternate'] = 'Alternate content'; 
 $string['templatealternate_desc'] = 'Content that can be used when the custom and uploaded CSS and javascript content is not available. Currently this is used when the template is processed by a webservice, probably for content on the mobile app';
+$string['templates'] = 'Templates';
+$string['templateinstructions'] =  'Instructions (template {$a})';
+$string['templateinstructions_desc'] = 'Use this area for any instructions or description of the template. It is only shown here and on the templates list table.';
+
+$string['templatecount'] = 'Template Count';
+$string['templatecount_desc'] = 'The number of templates you can have. Default is 15.';

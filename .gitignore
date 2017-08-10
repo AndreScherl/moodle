@@ -44,3 +44,4 @@ atlassian-ide-plugin.xml
 /mod/hvp/.git
 
 # MBS-PLUGINS: exclude 3rd party plugin repositories.
+/filter/videoeasy/.git

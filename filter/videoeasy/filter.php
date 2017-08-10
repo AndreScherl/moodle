@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__).'/lib.php');
-require_once(dirname(__FILE__).'/locallib.php'); 
+
 
 class filter_videoeasy extends moodle_text_filter {
 	protected $adminconfig=null;
@@ -57,7 +57,7 @@ class filter_videoeasy extends moodle_text_filter {
 			 $this->adminconfig =get_config('filter_videoeasy');
 					
 			//get handle extensions
-			$exts = filter_videoeasy_fetch_extensions();
+			$exts = \filter_videoeasy\videoeasy_utils::fetch_extensions();
 			$handleexts = array();
 			foreach($exts as $ext){
 				if($ext!='youtube' && $this->fetchconf('handle' . $ext)){
@@ -169,7 +169,7 @@ class filter_videoeasy extends moodle_text_filter {
 			$playerkey = $this->fetchconf('useplayer' . $ext);
 		}
 		$templateid=0;
-		$templatenumbers = filter_videoeasy_fetch_players();
+		$templatenumbers = \filter_videoeasy\videoeasy_utils::fetch_players($conf);
 		foreach($templatenumbers as $templatenumber){
 			if($conf->{'templatekey_' . $templatenumber}==$playerkey){
 				$templateid=$templatenumber;
@@ -253,8 +253,8 @@ class filter_videoeasy extends moodle_text_filter {
 		$templatebody=$conf->{'templatepreset_' . $templateid};
 		$defaults=$conf->{'templatedefaults_' . $templateid};
 		//make sure we have all the keys and defaults in our proparray
-		$proparray = filter_videoeasy_fetch_emptyproparray();
-		$proparray = array_merge($proparray,filter_videoeasy_parsepropstring($defaults));
+		$proparray = \filter_videoeasy\videoeasy_utils::fetch_emptyproparray();
+		$proparray = array_merge($proparray,\filter_videoeasy\videoeasy_utils::parsepropstring($defaults));
 	
 		//Add any params from url
 		if(!empty($params)){
@@ -276,7 +276,7 @@ class filter_videoeasy extends moodle_text_filter {
 		//get default poster
 		//get uploaded js
 		if($defaultposterimage){
-			$defaultposterurl = filter_videoeasy_internal_file_url($defaultposterimage,'defaultposterimage');
+			$defaultposterurl = \filter_videoeasy\videoeasy_utils::internal_file_url($defaultposterimage,'defaultposterimage');
 		}else{
 			$defaultposterurl = $CFG->wwwroot . '/filter/videoeasy/defaultposter.jpg';
 		}
@@ -343,19 +343,25 @@ class filter_videoeasy extends moodle_text_filter {
 		
 			//get uploaded js
 			if($uploadjsfile){
-				$uploadjsurl = filter_videoeasy_internal_file_url($uploadjsfile,'uploadjs_' . $templateid);
+				$uploadjsurl = \filter_videoeasy\videoeasy_utils::internal_file_url($uploadjsfile,'uploadjs_' . $templateid);
 				$PAGE->requires->js($uploadjsurl);
 			}
 		}
-		
-		//load css in header if not too late
+
 		//if not too late: load css in header
 		// if too late: inject it there via JS
 		if($uploadcssfile){
-			$uploadcssurl = filter_videoeasy_internal_file_url($uploadcssfile,'uploadcss_' . $templateid);
+			$uploadcssurl = \filter_videoeasy\videoeasy_utils::internal_file_url($uploadcssfile,'uploadcss_' . $templateid);
 		}
-	
-	
+
+
+        //set up our revision flag for forcing cache refreshes etc
+        if (!empty($conf->revision)) {
+            $revision = $conf->revision;
+        } else {
+            $revision = '0';
+        }
+
 		//prepare additional params our JS will use
 		$proparray['TEMPLATEID'] = $templateid;
 		$proparray['CSSLINK']=false;
@@ -366,7 +372,7 @@ class filter_videoeasy extends moodle_text_filter {
 		$customcssurl=false;
 		$customstyle=$conf->{'templatestyle_' . $templateid};
 		if($customstyle){
-			$customcssurl =new moodle_url( '/filter/videoeasy/videoeasycss.php?t=' . $templateid);
+			$customcssurl =new moodle_url('/filter/videoeasy/videoeasycss.php',array('t'=>$templateid,'rev'=>$revision));
 
 		}
 
@@ -407,7 +413,7 @@ class filter_videoeasy extends moodle_text_filter {
 		
 		//AMD or not, and then load our js for this template on the page
 		if($require_amd){
-			$generator = new filter_videoeasy_template_script_generator($templateid,$ext);
+			$generator = new \filter_videoeasy\template_script_generator($templateid,$ext);
 			$template_amd_script = $generator->get_template_script();
 
 			//props can't be passed in at much length , Moodle complains about too many
@@ -425,7 +431,8 @@ class filter_videoeasy extends moodle_text_filter {
 
 		}else{		
 			//require any scripts from the template
-			$PAGE->requires->js('/filter/videoeasy/videoeasyjs.php?ext=' . $ext . '&t=' . $templateid);
+            $customjsurl=new moodle_url('/filter/videoeasy/videoeasyjs.php',array('ext'=>$ext,'t'=>$templateid,'rev'=>$revision));
+			$PAGE->requires->js($customjsurl);
 		
 			//for no AMD
 			$PAGE->requires->js_init_call('M.filter_videoeasy.loadvideoeasy', array($proparray),false,$jsmodule);

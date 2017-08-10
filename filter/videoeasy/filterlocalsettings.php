@@ -30,14 +30,15 @@ class videoeasy_filter_local_settings_form extends filter_local_settings_form {
 		require_once($CFG->dirroot.'/filter/videoeasy/lib.php');
 		
 		//get the players we use and the extensions we handle
-		$players = filter_videoeasy_fetch_players();
-		$extensions = filter_videoeasy_fetch_extensions();
-		$siteconf = get_config('filter_videoeasy');
+        $siteconf = get_config('filter_videoeasy');
+		$players = \filter_videoeasy\videoeasy_utils::fetch_players($siteconf);
+		$extensions = \filter_videoeasy\videoeasy_utils::fetch_extensions();
+
 	
 		//create player select list
 		//complex because of old playername mapping. Can be removed soon.(01/2015)
 		$playeroptions=array();
-		$oldplayers = filter_videoeasy_fetch_oldplayers();
+		$oldplayers = \filter_videoeasy\videoeasy_utils::fetch_oldplayers();
 		$playeroptions['sitedefault'] = get_string('sitedefault','filter_videoeasy');
 		/*
 		foreach($players as $keyvalue){

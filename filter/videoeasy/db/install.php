@@ -24,12 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/filter/videoeasy/locallib.php');
+//require_once($CFG->dirroot . '/filter/videoeasy/locallib.php');
+
 /**
  * Install the plugin.
  */
 function xmldb_filter_videoeasy_install() {
-	$admin_presets = new admin_setting_videoeasypresets('filter_videoeasy/templatepresets_0', 
+	$admin_presets = new \filter_videoeasy\presets_control('filter_videoeasy/templatepresets_0',
 				'presets', '',0);
     $presets = $admin_presets->fetch_presets();
 	$forinstall = array('fff');

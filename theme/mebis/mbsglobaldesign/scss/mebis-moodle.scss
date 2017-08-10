@@ -6,7 +6,8 @@
 @import "bootstrap-custom";
 @import "bootstrap-advanced";
 
-@import "../vendor/font-awesome/font-awesome";
+//import font awesome from core
+@import "../../scss/moodle/font-awesome";
 
 // Vendor CSS
 @import "../vendor/tooltipster/tooltipster";

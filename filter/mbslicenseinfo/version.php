@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Brings license informations direct to media
  *
@@ -22,10 +22,10 @@
  * @author    Andre Scherl <andre.scherl@isb.bayern.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016031500;
+$plugin->version   = 2017081000;
 $plugin->requires  = 2010112400; // 2.0
 $plugin->component = 'filter_mbslicenseinfo';
 $plugin->maturity  = MATURITY_ALPHA;
@@ -34,6 +34,6 @@ $plugin->dependencies = array(
     'local_mbs'  => 2015120907,
     'local_mbslicenseinfo' => 2015121000
 );
- 
+
 
 

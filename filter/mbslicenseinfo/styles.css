@@ -1,7 +1,12 @@
 .licenseinfo {
-    font-size: 0.8em;
+    font-size: 14px;
+    font-weight: normal;
 }
 
-figure.atto_image_button_right  figcaption {
+figure.atto_image_button_right figcaption,
+figure.atto_image_button_bottom figcaption,
+figure.atto_image_button_top figcaption,
+figure.atto_image_button_middle figcaption
+{
     margin-left: 0.5em;
 }

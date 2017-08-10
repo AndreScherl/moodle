@@ -343,18 +343,19 @@
     font-style: none;
 }
 
+// MBS-2064 Font Awesome now loaded from core
 // Font Awesome Icons
-@font-face {
-    font-family: 'FontAwesome';
-    src: url('[[font:theme|fontawesome-webfont.eot]]');
-    src: url('[[font:theme|fontawesome-webfont.eot]]') format('embedded-opentype'),
-        url('[[font:theme|fontawesome-webfont.woff]]') format('woff'),
-        url('[[font:theme|fontawesome-webfont.ttf]]') format('truetype'),
-        //url('[[font:theme|FontAwesome.otf]]') format('opentype'),
-        url('[[font:theme|fontawesome-webfont.svg]]') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+// @font-face {
+//     font-family: 'FontAwesome';
+//     src: url('[[font:theme|fontawesome-webfont.eot]]');
+//     src: url('[[font:theme|fontawesome-webfont.eot]]') format('embedded-opentype'),
+//         url('[[font:theme|fontawesome-webfont.woff]]') format('woff'),
+//         url('[[font:theme|fontawesome-webfont.ttf]]') format('truetype'),
+//         //url('[[font:theme|FontAwesome.otf]]') format('opentype'),
+//         url('[[font:theme|fontawesome-webfont.svg]]') format('svg');
+//     font-weight: normal;
+//     font-style: normal;
+// }
 
 [class^="fa-"], [class*="fa-"] {
     font-family: FontAwesome;

@@ -587,25 +587,22 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
 
         $coursecattreecache = cache::make('core', 'coursecattree');
 
-        /* awag - HACK: to improve performance, coursecattree is written below serialized
-         * in one step, so change the way reading it...
+        // +++ MBS-HACK (Andreas Wagner - awag): improve performance by serializing cattree cache (MBS-2098).
 
-        $rv = $coursecattreecache->get($id);
-        if ($rv !== false) {
-            return $rv;
-        }
-        */
+        // $rv = $coursecattreecache->get($id);
+        // if ($rv !== false) {
+        //    return $rv;
+        // }
+
         $starttime = microtime(true);
         if ($allserialized = $coursecattreecache->get('all')) {
             $rv = unserialize($allserialized);
-            if (optional_param('perfdebug', 0, PARAM_INT)) {
-                echo "<br/>coursecatcache read all: ".(microtime(true) - $starttime);
-            }
             if (isset($rv[$id])) {
                 return $rv[$id];
             }
         }
-        // --- awag HACK.
+        // --- MBS-HACK
+
         // Re-build the tree.
         $sql = "SELECT cc.id, cc.parent, cc.visible
                 FROM {course_categories} cc
@@ -643,7 +640,16 @@ class coursecat implements renderable, cacheable_object, IteratorAggregate {
         }
         // We must add countall to all in case it was the requested ID.
         $all['countall'] = $count;
-        $coursecattreecache->set_many($all);
+
+        // +++ MBS-HACK (Andreas Wagner - awag): improve performance by serializing cattree cache (MBS-2098).
+        // Write childs to cache for every single category, slows down performance dramatically, write cache serialized in one step.
+
+        // $coursecattreecache->set_many($all);
+
+        $allserialized = serialize($all);
+        $coursecattreecache->set('all', $allserialized);
+        // --- MBS-HACK
+
         if (array_key_exists($id, $all)) {
             return $all[$id];
         }

@@ -104,7 +104,7 @@ class theme_mebis_header_renderer extends renderer_base {
         $url_preferences = get_config("theme_mebis", "url_preferences") ? get_config("theme_mebis", "url_preferences") : '#';
         $url_preferences_personal = get_config("theme_mebis", "url_preferences_personal") ? get_config("theme_mebis", "url_preferences_personal") : '#';
         // Roles with capability to view the link to the IDM in topbar.
-        $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'lehrer', 'schuelerverwalter');
+        $idmlinkroles = array('idm-koordinator', 'helpdesk', 'nutzerverwalter', 'schuelerverwalter');
         $canseeidmlink = false;
         foreach ($idmlinkroles as $idmlinkrole) {
             if ((isset($USER->mebisRole) && in_array($idmlinkrole, $USER->mebisRole)) || is_siteadmin()) {

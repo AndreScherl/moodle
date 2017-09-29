@@ -1,0 +1,3 @@
+[submodule "question/type/algebra"]
+	path = question/type/algebra
+	url = git@gitlab.mebis.alp.dillingen.de:mebis-moodle/mebis-qtype_algebra.git

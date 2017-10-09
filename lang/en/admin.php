@@ -252,9 +252,7 @@ $string['configlangstringcache'] = 'Caches all the language strings into compile
 $string['configlanglist'] = 'Leave this blank to allow users to choose from any language you have in this installation of Moodle.  However, you can shorten the language menu by entering a comma-separated list of language codes that you want.  For example:  en,es_es,fr,it';
 $string['configlangmenu'] = 'Choose whether or not you want to display the general-purpose language menu on the home page, login page etc.  This does not affect the user\'s ability to set the preferred language in their own profile.';
 $string['configlatinexcelexport'] = 'Choose the encoding for Excel exports.';
-// +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
 $string['configcalendarlimitnum'] = 'Max count of displayed events';
-// --- MBS-HACK
 $string['configlocale'] = 'Choose a sitewide locale - this will override the format and language of dates for all language packs (though names of days in calendar are not affected). You need to have this locale data installed on your operating system (eg for linux en_US.UTF-8 or es_ES.UTF-8). In most cases this field should be left blank.';
 $string['configloginhttps'] = 'Turning this on will make Moodle use a secure https connection just for the login page (providing a secure login), and then afterwards revert back to the normal http URL for general speed.  CAUTION: this setting REQUIRES https to be specifically enabled on the web server - if it is not then YOU COULD LOCK YOURSELF OUT OF YOUR SITE.';
 $string['configloglifetime'] = 'This specifies the length of time you want to keep logs about user activity.  Logs that are older than this age are automatically deleted.  It is best to keep logs as long as possible, in case you need them, but if you have a very busy server and are experiencing performance problems, then you may want to lower the log lifetime. Values lower than 30 are not recommended because statistics may not work properly.';
@@ -582,9 +580,7 @@ $string['guestroleid'] = 'Role for guest';
 $string['guestroleid_help'] = 'This role is automatically assigned to the guest user. It is also temporarily assigned to not enrolled users that enter the course via guest enrolment plugin.';
 $string['helpadminseesall'] = 'Do admins see all calendar events or just those that apply to themselves?';
 $string['helpcalendarcustomexport'] = 'Enable custom date range export option in calendar exports. Calendar exports must be enabled before this is effective.';
-// +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
 $string['helpcalendarlimitnum'] = 'The max number of events loaded by the API to be displayed within the calendar, e.g. in monthly view.';
-// --- MBS-HACK
 $string['helpexportlookahead'] = 'How many days in the future does the calendar look for events during export for the custom export option?';
 $string['helpexportlookback'] = 'How many days in the past does the calendar look for events during export for the custom export option?';
 $string['helpforcetimezone'] = 'You can allow users to individually select their timezone, or force a timezone for everyone.';

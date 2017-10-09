@@ -99,12 +99,10 @@ class event_vault implements event_vault_interface {
         $ignorehidden = true,
         callable $filter = null
     ) {
-        // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
         global $CFG;
         $climit = $CFG->calendar_limitnum + 10;
         if ($limitnum < 1 || $limitnum > $climit) {
             throw new limit_invalid_parameter_exception("Limit must be between 1 and {$climit} (inclusive)");
-        // --- MBS-HACK
         }
 
         $fromquery = function($field, $timefrom, $lastseenmethod, $afterevent, $withduration) {

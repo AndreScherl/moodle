@@ -3287,9 +3287,7 @@ function core_calendar_user_preferences() {
  * @return array $events of selected events or an empty array if there aren't any (or there was an error)
  */
 function calendar_get_legacy_events($tstart, $tend, $users, $groups, $courses, $withduration = true, $ignorehidden = true) {
-    // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
     global $CFG;
-    // --- MBS-HACK
     // Normalise the users, groups and courses parameters so that they are compliant with \core_calendar\local\api::get_events().
     // Existing functions that were using the old calendar_get_events() were passing a mixture of array, int, boolean for these
     // parameters, but with the new API method, only null and arrays are accepted.
@@ -3321,9 +3319,7 @@ function calendar_get_legacy_events($tstart, $tend, $users, $groups, $courses, $
         null,
         null,
         null,
-        // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
         $CFG->calendar_limitnum,
-        // --- MBS-HAck
         null,
         $userparam,
         $groupparam,

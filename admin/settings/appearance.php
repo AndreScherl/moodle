@@ -125,6 +125,10 @@ preferences,moodle|/user/preferences.php|preferences',
     $temp->add(new admin_setting_configselect('calendar_maxevents',new lang_string('configmaxevents','admin'),new lang_string('helpupcomingmaxevents', 'admin'),10,$options));
     $temp->add(new admin_setting_configcheckbox('enablecalendarexport', new lang_string('enablecalendarexport', 'admin'), new lang_string('configenablecalendarexport','admin'), 1));
 
+    // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
+    $temp->add(new admin_setting_configtext('calendar_limitnum', new lang_string('configcalendarlimitnum','admin'), new lang_string('helpcalendarlimitnum', 'admin'), 100, PARAM_INT));
+    // --- MBS-HACK
+
     // Calendar custom export settings.
     $days = array(365 => new lang_string('numdays', '', 365),
             180 => new lang_string('numdays', '', 180),

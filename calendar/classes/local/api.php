@@ -127,8 +127,12 @@ class api {
             throw new \moodle_exception("Must provide a timesort to and/or from value");
         }
 
-        if ($limitnum < 1 || $limitnum > 50) {
-            throw new \moodle_exception("Limit must be between 1 and 50 (inclusive)");
+        // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
+        global $CFG;
+        $climit = $CFG->calendar_limitnum +10;
+        if ($limitnum < 1 || $limitnum > $climit) {
+            throw new \moodle_exception("Limit must be between 1 and {$climit} (inclusive)");
+        // --- MBS-HACK
         }
 
         $vault = \core_calendar\local\event\container::get_event_vault();
@@ -161,10 +165,14 @@ class api {
         $limitnum = 20
     ) {
         global $USER;
+        // +++ MBS-HACK (Andre Scherl) - Add setting for max number of events to get by calendar api. (MBS-2159)
+        global $CFG;
+        $climit = $CFG->calendar_limitnum +10;
 
-        if ($limitnum < 1 || $limitnum > 50) {
+        if ($limitnum < 1 || $limitnum > $climit) {
             throw new limit_invalid_parameter_exception(
-                "Limit must be between 1 and 50 (inclusive)");
+                "Limit must be between 1 and {$climit} (inclusive)");
+        // --- MBS-HACK
         }
 
         $vault = \core_calendar\local\event\container::get_event_vault();
